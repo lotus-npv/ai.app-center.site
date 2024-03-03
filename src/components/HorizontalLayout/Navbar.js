@@ -108,41 +108,130 @@ const Navbar = props => {
               id="topnav-menu-content"
             >
               <ul className="navbar-nav">
-                <li className="nav-item dropdown">
+
+                <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
-                      e.preventDefault();
+                      // e.preventDefault();
+                      setdashboard(!dashboard);
+                    }}
+                    to="/dashboard-saas"
+                  >
+                    <i className="bx bxs-report me-2"></i>
+                    {props.t("Báo cáo")} {props.menuOpen}
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    onClick={e => {
+                      // e.preventDefault();
+                      setdashboard(!dashboard);
+                    }}
+                    to="/apps-filemanager"
+                  >
+                    <i className="bx bx-user-circle me-2"></i>
+                    {props.t("Thực tập sinh")} {props.menuOpen}
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    onClick={e => {
+                      // e.preventDefault();
                       setdashboard(!dashboard);
                     }}
                     to="/dashboard"
                   >
-                    <i className="bx bx-home-circle me-2"></i>
-                    {props.t("Dashboard")} {props.menuOpen}
-                    <div className="arrow-down"></div>
+                    <i className="bx bx-buildings me-2"></i>
+                    {props.t("Xí nghiệp tiếp nhận")} {props.menuOpen}
                   </Link>
-                  <div
-                    className={classname("dropdown-menu", { show: dashboard })}
+                </li>
+
+                <li className="nav-item">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    onClick={e => {
+                      // e.preventDefault();
+                      setdashboard(!dashboard);
+                    }}
+                    to="/dashboard"
                   >
-                    <Link to="/dashboard" className="dropdown-item">
-                      {props.t("Default")}
-                    </Link>
-                    <Link to="/dashboard-saas" className="dropdown-item">
-                      {props.t("Saas")}
-                    </Link>
-                    <Link to="/dashboard-crypto" className="dropdown-item">
-                      {props.t("Crypto")}
-                    </Link>
-                    <Link to="/blog" className="dropdown-item">
-                      {props.t("Blog")}
-                    </Link>
-                    <Link to="/dashboard-job" className="dropdown-item">
-                      {props.t("Jobs")}
-                    </Link>
-                  </div>
+                    <i className="bx bx-briefcase me-2"></i>
+                    {props.t("Công ty phái cử")} {props.menuOpen}
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    onClick={e => {
+                      // e.preventDefault();
+                      setdashboard(!dashboard);
+                    }}
+                    to="/dashboard"
+                  >
+                    <i className="bx bx-list-ol me-2"></i>
+                    {props.t("Danh sách vi phạm")} {props.menuOpen}
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    onClick={e => {
+                      // e.preventDefault();
+                      setdashboard(!dashboard);
+                    }}
+                    to="/dashboard"
+                  >
+                    <i className="bx bx-support me-2"></i>
+                    {props.t("Hỗ trợ")} {props.menuOpen}
+                  </Link>
                 </li>
 
                 <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle arrow-none"
+                    to="/#"
+                    onClick={e => {
+                      e.preventDefault();
+                      setextra(!extra);
+                    }}
+                  >
+                    <i className="bx bx-cog me-2"></i>
+                    {props.t("Cài đặt")} <div className="arrow-down"></div>
+                  </Link>
+                  <div className={classname("dropdown-menu", { show: extra })}>
+                    <div className="dropdown">
+                      <Link
+                        to="/#"
+                        className="dropdown-item dropdown-toggle arrow-none"
+                        onClick={e => {
+                          // e.preventDefault();
+                          setinvoice(!invoice);
+                        }}
+                      >
+                        {props.t("Trạng thái")} 
+                      </Link>
+                      <Link
+                        to="/#"
+                        className="dropdown-item dropdown-toggle arrow-none"
+                        onClick={e => {
+                          // e.preventDefault();
+                          setinvoice(!invoice);
+                        }}
+                      >
+                        {props.t("Ngành nghề")} 
+                      </Link>
+                    </div>
+                  </div>
+                </li>
+
+                {/* <li className="nav-item dropdown">
                   <Link
                     to="/#"
                     onClick={e => {
@@ -212,9 +301,9 @@ const Navbar = props => {
                           <Link to="/ui-placeholders" className="dropdown-item">
                             {props.t("Placeholders")}
                           </Link>
-                          {/* <Link to="#t" className="dropdown-item">
+                          <Link to="#t" className="dropdown-item">
                               {props.t("Sweet-Alert")}
-                            </Link> */}
+                            </Link>
                           <Link
                             to="/ui-tabs-accordions"
                             className="dropdown-item"
@@ -684,12 +773,12 @@ const Navbar = props => {
                         <Link to="/tables-datatable" className="dropdown-item">
                           {props.t("Data Tables")}
                         </Link>
-                        {/* <Link to="/tables-responsive" className="dropdown-item">
+                        <Link to="/tables-responsive" className="dropdown-item">
                           {props.t("Responsive Table")}
                         </Link>
                         <Link to="/tables-dragndrop" className="dropdown-item">
                           {props.t("Drag & Drop Table")}
-                        </Link> */}
+                        </Link>
                       </div>
                     </div>
                     <div className="dropdown">
@@ -779,12 +868,12 @@ const Navbar = props => {
                         <Link to="/maps-google" className="dropdown-item">
                           {props.t("Google Maps")}{" "}
                         </Link>
-                        {/* <Link to="#" className="dropdown-item">
+                        <Link to="#" className="dropdown-item">
                           {props.t("Vector Maps")}{" "}
                         </Link>
                         <Link to="#" className="dropdown-item">
                           {props.t("Leaflet Maps")}{" "}
-                        </Link> */}
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -946,7 +1035,8 @@ const Navbar = props => {
                       </div>
                     </div>
                   </div>
-                </li>
+                </li> */}
+
               </ul>
             </Collapse>
           </nav>

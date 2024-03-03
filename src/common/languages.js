@@ -1,17 +1,17 @@
 import usFlag from "../assets/images/flags/us.jpg"
-import spain from "../assets/images/flags/spain.jpg"
-import germany from "../assets/images/flags/germany.jpg"
+import vietnam from "../assets/images/flags/vietnam.png"
+import japan from "../assets/images/flags/japan.png"
 import italy from "../assets/images/flags/italy.jpg"
 import russia from "../assets/images/flags/russia.jpg"
 
 const languages = {
-  sp: {
-    label: "Spanish",
-    flag: spain,
+  vn: {
+    label: "VietNam",
+    flag: vietnam,
   },
-  gr: {
-    label: "German",
-    flag: germany,
+  jp: {
+    label: "Japan",
+    flag: japan,
   },
   it: {
     label: "Italian",

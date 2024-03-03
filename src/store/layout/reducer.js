@@ -25,8 +25,8 @@ import {
 } from "../../constants/layout";
 
 const INIT_STATE = {
-  layoutType: layoutTypes.HORIZONTAL,
-  layoutModeType: layoutModeTypes.DARK,
+  layoutType: layoutTypes.VERTICAL,
+  layoutModeType: layoutModeTypes.LIGHT,
   layoutWidth: layoutWidthTypes.FLUID,
   leftSideBarTheme: leftSideBarThemeTypes.DARK,
   leftSideBarThemeImage: leftBarThemeImageTypes.NONE,

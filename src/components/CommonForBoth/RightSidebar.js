@@ -274,7 +274,7 @@ const RightSidebar = props => {
 
                   <hr className="mt-1" />
 
-                  <div className="radio-toolbar coloropt-radio">
+                  {/* <div className="radio-toolbar coloropt-radio">
                     <span className="mb-2 d-block" id="radio-title">
                       Left Sidebar Color Options
                     </span>
@@ -420,7 +420,8 @@ const RightSidebar = props => {
                         ></label>
                       </Col>
                     </Row>
-                  </div>
+                  </div> */}
+
                   <div className="radio-toolbar imgopt-radio">
                     <span className="mb-2 d-block" id="radio-bgimg">
                       Left Sidebar Bg Image
@@ -564,7 +565,7 @@ const RightSidebar = props => {
               </div>
             </FormGroup> */}
 
-              <h6 className="text-center">Choose Layouts</h6>
+              {/* <h6 className="text-center">Choose Layouts</h6>
 
               <div className="mb-2">
                 <Link to="//skote-v-light.react.themesbrand.com" target="_blank">
@@ -582,15 +583,15 @@ const RightSidebar = props => {
                 <Link to="//skote-v-rtl.react.themesbrand.com" target="_blank">
                   <img src={layout3} className="img-fluid img-thumbnail" alt="" />
                 </Link>
-              </div>
+              </div> */}
 
-              <Link
+              {/* <Link
                 to="//1.envato.market/skotereact"
                 className="btn btn-primary btn-block mt-3"
                 target="_blank"
               >
                 <i className="mdi mdi-cart ms-1" /> Purchase Now
-              </Link>
+              </Link> */}
             </div>
           </div>
         </SimpleBar>
