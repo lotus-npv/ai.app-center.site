@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -191,10 +191,10 @@ const SidebarContent = props => {
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/#">{props.t("Trạng thái")}</Link>
+                  <Link to="/pages-status">{props.t("Trạng thái")}</Link>
                 </li>
                 <li>
-                  <Link to="/#">{props.t("Ngành nghề")}</Link>
+                  <Link to="/pages-career">{props.t("Ngành nghề")}</Link>
                 </li>
               </ul>
             </li>
@@ -563,7 +563,7 @@ const SidebarContent = props => {
               </ul>
             </li> */}
 
-            {/* <li className="menu-title">{props.t("Components")}</li>
+            <li className="menu-title">{props.t("Components")}</li>
 
             <li>
               <Link to="/#" className="has-arrow">
@@ -794,7 +794,7 @@ const SidebarContent = props => {
                 </li>
                 
               </ul>
-            </li> */}
+            </li>
 
             
 

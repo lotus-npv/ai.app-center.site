@@ -1,13 +1,17 @@
-// src/components/filter.
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import {Container} from "reactstrap";
+import Breadcrumbs from "../../../components/Common/Breadcrumb";
+import TableContainer from '../../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
+import { useNavigate } from "react-router-dom";
+import withRouter from "components/Common/withRouter";
 
-//import components
-import Breadcrumbs from '../../components/Common/Breadcrumb';
-import TableContainer from '../../components/Common/TableContainer';
+import { withTranslation } from "react-i18next";
 
-function DatatableTables() {
+const StatusPage = (props) => {
     const [rows, setRows] = useState([]);
+    document.title = "Status Page";
+    const navigate = useNavigate();
 
     const columns = useMemo(
         () => [
@@ -16,11 +20,11 @@ function DatatableTables() {
                 accessor: 'name',
             },
             {
-                Header: 'Position',
+                Header: 'Type',
                 accessor: 'position'
             },
             {
-                Header: 'Office',
+                Header: 'Note',
                 accessor: 'office'
             },
             {
@@ -187,80 +191,12 @@ function DatatableTables() {
             office: "Edinburgh",
             startDate: "2008/12/13",
             salary: "$103,600"
-        },
-        {
-            name: "Colleen Hurst",
-            position: "Javascript Developer",
-            age: 39,
-            office: "San Francisco",
-            startDate: "2009/09/15",
-            salary: "$205,500"
-        },
-        {
-            name: "Rhona Davidson",
-            position: "Integration Specialist",
-            age: 55,
-            office: "Tokyo",
-            startDate: "2010/10/14",
-            salary: "$327,900"
-        },
-        {
-            name: "Herrod Chandler",
-            position: "Sales Assistant",
-            age: 59,
-            office: "San Francisco",
-            startDate: "2012/08/06",
-            salary: "$137,500"
-        },
-        {
-            name: "Brielle Williamson",
-            position: "Integration Specialist",
-            age: 62,
-            office: "New York",
-            startDate: "2012/12/02",
-            salary: "$372,000"
-        },
-        {
-            name: "Airi Satou",
-            position: "Accountant",
-            age: 33,
-            office: "Tokyo",
-            startDate: "2008/11/28",
-            salary: "$162,700"
-        },
-        {
-            name: "Cedric Kelly",
-            position: "Senior Javascript Developer",
-            age: 22,
-            office: "Edinburgh",
-            startDate: "2012/03/29",
-            salary: "$433,060"
-        },
-        {
-            name: "Ashton Cox",
-            position: "Junior Technical Author",
-            age: 66,
-            office: "San Francisco",
-            startDate: "2009/01/12",
-            salary: "$86,000"
-        },
-        {
-            name: "Garrett Winters",
-            position: "Accountant",
-            age: 63,
-            office: "Tokyo",
-            startDate: "2011/07/25",
-            salary: "$170,750"
-        },
-        {
-            name: "Tiger Nixon",
-            position: "System Architect",
-            age: 61,
-            office: "Edinburgh",
-            startDate: "2011/04/25",
-            salary: "$320,800"
-        },
+        }
     ];
+
+    const addForm = () => {
+        navigate('/input-status');
+    }
 
     const createTableData = (item) => {
         const name = item.name;
@@ -274,14 +210,14 @@ function DatatableTables() {
                 <button
                     type="button"
                     className="btn btn-success  sm"
-                    onClick={() => alert('Edit row')}
+                    onClick={() => alert(`Edit item name: ${item.name}`)}
                 >
                     <i className="mdi mdi-pencil d-block font-size-14"></i>{" "}
                 </button>
                 <button
                     type="button"
                     className="btn btn-danger  sm"
-                    onClick={() => alert('Delete row')}
+                    onClick={() => alert(`Delete item name: ${item.name}`)}
                 >
                     <i className="mdi mdi-trash-can d-block font-size-14"></i>{" "}
                 </button>
@@ -299,35 +235,46 @@ function DatatableTables() {
         fetchAllData();
         setRows(arr);
       }, []);
-    
 
-    //meta title
-    document.title = "Data Tables | Skote - React Admin & Dashboard Template";
+
 
     return (
-        <div className="page-content">
-            <div className="container-fluid">
-                <Breadcrumbs title="Tables" breadcrumbItem="Data Tables" />
-                {/* <Table columns={columns} data={data} /> */}
-                <TableContainer
-                    columns={columns}
-                    data={rows}
-                    isGlobalFilter={true}
-                    isAddOptions={false}
-                    customPageSize={10}
-                    isPagination={true}
-                    tableClass="align-middle table-nowrap table-check table"
-                    theadClass="table-light"
-                    paginationDiv="col-12"
-                    pagination="justify-content-center pagination pagination-rounded"
-                />
+        <>
+            <div className="page-content">
+
+                <Container fluid={true}>
+                    <Breadcrumbs title="Status Form" breadcrumbItem="Status Form" />
+                    <div className="d-flex mb-2 justify-content-end">
+                        <button
+                            type="button"
+                            className="btn btn-success  w-sm"
+                            onClick={addForm}
+                        >
+                            <i className="bx bx-add-to-queue d-block font-size-24"></i>{" "}
+                        </button>
+                    </div>
+
+                    <TableContainer
+                        columns={columns}
+                        data={rows}
+                        isGlobalFilter={true}
+                        isAddOptions={false}
+                        customPageSize={10}
+                        isPagination={true}
+                        tableClass="align-middle table-nowrap table-check table"
+                        theadClass="table-dark"
+                        paginationDiv="col-12"
+                        pagination="justify-content-center pagination pagination-rounded"
+                    />
+                </Container>
             </div>
-        </div>
+        </>
     );
 }
-DatatableTables.propTypes = {
+
+StatusPage.propTypes = {
     preGlobalFilteredRows: PropTypes.any,
 };
 
-
-export default DatatableTables;
+// export default withRouter(withTranslation()(StatusPage));
+export default StatusPage;

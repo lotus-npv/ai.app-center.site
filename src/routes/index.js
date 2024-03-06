@@ -171,6 +171,12 @@ import ContactsGrid from "../pages/Contacts/contacts-grid";
 import ContactsList from "../pages/Contacts/ContactList/contacts-list";
 import ContactsProfile from "../pages/Contacts/ContactsProfile/contacts-profile";
 
+// Input page
+import StatusPage from "pages/Setting/Status";
+import InputStatus from "pages/Setting/Status/input";
+import CareerPage from "pages/Setting/Career";
+import InputCareer from "pages/Setting/Career/input";
+
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
   { path: "/dashboard-saas", component: <DashboardSaas /> },
@@ -321,6 +327,12 @@ const authProtectedRoutes = [
     exact: true,
     component: <Navigate to="/dashboard" />,
   },
+
+  //Setting 
+  {path: "/pages-status", component: <StatusPage />},
+  {path: "/input-status", component: <InputStatus />},
+  {path: "/pages-career", component: <CareerPage />},
+  {path: "/input-career", component: <InputCareer />}
 ];
 
 const publicRoutes = [
