@@ -1,59 +1,28 @@
 import React, { useMemo, useState, useEffect } from "react";
-import {Container} from "reactstrap";
-import Breadcrumbs from "../../../components/Common/Breadcrumb";
-import TableContainer from '../../../components/Common/TableContainer';
+import { Container,  } from "reactstrap";
+import Breadcrumbs from "../../components/Common/Breadcrumb";
+import TableContainer from './TableContainer';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import withRouter from "components/Common/withRouter";
+import { columns, data} from '../../common/data/dispatching-company'
 
 import { withTranslation } from "react-i18next";
 
-const CareerPage = (props) => {
+const InternPage = (props) => {
     const [rows, setRows] = useState([]);
-    document.title = "Status Page";
+    document.title = "Intern Page";
     const navigate = useNavigate();
 
-    const columns = useMemo(
-        () => [
-            {
-                Header: 'Tên ngành nghề',
-                accessor: 'name',
-            },
-            {
-                Header: 'Ghi chú',
-                accessor: 'note'
-            },
-            {
-                Header: 'Thao tác',
-                accessor: 'action'
-            }
-        ],
-        []
-    );
-
-    const data = [
-        {
-            name: "Hoàn thiện nội thất",
-            note: "Ngành hoàn thiện nội thất Nhật Bản",
-        },
-        {
-            name: "Điện tử",
-            note: "Ngành điện tử",
-        },
-        {
-            name: "Giàn giáo",
-            note: "Ngành giàn giáo",
-        },
-    ];
-
     const addForm = () => {
-        navigate('/input-career');
+        navigate('/input-dispatching-company');
     }
 
     const createTableData = (item) => {
         const name = item.name;
+        const phone = item.phone;
+        const date = item.date;
         const note = item.note;
-
         const action = (
             <div className="d-flex flex-wrap gap-2">
                 <button
@@ -73,17 +42,17 @@ const CareerPage = (props) => {
             </div>
         )
 
-        return {name, note, action}
+        return { name, phone, date, note, action }
     }
 
     useEffect(() => {
         let arr = [];
         const fetchAllData = () => {
-          arr = data.map((e) => createTableData(e));
+            arr = data.map((e) => createTableData(e));
         };
         fetchAllData();
         setRows(arr);
-      }, []);
+    }, []);
 
 
 
@@ -92,7 +61,7 @@ const CareerPage = (props) => {
             <div className="page-content">
 
                 <Container fluid={true}>
-                    <Breadcrumbs title="Career Form" breadcrumbItem="Career Form" />
+                    <Breadcrumbs title="Intern" breadcrumbItem="Intern" />
                     <div className="d-flex mb-2 justify-content-end">
                         <button
                             type="button"
@@ -103,6 +72,7 @@ const CareerPage = (props) => {
                         </button>
                     </div>
 
+                    
                     <TableContainer
                         columns={columns}
                         data={rows}
@@ -121,9 +91,9 @@ const CareerPage = (props) => {
     );
 }
 
-CareerPage.propTypes = {
+InternPage.propTypes = {
     preGlobalFilteredRows: PropTypes.any,
 };
 
 // export default withRouter(withTranslation()(StatusPage));
-export default CareerPage;
+export default InternPage;

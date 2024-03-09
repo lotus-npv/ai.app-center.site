@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import { getOrders as onGetOrders } from "store/actions";
 
-import EcommerceOrdersModal from "../Ecommerce/EcommerceOrders/EcommerceOrdersModal";
+// import EcommerceOrdersModal from "../Ecommerce/EcommerceOrders/EcommerceOrdersModal";
 import { latestTransaction } from "../../common/data/dashboard";
 
 import {
@@ -117,7 +117,7 @@ const LatestTranaction = props => {
 
   return (
     <React.Fragment>
-      <EcommerceOrdersModal isOpen={modal1} toggle={toggleViewModal} />
+      {/* <EcommerceOrdersModal isOpen={modal1} toggle={toggleViewModal} /> */}
       <Card>
         <CardBody>
           <div className="mb-4 h4 card-title">Latest Transaction</div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Row,
     Col,
@@ -12,71 +12,97 @@ import {
     Input,
     Container,
     FormFeedback,
-    Form,
+    Form
 } from "reactstrap";
+
+import Switch from "react-switch";
+import Select from "react-select";
+
+
 // Formik validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Link, Route, useNavigate  } from "react-router-dom";
+import { Link, Route, useNavigate } from "react-router-dom";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 
+const Offsymbol = () => {
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: 12,
+                color: "#fff",
+                paddingRight: 2
+            }}
+        >
+            {" "}
+            No
+        </div>
+    );
+};
+
+const OnSymbol = () => {
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: 12,
+                color: "#fff",
+                paddingRight: 2
+            }}
+        >
+            {" "}
+            Yes
+        </div>
+    );
+};
+
+const optionGroup = [
+    { label: "Mustard", value: "Mustard" },
+    { label: "Ketchup", value: "Ketchup" },
+    { label: "Relish", value: "Relish" }
+];
+
 const InputStatus = () => {
     document.title = "Status Page";
     const navigate = useNavigate();
+    const [switch1, setswitch1] = useState(false);
+    const [selectedGroup, setselectedGroup] = useState(null);
+
     const validationType = useFormik({
         // enableReinitialize : use this flag when initial values needs to be changed
         enableReinitialize: true,
 
         initialValues: {
-            username: '',
-            password: '',
-            password1: '',
-            email: '',
-            digits: '',
+            name: '',
+            note: '',
+            auto: false,
+            condition: '',
+            condition_date: '',
             number: '',
-            alphanumeric: '',
         },
         validationSchema: Yup.object().shape({
-            username: Yup.string().required(
+            name: Yup.string().required(
                 "This value is required"
             ),
-            password: Yup.string().required(
+            note: Yup.string().required(
                 "This value is required"
             ),
-            password1: Yup.string().when("password", {
-                is: val => (val && val.length > 0 ? true : false),
-                then: () => Yup.string().oneOf(
-                    [Yup.ref("password")],
-                    "Both password need to be the same"
-                ),
-            }),
-            email: Yup.string()
-                .email("Must be a valid Email")
-                .max(255)
-                .required("Email is required"),
-            url: Yup.string()
-                .matches(
-                    /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-                    "Enter correct url!"
-                )
-                .required("Please enter correct Url"),
-            digits: Yup.number().required(
-                "Please Enter Your Digits"
+            condition: Yup.string().required(
+                "This value is required"
             ),
+            condition_date: Yup.date().required("Please Enter Your Date"),
             number: Yup.number().required(
                 "Please Enter Your Number"
-            ),
-            alphanumeric: Yup.string()
-                .matches(
-                    /^[a-z0-9]+$/i,
-                    "Enter correct Alphanumeric!"
-                )
-                .required("Please Enter Your Alphanumeric"),
-            textarea: Yup.string().required(
-                "Please Enter Your Textarea"
-            ),
+            )
         }),
         onSubmit: (values) => {
         }
@@ -86,6 +112,11 @@ const InputStatus = () => {
         navigate(-1);
     }
 
+    function handleSelectGroup(selectedGroup) {
+        setselectedGroup(selectedGroup);
+    }
+
+    console.log(validationType.values)
 
 
 
@@ -109,13 +140,6 @@ const InputStatus = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    {/* <CardTitle>Validation type</CardTitle>
-                                    <CardSubtitle className="mb-3">
-                                        Parsley is a availity reactstrap validation. It helps you
-                                        provide your users with feedback on their form submission
-                                        before sending it to your server.
-                                    </CardSubtitle> */}
-
                                     <Form
                                         onSubmit={(e) => {
                                             e.preventDefault();
@@ -123,126 +147,103 @@ const InputStatus = () => {
                                             return false;
                                         }}>
                                         <div className="mb-3">
-                                            <Label className="form-label">Required</Label>
+                                            <Label className="form-label">Tên trạng thái</Label>
                                             <Input
-                                                name="username"
+                                                name="name"
                                                 placeholder="Type Something"
                                                 type="text"
                                                 onChange={validationType.handleChange}
                                                 onBlur={validationType.handleBlur}
-                                                value={validationType.values.username || ""}
+                                                value={validationType.values.name || ""}
                                                 invalid={
-                                                    validationType.touched.username && validationType.errors.username ? true : false
+                                                    validationType.touched.name && validationType.errors.name ? true : false
                                                 }
                                             />
-                                            {validationType.touched.username && validationType.errors.username ? (
-                                                <FormFeedback type="invalid">{validationType.errors.username}</FormFeedback>
+                                            {validationType.touched.name && validationType.errors.name ? (
+                                                <FormFeedback type="invalid">{validationType.errors.name}</FormFeedback>
                                             ) : null}
                                         </div>
                                         <div className="mb-3">
-                                            <Label>Equal To</Label>
+                                            <Label>Ghi chú</Label>
                                             <Input
-                                                name="password"
-                                                type="password"
-                                                autoComplete="off"
-                                                placeholder="Password"
-                                                onChange={validationType.handleChange}
-                                                onBlur={validationType.handleBlur}
-                                                value={validationType.values.password || ""}
-                                                invalid={
-                                                    validationType.touched.password && validationType.errors.password ? true : false
-                                                }
-                                            />
-                                            {validationType.touched.password && validationType.errors.password ? (
-                                                <FormFeedback type="invalid">{validationType.errors.password}</FormFeedback>
-                                            ) : null}
-                                        </div>
-                                        <div className="mb-3">
-                                            <Input
-                                                name="password1"
-                                                type="password"
-                                                autoComplete="off"
-                                                placeholder="Re-type Password"
-                                                onChange={validationType.handleChange}
-                                                onBlur={validationType.handleBlur}
-                                                value={validationType.values.password1 || ""}
-                                                invalid={
-                                                    validationType.touched.password1 && validationType.errors.password1 ? true : false
-                                                }
-                                            />
-                                            {validationType.touched.password1 && validationType.errors.password1 ? (
-                                                <FormFeedback type="invalid">{validationType.errors.password1}</FormFeedback>
-                                            ) : null}
-                                        </div>
-                                        <div className="mb-3">
-                                            <Label className="form-label">E-Mail</Label>
-                                            <Input
-                                                name="email"
-                                                placeholder="Enter Valid Email"
-                                                type="email"
-                                                onChange={validationType.handleChange}
-                                                onBlur={validationType.handleBlur}
-                                                value={validationType.values.email || ""}
-                                                invalid={
-                                                    validationType.touched.email && validationType.errors.email ? true : false
-                                                }
-                                            />
-                                            {validationType.touched.email && validationType.errors.email ? (
-                                                <FormFeedback type="invalid">{validationType.errors.email}</FormFeedback>
-                                            ) : null}
-                                        </div>
-                                        <div className="mb-3">
-                                            <Label className="form-label">Digits</Label>
-                                            <Input
-                                                name="digits"
-                                                label="Digits"
-                                                placeholder="Enter Only Digits"
-                                                type="number"
-                                                onChange={validationType.handleChange}
-                                                onBlur={validationType.handleBlur}
-                                                value={validationType.values.digits || ""}
-                                                invalid={
-                                                    validationType.touched.digits && validationType.errors.digits ? true : false
-                                                }
-                                            />
-                                            {validationType.touched.digits && validationType.errors.digits ? (
-                                                <FormFeedback type="invalid">{validationType.errors.digits}</FormFeedback>
-                                            ) : null}
-                                        </div>
-                                        <div className="mb-3">
-                                            <Label className="form-label">Number</Label>
-                                            <Input
-                                                name="number"
-                                                placeholder="Enter Only number"
-                                                type="number"
-                                                onChange={validationType.handleChange}
-                                                onBlur={validationType.handleBlur}
-                                                value={validationType.values.number || ""}
-                                                invalid={
-                                                    validationType.touched.number && validationType.errors.number ? true : false
-                                                }
-                                            />
-                                            {validationType.touched.number && validationType.errors.number ? (
-                                                <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
-                                            ) : null}
-                                        </div>
-                                        <div className="mb-3">
-                                            <Label className="form-label">Alphanumeric</Label>
-                                            <Input
-                                                name="alphanumeric"
-                                                placeholder="Enter Only alphanumeric value"
+                                                name="note"
                                                 type="text"
+                                                autoComplete="off"
+                                                placeholder="note some thing"
                                                 onChange={validationType.handleChange}
                                                 onBlur={validationType.handleBlur}
-                                                value={validationType.values.alphanumeric || ""}
+                                                value={validationType.values.note || ""}
                                                 invalid={
-                                                    validationType.touched.alphanumeric && validationType.errors.alphanumeric ? true : false
+                                                    validationType.touched.note && validationType.errors.note ? true : false
                                                 }
                                             />
-                                            {validationType.touched.alphanumeric && validationType.errors.alphanumeric ? (
-                                                <FormFeedback type="invalid">{validationType.errors.alphanumeric}</FormFeedback>
+                                            {validationType.touched.note && validationType.errors.note ? (
+                                                <FormFeedback type="invalid">{validationType.errors.note}</FormFeedback>
                                             ) : null}
                                         </div>
+
+                                        <div className="mb-3">
+                                            <Switch
+                                                name='auto'
+                                                uncheckedIcon={<Offsymbol />}
+                                                checkedIcon={<OnSymbol />}
+                                                className="me-3 mb-sm-8"
+                                                onColor="#626ed4"
+                                                onChange={(value) => validationType.setFieldValue('auto', value)}
+                                                checked={validationType.values.auto}
+                                            />
+                                            <Label>Tự động thêm trạng thái</Label>
+
+                                        </div>
+
+                                        <Row>
+                                            <Col lg={4}>
+                                                <div className="mb-3">
+                                                    <Label>Điều kiện</Label>
+                                                    <Select
+                                                        value={validationType.values.condition}
+                                                        onChange={(val) => {
+                                                            validationType.setFieldValue('condition', val);
+                                                        }}
+                                                        options={optionGroup}
+                                                        className="select2-selection"
+                                                    />
+                                                </div>
+                                            </Col>
+                                            <Col lg={4}>
+                                                <div className="mb-3">
+                                                    <Label>Mốc thời gian</Label>
+                                                    <Select
+                                                        value={selectedGroup}
+                                                        onChange={() => {
+                                                            handleSelectGroup();
+                                                        }}
+                                                        options={optionGroup}
+                                                        className="select2-selection"
+                                                    />
+                                                </div>
+                                            </Col>
+                                            <Col lg={4}>
+                                                <div className="mb-3">
+                                                    <Label className="form-label">Số ngày</Label>
+                                                    <Input
+                                                        name="number"
+                                                        placeholder="Enter Only number"
+                                                        type="number"
+                                                        onChange={validationType.handleChange}
+                                                        onBlur={validationType.handleBlur}
+                                                        value={validationType.values.number || ""}
+                                                        invalid={
+                                                            validationType.touched.number && validationType.errors.number ? true : false
+                                                        }
+                                                    />
+                                                    {validationType.touched.number && validationType.errors.number ? (
+                                                        <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
+                                                    ) : null}
+                                                </div>
+                                            </Col>
+                                        </Row>
+
                                         <div className="d-flex flex-wrap gap-2">
                                             <Button type="submit" color="primary" >
                                                 Submit
