@@ -1,6 +1,6 @@
 const columns = [
     {
-        Header: 'Tên công ty',
+        Header: 'Tên xí nghiệp',
         accessor: 'name',
     },
     {

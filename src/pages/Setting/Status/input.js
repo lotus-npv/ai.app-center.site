@@ -244,7 +244,7 @@ const InputStatus = () => {
                                             </Col>
                                         </Row>
 
-                                        <div className="d-flex flex-wrap gap-2">
+                                        <div className="d-flex flex-wrap gap-2 justify-content-end">
                                             <Button type="submit" color="primary" >
                                                 Submit
                                             </Button>{" "}

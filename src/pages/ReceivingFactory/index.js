@@ -5,7 +5,7 @@ import TableContainer from './TableContainer';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import withRouter from "components/Common/withRouter";
-import { columns, data} from '../../common/data/lotus'
+import { columns, data} from '../../common/data/receiving-factory'
 
 import { withTranslation } from "react-i18next";
 
@@ -20,11 +20,9 @@ const ReceivingFactoryPage = (props) => {
 
     const createTableData = (item) => {
         const name = item.name;
-        const position = item.position;
-        const age = item.age;
-        const office = item.office;
-        const startDate = item.startDate;
-        const salary = item.salary;
+        const phone = item.phone;
+        const date = item.date;
+        const note = item.note;
         const action = (
             <div className="d-flex flex-wrap gap-2">
                 <button
@@ -44,9 +42,9 @@ const ReceivingFactoryPage = (props) => {
             </div>
         )
 
-        return { name, position, age, office, startDate, salary, action }
+        return { name, phone, date, note, action }
     }
-
+    
     useEffect(() => {
         let arr = [];
         const fetchAllData = () => {
@@ -64,6 +62,7 @@ const ReceivingFactoryPage = (props) => {
 
                 <Container fluid={true}>
                     <Breadcrumbs title="Receiving Factory" breadcrumbItem="Receiving Factory" />
+
                     <div className="d-flex mb-2 justify-content-end">
                         <button
                             type="button"

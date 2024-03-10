@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment, useState } from "react"
 import PropTypes from "prop-types"
 import {
   useTable,
@@ -8,9 +8,21 @@ import {
   useExpanded,
   usePagination,
 } from "react-table"
-import { Table, Row, Col, Button, Badge } from "reactstrap"
+import { Table, Row, Col, Button, Badge, FormGroup, InputGroup } from "reactstrap"
 import JobListGlobalFilter from "../../components/Common/GlobalSearchFilter"
 import { Link } from "react-router-dom"
+
+import Select from "react-select";
+
+//Import Flatepicker
+import "flatpickr/dist/themes/material_blue.css";
+import Flatpickr from "react-flatpickr";
+
+const optionGroup = [
+  { label: "Mustard", value: "Mustard" },
+  { label: "Ketchup", value: "Ketchup" },
+  { label: "Relish", value: "Relish" }
+];
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -33,7 +45,7 @@ function GlobalFilter({
     <React.Fragment>
       <Col xxl={4} lg={6} className="mb-2">
         <div className="d-flex gap-2">
-          <input type="search" className="form-control" id="search-bar-0" value={value || ""} placeholder={`${count} records...`} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} />
+          <input type="search" className="form-control" id="search-bar-0" value={value || ""} placeholder={`Tìm kiếm nhanh`} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} />
           <Button
             color="primary"
             className="btn btn-primary"
@@ -108,12 +120,20 @@ const TableContainer = ({
     usePagination
   )
 
+  const count = preGlobalFilteredRows.length
+
   const generateSortingIndicator = column => {
     return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""
   }
 
   const onChangeInSelect = event => {
     setPageSize(Number(event.target.value))
+  }
+
+  const [selectedGroup, setselectedGroup] = useState(null);
+
+  function handleSelectGroup(selectedGroup) {
+    setselectedGroup(selectedGroup);
   }
 
   return (
@@ -144,17 +164,26 @@ const TableContainer = ({
           />
         )}
 
+
+
         <div className="d-flex flex-wrap gap-2">
           <button type="button" className="btn btn-primary">
-            VietNam <Badge className="bg-success ms-1">4</Badge>
-          </button>
-          <button type="button" className="btn btn-success">
-            China <span className="badge bg-danger ms-1">2</span>
+            Tất cả <Badge className="bg-success ms-1">{count}</Badge>
           </button>
           <button type="button" className="btn btn-outline-secondary">
-            Japan <span className="badge bg-success ms-1">2</span>
+            Sắp nhập cảnh <span className="badge bg-success ms-1">2</span>
+          </button>
+          <button type="button" className="btn btn-outline-secondary">
+            Sắp hết hạn visa <span className="badge bg-success ms-1">2</span>
+          </button>
+          <button type="button" className="btn btn-outline-secondary">
+            Đang làm việc  <span className="badge bg-success ms-1">5</span>
+          </button>
+          <button type="button" className="btn btn-outline-secondary">
+            Về nước tạm thời <span className="badge bg-success ms-1">5</span>
           </button>
         </div>
+
 
         {isAddOptions && (
           <Col sm="7" xxl="8">

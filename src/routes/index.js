@@ -109,6 +109,7 @@ import InputReceivingFactory from "pages/ReceivingFactory/input";
 
 // Intern
 import InternPage from "pages/Intern";
+import InputIntern from "pages/Intern/input";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
@@ -193,6 +194,7 @@ const authProtectedRoutes = [
 
   // Intern 
   {path: "/intern", component: <InternPage />},
+  {path: "/input-intern", component: <InputIntern />},
 ];
 
 const publicRoutes = [

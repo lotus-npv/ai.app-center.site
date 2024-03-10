@@ -13,207 +13,260 @@ import {
     Container,
     FormFeedback,
     Form,
+    Table,
+    TabContent,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
+    DropdownToggle,
+    ButtonDropdown,
+    UncontrolledDropdown,
 } from "reactstrap";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import Select from "react-select";
+import Switch from "react-switch";
+
+const Offsymbol = () => {
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: 12,
+                color: "#fff",
+                paddingRight: 2
+            }}
+        >
+            {" "}
+            No
+        </div>
+    );
+};
+
+const OnSymbol = () => {
+    return (
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: 12,
+                color: "#fff",
+                paddingRight: 2
+            }}
+        >
+            {" "}
+            Yes
+        </div>
+    );
+};
+
+const optionGroup = [
+    { label: "Mustard", value: "Mustard" },
+    { label: "Ketchup", value: "Ketchup" },
+    { label: "Relish", value: "Relish" }
+];
 
 
-const Address = () => {
+const Address = (key) => {
 
-    const validationType = useFormik({
+    const formik = useFormik({
         // enableReinitialize : use this flag when initial values needs to be changed
         enableReinitialize: true,
 
         initialValues: {
-            username: '',
-            password: '',
-            password1: '',
+            province: null,
+            district: null,
+            commune: null,
+            detail: '',
+            phone_number: '',
+            fax: '',
             email: '',
-            digits: '',
-            number: '',
-            alphanumeric: '',
-            tinh: ''
+            is_default: false
         },
         validationSchema: Yup.object().shape({
-            username: Yup.string().required(
+            province: Yup.string().required(
                 "This value is required"
             ),
-            password: Yup.string().required(
+            district: Yup.string().required(
                 "This value is required"
             ),
-            password1: Yup.string().when("password", {
-                is: val => (val && val.length > 0 ? true : false),
-                then: () => Yup.string().oneOf(
-                    [Yup.ref("password")],
-                    "Both password need to be the same"
-                ),
-            }),
+            commune: Yup.string().required(
+                "This value is required"
+            ),
+            detail: Yup.string().required(
+                "This value is required"
+            ),
+            phone_number: Yup.string().required(
+                "This value is required"
+            ),
+            fax: Yup.string().required(
+                "This value is required"
+            ),
             email: Yup.string()
                 .email("Must be a valid Email")
                 .max(255)
                 .required("Email is required"),
-            url: Yup.string()
-                .matches(
-                    /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-                    "Enter correct url!"
-                )
-                .required("Please enter correct Url"),
-            digits: Yup.number().required(
-                "Please Enter Your Digits"
-            ),
-            number: Yup.number().required(
-                "Please Enter Your Number"
-            ),
-            alphanumeric: Yup.string()
-                .matches(
-                    /^[a-z0-9]+$/i,
-                    "Enter correct Alphanumeric!"
-                )
-                .required("Please Enter Your Alphanumeric"),
-            textarea: Yup.string().required(
-                "Please Enter Your Textarea"
-            ),
-            tinh: Yup.string().required(
-                "This value is required"
-            ),
         }),
         onSubmit: (values) => {
         }
     });
 
+    console.log(formik.values)
+
     return (
         <>
-            <Form
+            {/* <Form className="needs-validation"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    validationType.handleSubmit();
+                    formik.handleSubmit();
                     return false;
-                }}>
+                }}> */}
+            <div style={{ height: 'auto' }} key={key}>
+                <Row className='mt-2'>
+                    <Col lg={'2'} className='mt-2 fw-bold gx-2'>
+                        <div className="mb-3">
+                            <Select
+                                name='province'
+                                placeholder='Chọn tỉnh'
+                                value={optionGroup.find(option => option.value === formik.values.province)}
+                                onChange={(item) => {
+                                    formik.setFieldValue('province', item == null ? null : item.value);
+                                }}
+                                options={optionGroup}
+                            // isClearable
+                            />
+                        </div>
+                    </Col>
 
-                <div style={{ height: 'auto' }}>
-                    <Row className='text-light'>
-                        <Col lg={1} className='mt-2 fw-bold'>
-                            <div className="mb-3">
-                                <Input
-                                    name="tinh"
-                                    type="text"
-                                    onChange={validationType.handleChange}
-                                    onBlur={validationType.handleBlur}
-                                    value={validationType.values.tinh || ""}
-                                    invalid={
-                                        validationType.touched.tinh && validationType.errors.tinh ? true : false
-                                    }
-                                />
-                                {validationType.touched.tinh && validationType.errors.tinh ? (
-                                    <FormFeedback type="invalid">{validationType.errors.tinh}</FormFeedback>
-                                ) : null}
-                            </div>
-                        </Col>
-                        <Col lg={2} className='text-center mt-2 fw-bold'>
-                            <div className="mb-3">
-                                <Input
-                                    name="number"
-                                    type="text"
-                                    // onChange={validationType.handleChange}
-                                    // onBlur={validationType.handleBlur}
-                                    value={validationType.values.number || ""}
-                                    invalid={
-                                        validationType.touched.number && validationType.errors.number ? true : false
-                                    }
-                                />
-                                {/* {validationType.touched.number && validationType.errors.number ? (
-                                                                <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
-                                                            ) : null} */}
-                            </div>
-                        </Col>
-                        <Col lg={2} className='text-center mt-2 fw-bold'>
-                            <div className="mb-3">
-                                <Input
-                                    name="number"
-                                    type="text"
-                                    // onChange={validationType.handleChange}
-                                    // onBlur={validationType.handleBlur}
-                                    value={validationType.values.number || ""}
-                                    invalid={
-                                        validationType.touched.number && validationType.errors.number ? true : false
-                                    }
-                                />
-                                {/* {validationType.touched.number && validationType.errors.number ? (
-                                                                <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
-                                                            ) : null} */}
-                            </div>
-                        </Col>
-                        <Col lg={2} className='text-center mt-2 fw-bold'>
-                            <div className="mb-3">
-                                <Input
-                                    name="number"
-                                    type="text"
-                                    // onChange={validationType.handleChange}
-                                    // onBlur={validationType.handleBlur}
-                                    value={validationType.values.number || ""}
-                                    invalid={
-                                        validationType.touched.number && validationType.errors.number ? true : false
-                                    }
-                                />
-                                {/* {validationType.touched.number && validationType.errors.number ? (
-                                                                <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
-                                                            ) : null} */}
-                            </div>
-                        </Col>
-                        <Col lg={2} className='text-center mt-2 fw-bold'>
-                            <div className="mb-3">
-                                <Input
-                                    name="number"
-                                    type="text"
-                                    // onChange={validationType.handleChange}
-                                    // onBlur={validationType.handleBlur}
-                                    value={validationType.values.number || ""}
-                                    invalid={
-                                        validationType.touched.number && validationType.errors.number ? true : false
-                                    }
-                                />
-                                {/* {validationType.touched.number && validationType.errors.number ? (
-                                                                <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
-                                                            ) : null} */}
-                            </div>
-                        </Col>
-                        <Col lg={1} className='text-center mt-2 fw-bold'>
-                            <div className="mb-3">
-                                <Input
-                                    name="number"
-                                    type="text"
-                                    // onChange={validationType.handleChange}
-                                    // onBlur={validationType.handleBlur}
-                                    value={validationType.values.number || ""}
-                                    invalid={
-                                        validationType.touched.number && validationType.errors.number ? true : false
-                                    }
-                                />
-                                {/* {validationType.touched.number && validationType.errors.number ? (
-                                                                <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
-                                                            ) : null} */}
-                            </div>
-                        </Col>
-                        <Col lg={2} className='text-center mt-2 fw-bold'>
-                            <div className="mb-3">
-                                <Input
-                                    name="number"
-                                    type="text"
-                                    // onChange={validationType.handleChange}
-                                    // onBlur={validationType.handleBlur}
-                                    value={validationType.values.number || ""}
-                                    invalid={
-                                        validationType.touched.number && validationType.errors.number ? true : false
-                                    }
-                                />
-                                {/* {validationType.touched.number && validationType.errors.number ? (
-                                                                <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
-                                                            ) : null} */}
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
-            </Form>
+                    <Col lg={2} className='mt-2 fw-bold gx-2'>
+                        <div className="mb-3">
+                            <Select
+                                name='district'
+                                value={optionGroup.find(option => option.value === formik.values.district)}
+                                onChange={(item) => {
+                                    formik.setFieldValue('district', item == null ? null : item.value);
+                                }}
+                                options={optionGroup}
+                                className="select2-selection"
+                            // isClearable
+                            />
+                        </div>
+                    </Col>
+
+                    <Col lg={2} className='mt-2 fw-bold gx-2'>
+                        <div className="mb-3">
+                            <Select
+                                name='commune'
+                                value={optionGroup.find(option => option.value === formik.values.commune)}
+                                onChange={(item) => {
+                                    formik.setFieldValue('commune', item == null ? null : item.value);
+                                }}
+                                options={optionGroup}
+                                className="select2-selection"
+                            // isClearable
+                            />
+                        </div>
+                    </Col>
+
+                    <Col lg={2} className='text-center mt-2 fw-bold gx-2'>
+                        <div className="mb-3">
+                            <Input
+                                name="detail"
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.detail || ""}
+                                invalid={
+                                    formik.touched.detail && formik.errors.detail ? true : false
+                                }
+                            />
+                            {formik.touched.detail && formik.errors.detail ? (
+                                <FormFeedback type="invalid">{formik.errors.detail}</FormFeedback>
+                            ) : null}
+                        </div>
+                    </Col>
+                    <Col lg={1} className='text-center mt-2 fw-bold gx-2'>
+                        <div className="mb-3">
+                            <Input
+                                name="phone_number"
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.phone_number || ""}
+                                invalid={
+                                    formik.touched.phone_number && formik.errors.phone_number ? true : false
+                                }
+                            />
+                            {formik.touched.phone_number && formik.errors.phone_number ? (
+                                <FormFeedback type="invalid">{formik.errors.phone_number}</FormFeedback>
+                            ) : null}
+                        </div>
+                    </Col>
+                    <Col lg={1} className='text-center mt-2 fw-bold gx-2'>
+                        <div className="mb-3">
+                            <Input
+                                name="fax"
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.fax || ""}
+                                invalid={
+                                    formik.touched.fax && formik.errors.fax ? true : false
+                                }
+                            />
+                            {formik.touched.fax && formik.errors.fax ? (
+                                <FormFeedback type="invalid">{formik.errors.fax}</FormFeedback>
+                            ) : null}
+                        </div>
+                    </Col>
+                    <Col lg={2} className='text-center mt-2 fw-bold gx-2'>
+                        <div className=" d-flex gap-1">
+                            <Input
+                                name="email"
+                                type="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email || ""}
+                                invalid={
+                                    formik.touched.email && formik.errors.email ? true : false
+                                }
+                            />
+                            {formik.touched.email && formik.errors.email ? (
+                                <FormFeedback type="invalid">{formik.errors.email}</FormFeedback>
+                            ) : null}
+
+                            <UncontrolledDropdown
+                            >
+                                <DropdownToggle color="primary" type="button">
+                                    <i className="mdi mdi-chevron-down"></i>
+                                </DropdownToggle>
+                                <DropdownMenu className="dropdown-menu-md p-4">
+                                    <Switch
+                                        name='is_default'
+                                        uncheckedIcon={<Offsymbol />}
+                                        checkedIcon={<OnSymbol />}
+                                        className="me-3 mb-sm-8"
+                                        onColor="#626ed4"
+                                        onChange={(value) => formik.setFieldValue('is_default', value)}
+                                        checked={formik.values.is_default}
+                                    />
+                                    <Label>Địa chỉ mặc định</Label>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
+                        </div>
+
+
+                    </Col>
+
+                </Row>
+
+            </div>
+            {/* </Form> */}
         </>
     )
 }

@@ -6,27 +6,19 @@ import {
     CardBody,
     FormGroup,
     Button,
-    CardTitle,
-    CardSubtitle,
-    Label,
-    Input,
     Container,
-    FormFeedback,
     Form,
 } from "reactstrap";
-// Formik validation
-import * as Yup from "yup";
-import { useFormik } from "formik";
+
 import { Link, Route, useNavigate } from "react-router-dom";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import ReceivingFactoryInput from './ReceivingFactoryInput';
+import InternInput from './InternInput';
 import Address from './AddressInput';
-import FormMask from 'pages/Forms/FormMask';
 
-const InputReceivingFactory = () => {
-    document.title = "Receiving Factory Input Page";
+const InputIntern = () => {
+    document.title = "Dispatching Company Input Page";
     const navigate = useNavigate();
 
     const back = () => {
@@ -49,7 +41,7 @@ const InputReceivingFactory = () => {
         <>
             <div className="page-content">
                 <Container fluid={true}>
-                    <Breadcrumbs title="Receiving Factory" breadcrumbItem="Receiving Factory Form" />
+                    <Breadcrumbs title="Intern" breadcrumbItem="Intern Form" />
 
                     <div className="d-flex mb-2 justify-content-end">
                         <button
@@ -60,20 +52,19 @@ const InputReceivingFactory = () => {
                             <i className="bx bx-arrow-back d-block font-size-24"></i>{" "}
                         </button>
                     </div>
-                    <Form>
+                    {/* <Form> */}
 
                         <Row>
                             <Col lg={12}>
                                 <Card>
                                     <CardBody>
 
+                                        <InternInput  key={1} />
 
-
-                                        <ReceivingFactoryInput />
-                                        <Row className='border border-secondary'>
+                                        <Row className='border border-secondary mt-3'>
                                             <div>
                                                 <Row className='bg-secondary text-light'>
-                                                    <Col lg={1} className='text-center mt-2 fw-bold'>
+                                                    <Col lg={2} className='text-center mt-2 fw-bold'>
                                                         <p>Tỉnh</p>
                                                     </Col>
                                                     <Col lg={2} className='text-center mt-2 fw-bold'>
@@ -85,7 +76,7 @@ const InputReceivingFactory = () => {
                                                     <Col lg={2} className='text-center mt-2 fw-bold'>
                                                         <p>Số nhà, đường, phố...</p>
                                                     </Col>
-                                                    <Col lg={2} className='text-center mt-2 fw-bold'>
+                                                    <Col lg={1} className='text-center mt-2 fw-bold'>
                                                         <p>Số điện thoại</p>
                                                     </Col>
                                                     <Col lg={1} className='text-center mt-2 fw-bold'>
@@ -96,10 +87,14 @@ const InputReceivingFactory = () => {
                                                     </Col>
                                                 </Row>
                                             </div>
+                                            
                                             {[...Array(formCount)].map((_, index) => (
-                                                <Address key={index} />
+                                                
+                                                <Address key={index} getIndex={index}/>
+                                                
                                             ))}
-                                            <Row className='mb-2'>
+
+                                            <Row className='mb-2 mt-2'>
                                                 <Col lg={6} className='d-flex gap-2'>
                                                     <Button onClick={handleAddForm} color="secondary" >
                                                         Add Address
@@ -116,7 +111,7 @@ const InputReceivingFactory = () => {
                                 </Card>
                             </Col>
                         </Row>
-                        <div className="d-flex flex-wrap gap-2 mt-2">
+                        <div className="d-flex flex-wrap justify-content-end gap-2 mt-2">
                             <Button type="submit" color="primary" >
                                 Submit
                             </Button>{" "}
@@ -124,11 +119,13 @@ const InputReceivingFactory = () => {
                                 Cancel
                             </Button>
                         </div>
-                    </Form>
+
+                    {/* </Form> */}
+
                 </Container>
             </div>
         </>
     );
 }
 
-export default InputReceivingFactory;
+export default InputIntern;
