@@ -106,6 +106,8 @@ $grays: (
 // fusv-enable
 
 // scss-docs-start color-variables
+$main_green: #0e873f;
+$main_orange: #ff5400;
 $blue:    #556ee6;
 $indigo:  #564ab1;
 $purple:  #6f42c1;
@@ -120,6 +122,8 @@ $cyan:    #50a5f1;
 
 // scss-docs-start colors-map
 $colors: (
+    "main_green": $main_green,
+    "main_orange": $main_orange,
     "blue":       $blue,
     "indigo":     $indigo,
     "purple":     $purple,
@@ -138,11 +142,12 @@ $colors: (
 // scss-docs-end colors-map
 
 // scss-docs-start theme-color-variables
-$primary:       $blue;
+$primary:       $main_green;
+$primary-2:     $main_orange;
 $secondary:     $gray-600;
-$success:       $green;
+$success:       $main_green;
 $info:          $cyan;
-$warning:       $yellow;
+$warning:       $main_orange;
 $danger:        $red;
 $light:         $gray-200;
 $dark:          $gray-800;
@@ -151,6 +156,7 @@ $dark:          $gray-800;
 // scss-docs-start theme-colors-map
 $theme-colors: (
     "primary":    $primary,
+    "primary-2":  $primary-2,
     "secondary":  $secondary,
     "success":    $success,
     "info":       $info,
@@ -588,7 +594,7 @@ $container-max-widths: (
 // Set the number of columns and specify the width of the gutters.
 
 $grid-columns:                12;
-$grid-gutter-width:           24px;
+$grid-gutter-width:           10px;
 $grid-row-columns:            6;
 
 // Container padding

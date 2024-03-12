@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import {
     Row,
     Col,
@@ -16,6 +16,7 @@ import { Link, Route, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import InternInput from './InternInput';
 import Address from './AddressInput';
+import DataContext from '../../data/DataContext';
 
 const InputIntern = () => {
     document.title = "Dispatching Company Input Page";
@@ -26,6 +27,8 @@ const InputIntern = () => {
     }
 
     const [formCount, setFormCount] = useState(1);
+
+    const { data, updateData } = useContext(DataContext);
 
     const handleAddForm = () => {
         setFormCount((prevCount) => prevCount + 1);
@@ -41,7 +44,18 @@ const InputIntern = () => {
         <>
             <div className="page-content">
                 <Container fluid={true}>
-                    <Breadcrumbs title="Intern" breadcrumbItem="Intern Form" />
+                    <Breadcrumbs title={data[0].name} breadcrumbItem="Intern Form" />
+
+                    <input type='text'  
+                    // value={data[0].name} 
+                    onChange={e => {
+                        let newData = [...data];
+                        newData[0] = {...newData[0], name: e.target.value};
+                        updateData(newData);
+                    }} 
+                    />
+
+                    
 
                     <div className="d-flex mb-2 justify-content-end">
                         <button

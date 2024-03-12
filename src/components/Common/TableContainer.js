@@ -8,9 +8,17 @@ import {
   useExpanded,
   usePagination,
 } from "react-table"
-import { Table, Row, Col, Button } from "reactstrap"
-import JobListGlobalFilter from "../../components/Common/GlobalSearchFilter"
 import { Link } from "react-router-dom"
+
+import { Table, Row, Col, Button, Badge } from "reactstrap"
+import JobListGlobalFilter from "../../components/Common/GlobalSearchFilter"
+import InternSearchFilter from "../../components/Common/InternSearchFilter"
+import FactorySearchFilter from "./FactorySearchFilter"
+
+// import data
+import { listCompany } from '../../common/data/receiving-factory'
+import { listCountry } from '../../common/data/dispatching-company'
+
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -18,6 +26,8 @@ function GlobalFilter({
   globalFilter,
   setGlobalFilter,
   isJobListGlobalFilter,
+  isInternGlobalFilter,
+  isFactoryGlobalFilter
 }) {
   const count = preGlobalFilteredRows.length
   const [value, setValue] = React.useState(globalFilter)
@@ -27,10 +37,16 @@ function GlobalFilter({
 
   return (
     <React.Fragment>
-      <Col xxl={3} lg={6}>
-        <input type="search" className="form-control" id="search-bar-0" value={value || ""} placeholder={`${count} records...`} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} />
-      </Col>
-      {isJobListGlobalFilter && <JobListGlobalFilter setGlobalFilter={setGlobalFilter} />}
+      <Row >
+        <Col md={12} xl={2} className="mb-1">
+          <input type="search" className="form-control " id="search-bar-0" value={value || ""} placeholder={`${count} records...`} onChange={e => { setValue(e.target.value); onChange(e.target.value) }} />
+        </Col>
+        {isJobListGlobalFilter && <JobListGlobalFilter setGlobalFilter={setGlobalFilter} />}
+        <Col md={12} xl={10} className="mb-1">
+          {isInternGlobalFilter && <InternSearchFilter setGlobalFilter={setGlobalFilter} />}
+          {isFactoryGlobalFilter && <FactorySearchFilter setGlobalFilter={setGlobalFilter} />}
+        </Col>
+      </Row>
     </React.Fragment>
   )
 }
@@ -40,6 +56,8 @@ const TableContainer = ({
   data,
   isGlobalFilter,
   isJobListGlobalFilter,
+  isInternGlobalFilter,
+  isFactoryGlobalFilter,
   isAddOptions,
   isAddUserList,
   handleOrderClicks,
@@ -54,7 +72,10 @@ const TableContainer = ({
   paginationDiv,
   pagination,
   tableClass,
-  theadClass
+  theadClass,
+  isInternMenu,
+  isFactoryMenu,
+  isDepatchingCompanyMenu
 }) => {
   const {
     getTableProps,
@@ -105,9 +126,9 @@ const TableContainer = ({
 
   return (
     <Fragment>
-      <Row className="mb-2">
+      <Row className="">
         {iscustomPageSizeOptions &&
-          <Col md={customPageSizeOptions ? 2 : 1}>
+          <Col md={12} xl={1} className="mb-1">
             <select
               className="form-select"
               value={pageSize}
@@ -115,7 +136,7 @@ const TableContainer = ({
             >
               {[10, 20, 30, 40, 50].map(pageSize => (
                 <option key={pageSize} value={pageSize}>
-                  Show {pageSize}
+                  P {pageSize}
                 </option>
               ))}
             </select>
@@ -123,59 +144,105 @@ const TableContainer = ({
         }
 
         {isGlobalFilter && (
-          <GlobalFilter
-            preGlobalFilteredRows={preGlobalFilteredRows}
-            globalFilter={state.globalFilter}
-            setGlobalFilter={setGlobalFilter}
-            isJobListGlobalFilter={isJobListGlobalFilter}
-          />
-        )}
-        {isAddOptions && (
-          <Col sm="7" xxl="8">
-            <div className="text-sm-end">
-              <Button
-                type="button"
-                color="success"
-                className="btn-rounded  mb-2 me-2"
-                onClick={handleOrderClicks}
-              >
-                <i className="mdi mdi-plus me-1" />
-                Add New Order
-              </Button>
-            </div>
-          </Col>
-        )}
-        {isAddUserList && (
-          <Col sm="7" xxl="8">
-            <div className="text-sm-end">
-              <Button
-                type="button"
-                color="primary"
-                className="btn mb-2 me-2"
-                onClick={handleUserClick}
-              >
-                <i className="mdi mdi-plus-circle-outline me-1" />
-                Create New User
-              </Button>
-            </div>
-          </Col>
-        )}
-        {isAddCustList && (
-          <Col sm="7" xxl="8">
-            <div className="text-sm-end">
-              <Button
-                type="button"
-                color="success"
-                className="btn-rounded mb-2 me-2"
-                onClick={handleCustomerClick}
-              >
-                <i className="mdi mdi-plus me-1" />
-                New Customers
-              </Button>
-            </div>
+          <Col md={12} xl={11} className="mb-1">
+            <GlobalFilter
+              preGlobalFilteredRows={preGlobalFilteredRows}
+              globalFilter={state.globalFilter}
+              setGlobalFilter={setGlobalFilter}
+              isJobListGlobalFilter={isJobListGlobalFilter}
+              isInternGlobalFilter={isInternGlobalFilter}
+              isFactoryGlobalFilter={isFactoryGlobalFilter}
+            />
           </Col>
         )}
       </Row>
+
+      {/* <div className="d-flex flex-wrap gap-2">
+        <button type="button" className="border btn" onClick={() => console.log('all')}>
+          Tất cả <Badge className="bg-success ms-1">13</Badge>
+        </button>
+        <button type="button" className="border" >
+          Sắp nhập cảnh <span className="badge bg-success ms-1">2</span>
+        </button>
+        <button type="button" className="border" >
+          Sắp hết hạn visa <span className="badge bg-success ms-1">2</span>
+        </button>
+        <button type="button" className="border" >
+          Đang làm việc  <span className="badge bg-success ms-1">5</span>
+        </button>
+        <button type="button" className="border" >
+          Về nước tạm thời <span className="badge bg-success ms-1">5</span>
+        </button>
+      </div> */}
+
+      {isInternMenu && (
+        <div
+          className="btn-group me-2"
+          role="group"
+          aria-label="First group"
+        >
+          <Button color="primary" className="btn btn-light" onClick={() => {
+
+            setGlobalFilter('');
+          }}>
+            Tất cả <Badge className="bg-success ms-1">13</Badge>
+          </Button>
+
+          <Button color="primary" className="btn btn-light" onClick={() => {
+            setGlobalFilter('Sắp nhập cảnh');
+          }}>
+            Sắp nhập cảnh <span className="badge bg-success ms-1">2</span>
+          </Button>
+
+          <Button color="primary" className="btn btn-light" onClick={() => {
+            setGlobalFilter('Sắp hết hạn visa');
+          }}>
+            Sắp hết hạn visa <span className="badge bg-success ms-1">2</span>
+          </Button>
+
+          <Button color="primary" className="btn btn-light" onClick={() => {
+            setGlobalFilter('Đang làm việc');
+          }}>
+            Đang làm việc  <span className="badge bg-success ms-1">5</span>
+          </Button>
+        </div>
+      )}
+
+      {isFactoryMenu &&
+        <div
+          className="btn-group me-2"
+          role="group"
+          aria-label="First group"
+        >
+          {listCompany.map(item => {
+            return (
+              <Button color="primary" className="btn btn-light" key={item.name} onClick={() => {
+                item.name == 'All' ? setGlobalFilter('') : setGlobalFilter(item.value);
+              }}>
+                {item.name} <Badge className="bg-success ms-1">{item.value}</Badge>
+              </Button>
+            )
+          })}
+        </div>
+      }
+      
+      {isDepatchingCompanyMenu &&
+        <div
+          className="btn-group me-2"
+          role="group"
+          aria-label="First group"
+        >
+          {listCountry.map(item => {
+            return (
+              <Button color="primary" className="btn btn-light" key={item.name} onClick={() => {
+                item.name == 'All' ? setGlobalFilter('') : setGlobalFilter(item.value);
+              }}>
+                {item.name} <Badge className="bg-success ms-1">{item.value}</Badge>
+              </Button>
+            )
+          })}
+        </div>
+      }
 
       <div className="table-responsive">
         <Table {...getTableProps()} className={tableClass}>

@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import {Container} from "reactstrap";
+import { Container, Card,CardHeader, CardBody, Row, Col, Button } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import TableContainer from '../../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
@@ -80,17 +80,17 @@ const StatusPage = (props) => {
             </div>
         )
 
-        return {name, type, note, action}
+        return { name, type, note, action }
     }
 
     useEffect(() => {
         let arr = [];
         const fetchAllData = () => {
-          arr = data.map((e) => createTableData(e));
+            arr = data.map((e) => createTableData(e));
         };
         fetchAllData();
         setRows(arr);
-      }, []);
+    }, []);
 
 
 
@@ -99,29 +99,40 @@ const StatusPage = (props) => {
             <div className="page-content">
 
                 <Container fluid={true}>
-                    <Breadcrumbs title="Status Form" breadcrumbItem="Status Form" />
-                    <div className="d-flex mb-2 justify-content-end">
-                        <button
-                            type="button"
-                            className="btn btn-success  w-sm"
-                            onClick={addForm}
-                        >
-                            <i className="bx bx-add-to-queue d-block font-size-24"></i>{" "}
-                        </button>
-                    </div>
+                    <Card>
+                        <CardHeader>
+                            <Row>
+                                <Col>
+                                    <Breadcrumbs title="" breadcrumbItem="Mẫu Trạng thái" />
+                                </Col>
+                                <Col>
+                                    <div className="d-flex mb-3 justify-content-end">
+                                        <Button color="primary" onClick={addForm}>
+                                            Thêm mới
+                                        </Button>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </CardHeader>
+                        <CardBody>
+                            <TableContainer
+                                columns={columns}
+                                data={rows}
+                                isGlobalFilter={true}
+                                isInternGlobalFilter={false}
+                                isAddOptions={false}
+                                customPageSize={10}
+                                isPagination={true}
+                                iscustomPageSizeOptions={true}
+                                isInternMenu={false}
+                                tableClass="align-middle table-nowrap table-check table"
+                                theadClass="table-dark"
+                                paginationDiv="col-12"
+                                pagination="justify-content-center pagination pagination-rounded"
+                            />
 
-                    <TableContainer
-                        columns={columns}
-                        data={rows}
-                        isGlobalFilter={true}
-                        isAddOptions={false}
-                        customPageSize={10}
-                        isPagination={true}
-                        tableClass="align-middle table-nowrap table-check table"
-                        theadClass="table-dark"
-                        paginationDiv="col-12"
-                        pagination="justify-content-center pagination pagination-rounded"
-                    />
+                        </CardBody>
+                    </Card>
                 </Container>
             </div>
         </>

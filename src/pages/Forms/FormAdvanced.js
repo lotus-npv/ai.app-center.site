@@ -202,7 +202,7 @@ const FormAdvanced = () => {
   const max_len = 25;
 
   const [selectedGroup, setselectedGroup] = useState(null);
-  const [selectedMulti, setselectedMulti] = useState(null);
+  const [selectedMulti, setselectedMulti] = useState([]);
   const [selectedMulti1, setselectedMulti1] = useState(null);
   const [selectedMulti2, setselectedMulti2] = useState(null);
   const [selectedMulti3, setselectedMulti3] = useState(null);
@@ -294,9 +294,14 @@ const FormAdvanced = () => {
     setselectedGroup(selectedGroup);
   }
 
-  function handleMulti(selectedMulti) {
-    setselectedMulti(selectedMulti);
+  function handleMulti(items) {
+    const arr = [...selectedMulti]
+    if((arr.length == 0 && items.length == 1) || (arr.length == 1 && items.length == 0)) {
+      setselectedMulti(items);
+    }
   }
+
+  console.log(selectedMulti)
 
   function handleMulti1(selectedMulti1) {
     setselectedMulti1(selectedMulti1);
@@ -438,8 +443,8 @@ const FormAdvanced = () => {
                           <Select
                             value={selectedMulti}
                             isMulti={true}
-                            onChange={() => {
-                              handleMulti();
+                            onChange={(items) => {
+                              handleMulti(items);
                             }}
                             options={optionGroup}
                             className="select2-selection"

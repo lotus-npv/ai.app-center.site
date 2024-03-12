@@ -49,4 +49,27 @@ const data = [
 }
 ];
 
-export {columns, data}
+const listCountry = [
+    {
+        name: 'All',
+        value: 20
+    },
+    {
+        name: 'Việt Nam',
+        value: 5
+    },
+    {
+        name: 'Trung Quốc',
+        value: 5
+    },
+    {
+        name: 'Indonesia',
+        value: 5
+    },
+    {
+        name: 'Philippin',
+        value: 5
+    },
+]
+
+export {columns, data, listCountry}

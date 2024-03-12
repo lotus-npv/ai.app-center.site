@@ -274,7 +274,7 @@ const RightSidebar = props => {
 
                   <hr className="mt-1" />
 
-                  {/* <div className="radio-toolbar coloropt-radio">
+                  <div className="radio-toolbar coloropt-radio">
                     <span className="mb-2 d-block" id="radio-title">
                       Left Sidebar Color Options
                     </span>
@@ -332,7 +332,7 @@ const RightSidebar = props => {
                         ></label>
                       </Col>
                     </Row>
-                    <Row>
+                    {/* <Row>
                       <Col>
 
                         <input
@@ -419,10 +419,10 @@ const RightSidebar = props => {
                           className="gradient-strong-great-whale rounded-circle wh-30 me-1"
                         ></label>
                       </Col>
-                    </Row>
-                  </div> */}
+                    </Row> */}
+                  </div>
 
-                  <div className="radio-toolbar imgopt-radio">
+                  {/* <div className="radio-toolbar imgopt-radio">
                     <span className="mb-2 d-block" id="radio-bgimg">
                       Left Sidebar Bg Image
                     </span>
@@ -538,7 +538,8 @@ const RightSidebar = props => {
                       </label>
                       {"   "}
                     </div>
-                  </div>
+                  </div> */}
+
                   <hr className="mt-1" />
                 </React.Fragment>
               ) : null}

@@ -49,4 +49,27 @@ const data = [
 }
 ];
 
-export {columns, data}
+const listCompany = [
+    {
+        name: 'All',
+        value: 20
+    },
+    {
+        name: 'Tokio',
+        value: 5
+    },
+    {
+        name: 'Oasaka',
+        value: 5
+    },
+    {
+        name: 'Okayama',
+        value: 5
+    },
+    {
+        name: 'Hokkaido',
+        value: 5
+    },
+]
+
+export {columns, data, listCompany}

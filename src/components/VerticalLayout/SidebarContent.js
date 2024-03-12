@@ -174,9 +174,16 @@ const SidebarContent = props => {
             <li>
               <Link to="/apps-filemanager" >
                 <i className="bx bx-list-ol"></i>
+                <span>{props.t("Danh sách liên hệ")}</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/apps-filemanager" >
+                <i className="bx bx-list-ol"></i>
                 <span>{props.t("Danh sách vi phạm")}</span>
               </Link>
             </li>
+            
             <li>
               <Link to="/apps-filemanager" >
                 <i className="bx bx-support"></i>

@@ -1,11 +1,11 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { Container,  } from "reactstrap";
+import { Card, CardBody, Container, Button, CardHeader, Row, Col } from "reactstrap";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
-import TableContainer from './TableContainer';
+import TableContainer from '../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import withRouter from "components/Common/withRouter";
-import { columns, data} from '../../common/data/receiving-factory'
+import { columns, data } from '../../common/data/receiving-factory'
 
 import { withTranslation } from "react-i18next";
 
@@ -41,10 +41,9 @@ const ReceivingFactoryPage = (props) => {
                 </button>
             </div>
         )
-
         return { name, phone, date, note, action }
     }
-    
+
     useEffect(() => {
         let arr = [];
         const fetchAllData = () => {
@@ -54,38 +53,44 @@ const ReceivingFactoryPage = (props) => {
         setRows(arr);
     }, []);
 
-
-
     return (
         <>
             <div className="page-content">
 
                 <Container fluid={true}>
-                    <Breadcrumbs title="Receiving Factory" breadcrumbItem="Receiving Factory" />
-
-                    <div className="d-flex mb-2 justify-content-end">
-                        <button
-                            type="button"
-                            className="btn btn-success  w-sm"
-                            onClick={addForm}
-                        >
-                            <i className="bx bx-add-to-queue d-block font-size-24"></i>{" "}
-                        </button>
-                    </div>
-
-                    
-                    <TableContainer
-                        columns={columns}
-                        data={rows}
-                        isGlobalFilter={true}
-                        isAddOptions={false}
-                        customPageSize={10}
-                        isPagination={true}
-                        tableClass="align-middle table-nowrap table-check table"
-                        theadClass="table-dark"
-                        paginationDiv="col-12"
-                        pagination="justify-content-center pagination pagination-rounded"
-                    />
+                    <Card>
+                        <CardHeader>
+                            <Row>
+                                <Col>
+                                    <Breadcrumbs title="" breadcrumbItem="Xí nghiệp tiếp nhận" />
+                                </Col>
+                                <Col>
+                                    <div className="d-flex mb-3 justify-content-end">
+                                        <Button color="primary" onClick={addForm}>
+                                            Thêm mới
+                                        </Button>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </CardHeader>
+                        <CardBody>
+                            <TableContainer
+                                columns={columns}
+                                data={rows}
+                                isGlobalFilter={true}
+                                isAddOptions={false}
+                                customPageSize={10}
+                                isPagination={true}
+                                iscustomPageSizeOptions={true}
+                                isFactoryMenu={true}
+                                isFactoryGlobalFilter={true}
+                                tableClass="align-middle table-nowrap table-check table"
+                                theadClass="table-dark"
+                                paginationDiv="col-12"
+                                pagination="justify-content-center pagination pagination-rounded"
+                            />
+                        </CardBody>
+                    </Card>
                 </Container>
             </div>
         </>
