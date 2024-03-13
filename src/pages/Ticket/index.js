@@ -67,21 +67,21 @@ const TicketPage = (props) => {
             }
         },
         {
-            Header: 'Tên xí nghiệp',
+            Header: 'Tiêu đề',
             accessor: 'name',
             Cell: (cellProps) => {
                 return <Name {...cellProps} />;
             }
         },
         {
-            Header: 'Số điện thoại',
+            Header: 'Nộ dung',
             accessor: 'phone',
             Cell: (cellProps) => {
                 return <Phone {...cellProps} />;
             }
         },
         {
-            Header: 'Ngày gia nhập',
+            Header: 'Ngày gửi',
             accessor: 'date',
             Cell: (cellProps) => {
                 return <JontDate {...cellProps} />;
