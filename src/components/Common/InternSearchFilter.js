@@ -86,7 +86,7 @@ const InternSearchFilter = ({ setGlobalFilter }) => {
                 <Col xl={2} lg={3} className='mb-1'>
                     <Select
                         value={selectedMulti}
-                        placeholder={'Xi nghiep'}
+                        placeholder='Quốc gia'
                         isMulti={true}
                         onChange={(items) => {
                             if (selectedMulti.length > 0) {
@@ -104,7 +104,7 @@ const InternSearchFilter = ({ setGlobalFilter }) => {
                 <Col xl={2} lg={3} className='mb-1'>
                     <Select
                         value={selectedMulti1}
-                        placeholder={'Name'}
+                        placeholder={'Xí nghiệp'}
                         isMulti={true}
                         onChange={(items) => {
                             if (selectedMulti1.length > 0) {
@@ -122,7 +122,7 @@ const InternSearchFilter = ({ setGlobalFilter }) => {
                 <Col xl={2} lg={3} className='mb-1'>
                     <Select
                         value={selectedMulti2}
-                        placeholder={'Name'}
+                        placeholder={'Phái cử'}
                         isMulti={true}
                         onChange={(items) => {
                             if (selectedMulti2.length > 0) {
@@ -140,7 +140,7 @@ const InternSearchFilter = ({ setGlobalFilter }) => {
                 <Col xl={2} lg={3} className='mb-1'>
                     <Select
                         value={selectedMulti3}
-                        placeholder={'Name'}
+                        placeholder={'Tư cách lưu trú'}
                         isMulti={true}
                         onChange={(items) => {
                             if (selectedMulti3.length > 0) {

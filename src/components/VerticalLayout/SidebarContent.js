@@ -185,7 +185,7 @@ const SidebarContent = props => {
             </li>
             
             <li>
-              <Link to="/apps-filemanager" >
+              <Link to="/ticket" >
                 <i className="bx bx-support"></i>
                 <span>{props.t("Hỗ trợ")}</span>
               </Link>

@@ -114,6 +114,9 @@ import InputIntern from "pages/Intern/input";
 // Violate page
 import ViolateListPage from "pages/Violate";
 
+// Ticket page
+import TicketPage from "pages/Ticket";
+
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
   //File Manager
@@ -201,6 +204,9 @@ const authProtectedRoutes = [
 
   // Violate
   {path: "/violate", component: <ViolateListPage />},
+
+  // Ticket
+  {path: "/ticket", component: <TicketPage />},
 ];
 
 const publicRoutes = [
