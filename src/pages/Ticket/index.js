@@ -108,9 +108,9 @@ const TicketPage = (props) => {
                                 // handleOrderClick(orderData);
                             }}
                         >
-                            <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
+                            <i className="mdi mdi-eye font-size-24" id="edittooltip" />
                             <UncontrolledTooltip placement="top" target="edittooltip">
-                                Edit
+                                View Detail
                             </UncontrolledTooltip>
                         </Link>
                         <Link
