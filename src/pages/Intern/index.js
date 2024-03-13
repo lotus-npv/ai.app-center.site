@@ -23,7 +23,7 @@ import { withTranslation } from "react-i18next";
 
 
 const InternPage = (props) => {
-    document.title = "Intern Page";
+    document.title = "Thực tập sinh";
     const navigate = useNavigate();
 
     // data context
@@ -252,7 +252,7 @@ const InternPage = (props) => {
                         <CardHeader>
                             <Row>
                                 <Col>
-                                    <Breadcrumbs title="" breadcrumbItem="Thực tập sinh" />
+                                    <Breadcrumbs title="" breadcrumbItem="Quản lý thực tập sinh" />
                                 </Col>
                                 <Col>
                                     <div className="d-flex mb-3 justify-content-end">
