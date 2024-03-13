@@ -155,7 +155,7 @@ const SidebarContent = props => {
             </li>
             <li>
               <Link to="/intern" >
-                <i className="bx bx-user-circle"></i>
+                <i className="mdi mdi-account-group"></i>
                 <span>{props.t("Thực tập sinh")}</span>
               </Link>
             </li>
@@ -167,19 +167,19 @@ const SidebarContent = props => {
             </li>
             <li>
               <Link to="/dispatching-company" >
-                <i className="bx bx-briefcase"></i>
+                <i className="mdi mdi-google-earth"></i>
                 <span>{props.t("Công ty phái cử")}</span>
               </Link>
             </li>
             <li>
               <Link to="/apps-filemanager" >
-                <i className="bx bx-list-ol"></i>
+                <i className="bx bxs-contact"></i>
                 <span>{props.t("Danh sách liên hệ")}</span>
               </Link>
             </li>
             <li>
-              <Link to="/apps-filemanager" >
-                <i className="bx bx-list-ol"></i>
+              <Link to="/violate" >
+                <i className="bx bx-error"></i>
                 <span>{props.t("Danh sách vi phạm")}</span>
               </Link>
             </li>

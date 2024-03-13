@@ -1,97 +1,123 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { Container, Row, Col, CardHeader, Button, CardBody, Card } from "reactstrap";
+import React, { useMemo, useState, useEffect, useContext } from "react";
+import { Container, Row, Col, CardHeader, Button, CardBody, Card, UncontrolledTooltip } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import TableContainer from '../../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
-import { useNavigate } from "react-router-dom";
-import withRouter from "components/Common/withRouter";
+import { useNavigate, Link } from "react-router-dom";
+
+import DataContext from "data/DataContext";
+import { Name, Note } from './CareerColList';
+
+import DeleteModal from "components/Common/DeleteModal";
 
 import { withTranslation } from "react-i18next";
 
 const CareerPage = (props) => {
-    const [rows, setRows] = useState([]);
     document.title = "Nhập ngành nghề";
     const navigate = useNavigate();
+    const { careerData, updateCareerData } = useContext(DataContext);
 
-    const columns = useMemo(
-        () => [
-            {
-                Header: 'Tên ngành nghề',
-                accessor: 'name',
-            },
-            {
-                Header: 'Ghi chú',
-                accessor: 'note'
-            },
-            {
-                Header: 'Thao tác',
-                accessor: 'action'
+    //delete modal
+    const [item, setItem] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
+
+    const onClickDelete = (data) => {
+        setItem(data);
+        setDeleteModal(true);
+    };
+
+    const handleDeleteOrder = () => {
+        if (item && item.id) {
+            console.log('delete id :' + item.id);
+            const arr = [...careerData];
+            const updateArr = arr.filter(e => e.id !== item.id);
+            updateCareerData(updateArr);
+            setDeleteModal(false);
+        }
+    };
+
+    const columns = useMemo(() => [
+        {
+            Header: () => <div className="form-check font-size-16" >
+                <input className="form-check-input" type="checkbox" id="checkAll" />
+                <label className="form-check-label" htmlFor="checkAll"></label>
+            </div>,
+            accessor: '#',
+            width: '20px',
+            filterable: true,
+            Cell: (cellProps) => (
+                <div className="form-check font-size-16" >
+                    <input className="form-check-input" type="checkbox" id="checkAll" />
+                    <label className="form-check-label" htmlFor="checkAll"></label>
+                </div>
+            )
+        },
+        {
+            Header: 'Tên trạng thái',
+            accessor: 'name',
+            Cell: (cellProps) => {
+                return <Name {...cellProps} />;
             }
-        ],
-        []
-    );
-
-    const data = [
-        {
-            name: "Hoàn thiện nội thất",
-            note: "Ngành hoàn thiện nội thất Nhật Bản",
         },
         {
-            name: "Điện tử",
-            note: "Ngành điện tử",
+            Header: 'Ghi chú',
+            accessor: 'note',
+            Cell: (cellProps) => {
+                return <Note {...cellProps} />;
+            }
         },
         {
-            name: "Giàn giáo",
-            note: "Ngành giàn giáo",
-        },
-    ];
+            Header: 'Thao tác',
+            accessor: 'action',
+            Cell: (cellProps) => {
+                return (
+                    <div className="d-flex gap-3">
+                        <Link
+                            to="#"
+                            className="text-success"
+                            onClick={() => {
+                                // const orderData = cellProps.row.original;
+                                // handleOrderClick(orderData);
+                            }}
+                        >
+                            <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
+                            <UncontrolledTooltip placement="top" target="edittooltip">
+                                Edit
+                            </UncontrolledTooltip>
+                        </Link>
+                        <Link
+                            to="#"
+                            className="text-danger"
+                            onClick={() => {
+                                const data = cellProps.row.original;
+                                onClickDelete(data);
+                            }}
+                        >
+                            <i className="mdi mdi-delete font-size-24" id="deletetooltip" />
+                            <UncontrolledTooltip placement="top" target="deletetooltip">
+                                Delete
+                            </UncontrolledTooltip>
+                        </Link>
+                    </div>
+                );
+            }
+        }
+    ], []);
 
     const addForm = () => {
         navigate('/input-career');
     }
-
-    const createTableData = (item) => {
-        const name = item.name;
-        const note = item.note;
-
-        const action = (
-            <div className="d-flex flex-wrap gap-2">
-                <button
-                    type="button"
-                    className="btn btn-success  sm"
-                    onClick={() => alert(`Edit item name: ${item.name}`)}
-                >
-                    <i className="mdi mdi-pencil d-block font-size-14"></i>{" "}
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-danger  sm"
-                    onClick={() => alert(`Delete item name: ${item.name}`)}
-                >
-                    <i className="mdi mdi-trash-can d-block font-size-14"></i>{" "}
-                </button>
-            </div>
-        )
-
-        return { name, note, action }
-    }
-
-    useEffect(() => {
-        let arr = [];
-        const fetchAllData = () => {
-            arr = data.map((e) => createTableData(e));
-        };
-        fetchAllData();
-        setRows(arr);
-    }, []);
-
-
 
     return (
         <>
             <div className="page-content">
 
                 <Container fluid={true}>
+                    <DeleteModal
+                        show={deleteModal}
+                        onDeleteClick={handleDeleteOrder}
+                        onCloseClick={() => setDeleteModal(false)}
+                    />
                     <Card>
                         <CardHeader>
                             <Row>
@@ -110,7 +136,7 @@ const CareerPage = (props) => {
                         <CardBody>
                             <TableContainer
                                 columns={columns}
-                                data={rows}
+                                data={careerData}
                                 isGlobalFilter={true}
                                 isAddOptions={false}
                                 customPageSize={10}

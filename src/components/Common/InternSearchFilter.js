@@ -78,7 +78,7 @@ const InternSearchFilter = ({ setGlobalFilter }) => {
         setGlobalFilter('');
     }
 
-    console.log(selectDateRange)
+    // console.log(selectDateRange)
     return (
         <React.Fragment>
             <Row>

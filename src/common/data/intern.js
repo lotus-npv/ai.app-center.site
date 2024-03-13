@@ -37,8 +37,9 @@ const columns = [
 
 import avata from '../../assets/images/avata/avata-loading.png'
 
-const data = [
+const dataIntern = [
     {
+        id: 1,
         name: "Phạm Nam",
         avata: avata,
         factory: "BigSun1",
@@ -46,6 +47,7 @@ const data = [
         status: ["Sắp nhập cảnh"],
     },
     {
+        id: 2,
         name: "Nguyễn Chung",
         avata: avata,
         factory: "BigSun2",
@@ -53,6 +55,7 @@ const data = [
         status: ["Sắp hết hạn visa"],
     },
     {
+        id: 3,
         name: "Hoang Minh",
         avata: avata,
         factory: "BigSun3",
@@ -60,6 +63,7 @@ const data = [
         status: ["Sắp nhập cảnh","Đang xin Visa"],
     },
     {
+        id: 4,
         name: "Jennifer Chang",
         avata: avata,
         factory: "BigSun4",
@@ -67,6 +71,7 @@ const data = [
         status: ["Đang làm việc"],
     },
     {
+        id: 5,
         name: "Pham Nam",
         avata: avata,
         factory: "BigSun1",
@@ -74,6 +79,7 @@ const data = [
         status: ["Sắp nhập cảnh"],
     },
     {
+        id: 6,
         name: "Nguyen Chung",
         avata: avata,
         factory: "BigSun2",
@@ -81,6 +87,7 @@ const data = [
         status: ["Sắp nhập cảnh"],
     },
     {
+        id: 7,
         name: "Hoang Minh",
         avata: avata,
         factory: "BigSun3",
@@ -88,6 +95,7 @@ const data = [
         status: ["Sắp nhập cảnh","Đang xin Visa","Đang làm việc"],
     },
     {
+        id: 8,
         name: "Jennifer Chang",
         avata: avata,
         factory: "BigSun4",
@@ -95,6 +103,7 @@ const data = [
         status: ["Đang làm việc"],
     },
     {
+        id: 9,
         name: "Pham Nam",
         avata: avata,
         factory: "BigSun1",
@@ -102,6 +111,7 @@ const data = [
         status: ["Sắp nhập cảnh"],
     },
     {
+        id: 10,
         name: "Nguyen Chung",
         avata: avata,
         factory: "BigSun2",
@@ -109,6 +119,7 @@ const data = [
         status: ["Sắp nhập cảnh"],
     },
     {
+        id: 11,
         name: "Hoang Minh",
         avata: avata,
         factory: "BigSun3",
@@ -116,6 +127,7 @@ const data = [
         status: ["Sắp nhập cảnh","Đang xin Visa"],
     },
     {
+        id: 12,
         name: "Jennifer Chang",
         avata: avata,
         factory: "BigSun4",
@@ -125,4 +137,4 @@ const data = [
 
 ];
 
-export { columns, data }
+export { columns, dataIntern }

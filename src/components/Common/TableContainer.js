@@ -11,13 +11,15 @@ import {
 import { Link } from "react-router-dom"
 
 import { Table, Row, Col, Button, Badge } from "reactstrap"
-import JobListGlobalFilter from "../../components/Common/GlobalSearchFilter"
-import InternSearchFilter from "../../components/Common/InternSearchFilter"
+import JobListGlobalFilter from "./GlobalSearchFilter"
+import InternSearchFilter from "./InternSearchFilter"
 import FactorySearchFilter from "./FactorySearchFilter"
+import ViolateSearchFilter from "./ViolateSearchFilter"
 
 // import data
 import { listCompany } from '../../common/data/receiving-factory'
 import { listCountry } from '../../common/data/dispatching-company'
+import { listViolate } from "common/data/violate"
 
 
 // Define a default UI for filtering
@@ -27,7 +29,8 @@ function GlobalFilter({
   setGlobalFilter,
   isJobListGlobalFilter,
   isInternGlobalFilter,
-  isFactoryGlobalFilter
+  isFactoryGlobalFilter,
+  isViolateGlobalFilter
 }) {
   const count = preGlobalFilteredRows.length
   const [value, setValue] = React.useState(globalFilter)
@@ -45,6 +48,7 @@ function GlobalFilter({
         <Col md={12} xl={10} className="mb-1">
           {isInternGlobalFilter && <InternSearchFilter setGlobalFilter={setGlobalFilter} />}
           {isFactoryGlobalFilter && <FactorySearchFilter setGlobalFilter={setGlobalFilter} />}
+          {isViolateGlobalFilter && <ViolateSearchFilter setGlobalFilter={setGlobalFilter} />}
         </Col>
       </Row>
     </React.Fragment>
@@ -58,6 +62,7 @@ const TableContainer = ({
   isJobListGlobalFilter,
   isInternGlobalFilter,
   isFactoryGlobalFilter,
+  isViolateGlobalFilter,
   isAddOptions,
   isAddUserList,
   handleOrderClicks,
@@ -75,7 +80,8 @@ const TableContainer = ({
   theadClass,
   isInternMenu,
   isFactoryMenu,
-  isDepatchingCompanyMenu
+  isDepatchingCompanyMenu,
+  isViolateMenu
 }) => {
   const {
     getTableProps,
@@ -128,7 +134,7 @@ const TableContainer = ({
     <Fragment>
       <Row className="">
         {iscustomPageSizeOptions &&
-          <Col md={12} xl={1} className="mb-1">
+          <Col md={2} xl={1} className="mb-1">
             <select
               className="form-select"
               value={pageSize}
@@ -152,28 +158,11 @@ const TableContainer = ({
               isJobListGlobalFilter={isJobListGlobalFilter}
               isInternGlobalFilter={isInternGlobalFilter}
               isFactoryGlobalFilter={isFactoryGlobalFilter}
+              isViolateGlobalFilter={isViolateGlobalFilter}
             />
           </Col>
         )}
       </Row>
-
-      {/* <div className="d-flex flex-wrap gap-2">
-        <button type="button" className="border btn" onClick={() => console.log('all')}>
-          Tất cả <Badge className="bg-success ms-1">13</Badge>
-        </button>
-        <button type="button" className="border" >
-          Sắp nhập cảnh <span className="badge bg-success ms-1">2</span>
-        </button>
-        <button type="button" className="border" >
-          Sắp hết hạn visa <span className="badge bg-success ms-1">2</span>
-        </button>
-        <button type="button" className="border" >
-          Đang làm việc  <span className="badge bg-success ms-1">5</span>
-        </button>
-        <button type="button" className="border" >
-          Về nước tạm thời <span className="badge bg-success ms-1">5</span>
-        </button>
-      </div> */}
 
       {isInternMenu && (
         <div
@@ -217,7 +206,7 @@ const TableContainer = ({
           {listCompany.map(item => {
             return (
               <Button color="primary" className="btn btn-light" key={item.name} onClick={() => {
-                item.name == 'All' ? setGlobalFilter('') : setGlobalFilter(item.value);
+                item.name == 'All' ? setGlobalFilter('') : setGlobalFilter(item.name);
               }}>
                 {item.name} <Badge className="bg-success ms-1">{item.value}</Badge>
               </Button>
@@ -235,7 +224,25 @@ const TableContainer = ({
           {listCountry.map(item => {
             return (
               <Button color="primary" className="btn btn-light" key={item.name} onClick={() => {
-                item.name == 'All' ? setGlobalFilter('') : setGlobalFilter(item.value);
+                item.name == 'All' ? setGlobalFilter('') : setGlobalFilter(item.name);
+              }}>
+                {item.name} <Badge className="bg-success ms-1">{item.value}</Badge>
+              </Button>
+            )
+          })}
+        </div>
+      }
+
+      {isViolateMenu &&
+        <div
+          className="btn-group me-2"
+          role="group"
+          aria-label="First group"
+        >
+          {listViolate.map(item => {
+            return (
+              <Button color="primary" className="btn btn-light" key={item.name} onClick={() => {
+                item.name == 'All' ? setGlobalFilter('') : setGlobalFilter(item.name);
               }}>
                 {item.name} <Badge className="bg-success ms-1">{item.value}</Badge>
               </Button>

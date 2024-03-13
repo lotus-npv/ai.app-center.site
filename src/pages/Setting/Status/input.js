@@ -77,7 +77,7 @@ const InputStatus = () => {
     const [switch1, setswitch1] = useState(false);
     const [selectedGroup, setselectedGroup] = useState(null);
 
-    const validationType = useFormik({
+    const formik = useFormik({
         // enableReinitialize : use this flag when initial values needs to be changed
         enableReinitialize: true,
 
@@ -116,7 +116,7 @@ const InputStatus = () => {
         setselectedGroup(selectedGroup);
     }
 
-    console.log(validationType.values)
+    console.log(formik.values)
 
 
 
@@ -143,7 +143,7 @@ const InputStatus = () => {
                                     <Form
                                         onSubmit={(e) => {
                                             e.preventDefault();
-                                            validationType.handleSubmit();
+                                            formik.handleSubmit();
                                             return false;
                                         }}>
                                         <div className="mb-3">
@@ -152,15 +152,15 @@ const InputStatus = () => {
                                                 name="name"
                                                 placeholder="Type Something"
                                                 type="text"
-                                                onChange={validationType.handleChange}
-                                                onBlur={validationType.handleBlur}
-                                                value={validationType.values.name || ""}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.name || ""}
                                                 invalid={
-                                                    validationType.touched.name && validationType.errors.name ? true : false
+                                                    formik.touched.name && formik.errors.name ? true : false
                                                 }
                                             />
-                                            {validationType.touched.name && validationType.errors.name ? (
-                                                <FormFeedback type="invalid">{validationType.errors.name}</FormFeedback>
+                                            {formik.touched.name && formik.errors.name ? (
+                                                <FormFeedback type="invalid">{formik.errors.name}</FormFeedback>
                                             ) : null}
                                         </div>
                                         <div className="mb-3">
@@ -170,15 +170,15 @@ const InputStatus = () => {
                                                 type="text"
                                                 autoComplete="off"
                                                 placeholder="note some thing"
-                                                onChange={validationType.handleChange}
-                                                onBlur={validationType.handleBlur}
-                                                value={validationType.values.note || ""}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.note || ""}
                                                 invalid={
-                                                    validationType.touched.note && validationType.errors.note ? true : false
+                                                    formik.touched.note && formik.errors.note ? true : false
                                                 }
                                             />
-                                            {validationType.touched.note && validationType.errors.note ? (
-                                                <FormFeedback type="invalid">{validationType.errors.note}</FormFeedback>
+                                            {formik.touched.note && formik.errors.note ? (
+                                                <FormFeedback type="invalid">{formik.errors.note}</FormFeedback>
                                             ) : null}
                                         </div>
 
@@ -189,21 +189,21 @@ const InputStatus = () => {
                                                 checkedIcon={<OnSymbol />}
                                                 className="me-3 mb-sm-8"
                                                 onColor="#626ed4"
-                                                onChange={(value) => validationType.setFieldValue('auto', value)}
-                                                checked={validationType.values.auto}
+                                                onChange={(value) => formik.setFieldValue('auto', value)}
+                                                checked={formik.values.auto}
                                             />
                                             <Label>Tự động thêm trạng thái</Label>
 
                                         </div>
 
-                                        <Row>
+                                        {formik.values.auto && <Row>
                                             <Col lg={4}>
                                                 <div className="mb-3">
                                                     <Label>Điều kiện</Label>
                                                     <Select
-                                                        value={validationType.values.condition}
+                                                        value={formik.values.condition}
                                                         onChange={(val) => {
-                                                            validationType.setFieldValue('condition', val);
+                                                            formik.setFieldValue('condition', val);
                                                         }}
                                                         options={optionGroup}
                                                         className="select2-selection"
@@ -230,19 +230,19 @@ const InputStatus = () => {
                                                         name="number"
                                                         placeholder="Enter Only number"
                                                         type="number"
-                                                        onChange={validationType.handleChange}
-                                                        onBlur={validationType.handleBlur}
-                                                        value={validationType.values.number || ""}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.number || ""}
                                                         invalid={
-                                                            validationType.touched.number && validationType.errors.number ? true : false
+                                                            formik.touched.number && formik.errors.number ? true : false
                                                         }
                                                     />
-                                                    {validationType.touched.number && validationType.errors.number ? (
-                                                        <FormFeedback type="invalid">{validationType.errors.number}</FormFeedback>
+                                                    {formik.touched.number && formik.errors.number ? (
+                                                        <FormFeedback type="invalid">{formik.errors.number}</FormFeedback>
                                                     ) : null}
                                                 </div>
                                             </Col>
-                                        </Row>
+                                        </Row>}
 
                                         <div className="d-flex flex-wrap gap-2 justify-content-end">
                                             <Button type="submit" color="primary" >

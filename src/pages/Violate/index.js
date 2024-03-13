@@ -1,22 +1,27 @@
 import React, { useMemo, useState, useEffect, useContext } from "react";
-import { Container, Card, CardHeader, CardBody, Row, Col, Button, UncontrolledTooltip } from "reactstrap";
-import Breadcrumbs from "../../../components/Common/Breadcrumb";
-import TableContainer from '../../../components/Common/TableContainer';
+import { CardBody, CardHeader, Container, Card, Button, Row, Col, UncontrolledTooltip } from "reactstrap";
+import Breadcrumbs from "../../components/Common/Breadcrumb";
+import TableContainer from "components/Common/TableContainer";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import { Name, Type, Note } from './StatusColList';
-import DataContext from "data/DataContext";
+import DataContext from "../../data/DataContext";
 
-import DeleteModal from "components/Common/DeleteModal";
+import DeleteModal from '../../components/Common/DeleteModal';
+import { ViolateDate, ViolateType, NumberOfViolator, Description} from './ViolateColList'
 
 import { withTranslation } from "react-i18next";
 
-const StatusPage = (props) => {
-    document.title = "Status Page";
+const ViolateListPage = (props) => {
+    document.title = "Danh sách vi phạm";
     const navigate = useNavigate();
-    const { statusData, updateStatusData } = useContext(DataContext);
+
+    const { violateDatas,updateViolateDatas } = useContext(DataContext);
+
+    const addForm = () => {
+        navigate('/input-dispatching-company');
+    }
 
     //delete modal
     const [item, setItem] = useState(null);
@@ -30,9 +35,9 @@ const StatusPage = (props) => {
     const handleDeleteOrder = () => {
         if (item && item.id) {
             console.log('delete id :' + item.id);
-            const arr = [...statusData];
+            const arr = [...violateDatas];
             const updateArr = arr.filter(e => e.id !== item.id);
-            updateStatusData(updateArr);
+            updateViolateDatas(updateArr);
             setDeleteModal(false);
         }
     };
@@ -54,24 +59,31 @@ const StatusPage = (props) => {
             )
         },
         {
-            Header: 'Tên trạng thái',
-            accessor: 'name',
+            Header: 'Ngày vi phạm',
+            accessor: 'date_violate',
             Cell: (cellProps) => {
-                return <Name {...cellProps} />;
+                return <ViolateDate {...cellProps} />;
             }
         },
         {
-            Header: 'Loại',
+            Header: 'Loại vi phạm',
             accessor: 'type',
             Cell: (cellProps) => {
-                return <Type {...cellProps} />;
+                return <ViolateType {...cellProps} />;
             }
         },
         {
-            Header: 'Ghi chú',
-            accessor: 'note',
+            Header: 'Số người vi phạm',
+            accessor: 'number_of_violator',
             Cell: (cellProps) => {
-                return <Note {...cellProps} />;
+                return <NumberOfViolator {...cellProps} />;
+            }
+        },
+        {
+            Header: 'Diễn giải',
+            accessor: 'description',
+            Cell: (cellProps) => {
+                return <Description {...cellProps} />;
             }
         },
         {
@@ -112,9 +124,6 @@ const StatusPage = (props) => {
         }
     ], []);
 
-    const addForm = () => {
-        navigate('/input-status');
-    }
 
     return (
         <>
@@ -130,7 +139,7 @@ const StatusPage = (props) => {
                         <CardHeader>
                             <Row>
                                 <Col>
-                                    <Breadcrumbs title="" breadcrumbItem="Mẫu Trạng thái" />
+                                    <Breadcrumbs title="Danh sách vi phạm" breadcrumbItem="Danh sách vi phạm" />
                                 </Col>
                                 <Col>
                                     <div className="d-flex mb-3 justify-content-end">
@@ -140,24 +149,24 @@ const StatusPage = (props) => {
                                     </div>
                                 </Col>
                             </Row>
+
                         </CardHeader>
                         <CardBody>
                             <TableContainer
                                 columns={columns}
-                                data={statusData}
+                                data={violateDatas}
                                 isGlobalFilter={true}
-                                isInternGlobalFilter={false}
+                                isViolateGlobalFilter={true}
                                 isAddOptions={false}
                                 customPageSize={10}
                                 isPagination={true}
                                 iscustomPageSizeOptions={true}
-                                isInternMenu={false}
+                                isViolateMenu={true}
                                 tableClass="align-middle table-nowrap table-check table"
                                 theadClass="table-dark"
                                 paginationDiv="col-12"
                                 pagination="justify-content-center pagination pagination-rounded"
                             />
-
                         </CardBody>
                     </Card>
                 </Container>
@@ -166,9 +175,9 @@ const StatusPage = (props) => {
     );
 }
 
-StatusPage.propTypes = {
+ViolateListPage.propTypes = {
     preGlobalFilteredRows: PropTypes.any,
 };
 
 // export default withRouter(withTranslation()(StatusPage));
-export default StatusPage;
+export default ViolateListPage;

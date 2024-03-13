@@ -21,27 +21,36 @@ const columns = [
     }
 ]
 
+import avata from '../../assets/images/avata/avata-loading.png'
 
-const data = [
+const dataDispatchingCompany = [
 {
+    id: 1,
+    avata: avata,
     name: "Lotus Ocean",
     phone: "0888382699",
     date: "2010/11/14",
     note: "Singapore",
 },
 {
+    id: 2,
+    avata: avata,
     name: "Lotus Japan",
     phone: "0888382699",
     date: "2010/11/14",
     note: "Singapore",
 },
 {
+    id: 3,
+    avata: avata,
     name: "Jennifer Chang",
     phone: "0888382699",
     date: "2010/11/14",
     note: "Singapore",
 },
 {
+    id: 4,
+    avata: avata,
     name: "Jennifer Chang",
     phone: "0888382699",
     date: "2010/11/14",
@@ -72,4 +81,4 @@ const listCountry = [
     },
 ]
 
-export {columns, data, listCountry}
+export {columns, dataDispatchingCompany, listCountry}

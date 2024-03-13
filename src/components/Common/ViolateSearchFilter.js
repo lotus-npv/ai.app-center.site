@@ -18,7 +18,9 @@ const optionName = [
     { label: "Chung", value: "Chung" }
 ];
 
-const FactorySearchFilter = ({ setGlobalFilter }) => {
+const ViolateSearchFilter = ({ setGlobalFilter }) => {
+    const [selectDate, setSelectDate] = useState();
+
     const [selectedMulti, setselectedMulti] = useState([]);
     const [selectedMulti1, setselectedMulti1] = useState([]);
     const [selectedMulti2, setselectedMulti2] = useState([]);
@@ -77,14 +79,13 @@ const FactorySearchFilter = ({ setGlobalFilter }) => {
     }
 
     // console.log(selectDateRange)
-    
     return (
         <React.Fragment>
             <Row>
-                <Col xl={3} lg={4} className='mb-1'>
+                <Col xl={2} lg={3} className='mb-1'>
                     <Select
                         value={selectedMulti}
-                        placeholder={'Tỉnh'}
+                        placeholder={'Quốc gia'}
                         isMulti={true}
                         onChange={(items) => {
                             if (selectedMulti.length > 0) {
@@ -99,10 +100,10 @@ const FactorySearchFilter = ({ setGlobalFilter }) => {
                         isClearable={false}
                     />
                 </Col>
-                <Col xl={3} lg={4} className='mb-1'>
+                <Col xl={2} lg={3} className='mb-1'>
                     <Select
                         value={selectedMulti1}
-                        placeholder={'Quận/Huyện'}
+                        placeholder={'Xí nghiệp'}
                         isMulti={true}
                         onChange={(items) => {
                             if (selectedMulti1.length > 0) {
@@ -117,10 +118,10 @@ const FactorySearchFilter = ({ setGlobalFilter }) => {
                         isClearable={false}
                     />
                 </Col>
-                <Col xl={3} lg={4} className='mb-1'>
+                <Col xl={2} lg={3} className='mb-1'>
                     <Select
                         value={selectedMulti2}
-                        placeholder={'Xã/Phường'}
+                        placeholder={'Phái cử'}
                         isMulti={true}
                         onChange={(items) => {
                             if (selectedMulti2.length > 0) {
@@ -135,10 +136,27 @@ const FactorySearchFilter = ({ setGlobalFilter }) => {
                         isClearable={false}
                     />
                 </Col>
-
+                <Col xl={3} lg={3} className='mb-1'>
+                    <FormGroup >
+                        <InputGroup>
+                            <FlatPickr
+                                value={selectDateRange}
+                                className="form-control d-block"
+                                placeholder="dd/mm/yyyy ~ dd/mm/yyyy"
+                                options={{
+                                    mode: "range",
+                                    dateFormat: "Y-m-d"
+                                }}
+                                onChange={(e) => {
+                                    handleSelectDate(e);
+                                }}
+                            />
+                        </InputGroup>
+                    </FormGroup>
+                </Col>
                 <Col md={1} xl={1} className='mb-1'>
                     <div className='mb-3 mb-xxl-0'>
-                        <button type="button" className="btn btn-primary-2 w-100" onClick={handleClear}>
+                        <button type="button" className="btn btn-primary-2 w-100"  onClick={handleClear}>
                             <i className="mdi mdi-close-thick align-middle"></i></button>
                     </div>
                 </Col>
@@ -146,6 +164,5 @@ const FactorySearchFilter = ({ setGlobalFilter }) => {
         </React.Fragment>
     )
 };
-
-export default FactorySearchFilter;
+export default ViolateSearchFilter;
 
