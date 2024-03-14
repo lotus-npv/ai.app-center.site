@@ -116,18 +116,18 @@ const Dashboard = props => {
   };
 
   //meta title
-  document.title = "Dashboard | Skote - React Admin & Dashboard Template";
+  document.title = "Dashboard";
 
   return (
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumbs
+          {/* <Breadcrumbs
             title={props.t("Dashboards")}
             breadcrumbItem={props.t("Dashboard")}
-          />
-
+          /> */}
+          <h4 className="fw-bold mt-1">Cần chú ý</h4>
           <Row>
             {/* <Col xl="4">
               <WelcomeComp />
@@ -180,6 +180,7 @@ const Dashboard = props => {
                 ))}
               </Row>
 
+              <h4 className="mt-3 fw-bold">Thống kê</h4>
               <Row className="mb-3">
                 <Col xl={4}>
                   <Card className="h-100">
@@ -205,7 +206,7 @@ const Dashboard = props => {
                               <p className="mb-2 text-truncate">
                                 <i className="mdi mdi-circle text-primary me-1" /> Viet Nam
                               </p>
-                              <h5>2,132</h5>
+                              <h5>3,132</h5>
                             </div>
                           </Col>
                           <Col xs="4">
@@ -221,7 +222,7 @@ const Dashboard = props => {
                               <p className="mb-2 text-truncate">
                                 <i className="mdi mdi-circle text-danger me-1" /> Korean
                               </p>
-                              <h5>973</h5>
+                              <h5>105</h5>
                             </div>
                           </Col>
                         </Row>
@@ -229,6 +230,7 @@ const Dashboard = props => {
                     </CardBody>
                   </Card>
                 </Col>
+
                 <Col xl={8}>
                   <Card className="h-100">
                     <CardBody>
