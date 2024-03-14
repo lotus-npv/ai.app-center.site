@@ -252,7 +252,7 @@ const InternPage = (props) => {
                         <CardHeader>
                             <Row>
                                 <Col>
-                                    <Breadcrumbs title="" breadcrumbItem="Quản lý thực tập sinh" />
+                                    <Breadcrumbs title="" breadcrumbItem="Thực tập sinh" />
                                 </Col>
                                 <Col>
                                     <div className="d-flex mb-3 justify-content-end">
