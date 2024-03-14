@@ -38,6 +38,7 @@ import SocialSource from "./SocialSource";
 import ActivityComp from "./ActivityComp";
 import TopCities from "./TopCities";
 import LatestTranaction from "./LatestTranaction";
+import Transactions from "./transactions";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb";
@@ -310,22 +311,22 @@ const Dashboard = props => {
 
           <Row>
             <Col xl="4">
-              <SocialSource />
+              <Transactions title={'Top 5 quốc gia theo số lượng TTS'} />
             </Col>
             <Col xl="4">
-              <ActivityComp />
+              <Transactions title={'Top 5 phái cử theo số lượng TTS'}/>
             </Col>
 
             <Col xl="4">
-              <TopCities />
+              <Transactions title={'Top 5 xí nghiệp theo số lượng TTS'}/>
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Col lg="12">
               <LatestTranaction />
             </Col>
-          </Row>
+          </Row> */}
         </Container>
       </div>
 

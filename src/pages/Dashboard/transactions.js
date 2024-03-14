@@ -16,15 +16,14 @@ import classnames from "classnames"
 import SimpleBar from "simplebar-react"
 import { transactionsDataALL, transactionsDataBuy, transactionsDataSell } from "common/data"
 
-const Transactions = () => {
+const Transactions = ({title}) => {
   const [activeTab, setactiveTab] = useState("1")
 
   return (
     <React.Fragment>
-      <Col xl="4">
         <Card>
           <CardBody>
-            <h4 className="card-title mb-4">Transactions</h4>
+            <h4 className="card-title mb-4">{title}</h4>
 
             <Nav pills className="bg-light rounded" role="tablist">
               <NavItem>
@@ -34,7 +33,7 @@ const Transactions = () => {
                     setactiveTab("1")
                   }}
                 >
-                  All
+                  Nhập cảnh
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -44,17 +43,7 @@ const Transactions = () => {
                     setactiveTab("2")
                   }}
                 >
-                  Buy
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: activeTab === "3" })}
-                  onClick={() => {
-                    setactiveTab("3")
-                  }}
-                >
-                  Sell
+                  Vi phạm
                 </NavLink>
               </NavItem>
             </Nav>
@@ -138,49 +127,9 @@ const Transactions = () => {
                   </div>
                 </SimpleBar>
               </TabPane>
-
-              <TabPane tabId="3">
-                <SimpleBar style={{ maxHeight: "330px" }}>
-                  <div className="table-responsive">
-                    <Table className="table align-middle table-nowrap">
-                      <tbody>
-                        {(transactionsDataSell || []).map((transaction, index) => (
-                          <tr key={index}>
-                            <td style={{ width: "50px" }}>
-                              <div className={`font-size-22 text-${transaction.color}`}>
-                                <i className={`bx ${transaction.icon}`}></i>
-                              </div>
-                            </td>
-
-                            <td>
-                              <div>
-                                <h5 className="font-size-14 mb-1">{transaction.type} {transaction.currency}</h5>
-                                <p className="text-muted mb-0">{transaction.date}</p>
-                              </div>
-                            </td>
-
-                            <td>
-                              <div className="text-end">
-                                <h5 className="font-size-14 mb-0">{transaction.amount}</h5>
-                              </div>
-                            </td>
-
-                            <td>
-                              <div className="text-end">
-                                <h5 className="font-size-14 text-muted mb-0">{transaction.price}</h5>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
-                  </div>
-                </SimpleBar>
-              </TabPane>
             </TabContent>
           </CardBody>
         </Card>
-      </Col>
     </React.Fragment>
   )
 }
