@@ -12,6 +12,9 @@ import Profile from "./auth/profile/reducer";
 //Dashboard 
 import Dashboard from "./dashboard/reducer";
 
+//projects
+import projects from "./projects/reducer";
+
 
 const rootReducer = combineReducers({
   // public
@@ -20,7 +23,8 @@ const rootReducer = combineReducers({
   Account,
   ForgetPassword,
   Profile,
-  Dashboard
+  Dashboard,
+  projects
 });
 
 export default rootReducer;

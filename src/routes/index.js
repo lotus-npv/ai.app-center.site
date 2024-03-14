@@ -117,6 +117,9 @@ import ViolateListPage from "pages/Violate";
 // Ticket page
 import TicketPage from "pages/Ticket";
 
+// Contacts
+import Contacts from "pages/Contacts";
+
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
   //File Manager
@@ -207,6 +210,9 @@ const authProtectedRoutes = [
 
   // Ticket
   {path: "/ticket", component: <TicketPage />},
+
+  // Contacts
+  {path: "/contacts", component: <Contacts />},
 ];
 
 const publicRoutes = [

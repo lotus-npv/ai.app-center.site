@@ -7,6 +7,7 @@ import ForgetSaga from "./auth/forgetpwd/saga";
 import ProfileSaga from "./auth/profile/saga";
 import LayoutSaga from "./layout/saga";
 import dashboardSaga from "./dashboard/saga";
+import projectsSaga from "./projects/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     fork(ProfileSaga),
     fork(LayoutSaga),
     fork(dashboardSaga),
+    fork(projectsSaga),
   ]);
 }

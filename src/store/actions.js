@@ -9,5 +9,5 @@ export * from "./auth/profile/actions";
 //dashboard
 export * from "./dashboard/actions";
 
-
-
+// projects
+export * from "./projects/actions";
