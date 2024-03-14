@@ -296,7 +296,7 @@ const Dashboard = props => {
                               </Link>
                             </li>
                           </ul>
-                          <div className="btn-group-sm d-flex justify-center mt-1">
+                          <div className="btn-group btn-group-sm  d-flex justify-center mt-1" role="group">
                             <button type="button" className="btn btn-outline-secondary">Năm :</button>
                             <button type="button" className="btn btn-outline-secondary">2024</button>
                           </div>
