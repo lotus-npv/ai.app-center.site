@@ -13,6 +13,7 @@ import {
   ModalBody,
   ModalFooter,
   Table,
+  UncontrolledTooltip
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -116,10 +117,10 @@ const Dashboard = props => {
               <Row>
                 {/* Reports Render */}
                 {reports.map((report, key) => (
-                  <Col md="4" key={"_col_" + key}>
-                    <Card className="mini-stats-wid">
+                  <Col md="4" key={"_col_" + key} className="mb-2">
+                    <Card className="mini-stats-wid h-100">
                       <CardBody>
-                        <div className="d-flex gap-4 justify-content-start">
+                        <div className="d-flex gap-4 justify-content-start ">
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                             <span className="avatar-title rounded-circle bg-primary">
                               <i
@@ -137,6 +138,19 @@ const Dashboard = props => {
                                 {report.title}
                               </p>
                             </div>
+                          </div>
+                          <div>
+                            <Link
+                              to="#"
+                              className="text-danger"
+                              onClick={() => {
+                              }}
+                            >
+                              <i className="mdi mdi-delete font-size-24" id="deletetooltip" />
+                              <UncontrolledTooltip placement="top" target="deletetooltip">
+                                Delete
+                              </UncontrolledTooltip>
+                            </Link>
                           </div>
                         </div>
                       </CardBody>
