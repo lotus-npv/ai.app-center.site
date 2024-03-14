@@ -690,7 +690,8 @@ $font-family-code:            var(--#{$prefix}font-monospace);
 // $font-size-root effects the value of `rem`, which is used for as well font sizes, paddings and margins
 // $font-size-base effects the font size of the body text
 $font-size-root:              null;
-$font-size-base:              0.8125rem;
+// $font-size-base:              0.8125rem;
+$font-size-base:              0.92rem;
 $font-size-sm:                $font-size-base * .875;
 $font-size-lg:                $font-size-base * 1.25;
 
@@ -755,7 +756,7 @@ $display-line-height: $headings-line-height;
 $lead-font-size:              $font-size-base * 1.25;
 $lead-font-weight:            300;
 
-$small-font-size:             100%;
+$small-font-size:             80%;
 
 $sub-sup-font-size:           .75em;
 // fusv-disable
