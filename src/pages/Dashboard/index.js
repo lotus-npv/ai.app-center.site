@@ -119,7 +119,7 @@ const Dashboard = props => {
                   <Col md="4" key={"_col_" + key}>
                     <Card className="mini-stats-wid">
                       <CardBody>
-                        <div className="d-flex gap-4 justify-content-center">
+                        <div className="d-flex gap-4 justify-content-start">
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                             <span className="avatar-title rounded-circle bg-primary">
                               <i
@@ -129,12 +129,12 @@ const Dashboard = props => {
                               ></i>
                             </span>
                           </div>
-
-                          <div className="flex-grow-1">
-                            <p className="text-muted fw-medium">
+                          {/* flex-grow-1 */}
+                          <div className="d-flex flex-column gap-2">
+                            <h4 className="mb-0">{report.description}</h4>
+                            <p className="">
                               {report.title}
                             </p>
-                            <h4 className="mb-0">{report.description}</h4>
                           </div>
                         </div>
                       </CardBody>
