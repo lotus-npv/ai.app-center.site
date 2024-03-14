@@ -185,8 +185,19 @@ const Dashboard = props => {
                 <Col xl={4}>
                   <Card className="h-100">
                     <CardBody>
-                      <h4 className="card-title mb-2">Tỷ lệ thực tập sinh hiện tại</h4>
-                            <p>Tổng số lượng: <span className="text-primary fw-bold">5000</span> người</p>
+                      <Row>
+                        <Col xl={8}>
+                          <h4 className="card-title mb-2">Tỷ lệ thực tập sinh hiện tại</h4>
+                          <p>Tổng số lượng: <span className="text-primary fw-bold">5000</span> người</p>
+                        </Col>
+                        <Col xl={4} className="d-flex">
+                          <div className="w-75 justify-content-center">
+                            <Button className="btn btn-sm w-100 mb-1">Quốc gia</Button>
+                            <Button className="btn btn-sm w-100">Tư cách</Button>
+                          </div>
+                        </Col>
+                      </Row>
+
                       <div>
                         <div id="donut-chart">
                           <ReactApexChart
