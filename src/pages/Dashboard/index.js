@@ -17,6 +17,9 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
+import ReactApexChart from "react-apexcharts";
+import getChartColorsArray from "../../components/Common/ChartsDynamicColor";
+
 import classNames from "classnames";
 
 //import Charts
@@ -95,6 +98,22 @@ const Dashboard = props => {
     dispatch(onGetChartsData("yearly"));
   }, [dispatch]);
 
+  // Charst
+  const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors);
+  const series = [56, 38, 26];
+  const options = {
+    labels: ["Series A", "Series B", "Series C"],
+    colors: apexsalesAnalyticsChartColors,
+    legend: { show: !1 },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: "70%",
+        },
+      },
+    },
+  };
+
   //meta title
   document.title = "Dashboard | Skote - React Admin & Dashboard Template";
 
@@ -160,64 +179,123 @@ const Dashboard = props => {
                 ))}
               </Row>
 
-              <Card>
-                <CardBody>
-                  <div className="d-sm-flex flex-wrap">
-                    <h4 className="card-title mb-4">Email Sent</h4>
-                    <div className="ms-auto">
-                      <ul className="nav nav-pills">
-                        <li className="nav-item">
-                          <Link
-                            to="#"
-                            className={classNames(
-                              { active: periodType === "weekly" },
-                              "nav-link"
-                            )}
-                            onClick={() => {
-                              onChangeChartPeriod("weekly");
-                            }}
-                            id="one_month"
-                          >
-                            Week
-                          </Link>{" "}
-                        </li>
-                        <li className="nav-item">
-                          <Link
-                            to="#"
-                            className={classNames(
-                              { active: periodType === "monthly" },
-                              "nav-link"
-                            )}
-                            onClick={() => {
-                              onChangeChartPeriod("monthly");
-                            }}
-                            id="one_month"
-                          >
-                            Month
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link
-                            to="#"
-                            className={classNames(
-                              { active: periodType === "yearly" },
-                              "nav-link"
-                            )}
-                            onClick={() => {
-                              onChangeChartPeriod("yearly");
-                            }}
-                            id="one_month"
-                          >
-                            Year
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  {/* <div className="clearfix"></div> */}
-                  <StackedColumnChart periodData={periodData} dataColors='["--bs-primary", "--bs-warning", "--bs-success"]' />
-                </CardBody>
-              </Card>
+              <Row>
+                <Col xl={4}>
+                  <Col xl="4">
+                    <Card>
+                      <CardBody>
+                        <h4 className="card-title mb-4">Sales Analytics</h4>
+
+                        <div>
+                          <div id="donut-chart">
+                            <ReactApexChart
+                              options={options}
+                              series={series}
+                              type="donut"
+                              height={260}
+                              className="apex-charts"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="text-center text-muted">
+                          <Row>
+                            <Col xs="4">
+                              <div className="mt-4">
+                                <p className="mb-2 text-truncate">
+                                  <i className="mdi mdi-circle text-primary me-1" /> Product
+                                  A
+                                </p>
+                                <h5>$ 2,132</h5>
+                              </div>
+                            </Col>
+                            <Col xs="4">
+                              <div className="mt-4">
+                                <p className="mb-2 text-truncate">
+                                  <i className="mdi mdi-circle text-success me-1" /> Product
+                                  B
+                                </p>
+                                <h5>$ 1,763</h5>
+                              </div>
+                            </Col>
+                            <Col xs="4">
+                              <div className="mt-4">
+                                <p className="mb-2 text-truncate">
+                                  <i className="mdi mdi-circle text-danger me-1" /> Product
+                                  C
+                                </p>
+                                <h5>$ 973</h5>
+                              </div>
+                            </Col>
+                          </Row>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Col>
+                <Col xl={8}>
+                  <Card>
+                    <CardBody>
+                      <div className="d-sm-flex flex-wrap">
+                        <h4 className="card-title mb-4">Email Sent</h4>
+                        <div className="ms-auto">
+                          <ul className="nav nav-pills">
+                            <li className="nav-item">
+                              <Link
+                                to="#"
+                                className={classNames(
+                                  { active: periodType === "weekly" },
+                                  "nav-link"
+                                )}
+                                onClick={() => {
+                                  onChangeChartPeriod("weekly");
+                                }}
+                                id="one_month"
+                              >
+                                Week
+                              </Link>{" "}
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                to="#"
+                                className={classNames(
+                                  { active: periodType === "monthly" },
+                                  "nav-link"
+                                )}
+                                onClick={() => {
+                                  onChangeChartPeriod("monthly");
+                                }}
+                                id="one_month"
+                              >
+                                Month
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                to="#"
+                                className={classNames(
+                                  { active: periodType === "yearly" },
+                                  "nav-link"
+                                )}
+                                onClick={() => {
+                                  onChangeChartPeriod("yearly");
+                                }}
+                                id="one_month"
+                              >
+                                Year
+                              </Link>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      {/* <div className="clearfix"></div> */}
+                      <StackedColumnChart periodData={periodData} dataColors='["--bs-primary", "--bs-warning", "--bs-success"]' />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+
+
             </Col>
           </Row>
 
