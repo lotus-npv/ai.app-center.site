@@ -98,7 +98,8 @@
                 padding: .625rem 1.5rem;
                 color: $sidebar-menu-item-color;
                 position: relative;
-                font-size: 14px;
+                font-size: 15px;
+                font-weight: 500;
                 transition: all .4s;
 
                 i {
@@ -132,7 +133,7 @@
 
                     a {
                         padding: .4rem 1.5rem .4rem 3.5rem;
-                        font-size: 13px;
+                        font-size: 14px;
                         color: $sidebar-menu-sub-item-color;
                         &:hover {
                             color: $sidebar-menu-item-hover-color;
