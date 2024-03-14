@@ -62,12 +62,12 @@ const Dashboard = props => {
   } = useSelector(DashboardProperties);
 
   const reports = [
-    { title: "Mục cần hỗ trợ chưa xử lý", iconClass: "bx-copy-alt", description: "3" },
-    { title: "Revenue", iconClass: "bx-archive-in", description: "$35, 723" },
+    { title: "Mục cần hỗ trợ chưa xử lý", iconClass: "bx bx-support", description: "3" },
+    { title: "Thực tập sinh sắp hết hạn visa", iconClass: "bx bx-user", description: "12" },
     {
-      title: "Average Price",
-      iconClass: "bx-purchase-tag-alt",
-      description: "$16.2",
+      title: "Thực tập sinh sắp nhập cảnh",
+      iconClass: "bx bx-user",
+      description: "5",
     },
   ];
 
@@ -131,10 +131,12 @@ const Dashboard = props => {
                           </div>
                           {/* flex-grow-1 */}
                           <div className="d-flex flex-column gap-2">
-                            <h3 className="mb-0">{report.description}</h3>
-                            <p className="align-self-stretch">
-                              {report.title}
-                            </p>
+                            <h3 className="mb-0 fw-bold">{report.description}</h3>
+                            <div className="d-flex">
+                              <p className="">
+                                {report.title}
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </CardBody>
