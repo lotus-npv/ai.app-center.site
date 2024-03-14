@@ -62,7 +62,7 @@ const Dashboard = props => {
   } = useSelector(DashboardProperties);
 
   const reports = [
-    { title: "Orders", iconClass: "bx-copy-alt", description: "1,235" },
+    { title: "Mục cần hỗ trợ chưa xử lý", iconClass: "bx-copy-alt", description: "3" },
     { title: "Revenue", iconClass: "bx-archive-in", description: "$35, 723" },
     {
       title: "Average Price",
@@ -131,8 +131,8 @@ const Dashboard = props => {
                           </div>
                           {/* flex-grow-1 */}
                           <div className="d-flex flex-column gap-2">
-                            <h4 className="mb-0">{report.description}</h4>
-                            <p className="">
+                            <h3 className="mb-0">{report.description}</h3>
+                            <p className="align-self-stretch">
                               {report.title}
                             </p>
                           </div>
