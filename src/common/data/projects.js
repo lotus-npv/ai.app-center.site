@@ -17,7 +17,7 @@ const projects = [
   {
     id: 1,
     img: "img2",
-    name: "Brand logo design",
+    name: "Công ty Lotus Ocean",
     description: "To achieve it would be necessary",
     status: "Pending",
     color: "warning",
