@@ -116,6 +116,7 @@ import ViolateListPage from "pages/Violate";
 
 // Ticket page
 import TicketPage from "pages/Ticket";
+import CreateTicket from "pages/Ticket/CreateTicket";
 
 // Contacts
 import Contacts from "pages/Contacts";
@@ -210,6 +211,8 @@ const authProtectedRoutes = [
 
   // Ticket
   {path: "/ticket", component: <TicketPage />},
+  {path: "/create-ticket", component: <CreateTicket />},
+
 
   // Contacts
   {path: "/contacts", component: <Contacts />},

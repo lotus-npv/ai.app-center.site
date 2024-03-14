@@ -40,7 +40,7 @@ const TicketPage = (props) => {
     };
 
     const addForm = () => {
-        navigate('/input-receiving-factory');
+        navigate('/create-ticket');
     }
 
     const columns = useMemo(() => [
