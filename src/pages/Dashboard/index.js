@@ -296,6 +296,10 @@ const Dashboard = props => {
                               </Link>
                             </li>
                           </ul>
+                          <div className="btn-group-sm d-flex justify-center mt-1">
+                            <button type="button" className="btn btn-outline-secondary">Năm :</button>
+                            <button type="button" className="btn btn-outline-secondary">2024</button>
+                          </div>
                         </div>
                       </div>
                       {/* <div className="clearfix"></div> */}
@@ -314,11 +318,11 @@ const Dashboard = props => {
               <Transactions title={'Top 5 quốc gia theo số lượng TTS'} />
             </Col>
             <Col xl="4">
-              <Transactions title={'Top 5 phái cử theo số lượng TTS'}/>
+              <Transactions title={'Top 5 phái cử theo số lượng TTS'} />
             </Col>
 
             <Col xl="4">
-              <Transactions title={'Top 5 xí nghiệp theo số lượng TTS'}/>
+              <Transactions title={'Top 5 xí nghiệp theo số lượng TTS'} />
             </Col>
           </Row>
 
