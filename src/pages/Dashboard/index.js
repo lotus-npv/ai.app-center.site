@@ -119,7 +119,7 @@ const Dashboard = props => {
                 {reports.map((report, key) => (
                   <Col md="4" key={"_col_" + key} className="mb-2">
                     <Card className="mini-stats-wid h-100">
-                      <CardBody>
+                      <CardBody className="d-flex justify-content-between">
                         <div className="d-flex gap-4 justify-content-start ">
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                             <span className="avatar-title rounded-circle bg-primary">
@@ -139,19 +139,20 @@ const Dashboard = props => {
                               </p>
                             </div>
                           </div>
-                          <div>
-                            <Link
-                              to="#"
-                              className="text-danger"
-                              onClick={() => {
-                              }}
-                            >
-                              <i className="mdi mdi-delete font-size-24" id="deletetooltip" />
-                              <UncontrolledTooltip placement="top" target="deletetooltip">
-                                Delete
-                              </UncontrolledTooltip>
-                            </Link>
-                          </div>
+                        </div>
+
+                        <div className="d-flex align-items-center">
+                          <Link
+                            to="#"
+                            className="text-danger "
+                            onClick={() => {
+                            }}
+                          >
+                            <i className="bx bx-chevrons-right font-size-24" id="deletetooltip" />
+                            <UncontrolledTooltip placement="top" target="deletetooltip">
+                              Detail
+                            </UncontrolledTooltip>
+                          </Link>
                         </div>
                       </CardBody>
                     </Card>
