@@ -15,6 +15,9 @@ import Dashboard from "./dashboard/reducer";
 //projects
 import projects from "./projects/reducer";
 
+// demo
+import Demo from "./demo/reducer"
+
 
 const rootReducer = combineReducers({
   // public
@@ -24,7 +27,8 @@ const rootReducer = combineReducers({
   ForgetPassword,
   Profile,
   Dashboard,
-  projects
+  projects,
+  Demo
 });
 
 export default rootReducer;

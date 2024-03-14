@@ -11,3 +11,6 @@ export * from "./dashboard/actions";
 
 // projects
 export * from "./projects/actions";
+
+// demo
+export * from "./demo/actions"
