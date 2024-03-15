@@ -34,6 +34,9 @@ const CareerPage = (props) => {
         dispatch(getCareerAll());
     }, [dispatch]);
 
+    useEffect(() => {
+        // Khi 'data' thay đổi, component sẽ rerender
+      }, [datas]);
 
     console.log(datas)
 
@@ -256,6 +259,7 @@ const CareerPage = (props) => {
                                 className="btn btn-primary "
                                 onClick={() => {
                                     dispatch(updateCareer(rowSelect));
+                                    dispatch(getCareerAll());
                                     tog_xlarge();
                                 }}
                             >

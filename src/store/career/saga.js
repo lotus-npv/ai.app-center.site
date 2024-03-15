@@ -19,8 +19,8 @@ import { toast } from "react-toastify";
 
 function* fetCareerData() {
   try {
-    const response = yield call(getCareerDataAll)
-    yield put(getCareerAllSuccess(response))
+    const response = yield call(getCareerDataAll);
+    yield put(getCareerAllSuccess(response));
   } catch (error) {
     yield put(getCareerAllFail(error))
   }
@@ -30,7 +30,6 @@ function* onAddNewCareer({ payload: data }) {
   try {
       const response = yield call(addNewCareer, data);
       yield put(setCareerSuccess(response));
-      fetCareerData();
       toast.success("Career Added Successfully", { autoClose: 2000 });
   } catch (error) {
       yield put(setCareerFail(error));
@@ -42,7 +41,6 @@ function* onUpdateCareer({ payload: data }) {
   try {
       const response = yield call(updateCareer, data)
       yield put(updateCareerSuccess(response));
-      // fetCareerData();
       toast.success("Career Updated Successfully", { autoClose: 2000 });
   } catch (error) {
       yield put(updateCareerFail(error))
