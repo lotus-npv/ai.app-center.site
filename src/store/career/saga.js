@@ -25,11 +25,11 @@ function* fetCareerData() {
 
 function* onAddNewCareer({ payload: data }) {
   try {
-      const response = yield call(addNewCareer, data)
-      yield put(setCareerSuccess(response))
+      const response = yield call(addNewCareer, data);
+      yield put(setCareerSuccess(response));
       toast.success("Career Added Successfully", { autoClose: 2000 });
   } catch (error) {
-      yield put(setCareerFail(error))
+      yield put(setCareerFail(error));
       toast.error("Career Added Failed", { autoClose: 2000 });
   }
 }
