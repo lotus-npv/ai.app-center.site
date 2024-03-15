@@ -13,6 +13,14 @@ export { getCareerDataAll };
 const getCareerDataId = () => get(url.GET_CAREER_ID);
 export { getCareerDataId };
 
+const addNewCareer = data => {
+  post(url.SET_CAREER, data)
+}
+export { addNewCareer };
+
+
+
+
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
   const user = localStorage.getItem("user");

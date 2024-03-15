@@ -9,7 +9,7 @@ import {
     getCareerAllSuccess,
 } from "./actions"
                                       
-import { getCareerDataAll } from "../../helpers/fakebackend_helper";
+import { getCareerDataAll, addNewCareer } from "../../helpers/fakebackend_helper";
 
 function* fetCareerData() {
   try {

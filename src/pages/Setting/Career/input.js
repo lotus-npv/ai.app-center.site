@@ -45,9 +45,21 @@ const InputCareer = () => {
                 "Please Enter Your Textarea"
             ),
         }),
-        onSubmit: (values) => {
-            console.log(values);
-            dispatch(setCareer(values));
+        onSubmit: (value) => {
+            
+            const obj = {
+                syndication_id: 1,
+                name: value.name,
+                description: value.description,
+                create_at: '',
+                create_by: 1,
+                update_at: '',
+                update_by: 1,
+                delete_at: '',
+                flag: 1
+            }
+            console.log(obj);
+            dispatch(setCareer(obj));
         }
     });
 

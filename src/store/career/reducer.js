@@ -27,9 +27,18 @@ import {
           ...state,
           error: action.payload,
         };
+      case SET_CAREER_SUCCESS:
+        return {
+          ...state,
+          datas: action.payload,
+        };
+  
+      case SET_CAREER_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
       default:
-
-      
         return state;
     }
   };
