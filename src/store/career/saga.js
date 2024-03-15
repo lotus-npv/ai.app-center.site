@@ -3,6 +3,7 @@ import { takeEvery, put, call,all,fork  } from "redux-saga/effects";
 
 // Login Redux States
 import {
+  DELETE_CAREER,
     GET_CAREER_ALL, SET_CAREER, UPDATE_CAREER,
 } from "./actionTypes"
 import {
@@ -11,10 +12,12 @@ import {
     setCareerSuccess,
     setCareerFail,
     updateCareerSuccess,
-    updateCareerFail
+    updateCareerFail,
+    deleteCareerSuccess,
+    deleteCareerFail
 } from "./actions"
                                       
-import { getCareerDataAll, addNewCareer, updateCareer } from "../../helpers/fakebackend_helper";
+import { getCareerDataAll, addNewCareer, updateCareer, deleteCareer } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetCareerData() {
@@ -47,6 +50,17 @@ function* onUpdateCareer({ payload: data }) {
       toast.error("Career Updated Failed", { autoClose: 2000 });
   }
 }
+
+function* onDeleteCareer({ payload: id }) {
+  try {
+      const response = yield call(deleteCareer, id)
+      yield put(deleteCareerSuccess(response));
+      toast.success("Career Delete Successfully", { autoClose: 2000 });
+  } catch (error) {
+      yield put(deleteCareerFail(error))
+      toast.error("Career Delete Failed", { autoClose: 2000 });
+  }
+}
                                       
 // export function* watchFetCareerData() {
 //   yield takeEvery(GET_CAREER_ALL, fetCareerData);
@@ -61,7 +75,7 @@ function* careerSaga() {
   yield takeEvery(GET_CAREER_ALL, fetCareerData)
   yield takeEvery(SET_CAREER, onAddNewCareer)
   yield takeEvery(UPDATE_CAREER, onUpdateCareer)
-  // yield takeEvery(DELETE_JOB_LIST, onDeleteJobList)
+  yield takeEvery(DELETE_CAREER, onDeleteCareer)
   // yield takeEvery(GET_APPLY_JOB, OnGetApplyJob)
   // yield takeEvery(DELETE_APPLY_JOB, OnDeleteApplyJob)
 }

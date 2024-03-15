@@ -25,7 +25,7 @@ export { addNewCareer };
 const updateCareer = data => put(url.UPDATE_CAREER, data, config);
 export {updateCareer};
 
-const deleteCareer = (id) => put(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
+const deleteCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
 export {deleteCareer};
 
 // Gets the logged in user data from local session

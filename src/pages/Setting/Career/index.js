@@ -14,7 +14,7 @@ import { withTranslation } from "react-i18next";
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer } from "store/actions";
+import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
 import { createSelector } from "reselect";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -40,7 +40,7 @@ const CareerPage = (props) => {
 
     useEffect(() => {
         dispatch(getCareerAll());
-    }, [dispatch, datas]);
+    }, [dispatch]);
 
     console.log(datas)
 
@@ -61,18 +61,17 @@ const CareerPage = (props) => {
     const [deleteModal, setDeleteModal] = useState(false);
 
     const onClickDelete = (data) => {
-        // setItem(data);
-        // setDeleteModal(true);
+        setItem(data);
+        setDeleteModal(true);
     };
 
     const handleDeleteOrder = () => {
-        // if (item && item.id) {
-        //     console.log('delete id :' + item.id);
-        //     const arr = [...careerData];
-        //     const updateArr = arr.filter(e => e.id !== item.id);
-        //     updateCareerData(updateArr);
-        //     setDeleteModal(false);
-        // }
+        if (item && item.id) {
+            console.log('delete id :' + item.id);
+            dispatch(deleteCareer(item.id));
+
+            setDeleteModal(false);
+        }
     };
 
     const columns = useMemo(() => [

@@ -75,16 +75,16 @@ export const updateCareerFail = error => ({
 });
 
 export const deleteCareer = (data) => ({
-  type: UPDATE_CAREER,
+  type: DELETE_CAREER,
   payload: data
 });
 
 export const deleteCareerSuccess = data => ({
-  type: UPDATE_CAREER_SUCCESS,
+  type: DELETE_CAREER_SUCCESS,
   payload: data,
 });
 
 export const deleteCareerFail = error => ({
-  type: UPDATE_CAREER_FAIL,
+  type: DELETE_CAREER_FAIL,
   payload: error,
 });
