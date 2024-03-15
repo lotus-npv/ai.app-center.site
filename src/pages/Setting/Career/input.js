@@ -83,7 +83,8 @@ const InputCareer = () => {
     });
 
     const back = () => {
-        navigate(-1);
+        // navigate(-1);
+        navigate('/pages-career');
     }
 
     const notify = () => toast.success("Career Added Successfully", { autoClose: 2000 });;

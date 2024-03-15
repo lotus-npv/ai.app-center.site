@@ -25,11 +25,13 @@ const CareerPage = (props) => {
     const dispatch = useDispatch();
     const { careerData } = useSelector(state => ({
         careerData: state.Career.datas
-    }), shallowEqual);
+    }));
 
     useEffect(() => {
         dispatch(getCareerAll());
     }, [dispatch]);
+
+    console.log(careerData)
 
     //delete modal
     const [item, setItem] = useState(null);
