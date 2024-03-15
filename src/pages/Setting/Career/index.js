@@ -103,7 +103,7 @@ const CareerPage = (props) => {
                             to="#"
                             className="text-success"
                             onClick={() => {
-                                setmodal_xlarge(true);
+                                tog_xlarge();
                                 // const orderData = cellProps.row.original;
                                 // handleOrderClick(orderData);
                             }}
@@ -126,47 +126,7 @@ const CareerPage = (props) => {
                                 Delete
                             </UncontrolledTooltip>
                         </Link>
-                        <Modal
-                            size="xl"
-                            isOpen={modal_xlarge}
-                            toggle={() => {
-                                tog_xlarge();
-                            }}
-                        >
-                            <div className="modal-header">
-                                <h5
-                                    className="modal-title mt-0"
-                                    id="myExtraLargeModalLabel"
-                                >
-                                    Extra large modal
-                                </h5>
-                                <button
-                                    onClick={() => {
-                                        setmodal_xlarge(false);
-                                    }}
-                                    type="button"
-                                    className="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                >
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <p>Cras mattis consectetur purus sit amet fermentum.
-                                    Cras justo odio, dapibus ac facilisis in,
-                                    egestas eget quam. Morbi leo risus, porta ac
-                                    consectetur ac, vestibulum at eros.</p>
-                                <p>Praesent commodo cursus magna, vel scelerisque
-                                    nisl consectetur et. Vivamus sagittis lacus vel
-                                    augue laoreet rutrum faucibus dolor auctor.</p>
-                                <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
-                                    Praesent commodo cursus magna, vel scelerisque
-                                    nisl consectetur et. Donec sed odio dui. Donec
-                                    ullamcorper nulla non metus auctor
-                                    fringilla.</p>
-                            </div>
-                        </Modal>
+
                     </div>
                 );
             }
@@ -218,6 +178,48 @@ const CareerPage = (props) => {
                             />
                         </CardBody>
                     </Card>
+
+                    <Modal
+                        size="xl"
+                        isOpen={modal_xlarge}
+                        toggle={() => {
+                            tog_xlarge();
+                        }}
+                    >
+                        <div className="modal-header">
+                            <h5
+                                className="modal-title mt-0"
+                                id="myExtraLargeModalLabel"
+                            >
+                                Extra large modal
+                            </h5>
+                            <button
+                                onClick={() => {
+                                    setmodal_xlarge(false);
+                                }}
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p>Cras mattis consectetur purus sit amet fermentum.
+                                Cras justo odio, dapibus ac facilisis in,
+                                egestas eget quam. Morbi leo risus, porta ac
+                                consectetur ac, vestibulum at eros.</p>
+                            <p>Praesent commodo cursus magna, vel scelerisque
+                                nisl consectetur et. Vivamus sagittis lacus vel
+                                augue laoreet rutrum faucibus dolor auctor.</p>
+                            <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
+                                Praesent commodo cursus magna, vel scelerisque
+                                nisl consectetur et. Donec sed odio dui. Donec
+                                ullamcorper nulla non metus auctor
+                                fringilla.</p>
+                        </div>
+                    </Modal>
 
                 </Container>
             </div>
