@@ -60,32 +60,24 @@ const InputCareer = () => {
                 flag: 1
             }
             console.log(obj);
-            dispatch(setCareer(obj));
+            // dispatch(setCareer(obj));
 
-            // axios.post("http://api.lotusocean-jp.com/api/career/insert", obj)
-            //     .then(function (response) {
-            //         console.log(response);
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error);
-            //     });
-
-            // let config = {
-            //     headers: {
-            //         accept: "/",
-            //         "Content-Type": "multipart/form-data",
-            //     },
-            // };
+            let config = {
+                headers: {
+                    accept: "/",
+                    "Content-Type": "multipart/form-data",
+                },
+            };
 
 
-            // axios
-            //     .post("http://api.lotusocean-jp.com/api/career/insert", obj, config)
-            //     .then((response) => {
-            //         console.log("Du lieu đã được thêm:", response.data);
-            //     })
-            //     .catch((error) => {
-            //         console.error("Lỗi khi thêm du lieu:", error);
-            //     });
+            axios
+                .post("http://api.lotusocean-jp.com/api/career/insert", obj, config)
+                .then((response) => {
+                    console.log("Du lieu đã được thêm:", response.data);
+                })
+                .catch((error) => {
+                    console.error("Lỗi khi thêm du lieu:", error);
+                });
 
         }
     });
