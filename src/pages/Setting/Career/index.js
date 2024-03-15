@@ -13,7 +13,7 @@ import DeleteModal from "components/Common/DeleteModal";
 import { withTranslation } from "react-i18next";
 
 //redux
-import { useSelector, useDispatch , shallowEqual} from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getCareerAll } from "store/actions";
 import { createSelector } from "reselect";
 
@@ -22,15 +22,16 @@ const CareerPage = (props) => {
     const navigate = useNavigate();
     // const { careerData, updateCareerData } = useContext(DataContext);
 
-    // data
     const dispatch = useDispatch();
     // const { datas } = useSelector(state => ({
     //     datas: state.Career.datas
     // }));
 
     // useEffect(() => {
-    //     dispatch(getCareerAll());
-    // }, [dispatch]);
+    //     if (datas && !datas.length) {
+    //         dispatch(getCareerAll());
+    //     }
+    // }, [dispatch, datas]);
 
     const selectCareerState = (state) => state.Career;
     const CareerProperties = createSelector(
@@ -48,7 +49,7 @@ const CareerPage = (props) => {
     }, [dispatch, datas]);
 
 
-    // console.log(datas)
+    console.log(datas)
 
     // //delete modal
     const [item, setItem] = useState(null);

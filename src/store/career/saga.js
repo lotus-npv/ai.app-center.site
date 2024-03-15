@@ -35,21 +35,22 @@ function* onAddNewCareer({ payload: data }) {
   }
 }
                                       
-// export function* watchFetCareerData() {
-//   yield takeEvery(GET_CAREER_ALL, fetCareerData);
-// }
-                                      
-// function* careerSaga() {
-//   yield all([fork(watchFetCareerData)]);
-// }
-
-function* careerSaga() {
-  yield takeEvery(GET_CAREER_ALL, fetCareerData)
+export function* watchFetCareerData() {
+  yield takeEvery(GET_CAREER_ALL, fetCareerData);
   yield takeEvery(SET_CAREER, onAddNewCareer)
-  // yield takeEvery(UPDATE_JOB_LIST, onUpdateJobList)
-  // yield takeEvery(DELETE_JOB_LIST, onDeleteJobList)
-  // yield takeEvery(GET_APPLY_JOB, OnGetApplyJob)
-  // yield takeEvery(DELETE_APPLY_JOB, OnDeleteApplyJob)
 }
+                                      
+function* careerSaga() {
+  yield all([fork(watchFetCareerData)]);
+}
+
+// function* careerSaga() {
+//   yield takeEvery(GET_CAREER_ALL, fetCareerData)
+//   yield takeEvery(SET_CAREER, onAddNewCareer)
+//   yield takeEvery(UPDATE_JOB_LIST, onUpdateJobList)
+//   yield takeEvery(DELETE_JOB_LIST, onDeleteJobList)
+//   yield takeEvery(GET_APPLY_JOB, OnGetApplyJob)
+//   yield takeEvery(DELETE_APPLY_JOB, OnDeleteApplyJob)
+// }
                                       
 export default careerSaga;
