@@ -29,6 +29,8 @@ import { setCareer } from "store/actions";
 const InputCareer = () => {
     document.title = "Career Page";
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const validationType = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -44,7 +46,8 @@ const InputCareer = () => {
             ),
         }),
         onSubmit: (values) => {
-            alert(values.name)
+            console.log(values);
+            dispatch(setCareer(values));
         }
     });
 
