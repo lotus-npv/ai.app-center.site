@@ -4,6 +4,13 @@ export const POST_FAKE_REGISTER = "/post-fake-register";
 // demo
 export const GET_DEMO_DATA = "https://jsonplaceholder.typicode.com/posts";
 
+// career
+export const GET_CAREER_ALL = "http://api.lotusocean-jp.com/api/career/all";
+export const GET_CAREER_ID = "http://api.lotusocean-jp.com/api/career/:id";
+export const SET_CAREER = "http://api.lotusocean-jp.com/api/career/insert";
+export const UPDATE_CAREER = "http://api.lotusocean-jp.com/api/career/update";
+export const DELETE_CAREER = "http://api.lotusocean-jp.com/api/career/delete/:id";
+
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
 export const POST_FAKE_JWT_LOGIN = "/post-jwt-login";
