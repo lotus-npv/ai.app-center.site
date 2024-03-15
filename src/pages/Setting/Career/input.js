@@ -46,7 +46,7 @@ const InputCareer = () => {
                 "Please Enter Your Textarea"
             ),
         }),
-        onSubmit: (value) => {
+        onSubmit: async (value) => {
 
             const obj = {
                 syndication_id: 1,
@@ -62,22 +62,45 @@ const InputCareer = () => {
             console.log(obj);
             // dispatch(setCareer(obj));
 
-            let config = {
-                headers: {
-                    accept: "/",
-                    "Content-Type": "multipart/form-data",
-                },
-            };
+            // let config = {
+            //     headers: {
+            //         accept: "/",
+            //         "Content-Type": "multipart/form-data",
+            //     },
+            // };
 
 
-            axios
-                .post("http://api.lotusocean-jp.com/api/career/insert", obj, config)
-                .then((response) => {
-                    console.log("Du lieu đã được thêm:", response.data);
-                })
-                .catch((error) => {
-                    console.error("Lỗi khi thêm du lieu:", error);
+            // axios
+            //     .post("http://api.lotusocean-jp.com/api/career/insert", obj, config)
+            //     .then((response) => {
+            //         console.log("Du lieu đã được thêm:", response.data);
+            //     })
+            //     .catch((error) => {
+            //         console.error("Lỗi khi thêm du lieu:", error);
+                // });
+
+            try {
+                const formData = new FormData();
+                formData.append("syndication_id", 1001);
+                formData.append("name", value.name);
+                formData.append("description", value.description);
+                formData.append("create_at", 1);
+                formData.append("create_by", 1);
+                formData.append("update_at", '');
+                formData.append("update_by", 1);
+                formData.append("delete_at", '');
+                formData.append("flag", "1");
+
+                console.log(formData);
+                const response = await axios.post("YOUR_API_ENDPOINT", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
                 });
+                console.log("Upload success:", response.data);
+            } catch (error) {
+                console.error("Upload failed:", error);
+            }
 
         }
     });
