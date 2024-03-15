@@ -22,6 +22,8 @@ export { getCareerDataId };
 const addNewCareer = data => post(url.SET_CAREER, data, config);
 export { addNewCareer };
 
+const updateCareer = data => put(url.UPDATE_CAREER, data, config);
+export {updateCareer};
 
 
 
