@@ -20,6 +20,8 @@ import Demo from "./demo/reducer"
 
 // career
 import Career from "./career/reducer";
+// Status
+import Status from "./status/reducer";
 
 
 const rootReducer = combineReducers({
@@ -32,7 +34,8 @@ const rootReducer = combineReducers({
   Dashboard,
   projects,
   Demo,
-  Career
+  Career,
+  Status
 });
 
 export default rootReducer;

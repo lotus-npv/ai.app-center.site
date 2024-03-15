@@ -63,11 +63,11 @@ function* onDeleteCareer({ payload: id }) {
 }
                                       
 
-function* careerSaga() {
+function* CareerSaga() {
   yield takeEvery(GET_CAREER_ALL, fetCareerData)
   yield takeEvery(SET_CAREER, onAddNewCareer)
   yield takeEvery(UPDATE_CAREER, onUpdateCareer)
   yield takeEvery(DELETE_CAREER, onDeleteCareer)
 }
                                       
-export default careerSaga;
+export default CareerSaga;

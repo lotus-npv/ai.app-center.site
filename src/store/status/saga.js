@@ -1,73 +1,72 @@
-import { takeEvery, put, call,all,fork  } from "redux-saga/effects";
+import { takeEvery, put, call, all, fork } from "redux-saga/effects";
 
 
 // Login Redux States
 import {
-  DELETE_CAREER,
-    GET_CAREER_ALL, SET_CAREER, UPDATE_CAREER,
+  DELETE_STATUS,GET_STATUS_ALL, SET_STATUS, UPDATE_STATUS,
 } from "./actionTypes"
 import {
-    getCareerAllFail,
-    getCareerAllSuccess,
-    setCareerSuccess,
-    setCareerFail,
-    updateCareerSuccess,
-    updateCareerFail,
-    deleteCareerSuccess,
-    deleteCareerFail
+  getStatusAllFail,
+  getStatusAllSuccess,
+  setStatusSuccess,
+  setStatusFail,
+  updateStatusSuccess,
+  updateStatusFail,
+  deleteStatusSuccess,
+  deleteStatusFail
 } from "./actions"
-                                      
-import { getCareerDataAll, addNewDataCareer, updateDataCareer, deleteDataCareer } from "../../helpers/fakebackend_helper";
+
+import { getStatusDataAll, addNewDataStatus, updateDataStatus, deleteDataStatus } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
-function* fetCareerData() {
+function* fetStatusData() {
   try {
-    const response = yield call(getCareerDataAll);
-    yield put(getCareerAllSuccess(response));
+    const response = yield call(getStatusDataAll);
+    yield put(getStatusAllSuccess(response));
   } catch (error) {
-    yield put(getCareerAllFail(error))
+    yield put(getStatusAllFail(error))
   }
 }
 
-function* onAddNewCareer({ payload: data }) {
+function* onAddNewStatus({ payload: data }) {
   try {
-      const response = yield call(addNewDataCareer, data);
-      yield put(setCareerSuccess(response));
-      toast.success("Career Added Successfully", { autoClose: 2000 });
+    const response = yield call(addNewDataStatus, data);
+    yield put(setStatusSuccess(response));
+    toast.success("Status Added Successfully", { autoClose: 2000 });
   } catch (error) {
-      yield put(setCareerFail(error));
-      toast.error("Career Added Failed", { autoClose: 2000 });
+    yield put(setStatusFail(error));
+    toast.error("Status Added Failed", { autoClose: 2000 });
   }
 }
 
-function* onUpdateCareer({ payload: data }) {
+function* onUpdateStatus({ payload: data }) {
   try {
-      const response = yield call(updateDataCareer, data)
-      yield put(updateCareerSuccess(response));
-      toast.success("Career Updated Successfully", { autoClose: 2000 });
+    const response = yield call(updateDataStatus, data)
+    yield put(updateStatusSuccess(response));
+    toast.success("Status Updated Successfully", { autoClose: 2000 });
   } catch (error) {
-      yield put(updateCareerFail(error))
-      toast.error("Career Updated Failed", { autoClose: 2000 });
+    yield put(updateStatusFail(error))
+    toast.error("Status Updated Failed", { autoClose: 2000 });
   }
 }
 
-function* onDeleteCareer({ payload: id }) {
+function* onDeleteStatus({ payload: id }) {
   try {
-      const response = yield call(deleteDataCareer, id)
-      yield put(deleteCareerSuccess(response));
-      toast.success("Career Delete Successfully", { autoClose: 2000 });
+    const response = yield call(deleteDataStatus, id)
+    yield put(deleteStatusSuccess(response));
+    toast.success("Status Delete Successfully", { autoClose: 2000 });
   } catch (error) {
-      yield put(deleteCareerFail(error))
-      toast.error("Career Delete Failed", { autoClose: 2000 });
+    yield put(deleteStatusFail(error))
+    toast.error("Status Delete Failed", { autoClose: 2000 });
   }
 }
-                                      
 
-function* careerSaga() {
-  yield takeEvery(GET_CAREER_ALL, fetCareerData)
-  yield takeEvery(SET_CAREER, onAddNewCareer)
-  yield takeEvery(UPDATE_CAREER, onUpdateCareer)
-  yield takeEvery(DELETE_CAREER, onDeleteCareer)
+
+function* StatusSaga() {
+  yield takeEvery(GET_STATUS_ALL, fetStatusData)
+  yield takeEvery(SET_STATUS, onAddNewStatus)
+  yield takeEvery(UPDATE_STATUS, onUpdateStatus)
+  yield takeEvery(DELETE_STATUS, onDeleteStatus)
 }
-                                      
-export default careerSaga;
+
+export default StatusSaga;
