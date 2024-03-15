@@ -15,6 +15,7 @@ import { withTranslation } from "react-i18next";
 //redux
 import { useSelector, useDispatch , shallowEqual} from "react-redux";
 import { getCareerAll } from "store/actions";
+import { createSelector } from "reselect";
 
 const CareerPage = (props) => {
     document.title = "Nhập ngành nghề";
@@ -23,13 +24,28 @@ const CareerPage = (props) => {
 
     // data
     const dispatch = useDispatch();
-    const { careerData } = useSelector(state => ({
-        careerData: state.Career.datas
-    }));
+    // const { careerData } = useSelector(state => ({
+    //     careerData: state.Career.datas
+    // }));
 
+    // useEffect(() => {
+    //     dispatch(getCareerAll());
+    // }, [dispatch]);
+    const selectCareerState = (state) => state.Career;
+    const CareerProperties = createSelector(
+        selectCareerState,
+        (career) => ({
+            careerData: career.careerData 
+        })
+    )
+
+    const careerData = useSelector(CareerProperties);
     useEffect(() => {
-        dispatch(getCareerAll());
-    }, [dispatch]);
+        if (careerData && !careerData.length) {
+            dispatch(getCareerAll());
+        }
+    }, [dispatch, careerData]);
+
 
     console.log(careerData)
 
