@@ -46,7 +46,7 @@ const InputCareer = () => {
                 "Please Enter Your Textarea"
             ),
         }),
-        onSubmit: async (value) => {
+        onSubmit: (value) => {
 
             const obj = {
                 syndication_id: 1,
@@ -62,34 +62,54 @@ const InputCareer = () => {
 
             let config = {
                 headers: {
-                    accept: "/",
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             };
 
-            axios
-                .post("http://api.lotusocean-jp.com/api/career/insert",
-                    {
-                        syndication_id: 1,
-                        name: value.name,
-                        description: value.description,
-                        create_at: '',
-                        create_by: 1,
-                        update_at: '',
-                        update_by: 1,
-                        delete_at: '',
-                        flag: 1
-                    },
-                    config
-                ).then((response) => {
-                    console.log("Du lieu đã được thêm:", response.data);
-                })
-                .catch((error) => {
-                    console.error("Lỗi khi thêm du lieu:", error);
-                });
+            // axios
+            //     .post("http://api.lotusocean-jp.com/api/career/insert",
+            //         {
+            //             syndication_id: 1,
+            //             name: value.name,
+            //             description: value.description,
+            //             create_at: '',
+            //             create_by: 1,
+            //             update_at: '',
+            //             update_by: 1,
+            //             delete_at: '',
+            //             flag: 1
+            //         },
+            //         config
+            //     ).then((response) => {
+            //         console.log("Du lieu đã được thêm:", response.data);
+            //     })
+            //     .catch((error) => {
+            //         console.error("Lỗi khi thêm du lieu:", error);
+            //     });
 
             // console.log(obj);
             // dispatch(setCareer(obj));
+
+            try {
+                let response = axios
+                    .post("http://api.lotusocean-jp.com/api/career/insert",
+                        {
+                            syndication_id: 1,
+                            name: value.name,
+                            description: value.description,
+                            create_at: '',
+                            create_by: 1,
+                            update_at: '',
+                            update_by: 1,
+                            delete_at: '',
+                            flag: 1
+                        },
+                        config
+                    );
+                console.log("Upload success:", response.data);
+            } catch (error) {
+                console.error("Upload failed:", error);
+            }
 
             // try {
             //     const formData = new FormData();
