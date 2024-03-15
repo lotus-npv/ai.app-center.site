@@ -11,6 +11,13 @@ export const SET_CAREER = "http://api.lotusocean-jp.com/api/career/insert";
 export const UPDATE_CAREER = "http://api.lotusocean-jp.com/api/career/update";
 export const DELETE_CAREER = "http://api.lotusocean-jp.com/api/career/delete";
 
+// status
+export const GET_STATUS_ALL = "http://api.lotusocean-jp.com/api/status/all";
+export const GET_STATUS_ID = "http://api.lotusocean-jp.com/api/status/:id";
+export const SET_STATUS = "http://api.lotusocean-jp.com/api/status/insert";
+export const UPDATE_STATUS = "http://api.lotusocean-jp.com/api/status/update";
+export const DELETE_STATUS = "http://api.lotusocean-jp.com/api/status/delete";
+
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
 export const POST_FAKE_JWT_LOGIN = "/post-jwt-login";

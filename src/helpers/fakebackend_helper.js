@@ -28,6 +28,22 @@ export {updateCareer};
 const deleteCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
 export {deleteCareer};
 
+// Status
+const getStatusDataAll = () => get(url.GET_STATUS_ALL);
+export { getStatusDataAll };
+
+const getStatusDataId = () => get(url.GET_STATUS_ID);
+export { getStatusDataId };
+
+const addNewStatus = data => post(url.SET_STATUS, data, config);
+export { addNewStatus };
+
+const updateStatus = data => put(url.UPDATE_STATUS, data, config);
+export {updateStatus};
+
+const deleteStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { params: { id } }, config);
+export {deleteStatus};
+
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
   const user = localStorage.getItem("user");
