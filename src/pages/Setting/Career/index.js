@@ -25,18 +25,27 @@ const CareerPage = (props) => {
     const navigate = useNavigate();
     // const { careerData, updateCareerData } = useContext(DataContext);
 
+    // Row selected edit
+    const [rowSelect, setRowSelect] = useState(null)
+
     const dispatch = useDispatch();
     const { datas } = useSelector(state => ({
         datas: state.Career.datas
     }), shallowEqual);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const toggleLoading = () => {
+        setIsLoading(!isLoading);
+    }
 
     useEffect(() => {
         dispatch(getCareerAll());
     }, [dispatch]);
 
     useEffect(() => {
+        dispatch(getCareerAll());
         // Khi 'data' thay đổi, component sẽ rerender
-      }, [datas]);
+    }, [isLoading]);
 
     console.log(datas)
 
@@ -50,8 +59,7 @@ const CareerPage = (props) => {
         document.body.classList.add("no_padding");
     }
 
-    // Row selected edit
-    const [rowSelect, setRowSelect] = useState(null)
+
 
     // //delete modal
     const [item, setItem] = useState(null);
@@ -227,7 +235,7 @@ const CareerPage = (props) => {
                                     value={rowSelect != null ? rowSelect.name : ''}
                                     onChange={(e) => {
                                         setRowSelect({ ...rowSelect, name: e.target.value });
-                                    }}                    
+                                    }}
                                 />
                             </div>
                             <div className="mb-4">
@@ -239,7 +247,7 @@ const CareerPage = (props) => {
                                     value={rowSelect != null ? rowSelect.description : ''}
                                     onChange={(e) => {
                                         setRowSelect({ ...rowSelect, description: e.target.value });
-                                    }}       
+                                    }}
                                 />
                             </div>
                         </div>
@@ -259,7 +267,8 @@ const CareerPage = (props) => {
                                 className="btn btn-primary "
                                 onClick={() => {
                                     dispatch(updateCareer(rowSelect));
-                                    dispatch(getCareerAll());
+                                    toggleLoading();
+                                    // dispatch(getCareerAll());
                                     tog_xlarge();
                                 }}
                             >
@@ -267,7 +276,7 @@ const CareerPage = (props) => {
                             </button>
                         </div>
                     </Modal>
-                    <ToastContainer />                
+                    <ToastContainer />
                 </Container>
             </div>
         </>
