@@ -7,6 +7,8 @@ import {
   SET_CAREER_FAIL,
   UPDATE_CAREER_SUCCESS,
   UPDATE_CAREER_FAIL,
+  DELETE_CAREER_SUCCESS,
+  DELETE_CAREER_FAIL
   } from "./actionTypes";
   
   const INIT_STATE = {
@@ -44,6 +46,16 @@ import {
           data: action.payload,
         };
       case UPDATE_CAREER_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+      case DELETE_CAREER_SUCCESS:
+        return {
+          ...state,
+          data: action.payload,
+        };
+      case DELETE_CAREER_FAIL:
         return {
           ...state,
           error: action.payload,

@@ -11,6 +11,9 @@ import {
   UPDATE_CAREER,
   UPDATE_CAREER_SUCCESS,
   UPDATE_CAREER_FAIL,
+  DELETE_CAREER,
+  DELETE_CAREER_SUCCESS,
+  DELETE_CAREER_FAIL
 } from "./actionTypes";
 
 export const getCareerAll = () => ({
@@ -67,6 +70,21 @@ export const updateCareerSuccess = data => ({
 });
 
 export const updateCareerFail = error => ({
+  type: UPDATE_CAREER_FAIL,
+  payload: error,
+});
+
+export const deleteCareer = (data) => ({
+  type: UPDATE_CAREER,
+  payload: data
+});
+
+export const deleteCareerSuccess = data => ({
+  type: UPDATE_CAREER_SUCCESS,
+  payload: data,
+});
+
+export const deleteCareerFail = error => ({
   type: UPDATE_CAREER_FAIL,
   payload: error,
 });

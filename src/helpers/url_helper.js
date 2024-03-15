@@ -9,7 +9,7 @@ export const GET_CAREER_ALL = "http://api.lotusocean-jp.com/api/career/all";
 export const GET_CAREER_ID = "http://api.lotusocean-jp.com/api/career/:id";
 export const SET_CAREER = "http://api.lotusocean-jp.com/api/career/insert";
 export const UPDATE_CAREER = "http://api.lotusocean-jp.com/api/career/update";
-export const DELETE_CAREER = "http://api.lotusocean-jp.com/api/career/delete/:id";
+export const DELETE_CAREER = "http://api.lotusocean-jp.com/api/career/delete";
 
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
