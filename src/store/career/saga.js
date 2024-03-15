@@ -2,30 +2,30 @@ import { takeEvery, put, call,all,fork  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-    GET_DEMO_DATA,
+    GET_CAREER_ALL,
 } from "./actionTypes"
 import {
-    getDemoDataSuccess,
-    getDemoDataFail,
+    getCareerAllFail,
+    getCareerAllSuccess,
 } from "./actions"
                                       
-import { getDemoData } from "../../helpers/fakebackend_helper";
+import { getCareerDataAll } from "../../helpers/fakebackend_helper";
 
-function* fetchDemoData() {
+function* fetCareerData() {
   try {
-    const response = yield call(getDemoData)
-    yield put(getDemoDataSuccess(response))
+    const response = yield call(getCareerDataAll)
+    yield put(getCareerAllSuccess(response))
   } catch (error) {
-    yield put(getDemoDataFail(error))
+    yield put(getCareerAllFail(error))
   }
 }
                                       
-export function* watchFetchDemoData() {
-  yield takeEvery(GET_DEMO_DATA, fetchDemoData);
+export function* watchFetCareerData() {
+  yield takeEvery(GET_CAREER_ALL, fetCareerData);
 }
                                       
-function* demoSaga() {
-  yield all([fork(watchFetchDemoData)]);
+function* careerSaga() {
+  yield all([fork(watchFetCareerData)]);
 }
                                       
-export default demoSaga;
+export default careerSaga;

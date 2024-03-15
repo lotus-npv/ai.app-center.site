@@ -18,6 +18,9 @@ import projects from "./projects/reducer";
 // demo
 import Demo from "./demo/reducer"
 
+// career
+import Career from "./career/reducer";
+
 
 const rootReducer = combineReducers({
   // public
@@ -28,7 +31,8 @@ const rootReducer = combineReducers({
   Profile,
   Dashboard,
   projects,
-  Demo
+  Demo,
+  Career
 });
 
 export default rootReducer;

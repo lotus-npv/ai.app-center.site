@@ -6,6 +6,13 @@ import * as url from "./url_helper";
 const getDemoData = () => get(url.GET_DEMO_DATA);
 export { getDemoData };
 
+// career
+const getCareerDataAll = () => get(url.GET_CAREER_ALL);
+export { getCareerDataAll };
+
+const getCareerDataId = () => get(url.GET_CAREER_ID);
+export { getCareerDataId };
+
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
   const user = localStorage.getItem("user");

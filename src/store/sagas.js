@@ -9,6 +9,7 @@ import LayoutSaga from "./layout/saga";
 import dashboardSaga from "./dashboard/saga";
 import projectsSaga from "./projects/saga";
 import demoSaga from "./demo/saga";
+import careerSaga from "./career/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     fork(LayoutSaga),
     fork(dashboardSaga),
     fork(projectsSaga),
-    fork(demoSaga)
+    fork(demoSaga),
+    fork(careerSaga),
   ]);
 }

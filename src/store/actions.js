@@ -14,3 +14,6 @@ export * from "./projects/actions";
 
 // demo
 export * from "./demo/actions"
+
+// career
+export * from "./career/actions"
