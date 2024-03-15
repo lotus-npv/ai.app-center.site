@@ -4,8 +4,7 @@ import * as url from "./url_helper";
 
 let config = {
   headers: {
-      accept: "/",
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
   },
 };
 
