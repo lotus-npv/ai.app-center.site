@@ -56,8 +56,9 @@ export const setCareerFail = error => ({
   payload: error,
 });
 
-export const updateCareer = () => ({
+export const updateCareer = (data) => ({
   type: UPDATE_CAREER,
+  payload: data
 });
 
 export const updateCareerSuccess = data => ({

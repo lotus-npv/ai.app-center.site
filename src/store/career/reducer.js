@@ -38,7 +38,17 @@ import {
           ...state,
           error: action.payload,
         };
-        
+      case UPDATE_CAREER_SUCCESS:
+        return {
+          ...state,
+          data: action.payload,
+        };
+      case UPDATE_CAREER_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+
       default:
         return state;
     }
