@@ -32,7 +32,7 @@ const CareerPage = (props) => {
     }, [dispatch]);
 
 
-    // console.log(datas)
+    console.log(datas)
 
     // modal edit
     const [modal_xlarge, setmodal_xlarge] = useState(false);
