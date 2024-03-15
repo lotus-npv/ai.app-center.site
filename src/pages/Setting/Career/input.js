@@ -59,17 +59,29 @@ const InputCareer = () => {
                 delete_at: '',
                 flag: 1
             }
-           
+
             let config = {
                 headers: {
                     accept: "/",
-                    "Content-Type": "multipart/form-data",
+                    'Content-Type': 'application/json',
                 },
             };
 
             axios
-                .post("http://api.lotusocean-jp.com/api/career/insert", obj, config)
-                .then((response) => {
+                .post("http://api.lotusocean-jp.com/api/career/insert",
+                    {
+                        syndication_id: 1,
+                        name: value.name,
+                        description: value.description,
+                        create_at: '',
+                        create_by: 1,
+                        update_at: '',
+                        update_by: 1,
+                        delete_at: '',
+                        flag: 1
+                    },
+                    config
+                ).then((response) => {
                     console.log("Du lieu đã được thêm:", response.data);
                 })
                 .catch((error) => {
