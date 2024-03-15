@@ -24,48 +24,49 @@ const CareerPage = (props) => {
 
     // data
     const dispatch = useDispatch();
-    // const { careerData } = useSelector(state => ({
-    //     careerData: state.Career.datas
+    // const { datas } = useSelector(state => ({
+    //     datas: state.Career.datas
     // }));
 
     // useEffect(() => {
     //     dispatch(getCareerAll());
     // }, [dispatch]);
+
     const selectCareerState = (state) => state.Career;
     const CareerProperties = createSelector(
         selectCareerState,
         (career) => ({
-            careerData: career.careerData 
+            datas: career.datas 
         })
     )
 
-    const careerData = useSelector(CareerProperties);
+    const datas = useSelector(CareerProperties);
     useEffect(() => {
-        if (careerData && !careerData.length) {
+        if (datas && !datas.length) {
             dispatch(getCareerAll());
         }
-    }, [dispatch, careerData]);
+    }, [dispatch, datas]);
 
 
-    console.log(careerData)
+    // console.log(datas)
 
-    //delete modal
+    // //delete modal
     const [item, setItem] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
 
     const onClickDelete = (data) => {
-        setItem(data);
-        setDeleteModal(true);
+        // setItem(data);
+        // setDeleteModal(true);
     };
 
     const handleDeleteOrder = () => {
-        if (item && item.id) {
-            console.log('delete id :' + item.id);
-            const arr = [...careerData];
-            const updateArr = arr.filter(e => e.id !== item.id);
-            updateCareerData(updateArr);
-            setDeleteModal(false);
-        }
+        // if (item && item.id) {
+        //     console.log('delete id :' + item.id);
+        //     const arr = [...careerData];
+        //     const updateArr = arr.filter(e => e.id !== item.id);
+        //     updateCareerData(updateArr);
+        //     setDeleteModal(false);
+        // }
     };
 
     const columns = useMemo(() => [
@@ -168,7 +169,7 @@ const CareerPage = (props) => {
                         <CardBody>
                             <TableContainer
                                 columns={columns}
-                                data={careerData}
+                                data={datas}
                                 isGlobalFilter={true}
                                 isAddOptions={false}
                                 customPageSize={10}
