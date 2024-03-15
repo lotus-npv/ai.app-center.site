@@ -218,8 +218,10 @@ const CareerPage = (props) => {
                                     id='name'
                                     name="name"
                                     type="text"
-                                    onChange={(e) => { }
-                                    }
+                                    value={rowSelect != null ? rowSelect.name : ''}
+                                    onChange={(e) => {
+                                        setRowSelect({ ...rowSelect, name: e.target.value });
+                                    }}                    
                                 />
                             </div>
                             <div className="mb-4">
@@ -228,8 +230,10 @@ const CareerPage = (props) => {
                                     id='note'
                                     name="note"
                                     type="text"
-                                    onChange={(e) => { }
-                                    }
+                                    value={rowSelect != null ? rowSelect.description : ''}
+                                    onChange={(e) => {
+                                        setRowSelect({ ...rowSelect, description: e.target.value });
+                                    }}       
                                 />
                             </div>
                         </div>
