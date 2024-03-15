@@ -134,7 +134,7 @@ const StatusPage = (props) => {
                             const rowData = cellProps.row.original;
                             navigate('/input-status', { state: { data: rowData, isEdit: true } });
                         }}>
-                            GO
+                            Edit
                         </Button>
                         <Link
                             to="#"
@@ -164,11 +164,11 @@ const StatusPage = (props) => {
             state: {
                 data: {
                     name: null,
-                    note: null,
-                    auto: 'manual',
-                    condition: null,
+                    description: null,
+                    status_type: 'manual',
+                    condition_milestone: null,
                     condition_date: null,
-                    number: null,
+                    condition_value: null,
                 }, isEdit: false
             }
         });
