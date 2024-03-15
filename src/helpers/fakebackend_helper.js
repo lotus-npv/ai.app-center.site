@@ -2,6 +2,13 @@ import axios from "axios";
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper";
 
+let config = {
+  headers: {
+      accept: "/",
+      "Content-Type": "multipart/form-data",
+  },
+};
+
 // demo api
 const getDemoData = () => get(url.GET_DEMO_DATA);
 export { getDemoData };
@@ -13,7 +20,7 @@ export { getCareerDataAll };
 const getCareerDataId = () => get(url.GET_CAREER_ID);
 export { getCareerDataId };
 
-const addNewCareer = data => post(url.SET_CAREER, data);
+const addNewCareer = data => post(url.SET_CAREER, data, config);
 export { addNewCareer };
 
 

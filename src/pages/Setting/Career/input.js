@@ -18,12 +18,13 @@ import {
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Link, Route, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 //Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 
 //redux
-import { useSelector, useDispatch , shallowEqual} from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setCareer } from "store/actions";
 
 const InputCareer = () => {
@@ -46,7 +47,7 @@ const InputCareer = () => {
             ),
         }),
         onSubmit: (value) => {
-            
+
             const obj = {
                 syndication_id: 1,
                 name: value.name,
@@ -60,6 +61,32 @@ const InputCareer = () => {
             }
             console.log(obj);
             dispatch(setCareer(obj));
+
+            // axios.post("http://api.lotusocean-jp.com/api/career/insert", obj)
+            //     .then(function (response) {
+            //         console.log(response);
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     });
+
+            // let config = {
+            //     headers: {
+            //         accept: "/",
+            //         "Content-Type": "multipart/form-data",
+            //     },
+            // };
+
+
+            // axios
+            //     .post("http://api.lotusocean-jp.com/api/career/insert", obj, config)
+            //     .then((response) => {
+            //         console.log("Du lieu đã được thêm:", response.data);
+            //     })
+            //     .catch((error) => {
+            //         console.error("Lỗi khi thêm du lieu:", error);
+            //     });
+
         }
     });
 
