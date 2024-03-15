@@ -27,6 +27,8 @@ import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setCareer } from "store/actions";
 
+import { toast } from "react-toastify";
+
 const InputCareer = () => {
     document.title = "Career Page";
     const navigate = useNavigate();
@@ -47,11 +49,7 @@ const InputCareer = () => {
             ),
         }),
         onSubmit: async (value) => {
-            let config = {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            };
+
 
             let obj = {
                 syndication_id: 1,
@@ -66,6 +64,12 @@ const InputCareer = () => {
             }
 
             dispatch(setCareer(obj));
+
+            // let config = {
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            // };
 
             // try {
             //     let response = await axios.post("http://api.lotusocean-jp.com/api/career/insert",obj,config);
@@ -146,6 +150,11 @@ const InputCareer = () => {
                                                 Submit
                                             </Button>{" "}
                                             <Button type="reset" color="secondary" >
+                                                Cancel
+                                            </Button>
+                                            <Button  color="secondary" onClick={() => {
+                                                toast.error("Career Added Failed", { autoClose: 2000 });
+                                            }}>
                                                 Cancel
                                             </Button>
                                         </div>
