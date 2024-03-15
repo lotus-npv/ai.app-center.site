@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useContext } from "react";
-import { Container, Row, Col, CardHeader, Button, CardBody, Card, UncontrolledTooltip, Modal } from "reactstrap";
+import { Container, Row, Col, CardHeader, Button, CardBody, Card, UncontrolledTooltip, Modal, Label, Input } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import TableContainer from '../../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
@@ -32,7 +32,7 @@ const CareerPage = (props) => {
     }, [dispatch, datas]);
 
 
-    console.log(datas)
+    // console.log(datas)
 
     // modal edit
     const [modal_xlarge, setmodal_xlarge] = useState(false);
@@ -43,6 +43,9 @@ const CareerPage = (props) => {
     function removeBodyCss() {
         document.body.classList.add("no_padding");
     }
+
+    // Row selected edit
+    const [rowSelect, setRowSelect] = useState(null)
 
     // //delete modal
     const [item, setItem] = useState(null);
@@ -104,6 +107,7 @@ const CareerPage = (props) => {
                             className="text-success"
                             onClick={() => {
                                 tog_xlarge();
+                                setRowSelect(cellProps.row.original);
                                 // const orderData = cellProps.row.original;
                                 // handleOrderClick(orderData);
                             }}
@@ -136,6 +140,8 @@ const CareerPage = (props) => {
     const addForm = () => {
         navigate('/input-career');
     }
+
+    console.log(rowSelect)
 
     return (
         <>
@@ -206,18 +212,44 @@ const CareerPage = (props) => {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <p>Cras mattis consectetur purus sit amet fermentum.
-                                Cras justo odio, dapibus ac facilisis in,
-                                egestas eget quam. Morbi leo risus, porta ac
-                                consectetur ac, vestibulum at eros.</p>
-                            <p>Praesent commodo cursus magna, vel scelerisque
-                                nisl consectetur et. Vivamus sagittis lacus vel
-                                augue laoreet rutrum faucibus dolor auctor.</p>
-                            <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
-                                Praesent commodo cursus magna, vel scelerisque
-                                nisl consectetur et. Donec sed odio dui. Donec
-                                ullamcorper nulla non metus auctor
-                                fringilla.</p>
+                            <div className="mb-4">
+                                <Label htmlFor="name">Tên ngành nghề</Label>
+                                <Input
+                                    id='name'
+                                    name="name"
+                                    type="text"
+                                    onChange={(e) => { }
+                                    }
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <Label htmlFor="note">Ghi chú</Label>
+                                <Input
+                                    id='note'
+                                    name="note"
+                                    type="text"
+                                    onChange={(e) => { }
+                                    }
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    tog_xlarge();
+                                }}
+                                className="btn btn-secondary "
+                                data-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-primary "
+                            >
+                                Save changes
+                            </button>
                         </div>
                     </Modal>
 
