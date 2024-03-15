@@ -5,12 +5,14 @@ import { Card, CardBody, Container, Button, CardHeader, Row, Col, UncontrolledTo
 import { useSelector, useDispatch } from "react-redux";
 
 // actions
-import { getDemoData } from "../../store/actions";
+import { getDemoData, getCareerAll } from "../../store/actions";
 
 const CreateTicket = (props) => {
+
     const dispatch = useDispatch();
-    const { demoData } = useSelector(state => ({
+    const { demoData, careerData } = useSelector(state => ({
         demoData: state.Demo.demoData,
+        careerData: state.Career.datas
     }));
 
     /*
@@ -18,6 +20,7 @@ const CreateTicket = (props) => {
     */
     useEffect(() => {
         dispatch(getDemoData());
+        dispatch(getCareerAll());
     }, [dispatch]);
 
     // your API's response data will be in events variable.
@@ -26,6 +29,12 @@ const CreateTicket = (props) => {
     return (
         <div className="page-content">
             <Container fluid={true}>
+                <div>
+                    <p>Career data</p>
+                    {careerData.map(item => (
+                        <p key={item.name}>{item.id} {' - '} {item.name}</p>
+                    ))}
+                </div>
                 <div>
                     {demoData.map(item => (
                         <p key={item.id}>{item.id} {' - '} {item.title}</p>
