@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useContext } from "react";
-import { Container, Card, CardHeader, CardBody, Row, Col, Button, UncontrolledTooltip } from "reactstrap";
+import { Container, Card, CardHeader, CardBody, Row, Col, Button, UncontrolledTooltip, Label, Input, Modal } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import TableContainer from '../../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
@@ -13,12 +13,47 @@ import DeleteModal from "components/Common/DeleteModal";
 
 import { withTranslation } from "react-i18next";
 
+//redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { getStatusAll, updateStatus, deleteStatus } from "store/actions";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const StatusPage = (props) => {
     document.title = "Status Page";
     const navigate = useNavigate();
     const { statusData, updateStatusData } = useContext(DataContext);
 
-    //delete modal
+    // Row selected edit
+    const [rowSelect, setRowSelect] = useState(null)
+
+    const dispatch = useDispatch();
+    const { datas } = useSelector(state => ({
+        datas: state.Status.datas
+    }), shallowEqual);
+
+    useEffect(() => {
+        dispatch(getStatusAll());
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getStatusAll());
+    }, [datas]);
+
+    console.log(datas)
+
+    // modal edit
+    const [modal_xlarge, setmodal_xlarge] = useState(false);
+    function tog_xlarge() {
+        setmodal_xlarge(!modal_xlarge);
+        removeBodyCss();
+    }
+    function removeBodyCss() {
+        document.body.classList.add("no_padding");
+    }
+
+    // //delete modal
     const [item, setItem] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);
 
@@ -30,9 +65,8 @@ const StatusPage = (props) => {
     const handleDeleteOrder = () => {
         if (item && item.id) {
             console.log('delete id :' + item.id);
-            const arr = [...statusData];
-            const updateArr = arr.filter(e => e.id !== item.id);
-            updateStatusData(updateArr);
+            dispatch(deleteStatus(item.id));
+
             setDeleteModal(false);
         }
     };
@@ -62,14 +96,14 @@ const StatusPage = (props) => {
         },
         {
             Header: 'Loại',
-            accessor: 'type',
+            accessor: 'status_type',
             Cell: (cellProps) => {
                 return <Type {...cellProps} />;
             }
         },
         {
             Header: 'Ghi chú',
-            accessor: 'note',
+            accessor: 'description',
             Cell: (cellProps) => {
                 return <Note {...cellProps} />;
             }
@@ -84,8 +118,8 @@ const StatusPage = (props) => {
                             to="#"
                             className="text-success"
                             onClick={() => {
-                                // const orderData = cellProps.row.original;
-                                // handleOrderClick(orderData);
+                                tog_xlarge();
+                                setRowSelect(cellProps.row.original);
                             }}
                         >
                             <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
@@ -144,7 +178,7 @@ const StatusPage = (props) => {
                         <CardBody>
                             <TableContainer
                                 columns={columns}
-                                data={statusData}
+                                data={datas}
                                 isGlobalFilter={true}
                                 isInternGlobalFilter={false}
                                 isAddOptions={false}
@@ -160,6 +194,82 @@ const StatusPage = (props) => {
 
                         </CardBody>
                     </Card>
+                    <Modal
+                        size="xl"
+                        isOpen={modal_xlarge}
+                        toggle={() => {
+                            tog_xlarge();
+                        }}
+                    >
+                        <div className="modal-header">
+                            <h5
+                                className="modal-title mt-0"
+                                id="myExtraLargeModalLabel"
+                            >
+                                Extra large modal
+                            </h5>
+                            <button
+                                onClick={() => {
+                                    setmodal_xlarge(false);
+                                }}
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="mb-4">
+                                <Label htmlFor="name">Tên ngành nghề</Label>
+                                <Input
+                                    id='name'
+                                    name="name"
+                                    type="text"
+                                    value={rowSelect != null ? rowSelect.name : ''}
+                                    onChange={(e) => {
+                                        setRowSelect({ ...rowSelect, name: e.target.value });
+                                    }}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <Label htmlFor="note">Ghi chú</Label>
+                                <Input
+                                    id='note'
+                                    name="note"
+                                    type="text"
+                                    value={rowSelect != null ? rowSelect.description : ''}
+                                    onChange={(e) => {
+                                        setRowSelect({ ...rowSelect, description: e.target.value });
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    tog_xlarge();
+                                }}
+                                className="btn btn-secondary "
+                                data-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-primary "
+                                onClick={() => {
+                                    dispatch(updateCareer(rowSelect));
+                                    tog_xlarge();
+                                }}
+                            >
+                                Save changes
+                            </button>
+                        </div>
+                    </Modal>
+                    <ToastContainer />
                 </Container>
             </div>
         </>

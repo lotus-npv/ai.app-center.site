@@ -15,7 +15,6 @@ import { withTranslation } from "react-i18next";
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
-import { createSelector } from "reselect";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,7 +22,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const CareerPage = (props) => {
     document.title = "Nhập ngành nghề";
     const navigate = useNavigate();
-    // const { careerData, updateCareerData } = useContext(DataContext);
 
     // Row selected edit
     const [rowSelect, setRowSelect] = useState(null)
@@ -32,11 +30,6 @@ const CareerPage = (props) => {
     const { datas } = useSelector(state => ({
         datas: state.Career.datas
     }), shallowEqual);
-
-    const [isLoading, setIsLoading] = useState(false);
-    const toggleLoading = () => {
-        setIsLoading(!isLoading);
-    }
 
     useEffect(() => {
         dispatch(getCareerAll());
@@ -120,8 +113,6 @@ const CareerPage = (props) => {
                             onClick={() => {
                                 tog_xlarge();
                                 setRowSelect(cellProps.row.original);
-                                // const orderData = cellProps.row.original;
-                                // handleOrderClick(orderData);
                             }}
                         >
                             <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
@@ -265,8 +256,6 @@ const CareerPage = (props) => {
                                 className="btn btn-primary "
                                 onClick={() => {
                                     dispatch(updateCareer(rowSelect));
-                                    toggleLoading();
-                                    // dispatch(getCareerAll());
                                     tog_xlarge();
                                 }}
                             >
