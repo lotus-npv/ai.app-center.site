@@ -121,8 +121,8 @@ const StatusPage = (props) => {
                                 // tog_xlarge();
                                 // setRowSelect(cellProps.row.original);
                                 const rowData = cellProps.row.original;
-                                // navigate('/input-status', { state: {data: rowData, isEdit: true }});
-                                navigate('/input-status');
+                                navigate('/input-status', { state: {data: rowData, isEdit: true }});
+                                // goForm(rowData);
                             }}
                         >
                             <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
@@ -130,6 +130,12 @@ const StatusPage = (props) => {
                                 Edit
                             </UncontrolledTooltip>
                         </Link>
+                        <Button onClick={() => {
+                            const rowData = cellProps.row.original;
+                            navigate('/input-status', { state: {data: rowData, isEdit: true }});
+                        }}>
+                            GO
+                        </Button>
                         <Link
                             to="#"
                             className="text-danger"
@@ -148,6 +154,10 @@ const StatusPage = (props) => {
             }
         }
     ], []);
+
+    const goForm = (rowData) => {
+        navigate('/input-status', { state: {data: rowData, isEdit: true }});
+    }
 
     const addForm = () => {
         navigate('/input-status');

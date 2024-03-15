@@ -74,11 +74,11 @@ const optionGroup = [
 const InputStatus = () => {
     document.title = "Status Page";
     const navigate = useNavigate();
-    // const location = useLocation();
-    // const { data, isEdit } = location.state;
+    const location = useLocation();
+    const { data, isEdit } = location.state;
 
-    // console.log(data)
-    // console.log(isEdit)
+    console.log(data)
+    console.log(isEdit)
 
     const [switch1, setswitch1] = useState(false);
     const [selectedGroup, setselectedGroup] = useState(null);
