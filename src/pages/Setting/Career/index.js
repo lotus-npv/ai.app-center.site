@@ -12,10 +12,24 @@ import DeleteModal from "components/Common/DeleteModal";
 
 import { withTranslation } from "react-i18next";
 
+//redux
+import { useSelector, useDispatch , shallowEqual} from "react-redux";
+import { getCareerAll } from "store/actions";
+
 const CareerPage = (props) => {
     document.title = "Nhập ngành nghề";
     const navigate = useNavigate();
-    const { careerData, updateCareerData } = useContext(DataContext);
+    // const { careerData, updateCareerData } = useContext(DataContext);
+
+    // data
+    const dispatch = useDispatch();
+    const { careerData } = useSelector(state => ({
+        careerData: state.Career.datas
+    }), shallowEqual);
+
+    useEffect(() => {
+        dispatch(getCareerAll());
+    }, [dispatch]);
 
     //delete modal
     const [item, setItem] = useState(null);
@@ -61,7 +75,7 @@ const CareerPage = (props) => {
         },
         {
             Header: 'Ghi chú',
-            accessor: 'note',
+            accessor: 'description',
             Cell: (cellProps) => {
                 return <Note {...cellProps} />;
             }

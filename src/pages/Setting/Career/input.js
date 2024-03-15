@@ -22,22 +22,24 @@ import { Link, Route, useNavigate } from "react-router-dom";
 //Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 
+//redux
+import { useSelector, useDispatch , shallowEqual} from "react-redux";
+import { setCareer } from "store/actions";
+
 const InputCareer = () => {
-    document.title = "Status Page";
+    document.title = "Career Page";
     const navigate = useNavigate();
     const validationType = useFormik({
-        // enableReinitialize : use this flag when initial values needs to be changed
         enableReinitialize: true,
-
         initialValues: {
             name: '',
-            note: '',
+            description: '',
         },
         validationSchema: Yup.object().shape({
             name: Yup.string().required(
                 "This value is required"
             ),
-            note: Yup.string().required(
+            description: Yup.string().required(
                 "Please Enter Your Textarea"
             ),
         }),
@@ -70,13 +72,6 @@ const InputCareer = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    {/* <CardTitle>Validation type</CardTitle>
-                                    <CardSubtitle className="mb-3">
-                                        Parsley is a availity reactstrap validation. It helps you
-                                        provide your users with feedback on their form submission
-                                        before sending it to your server.
-                                    </CardSubtitle> */}
-
                                     <Form
                                         onSubmit={(e) => {
                                             e.preventDefault();
@@ -87,7 +82,7 @@ const InputCareer = () => {
                                             <Label className="form-label">Tên ngành nghề</Label>
                                             <Input
                                                 name="name"
-                                                placeholder="Type Something"
+                                                placeholder="Nhập tên"
                                                 type="text"
                                                 onChange={validationType.handleChange}
                                                 onBlur={validationType.handleBlur}
@@ -103,22 +98,22 @@ const InputCareer = () => {
                                         <div className="mb-3">
                                             <Label className="form-label">Ghi chú</Label>
                                             <Input
-                                                name="note"
-                                                placeholder="Type Something"
+                                                name="description"
+                                                placeholder="Nhập ghi chú"
                                                 type="text"
                                                 onChange={validationType.handleChange}
                                                 onBlur={validationType.handleBlur}
-                                                value={validationType.values.note || ""}
+                                                value={validationType.values.description || ""}
                                                 invalid={
-                                                    validationType.touched.note && validationType.errors.note ? true : false
+                                                    validationType.touched.description && validationType.errors.description ? true : false
                                                 }
                                             />
-                                            {validationType.touched.note && validationType.errors.note ? (
-                                                <FormFeedback type="invalid">{validationType.errors.note}</FormFeedback>
+                                            {validationType.touched.description && validationType.errors.description ? (
+                                                <FormFeedback type="invalid">{validationType.errors.description}</FormFeedback>
                                             ) : null}
                                         </div>
 
-                                        <div className="d-flex flex-wrap gap-2">
+                                        <div className="d-flex flex-wrap gap-2 justify-content-end">
                                             <Button type="submit" color="primary" >
                                                 Submit
                                             </Button>{" "}

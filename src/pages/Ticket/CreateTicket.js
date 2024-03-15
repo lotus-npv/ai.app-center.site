@@ -15,20 +15,13 @@ const CreateTicket = (props) => {
         careerData: state.Career.datas
     }), shallowEqual);
 
-    // const { careerData } = useSelector(state => ({
-    //     careerData: state.Career.datas
-    // }), shallowEqual);
-
-    /*
-    get data
-    */
     useEffect(() => {
         dispatch(getDemoData());
         dispatch(getCareerAll());
     }, [dispatch]);
 
     // your API's response data will be in events variable.
-    // console.log(demoData);
+    console.log(careerData);
 
     return (
         <div className="page-content">
