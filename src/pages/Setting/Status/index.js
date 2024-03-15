@@ -118,10 +118,11 @@ const StatusPage = (props) => {
                             to="#"
                             className="text-success"
                             onClick={() => {
-                                tog_xlarge();
-                                setRowSelect(cellProps.row.original);
-                                const row = cellProps.row.original;
-                                navigate('/input-status', { state: row, isEdit: true });
+                                // tog_xlarge();
+                                // setRowSelect(cellProps.row.original);
+                                const rowData = cellProps.row.original;
+                                // navigate('/input-status', { state: {data: rowData, isEdit: true }});
+                                navigate('/input-status');
                             }}
                         >
                             <i className="mdi mdi-pencil font-size-24" id="edittooltip" />

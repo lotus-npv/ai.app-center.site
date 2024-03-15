@@ -22,7 +22,7 @@ import Select from "react-select";
 // Formik validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Link, Route, useNavigate } from "react-router-dom";
+import { Link, Route, useNavigate, useLocation  } from "react-router-dom";
 
 //Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
@@ -74,6 +74,12 @@ const optionGroup = [
 const InputStatus = () => {
     document.title = "Status Page";
     const navigate = useNavigate();
+    // const location = useLocation();
+    // const { data, isEdit } = location.state;
+
+    // console.log(data)
+    // console.log(isEdit)
+
     const [switch1, setswitch1] = useState(false);
     const [selectedGroup, setselectedGroup] = useState(null);
 
