@@ -1,5 +1,5 @@
 import { takeEvery, put, call,all,fork  } from "redux-saga/effects";
-import { toast } from "react-toastify";
+
 
 // Login Redux States
 import {
@@ -13,6 +13,7 @@ import {
 } from "./actions"
                                       
 import { getCareerDataAll, addNewCareer } from "../../helpers/fakebackend_helper";
+import { toast } from "react-toastify";
 
 function* fetCareerData() {
   try {

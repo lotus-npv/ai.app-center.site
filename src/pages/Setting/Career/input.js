@@ -65,6 +65,7 @@ const InputCareer = () => {
             }
 
             dispatch(setCareer(obj));
+            validationType.resetForm();
 
             // let config = {
             //     headers: {
