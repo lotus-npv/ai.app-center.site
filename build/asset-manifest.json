@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.805e2330.css",
-    "main.js": "/static/js/main.98c7cce4.js",
+    "main.js": "/static/js/main.5131074d.js",
     "static/media/img-2.jpg": "/static/media/img-2.9ad853b2a11d405bb46e.jpg",
     "static/media/img-3.jpg": "/static/media/img-3.282f0d0a9f400608e5fa.jpg",
     "static/media/materialdesignicons-webfont.eot": "/static/media/materialdesignicons-webfont.52adde0de9840940801f.eot",
@@ -92,10 +92,10 @@
     "static/media/airbnb.svg": "/static/media/airbnb.c9f6f43d5cd777ae2a2ab458fc9309de.svg",
     "static/media/adobe.svg": "/static/media/adobe.18e56447696e4920ce55f2008547dba4.svg",
     "main.805e2330.css.map": "/static/css/main.805e2330.css.map",
-    "main.98c7cce4.js.map": "/static/js/main.98c7cce4.js.map"
+    "main.5131074d.js.map": "/static/js/main.5131074d.js.map"
   },
   "entrypoints": [
     "static/css/main.805e2330.css",
-    "static/js/main.98c7cce4.js"
+    "static/js/main.5131074d.js"
   ]
 }

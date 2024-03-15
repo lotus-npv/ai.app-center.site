@@ -120,6 +120,8 @@ const StatusPage = (props) => {
                             onClick={() => {
                                 tog_xlarge();
                                 setRowSelect(cellProps.row.original);
+                                const row = cellProps.row.original;
+                                navigate('/input-status', { state: row, isEdit: true });
                             }}
                         >
                             <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
