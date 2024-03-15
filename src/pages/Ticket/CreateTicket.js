@@ -24,7 +24,7 @@ const CreateTicket = (props) => {
     }, [dispatch]);
 
     // your API's response data will be in events variable.
-    console.log(demoData);
+    console.log(careerData);
 
     return (
         <div className="page-content">
