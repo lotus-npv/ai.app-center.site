@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useContext } from "react";
-import { Container, Row, Col, CardHeader, Button, CardBody, Card, UncontrolledTooltip } from "reactstrap";
+import { Container, Row, Col, CardHeader, Button, CardBody, Card, UncontrolledTooltip, Modal } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import TableContainer from '../../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
@@ -33,6 +33,16 @@ const CareerPage = (props) => {
 
 
     console.log(datas)
+
+    // modal edit
+    const [modal_xlarge, setmodal_xlarge] = useState(false);
+    function tog_xlarge() {
+        setmodal_xlarge(!modal_xlarge);
+        removeBodyCss();
+    }
+    function removeBodyCss() {
+        document.body.classList.add("no_padding");
+    }
 
     // //delete modal
     const [item, setItem] = useState(null);
@@ -93,6 +103,7 @@ const CareerPage = (props) => {
                             to="#"
                             className="text-success"
                             onClick={() => {
+                                setmodal_xlarge(true);
                                 // const orderData = cellProps.row.original;
                                 // handleOrderClick(orderData);
                             }}
@@ -115,6 +126,47 @@ const CareerPage = (props) => {
                                 Delete
                             </UncontrolledTooltip>
                         </Link>
+                        <Modal
+                            size="xl"
+                            isOpen={modal_xlarge}
+                            toggle={() => {
+                                tog_xlarge();
+                            }}
+                        >
+                            <div className="modal-header">
+                                <h5
+                                    className="modal-title mt-0"
+                                    id="myExtraLargeModalLabel"
+                                >
+                                    Extra large modal
+                                </h5>
+                                <button
+                                    onClick={() => {
+                                        setmodal_xlarge(false);
+                                    }}
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <p>Cras mattis consectetur purus sit amet fermentum.
+                                    Cras justo odio, dapibus ac facilisis in,
+                                    egestas eget quam. Morbi leo risus, porta ac
+                                    consectetur ac, vestibulum at eros.</p>
+                                <p>Praesent commodo cursus magna, vel scelerisque
+                                    nisl consectetur et. Vivamus sagittis lacus vel
+                                    augue laoreet rutrum faucibus dolor auctor.</p>
+                                <p className="mb-0">Aenean lacinia bibendum nulla sed consectetur.
+                                    Praesent commodo cursus magna, vel scelerisque
+                                    nisl consectetur et. Donec sed odio dui. Donec
+                                    ullamcorper nulla non metus auctor
+                                    fringilla.</p>
+                            </div>
+                        </Modal>
                     </div>
                 );
             }
