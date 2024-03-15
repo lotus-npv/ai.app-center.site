@@ -30,7 +30,7 @@ import {
       case SET_CAREER_SUCCESS:
         return {
           ...state,
-          datas: action.payload,
+          data: action.payload,
         };
   
       case SET_CAREER_FAIL:
