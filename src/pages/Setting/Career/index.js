@@ -42,6 +42,10 @@ const CareerPage = (props) => {
         dispatch(getCareerAll());
     }, [dispatch]);
 
+    useEffect(() => {
+        dispatch(getCareerAll());
+    }, [datas]);
+
     console.log(datas)
 
     // modal edit

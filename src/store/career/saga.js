@@ -62,22 +62,12 @@ function* onDeleteCareer({ payload: id }) {
   }
 }
                                       
-// export function* watchFetCareerData() {
-//   yield takeEvery(GET_CAREER_ALL, fetCareerData);
-//   yield takeEvery(SET_CAREER, onAddNewCareer)
-// }
-                                      
-// function* careerSaga() {
-//   yield all([fork(watchFetCareerData)]);
-// }
 
 function* careerSaga() {
   yield takeEvery(GET_CAREER_ALL, fetCareerData)
   yield takeEvery(SET_CAREER, onAddNewCareer)
   yield takeEvery(UPDATE_CAREER, onUpdateCareer)
   yield takeEvery(DELETE_CAREER, onDeleteCareer)
-  // yield takeEvery(GET_APPLY_JOB, OnGetApplyJob)
-  // yield takeEvery(DELETE_APPLY_JOB, OnDeleteApplyJob)
 }
                                       
 export default careerSaga;
