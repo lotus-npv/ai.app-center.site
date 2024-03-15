@@ -27,7 +27,8 @@ import Breadcrumbs from "../../../components/Common/Breadcrumb";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setCareer } from "store/actions";
 
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const InputCareer = () => {
     document.title = "Career Page";
@@ -83,6 +84,8 @@ const InputCareer = () => {
     const back = () => {
         navigate(-1);
     }
+
+    const notify = () => toast.success("Career Added Successfully", { autoClose: 2000 });;
 
     return (
         <>
@@ -152,11 +155,10 @@ const InputCareer = () => {
                                             <Button type="reset" color="secondary" >
                                                 Cancel
                                             </Button>
-                                            <Button  color="secondary" onClick={() => {
-                                                toast.error("Career Added Failed", { autoClose: 2000 });
-                                            }}>
-                                                Cancel
+                                            <Button  color="secondary" onClick={notify}>
+                                                notify
                                             </Button>
+                                            <ToastContainer />
                                         </div>
                                     </Form>
                                 </CardBody>
