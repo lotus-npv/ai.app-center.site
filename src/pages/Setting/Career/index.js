@@ -17,6 +17,9 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getCareerAll, updateCareer } from "store/actions";
 import { createSelector } from "reselect";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const CareerPage = (props) => {
     document.title = "Nhập ngành nghề";
     const navigate = useNavigate();
@@ -260,7 +263,7 @@ const CareerPage = (props) => {
                             </button>
                         </div>
                     </Modal>
-
+                    <ToastContainer />                
                 </Container>
             </div>
         </>
