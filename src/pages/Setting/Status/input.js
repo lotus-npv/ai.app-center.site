@@ -88,7 +88,7 @@ const InputStatus = () => {
         enableReinitialize: true,
 
         initialValues: {
-            name: data.name == null ? '' : data.name,
+            name: data.name,
             note: data.description,
             auto: data.status_type == 'manual' ? false : true,
             condition: data.condition_milestone,

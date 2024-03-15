@@ -165,7 +165,7 @@ const StatusPage = (props) => {
                 data: {
                     name: null,
                     note: null,
-                    auto: false,
+                    auto: 'manual',
                     condition: null,
                     condition_date: null,
                     number: null,
