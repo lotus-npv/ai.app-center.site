@@ -14,7 +14,7 @@ import { withTranslation } from "react-i18next";
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll } from "store/actions";
+import { getCareerAll, updateCareer } from "store/actions";
 import { createSelector } from "reselect";
 
 const CareerPage = (props) => {
@@ -25,11 +25,11 @@ const CareerPage = (props) => {
     const dispatch = useDispatch();
     const { datas } = useSelector(state => ({
         datas: state.Career.datas
-    }));
+    }), shallowEqual);
 
     useEffect(() => {
         dispatch(getCareerAll());
-    }, [dispatch, datas]);
+    }, [dispatch]);
 
 
     // console.log(datas)
@@ -251,6 +251,10 @@ const CareerPage = (props) => {
                             <button
                                 type="button"
                                 className="btn btn-primary "
+                                onClick={() => {
+                                    dispatch(updateCareer(rowSelect));
+                                    tog_xlarge();
+                                }}
                             >
                                 Save changes
                             </button>
