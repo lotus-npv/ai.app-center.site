@@ -40,12 +40,7 @@ const CareerPage = (props) => {
 
     useEffect(() => {
         dispatch(getCareerAll());
-    }, [dispatch]);
-
-    useEffect(() => {
-        dispatch(getCareerAll());
-        // Khi 'data' thay đổi, component sẽ rerender
-    }, [isLoading]);
+    }, [dispatch, datas]);
 
     console.log(datas)
 
@@ -155,7 +150,7 @@ const CareerPage = (props) => {
         navigate('/input-career');
     }
 
-    console.log(rowSelect)
+    // console.log(rowSelect)
 
     return (
         <>
