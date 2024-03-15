@@ -23,30 +23,31 @@ const CareerPage = (props) => {
     // const { careerData, updateCareerData } = useContext(DataContext);
 
     const dispatch = useDispatch();
-    // const { datas } = useSelector(state => ({
-    //     datas: state.Career.datas
-    // }));
+    const { datas } = useSelector(state => ({
+        datas: state.Career.datas
+    }));
 
+    useEffect(() => {
+        if (datas && !datas.length) {
+            dispatch(getCareerAll());
+        }
+    }, []);
+
+
+    // const selectCareerState = (state) => state.Career;
+    // const CareerProperties = createSelector(
+    //     selectCareerState,
+    //     (career) => ({
+    //         datas: career.datas 
+    //     })
+    // )
+
+    // const datas = useSelector(CareerProperties);
     // useEffect(() => {
     //     if (datas && !datas.length) {
     //         dispatch(getCareerAll());
     //     }
     // }, [dispatch, datas]);
-
-    const selectCareerState = (state) => state.Career;
-    const CareerProperties = createSelector(
-        selectCareerState,
-        (career) => ({
-            datas: career.datas 
-        })
-    )
-
-    const datas = useSelector(CareerProperties);
-    useEffect(() => {
-        if (datas && !datas.length) {
-            dispatch(getCareerAll());
-        }
-    }, [dispatch, datas]);
 
 
     console.log(datas)
