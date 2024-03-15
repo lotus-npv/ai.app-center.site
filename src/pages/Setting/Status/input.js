@@ -88,12 +88,12 @@ const InputStatus = () => {
         enableReinitialize: true,
 
         initialValues: {
-            name: '',
-            note: '',
-            auto: false,
-            condition: '',
-            condition_date: '',
-            number: '',
+            name: data.name == null ? '' : data.name,
+            note: data.description,
+            auto: data.status_type == 'manual' ? false : true,
+            condition: data.condition_milestone,
+            condition_date: data.condition_date,
+            number: data.condition_value,
         },
         validationSchema: Yup.object().shape({
             name: Yup.string().required(
@@ -115,7 +115,7 @@ const InputStatus = () => {
     });
 
     const back = () => {
-        navigate(-1);
+        navigate('/pages-status');
     }
 
     function handleSelectGroup(selectedGroup) {

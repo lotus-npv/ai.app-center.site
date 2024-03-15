@@ -121,7 +121,7 @@ const StatusPage = (props) => {
                                 // tog_xlarge();
                                 // setRowSelect(cellProps.row.original);
                                 const rowData = cellProps.row.original;
-                                navigate('/input-status', { state: {data: rowData, isEdit: true }});
+                                navigate('/input-status', { state: { data: rowData, isEdit: true } });
                                 // goForm(rowData);
                             }}
                         >
@@ -132,7 +132,7 @@ const StatusPage = (props) => {
                         </Link>
                         <Button onClick={() => {
                             const rowData = cellProps.row.original;
-                            navigate('/input-status', { state: {data: rowData, isEdit: true }});
+                            navigate('/input-status', { state: { data: rowData, isEdit: true } });
                         }}>
                             GO
                         </Button>
@@ -156,11 +156,22 @@ const StatusPage = (props) => {
     ], []);
 
     const goForm = (rowData) => {
-        navigate('/input-status', { state: {data: rowData, isEdit: true }});
+        navigate('/input-status', { state: { data: rowData, isEdit: true } });
     }
 
     const addForm = () => {
-        navigate('/input-status');
+        navigate('/input-status', {
+            state: {
+                data: {
+                    name: null,
+                    note: null,
+                    auto: false,
+                    condition: null,
+                    condition_date: null,
+                    number: null,
+                }, isEdit: false
+            }
+        });
     }
 
     return (
