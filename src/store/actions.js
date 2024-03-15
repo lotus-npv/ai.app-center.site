@@ -17,3 +17,6 @@ export * from "./demo/actions"
 
 // career
 export * from "./career/actions"
+
+// status
+export * from "./status/actions"

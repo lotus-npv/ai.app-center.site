@@ -19,14 +19,14 @@ export { getCareerDataAll };
 const getCareerDataId = () => get(url.GET_CAREER_ID);
 export { getCareerDataId };
 
-const addNewCareer = data => post(url.SET_CAREER, data, config);
-export { addNewCareer };
+const addNewDataCareer = data => post(url.SET_CAREER, data, config);
+export { addNewDataCareer };
 
-const updateCareer = data => put(url.UPDATE_CAREER, data, config);
-export {updateCareer};
+const updateDataCareer = data => put(url.UPDATE_CAREER, data, config);
+export {updateDataCareer};
 
-const deleteCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
-export {deleteCareer};
+const deleteDataCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
+export {deleteDataCareer};
 
 // Status
 const getStatusDataAll = () => get(url.GET_STATUS_ALL);
@@ -35,14 +35,14 @@ export { getStatusDataAll };
 const getStatusDataId = () => get(url.GET_STATUS_ID);
 export { getStatusDataId };
 
-const addNewStatus = data => post(url.SET_STATUS, data, config);
-export { addNewStatus };
+const addNewDataStatus = data => post(url.SET_STATUS, data, config);
+export { addNewDataStatus };
 
-const updateStatus = data => put(url.UPDATE_STATUS, data, config);
-export {updateStatus};
+const updateDataStatus = data => put(url.UPDATE_STATUS, data, config);
+export {updateDataStatus};
 
-const deleteStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { params: { id } }, config);
-export {deleteStatus};
+const deleteDataStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { params: { id } }, config);
+export {deleteDataStatus};
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
