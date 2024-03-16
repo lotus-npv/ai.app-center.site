@@ -188,7 +188,7 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const CustomFilterDemo = () => {
-  const [customers, setCustomers] = useState(null);
+  // const [customers, setCustomers] = useState(null);
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -205,11 +205,24 @@ const CustomFilterDemo = () => {
     datas: state.Career.datas
   }), shallowEqual);
 
+  // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getCareerAll());
-    setCustomers(datas);
+    // setCustomers(datas);
     setLoading(false);
   }, [dispatch]);
+
+  // get lai data sau moi 10s
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+        dispatch(getCareerAll());
+    }, 10000); // Chạy lại hàm sau mỗi 10 giây
+
+    // Hàm dọn dẹp khi unmount
+    return () => {
+        clearInterval(intervalId);
+    };
+}, []);
 
   // modal edit
   const [modal_xlarge, setmodal_xlarge] = useState(false);
@@ -280,7 +293,7 @@ const CustomFilterDemo = () => {
 
   return (
     <div className="card">
-      <DataTable value={customers} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} filterDisplay="row" loading={loading} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found.">
+      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} filterDisplay="row" loading={loading} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found.">
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Search by id" style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter style={{ minWidth: '12rem' }} filterPlaceholder="Search by name" />

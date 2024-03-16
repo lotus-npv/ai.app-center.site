@@ -27,128 +27,117 @@ const CareerPage = () => {
     const navigate = useNavigate();
 
     // modal edit
-    const [modal_xlarge, setmodal_xlarge] = useState(false);
-    function tog_xlarge() {
-        setmodal_xlarge(!modal_xlarge);
-        removeBodyCss();
-    }
-    function removeBodyCss() {
-        document.body.classList.add("no_padding");
-    }
+    // const [modal_xlarge, setmodal_xlarge] = useState(false);
+    // function tog_xlarge() {
+    //     setmodal_xlarge(!modal_xlarge);
+    //     removeBodyCss();
+    // }
+    // function removeBodyCss() {
+    //     document.body.classList.add("no_padding");
+    // }
 
     // Row selected edit
-    const [rowSelect, setRowSelect] = useState(null)
+    // const [rowSelect, setRowSelect] = useState(null)
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
 
-    const { datas } = useSelector(state => ({
-        datas: state.Career.datas
-    }), shallowEqual);
+    // const { datas } = useSelector(state => ({
+    //     datas: state.Career.datas
+    // }), shallowEqual);
 
-    useEffect(() => {
-        dispatch(getCareerAll());
-    }, [dispatch]);
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            dispatch(getCareerAll());
-        }, 10000); // Chạy lại hàm sau mỗi 10 giây
-
-        // Hàm dọn dẹp khi unmount
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getCareerAll());
+    // }, [dispatch]);
 
     // console.log(datas)
 
     // //delete modal
-    const [item, setItem] = useState(null);
-    const [deleteModal, setDeleteModal] = useState(false);
+    // const [item, setItem] = useState(null);
+    // const [deleteModal, setDeleteModal] = useState(false);
 
-    const onClickDelete = (data) => {
-        setItem(data);
-        setDeleteModal(true);
-    };
+    // const onClickDelete = (data) => {
+    //     setItem(data);
+    //     setDeleteModal(true);
+    // };
 
-    const handleDeleteOrder = () => {
-        if (item && item.id) {
-            console.log('delete id :' + item.id);
-            dispatch(deleteCareer(item.id));
+    // const handleDeleteOrder = () => {
+    //     if (item && item.id) {
+    //         console.log('delete id :' + item.id);
+    //         dispatch(deleteCareer(item.id));
 
-            setDeleteModal(false);
-        }
-    };
+    //         setDeleteModal(false);
+    //     }
+    // };
 
-    const columns = useMemo(() => [
-        {
-            Header: () => <div className="form-check font-size-16" >
-                <input className="form-check-input" type="checkbox" id="checkAll" />
-                <label className="form-check-label" htmlFor="checkAll"></label>
-            </div>,
-            accessor: '#',
-            width: '20px',
-            filterable: true,
-            Cell: (cellProps) => (
-                <div className="form-check font-size-16" >
-                    <input className="form-check-input" type="checkbox" id="checkAll" />
-                    <label className="form-check-label" htmlFor="checkAll"></label>
-                </div>
-            )
-        },
-        {
-            Header: 'Tên trạng thái',
-            accessor: 'name',
-            Cell: (cellProps) => {
-                return <Name {...cellProps} />;
-            }
-        },
-        {
-            Header: 'Ghi chú',
-            accessor: 'description',
-            Cell: (cellProps) => {
-                return <Note {...cellProps} />;
-            }
-        },
-        {
-            Header: 'Thao tác',
-            accessor: 'action',
-            Cell: (cellProps) => {
-                return (
-                    <div className="d-flex gap-3">
-                        <Link
-                            to="#"
-                            className="text-success"
-                            onClick={() => {
-                                tog_xlarge();
-                                setRowSelect(cellProps.row.original);
-                            }}
-                        >
-                            <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
-                            <UncontrolledTooltip placement="top" target="edittooltip">
-                                Edit
-                            </UncontrolledTooltip>
-                        </Link>
-                        <Link
-                            to="#"
-                            className="text-danger"
-                            onClick={() => {
-                                const data = cellProps.row.original;
-                                onClickDelete(data);
-                            }}
-                        >
-                            <i className="mdi mdi-delete font-size-24" id="deletetooltip" />
-                            <UncontrolledTooltip placement="top" target="deletetooltip">
-                                Delete
-                            </UncontrolledTooltip>
-                        </Link>
+    // const columns = useMemo(() => [
+    //     {
+    //         Header: () => <div className="form-check font-size-16" >
+    //             <input className="form-check-input" type="checkbox" id="checkAll" />
+    //             <label className="form-check-label" htmlFor="checkAll"></label>
+    //         </div>,
+    //         accessor: '#',
+    //         width: '20px',
+    //         filterable: true,
+    //         Cell: (cellProps) => (
+    //             <div className="form-check font-size-16" >
+    //                 <input className="form-check-input" type="checkbox" id="checkAll" />
+    //                 <label className="form-check-label" htmlFor="checkAll"></label>
+    //             </div>
+    //         )
+    //     },
+    //     {
+    //         Header: 'Tên trạng thái',
+    //         accessor: 'name',
+    //         Cell: (cellProps) => {
+    //             return <Name {...cellProps} />;
+    //         }
+    //     },
+    //     {
+    //         Header: 'Ghi chú',
+    //         accessor: 'description',
+    //         Cell: (cellProps) => {
+    //             return <Note {...cellProps} />;
+    //         }
+    //     },
+    //     {
+    //         Header: 'Thao tác',
+    //         accessor: 'action',
+    //         Cell: (cellProps) => {
+    //             return (
+    //                 <div className="d-flex gap-3">
+    //                     <Link
+    //                         to="#"
+    //                         className="text-success"
+    //                         onClick={() => {
+    //                             tog_xlarge();
+    //                             setRowSelect(cellProps.row.original);
+    //                         }}
+    //                     >
+    //                         <i className="mdi mdi-pencil font-size-24" id="edittooltip" />
+    //                         <UncontrolledTooltip placement="top" target="edittooltip">
+    //                             Edit
+    //                         </UncontrolledTooltip>
+    //                     </Link>
+    //                     <Link
+    //                         to="#"
+    //                         className="text-danger"
+    //                         onClick={() => {
+    //                             const data = cellProps.row.original;
+    //                             onClickDelete(data);
+    //                         }}
+    //                     >
+    //                         <i className="mdi mdi-delete font-size-24" id="deletetooltip" />
+    //                         <UncontrolledTooltip placement="top" target="deletetooltip">
+    //                             Delete
+    //                         </UncontrolledTooltip>
+    //                     </Link>
 
-                    </div>
-                );
-            }
-        }
-    ], []);
+    //                 </div>
+    //             );
+    //         }
+    //     }
+    // ], []);
 
     const addForm = () => {
         navigate('/input-career');
@@ -160,11 +149,11 @@ const CareerPage = () => {
         <>
             <div className="page-content">
                 <Container fluid={true}>
-                    <DeleteModal
+                    {/* <DeleteModal
                         show={deleteModal}
                         onDeleteClick={handleDeleteOrder}
                         onCloseClick={() => setDeleteModal(false)}
-                    />
+                    /> */}
 
                     <Card>
                         <CardHeader>
@@ -199,7 +188,7 @@ const CareerPage = () => {
                         </CardBody>
                     </Card>
 
-                    <Modal
+                    {/* <Modal
                         size="xl"
                         isOpen={modal_xlarge}
                         toggle={() => {
@@ -273,7 +262,7 @@ const CareerPage = () => {
                                 Save changes
                             </button>
                         </div>
-                    </Modal>
+                    </Modal> */}
                     <ToastContainer />
                 </Container>
             </div>
