@@ -19,6 +19,8 @@ import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import CareerTable from './careerTable'
+
 const CareerPage = (props) => {
     document.title = "Nhập ngành nghề";
     const navigate = useNavigate();
@@ -156,11 +158,12 @@ const CareerPage = (props) => {
                         onDeleteClick={handleDeleteOrder}
                         onCloseClick={() => setDeleteModal(false)}
                     />
+                    <CareerTable/>
                     <Card>
                         <CardHeader>
                             <Row>
                                 <Col>
-                                    <Breadcrumbs title="Ngành nghề" breadcrumbItem="Mẫu ngành nghề" />
+                                    <Breadcrumbs title="Ngành nghề abc" breadcrumbItem="Mẫu ngành nghề abc" />
                                 </Col>
                                 <Col>
                                     <div className="d-flex mb-3 justify-content-end">
@@ -186,6 +189,8 @@ const CareerPage = (props) => {
                                 pagination="justify-content-center pagination pagination-rounded"
                             />
                         </CardBody>
+
+                        
                     </Card>
 
                     <Modal
