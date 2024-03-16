@@ -163,6 +163,7 @@
 
 
 import React, { useState, useEffect } from 'react';
+import { Modal, Label, Input } from "reactstrap";
 import { FilterMatchMode, FilterService } from 'primereact/api';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
@@ -211,6 +212,19 @@ const CustomFilterDemo = () => {
     setLoading(false);
   }, [dispatch]);
 
+  // modal edit
+  const [modal_xlarge, setmodal_xlarge] = useState(false);
+  function tog_xlarge() {
+    setmodal_xlarge(!modal_xlarge);
+    removeBodyCss();
+  }
+  function removeBodyCss() {
+    document.body.classList.add("no_padding");
+  }
+
+  // Row selected edit
+  const [rowSelect, setRowSelect] = useState(null)
+
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
@@ -237,7 +251,7 @@ const CustomFilterDemo = () => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={tog_xlarge}/>
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" />
       </div>
     )
@@ -250,10 +264,85 @@ const CustomFilterDemo = () => {
       <DataTable value={customers} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} filterDisplay="row" loading={loading} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found.">
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Search by id" style={{ width: '15rem' }} />
-        <Column field="name" header="Name" filterField="name" filter style={{ minWidth: '12rem' }}  filterPlaceholder="Search by name" />
-        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="Search by description" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }}/>
+        <Column field="name" header="Name" filterField="name" filter style={{ minWidth: '12rem' }} filterPlaceholder="Search by name" />
+        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="Search by description" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} />
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} />
       </DataTable>
+      <Modal
+        size="xl"
+        isOpen={modal_xlarge}
+        toggle={() => {
+          tog_xlarge();
+        }}
+      >
+        <div className="modal-header">
+          <h5
+            className="modal-title mt-0"
+            id="myExtraLargeModalLabel"
+          >
+            Extra large modal
+          </h5>
+          <button
+            onClick={() => {
+              setmodal_xlarge(false);
+            }}
+            type="button"
+            className="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <div className="mb-4">
+            <Label htmlFor="name">Tên ngành nghề</Label>
+            <Input
+              id='name'
+              name="name"
+              type="text"
+              value={rowSelect != null ? rowSelect.name : ''}
+              onChange={(e) => {
+                setRowSelect({ ...rowSelect, name: e.target.value });
+              }}
+            />
+          </div>
+          <div className="mb-4">
+            <Label htmlFor="note">Ghi chú</Label>
+            <Input
+              id='note'
+              name="note"
+              type="text"
+              value={rowSelect != null ? rowSelect.description : ''}
+              onChange={(e) => {
+                setRowSelect({ ...rowSelect, description: e.target.value });
+              }}
+            />
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            onClick={() => {
+              tog_xlarge();
+            }}
+            className="btn btn-secondary "
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary "
+            onClick={() => {
+              dispatch(updateCareer(rowSelect));
+              tog_xlarge();
+            }}
+          >
+            Save changes
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
