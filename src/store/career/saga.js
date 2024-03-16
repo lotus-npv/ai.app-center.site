@@ -1,4 +1,4 @@
-import { takeEvery, put, call,all,fork  } from "redux-saga/effects";
+import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 
 // Login Redux States
@@ -45,6 +45,7 @@ function* onUpdateCareer({ payload: data }) {
       const response = yield call(updateDataCareer, data)
       yield put(updateCareerSuccess(response));
       toast.success("Career Updated Successfully", { autoClose: 2000 });
+      yield call(refreshCareerData);
   } catch (error) {
       yield put(updateCareerFail(error))
       toast.error("Career Updated Failed", { autoClose: 2000 });
@@ -61,13 +62,18 @@ function* onDeleteCareer({ payload: id }) {
       toast.error("Career Delete Failed", { autoClose: 2000 });
   }
 }
+
+function* refreshCareerData() {
+  const response = yield call(getCareerDataAll);
+  yield put(getCareerAllSuccess(response));
+}
                                       
 
 function* CareerSaga() {
-  yield takeEvery(GET_CAREER_ALL, fetCareerData)
-  yield takeEvery(SET_CAREER, onAddNewCareer)
-  yield takeEvery(UPDATE_CAREER, onUpdateCareer)
-  yield takeEvery(DELETE_CAREER, onDeleteCareer)
+  yield takeLatest(GET_CAREER_ALL, fetCareerData)
+  yield takeLatest(SET_CAREER, onAddNewCareer)
+  yield takeLatest(UPDATE_CAREER, onUpdateCareer)
+  yield takeLatest(DELETE_CAREER, onDeleteCareer)
 }
                                       
 export default CareerSaga;

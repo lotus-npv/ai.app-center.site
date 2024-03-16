@@ -13,22 +13,35 @@ import DeleteModal from "components/Common/DeleteModal";
 import { withTranslation } from "react-i18next";
 
 //redux
+import { connect } from 'react-redux';
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
+import { getCareerAll , updateCareer , deleteCareer  } from "store/actions";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import LazyLoadDemo from "./careerTable";
+import CustomFilterDemo from "./careerTable";
 
-const CareerPage = (props) => {
+const CareerPage = () => {
     document.title = "Nhập ngành nghề";
     const navigate = useNavigate();
+
+        // modal edit
+        const [modal_xlarge, setmodal_xlarge] = useState(false);
+        function tog_xlarge() {
+            setmodal_xlarge(!modal_xlarge);
+            removeBodyCss();
+        }
+        function removeBodyCss() {
+            document.body.classList.add("no_padding");
+        }
 
     // Row selected edit
     const [rowSelect, setRowSelect] = useState(null)
 
     const dispatch = useDispatch();
+
+
     const { datas } = useSelector(state => ({
         datas: state.Career.datas
     }), shallowEqual);
@@ -38,22 +51,17 @@ const CareerPage = (props) => {
     }, [dispatch]);
 
     useEffect(() => {
-        // dispatch(getCareerAll());
-    }, [datas]);
+        const intervalId = setInterval(() => {
+            dispatch(getCareerAll());
+        }, 10000); // Chạy lại hàm sau mỗi 10 giây
+    
+        // Hàm dọn dẹp khi unmount
+        return () => {
+          clearInterval(intervalId);
+        };
+      }, []);
 
-    console.log(datas)
-
-    // modal edit
-    const [modal_xlarge, setmodal_xlarge] = useState(false);
-    function tog_xlarge() {
-        setmodal_xlarge(!modal_xlarge);
-        removeBodyCss();
-    }
-    function removeBodyCss() {
-        document.body.classList.add("no_padding");
-    }
-
-
+    // console.log(datas)
 
     // //delete modal
     const [item, setItem] = useState(null);
@@ -174,7 +182,7 @@ const CareerPage = (props) => {
                             </Row>
                         </CardHeader>
                         <CardBody>
-                            <TableContainer
+                            {/* <TableContainer
                                 columns={columns}
                                 data={datas}
                                 isGlobalFilter={true}
@@ -186,8 +194,8 @@ const CareerPage = (props) => {
                                 theadClass="table-dark"
                                 paginationDiv="col-12"
                                 pagination="justify-content-center pagination pagination-rounded"
-                            />
-                             {/* <LazyLoadDemo/> */}
+                            /> */}
+                             <CustomFilterDemo />
                         </CardBody>
                     </Card>
 
@@ -271,6 +279,7 @@ const CareerPage = (props) => {
             </div>
         </>
     );
+
 }
 
 CareerPage.propTypes = {
@@ -279,3 +288,4 @@ CareerPage.propTypes = {
 
 // export default withRouter(withTranslation()(StatusPage));
 export default CareerPage;
+// export default connect(mapStateToProps, mapDispatchToProps)(CareerPage)
