@@ -19,7 +19,7 @@ import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import CareerTable from './careerTable'
+import LazyLoadDemo from "./careerTable";
 
 const CareerPage = (props) => {
     document.title = "Nhập ngành nghề";
@@ -151,14 +151,13 @@ const CareerPage = (props) => {
     return (
         <>
             <div className="page-content">
-
                 <Container fluid={true}>
                     <DeleteModal
                         show={deleteModal}
                         onDeleteClick={handleDeleteOrder}
                         onCloseClick={() => setDeleteModal(false)}
                     />
-                    <CareerTable/>
+                    
                     <Card>
                         <CardHeader>
                             <Row>
@@ -192,6 +191,8 @@ const CareerPage = (props) => {
 
                         
                     </Card>
+
+                    <LazyLoadDemo/>
 
                     <Modal
                         size="xl"

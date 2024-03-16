@@ -6,6 +6,10 @@ import { BrowserRouter } from "react-router-dom";
 import "./i18n";
 import { Provider } from "react-redux";
 import DataProvider from './data/DataProvider';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';  
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 
 import store from "./store";
 
