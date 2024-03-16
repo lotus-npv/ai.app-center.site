@@ -122,22 +122,35 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ProductService } from './ProductService';
 
+//redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
+
 export default function LazyLoadDemo() {
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState(null);
 
-  useEffect(() => {
-    ProductService.getProducts().then(data => setProducts(data));
-  }, []);
+  const dispatch = useDispatch();
+    const { datas } = useSelector(state => ({
+        datas: state.Career.datas
+    }), shallowEqual);
+
+    useEffect(() => {
+        dispatch(getCareerAll());
+    }, [dispatch]);
+
+  // useEffect(() => {
+  //   ProductService.getProducts().then(data => setProducts(data));
+  // }, []);
 
   return (
     <div className="card">
-      <DataTable value={products} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)} dataKey="id" tableStyle={{ minWidth: '50rem' }}>
+      <DataTable value={datas} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)} dataKey="id" tableStyle={{ minWidth: '50rem' }}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        <Column field="code" header="Code"></Column>
+        {/* <Column field="code" header="Code"></Column> */}
+        <Column field="id" header="Id"></Column>
         <Column field="name" header="Name"></Column>
-        <Column field="category" header="Category"></Column>
-        <Column field="quantity" header="Quantity"></Column>
+        <Column field="description" header="Description"></Column>
       </DataTable>
     </div>
   );

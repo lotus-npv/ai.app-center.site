@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect, useContext } from "react";
 import { Container, Row, Col, CardHeader, Button, CardBody, Card, UncontrolledTooltip, Modal, Label, Input } from "reactstrap";
 import Breadcrumbs from "../../../components/Common/Breadcrumb";
-// import TableContainer from '../../../components/Common/TableContainer';
+import TableContainer from '../../../components/Common/TableContainer';
 import PropTypes from 'prop-types';
 import { useNavigate, Link } from "react-router-dom";
 
@@ -37,9 +37,9 @@ const CareerPage = (props) => {
         dispatch(getCareerAll());
     }, [dispatch]);
 
-    // useEffect(() => {
-    //     dispatch(getCareerAll());
-    // }, [datas]);
+    useEffect(() => {
+        // dispatch(getCareerAll());
+    }, [datas]);
 
     console.log(datas)
 
@@ -174,7 +174,7 @@ const CareerPage = (props) => {
                             </Row>
                         </CardHeader>
                         <CardBody>
-                            {/* <TableContainer
+                            <TableContainer
                                 columns={columns}
                                 data={datas}
                                 isGlobalFilter={true}
@@ -186,8 +186,8 @@ const CareerPage = (props) => {
                                 theadClass="table-dark"
                                 paginationDiv="col-12"
                                 pagination="justify-content-center pagination pagination-rounded"
-                            /> */}
-                             <LazyLoadDemo/>
+                            />
+                             {/* <LazyLoadDemo/> */}
                         </CardBody>
                     </Card>
 
