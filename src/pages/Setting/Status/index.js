@@ -37,9 +37,9 @@ const StatusPage = (props) => {
         dispatch(getStatusAll());
     }, [dispatch]);
 
-    useEffect(() => {
-        dispatch(getStatusAll());
-    }, [datas]);
+    // useEffect(() => {
+    //     dispatch(getStatusAll());
+    // }, [datas]);
 
     console.log(datas)
 
