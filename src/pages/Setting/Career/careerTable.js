@@ -189,6 +189,7 @@ const CustomFilterDemo = () => {
   const [customers, setCustomers] = useState(null);
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     id: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: { value: null, matchMode: FilterMatchMode.CONTAINS },
     description: { value: null, matchMode: FilterMatchMode.CONTAINS },
