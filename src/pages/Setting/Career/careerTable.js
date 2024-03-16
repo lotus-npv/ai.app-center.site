@@ -172,6 +172,7 @@ import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 
+import DeleteModal from "components/Common/DeleteModal";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -198,8 +199,6 @@ const CustomFilterDemo = () => {
   const [loading, setLoading] = useState(true);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
-  console.log(filters)
-
   const dispatch = useDispatch();
 
   const { datas } = useSelector(state => ({
@@ -221,6 +220,24 @@ const CustomFilterDemo = () => {
   function removeBodyCss() {
     document.body.classList.add("no_padding");
   }
+
+  // //delete modal
+  const [item, setItem] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const onClickDelete = (data) => {
+    setItem(data);
+    setDeleteModal(true);
+  };
+
+  const handleDeleteOrder = () => {
+    if (item && item.id) {
+      console.log('delete id :' + item.id);
+      dispatch(deleteCareer(item.id));
+
+      setDeleteModal(false);
+    }
+  };
 
   // Row selected edit
   const [rowSelect, setRowSelect] = useState(null)
@@ -251,13 +268,15 @@ const CustomFilterDemo = () => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={tog_xlarge}/>
-        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); }} />
+        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => {onClickDelete(rowData);}}/>
       </div>
     )
   }
 
   const header = renderHeader();
+
+  console.log(rowSelect)
 
   return (
     <div className="card">
@@ -268,6 +287,13 @@ const CustomFilterDemo = () => {
         <Column field="description" header="Description" filter filterField="description" filterPlaceholder="Search by description" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} />
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} />
       </DataTable>
+
+      <DeleteModal
+        show={deleteModal}
+        onDeleteClick={handleDeleteOrder}
+        onCloseClick={() => setDeleteModal(false)}
+      />
+
       <Modal
         size="xl"
         isOpen={modal_xlarge}
