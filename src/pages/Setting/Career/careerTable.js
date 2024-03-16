@@ -123,20 +123,22 @@ import { Column } from 'primereact/column';
 import { ProductService } from './ProductService';
 
 export default function LazyLoadDemo() {
-    const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState(null);
 
-    useEffect(() => {
-        ProductService.getProducts().then(data => setProducts(data));
-    }, []);
+  useEffect(() => {
+    ProductService.getProducts().then(data => setProducts(data));
+  }, []);
 
-    return (
-        <div className="card">
-            <DataTable value={products} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]}  tableStyle={{ minWidth: '50rem' }}>
-                <Column field="code" header="Code"></Column>
-                <Column field="name" header="Name"></Column>
-                <Column field="category" header="Category"></Column>
-                <Column field="quantity" header="Quantity"></Column>
-            </DataTable>
-        </div>
-    );
+  return (
+    <div className="card">
+      <DataTable value={products} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)} dataKey="id" tableStyle={{ minWidth: '50rem' }}>
+        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+        <Column field="code" header="Code"></Column>
+        <Column field="name" header="Name"></Column>
+        <Column field="category" header="Category"></Column>
+        <Column field="quantity" header="Quantity"></Column>
+      </DataTable>
+    </div>
+  );
 }
