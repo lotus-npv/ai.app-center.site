@@ -174,7 +174,7 @@ const CareerPage = (props) => {
                             </Row>
                         </CardHeader>
                         <CardBody>
-                            {/* <TableContainer
+                            <TableContainer
                                 columns={columns}
                                 data={datas}
                                 isGlobalFilter={true}
@@ -186,8 +186,8 @@ const CareerPage = (props) => {
                                 theadClass="table-dark"
                                 paginationDiv="col-12"
                                 pagination="justify-content-center pagination pagination-rounded"
-                            /> */}
-                             <LazyLoadDemo/>
+                            />
+                             {/* <LazyLoadDemo/> */}
                         </CardBody>
                     </Card>
 
