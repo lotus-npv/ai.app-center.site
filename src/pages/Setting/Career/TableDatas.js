@@ -29,7 +29,6 @@ FilterService.register('custom_activity', (value, filters) => {
 const TableDatas = () => {
 
   const screenAvailHeight = window.innerHeight;
-  // const [windowHeight, setWindowHeight] = useState(screenAvailHeight)
   const [vh, setVh] = useState('')
 
   window.addEventListener('resize', function() {
@@ -38,8 +37,6 @@ const TableDatas = () => {
     setVh(`${wh}px`);
     // setWindowHeight(screenHeight);
   });
-
-  
 
   useEffect(() => {
     let wh = screenAvailHeight - 280;
@@ -140,7 +137,6 @@ const TableDatas = () => {
   };
 
   const addForm = () => {
-    // navigate('/input-career');
     setRowSelect(null);
     setIsEdit(false);
     tog_xlarge();
@@ -159,17 +155,16 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
-  console.log(vh)
 
   return (
     <div className="card" >
       <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 15, 20, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  filterHeaderStyle={{height: '5rem'}} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh}>
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} />
-        <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} />
-        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} />
-        <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} />
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'}>
+        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}  />
+        <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }}  />
+        <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }}  />
+        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }}  />
+        <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody}  />
       </DataTable>
 
       <DeleteModal
