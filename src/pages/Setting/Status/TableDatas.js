@@ -10,11 +10,11 @@ import { Button } from 'primereact/button';
 
 import DeleteModal from "components/Common/DeleteModal";
 
-import { useNavigate, Link } from "react-router-dom"; 1
+import { useNavigate, Link } from "react-router-dom"; 
 
-// //redux
+//redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
+import { getStatusAll, updateStatus, deleteStatus } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -46,7 +46,7 @@ const TableDatas = () => {
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getCareerAll());
+    dispatch(getStatusAll());
     // setCustomers(datas);
     setLoading(false);
   }, [dispatch]);
@@ -54,7 +54,7 @@ const TableDatas = () => {
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getCareerAll());
+      dispatch(getStatusAll());
     }, 10000); // Chạy lại hàm sau mỗi 10 giây
 
     // Hàm dọn dẹp khi unmount
