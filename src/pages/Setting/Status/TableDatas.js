@@ -41,7 +41,7 @@ const TableDatas = () => {
   const dispatch = useDispatch();
 
   const { datas } = useSelector(state => ({
-    datas: state.Career.datas
+    datas: state.Status.datas
   }), shallowEqual);
 
   // Get du lieu lan dau 
@@ -91,6 +91,11 @@ const TableDatas = () => {
     }
   };
 
+
+  const addForm = () => {
+    navigate('/input-status');
+  }
+
   // Row selected edit
   const [rowSelect, setRowSelect] = useState(null)
 
@@ -119,12 +124,6 @@ const TableDatas = () => {
       </div>
     );
   };
-
-  const addForm = () => {
-    navigate('/input-career');
-  }
-
-
 
   const actionBody = (rowData) => {
     return (
