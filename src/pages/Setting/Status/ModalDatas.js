@@ -65,13 +65,17 @@ const optionConditionDate = [
 
 const optionColor = [
   {
-    label: <Badge className="font-size-12 badge-soft-danger">
+    label: <Badge className="font-size-12 badge-soft-success">
       success
     </Badge>
-    , value: "success"
+    , value: "badge-soft-success"
   },
-  { label: "danger", value: "danger" },
-  { label: "warning", value: "warning" },
+  { label: <Badge className="font-size-12 badge-soft-danger">
+  danger
+</Badge>, value: "badge-soft-danger" },
+  { label: <Badge className="font-size-12 badge-soft-warning">
+  warning
+</Badge>, value: "badge-soft-warning" },
 ];
 
 const optionConditionMilestone = [
