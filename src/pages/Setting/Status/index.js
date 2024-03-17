@@ -15,7 +15,6 @@ const StatusPage = (props) => {
     return (
         <>
             <div className="page-content">
-
                 <Container fluid={true}>            
                     <TableDatas />
                     <ToastContainer />
