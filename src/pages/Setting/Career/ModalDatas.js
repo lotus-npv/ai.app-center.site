@@ -55,6 +55,8 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     formik.handleSubmit();
   }
 
+  console.log(formik.values)
+
   return (
     <>
       <Form

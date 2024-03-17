@@ -109,7 +109,7 @@ const TableDatas = () => {
       <div className="d-flex justify-content-between">
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
-          <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+          <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
         </span>
 
         <Button className='btn btn-primary' onClick={addForm}>
@@ -144,12 +144,12 @@ const TableDatas = () => {
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
+      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
       filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight="70vh">
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        <Column field="id" header="ID" filter filterPlaceholder="Search by id" sortable  style={{ width: '15rem' }} />
-        <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Search by name" sortable style={{ minWidth: '12rem' }} />
-        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="Search by description" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} />
+        <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} />
+        <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} />
+        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} />
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} />
       </DataTable>
 
@@ -169,81 +169,6 @@ const TableDatas = () => {
         setApi={setCareer}
         updateApi={updateCareer}
       />
-      {/* <Modal
-        size="xl"
-        isOpen={modal_xlarge}
-        toggle={() => {
-          tog_xlarge();
-        }}
-      >
-        <div className="modal-header">
-          <h5
-            className="modal-title mt-0"
-            id="myExtraLargeModalLabel"
-          >
-            {isEdit ? 'Edit Career' : 'Add new Career'}
-          </h5>
-          <button
-            onClick={() => {
-              setmodal_xlarge(false);
-            }}
-            type="button"
-            className="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div className="modal-body">
-          <div className="mb-4">
-            <Label htmlFor="name">Tên ngành nghề</Label>
-            <Input
-              id='name'
-              name="name"
-              type="text"
-              value={rowSelect != null ? rowSelect.name : ''}
-              onChange={(e) => {
-                setRowSelect({ ...rowSelect, name: e.target.value });
-              }}
-            />
-          </div>
-          <div className="mb-4">
-            <Label htmlFor="note">Ghi chú</Label>
-            <Input
-              id='note'
-              name="note"
-              type="text"
-              value={rowSelect != null ? rowSelect.description : ''}
-              onChange={(e) => {
-                setRowSelect({ ...rowSelect, description: e.target.value });
-              }}
-            />
-          </div>
-        </div>
-        <div className="modal-footer">
-          <button
-            type="button"
-            onClick={() => {
-              tog_xlarge();
-            }}
-            className="btn btn-secondary "
-            data-dismiss="modal"
-          >
-            Close
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary "
-            onClick={() => {
-              dispatch(updateCareer(rowSelect));
-              tog_xlarge();
-            }}
-          >
-            Save changes
-          </button>
-        </div>
-      </Modal> */}
 
     </div>
   );
