@@ -66,19 +66,6 @@ const InputCareer = () => {
 
             dispatch(setCareer(obj));
             validationType.resetForm();
-
-            // let config = {
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            // };
-
-            // try {
-            //     let response = await axios.post("http://api.lotusocean-jp.com/api/career/insert",obj,config);
-            //     console.log("Upload success:", response.data);
-            // } catch (error) {
-            //     console.error("Upload failed:", error);
-            // }
         }
     });
 

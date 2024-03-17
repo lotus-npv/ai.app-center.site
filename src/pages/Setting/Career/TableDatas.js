@@ -122,6 +122,7 @@ const TableDatas = () => {
 
   const addForm = () => {
     // navigate('/input-career');
+    setRowSelect(null);
     setIsEdit(false);
     tog_xlarge();
   }
