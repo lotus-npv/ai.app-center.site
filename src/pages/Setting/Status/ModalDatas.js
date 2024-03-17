@@ -257,10 +257,10 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                       <Label>Điều kiện</Label>
                       <Select
                       name='condition_date'
-                        value={formik.values.condition_date}
+                        value={optionConditionDate.find((item) => item.value === formik.values.condition_date)}
                         onChange={(item) => {
                           console.log(item.value)
-                          formik.setFieldValue('condition_date', item);
+                          formik.setFieldValue('condition_date', item.value);
                         }}
                         options={optionConditionDate}
                         className="select2-selection"
