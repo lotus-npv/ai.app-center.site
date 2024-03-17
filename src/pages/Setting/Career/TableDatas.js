@@ -29,7 +29,7 @@ FilterService.register('custom_activity', (value, filters) => {
 const TableDatas = () => {
   const navigate = useNavigate();
 
-  var screenAvailHeight = window.screen.availHeight;
+  var screenAvailHeight = window.innerHeight;
   const [windowHeight, setWindowHeight] = useState(screenAvailHeight)
 
   window.addEventListener('resize', function() {
@@ -38,18 +38,14 @@ const TableDatas = () => {
     setWindowHeight(screenHeight);
     console.log('Độ phân giải màn hình hiện tại: ' + screenWidth + 'x' + screenHeight);
   });
-  
-  function getScrollHeight() {
-    let vh = '';
-    if(screenAvailHeight < 1100) {
-      vh ='vh70';
-    } else {
-      vh = 'vh75';
-    }
-    return vh;
-  }
 
-  console.log(screenAvailHeight);
+  let vh = '';
+
+  useEffect(() => {
+    let wh = windowHeight - 120;
+    vh = `${wh}px`;
+  }, [windowHeight])
+  
 
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
@@ -126,7 +122,6 @@ const TableDatas = () => {
     setGlobalFilterValue(value);
   };
 
-  let vh = getScrollHeight();
 
   const renderHeader = () => {
     return (
@@ -137,7 +132,7 @@ const TableDatas = () => {
         </span>
 
         <Button className='btn btn-primary' onClick={addForm}>
-          Thêm mới - {windowHeight - 110} - {vh}
+          Thêm mới - {windowHeight} 
         </Button>
 
       </div>
@@ -164,12 +159,12 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
-  // console.log(rowSelect)
+  console.log(vh)
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight={'700px'}>
+      <DataTable value={datas} paginator rows={25} rowsPerPageOptions={[5, 10, 25, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight={vh}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} />
