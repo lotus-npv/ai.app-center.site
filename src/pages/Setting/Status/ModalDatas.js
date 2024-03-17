@@ -16,9 +16,6 @@ import Select from "react-select";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-//redux
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getStatusAll, updateStatus, deleteStatus } from "store/actions";
 
 const Offsymbol = () => {
   return (
@@ -57,6 +54,12 @@ const OnSymbol = () => {
     </div>
   );
 };
+
+const optionGroup = [
+  { label: "Mustard", value: "Mustard" },
+  { label: "Ketchup", value: "Ketchup" },
+  { label: "Relish", value: "Relish" }
+];
 
 const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch, setApi, updateApi }) => {
 
@@ -153,11 +156,12 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
   return (
     <>
       <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          formik.handleSubmit();
-          return false;
-        }}>
+        // onSubmit={(e) => {
+        //   e.preventDefault();
+        //   formik.handleSubmit();
+        //   return false;
+        // }}
+        >
 
         <Modal className="needs-validation"
           size="xl"

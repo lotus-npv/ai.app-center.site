@@ -4,6 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Tag } from 'primereact/tag';
 
 import DataContext from 'data/DataContext';
 
@@ -123,7 +124,9 @@ const TableDatas = () => {
     tog_xlarge();
   }
 
-
+  const statusBodyTemplate = (item) => {
+    return <Tag value={item.status_type} severity={item.color}></Tag>;
+};
 
   const actionBody = (rowData) => {
     return (
@@ -145,7 +148,7 @@ const TableDatas = () => {
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} ></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} ></Column>
         <Column field="name" header="Tên trạng thái" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="status_type" header="Tên trạng thái" filterField="status_type" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="status_type" header="Loại" body={statusBodyTemplate} filterField="status_type" filter filterPlaceholder="Tìm kiếm bằng tên"  style={{ minWidth: '12rem' }} ></Column>
         <Column field="description" header="Ghi chú" filter filterField="description" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} ></Column>
       </DataTable>
