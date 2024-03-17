@@ -55,6 +55,11 @@ const OnSymbol = () => {
   );
 };
 
+const optionConditionDate = [
+  { label: "Before", value: "before" },
+  { label: "After", value: "after" },
+];
+
 const optionGroup = [
   { label: "Mustard", value: "Mustard" },
   { label: "Ketchup", value: "Ketchup" },
@@ -67,7 +72,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     enableReinitialize: true,
     initialValues: {
       name: item !== null ? item.name : '',
-      status_type: item !== null ? item.status_type  : '',
+      status_type: item !== null ? item.status_type  : 'manual',
       color: item !== null ? item.color  : '',
       condition_date: item !== null ? item.condition_date  : '',
       condition_milestone: item !== null ? item.condition_milestone  : '',
@@ -138,10 +143,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
         }
         dispatch(setApi(obj));
       }
-
-
       formik.resetForm();
-
       tog_xlarge();
     }
   });
@@ -150,6 +152,9 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     console.log('submit');
     formik.handleSubmit();
   }
+
+  const [isAuto, setIsAuto] = useState(formik.values.status_type == 'automatic' ? true : false)
+
 
   console.log(formik.values)
 
@@ -195,7 +200,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
               <Label className="form-label">Tên trạng thái</Label>
               <Input
                 name="name"
-                placeholder="Type Something"
+                placeholder="Nhập tên trạng thái"
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -211,45 +216,45 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
             <div className="mb-3">
               <Label>Ghi chú</Label>
               <Input
-                name="note"
+                name="description"
                 type="text"
                 autoComplete="off"
-                placeholder="note some thing"
+                placeholder="Nhập ghi chú"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.note || ""}
+                value={formik.values.description || ""}
                 invalid={
-                  formik.touched.note && formik.errors.note ? true : false
+                  formik.touched.description && formik.errors.description ? true : false
                 }
               />
-              {formik.touched.note && formik.errors.note ? (
-                <FormFeedback type="invalid">{formik.errors.note}</FormFeedback>
+              {formik.touched.description && formik.errors.description ? (
+                <FormFeedback type="invalid">{formik.errors.description}</FormFeedback>
               ) : null}
             </div>
 
             <div className="mb-3">
               <Switch
-                name='auto'
+                name='status_type'
                 uncheckedIcon={<Offsymbol />}
                 checkedIcon={<OnSymbol />}
                 className="me-3 mb-sm-8"
                 onColor="#626ed4"
-                onChange={(value) => formik.setFieldValue('auto', value)}
-                checked={formik.values.auto}
+                onChange={(value) => {setIsAuto(value)}}
+                checked={isAuto}
               />
-              <Label>Tự động thêm trạng thái</Label>
+              <Label>{isAuto ? 'Trạng thái tự động' : 'Trạng thái thủ công'}</Label>
             </div>
 
-            {formik.values.auto && <Row>
+            {isAuto && <Row>
               <Col lg={4}>
                 <div className="mb-3">
                   <Label>Điều kiện</Label>
                   <Select
-                    value={formik.values.condition}
-                    onChange={(val) => {
-                      formik.setFieldValue('condition', val);
+                    value={formik.values.condition_date}
+                    onChange={(value) => {
+                      formik.setFieldValue('condition_date', value);
                     }}
-                    options={optionGroup}
+                    options={optionConditionDate}
                     className="select2-selection"
                   />
                 </div>
@@ -258,7 +263,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                 <div className="mb-3">
                   <Label>Mốc thời gian</Label>
                   <Select
-                    value={selectedGroup}
+                    value={formik.values.condition_milestone}
                     onChange={() => {
                       handleSelectGroup();
                     }}
