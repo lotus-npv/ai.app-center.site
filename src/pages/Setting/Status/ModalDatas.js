@@ -65,7 +65,7 @@ const optionConditionDate = [
 
 const optionColor = [
   {
-    label: <Badge className="font-size-12 badge-soft-success">
+    label: <Badge className="font-size-12 badge-soft-success" >
       success
     </Badge>
     , value: "success"
@@ -95,7 +95,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     initialValues: {
       name: item !== null ? item.name : '',
       status_type: item !== null ? item.status_type : 'manual',
-      color: item !== null ? item.color : '',
+      colors: item !== null ? item.colors : '',
       condition_date: item !== null ? item.condition_date : '',
       condition_milestone: item !== null ? item.condition_milestone : '',
       condition_value: item !== null ? item.condition_value : '',
@@ -109,7 +109,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
       status_type: Yup.string().required(
         "This value is required"
       ),
-      color: Yup.string().required(
+      colors: Yup.string().required(
         "This value is required"
       ),
       condition_date: Yup.string().required(
@@ -131,7 +131,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
         let obj = {
           id: value.id,
           key_license_id: 1,
-          color: value.color,
+          colors: value.colors,
           status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
           condition_date: value.condition_date.value,
@@ -149,7 +149,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
       } else {
         let obj = {
           key_license_id: 1,
-          color: value.color,
+          colors: value.colors,
           status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
           condition_date: value.condition_date,
@@ -242,30 +242,14 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                 <div className="mb-3">
                   <Label>Màu sắc</Label>
                   <Select
-                    name='color'
+                    name='colors'
                     placeholder='Chọn màu sắc'
-                    value={optionColor.find((item) => item.value === formik.values.color)}
+                    value={optionColor.find((item) => item.value === formik.values.colors)}
                     onChange={(item) => {
-                      console.log(item.value)
                       formik.setFieldValue('condition_date', item.value);
                     }}
                     options={optionColor}
                     className="select2-selection"
-                    styles={{
-                      control: (baseStyles, state) => ({
-                        ...baseStyles,
-                        borderColor: state.isFocused ? 'grey' : 'red',
-                        // backgroundColor: state.isFocused ? 'red' : 'white'
-                        cursor: state.isFocused ? 'grey' : 'red',
-                        color: state.isDisabled
-                          ? '#ccc'
-                          : state.isSelected
-                            ? 'white'
-                              ? 'white'
-                              : 'black'
-                            : 'red',
-                      }),
-                    }}
                   />
                   {formik.touched.condition_date && formik.errors.condition_date ? (
                     <FormFeedback type="invalid">{formik.errors.condition_date}</FormFeedback>
