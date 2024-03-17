@@ -13,9 +13,9 @@ import ModalDatas from './ModalDatas'
 
 import { useNavigate, Link } from "react-router-dom"; 1
 
-// //redux
+//redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer, deleteCareer, setCareer } from "store/actions";
+import { getStatusAll, updateStatus, deleteStatus } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -42,19 +42,19 @@ const TableDatas = () => {
   const dispatch = useDispatch();
 
   const { datas } = useSelector(state => ({
-    datas: state.Career.datas
+    datas: state.Status.datas
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getCareerAll());
+    dispatch(getStatusAll());
     setLoading(false);
   }, [dispatch]);
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getCareerAll());
+      dispatch(getStatusAll());
     }, 10000);
     // Hàm dọn dẹp khi unmount
     return () => {
@@ -85,7 +85,7 @@ const TableDatas = () => {
   const handleDeleteOrder = () => {
     if (item && item.id) {
       console.log('delete id :' + item.id);
-      dispatch(deleteCareer(item.id));
+      dispatch(deleteStatus(item.id));
 
       setDeleteModal(false);
     }
