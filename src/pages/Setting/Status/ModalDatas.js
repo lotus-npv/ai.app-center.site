@@ -181,6 +181,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     isAuto ? formik.setFieldValue('status_type', 'automatic') : formik.setFieldValue('status_type', 'manual');
   }, [isAuto])
 
+  console.log(isAuto)
   console.log(formik.values)
 
   return (
@@ -246,7 +247,8 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                     placeholder='Chọn màu sắc'
                     value={optionColor.find((item) => item.value === formik.values.colors)}
                     onChange={(item) => {
-                      formik.setFieldValue('condition_date', item.value);
+                      console.log(item.value)
+                      formik.setFieldValue('colors', item.value);
                     }}
                     options={optionColor}
                     className="select2-selection"
@@ -296,7 +298,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                         placeholder='Chọn điều kiện'
                         value={optionConditionDate.find((item) => item.value === formik.values.condition_date)}
                         onChange={(item) => {
-                          console.log(item.value)
+                          
                           formik.setFieldValue('condition_date', item.value);
                         }}
                         options={optionConditionDate}
