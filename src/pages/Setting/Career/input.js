@@ -144,9 +144,6 @@ const InputCareer = () => {
                                             <Button type="reset" color="secondary" >
                                                 Cancel
                                             </Button>
-                                            <Button  color="secondary" onClick={notify}>
-                                                notify
-                                            </Button>
                                             <ToastContainer />
                                         </div>
                                     </Form>

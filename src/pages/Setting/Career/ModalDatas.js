@@ -27,22 +27,32 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     }),
     onSubmit: async (value) => {
 
-      let obj = {
-        id: isEdit ? value.id : '',
-        syndication_id: 1,
-        name: value.name,
-        description: value.description,
-        create_at: value.create_at,
-        create_by: 1,
-        update_at: null,
-        update_by: 1,
-        delete_at: null,
-        flag: 1
-      }
-
       if(isEdit) {
+        let obj = {
+          id: value.id,
+          syndication_id: 1,
+          name: value.name,
+          description: value.description,
+          create_at: value.create_at,
+          create_by: 1,
+          update_at: null,
+          update_by: 1,
+          delete_at: null,
+          flag: 1
+        }
         dispatch(updateApi(obj));
       } else {
+        let obj = {
+          syndication_id: 1,
+          name: value.name,
+          description: value.description,
+          create_at: null,
+          create_by: 1,
+          update_at: null,
+          update_by: 1,
+          delete_at: null,
+          flag: 1
+        }
         dispatch(setApi(obj));
       }
 
