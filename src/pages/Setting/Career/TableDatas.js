@@ -140,7 +140,7 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
-  console.log(rowSelect)
+  // console.log(rowSelect)
 
   return (
     <div className="card" >
