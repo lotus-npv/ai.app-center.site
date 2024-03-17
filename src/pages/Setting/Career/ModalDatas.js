@@ -3,7 +3,11 @@ import { Modal, Label, Input, FormFeedback, Form, Button } from "reactstrap";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge }) => {
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
+
+const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch,setApi, updateApi }) => {
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -33,21 +37,32 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge })
         flag: 1
       }
 
-      // dispatch(setCareer(obj));
-      // formik.resetForm();
-      console.log('sâssss');
+      if(isEdit) {
+        dispatch(updateApi(obj));
+      } else {
+        dispatch(setApi(obj));
+      }
+
+      
+      formik.resetForm();
+
       tog_xlarge();
     }
   });
 
+  const handleSubmit = () => {
+    console.log('submit');
+    formik.handleSubmit();
+  }
+
   return (
     <>
       <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          formik.handleSubmit();
-          return false;
-        }}
+        // onSubmit={(e) => {
+        //   e.preventDefault();
+        //   formik.handleSubmit();
+        //   return false;
+        // }}
       >
         <Modal className="needs-validation"
           size="xl"
@@ -123,7 +138,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge })
             >
               Close
             </button>
-            <Button type="submit" color="primary">
+            <Button  color="primary" onClick={handleSubmit}>
               Save changes
             </Button>
           </div>

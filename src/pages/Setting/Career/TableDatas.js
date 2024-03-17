@@ -15,7 +15,7 @@ import { useNavigate, Link } from "react-router-dom"; 1
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
+import { getCareerAll, updateCareer, deleteCareer, setCareer } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -165,6 +165,9 @@ const TableDatas = () => {
         modal_xlarge={modal_xlarge}
         setmodal_xlarge={setmodal_xlarge}
         tog_xlarge={tog_xlarge}
+        dispatch={dispatch}
+        setApi={setCareer}
+        updateApi={updateCareer}
       />
       {/* <Modal
         size="xl"
