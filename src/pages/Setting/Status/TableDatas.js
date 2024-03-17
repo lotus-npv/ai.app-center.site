@@ -1,20 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Modal, Label, Input } from "reactstrap";
 import { FilterMatchMode, FilterService } from 'primereact/api';
-import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
-import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
-import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 
 import DataContext from 'data/DataContext';
 
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
-
-import { useNavigate, Link } from "react-router-dom"; 1
-
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getStatusAll, updateStatus, deleteStatus, setStatus } from "store/actions";
@@ -29,21 +23,7 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = () => {
-  
-  // const screenAvailHeight = window.innerHeight;
-  // const [vh, setVh] = useState('')
 
-  // window.addEventListener('resize', function() {
-  //   var screenHeight = window.innerHeight;
-  //   let wh = screenHeight - 245;
-  //   setVh(`${wh}px`);
-  //   // setWindowHeight(screenHeight);
-  // });
-
-  // useEffect(() => {
-  //   let wh = screenAvailHeight - 245;
-  //   setVh(`${wh}px`);
-  // }, [])
   const {vh} = useContext(DataContext);
 
   const [selectedItems, setSelectedItems] = useState(null);

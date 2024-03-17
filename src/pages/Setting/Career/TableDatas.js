@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FilterMatchMode, FilterService } from 'primereact/api';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+
+import DataContext from 'data/DataContext';
 
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
@@ -23,21 +25,7 @@ FilterService.register('custom_activity', (value, filters) => {
 
 const TableDatas = () => {
 
-  const screenAvailHeight = window.innerHeight;
-  const [vh, setVh] = useState('')
-
-  window.addEventListener('resize', function() {
-    var screenHeight = window.innerHeight;
-    let wh = screenHeight - 245;
-    setVh(`${wh}px`);
-    // setWindowHeight(screenHeight);
-  });
-
-  useEffect(() => {
-    let wh = screenAvailHeight - 245;
-    setVh(`${wh}px`);
-  }, [])
-  
+  const {vh} = useContext(DataContext);
 
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
