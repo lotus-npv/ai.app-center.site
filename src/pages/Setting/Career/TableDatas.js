@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Label, Input } from "reactstrap";
 import { FilterMatchMode, FilterService } from 'primereact/api';
-import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
-import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
-import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
-
-import { useNavigate, Link } from "react-router-dom"; 1
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -157,9 +152,9 @@ const TableDatas = () => {
 
 
   return (
-    <div className="card-table" >
+    <div className="card" >
       <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 15, 20, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'}>
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'} showGridlines={true}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} ></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} ></Column>
         <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
