@@ -63,12 +63,12 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: item.name,
-      note: item.description,
-      auto: item.status_type == 'manual' ? false : true,
+      name: item !== null ? item.name : '',
+      status_type: item !== null ? item.status_type  : '',
       condition: item.condition_milestone,
       condition_date: item.condition_date,
       number: item.condition_value,
+      description: item.description,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -151,7 +151,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
               className="modal-title mt-0"
               id="myExtraLargeModalLabel"
             >
-              {isEdit ? 'Edit Career' : 'Add new Career'}
+              {isEdit ? 'Edit Status' : 'Add new Status'}
             </h5>
             <button
               onClick={() => {
