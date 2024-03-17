@@ -114,8 +114,8 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
           color: value.color,
           status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
-          condition_date: value.condition_date,
-          condition_milestone: value.condition_milestone,
+          condition_date: value.condition_date.value,
+          condition_milestone: value.condition_milestone.value,
           condition_value: value.condition_value,
           description: value.description,
           create_at: value.create_at,
@@ -157,6 +157,9 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
 
   const [isAuto, setIsAuto] = useState(formik.values.status_type == 'automatic' ? true : false)
 
+  useEffect(() => {
+    isAuto ? formik.setFieldValue('status_type', 'automatic') : formik.setFieldValue('status_type', 'manual');
+  }, [isAuto])
 
   console.log(formik.values)
 
@@ -256,7 +259,8 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                       name='condition_date'
                         value={formik.values.condition_date}
                         onChange={(item) => {
-                          formik.setFieldValue('condition_date', item.value);
+                          console.log(item.value)
+                          formik.setFieldValue('condition_date', item);
                         }}
                         options={optionConditionDate}
                         className="select2-selection"
