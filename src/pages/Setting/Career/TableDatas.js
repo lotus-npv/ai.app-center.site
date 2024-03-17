@@ -34,7 +34,7 @@ const TableDatas = () => {
   });
 
   useEffect(() => {
-    let wh = screenAvailHeight - 280;
+    let wh = screenAvailHeight - 250;
     setVh(`${wh}px`);
   }, [])
   
