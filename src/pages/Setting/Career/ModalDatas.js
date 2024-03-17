@@ -3,10 +3,6 @@ import { Modal, Label, Input, FormFeedback, Form, Button } from "reactstrap";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-// //redux
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
-
 const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch,setApi, updateApi }) => {
 
   const formik = useFormik({
@@ -30,7 +26,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
       if(isEdit) {
         let obj = {
           id: value.id,
-          syndication_id: 1,
+          key_license_id: 1,
           name: value.name,
           description: value.description,
           create_at: value.create_at,
@@ -43,7 +39,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
         dispatch(updateApi(obj));
       } else {
         let obj = {
-          syndication_id: 1,
+          key_license_id: 1,
           name: value.name,
           description: value.description,
           create_at: null,

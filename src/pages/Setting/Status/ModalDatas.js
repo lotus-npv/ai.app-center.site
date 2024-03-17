@@ -65,33 +65,48 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     initialValues: {
       name: item !== null ? item.name : '',
       status_type: item !== null ? item.status_type  : '',
-      condition: item.condition_milestone,
-      condition_date: item.condition_date,
-      number: item.condition_value,
-      description: item.description,
+      color: item !== null ? item.color  : '',
+      condition_date: item !== null ? item.condition_date  : '',
+      condition_milestone: item !== null ? item.condition_milestone  : '',
+      condition_value: item !== null ? item.condition_value  : '',
+      description: item !== null ? item.description  : '',
+      create_at: item !== null ? item.create_at  : ''
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
         "This value is required"
       ),
-      note: Yup.string().required(
+      status_type: Yup.string().required(
         "This value is required"
       ),
-      condition: Yup.string().required(
+      color: Yup.string().required(
         "This value is required"
       ),
-      condition_date: Yup.date().required("Please Enter Your Date"),
-      number: Yup.number().required(
+      condition_date: Yup.string().required(
+        "This value is required"
+      ),
+      condition_milestone: Yup.string().required(
+        "This value is required"
+      ),
+      condition_value: Yup.number().required(
         "Please Enter Your Number"
-      )
+      ),
+      description: Yup.string().required(
+        "This value is required"
+      ),
     }),
     onSubmit: async (value) => {
 
       if (isEdit) {
         let obj = {
           id: value.id,
-          syndication_id: 1,
+          key_license_id: 1,
+          color: value.color,
+          status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
+          condition_date: value.condition_date,
+          condition_milestone: value.condition_milestone,
+          condition_value: value.condition_value,
           description: value.description,
           create_at: value.create_at,
           create_by: 1,
@@ -103,10 +118,15 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
         dispatch(updateApi(obj));
       } else {
         let obj = {
-          syndication_id: 1,
+          key_license_id: 1,
+          color: value.color,
+          status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
+          condition_date: value.condition_date,
+          condition_milestone: value.condition_milestone,
+          condition_value: value.condition_value,
           description: value.description,
-          create_at: null,
+          create_at: value.create_at,
           create_by: 1,
           update_at: null,
           update_by: 1,
