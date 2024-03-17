@@ -30,6 +30,15 @@ const TableDatas = () => {
   const navigate = useNavigate();
 
   var screenAvailHeight = window.screen.availHeight;
+  const [windowHeight, setWindowHeight] = useState(screenAvailHeight)
+
+  window.addEventListener('resize', function() {
+    var screenWidth = window.innerWidth;
+    var screenHeight = window.innerHeight;
+    setWindowHeight(screenHeight);
+    console.log('Độ phân giải màn hình hiện tại: ' + screenWidth + 'x' + screenHeight);
+  });
+  
   function getScrollHeight() {
     let vh = '';
     if(screenAvailHeight < 1100) {
@@ -117,6 +126,8 @@ const TableDatas = () => {
     setGlobalFilterValue(value);
   };
 
+  let vh = getScrollHeight();
+
   const renderHeader = () => {
     return (
       <div className="d-flex justify-content-between">
@@ -126,7 +137,7 @@ const TableDatas = () => {
         </span>
 
         <Button className='btn btn-primary' onClick={addForm}>
-          Thêm mới - {screenAvailHeight}
+          Thêm mới - {windowHeight} - {vh}
         </Button>
 
       </div>
@@ -158,7 +169,7 @@ const TableDatas = () => {
   return (
     <div className="card" >
       <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight={getScrollHeight}>
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight={vh}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} />
