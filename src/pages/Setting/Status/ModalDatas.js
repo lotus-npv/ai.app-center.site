@@ -68,17 +68,17 @@ const optionColor = [
     label: <Badge className="font-size-12 badge-soft-success">
       success
     </Badge>
-    , value: "badge-soft-success"
+    , value: "success"
   },
   {
     label: <Badge className="font-size-12 badge-soft-danger">
       danger
-    </Badge>, value: "badge-soft-danger"
+    </Badge>, value: "danger"
   },
   {
     label: <Badge className="font-size-12 badge-soft-warning">
       warning
-    </Badge>, value: "badge-soft-warning"
+    </Badge>, value: "warning"
   },
 ];
 

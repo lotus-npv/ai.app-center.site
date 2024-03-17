@@ -130,7 +130,7 @@ const TableDatas = () => {
 
   const statusBodyTemplate = (rowData) => {
     // return <Tag value={item.status_type} severity={item.color}></Tag>;
-    return <Badge className={rowData.color} color='badge-soft-success'>{rowData.status_type}</Badge>
+    return <Badge className={"p-2 font-size-12 badge-soft-"+`${rowData.colors}`}>{rowData.status_type}</Badge>
   };
 
   const actionBody = (rowData) => {
