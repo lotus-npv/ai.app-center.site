@@ -145,8 +145,8 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
           colors: value.colors,
           status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
-          condition_date: value.condition_date.value,
-          condition_milestone: value.condition_milestone.value,
+          condition_date: value.condition_date,
+          condition_milestone: value.condition_milestone,
           condition_value: value.condition_value,
           description: value.description,
           create_at: value.create_at,
