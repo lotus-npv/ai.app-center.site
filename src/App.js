@@ -16,7 +16,8 @@ import HorizontalLayout from "./components/HorizontalLayout/";
 import NonAuthLayout from "./components/NonAuthLayout";
 
 // Import scss
-import "./assets/scss/theme.scss";
+// import "./assets/scss/theme.scss";
+import 'primereact/resources/themes/viva-light/theme.css';
 
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper";
@@ -25,6 +26,7 @@ import fakeBackend from "./helpers/AuthType/fakeBackend";
 
 // Activating fake backend
 fakeBackend();
+
 
 // const firebaseConfig = {
 //   apiKey: process.env.REACT_APP_APIKEY,
