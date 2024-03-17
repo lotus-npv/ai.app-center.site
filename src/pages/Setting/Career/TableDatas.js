@@ -27,7 +27,7 @@ FilterService.register('custom_activity', (value, filters) => {
 
 const TableDatas = () => {
   const navigate = useNavigate();
-  // const [customers, setCustomers] = useState(null);
+
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -47,7 +47,6 @@ const TableDatas = () => {
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getCareerAll());
-    // setCustomers(datas);
     setLoading(false);
   }, [dispatch]);
 
@@ -55,15 +54,15 @@ const TableDatas = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getCareerAll());
-    }, 10000); // Chạy lại hàm sau mỗi 10 giây
-
+    }, 10000);
     // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId);
     };
   }, []);
 
-  // modal edit
+  // modal edit or addnew
+  const [isEdit , setIsEdit] = useState(false);
   const [modal_xlarge, setmodal_xlarge] = useState(false);
   function tog_xlarge() {
     setmodal_xlarge(!modal_xlarge);
@@ -121,7 +120,9 @@ const TableDatas = () => {
   };
 
   const addForm = () => {
-    navigate('/input-career');
+    // navigate('/input-career');
+    setIsEdit(false);
+    tog_xlarge();
   }
 
 
@@ -142,7 +143,7 @@ const TableDatas = () => {
   return (
     <div className="card" >
       <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight="70vh">
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight="70vh">
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Search by id" sortable  style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Search by name" sortable style={{ minWidth: '12rem' }} />
@@ -168,7 +169,7 @@ const TableDatas = () => {
             className="modal-title mt-0"
             id="myExtraLargeModalLabel"
           >
-            Extra large modal
+            {isEdit ? 'Edit Career' : 'Add new Career'}
           </h5>
           <button
             onClick={() => {
