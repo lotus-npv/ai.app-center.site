@@ -93,14 +93,14 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: item !== null ? item.name : '',
+      name: item !== null ? item.name : null,
       status_type: item !== null ? item.status_type : 'manual',
-      colors: item !== null ? item.colors : '',
-      condition_date: item !== null ? item.condition_date : '',
-      condition_milestone: item !== null ? item.condition_milestone : '',
-      condition_value: item !== null ? item.condition_value : '',
-      description: item !== null ? item.description : '',
-      create_at: item !== null ? item.create_at : ''
+      colors: item !== null ? item.colors : null,
+      condition_date: item !== null ? item.condition_date : null,
+      condition_milestone: item !== null ? item.condition_milestone : null,
+      condition_value: item !== null ? item.condition_value : null,
+      description: item !== null ? item.description : null,
+      create_at: item !== null ? item.create_at : null
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -112,19 +112,30 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
       colors: Yup.string().required(
         "This value is required"
       ),
-      condition_date: Yup.string().required(
-        "This value is required"
-      ),
-      condition_milestone: Yup.string().required(
-        "This value is required"
-      ),
-      condition_value: Yup.number().required(
-        "Please Enter Your Number"
-      ),
+      // condition_date: Yup.string().required(
+      //   "This value is required"
+      // ),
+      // condition_milestone: Yup.string().required(
+      //   "This value is required"
+      // ),
+      // condition_value: Yup.number().required(
+      //   "Please Enter Your Number"
+      // ),
       description: Yup.string().required(
         "This value is required"
       ),
     }),
+  //   validate: (data) => {
+  //     let errors = {};
+
+  //     if (data.status_type == 'automatic') {
+  //         if(data.condition_value) {
+  //           errors.condition_value = 'City is required.';
+  //         }
+  //     }
+
+  //     return errors;
+  // },
     onSubmit: async (value) => {
 
       if (isEdit) {
