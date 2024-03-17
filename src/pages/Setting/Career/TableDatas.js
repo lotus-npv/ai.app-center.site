@@ -27,24 +27,24 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = () => {
-  // const navigate = useNavigate();
 
   const screenAvailHeight = window.innerHeight;
-  const [windowHeight, setWindowHeight] = useState(screenAvailHeight)
-
-  window.addEventListener('resize', function() {
-    // var screenWidth = window.innerWidth;
-    var screenHeight = window.innerHeight;
-    setWindowHeight(screenHeight);
-    // console.log('Độ phân giải màn hình hiện tại: ' + screenWidth + 'x' + screenHeight);
-  });
-
+  // const [windowHeight, setWindowHeight] = useState(screenAvailHeight)
   const [vh, setVh] = useState('')
 
-  useEffect(() => {
-    let wh = windowHeight - 280;
+  window.addEventListener('resize', function() {
+    var screenHeight = window.innerHeight;
+    let wh = screenHeight - 280;
     setVh(`${wh}px`);
-  }, [windowHeight])
+    // setWindowHeight(screenHeight);
+  });
+
+  
+
+  useEffect(() => {
+    let wh = screenAvailHeight - 280;
+    setVh(`${wh}px`);
+  }, [])
   
 
   const [selectedItems, setSelectedItems] = useState(null);
@@ -132,7 +132,7 @@ const TableDatas = () => {
         </span>
 
         <Button className='btn btn-primary' onClick={addForm}>
-          Thêm mới - {windowHeight} 
+          Thêm mới 
         </Button>
 
       </div>
@@ -163,8 +163,8 @@ const TableDatas = () => {
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={25} rowsPerPageOptions={[5, 10, 25, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight={vh}>
+      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 15, 20, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  filterHeaderStyle={{height: '5rem'}} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} />
