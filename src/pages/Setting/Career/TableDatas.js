@@ -29,6 +29,19 @@ FilterService.register('custom_activity', (value, filters) => {
 const TableDatas = () => {
   const navigate = useNavigate();
 
+  var screenAvailHeight = window.screen.availHeight;
+  function getScrollHeight() {
+    let vh = '';
+    if(screenAvailHeight < 1100) {
+      vh ='vh70';
+    } else {
+      vh = 'vh75';
+    }
+    return vh;
+  }
+
+  console.log(screenAvailHeight);
+
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -113,7 +126,7 @@ const TableDatas = () => {
         </span>
 
         <Button className='btn btn-primary' onClick={addForm}>
-          Thêm mới
+          Thêm mới - {screenAvailHeight}
         </Button>
 
       </div>
@@ -145,7 +158,7 @@ const TableDatas = () => {
   return (
     <div className="card" >
       <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight="70vh">
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight={getScrollHeight}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} />
