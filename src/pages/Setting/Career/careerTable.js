@@ -174,6 +174,8 @@ import { Button } from 'primereact/button';
 
 import DeleteModal from "components/Common/DeleteModal";
 
+import { useNavigate, Link } from "react-router-dom";
+
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
@@ -188,6 +190,7 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const CustomFilterDemo = () => {
+  const navigate = useNavigate();
   // const [customers, setCustomers] = useState(null);
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
@@ -215,14 +218,14 @@ const CustomFilterDemo = () => {
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-        dispatch(getCareerAll());
+      dispatch(getCareerAll());
     }, 10000); // Chạy lại hàm sau mỗi 10 giây
 
     // Hàm dọn dẹp khi unmount
     return () => {
-        clearInterval(intervalId);
+      clearInterval(intervalId);
     };
-}, []);
+  }, []);
 
   // modal edit
   const [modal_xlarge, setmodal_xlarge] = useState(false);
@@ -267,14 +270,23 @@ const CustomFilterDemo = () => {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-end">
+      <div className="d-flex justify-content-between">
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
           <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
         </span>
+
+        <Button color="primary" onClick={addForm}>
+          Thêm mới
+        </Button>
+
       </div>
     );
   };
+
+  const addForm = () => {
+    navigate('/input-career');
+  }
 
 
 
@@ -282,7 +294,7 @@ const CustomFilterDemo = () => {
     return (
       <div className="d-flex gap-3">
         <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); }} />
-        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => {onClickDelete(rowData);}}/>
+        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
   }
