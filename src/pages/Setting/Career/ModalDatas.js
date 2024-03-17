@@ -12,8 +12,10 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      id: item !== null ? item.id : '',
       name: item !== null ? item.name : '',
       description: item !== null ? item.description : '',
+      create_at: item !== null ? item.create_at : '',
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -26,10 +28,11 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     onSubmit: async (value) => {
 
       let obj = {
+        id: isEdit ? value.id : '',
         syndication_id: 1,
         name: value.name,
         description: value.description,
-        create_at: '',
+        create_at: value.create_at,
         create_by: 1,
         update_at: null,
         update_by: 1,
