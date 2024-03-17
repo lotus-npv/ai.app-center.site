@@ -17,7 +17,7 @@ import NonAuthLayout from "./components/NonAuthLayout";
 
 // Import scss
 import "./assets/scss/theme.scss";
-import 'primereact/resources/themes/bootstrap4-light-purple/theme.css';
+
 
 // primereact/resources/themes/bootstrap4-light-blue/theme.css
 // primereact/resources/themes/bootstrap4-light-purple/theme.css

@@ -10,6 +10,7 @@ import { PrimeReactProvider } from 'primereact/api';
 import 'primeicons/primeicons.css';
 // import 'primeflex/primeflex.css';
 // import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/tailwind-light/theme.css';
 
 
 import store from "./store";

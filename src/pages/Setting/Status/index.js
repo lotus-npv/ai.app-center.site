@@ -13,9 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { ProductService } from './ProductService';
 
-import { PrimeReactContext } from 'primereact/api';
-
-import Select from "react-select"
 
 const themes = [
     { label: "Bootstrap 4 Light Blue", value: "primereact/resources/themes/bootstrap4-light-blue/theme.css" },
@@ -67,16 +64,6 @@ const StatusPage = (props) => {
         ProductService.getProductsMini().then(data => setProducts(data));
     }, []);
 
-    const { changeTheme } = useContext(PrimeReactContext);
-    const [theme, setTheme] = useState('primereact/resources/themes/bootstrap4-light-blue/theme.css');
-
-    const handleChange = (item) => {
-        const newTheme = item.value;
-        console.log(newTheme);
-        changeTheme(theme, newTheme);
-        setTheme(newTheme);
-    };
-
     return (
         <>
             <div className="page-content">
@@ -84,24 +71,14 @@ const StatusPage = (props) => {
                     <TableDatas />
                     <ToastContainer />
 
-                    {/* <div className="card">
-                        <DataTable value={products} tableStyle={{ minWidth: '50rem' }} showGridlines={true}>
+                    <div className="card">
+                        <DataTable value={products} tableStyle={{ minWidth: '50rem' }} >
                             <Column field="code" header="Code"></Column>
                             <Column field="name" header="Name"></Column>
                             <Column field="category" header="Category"></Column>
                             <Column field="quantity" header="Quantity"></Column>
                         </DataTable>
-                    </div> */}
-
-                    <Select
-                        value={theme}
-                        onChange={(item) => {
-                            
-                            handleChange(item);
-                        }}
-                        options={themes}
-                        className="select2-selection"
-                    />
+                    </div>
 
                 </Container>
             </div>
