@@ -15,11 +15,12 @@ const CareerPage = () => {
         <>
             <div className="page-content">
                 <Container fluid={true}>
-                    <Card>
+                    {/* <Card>
                         <CardBody>
-                            <CustomFilterDemo />
+                           
                         </CardBody>
-                    </Card>
+                    </Card> */}
+                    <CustomFilterDemo />
                     <ToastContainer />
                 </Container>
             </div>

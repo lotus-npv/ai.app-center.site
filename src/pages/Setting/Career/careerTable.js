@@ -174,7 +174,7 @@ import { Button } from 'primereact/button';
 
 import DeleteModal from "components/Common/DeleteModal";
 
-import { useNavigate, Link } from "react-router-dom";1
+import { useNavigate, Link } from "react-router-dom"; 1
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -304,8 +304,9 @@ const CustomFilterDemo = () => {
   console.log(rowSelect)
 
   return (
-    <div className="card">
-      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found.">
+    <div className="card" >
+      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found." tableStyle={{ minWidth: '50rem', height: '10rem'}}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Search by id" style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter style={{ minWidth: '12rem' }} filterPlaceholder="Search by name" />
