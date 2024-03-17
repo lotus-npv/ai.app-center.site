@@ -5,18 +5,18 @@ export const POST_FAKE_REGISTER = "/post-fake-register";
 export const GET_DEMO_DATA = "https://jsonplaceholder.typicode.com/posts";
 
 // career
-export const GET_CAREER_ALL = "http://api.lotusocean-jp.com/api/career/all";
-export const GET_CAREER_ID = "http://api.lotusocean-jp.com/api/career/:id";
-export const SET_CAREER = "http://api.lotusocean-jp.com/api/career/insert";
-export const UPDATE_CAREER = "http://api.lotusocean-jp.com/api/career/update";
-export const DELETE_CAREER = "http://api.lotusocean-jp.com/api/career/delete";
+export const GET_CAREER_ALL = "https://api.lotusocean-jp.com/api/career/all";
+export const GET_CAREER_ID = "https://api.lotusocean-jp.com/api/career/:id";
+export const SET_CAREER = "https://api.lotusocean-jp.com/api/career/insert";
+export const UPDATE_CAREER = "https://api.lotusocean-jp.com/api/career/update";
+export const DELETE_CAREER = "https://api.lotusocean-jp.com/api/career/delete";
 
 // status
-export const GET_STATUS_ALL = "http://api.lotusocean-jp.com/api/status/all";
-export const GET_STATUS_ID = "http://api.lotusocean-jp.com/api/status/:id";
-export const SET_STATUS = "http://api.lotusocean-jp.com/api/status/insert";
-export const UPDATE_STATUS = "http://api.lotusocean-jp.com/api/status/update";
-export const DELETE_STATUS = "http://api.lotusocean-jp.com/api/status/delete";
+export const GET_STATUS_ALL = "https://api.lotusocean-jp.com/api/status/all";
+export const GET_STATUS_ID = "https://api.lotusocean-jp.com/api/status/:id";
+export const SET_STATUS = "https://api.lotusocean-jp.com/api/status/insert";
+export const UPDATE_STATUS = "https://api.lotusocean-jp.com/api/status/update";
+export const DELETE_STATUS = "https://api.lotusocean-jp.com/api/status/delete";
 
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
