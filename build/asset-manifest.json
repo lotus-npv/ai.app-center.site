@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.40d6f928.css",
-    "main.js": "/static/js/main.85b61826.js",
+    "main.css": "/static/css/main.e48e7234.css",
+    "main.js": "/static/js/main.93b3ed49.js",
     "static/media/img-2.jpg": "/static/media/img-2.9ad853b2a11d405bb46e.jpg",
     "static/media/img-3.jpg": "/static/media/img-3.282f0d0a9f400608e5fa.jpg",
     "static/media/materialdesignicons-webfont.eot": "/static/media/materialdesignicons-webfont.52adde0de9840940801f.eot",
@@ -16,8 +16,6 @@
     "static/media/img-6.jpg": "/static/media/img-6.22e5e101c600a7c016a1.jpg",
     "static/media/img-5.jpg": "/static/media/img-5.feb6e033b5d8dabf2c71.jpg",
     "static/media/primeicons.svg": "/static/media/primeicons.e1441b135b3ca9ad643c.svg",
-    "static/media/Inter-italic.var.woff2?v=3.19": "/static/media/Inter-italic.var.30807be7abc48ba8c73c.woff2",
-    "static/media/Inter-roman.var.woff2?v=3.19": "/static/media/Inter-roman.var.ba4caefcdf5b36b438db.woff2",
     "static/media/boxicons.eot": "/static/media/boxicons.6829ebb16362074c0c30.eot",
     "static/media/boxicons.woff": "/static/media/boxicons.dcaf6a260cca4a061aff.woff",
     "static/media/boxicons.ttf": "/static/media/boxicons.e2ffa5b9254ec286b380.ttf",
@@ -98,11 +96,11 @@
     "static/media/spotify.svg": "/static/media/spotify.eefab5a9268d3721c294c608709c049e.svg",
     "static/media/airbnb.svg": "/static/media/airbnb.c9f6f43d5cd777ae2a2ab458fc9309de.svg",
     "static/media/adobe.svg": "/static/media/adobe.18e56447696e4920ce55f2008547dba4.svg",
-    "main.40d6f928.css.map": "/static/css/main.40d6f928.css.map",
-    "main.85b61826.js.map": "/static/js/main.85b61826.js.map"
+    "main.e48e7234.css.map": "/static/css/main.e48e7234.css.map",
+    "main.93b3ed49.js.map": "/static/js/main.93b3ed49.js.map"
   },
   "entrypoints": [
-    "static/css/main.40d6f928.css",
-    "static/js/main.85b61826.js"
+    "static/css/main.e48e7234.css",
+    "static/js/main.93b3ed49.js"
   ]
 }
