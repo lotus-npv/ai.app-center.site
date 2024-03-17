@@ -28,13 +28,13 @@ const TableDatas = () => {
 
   window.addEventListener('resize', function() {
     var screenHeight = window.innerHeight;
-    let wh = screenHeight - 280;
+    let wh = screenHeight - 245;
     setVh(`${wh}px`);
     // setWindowHeight(screenHeight);
   });
 
   useEffect(() => {
-    let wh = screenAvailHeight - 250;
+    let wh = screenAvailHeight - 245;
     setVh(`${wh}px`);
   }, [])
   
@@ -153,7 +153,7 @@ const TableDatas = () => {
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 15, 20, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
+      <DataTable value={datas} paginator rows={15} rowsPerPageOptions={[5, 10, 15, 20, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
       filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'} showGridlines={true}>
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} ></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} ></Column>

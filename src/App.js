@@ -30,10 +30,10 @@ import "./assets/scss/theme.scss";
 // import 'primereact/resources/themes/lara-light-purple/theme.css'
 // import 'primereact/resources/themes/soho-light/theme.css'
 // import 'primereact/resources/themes/viva-light/theme.css'
-import 'primereact/resources/themes/mira/theme.css'
+// import 'primereact/resources/themes/mira/theme.css'
 // import 'primereact/resources/themes/nano/theme.css'
 // import 'primereact/resources/themes/saga-blue/theme.css'
-// import 'primereact/resources/themes/saga-green/theme.css'
+import 'primereact/resources/themes/saga-green/theme.css'
 // import 'primereact/resources/themes/saga-orange/theme.css'
 // import 'primereact/resources/themes/saga-purple/theme.css'
 

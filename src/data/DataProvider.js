@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DataContext from './DataContext';
 
 import { dataIntern } from '../common/data/intern'
@@ -60,6 +60,22 @@ const DataProvider = ({ children }) => {
         setCareerData(newData);
     };
 
+    // get screen
+    const screenAvailHeight = window.innerHeight;
+    const [vh, setVh] = useState('')
+  
+    window.addEventListener('resize', function() {
+      var screenHeight = window.innerHeight;
+      let wh = screenHeight - 245;
+      setVh(`${wh}px`);
+      // setWindowHeight(screenHeight);
+    });
+  
+    useEffect(() => {
+      let wh = screenAvailHeight - 245;
+      setVh(`${wh}px`);
+    }, [])
+
 
 
 
@@ -81,7 +97,8 @@ const DataProvider = ({ children }) => {
                 statusData,
                 updateStatusData,
                 careerData,
-                updateCareerData
+                updateCareerData,
+                vh
             }}
         >
             {children}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Label, Input } from "reactstrap";
 import { FilterMatchMode, FilterService } from 'primereact/api';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
@@ -7,6 +7,8 @@ import { InputText } from 'primereact/inputtext';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
+
+import DataContext from 'data/DataContext';
 
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
@@ -27,7 +29,22 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = () => {
-  const navigate = useNavigate();
+  
+  // const screenAvailHeight = window.innerHeight;
+  // const [vh, setVh] = useState('')
+
+  // window.addEventListener('resize', function() {
+  //   var screenHeight = window.innerHeight;
+  //   let wh = screenHeight - 245;
+  //   setVh(`${wh}px`);
+  //   // setWindowHeight(screenHeight);
+  // });
+
+  // useEffect(() => {
+  //   let wh = screenAvailHeight - 245;
+  //   setVh(`${wh}px`);
+  // }, [])
+  const {vh} = useContext(DataContext);
 
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
@@ -144,13 +161,13 @@ const TableDatas = () => {
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight="70vh">
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} />
-        <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} />
-        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} />
-        <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} />
+      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 15, 20, 50]} sortField="id" sortOrder={-1} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'} showGridlines={true}>
+        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} ></Column>
+        <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} ></Column>
+        <Column field="name" header="Name" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="description" header="Description" filter filterField="description" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
+        <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} ></Column>
       </DataTable>
 
       <DeleteModal
