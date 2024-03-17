@@ -28,7 +28,7 @@ const StatusPage = (props) => {
                     <ToastContainer />
 
                     <div className="card">
-                        <DataTable value={products} tableStyle={{ minWidth: '50rem' }}>
+                        <DataTable value={products} tableStyle={{ minWidth: '50rem' }} showGridlines={true}>
                             <Column field="code" header="Code"></Column>
                             <Column field="name" header="Name"></Column>
                             <Column field="category" header="Category"></Column>
