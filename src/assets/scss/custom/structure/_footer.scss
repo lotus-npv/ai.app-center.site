@@ -4,7 +4,7 @@
 
 .footer {
     bottom: 0;
-    padding: 20px calc(#{$grid-gutter-width} * 0.75);
+    padding: 10px calc(#{$grid-gutter-width} * 0.75);
     position: absolute;
     right: 0;
     color: var(--#{$prefix}footer-color);

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.805e2330.css",
-    "main.js": "/static/js/main.841e52ff.js",
+    "main.css": "/static/css/main.6d5c3681.css",
+    "main.js": "/static/js/main.811ea20c.js",
     "static/media/img-2.jpg": "/static/media/img-2.9ad853b2a11d405bb46e.jpg",
     "static/media/img-3.jpg": "/static/media/img-3.282f0d0a9f400608e5fa.jpg",
     "static/media/materialdesignicons-webfont.eot": "/static/media/materialdesignicons-webfont.52adde0de9840940801f.eot",
@@ -15,6 +15,9 @@
     "static/media/materialdesignicons-webfont.woff2?v=5.8.55": "/static/media/materialdesignicons-webfont.6147fc3741c622c5de2c.woff2",
     "static/media/img-6.jpg": "/static/media/img-6.22e5e101c600a7c016a1.jpg",
     "static/media/img-5.jpg": "/static/media/img-5.feb6e033b5d8dabf2c71.jpg",
+    "static/media/primeicons.svg": "/static/media/primeicons.e1441b135b3ca9ad643c.svg",
+    "static/media/Inter-italic.var.woff2?v=3.19": "/static/media/Inter-italic.var.30807be7abc48ba8c73c.woff2",
+    "static/media/Inter-roman.var.woff2?v=3.19": "/static/media/Inter-roman.var.ba4caefcdf5b36b438db.woff2",
     "static/media/boxicons.eot": "/static/media/boxicons.6829ebb16362074c0c30.eot",
     "static/media/boxicons.woff": "/static/media/boxicons.dcaf6a260cca4a061aff.woff",
     "static/media/boxicons.ttf": "/static/media/boxicons.e2ffa5b9254ec286b380.ttf",
@@ -49,6 +52,9 @@
     "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.9451d5fee89b51a20f8a.woff2",
     "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.31015e861aeb30ff8355.woff2",
     "static/media/boxicons.woff2": "/static/media/boxicons.c6d7d0356c53c17d21be.woff2",
+    "static/media/primeicons.eot": "/static/media/primeicons.d44157bdfa026dc877af.eot",
+    "static/media/primeicons.woff": "/static/media/primeicons.10d3152104f2208ac82a.woff",
+    "static/media/primeicons.ttf": "/static/media/primeicons.ea5358601d0a3fd6670b.ttf",
     "static/media/img-7.png": "/static/media/img-7.965677203e5271e59510.png",
     "static/media/img4.jpg": "/static/media/img4.508ca4874d8a165b631e.jpg",
     "static/media/Pro-12b.png": "/static/media/Pro-12b.6a1e27c0b7d7382e134b.png",
@@ -60,9 +66,10 @@
     "static/media/dripicons-v2.eot": "/static/media/dripicons-v2.7f392f1e4787b46b3e8b.eot",
     "static/media/dripicons-v2.ttf": "/static/media/dripicons-v2.09c9c870ef8f9cffcc8f.ttf",
     "static/media/profile-img.png": "/static/media/profile-img.43b59e598ba15abe6eab.png",
-    "static/media/axios.cjs": "/static/media/axios.5cdcf59e4b6a285aeb16.cjs",
+    "static/media/axios.cjs": "/static/media/axios.22fc11ea5e9ce56fa9da.cjs",
     "static/media/fa-regular-400.eot": "/static/media/fa-regular-400.0747be4cba2f8600544f.eot",
     "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.c3146b3524e97475c094.ttf",
+    "static/media/primeicons.woff2": "/static/media/primeicons.78172950b335ccdb94e2.woff2",
     "static/media/dripicons-v2.woff": "/static/media/dripicons-v2.f19dcc0358afed69d277.woff",
     "static/media/lotusOcean-logo.png": "/static/media/lotusOcean-logo.ff8611ca3a99ef491318.png",
     "static/media/avatar-6.jpg": "/static/media/avatar-6.dc44eabff29dbd9780cb.jpg",
@@ -91,11 +98,11 @@
     "static/media/spotify.svg": "/static/media/spotify.eefab5a9268d3721c294c608709c049e.svg",
     "static/media/airbnb.svg": "/static/media/airbnb.c9f6f43d5cd777ae2a2ab458fc9309de.svg",
     "static/media/adobe.svg": "/static/media/adobe.18e56447696e4920ce55f2008547dba4.svg",
-    "main.805e2330.css.map": "/static/css/main.805e2330.css.map",
-    "main.841e52ff.js.map": "/static/js/main.841e52ff.js.map"
+    "main.6d5c3681.css.map": "/static/css/main.6d5c3681.css.map",
+    "main.811ea20c.js.map": "/static/js/main.811ea20c.js.map"
   },
   "entrypoints": [
-    "static/css/main.805e2330.css",
-    "static/js/main.841e52ff.js"
+    "static/css/main.6d5c3681.css",
+    "static/js/main.811ea20c.js"
   ]
 }
