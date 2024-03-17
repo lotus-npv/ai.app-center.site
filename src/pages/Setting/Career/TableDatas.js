@@ -27,23 +27,23 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  var screenAvailHeight = window.innerHeight;
+  const screenAvailHeight = window.innerHeight;
   const [windowHeight, setWindowHeight] = useState(screenAvailHeight)
 
   window.addEventListener('resize', function() {
-    var screenWidth = window.innerWidth;
+    // var screenWidth = window.innerWidth;
     var screenHeight = window.innerHeight;
     setWindowHeight(screenHeight);
-    console.log('Độ phân giải màn hình hiện tại: ' + screenWidth + 'x' + screenHeight);
+    // console.log('Độ phân giải màn hình hiện tại: ' + screenWidth + 'x' + screenHeight);
   });
 
-  let vh = '';
+  const [vh, setVh] = useState('')
 
   useEffect(() => {
-    let wh = windowHeight - 120;
-    vh = `${wh}px`;
+    let wh = windowHeight - 280;
+    setVh(`${wh}px`);
   }, [windowHeight])
   
 
