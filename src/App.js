@@ -22,7 +22,6 @@ import "./assets/scss/theme.scss";
 // import 'primereact/resources/themes/bootstrap4-light-purple/theme.css'
 // import 'primereact/resources/themes/md-light-indigo/theme.css'
 // import 'primereact/resources/themes/md-light-deeppurple/theme.css'
-// import 'primereact/resources/themes/md-dark-deeppurple/theme.css'
 // import 'primereact/resources/themes/mdc-light-indigo/theme.css'
 // import 'primereact/resources/themes/mdc-light-deeppurple/theme.css'
 // import 'primereact/resources/themes/tailwind-light/theme.css'
@@ -35,18 +34,11 @@ import "./assets/scss/theme.scss";
 // import 'primereact/resources/themes/viva-light/theme.css'
 // import 'primereact/resources/themes/mira/theme.css'
 // import 'primereact/resources/themes/nano/theme.css'
-// import 'primereact/resources/themes/saga-blue/theme.css'
+import 'primereact/resources/themes/saga-blue/theme.css'
 // import 'primereact/resources/themes/saga-green/theme.css'
-//import 'primereact/resources/themes/saga-orange/theme.css'
-//import 'primereact/resources/themes/saga-purple/theme.css'
-//import 'primereact/resources/themes/vela-blue/theme.css'
-//import 'primereact/resources/themes/vela-green/theme.css'
-//import 'primereact/resources/themes/vela-orange/theme.css'
-//import 'primereact/resources/themes/vela-purple/theme.css'
-//import 'primereact/resources/themes/arya-blue/theme.css'
-//import 'primereact/resources/themes/arya-green/theme.css'
-//import 'primereact/resources/themes/arya-orange/theme.css'
-//import 'primereact/resources/themes/arya-purple/theme.css'
+// import 'primereact/resources/themes/saga-orange/theme.css'
+// import 'primereact/resources/themes/saga-purple/theme.css'
+
 
 // Import Firebase Configuration file
 // import { initFirebaseBackend } from "./helpers/firebase_helper";

@@ -8,10 +8,10 @@ import { Provider } from "react-redux";
 import DataProvider from './data/DataProvider';
 // import { PrimeReactProvider } from 'primereact/api';
 import 'primeicons/primeicons.css';
-// import 'primeflex/primeflex.css';
+import 'primeflex/primeflex.css';
 // import 'primereact/resources/primereact.css';
-import "primereact/resources/primereact.min.css";
-import 'primereact/resources/themes/tailwind-light/theme.css';
+// import "primereact/resources/primereact.min.css";
+// import 'primereact/resources/themes/tailwind-light/theme.css';
 
 
 import store from "./store";
