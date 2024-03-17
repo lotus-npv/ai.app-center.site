@@ -6,6 +6,10 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 
+import {
+  Badge
+} from "reactstrap";
+
 import DataContext from 'data/DataContext';
 
 import DeleteModal from "components/Common/DeleteModal";
@@ -25,7 +29,7 @@ FilterService.register('custom_activity', (value, filters) => {
 
 const TableDatas = () => {
 
-  const {vh} = useContext(DataContext);
+  const { vh } = useContext(DataContext);
 
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
@@ -61,7 +65,7 @@ const TableDatas = () => {
   }, []);
 
   // modal edit or addnew
-  const [isEdit , setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [modal_xlarge, setmodal_xlarge] = useState(false);
   function tog_xlarge() {
     setmodal_xlarge(!modal_xlarge);
@@ -124,14 +128,15 @@ const TableDatas = () => {
     tog_xlarge();
   }
 
-  const statusBodyTemplate = (item) => {
-    return <Tag value={item.status_type} severity={item.color}></Tag>;
-};
+  const statusBodyTemplate = (rowData) => {
+    // return <Tag value={item.status_type} severity={item.color}></Tag>;
+    return <Badge className={rowData.color} color='badge-soft-success'>{rowData.status_type}</Badge>
+  };
 
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEdit(true)}} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEdit(true) }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -139,16 +144,16 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
-  // console.log(rowSelect)
+  console.log(datas)
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection  selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'} >
+      <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+        filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'} >
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} ></Column>
+        <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable style={{ width: '15rem' }} ></Column>
         <Column field="name" header="Tên trạng thái" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="status_type" header="Loại" body={statusBodyTemplate} filterField="status_type" filter filterPlaceholder="Tìm kiếm bằng tên"  style={{ minWidth: '12rem' }} ></Column>
+        <Column field="status_type" header="Loại" body={statusBodyTemplate} filterField="status_type" filter filterPlaceholder="Tìm kiếm bằng tên" style={{ minWidth: '12rem' }} ></Column>
         <Column field="description" header="Ghi chú" filter filterField="description" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} ></Column>
       </DataTable>
@@ -159,7 +164,7 @@ const TableDatas = () => {
         onCloseClick={() => setDeleteModal(false)}
       />
 
-      <ModalDatas 
+      <ModalDatas
         item={rowSelect}
         isEdit={isEdit}
         modal_xlarge={modal_xlarge}
