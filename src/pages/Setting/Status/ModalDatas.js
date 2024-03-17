@@ -172,36 +172,36 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
       //   return false;
       // }}
       >
-        <Card>
-          <CardBody>
-            <Modal className="needs-validation"
-              size="xl"
-              isOpen={modal_xlarge}
-              toggle={() => {
-                tog_xlarge();
-              }}
+        <Modal className="needs-validation"
+          size="xl"
+          isOpen={modal_xlarge}
+          toggle={() => {
+            tog_xlarge();
+          }}
+        >
+          <div className="modal-header">
+            <h5
+              className="modal-title mt-0"
+              id="myExtraLargeModalLabel"
             >
-              <div className="modal-header">
-                <h5
-                  className="modal-title mt-0"
-                  id="myExtraLargeModalLabel"
-                >
-                  {isEdit ? 'Edit Status' : 'Add new Status'}
-                </h5>
-                <button
-                  onClick={() => {
-                    setmodal_xlarge(false);
-                  }}
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
+              {isEdit ? 'Edit Status' : 'Add new Status'}
+            </h5>
+            <button
+              onClick={() => {
+                setmodal_xlarge(false);
+              }}
+              type="button"
+              className="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-              <div className="modal-body">
+          <div className="modal-body">
+            <Card>
+              <CardBody>
                 <div className="mb-3">
                   <Label className="form-label">Tên trạng thái</Label>
                   <Input
@@ -256,7 +256,8 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                     <div className="mb-3">
                       <Label>Điều kiện</Label>
                       <Select
-                      name='condition_date'
+                        name='condition_date'
+                        placeholder='Chọn điều kiện'
                         value={optionConditionDate.find((item) => item.value === formik.values.condition_date)}
                         onChange={(item) => {
                           console.log(item.value)
@@ -265,14 +266,18 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                         options={optionConditionDate}
                         className="select2-selection"
                       />
+                      {formik.touched.condition_date && formik.errors.condition_date ? (
+                        <FormFeedback type="invalid">{formik.errors.condition_date}</FormFeedback>
+                      ) : null}
                     </div>
                   </Col>
                   <Col lg={4}>
                     <div className="mb-3">
                       <Label>Mốc thời gian</Label>
                       <Select
-                      name='condition_milestone'
-                        value={formik.values.condition_milestone}
+                        name='condition_milestone'
+                        placeholder='Chọn mốc thời gian'
+                        value={optionConditionDate.find((item) => item.value === formik.values.condition_milestone)}
                         onChange={(item) => {
                           formik.setFieldValue('condition_milestone', item.value);
                         }}
@@ -285,42 +290,43 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                     <div className="mb-3">
                       <Label className="form-label">Số ngày</Label>
                       <Input
-                        name="number"
-                        placeholder="Enter Only number"
+                        name="condition_value"
+                        placeholder="Số ngày"
                         type="number"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.number || ""}
+                        value={formik.values.condition_value || ""}
                         invalid={
-                          formik.touched.number && formik.errors.number ? true : false
+                          formik.touched.condition_value && formik.errors.condition_value ? true : false
                         }
                       />
-                      {formik.touched.number && formik.errors.number ? (
-                        <FormFeedback type="invalid">{formik.errors.number}</FormFeedback>
+                      {formik.touched.condition_value && formik.errors.condition_value ? (
+                        <FormFeedback type="invalid">{formik.errors.condition_value}</FormFeedback>
                       ) : null}
                     </div>
                   </Col>
                 </Row>}
-              </div>
+              </CardBody>
+            </Card>
+          </div>
 
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  onClick={() => {
-                    tog_xlarge();
-                  }}
-                  className="btn btn-secondary "
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <Button color="primary" onClick={handleSubmit}>
-                  Save changes
-                </Button>
-              </div>
-            </Modal>
-          </CardBody>
-        </Card>
+
+          <div className="modal-footer">
+            <button
+              type="button"
+              onClick={() => {
+                tog_xlarge();
+              }}
+              className="btn btn-secondary "
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <Button color="primary" onClick={handleSubmit}>
+              Save changes
+            </Button>
+          </div>
+        </Modal>
       </Form>
     </>
   )
