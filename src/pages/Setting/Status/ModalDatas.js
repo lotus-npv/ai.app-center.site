@@ -251,6 +251,21 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                     }}
                     options={optionColor}
                     className="select2-selection"
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: state.isFocused ? 'grey' : 'red',
+                        // backgroundColor: state.isFocused ? 'red' : 'white'
+                        cursor: state.isFocused ? 'grey' : 'red',
+                        color: state.isDisabled
+                          ? '#ccc'
+                          : state.isSelected
+                            ? 'white'
+                              ? 'white'
+                              : 'black'
+                            : 'red',
+                      }),
+                    }}
                   />
                   {formik.touched.condition_date && formik.errors.condition_date ? (
                     <FormFeedback type="invalid">{formik.errors.condition_date}</FormFeedback>
