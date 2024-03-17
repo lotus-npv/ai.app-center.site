@@ -9,7 +9,8 @@ import {
   Form,
   Modal,
   CardBody,
-  Card
+  Card,
+  Badge
 } from "reactstrap";
 
 import Switch from "react-switch";
@@ -60,6 +61,17 @@ const OnSymbol = () => {
 const optionConditionDate = [
   { label: "Before", value: "before" },
   { label: "After", value: "after" },
+];
+
+const optionColor = [
+  {
+    label: <Badge className="font-size-12 badge-soft-danger">
+      success
+    </Badge>
+    , value: "success"
+  },
+  { label: "danger", value: "danger" },
+  { label: "warning", value: "warning" },
 ];
 
 const optionConditionMilestone = [
@@ -217,6 +229,23 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                   />
                   {formik.touched.name && formik.errors.name ? (
                     <FormFeedback type="invalid">{formik.errors.name}</FormFeedback>
+                  ) : null}
+                </div>
+                <div className="mb-3">
+                  <Label>Màu sắc</Label>
+                  <Select
+                    name='color'
+                    placeholder='Chọn màu sắc'
+                    value={optionColor.find((item) => item.value === formik.values.color)}
+                    onChange={(item) => {
+                      console.log(item.value)
+                      formik.setFieldValue('condition_date', item.value);
+                    }}
+                    options={optionColor}
+                    className="select2-selection"
+                  />
+                  {formik.touched.condition_date && formik.errors.condition_date ? (
+                    <FormFeedback type="invalid">{formik.errors.condition_date}</FormFeedback>
                   ) : null}
                 </div>
                 <div className="mb-3">
