@@ -9,6 +9,7 @@ import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 
 import DeleteModal from "components/Common/DeleteModal";
+import ModalDatas from './ModalDatas'
 
 import { useNavigate, Link } from "react-router-dom"; 1
 
@@ -130,7 +131,7 @@ const TableDatas = () => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEdit(true)}} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -157,7 +158,14 @@ const TableDatas = () => {
         onCloseClick={() => setDeleteModal(false)}
       />
 
-      <Modal
+      <ModalDatas 
+        item={rowSelect}
+        isEdit={isEdit}
+        modal_xlarge={modal_xlarge}
+        setmodal_xlarge={setmodal_xlarge}
+        tog_xlarge={tog_xlarge}
+      />
+      {/* <Modal
         size="xl"
         isOpen={modal_xlarge}
         toggle={() => {
@@ -231,7 +239,8 @@ const TableDatas = () => {
             Save changes
           </button>
         </div>
-      </Modal>
+      </Modal> */}
+
     </div>
   );
 }
