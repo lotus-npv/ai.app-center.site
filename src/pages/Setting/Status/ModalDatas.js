@@ -2,17 +2,12 @@ import React, { useState, useEffect } from 'react';
 import {
   Row,
   Col,
-  Card,
-  CardBody,
-  FormGroup,
   Button,
-  CardTitle,
-  CardSubtitle,
   Label,
   Input,
-  Container,
   FormFeedback,
-  Form
+  Form,
+  Modal
 } from "reactstrap";
 
 import Switch from "react-switch";
@@ -27,39 +22,39 @@ import { getStatusAll, updateStatus, deleteStatus } from "store/actions";
 
 const Offsymbol = () => {
   return (
-      <div
-          style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-              fontSize: 12,
-              color: "#fff",
-              paddingRight: 2
-          }}
-      >
-          {" "}
-          No
-      </div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        fontSize: 12,
+        color: "#fff",
+        paddingRight: 2
+      }}
+    >
+      {" "}
+      No
+    </div>
   );
 };
 
 const OnSymbol = () => {
   return (
-      <div
-          style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-              fontSize: 12,
-              color: "#fff",
-              paddingRight: 2
-          }}
-      >
-          {" "}
-          Yes
-      </div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        fontSize: 12,
+        color: "#fff",
+        paddingRight: 2
+      }}
+    >
+      {" "}
+      Yes
+    </div>
   );
 };
 
@@ -68,28 +63,28 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: data.name,
-      note: data.description,
-      auto: data.status_type == 'manual' ? false : true,
-      condition: data.condition_milestone,
-      condition_date: data.condition_date,
-      number: data.condition_value,
-  },
-  validationSchema: Yup.object().shape({
+      name: item.name,
+      note: item.description,
+      auto: item.status_type == 'manual' ? false : true,
+      condition: item.condition_milestone,
+      condition_date: item.condition_date,
+      number: item.condition_value,
+    },
+    validationSchema: Yup.object().shape({
       name: Yup.string().required(
-          "This value is required"
+        "This value is required"
       ),
       note: Yup.string().required(
-          "This value is required"
+        "This value is required"
       ),
       condition: Yup.string().required(
-          "This value is required"
+        "This value is required"
       ),
       condition_date: Yup.date().required("Please Enter Your Date"),
       number: Yup.number().required(
-          "Please Enter Your Number"
+        "Please Enter Your Number"
       )
-  }),
+    }),
     onSubmit: async (value) => {
 
       if (isEdit) {
@@ -143,112 +138,149 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
           formik.handleSubmit();
           return false;
         }}>
-        <div className="mb-3">
-          <Label className="form-label">Tên trạng thái</Label>
-          <Input
-            name="name"
-            placeholder="Type Something"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.name || ""}
-            invalid={
-              formik.touched.name && formik.errors.name ? true : false
-            }
-          />
-          {formik.touched.name && formik.errors.name ? (
-            <FormFeedback type="invalid">{formik.errors.name}</FormFeedback>
-          ) : null}
-        </div>
-        <div className="mb-3">
-          <Label>Ghi chú</Label>
-          <Input
-            name="note"
-            type="text"
-            autoComplete="off"
-            placeholder="note some thing"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.note || ""}
-            invalid={
-              formik.touched.note && formik.errors.note ? true : false
-            }
-          />
-          {formik.touched.note && formik.errors.note ? (
-            <FormFeedback type="invalid">{formik.errors.note}</FormFeedback>
-          ) : null}
-        </div>
 
-        <div className="mb-3">
-          <Switch
-            name='auto'
-            uncheckedIcon={<Offsymbol />}
-            checkedIcon={<OnSymbol />}
-            className="me-3 mb-sm-8"
-            onColor="#626ed4"
-            onChange={(value) => formik.setFieldValue('auto', value)}
-            checked={formik.values.auto}
-          />
-          <Label>Tự động thêm trạng thái</Label>
+        <Modal className="needs-validation"
+          size="xl"
+          isOpen={modal_xlarge}
+          toggle={() => {
+            tog_xlarge();
+          }}
+        >
+          <div className="modal-header">
+            <h5
+              className="modal-title mt-0"
+              id="myExtraLargeModalLabel"
+            >
+              {isEdit ? 'Edit Career' : 'Add new Career'}
+            </h5>
+            <button
+              onClick={() => {
+                setmodal_xlarge(false);
+              }}
+              type="button"
+              className="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
-        </div>
-
-        {formik.values.auto && <Row>
-          <Col lg={4}>
+          <div className="modal-body">
             <div className="mb-3">
-              <Label>Điều kiện</Label>
-              <Select
-                value={formik.values.condition}
-                onChange={(val) => {
-                  formik.setFieldValue('condition', val);
-                }}
-                options={optionGroup}
-                className="select2-selection"
-              />
-            </div>
-          </Col>
-          <Col lg={4}>
-            <div className="mb-3">
-              <Label>Mốc thời gian</Label>
-              <Select
-                value={selectedGroup}
-                onChange={() => {
-                  handleSelectGroup();
-                }}
-                options={optionGroup}
-                className="select2-selection"
-              />
-            </div>
-          </Col>
-          <Col lg={4}>
-            <div className="mb-3">
-              <Label className="form-label">Số ngày</Label>
+              <Label className="form-label">Tên trạng thái</Label>
               <Input
-                name="number"
-                placeholder="Enter Only number"
-                type="number"
+                name="name"
+                placeholder="Type Something"
+                type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.number || ""}
+                value={formik.values.name || ""}
                 invalid={
-                  formik.touched.number && formik.errors.number ? true : false
+                  formik.touched.name && formik.errors.name ? true : false
                 }
               />
-              {formik.touched.number && formik.errors.number ? (
-                <FormFeedback type="invalid">{formik.errors.number}</FormFeedback>
+              {formik.touched.name && formik.errors.name ? (
+                <FormFeedback type="invalid">{formik.errors.name}</FormFeedback>
               ) : null}
             </div>
-          </Col>
-        </Row>}
+            <div className="mb-3">
+              <Label>Ghi chú</Label>
+              <Input
+                name="note"
+                type="text"
+                autoComplete="off"
+                placeholder="note some thing"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.note || ""}
+                invalid={
+                  formik.touched.note && formik.errors.note ? true : false
+                }
+              />
+              {formik.touched.note && formik.errors.note ? (
+                <FormFeedback type="invalid">{formik.errors.note}</FormFeedback>
+              ) : null}
+            </div>
 
-        <div className="d-flex flex-wrap gap-2 justify-content-end">
-          <Button type="submit" color="primary" >
-            Submit
-          </Button>{" "}
-          <Button type="reset" color="secondary" >
-            Cancel
-          </Button>
-        </div>
+            <div className="mb-3">
+              <Switch
+                name='auto'
+                uncheckedIcon={<Offsymbol />}
+                checkedIcon={<OnSymbol />}
+                className="me-3 mb-sm-8"
+                onColor="#626ed4"
+                onChange={(value) => formik.setFieldValue('auto', value)}
+                checked={formik.values.auto}
+              />
+              <Label>Tự động thêm trạng thái</Label>
+            </div>
+
+            {formik.values.auto && <Row>
+              <Col lg={4}>
+                <div className="mb-3">
+                  <Label>Điều kiện</Label>
+                  <Select
+                    value={formik.values.condition}
+                    onChange={(val) => {
+                      formik.setFieldValue('condition', val);
+                    }}
+                    options={optionGroup}
+                    className="select2-selection"
+                  />
+                </div>
+              </Col>
+              <Col lg={4}>
+                <div className="mb-3">
+                  <Label>Mốc thời gian</Label>
+                  <Select
+                    value={selectedGroup}
+                    onChange={() => {
+                      handleSelectGroup();
+                    }}
+                    options={optionGroup}
+                    className="select2-selection"
+                  />
+                </div>
+              </Col>
+              <Col lg={4}>
+                <div className="mb-3">
+                  <Label className="form-label">Số ngày</Label>
+                  <Input
+                    name="number"
+                    placeholder="Enter Only number"
+                    type="number"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.number || ""}
+                    invalid={
+                      formik.touched.number && formik.errors.number ? true : false
+                    }
+                  />
+                  {formik.touched.number && formik.errors.number ? (
+                    <FormFeedback type="invalid">{formik.errors.number}</FormFeedback>
+                  ) : null}
+                </div>
+              </Col>
+            </Row>}
+          </div>
+
+          <div className="modal-footer">
+            <button
+              type="button"
+              onClick={() => {
+                tog_xlarge();
+              }}
+              className="btn btn-secondary "
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <Button color="primary" onClick={handleSubmit}>
+              Save changes
+            </Button>
+          </div>
+        </Modal>
       </Form>
     </>
   )
