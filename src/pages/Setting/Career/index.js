@@ -7,7 +7,7 @@ import { withTranslation } from "react-i18next";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import CustomFilterDemo from "./careerTable";
+import TableDatas from "./TableDatas";
 
 const CareerPage = () => {
     document.title = "Nhập ngành nghề";
@@ -20,7 +20,7 @@ const CareerPage = () => {
                            
                         </CardBody>
                     </Card> */}
-                    <CustomFilterDemo />
+                    <TableDatas />
                     <ToastContainer />
                 </Container>
             </div>

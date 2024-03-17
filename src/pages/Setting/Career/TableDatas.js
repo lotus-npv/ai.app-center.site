@@ -1,167 +1,3 @@
-
-// import React, { useState, useEffect } from 'react';
-// import { DataTable } from 'primereact/datatable';
-// import { Column } from 'primereact/column';
-// // import { CustomerService } from './Data';
-
-// // //redux
-// import { useSelector, useDispatch, shallowEqual } from "react-redux";
-// import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
-
-// export default function LazyLoadDemo() {
-//   const [loading, setLoading] = useState(false);
-//   const [totalRecords, setTotalRecords] = useState(0);
-//   const [customers, setCustomers] = useState(null);
-//   const [selectAll, setSelectAll] = useState(false);
-//   const [selectedCustomers, setSelectedCustomers] = useState(null);
-//   const [lazyState, setlazyState] = useState({
-//     first: 0,
-//     rows: 10,
-//     page: 1,
-//     sortField: null,
-//     sortOrder: null,
-//     filters: {
-//       id: { value: '', matchMode: 'contains' },
-//       name: { value: '', matchMode: 'contains' },
-//       description: { value: '', matchMode: 'contains' },
-//     }
-//   });
-
-//   const dispatch = useDispatch();
-//   const { datas } = useSelector(state => ({
-//     datas: state.Career.datas
-//   }), shallowEqual);
-
-//   useEffect(() => {
-//     loadLazyData();
-//   }, [lazyState]);
-
-//   const loadLazyData = () => {
-//     setLoading(true);
-//     dispatch(getCareerAll());
-
-//     setTotalRecords(datas.length);
-//     setCustomers(datas);
-//     setLoading(false);
-
-//   };
-
-
-
-//   // useEffect(() => {
-//   //     dispatch(getCareerAll());
-//   // }, [dispatch]);
-
-//   const onPage = (event) => {
-//     setlazyState(event);
-//   };
-
-//   const onSort = (event) => {
-//     setlazyState(event);
-//   };
-
-//   const onFilter = (event) => {
-//     event['first'] = 0;
-//     setlazyState(event);
-//   };
-
-//   const onSelectionChange = (event) => {
-//     const value = event.value;
-
-//     setSelectedCustomers(value);
-//     setSelectAll(value.length === totalRecords);
-//   };
-
-//   const onSelectAllChange = (event) => {
-//     const selectAll = event.checked;
-
-//     if (selectAll) {
-//       setSelectAll(true);
-//       setSelectedCustomers(datas);
-
-//     } else {
-//       setSelectAll(false);
-//       setSelectedCustomers([]);
-//     }
-//   };
-
-//   const representativeBodyTemplate = (rowData) => {
-//     return (
-//       <div className="flex align-items-center gap-2">
-//         <img alt={rowData.representative.name} src={`https://primefaces.org/cdn/primereact/images/avatar/${rowData.representative.image}`} width={32} />
-//         <span>{rowData.representative.name}</span>
-//       </div>
-//     );
-//   };
-
-//   const countryBodyTemplate = (rowData) => {
-//     return (
-//       <div className="flex align-items-center gap-2">
-//         <img alt="flag" src="https://primefaces.org/cdn/primereact/images/flag/flag_placeholder.png" className={`flag flag-${rowData.country.code}`} style={{ width: '24px' }} />
-//         <span>{rowData.country.name}</span>
-//       </div>
-//     );
-//   };
-
-//   console.log('customes:' + customers[0].name)
-
-//   return (
-//     <div className="card">
-//       <DataTable value={customers}  filterDisplay="row" dataKey="id" paginator
-//         first={lazyState.first} rows={5} rowsPerPageOptions={[5, 10, 25, 50]} totalRecords={totalRecords} onPage={onPage}
-//         onSort={onSort} sortField={lazyState.sortField} sortOrder={lazyState.sortOrder}
-//         onFilter={onFilter} filters={lazyState.filters} loading={loading} tableStyle={{ minWidth: '75rem' }}
-//         selection={selectedCustomers} onSelectionChange={onSelectionChange} selectAll={selectAll} onSelectAllChange={onSelectAllChange} >
-//         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
-//         <Column field="id" sortable header="Id" filterField="id" filter filterPlaceholder="Search" />
-//         <Column field="name" header="Name" sortable filter filterPlaceholder="Search" />
-//         <Column field="description" sortable filter header="Note" filterPlaceholder="Search" />
-//       </DataTable>
-//     </div>
-//   );
-// }
-
-
-// import React, { useState, useEffect } from 'react';
-// import { DataTable } from 'primereact/datatable';
-// import { Column } from 'primereact/column';
-// import { ProductService } from './ProductService';
-
-// //redux
-// import { useSelector, useDispatch, shallowEqual } from "react-redux";
-// import { getCareerAll, updateCareer, deleteCareer } from "store/actions";
-
-// export default function LazyLoadDemo() {
-//   const [products, setProducts] = useState([]);
-//   const [selectedProducts, setSelectedProducts] = useState(null);
-
-//   const dispatch = useDispatch();
-//     const { datas } = useSelector(state => ({
-//         datas: state.Career.datas
-//     }), shallowEqual);
-
-//     useEffect(() => {
-//         dispatch(getCareerAll());
-//     }, [dispatch]);
-
-//   // useEffect(() => {
-//   //   ProductService.getProducts().then(data => setProducts(data));
-//   // }, []);
-
-//   return (
-//     <div className="card">
-//       <DataTable value={datas} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)} dataKey="id" tableStyle={{ minWidth: '50rem' }}>
-//         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-//         {/* <Column field="code" header="Code"></Column> */}
-//         <Column field="id" header="Id"></Column>
-//         <Column field="name" header="Name"></Column>
-//         <Column field="description" header="Description"></Column>
-//       </DataTable>
-//     </div>
-//   );
-// }
-
-
 import React, { useState, useEffect } from 'react';
 import { Modal, Label, Input } from "reactstrap";
 import { FilterMatchMode, FilterService } from 'primereact/api';
@@ -189,7 +25,7 @@ FilterService.register('custom_activity', (value, filters) => {
   return from <= value && value <= to;
 });
 
-const CustomFilterDemo = () => {
+const TableDatas = () => {
   const navigate = useNavigate();
   // const [customers, setCustomers] = useState(null);
   const [selectedItems, setSelectedItems] = useState(null);
@@ -306,7 +142,7 @@ const CustomFilterDemo = () => {
   return (
     <div className="card" >
       <DataTable value={datas} paginator rows={10} rowsPerPageOptions={[5, 10, 25, 50]} selectionMode={'checkbox'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight="71vh">
+      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="No customers found." tableStyle={{ minWidth: '50rem', height: '10rem'}} scrollable scrollHeight="70vh">
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Search by id" style={{ width: '15rem' }} />
         <Column field="name" header="Name" filterField="name" filter style={{ minWidth: '12rem' }} filterPlaceholder="Search by name" />
@@ -399,4 +235,4 @@ const CustomFilterDemo = () => {
   );
 }
 
-export default CustomFilterDemo;
+export default TableDatas;
