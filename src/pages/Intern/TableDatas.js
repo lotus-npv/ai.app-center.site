@@ -29,6 +29,8 @@ const TableDatas = () => {
 
   const { vh } = useContext(DataContext);
 
+  // Global filter 
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -38,12 +40,9 @@ const TableDatas = () => {
     residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
     status: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
-  const [loading, setLoading] = useState(true);
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
-
-  const dispatch = useDispatch();
 
   // Khai bao du lieu
+  const dispatch = useDispatch();
   const { internDataAll, statusData } = useSelector(state => ({
     internDataAll: state.Intern.datas,
     statusData: state.Status.datas
@@ -53,7 +52,6 @@ const TableDatas = () => {
   useEffect(() => {
     dispatch(getInternAll());
     dispatch(getStatusAll());
-    setLoading(false);
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -113,18 +111,16 @@ const TableDatas = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const itemRenderer = (item, itemIndex, data) => (
-    // const quantity = internDataAll.filter(item => item.status)
     <a className="p-menuitem-link flex align-items-center gap-2" onClick={() => setActiveIndex(itemIndex)}>
-        <Badge value={data}></Badge>
-        <span className="font-bold">{item.name}</span>
+      <Badge value={data}></Badge>
+      <span className="font-bold">{item.name}</span>
     </a>
-);
+  );
 
   const rendLabel = () => {
-    let arr = [{ name: 'All' ,template: (item) => itemRenderer(item, 0, internDataAll.length)}, ...statusData.map((status, index) => {
-      return { name: status.name, template: (item) => itemRenderer(item, index+1, )}
+    return [{ name: 'All', template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
+      return { name: status.name, template: (item) => itemRenderer(item, index + 1,) }
     })]
-    return arr;
   }
 
   const items = rendLabel();
@@ -136,15 +132,12 @@ const TableDatas = () => {
     );
   };
 
-  console.log(activeIndex)
 
   const addForm = () => {
     setRowSelect(null);
     setIsEdit(false);
     tog_xlarge();
   }
-
-
 
   const actionBody = (rowData) => {
     return (
@@ -160,9 +153,9 @@ const TableDatas = () => {
   return (
     <div className="card" >
       <DataTable value={internDataAll} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
-        filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'} s>
+        filterDisplay="row"  globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="name" header="Tên thực tập sinh" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="last_name_jp" header="Tên thực tập sinh" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="factory" header="Xí nghiệp" filterField="factory" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company" header="Phái cử" filterField="company" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="residence" header="Tư cách lưu trú" filterField="residence" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
