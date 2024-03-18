@@ -112,21 +112,21 @@ const TableDatas = () => {
   // render label tab
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const itemRenderer = (item, itemIndex) => (
+  const itemRenderer = (item, itemIndex, data) => (
+    // const quantity = internDataAll.filter(item => item.status)
     <a className="p-menuitem-link flex align-items-center gap-2" onClick={() => setActiveIndex(itemIndex)}>
-        {/* <img alt={item.name} src={`https://primefaces.org/cdn/primevue/images/avatar/${item.image}`} style={{ width: '32px' }} /> */}
-        <Badge value="2"></Badge>
+        <Badge value={data}></Badge>
         <span className="font-bold">{item.name}</span>
     </a>
 );
 
   const rendLabel = () => {
-    let arr = [{ name: 'All', template: (item) => itemRenderer(item, 0)}, ...statusData.map((item, index) => {
-      return { label: item.name, template: (item) => itemRenderer(item, index+1)}
+    let arr = [{ name: 'All' ,template: (item) => itemRenderer(item, 0, internDataAll.length)}, ...statusData.map((status, index) => {
+      return { name: status.name, template: (item) => itemRenderer(item, index+1)}
     })]
     return arr;
   }
-  
+
   const items = rendLabel();
   const renderHeader = () => {
     return (
@@ -135,6 +135,8 @@ const TableDatas = () => {
       </div>
     );
   };
+
+  console.log(activeIndex)
 
   const addForm = () => {
     setRowSelect(null);
