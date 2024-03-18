@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { uploadFile } from "store/actions";
 
 function ImageUploadForm() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -22,6 +25,12 @@ function ImageUploadForm() {
         flag: 1
     })
 
+    // Khai bao du lieu
+    const dispatch = useDispatch();
+    const { uploadResult } = useSelector(state => ({
+        uploadResult: state.UploadFile.data,
+    }), shallowEqual);
+
     const handleFileChange = (event) => {
         const f = event.target.files[0];
         setSelectedFile(f);
@@ -31,11 +40,12 @@ function ImageUploadForm() {
 
     useEffect(() => {
         if (uploadDone) {
-            axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+            // axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // });
+            dispatch(uploadFile({ ...avata, originalname: filename }))
             setUploadDone(false);
         }
     }, [filename]);
@@ -61,7 +71,7 @@ function ImageUploadForm() {
             console.log('File uploaded successfully:', response.data);
             setFileName(response.data.filename);
             setUploadDone(true);
-           
+
         } catch (error) {
             console.error('Error uploading file:', error);
             // Xử lý lỗi khi upload file
@@ -69,7 +79,7 @@ function ImageUploadForm() {
     };
 
 
-
+    console.log(uploadResult)
     return (
         <div>
             <h2>Image Upload Form</h2>

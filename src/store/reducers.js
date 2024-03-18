@@ -32,6 +32,8 @@ import DispatchingCompany from "./dispatching_company/reducer";
 import Address from "./address/reducer";
 // Address
 import StatusDetail from "./status_detail/reducer";
+// UploadFile
+import UploadFile from "./upload/reducer";
 
 
 const rootReducer = combineReducers({
@@ -50,7 +52,8 @@ const rootReducer = combineReducers({
   ReceivingFactory,
   DispatchingCompany,
   Address,
-  StatusDetail
+  StatusDetail,
+  UploadFile
 });
 
 export default rootReducer;

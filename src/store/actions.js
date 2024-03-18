@@ -30,3 +30,5 @@ export * from "./dispatching_company/actions"
 export * from "./address/actions"
 // Address
 export * from "./status_detail/actions"
+// upload 
+export * from "./upload/actions"
