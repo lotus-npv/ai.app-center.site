@@ -4,6 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { TabView, TabPanel } from 'primereact/tabview';
 
 import DataContext from 'data/DataContext';
 
@@ -25,7 +26,7 @@ FilterService.register('custom_activity', (value, filters) => {
 
 const TableDatas = () => {
 
-  const {vh} = useContext(DataContext);
+  const { vh } = useContext(DataContext);
 
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
@@ -61,7 +62,7 @@ const TableDatas = () => {
   }, []);
 
   // modal edit or addnew
-  const [isEdit , setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [modal_xlarge, setmodal_xlarge] = useState(false);
   function tog_xlarge() {
     setmodal_xlarge(!modal_xlarge);
@@ -102,14 +103,27 @@ const TableDatas = () => {
     setGlobalFilterValue(value);
   };
 
-
+  const [activeIndex, setActiveIndex] = useState(0);
   const renderHeader = () => {
     return (
-      <div className="d-flex justify-content-between">
-        <span className="p-input-icon-left">
+      <div className="card">
+        {/* <div className="flex mb-2 gap-2 justify-content-end">
+          <Button onClick={() => setActiveIndex(0)} className="w-2rem h-2rem p-0" rounded outlined={activeIndex !== 0} label="1" />
+          <Button onClick={() => setActiveIndex(1)} className="w-2rem h-2rem p-0" rounded outlined={activeIndex !== 1} label="2" />
+          <Button onClick={() => setActiveIndex(2)} className="w-2rem h-2rem p-0" rounded outlined={activeIndex !== 2} label="3" />
+        </div> */}
+        <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+          <TabPanel header="Header I" contentStyle={{display: 'none', height: '1px'}}><p>sâsa</p>
+          </TabPanel>
+          <TabPanel header="Header II" contentStyle={{display: 'none', height: '1px'}}>
+          </TabPanel>
+          <TabPanel header="Header III" contentStyle={{display: 'none', height: '1px'}}>
+          </TabPanel>
+        </TabView>
+        {/* <span className="p-input-icon-left">
           <i className="pi pi-search" />
           <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
-        </span>
+        </span> */}
       </div>
     );
   };
@@ -125,7 +139,7 @@ const TableDatas = () => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEdit(true)}} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEdit(true) }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -135,8 +149,8 @@ const TableDatas = () => {
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection  selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
-      filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'}s>
+      <DataTable value={datas} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+        filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'} s>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="name" header="Tên thực tập sinh" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="factory" header="Xí nghiệp" filterField="factory" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
@@ -152,7 +166,7 @@ const TableDatas = () => {
         onCloseClick={() => setDeleteModal(false)}
       />
 
-      <ModalDatas 
+      <ModalDatas
         item={rowSelect}
         isEdit={isEdit}
         modal_xlarge={modal_xlarge}
