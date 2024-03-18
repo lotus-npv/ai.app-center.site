@@ -141,7 +141,7 @@ const TableDatas = () => {
 
   return (
     <div className="card" >
-      <DataTable value={datas} paginator rows={15} rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection  selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
+      <DataTable value={datas} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection  selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters} 
       filterDisplay="row" loading={false} globalFilterFields={['id', 'name', 'description']}  header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem'}} scrollable scrollHeight={vh} size={'small'}s>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="id" header="ID" filter filterPlaceholder="Tìm kiếm bằng id" sortable  style={{ width: '15rem' }} ></Column>
