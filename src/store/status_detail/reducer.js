@@ -1,18 +1,18 @@
 import {
-  GET_CAREER_ALL,
-  GET_CAREER_ALL_SUCCESS,
-  GET_CAREER_ALL_FAIL,
-  GET_CAREER_ID,
-  GET_CAREER_ID_SUCCESS,
-  GET_CAREER_ID_FAIL,
-  SET_CAREER,
-  SET_CAREER_SUCCESS,
-  SET_CAREER_FAIL,
-  UPDATE_CAREER,
-  UPDATE_CAREER_SUCCESS,
-  UPDATE_CAREER_FAIL,
-  DELETE_CAREER_SUCCESS,
-  DELETE_CAREER_FAIL
+  GET_STATUSDETAIL_ALL,
+  GET_STATUSDETAIL_ALL_SUCCESS,
+  GET_STATUSDETAIL_ALL_FAIL,
+  GET_STATUSDETAIL_ID,
+  GET_STATUSDETAIL_ID_SUCCESS,
+  GET_STATUSDETAIL_ID_FAIL,
+  SET_STATUSDETAIL,
+  SET_STATUSDETAIL_SUCCESS,
+  SET_STATUSDETAIL_FAIL,
+  UPDATE_STATUSDETAIL,
+  UPDATE_STATUSDETAIL_SUCCESS,
+  UPDATE_STATUSDETAIL_FAIL,
+  DELETE_STATUSDETAIL_SUCCESS,
+  DELETE_STATUSDETAIL_FAIL
   } from "./actionTypes";
   
   const INIT_STATE = {
@@ -21,66 +21,66 @@ import {
     data: {}
   };
   
-  const Career = (state = INIT_STATE, action) => {
+  const StatusDetail = (state = INIT_STATE, action) => {
     switch (action.type) {
-      case GET_CAREER_ALL_SUCCESS:
+      case GET_STATUSDETAIL_ALL_SUCCESS:
         return {
           ...state,
           datas: action.payload,
         };
   
-      case GET_CAREER_ALL_FAIL:
+      case GET_STATUSDETAIL_ALL_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case GET_CAREER_ID_SUCCESS:
+      case GET_STATUSDETAIL_ID_SUCCESS:
         return {
           ...state,
           dataId: action.payload,
         };
-      case GET_CAREER_ID_FAIL:
+      case GET_STATUSDETAIL_ID_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case SET_CAREER:
+      case SET_STATUSDETAIL:
         return {
           ...state,
           data: action.payload,
         };
-      case SET_CAREER_SUCCESS:
+      case SET_STATUSDETAIL_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
   
-      case SET_CAREER_FAIL:
+      case SET_STATUSDETAIL_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case UPDATE_CAREER:
+      case UPDATE_STATUSDETAIL:
         return {
           ...state,
           data: action.payload,
         };
-      case UPDATE_CAREER_SUCCESS:
+      case UPDATE_STATUSDETAIL_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
-      case UPDATE_CAREER_FAIL:
+      case UPDATE_STATUSDETAIL_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case DELETE_CAREER_SUCCESS:
+      case DELETE_STATUSDETAIL_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
-      case DELETE_CAREER_FAIL:
+      case DELETE_STATUSDETAIL_FAIL:
         return {
           ...state,
           error: action.payload,
@@ -91,4 +91,4 @@ import {
     }
   };
   
-  export default Career;
+  export default StatusDetail;

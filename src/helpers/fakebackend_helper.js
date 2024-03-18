@@ -13,124 +13,133 @@ export const getDemoData = () => get(url.GET_DEMO_DATA);
 
 // career
 export const getCareerDataAll = () => get(url.GET_CAREER_ALL);
-
 export const getCareerDataId = (id) => get(`${url.GET_CAREER_ID}/${id}`,{ params: { id } }, config);
-
 export const addNewDataCareer = data => post(url.SET_CAREER, data, config);
-
 export const updateDataCareer = data => put(url.UPDATE_CAREER, data, config);
-
 export const deleteDataCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
 
 
 // Status
-const getStatusDataAll = () => get(url.GET_STATUS_ALL);
-export { getStatusDataAll };
-
-const getStatusDataId = () => get(url.GET_STATUS_ID);
-export { getStatusDataId };
-
-const addNewDataStatus = data => post(url.SET_STATUS, data, config);
-export { addNewDataStatus };
-
-const updateDataStatus = data => put(url.UPDATE_STATUS, data, config);
-export {updateDataStatus};
-
-const deleteDataStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { params: { id } }, config);
-export {deleteDataStatus};
+export const getStatusDataAll = () => get(url.GET_STATUS_ALL);
+export const getStatusDataId = () => get(url.GET_STATUS_ID);
+export const addNewDataStatus = data => post(url.SET_STATUS, data, config);
+export const updateDataStatus = data => put(url.UPDATE_STATUS, data, config);
+export const deleteDataStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { params: { id } }, config);
 
 // intern
-const getInternDataAll = () => get(url.GET_INTERN_ALL);
-export { getInternDataAll };
+export const getInternDataAll = () => get(url.GET_INTERN_ALL);
+export const getInternDataId = () => get(url.GET_INTERN_ID);
+export const addNewDataIntern = data => post(url.SET_INTERN, data, config);
+export const updateDataIntern = data => put(url.UPDATE_INTERN, data, config);
+export const deleteDataIntern = (id) => del(`${url.DELETE_INTERN}/${id}`, { params: { id } }, config);
 
-const getInternDataId = () => get(url.GET_INTERN_ID);
-export { getInternDataId };
-
-const addNewDataIntern = data => post(url.SET_INTERN, data, config);
-export { addNewDataIntern };
-
-const updateDataIntern = data => put(url.UPDATE_INTERN, data, config);
-export {updateDataIntern};
-
-const deleteDataIntern = (id) => del(`${url.DELETE_INTERN}/${id}`, { params: { id } }, config);
-export {deleteDataIntern};
 // syndication
-const getSyndicationDataAll = () => get(url.GET_SYNDICATION_ALL);
-export { getSyndicationDataAll };
+export const getSyndicationDataAll = () => get(url.GET_SYNDICATION_ALL);
+export const getSyndicationDataId = () => get(url.GET_SYNDICATION_ID);
+export const addNewDataSyndication = data => post(url.SET_SYNDICATION, data, config);
+export const updateDataSyndication = data => put(url.UPDATE_SYNDICATION, data, config);
+export const deleteDataSyndication = (id) => del(`${url.DELETE_SYNDICATION}/${id}`, { params: { id } }, config);
 
-const getSyndicationDataId = () => get(url.GET_SYNDICATION_ID);
-export { getSyndicationDataId };
-
-const addNewDataSyndication = data => post(url.SET_SYNDICATION, data, config);
-export { addNewDataSyndication };
-
-const updateDataSyndication = data => put(url.UPDATE_SYNDICATION, data, config);
-export {updateDataSyndication};
-
-const deleteDataSyndication = (id) => del(`${url.DELETE_SYNDICATION}/${id}`, { params: { id } }, config);
-export {deleteDataSyndication};
 // receiving_factory
-const getReceivingFactoryDataAll = () => get(url.GET_RECEIVINGFACTORY_ALL);
-export { getReceivingFactoryDataAll };
+export const getReceivingFactoryDataAll = () => get(url.GET_RECEIVINGFACTORY_ALL);
+export const getReceivingFactoryDataId = () => get(url.GET_RECEIVINGFACTORY_ID);
+export const addNewDataReceivingFactory = data => post(url.SET_RECEIVINGFACTORY, data, config);
+export const updateDataReceivingFactory = data => put(url.UPDATE_RECEIVINGFACTORY, data, config);
+export const deleteDataReceivingFactory = (id) => del(`${url.DELETE_RECEIVINGFACTORY}/${id}`, { params: { id } }, config);
 
-const getReceivingFactoryDataId = () => get(url.GET_RECEIVINGFACTORY_ID);
-export { getReceivingFactoryDataId };
-
-const addNewDataReceivingFactory = data => post(url.SET_RECEIVINGFACTORY, data, config);
-export { addNewDataReceivingFactory };
-
-const updateDataReceivingFactory = data => put(url.UPDATE_RECEIVINGFACTORY, data, config);
-export {updateDataReceivingFactory};
-
-const deleteDataReceivingFactory = (id) => del(`${url.DELETE_RECEIVINGFACTORY}/${id}`, { params: { id } }, config);
-export {deleteDataReceivingFactory};
 // dispatching_company
-const getDispatchingCompanyDataAll = () => get(url.GET_DISPATCHINGCOMPANY_ALL);
-export { getDispatchingCompanyDataAll };
+export const getDispatchingCompanyDataAll = () => get(url.GET_DISPATCHINGCOMPANY_ALL);
+export const getDispatchingCompanyDataId = () => get(url.GET_DISPATCHINGCOMPANY_ID);
+export const addNewDataDispatchingCompany = data => post(url.SET_DISPATCHINGCOMPANY, data, config);
+export const updateDataDispatchingCompany = data => put(url.UPDATE_DISPATCHINGCOMPANY, data, config);
+export const deleteDataDispatchingCompany = (id) => del(`${url.DELETE_DISPATCHINGCOMPANY}/${id}`, { params: { id } }, config);
 
-const getDispatchingCompanyDataId = () => get(url.GET_DISPATCHINGCOMPANY_ID);
-export { getDispatchingCompanyDataId };
-
-const addNewDataDispatchingCompany = data => post(url.SET_DISPATCHINGCOMPANY, data, config);
-export { addNewDataDispatchingCompany };
-
-const updateDataDispatchingCompany = data => put(url.UPDATE_DISPATCHINGCOMPANY, data, config);
-export {updateDataDispatchingCompany};
-
-const deleteDataDispatchingCompany = (id) => del(`${url.DELETE_DISPATCHINGCOMPANY}/${id}`, { params: { id } }, config);
-export {deleteDataDispatchingCompany};
 // address
-const getAddressDataAll = () => get(url.GET_ADDRESS_ALL);
-export { getAddressDataAll };
+export const getAddressDataAll = () => get(url.GET_ADDRESS_ALL);
+export const getAddressDataId = () => get(url.GET_ADDRESS_ID);
+export const addNewDataAddress = data => post(url.SET_ADDRESS, data, config);
+export const updateDataAddress = data => put(url.UPDATE_ADDRESS, data, config);
+export const deleteDataAddress = (id) => del(`${url.DELETE_ADDRESS}/${id}`, { params: { id } }, config);
 
-const getAddressDataId = () => get(url.GET_ADDRESS_ID);
-export { getAddressDataId };
-
-const addNewDataAddress = data => post(url.SET_ADDRESS, data, config);
-export { addNewDataAddress };
-
-const updateDataAddress = data => put(url.UPDATE_ADDRESS, data, config);
-export {updateDataAddress};
-
-const deleteDataAddress = (id) => del(`${url.DELETE_ADDRESS}/${id}`, { params: { id } }, config);
-export {deleteDataAddress};
 // alien_registration_card
-const getAlienRegistrationCardDataAll = () => get(url.GET_ALIENREGISTRATIONCARD_ALL);
-export { getAlienRegistrationCardDataAll };
+export const getAlienRegistrationCardDataAll = () => get(url.GET_ALIENREGISTRATIONCARD_ALL);
+export const getAlienRegistrationCardDataId = () => get(url.GET_ALIENREGISTRATIONCARD_ID);
+export const addNewDataAlienRegistrationCard = data => post(url.SET_ALIENREGISTRATIONCARD, data, config);
+export const updateDataAlienRegistrationCard = data => put(url.UPDATE_ALIENREGISTRATIONCARD, data, config);
+export const deleteDataAlienRegistrationCard = (id) => del(`${url.DELETE_ALIENREGISTRATIONCARD}/${id}`, { params: { id } }, config);
 
-const getAlienRegistrationCardDataId = () => get(url.GET_ALIENREGISTRATIONCARD_ID);
-export { getAlienRegistrationCardDataId };
-
-const addNewDataAlienRegistrationCard = data => post(url.SET_ALIENREGISTRATIONCARD, data, config);
-export { addNewDataAlienRegistrationCard };
-
-const updateDataAlienRegistrationCard = data => put(url.UPDATE_ALIENREGISTRATIONCARD, data, config);
-export {updateDataAlienRegistrationCard};
-
-const deleteDataAlienRegistrationCard = (id) => del(`${url.DELETE_ALIENREGISTRATIONCARD}/${id}`, { params: { id } }, config);
-export {deleteDataAlienRegistrationCard};
 // status_of_residence
-
+export const        getStatusOfResidenceDataAll = () =>     get(url.GET_STATUSOFRESIDENCE_ALL);
+export const        getStatusOfResidenceDataId = (id) => get(`${url.GET_STATUSOFRESIDENCE_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataStatusOfResidence = data =>         post(url.SET_STATUSOFRESIDENCE, data, config);
+export const updateDataStatusOfResidence = data =>       put(url.UPDATE_STATUSOFRESIDENCE, data, config);
+export const deleteDataStatusOfResidence = (id) =>    del(`${url.DELETE_STATUSOFRESIDENCE}/${id}`, { params: { id } }, config);
+// status_detail
+export const        getStatusDetailDataAll = () =>     get(url.GET_STATUSDETAIL_ALL);
+export const        getStatusDetailDataId = (id) => get(`${url.GET_STATUSDETAIL_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataStatusDetail = data =>         post(url.SET_STATUSDETAIL, data, config);
+export const updateDataStatusDetail = data =>       put(url.UPDATE_STATUSDETAIL, data, config);
+export const deleteDataStatusDetail = (id) =>    del(`${url.DELETE_STATUSDETAIL}/${id}`, { params: { id } }, config);
+// violate_list
+export const        getViolateListDataAll = () =>     get(url.GET_VIOLATELIST_ALL);
+export const        getViolateListDataId = (id) => get(`${url.GET_VIOLATELIST_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataViolateList = data =>         post(url.SET_VIOLATELIST, data, config);
+export const updateDataViolateList = data =>       put(url.UPDATE_VIOLATELIST, data, config);
+export const deleteDataViolateList = (id) =>    del(`${url.DELETE_VIOLATELIST}/${id}`, { params: { id } }, config);
+// violate
+export const        getViolateDataAll = () =>     get(url.GET_VIOLATE_ALL);
+export const        getViolateDataId = (id) => get(`${url.GET_VIOLATE_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataViolate = data =>         post(url.SET_VIOLATE, data, config);
+export const updateDataViolate = data =>       put(url.UPDATE_VIOLATE, data, config);
+export const deleteDataViolate = (id) =>    del(`${url.DELETE_VIOLATE}/${id}`, { params: { id } }, config);
+// violate_type
+export const        getViolateTypeDataAll = () =>     get(url.GET_VIOLATETYPE_ALL);
+export const        getViolateTypeDataId = (id) => get(`${url.GET_VIOLATETYPE_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataViolateType = data =>         post(url.SET_VIOLATETYPE, data, config);
+export const updateDataViolateType = data =>       put(url.UPDATE_VIOLATETYPE, data, config);
+export const deleteDataViolateType = (id) =>    del(`${url.DELETE_VIOLATETYPE}/${id}`, { params: { id } }, config);
+// ticket
+export const        getTicketDataAll = () =>     get(url.GET_TICKET_ALL);
+export const        getTicketDataId = (id) => get(`${url.GET_TICKET_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataTicket = data =>         post(url.SET_TICKET, data, config);
+export const updateDataTicket = data =>       put(url.UPDATE_TICKET, data, config);
+export const deleteDataTicket = (id) =>    del(`${url.DELETE_TICKET}/${id}`, { params: { id } }, config);
+// ticket_detail
+export const        getTicketDetailDataAll = () =>     get(url.GET_TICKETDETAIL_ALL);
+export const        getTicketDetailDataId = (id) => get(`${url.GET_TICKETDETAIL_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataTicketDetail = data =>         post(url.SET_TICKETDETAIL, data, config);
+export const updateDataTicketDetail = data =>       put(url.UPDATE_TICKETDETAIL, data, config);
+export const deleteDataTicketDetail = (id) =>    del(`${url.DELETE_TICKETDETAIL}/${id}`, { params: { id } }, config);
+// positions
+export const        getPositionsDataAll = () =>     get(url.GET_POSITIONS_ALL);
+export const        getPositionsDataId = (id) => get(`${url.GET_POSITIONS_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataPositions = data =>         post(url.SET_POSITIONS, data, config);
+export const updateDataPositions = data =>       put(url.UPDATE_POSITIONS, data, config);
+export const deleteDataPositions = (id) =>    del(`${url.DELETE_POSITIONS}/${id}`, { params: { id } }, config);
+// employee
+export const        getEmployeeDataAll = () =>     get(url.GET_EMPLOYEE_ALL);
+export const        getEmployeeDataId = (id) => get(`${url.GET_EMPLOYEE_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataEmployee = data =>         post(url.SET_EMPLOYEE, data, config);
+export const updateDataEmployee = data =>       put(url.UPDATE_EMPLOYEE, data, config);
+export const deleteDataEmployee = (id) =>    del(`${url.DELETE_EMPLOYEE}/${id}`, { params: { id } }, config);
+// permission
+export const        getPermissionDataAll = () =>     get(url.GET_PERMISSION_ALL);
+export const        getPermissionDataId = (id) => get(`${url.GET_PERMISSION_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataPermission = data =>         post(url.SET_PERMISSION, data, config);
+export const updateDataPermission = data =>       put(url.UPDATE_PERMISSION, data, config);
+export const deleteDataPermission = (id) =>    del(`${url.DELETE_PERMISSION}/${id}`, { params: { id } }, config);
+// users
+export const        getUsersDataAll = () =>     get(url.GET_USERS_ALL);
+export const        getUsersDataId = (id) => get(`${url.GET_USERS_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataUsers = data =>         post(url.SET_USERS, data, config);
+export const updateDataUsers = data =>       put(url.UPDATE_USERS, data, config);
+export const deleteDataUsers = (id) =>    del(`${url.DELETE_USERS}/${id}`, { params: { id } }, config);
+// key_license
+export const        getKeyLicenseDataAll = () =>     get(url.GET_KEYLICENSE_ALL);
+export const        getKeyLicenseDataId = (id) => get(`${url.GET_KEYLICENSE_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataKeyLicense = data =>         post(url.SET_KEYLICENSE, data, config);
+export const updateDataKeyLicense = data =>       put(url.UPDATE_KEYLICENSE, data, config);
+export const deleteDataKeyLicense = (id) =>    del(`${url.DELETE_KEYLICENSE}/${id}`, { params: { id } }, config);
 
 
 // Gets the logged in user data from local session
@@ -441,7 +450,7 @@ const onAddComment = (productId, commentText) => {
   });
 };
 
-export {
+ export {
   getLoggedInUser,
   isUserAuthenticated,
   postFakeRegister,

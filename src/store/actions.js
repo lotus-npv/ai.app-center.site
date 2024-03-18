@@ -28,3 +28,5 @@ export * from "./receiving_factory/actions"
 export * from "./dispatching_company/actions"
 // Address
 export * from "./address/actions"
+// Address
+export * from "./status_detail/actions"

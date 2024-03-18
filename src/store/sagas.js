@@ -15,6 +15,7 @@ import InternSaga from "./intern/saga";
 import ReceivingFactory from "./receiving_factory/saga";
 import DispatchingCompany from "./dispatching_company/saga";
 import Address from "./address/saga";
+import StatusDetailSaga from "./status_detail/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -33,5 +34,6 @@ export default function* rootSaga() {
     fork(ReceivingFactory),
     fork(DispatchingCompany),
     fork(Address),
+    fork(StatusDetailSaga),
   ]);
 }

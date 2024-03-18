@@ -1,91 +1,91 @@
 import {
-  GET_CAREER_ALL,
-  GET_CAREER_ALL_SUCCESS,
-  GET_CAREER_ALL_FAIL,
-  GET_CAREER_ID,
-  GET_CAREER_ID_SUCCESS,
-  GET_CAREER_ID_FAIL,
-  SET_CAREER,
-  SET_CAREER_SUCCESS,
-  SET_CAREER_FAIL,
-  UPDATE_CAREER,
-  UPDATE_CAREER_SUCCESS,
-  UPDATE_CAREER_FAIL,
-  DELETE_CAREER,
-  DELETE_CAREER_SUCCESS,
-  DELETE_CAREER_FAIL
+  GET_STATUSDETAIL_ALL,
+  GET_STATUSDETAIL_ALL_SUCCESS,
+  GET_STATUSDETAIL_ALL_FAIL,
+  GET_STATUSDETAIL_ID,
+  GET_STATUSDETAIL_ID_SUCCESS,
+  GET_STATUSDETAIL_ID_FAIL,
+  SET_STATUSDETAIL,
+  SET_STATUSDETAIL_SUCCESS,
+  SET_STATUSDETAIL_FAIL,
+  UPDATE_STATUSDETAIL,
+  UPDATE_STATUSDETAIL_SUCCESS,
+  UPDATE_STATUSDETAIL_FAIL,
+  DELETE_STATUSDETAIL,
+  DELETE_STATUSDETAIL_SUCCESS,
+  DELETE_STATUSDETAIL_FAIL
 } from "./actionTypes";
 
-export const getCareerAll = () => ({
-  type: GET_CAREER_ALL,
+export const getStatusDetailAll = () => ({
+  type: GET_STATUSDETAIL_ALL,
 });
 
-export const getCareerAllSuccess = data => ({
-  type: GET_CAREER_ALL_SUCCESS,
+export const getStatusDetailAllSuccess = data => ({
+  type: GET_STATUSDETAIL_ALL_SUCCESS,
   payload: data,
 });
 
-export const getCareerAllFail = error => ({
-  type: GET_CAREER_ALL_FAIL,
+export const getStatusDetailAllFail = error => ({
+  type: GET_STATUSDETAIL_ALL_FAIL,
   payload: error,
 });
 
-export const getCareerId = id => ({
-  type: GET_CAREER_ID,
+export const getStatusDetailId = id => ({
+  type: GET_STATUSDETAIL_ID,
   payload: id,
 });
 
-export const getCareerIdSuccess = data => ({
-  type: GET_CAREER_ID_SUCCESS,
+export const getStatusDetailIdSuccess = data => ({
+  type: GET_STATUSDETAIL_ID_SUCCESS,
   payload: data,
 });
 
-export const getCareerIdFail = error => ({
-  type: GET_CAREER_ID_FAIL,
+export const getStatusDetailIdFail = error => ({
+  type: GET_STATUSDETAIL_ID_FAIL,
   payload: error,
 });
 
-export const setCareer = data => ({
-  type: SET_CAREER,
+export const setStatusDetail = data => ({
+  type: SET_STATUSDETAIL,
   payload: data
 });
 
-export const setCareerSuccess = data => ({
-  type: SET_CAREER_SUCCESS,
+export const setStatusDetailSuccess = data => ({
+  type: SET_STATUSDETAIL_SUCCESS,
   payload: data,
 });
 
-export const setCareerFail = error => ({
-  type: SET_CAREER_FAIL,
+export const setStatusDetailFail = error => ({
+  type: SET_STATUSDETAIL_FAIL,
   payload: error,
 });
 
-export const updateCareer = (data) => ({
-  type: UPDATE_CAREER,
+export const updateStatusDetail = (data) => ({
+  type: UPDATE_STATUSDETAIL,
   payload: data
 });
 
-export const updateCareerSuccess = data => ({
-  type: UPDATE_CAREER_SUCCESS,
+export const updateStatusDetailSuccess = data => ({
+  type: UPDATE_STATUSDETAIL_SUCCESS,
   payload: data,
 });
 
-export const updateCareerFail = error => ({
-  type: UPDATE_CAREER_FAIL,
+export const updateStatusDetailFail = error => ({
+  type: UPDATE_STATUSDETAIL_FAIL,
   payload: error,
 });
 
-export const deleteCareer = (data) => ({
-  type: DELETE_CAREER,
+export const deleteStatusDetail = (data) => ({
+  type: DELETE_STATUSDETAIL,
   payload: data
 });
 
-export const deleteCareerSuccess = data => ({
-  type: DELETE_CAREER_SUCCESS,
+export const deleteStatusDetailSuccess = data => ({
+  type: DELETE_STATUSDETAIL_SUCCESS,
   payload: data,
 });
 
-export const deleteCareerFail = error => ({
-  type: DELETE_CAREER_FAIL,
+export const deleteStatusDetailFail = error => ({
+  type: DELETE_STATUSDETAIL_FAIL,
   payload: error,
 });

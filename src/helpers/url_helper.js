@@ -18,12 +18,6 @@ export const SET_STATUS = "https://api.lotusocean-jp.com/api/status/insert";
 export const UPDATE_STATUS = "https://api.lotusocean-jp.com/api/status/update";
 export const DELETE_STATUS = "https://api.lotusocean-jp.com/api/status/delete";
 
-// violate
-export const GET_VIOLATE_ALL = "https://api.lotusocean-jp.com/api/violate/all";
-export const GET_VIOLATE_ID = "https://api.lotusocean-jp.com/api/violate/:id";
-export const SET_VIOLATE = "https://api.lotusocean-jp.com/api/violate/insert";
-export const UPDATE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/update";
-export const DELETE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/delete";
 // intern
 export const GET_INTERN_ALL = "https://api.lotusocean-jp.com/api/intern/all";
 export const GET_INTERN_ID = "https://api.lotusocean-jp.com/api/intern/:id";
@@ -79,6 +73,12 @@ export const    GET_VIOLATELIST_ID =  "https://api.lotusocean-jp.com/api/violate
 export const    SET_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate_list/insert";
 export const UPDATE_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate_list/update";
 export const DELETE_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate_list/delete";
+// violate
+export const GET_VIOLATE_ALL = "https://api.lotusocean-jp.com/api/violate/all";
+export const GET_VIOLATE_ID = "https://api.lotusocean-jp.com/api/violate/:id";
+export const SET_VIOLATE = "https://api.lotusocean-jp.com/api/violate/insert";
+export const UPDATE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/update";
+export const DELETE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/delete";
 // violate_type
 export const    GET_VIOLATETYPE_ALL = "https://api.lotusocean-jp.com/api/violate_type/all";
 export const    GET_VIOLATETYPE_ID =  "https://api.lotusocean-jp.com/api/violate_type/:id";

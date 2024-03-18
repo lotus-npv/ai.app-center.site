@@ -14,7 +14,7 @@ import ModalDatas from './ModalDatas'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll } from "store/actions";
+import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetail } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -122,7 +122,7 @@ const TableDatas = () => {
 
   const rendLabel = () => {
     let arr = [{ name: 'All' ,template: (item) => itemRenderer(item, 0, internDataAll.length)}, ...statusData.map((status, index) => {
-      return { name: status.name, template: (item) => itemRenderer(item, index+1)}
+      return { name: status.name, template: (item) => itemRenderer(item, index+1, )}
     })]
     return arr;
   }
