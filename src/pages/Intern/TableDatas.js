@@ -31,15 +31,18 @@ const TableDatas = () => {
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    id: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    description: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    factory: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    company: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    status: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
   const [loading, setLoading] = useState(true);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const dispatch = useDispatch();
 
+  // Khai bao du lieu
   const { internDataAll, statusData } = useSelector(state => ({
     internDataAll: state.Intern.datas,
     statusData: state.Status.datas
@@ -106,12 +109,7 @@ const TableDatas = () => {
   };
 
   const [activeIndex, setActiveIndex] = useState(3);
-  // const items = [
-  //   { label: 'Dashboard' },
-  //   { label: 'Transactions' },
-  //   { label: 'Products' },
-  //   { label: 'Messages' }
-  // ];
+
   const rendLabel = () => {
     return statusData.map((item) => {
       return {label: item.name}
@@ -123,12 +121,10 @@ const TableDatas = () => {
   console.log(items)
   const renderHeader = () => {
     return (
-      <div>
+      <div className='d-flex justify-content-between'>
         <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
-        {/* <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
-        </span> */}
+       
+        
       </div>
     );
   };
