@@ -13,6 +13,7 @@ import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
 
 import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -122,8 +123,8 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    return [{ name: 'all',data: 1, template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
-      return { name: status.name, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length)}
+    return [{ name: 'All',data: 1, template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
+      return { name: status.name,data: statusDetailData.filter(e => e.status_id == status.id).length , template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length)}
     })].filter(e => e.data == 1)
   }
 
