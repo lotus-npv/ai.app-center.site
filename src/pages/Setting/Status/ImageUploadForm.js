@@ -56,32 +56,34 @@ function ImageUploadForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // if (!selectedFile) {
-        //     alert('Please select a file.');
-        //     return;
-        // }
+        if (!selectedFile) {
+            alert('Please select a file.');
+            return;
+        }
 
-        // const formData = new FormData();
-        // formData.append('image', selectedFile);
+        const formData = new FormData();
+        formData.append('image', selectedFile);
 
         try {
-            // const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data'
-            //     }
-            // });
+            const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             console.log('úpload')
-            if (selectedFile) {
-                const formData = new FormData();
-                formData.append('image', selectedFile);
+            // if (selectedFile) {
+            //     const formData = new FormData();
+            //     formData.append('image', selectedFile);
 
-                // dispatch(uploadImageRequest(formData));
-                dispatch(uploadFile(formData));
-            } else {
-                alert('Please select a file.');
-            }
-            console.log('File uploaded successfully:', uploadedFilename);
-            setFileName(uploadedFilename);
+            //     // dispatch(uploadImageRequest(formData));
+            //     dispatch(uploadFile(formData));
+            // } else {
+            //     alert('Please select a file.');
+            // }
+            // console.log('File uploaded successfully:', uploadedFilename);
+
+            
+            setFileName(response.data.filename);
             setUploadDone(true);
 
         } catch (error) {
