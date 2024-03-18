@@ -2,6 +2,7 @@ import {
   GET_CAREER_ALL,
   GET_CAREER_ALL_SUCCESS,
   GET_CAREER_ALL_FAIL,
+  GET_CAREER_ID,
   GET_CAREER_ID_SUCCESS,
   GET_CAREER_ID_FAIL,
   SET_CAREER,
@@ -32,6 +33,20 @@ import {
         };
   
       case GET_CAREER_ALL_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+      case GET_CAREER_ID:
+        return {
+          ...state,
+        };
+      case GET_CAREER_ID_SUCCESS:
+        return {
+          ...state,
+          datas: action.payload,
+        };
+      case GET_CAREER_ID_FAIL:
         return {
           ...state,
           error: action.payload,

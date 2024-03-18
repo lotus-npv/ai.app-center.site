@@ -16,7 +16,7 @@ export { getDemoData };
 const getCareerDataAll = () => get(url.GET_CAREER_ALL);
 export { getCareerDataAll };
 
-const getCareerDataId = () => get(url.GET_CAREER_ID);
+const getCareerDataId = () => get(`${url.GET_CAREER_ID}/${id}`, { params: { id } });
 export { getCareerDataId };
 
 const addNewDataCareer = data => post(url.SET_CAREER, data, config);
@@ -119,6 +119,21 @@ export {updateDataAddress};
 
 const deleteDataAddress = (id) => del(`${url.DELETE_ADDRESS}/${id}`, { params: { id } }, config);
 export {deleteDataAddress};
+// alien_registration_card
+const getAlienRegistrationCardDataAll = () => get(url.GET_ALIENREGISTRATIONCARD_ALL);
+export { getAlienRegistrationCardDataAll };
+
+const getAlienRegistrationCardDataId = () => get(url.GET_ALIENREGISTRATIONCARD_ID);
+export { getAlienRegistrationCardDataId };
+
+const addNewDataAlienRegistrationCard = data => post(url.SET_ALIENREGISTRATIONCARD, data, config);
+export { addNewDataAlienRegistrationCard };
+
+const updateDataAlienRegistrationCard = data => put(url.UPDATE_ALIENREGISTRATIONCARD, data, config);
+export {updateDataAlienRegistrationCard};
+
+const deleteDataAlienRegistrationCard = (id) => del(`${url.DELETE_ALIENREGISTRATIONCARD}/${id}`, { params: { id } }, config);
+export {deleteDataAlienRegistrationCard};
 
 
 // Gets the logged in user data from local session
