@@ -108,23 +108,19 @@ const TableDatas = () => {
     setGlobalFilterValue(value);
   };
 
-  const [activeIndex, setActiveIndex] = useState(3);
-
+  // render label tab
+  const [activeIndex, setActiveIndex] = useState(0);
   const rendLabel = () => {
-    return statusData.map((item) => {
-      return {label: item.name}
-    }) 
+    let arr = [{ label: 'All', icon: <Button>haha</Button> }, ...statusData.map((item) => {
+      return { label: item.name }
+    })]
+    return arr;
   }
-
   const items = rendLabel();
-
-  console.log(items)
   const renderHeader = () => {
     return (
       <div className='d-flex justify-content-between'>
         <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
-       
-        
       </div>
     );
   };
