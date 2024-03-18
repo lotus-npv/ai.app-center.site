@@ -41,17 +41,17 @@ function ImageUploadForm() {
         setAvata({ ...avata, originalname: '', mimetype: f.type, size: f.size });
     };
 
-    // useEffect(() => {
-    //     if (uploadDone) {
-    //         axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         });
+    useEffect(() => {
+        if (uploadDone) {
+            axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             
-    //         setUploadDone(false);
-    //     }
-    // }, [filename]);
+            setUploadDone(false);
+        }
+    }, [filename]);
 
 
     const handleSubmit = async (event) => {
@@ -81,10 +81,8 @@ function ImageUploadForm() {
               } else {
                 alert('Please select a file.');
               }
-
-            // dispatch(uploadFile(selectedFile));
-            // console.log('File uploaded successfully:', uploadResult.data);
-            // setFileName(uploadResult.data.filename);
+            console.log('File uploaded successfully:', uploadedFilename);
+            setFileName(uploadedFilename);
             setUploadDone(true);
 
         } catch (error) {

@@ -32,7 +32,7 @@ function* onUploadFile(action) {
 
                                     
 function* UploadFileSaga() {
-  yield takeLatest(UPLOAD_FILE, onUploadFile)
+  yield takeEvery(UPLOAD_FILE, onUploadFile)
 }
                                       
 export default UploadFileSaga;
