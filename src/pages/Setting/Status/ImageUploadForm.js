@@ -24,7 +24,7 @@ function ImageUploadForm() {
         const f = event.target.files[0];
         setSelectedFile(f);
         console.log(selectedFile)
-        setAvata({ ...avata, mimetype: f.type, size: f.size });
+        setAvata({ ...avata, originalname: '', mimetype: f.type, size: f.size });
     };
 
     const handleSubmit = async (event) => {
@@ -44,46 +44,34 @@ function ImageUploadForm() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
             console.log('File uploaded successfully:', response.data);
-            const uploadedFilename = response.data.filename;
-
             // Hàm để kiểm tra xem giá trị uploadedFilename đã được nhận hay chưa
             const checkOriginalName = async () => {
-                if (!uploadedFilename) {
-                    console.log('Waiting for originalname...');
+                if (!response) {
+                    console.log('Waiting for response...');
                     await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
-                    // const response = await axios.get('http://localhost:3010/api/avata'); // Gửi yêu cầu GET để lấy thông tin avata
-                    uploadedFilename = response.data.originalname; // Cập nhật uploadedFilename từ phản hồi
                     await checkOriginalName(); // Tiếp tục kiểm tra
                 }
             };
-
             await checkOriginalName(); // Bắt đầu kiểm tra
+            console.log(avata)
 
-            if (uploadedFilename) {
-                setAvata({ ...avata, originalname: uploadedFilename });
+            setAvata({ ...avata, originalname: response.data.filename });
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
+            // Gửi yêu cầu POST để chèn thông tin avata vào cơ sở dữ liệu
+            await axios.post('http://localhost:3010/api/avata/insert', avata, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-                // Gửi yêu cầu POST để chèn thông tin avata vào cơ sở dữ liệu
-                await axios.post('http://localhost:3010/api/avata/insert', avata, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                // Thực hiện các thao tác tiếp theo sau khi upload thành công
-            } else {
-                console.error('No filename received in the response');
-            }
-
-            // Thực hiện các thao tác tiếp theo sau khi upload thành công
         } catch (error) {
             console.error('Error uploading file:', error);
             // Xử lý lỗi khi upload file
         }
     };
 
-    console.log(avata)
+    
 
     return (
         <div>
