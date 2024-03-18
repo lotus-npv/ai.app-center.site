@@ -23,10 +23,6 @@ import {
   
   const Career = (state = INIT_STATE, action) => {
     switch (action.type) {
-      // case GET_CAREER_ALL:
-      //   return {
-      //     ...state,
-      //   };
       case GET_CAREER_ALL_SUCCESS:
         return {
           ...state,
@@ -38,11 +34,6 @@ import {
           ...state,
           error: action.payload,
         };
-      // case GET_CAREER_ID:
-      //   return {
-      //     ...state,
-      //     dataId: action.payload,
-      //   };
       case GET_CAREER_ID_SUCCESS:
         return {
           ...state,

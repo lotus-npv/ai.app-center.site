@@ -32,7 +32,7 @@ function* fetCareerData() {
 
 function* fetCareerDataId({payload: id}) {
   try {
-    const response = yield call(getCareerDataId(id));
+    const response = yield call(getCareerDataId, id);
     yield put(getCareerIdSuccess(response));
   } catch (error) {
     yield put(getCareerIdFail(error))
