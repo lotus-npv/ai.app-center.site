@@ -17,6 +17,7 @@ import DispatchingCompany from "./dispatching_company/saga";
 import Address from "./address/saga";
 import StatusDetailSaga from "./status_detail/saga";
 import UploadFileSaga from "./upload/saga";
+import watchUploadImage from './upload_image/sagas'
 
 export default function* rootSaga() {
   yield all([
@@ -37,5 +38,6 @@ export default function* rootSaga() {
     fork(Address),
     fork(StatusDetailSaga),
     fork(UploadFileSaga),
+    watchUploadImage()
   ]);
 }

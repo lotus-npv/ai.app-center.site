@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { uploadFileRequest  } from "../../../store/upload_image/actions";
+import { uploadImageRequest  } from "../../../store/upload_image/actions";
 
 function ImageUploadForm() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -69,8 +69,8 @@ function ImageUploadForm() {
             //         'Content-Type': 'multipart/form-data'
             //     }
             // });
-
-            dispatch(uploadFileRequest(selectedFile));
+            console.log('úpload')
+            dispatch(uploadImageRequest(selectedFile));
 
             // dispatch(uploadFile(selectedFile));
             // console.log('File uploaded successfully:', uploadResult.data);
@@ -84,7 +84,7 @@ function ImageUploadForm() {
     };
 
 
-    console.log(avata)
+    
     // console.log(uploadResult)
     return (
         <div>

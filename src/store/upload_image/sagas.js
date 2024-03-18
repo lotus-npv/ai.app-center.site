@@ -1,26 +1,23 @@
-import { call, put } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
+import { UPLOAD_IMAGE_REQUEST, uploadImageSuccess, uploadImageFailure } from './actions';
 import axios from 'axios';
-import { uploadFileSuccess, uploadFileFailure } from './actions';
 
-function* uploadSaga(action) {
+function* uploadImage(action) {
   try {
-    const formData = new FormData();
-    formData.append('file', action.payload);
-
+    const formData = action.payload;
     const response = yield call(axios.post, 'https://api.lotusocean-jp.com/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-
-    yield put(uploadFileSuccess(response.data));
+    yield put(uploadImageSuccess(response.data.filename));
   } catch (error) {
-    yield put(uploadFileFailure(error.message));
+    yield put(uploadImageFailure(error.message));
   }
 }
 
-function* UploadFileSaga() {
-    yield takeEvery('UPLOAD_FILE_REQUEST', uploadSaga);
-  }
+function* watchUploadImage() {
+  yield takeLatest(UPLOAD_IMAGE_REQUEST, uploadImage);
+}
 
-export default UploadFileSaga;
+export default watchUploadImage;
