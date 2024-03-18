@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 
 function* onUploadFile({ payload: file }) {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('image', file);
   try {
       const response = yield call(uploadDataAvata, formData);
       yield put(uploadFileSuccess(response.data));

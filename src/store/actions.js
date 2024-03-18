@@ -32,3 +32,5 @@ export * from "./address/actions"
 export * from "./status_detail/actions"
 // upload 
 export * from "./upload/actions"
+// upload file
+export * from "./upload_image/actions"

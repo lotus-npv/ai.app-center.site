@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { uploadFile } from "store/actions";
+import { uploadFileRequest  } from "../../../store/upload_image/actions";
 
 function ImageUploadForm() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -27,9 +27,10 @@ function ImageUploadForm() {
 
     // Khai bao du lieu
     const dispatch = useDispatch();
-    const { uploadResult } = useSelector(state => ({
-        uploadResult: state.UploadFile.data,
-    }), shallowEqual);
+
+    // const { uploadResult } = useSelector(state => ({
+    //     uploadResult: state.UploadFile.data,
+    // }), shallowEqual);
 
     const handleFileChange = (event) => {
         const f = event.target.files[0];
@@ -68,7 +69,10 @@ function ImageUploadForm() {
             //         'Content-Type': 'multipart/form-data'
             //     }
             // });
-            dispatch(uploadFile(selectedFile));
+
+            dispatch(uploadFileRequest(selectedFile));
+
+            // dispatch(uploadFile(selectedFile));
             // console.log('File uploaded successfully:', uploadResult.data);
             // setFileName(uploadResult.data.filename);
             setUploadDone(true);
@@ -81,7 +85,7 @@ function ImageUploadForm() {
 
 
     console.log(avata)
-    console.log(uploadResult)
+    // console.log(uploadResult)
     return (
         <div>
             <h2>Image Upload Form</h2>
