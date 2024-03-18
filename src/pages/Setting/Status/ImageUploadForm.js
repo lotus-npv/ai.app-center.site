@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-// import { uploadImageRequest  } from "../../../store/upload_image/actions";
 import { uploadImageRequest } from 'store/actions';
+import { uploadFile } from 'store/actions';
 
 function ImageUploadForm() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -30,7 +30,8 @@ function ImageUploadForm() {
     const dispatch = useDispatch();
 
     const { uploadedFilename } = useSelector(state => ({
-        uploadedFilename: state.reducer.uploadedFilename,
+        // uploadedFilename: state.reducer.uploadedFilename,
+        uploadedFilename: state.UploadFile.uploadedFilename,
     }), shallowEqual);
 
     const handleFileChange = (event) => {
@@ -40,17 +41,17 @@ function ImageUploadForm() {
         setAvata({ ...avata, originalname: '', mimetype: f.type, size: f.size });
     };
 
-    useEffect(() => {
-        if (uploadDone) {
-            axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+    // useEffect(() => {
+    //     if (uploadDone) {
+    //         axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         });
             
-            setUploadDone(false);
-        }
-    }, [filename]);
+    //         setUploadDone(false);
+    //     }
+    // }, [filename]);
 
 
     const handleSubmit = async (event) => {
@@ -74,7 +75,9 @@ function ImageUploadForm() {
             if (selectedFile) {
                 const formData = new FormData();
                 formData.append('image', selectedFile);
-                dispatch(uploadImageRequest(formData));
+
+                // dispatch(uploadImageRequest(formData));
+                dispatch(uploadFile(formData));
               } else {
                 alert('Please select a file.');
               }

@@ -37,7 +37,7 @@ export default function* rootSaga() {
     fork(DispatchingCompany),
     fork(Address),
     fork(StatusDetailSaga),
-    fork(UploadFileSaga),
+    UploadFileSaga(),
     watchUploadImage()
   ]);
 }

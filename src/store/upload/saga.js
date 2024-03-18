@@ -1,6 +1,5 @@
 import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
-
-
+import axios from 'axios';
 // Login Redux States
 import {
   UPLOAD_FILE,
@@ -15,12 +14,15 @@ import { toast } from "react-toastify";
 
 
 
-function* onUploadFile({ payload: file }) {
-  const formData = new FormData();
-  formData.append('image', file);
+function* onUploadFile(action) {
+  const formData = action.payload;
   try {
-      const response = yield call(uploadDataAvata, formData);
-      yield put(uploadFileSuccess(response.data));
+    const response = yield call(axios.post, 'https://api.lotusocean-jp.com/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+      yield put(uploadFileSuccess(response.data.filename));
       toast.success("Upload file Successfully", { autoClose: 2000 });
   } catch (error) {
       yield put(uploadFileFail(error.message));
@@ -30,7 +32,7 @@ function* onUploadFile({ payload: file }) {
 
                                     
 function* UploadFileSaga() {
-  yield takeEvery(UPLOAD_FILE, onUploadFile)
+  yield takeLatest(UPLOAD_FILE, onUploadFile)
 }
                                       
 export default UploadFileSaga;
