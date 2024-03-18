@@ -22,8 +22,12 @@ const StatusPage = (props) => {
     const { dataId } = useSelector(state => ({
         dataId: state.Career.dataId
     }), shallowEqual);
-  
-
+    
+      // Get du lieu lan dau 
+    useEffect(() => {
+        dispatch(getCareerId(1));
+    }, [dispatch]);
+    console.log(dataId)
     return (
         <>
             <div className="page-content">
@@ -34,7 +38,6 @@ const StatusPage = (props) => {
                     <div>
                         <button type="button" onClick={(e) => {
                             dispatch(getCareerId(1));
-                            console.log(dataId)
                         }}>
                             test
                         </button>

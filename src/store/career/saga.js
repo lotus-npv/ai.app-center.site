@@ -24,18 +24,18 @@ import { toast } from "react-toastify";
 function* fetCareerData() {
   try {
     const response = yield call(getCareerDataAll);
-    yield put(getCareerIdSuccess(response));
+    yield put(getCareerAllSuccess(response));
   } catch (error) {
-    yield put(getCareerIdFail(error))
+    yield put(getCareerAllFail(error))
   }
 }
 
 function* fetCareerDataId({payload: id}) {
   try {
     const response = yield call(getCareerDataId(id));
-    yield put(getCareerAllSuccess(response));
+    yield put(getCareerIdSuccess(response));
   } catch (error) {
-    yield put(getCareerAllFail(error))
+    yield put(getCareerIdFail(error))
   }
 }
 

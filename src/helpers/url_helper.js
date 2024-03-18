@@ -6,7 +6,7 @@ export const GET_DEMO_DATA = "https://jsonplaceholder.typicode.com/posts";
 
 // career
 export const GET_CAREER_ALL = "https://api.lotusocean-jp.com/api/career/all";
-export const GET_CAREER_ID = "https://api.lotusocean-jp.com/api/career/:id";
+export const GET_CAREER_ID = "https://api.lotusocean-jp.com/api/career/";
 export const SET_CAREER = "https://api.lotusocean-jp.com/api/career/insert";
 export const UPDATE_CAREER = "https://api.lotusocean-jp.com/api/career/update";
 export const DELETE_CAREER = "https://api.lotusocean-jp.com/api/career/delete";
