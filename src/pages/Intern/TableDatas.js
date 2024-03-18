@@ -14,7 +14,7 @@ import ModalDatas from './ModalDatas'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetail } from "store/actions";
+import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -43,15 +43,17 @@ const TableDatas = () => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAll, statusData } = useSelector(state => ({
+  const { internDataAll, statusData, statusDetailData } = useSelector(state => ({
     internDataAll: state.Intern.datas,
-    statusData: state.Status.datas
+    statusData: state.Status.datas,
+    statusDetailData: state.StatusDetail.datas
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getInternAll());
     dispatch(getStatusAll());
+    dispatch(getStatusDetailAll());
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -119,7 +121,7 @@ const TableDatas = () => {
 
   const rendLabel = () => {
     return [{ name: 'All', template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
-      return { name: status.name, template: (item) => itemRenderer(item, index + 1,) }
+      return { name: status.name, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
     })]
   }
 
@@ -150,10 +152,12 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
+  console.log(statusDetailData)
+
   return (
     <div className="card" >
       <DataTable value={internDataAll} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
-        filterDisplay="row"  globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
+        filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="last_name_jp" header="Tên thực tập sinh" filterField="name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="factory" header="Xí nghiệp" filterField="factory" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>

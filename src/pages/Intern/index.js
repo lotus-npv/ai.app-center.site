@@ -237,7 +237,7 @@ const InternPage = (props) => {
         setOptionGroup(arr);
     }, [])
 
-    console.log(optionGroup)
+    // console.log(optionGroup)
 
     return (
         <>
