@@ -18,6 +18,13 @@ export const SET_STATUS = "https://api.lotusocean-jp.com/api/status/insert";
 export const UPDATE_STATUS = "https://api.lotusocean-jp.com/api/status/update";
 export const DELETE_STATUS = "https://api.lotusocean-jp.com/api/status/delete";
 
+// violate
+export const GET_VIOLATE_ALL = "https://api.lotusocean-jp.com/api/violate/all";
+export const GET_VIOLATE_ID = "https://api.lotusocean-jp.com/api/violate/:id";
+export const SET_VIOLATE = "https://api.lotusocean-jp.com/api/violate/insert";
+export const UPDATE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/update";
+export const DELETE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/delete";
+
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
 export const POST_FAKE_JWT_LOGIN = "/post-jwt-login";
