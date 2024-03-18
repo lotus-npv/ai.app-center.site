@@ -29,9 +29,9 @@ function ImageUploadForm() {
     // Khai bao du lieu
     const dispatch = useDispatch();
 
-    const uploadedFilename = useSelector(state => state.UploadFile.uploadedFilename);
-    const uploading = useSelector(state => state.UploadFile.uploading);
-    const error = useSelector(state => state.UploadFile.error);
+    const uploadedFilename = useSelector(state => state.reducer.uploadedFilename);
+    const uploading = useSelector(state => state.reducer.uploading);
+    const error = useSelector(state => state.reducer.error);
 
     const handleFileChange = (event) => {
         const f = event.target.files[0];
@@ -70,21 +70,20 @@ function ImageUploadForm() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log('úpload')
+            setFileName(response.data.filename);
+            setUploadDone(true);
+
+
             // if (selectedFile) {
             //     const formData = new FormData();
             //     formData.append('image', selectedFile);
 
-            //     // dispatch(uploadImageRequest(formData));
-            //     dispatch(uploadFile(formData));
+            //     dispatch(uploadImageRequest(formData));
+            //     // dispatch(uploadFile(formData));
             // } else {
             //     alert('Please select a file.');
             // }
             // console.log('File uploaded successfully:', uploadedFilename);
-
-            
-            setFileName(response.data.filename);
-            setUploadDone(true);
 
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -92,7 +91,7 @@ function ImageUploadForm() {
         }
     };
 
-
+    
 
     console.log(uploadedFilename)
     return (
