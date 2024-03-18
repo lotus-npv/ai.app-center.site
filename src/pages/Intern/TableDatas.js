@@ -5,6 +5,7 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { TabMenu } from 'primereact/tabmenu';
+import { Badge } from 'primereact/badge';
 
 import DataContext from 'data/DataContext';
 
@@ -110,16 +111,26 @@ const TableDatas = () => {
 
   // render label tab
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const itemRenderer = (item, itemIndex) => (
+    <a className="p-menuitem-link flex align-items-center gap-2" onClick={() => setActiveIndex(itemIndex)}>
+        {/* <img alt={item.name} src={`https://primefaces.org/cdn/primevue/images/avatar/${item.image}`} style={{ width: '32px' }} /> */}
+        <Badge value="2"></Badge>
+        <span className="font-bold">{item.name}</span>
+    </a>
+);
+
   const rendLabel = () => {
-    let arr = [{ label: 'All', icon: <Button>haha</Button> }, ...statusData.map((item) => {
-      return { label: item.name }
+    let arr = [{ name: 'All', template: (item) => itemRenderer(item, 0)}, ...statusData.map((item, index) => {
+      return { label: item.name, template: (item) => itemRenderer(item, index+1)}
     })]
     return arr;
   }
+  
   const items = rendLabel();
   const renderHeader = () => {
     return (
-      <div className='d-flex justify-content-between'>
+      <div className=''>
         <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
       </div>
     );
