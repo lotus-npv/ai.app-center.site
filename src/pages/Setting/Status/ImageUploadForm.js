@@ -7,11 +7,11 @@ function ImageUploadForm() {
         key_license_id: 1,
         user_type: 'intern',
         object_id: 1, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
-        path: null,
-        originalname: null,
+        path: './uploads',
+        originalname: '',
         mimetype: null,
         size: null,
-        description: null,
+        description: '',
         create_at: null,
         create_by: 1,
         update_at: null,
@@ -21,7 +21,10 @@ function ImageUploadForm() {
     })
 
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+        const f = event.target.files[0];
+        setSelectedFile(f);
+        console.log(selectedFile)
+        setAvata({...avata, path: f.path, mimetype: f.type, size: f.size});
     };
 
     const handleSubmit = async (event) => {
@@ -43,7 +46,7 @@ function ImageUploadForm() {
             });
 
             console.log('File uploaded successfully:', response.data);
-            setAvata({...avata, path: selectedFile.path, originalname: response.data.filename, mimetype: selectedFile.mimetype, size: selectedFile.size});
+            setAvata({...avata,  originalname: response.data.filename});
             await axios.post('http://localhost:3010/api/avata/insert', avata, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -57,6 +60,8 @@ function ImageUploadForm() {
             // Xử lý lỗi khi upload file
         }
     };
+
+    console.log(avata)
 
     return (
         <div>
