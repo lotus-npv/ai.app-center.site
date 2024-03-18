@@ -30,18 +30,24 @@ export const GET_INTERN_ID = "https://api.lotusocean-jp.com/api/intern/:id";
 export const SET_INTERN = "https://api.lotusocean-jp.com/api/intern/insert";
 export const UPDATE_INTERN = "https://api.lotusocean-jp.com/api/intern/update";
 export const DELETE_INTERN = "https://api.lotusocean-jp.com/api/intern/delete";
-// receiving_factory
-export const GET_RECEIVINGFACTORY_ALL = "https://api.lotusocean-jp.com/api/receiving_factory/all";
-export const GET_RECEIVINGFACTORY_ID = "https://api.lotusocean-jp.com/api/receiving_factory/:id";
-export const SET_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/insert";
-export const UPDATE_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/update";
-export const DELETE_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/delete";
 // syndication
 export const GET_SYNDICATION_ALL = "https://api.lotusocean-jp.com/api/syndication/all";
 export const GET_SYNDICATION_ID = "https://api.lotusocean-jp.com/api/syndication/:id";
 export const SET_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/insert";
 export const UPDATE_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/update";
 export const DELETE_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/delete";
+// dispatching_company
+export const    GET_DISPATCHINGCOMPANY_ALL = "https://api.lotusocean-jp.com/api/dispatching_company/all";
+export const    GET_DISPATCHINGCOMPANY_ID =  "https://api.lotusocean-jp.com/api/dispatching_company/:id";
+export const    SET_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/insert";
+export const UPDATE_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/update";
+export const DELETE_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/delete";
+// receiving_factory
+export const GET_RECEIVINGFACTORY_ALL = "https://api.lotusocean-jp.com/api/receiving_factory/all";
+export const GET_RECEIVINGFACTORY_ID = "https://api.lotusocean-jp.com/api/receiving_factory/:id";
+export const SET_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/insert";
+export const UPDATE_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/update";
+export const DELETE_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/delete";
 // address
 export const GET_ADDRESS_ALL = "https://api.lotusocean-jp.com/api/address/all";
 export const GET_ADDRESS_ID = "https://api.lotusocean-jp.com/api/address/:id";

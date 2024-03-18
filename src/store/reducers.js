@@ -22,6 +22,8 @@ import Demo from "./demo/reducer"
 import Career from "./career/reducer";
 // Status
 import Status from "./status/reducer";
+// intern
+import Status from "./intern/reducer";
 
 
 const rootReducer = combineReducers({

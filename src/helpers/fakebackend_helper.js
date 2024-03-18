@@ -44,6 +44,68 @@ export {updateDataStatus};
 const deleteDataStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { params: { id } }, config);
 export {deleteDataStatus};
 
+// intern
+const getInternDataAll = () => get(url.GET_INTERN_ALL);
+export { getInternDataAll };
+
+const getInternDataId = () => get(url.GET_INTERN_ID);
+export { getInternDataId };
+
+const addNewDataIntern = data => post(url.SET_INTERN, data, config);
+export { addNewDataIntern };
+
+const updateDataIntern = data => put(url.UPDATE_INTERN, data, config);
+export {updateDataIntern};
+
+const deleteDataIntern = (id) => del(`${url.DELETE_INTERN}/${id}`, { params: { id } }, config);
+export {deleteDataIntern};
+// syndication
+const getSyndicationDataAll = () => get(url.GET_SYNDICATION_ALL);
+export { getSyndicationDataAll };
+
+const getSyndicationDataId = () => get(url.GET_SYNDICATION_ID);
+export { getSyndicationDataId };
+
+const addNewDataSyndication = data => post(url.SET_SYNDICATION, data, config);
+export { addNewDataSyndication };
+
+const updateDataSyndication = data => put(url.UPDATE_SYNDICATION, data, config);
+export {updateDataSyndication};
+
+const deleteDataSyndication = (id) => del(`${url.DELETE_SYNDICATION}/${id}`, { params: { id } }, config);
+export {deleteDataSyndication};
+// receiving_factory
+const getReceivingFactoryDataAll = () => get(url.GET_RECEIVINGFACTORY_ALL);
+export { getReceivingFactoryDataAll };
+
+const getReceivingFactoryDataId = () => get(url.GET_RECEIVINGFACTORY_ID);
+export { getReceivingFactoryDataId };
+
+const addNewDataReceivingFactory = data => post(url.SET_RECEIVINGFACTORY, data, config);
+export { addNewDataReceivingFactory };
+
+const updateDataReceivingFactory = data => put(url.UPDATE_RECEIVINGFACTORY, data, config);
+export {updateDataReceivingFactory};
+
+const deleteDataReceivingFactory = (id) => del(`${url.DELETE_RECEIVINGFACTORY}/${id}`, { params: { id } }, config);
+export {deleteDataReceivingFactory};
+// dispatching_company
+const getDispatchingCompanyDataAll = () => get(url.GET_DISPATCHINGCOMPANY_ALL);
+export { getDispatchingCompanyDataAll };
+
+const getDispatchingCompanyDataId = () => get(url.GET_DISPATCHINGCOMPANY_ID);
+export { getDispatchingCompanyDataId };
+
+const addNewDataDispatchingCompany = data => post(url.SET_DISPATCHINGCOMPANY, data, config);
+export { addNewDataDispatchingCompany };
+
+const updateDataDispatchingCompany = data => put(url.UPDATE_DISPATCHINGCOMPANY, data, config);
+export {updateDataDispatchingCompany};
+
+const deleteDataDispatchingCompany = (id) => del(`${url.DELETE_DISPATCHINGCOMPANY}/${id}`, { params: { id } }, config);
+export {deleteDataDispatchingCompany};
+
+
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
   const user = localStorage.getItem("user");

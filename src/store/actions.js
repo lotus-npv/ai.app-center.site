@@ -20,3 +20,5 @@ export * from "./career/actions"
 
 // status
 export * from "./status/actions"
+// intern
+export * from "./intern/actions"
