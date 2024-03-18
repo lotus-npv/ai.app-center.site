@@ -24,7 +24,7 @@ function ImageUploadForm() {
         const f = event.target.files[0];
         setSelectedFile(f);
         console.log(selectedFile)
-        setAvata({...avata, path: f.path, mimetype: f.type, size: f.size});
+        setAvata({ ...avata, mimetype: f.type, size: f.size });
     };
 
     const handleSubmit = async (event) => {
@@ -46,13 +46,35 @@ function ImageUploadForm() {
             });
 
             console.log('File uploaded successfully:', response.data);
-            setAvata({...avata,  originalname: response.data.filename});
-            await axios.post('http://localhost:3010/api/avata/insert', avata, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+            const uploadedFilename = response.data.filename;
 
+            // Hàm để kiểm tra xem giá trị uploadedFilename đã được nhận hay chưa
+            const checkOriginalName = async () => {
+                if (!uploadedFilename) {
+                    console.log('Waiting for originalname...');
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
+                    // const response = await axios.get('http://localhost:3010/api/avata'); // Gửi yêu cầu GET để lấy thông tin avata
+                    uploadedFilename = response.data.originalname; // Cập nhật uploadedFilename từ phản hồi
+                    await checkOriginalName(); // Tiếp tục kiểm tra
+                }
+            };
+
+            await checkOriginalName(); // Bắt đầu kiểm tra
+
+            if (uploadedFilename) {
+                setAvata({ ...avata, originalname: uploadedFilename });
+
+                // Gửi yêu cầu POST để chèn thông tin avata vào cơ sở dữ liệu
+                await axios.post('http://localhost:3010/api/avata/insert', avata, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                // Thực hiện các thao tác tiếp theo sau khi upload thành công
+            } else {
+                console.error('No filename received in the response');
+            }
 
             // Thực hiện các thao tác tiếp theo sau khi upload thành công
         } catch (error) {
@@ -65,7 +87,7 @@ function ImageUploadForm() {
 
     return (
         <div>
-            <h2>Image Upload Form</h2>
+            <h2>Image Upload Form aa</h2>
             <form onSubmit={handleSubmit}>
                 <input type="file" onChange={handleFileChange} />
                 <button type="submit">Upload</button>
