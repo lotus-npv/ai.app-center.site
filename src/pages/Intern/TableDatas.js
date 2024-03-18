@@ -12,6 +12,8 @@ import DataContext from 'data/DataContext';
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
 
+import { withTranslation } from "react-i18next";
+
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll } from "store/actions";
@@ -25,7 +27,7 @@ FilterService.register('custom_activity', (value, filters) => {
   return from <= value && value <= to;
 });
 
-const TableDatas = () => {
+const TableDatas = (props) => {
 
   const { vh } = useContext(DataContext);
 
@@ -115,14 +117,14 @@ const TableDatas = () => {
   const itemRenderer = (item, itemIndex, data) => (
     <a className="p-menuitem-link flex align-items-center gap-2" onClick={() => setActiveIndex(itemIndex)}>
       <Badge value={data}></Badge>
-      <span className="font-bold">{item.name}</span>
+      <span className="font-bold">{props.t(item.name)}</span>
     </a>
   );
 
   const rendLabel = () => {
-    return [{ name: 'All', template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
-      return { name: status.name, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
-    })]
+    return [{ name: 'all',data: 1, template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
+      return { name: status.name, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length)}
+    })].filter(e => e.data == 1)
   }
 
   const items = rendLabel();
@@ -133,7 +135,6 @@ const TableDatas = () => {
       </div>
     );
   };
-
 
   const addForm = () => {
     setRowSelect(null);
@@ -151,6 +152,7 @@ const TableDatas = () => {
   }
 
   const header = renderHeader();
+
 
   console.log(statusDetailData)
 
@@ -188,4 +190,8 @@ const TableDatas = () => {
   );
 }
 
-export default TableDatas;
+TableDatas.propTypes = {
+  t: PropTypes.any,
+};
+
+export default withTranslation()(TableDatas);
