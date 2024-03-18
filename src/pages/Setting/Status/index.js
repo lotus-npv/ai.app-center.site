@@ -26,16 +26,16 @@ const StatusPage = (props) => {
     
       // Get du lieu lan dau 
     useEffect(() => {
-        dispatch(getCareerAll());
+        dispatch(getCareerId(2));
     }, [dispatch]);
 
     const handleGetDataId = () => {
-        dispatch(getCareerAll());
-        dispatch(getCareerId(1));
+        // dispatch(getCareerAll());
+        dispatch(getCareerId(2));
         console.log(dataId)
     }
 
-    console.log(datas)
+    console.log(dataId)
 
     
     return (

@@ -32,7 +32,7 @@ export const getCareerAllFail = error => ({
 
 export const getCareerId = id => ({
   type: GET_CAREER_ID,
-  id,
+  payload: id,
 });
 
 export const getCareerIdSuccess = dataId => ({
