@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { uploadImageRequest  } from "../../../store/upload_image/actions";
+// import { uploadImageRequest  } from "../../../store/upload_image/actions";
+import { uploadImageRequest } from 'store/actions';
 
 function ImageUploadForm() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -28,9 +29,9 @@ function ImageUploadForm() {
     // Khai bao du lieu
     const dispatch = useDispatch();
 
-    // const { uploadResult } = useSelector(state => ({
-    //     uploadResult: state.UploadFile.data,
-    // }), shallowEqual);
+    const { uploadedFilename } = useSelector(state => ({
+        uploadedFilename: state.reducer.uploadedFilename,
+    }), shallowEqual);
 
     const handleFileChange = (event) => {
         const f = event.target.files[0];
@@ -55,10 +56,10 @@ function ImageUploadForm() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!selectedFile) {
-            alert('Please select a file.');
-            return;
-        }
+        // if (!selectedFile) {
+        //     alert('Please select a file.');
+        //     return;
+        // }
 
         // const formData = new FormData();
         // formData.append('image', selectedFile);
@@ -70,7 +71,13 @@ function ImageUploadForm() {
             //     }
             // });
             console.log('úpload')
-            dispatch(uploadImageRequest(selectedFile));
+            if (selectedFile) {
+                const formData = new FormData();
+                formData.append('image', selectedFile);
+                dispatch(uploadImageRequest(formData));
+              } else {
+                alert('Please select a file.');
+              }
 
             // dispatch(uploadFile(selectedFile));
             // console.log('File uploaded successfully:', uploadResult.data);
@@ -85,7 +92,7 @@ function ImageUploadForm() {
 
 
     
-    // console.log(uploadResult)
+    console.log(uploadedFilename)
     return (
         <div>
             <h2>Image Upload Form</h2>

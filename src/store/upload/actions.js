@@ -4,14 +4,14 @@ import {
   UPLOAD_FILE_FAIL,
 } from "./actionTypes";
 
-export const uploadFile = (file) => ({
+export const uploadFile = (formData) => ({
   type: UPLOAD_FILE,
-  payload: file
+  payload: formData
 });
 
-export const uploadFileSuccess = data => ({
+export const uploadFileSuccess = filename => ({
   type: UPLOAD_FILE_SUCCESS,
-  payload: data,
+  payload: filename,
 });
 
 export const uploadFileFail = error => ({

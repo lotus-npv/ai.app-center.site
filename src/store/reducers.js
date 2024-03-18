@@ -35,6 +35,8 @@ import StatusDetail from "./status_detail/reducer";
 // UploadFile
 import UploadFile from "./upload/reducer";
 
+import reducer from "./upload_image/reducer";
+
 
 const rootReducer = combineReducers({
   // public
@@ -53,7 +55,8 @@ const rootReducer = combineReducers({
   DispatchingCompany,
   Address,
   StatusDetail,
-  UploadFile
+  UploadFile,
+  reducer
 });
 
 export default rootReducer;
