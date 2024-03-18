@@ -3,6 +3,22 @@ import axios from 'axios';
 
 function ImageUploadForm() {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [avata, setAvata] = useState({
+        key_license_id: 1,
+        user_type: 'intern',
+        object_id: 1, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
+        path: null,
+        originalname: null,
+        mimetype: null,
+        size: null,
+        description: null,
+        create_at: null,
+        create_by: 1,
+        update_at: null,
+        update_by: 1,
+        delete_at: null,
+        flag: 1
+    })
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -27,6 +43,14 @@ function ImageUploadForm() {
             });
 
             console.log('File uploaded successfully:', response.data);
+            setAvata({...avata, path: selectedFile.path, originalname: response.data.filename, mimetype: selectedFile.mimetype, size: selectedFile.size});
+            await axios.post('http://localhost:3010/api/avata/insert', avata, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+
             // Thực hiện các thao tác tiếp theo sau khi upload thành công
         } catch (error) {
             console.error('Error uploading file:', error);
