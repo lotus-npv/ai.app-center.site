@@ -21,6 +21,7 @@ const UploadFile = (state = INIT_STATE, action) => {
     case UPLOAD_FILE_SUCCESS:
       return {
         ...state,
+        uploading: false,
         uploadedFilename: action.payload,
         error: null,
       };

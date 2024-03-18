@@ -29,10 +29,9 @@ function ImageUploadForm() {
     // Khai bao du lieu
     const dispatch = useDispatch();
 
-    const { uploadedFilename } = useSelector(state => ({
-        // uploadedFilename: state.reducer.uploadedFilename,
-        uploadedFilename: state.UploadFile.uploadedFilename,
-    }), shallowEqual);
+    const uploadedFilename = useSelector(state => state.UploadFile.uploadedFilename);
+    const uploading = useSelector(state => state.UploadFile.uploading);
+    const error = useSelector(state => state.UploadFile.error);
 
     const handleFileChange = (event) => {
         const f = event.target.files[0];
@@ -48,7 +47,7 @@ function ImageUploadForm() {
                     'Content-Type': 'application/json'
                 }
             });
-            
+
             setUploadDone(false);
         }
     }, [filename]);
@@ -78,9 +77,9 @@ function ImageUploadForm() {
 
                 // dispatch(uploadImageRequest(formData));
                 dispatch(uploadFile(formData));
-              } else {
+            } else {
                 alert('Please select a file.');
-              }
+            }
             console.log('File uploaded successfully:', uploadedFilename);
             setFileName(uploadedFilename);
             setUploadDone(true);
@@ -92,15 +91,18 @@ function ImageUploadForm() {
     };
 
 
-    
+
     console.log(uploadedFilename)
     return (
         <div>
-            <h2>Image Upload Form</h2>
+            <h2>Image Upload Form a</h2>
             <form onSubmit={handleSubmit}>
                 <input type="file" onChange={handleFileChange} />
-                <button type="submit">Upload</button>
+                <button type="submit" disabled={uploading}>Upload</button>
             </form>
+            {uploading && <p>Uploading...</p>}
+            {error && <p>Error: {error}</p>}
+            <p>{uploadedFilename}</p>
         </div>
     );
 }
