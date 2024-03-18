@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Select from "react-select";
 
 // import TableContainer from './TableContainer';
-import TableContainer from "components/Common/TableContainer";
+// import TableContainer from "components/Common/TableContainer";
 
 //Import Flatepicker
 import Flatpickr from "react-flatpickr";
@@ -19,6 +19,8 @@ import DataContext from "../../data/DataContext";
 import { Avata, Name, Factory, Archival_Status, Status } from './InternColList';
 
 import { withTranslation } from "react-i18next";
+
+import TableDatas from "./TableDatas";
 
 
 const InternPage = (props) => {
@@ -281,10 +283,10 @@ const InternPage = (props) => {
                                 </div>
                             </div>
                         </CardHeader>
+
                         <CardBody>
 
-
-
+                            <TableDatas/>            
                         </CardBody>
                     </Card>
 

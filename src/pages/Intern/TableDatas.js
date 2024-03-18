@@ -12,7 +12,7 @@ import ModalDatas from './ModalDatas'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer, deleteCareer, setCareer } from "store/actions";
+import { getInternAll, updateIntern, deleteIntern, setIntern } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -40,19 +40,19 @@ const TableDatas = () => {
   const dispatch = useDispatch();
 
   const { datas } = useSelector(state => ({
-    datas: state.Career.datas
+    datas: state.Intern.datas
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getCareerAll());
+    dispatch(getInternAll());
     setLoading(false);
   }, [dispatch]);
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getCareerAll());
+      dispatch(getInternAll());
     }, 10000);
     // Hàm dọn dẹp khi unmount
     return () => {
@@ -110,11 +110,6 @@ const TableDatas = () => {
           <i className="pi pi-search" />
           <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
         </span>
-
-        <Button className='btn btn-primary' onClick={addForm}>
-          Thêm mới 
-        </Button>
-
       </div>
     );
   };
@@ -163,8 +158,8 @@ const TableDatas = () => {
         setmodal_xlarge={setmodal_xlarge}
         tog_xlarge={tog_xlarge}
         dispatch={dispatch}
-        setApi={setCareer}
-        updateApi={updateCareer}
+        setApi={setIntern}
+        updateApi={updateIntern}
       />
 
     </div>
