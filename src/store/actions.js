@@ -23,4 +23,6 @@ export * from "./status/actions"
 // intern
 export * from "./intern/actions"
 // ReceivingFactory
-export * from "./receiving-factory/actions"
+export * from "./receiving_factory/actions"
+// DispatchingCompany
+export * from "./dispatching_company/actions"

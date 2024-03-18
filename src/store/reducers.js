@@ -25,7 +25,9 @@ import Status from "./status/reducer";
 // intern
 import Intern from "./intern/reducer";
 // ReceivingFactory
-import ReceivingFactory from "./receiving-factory/reducer";
+import ReceivingFactory from "./receiving_factory/reducer";
+// DispatchingCompany
+import DispatchingCompany from "./dispatching_company/reducer";
 
 
 const rootReducer = combineReducers({
@@ -41,7 +43,8 @@ const rootReducer = combineReducers({
   Career,
   Status,
   Intern,
-  ReceivingFactory
+  ReceivingFactory,
+  DispatchingCompany
 });
 
 export default rootReducer;

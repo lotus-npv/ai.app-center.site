@@ -104,6 +104,21 @@ export {updateDataDispatchingCompany};
 
 const deleteDataDispatchingCompany = (id) => del(`${url.DELETE_DISPATCHINGCOMPANY}/${id}`, { params: { id } }, config);
 export {deleteDataDispatchingCompany};
+// address
+const getAddressDataAll = () => get(url.GET_ADDRESS_ALL);
+export { getAddressDataAll };
+
+const getAddressDataId = () => get(url.GET_ADDRESS_ID);
+export { getAddressDataId };
+
+const addNewDataAddress = data => post(url.SET_ADDRESS, data, config);
+export { addNewDataAddress };
+
+const updateDataAddress = data => put(url.UPDATE_ADDRESS, data, config);
+export {updateDataAddress};
+
+const deleteDataAddress = (id) => del(`${url.DELETE_ADDRESS}/${id}`, { params: { id } }, config);
+export {deleteDataAddress};
 
 
 // Gets the logged in user data from local session
