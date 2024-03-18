@@ -9,24 +9,19 @@ let config = {
 };
 
 // demo api
-const getDemoData = () => get(url.GET_DEMO_DATA);
-export { getDemoData };
+export const getDemoData = () => get(url.GET_DEMO_DATA);
 
 // career
-const getCareerDataAll = () => get(url.GET_CAREER_ALL);
-export { getCareerDataAll };
+export const getCareerDataAll = () => get(url.GET_CAREER_ALL);
 
-const getCareerDataId = (id) => get(`${url.GET_CAREER_ID}/${id}`,{ params: { id } }, config);
-export { getCareerDataId };
+export const getCareerDataId = (id) => get(`${url.GET_CAREER_ID}/${id}`,{ params: { id } }, config);
 
-const addNewDataCareer = data => post(url.SET_CAREER, data, config);
-export { addNewDataCareer };
+export const addNewDataCareer = data => post(url.SET_CAREER, data, config);
 
-const updateDataCareer = data => put(url.UPDATE_CAREER, data, config);
-export {updateDataCareer};
+export const updateDataCareer = data => put(url.UPDATE_CAREER, data, config);
 
-const deleteDataCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
-export {deleteDataCareer};
+export const deleteDataCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { params: { id } }, config);
+
 
 // Status
 const getStatusDataAll = () => get(url.GET_STATUS_ALL);
@@ -134,6 +129,8 @@ export {updateDataAlienRegistrationCard};
 
 const deleteDataAlienRegistrationCard = (id) => del(`${url.DELETE_ALIENREGISTRATIONCARD}/${id}`, { params: { id } }, config);
 export {deleteDataAlienRegistrationCard};
+// status_of_residence
+
 
 
 // Gets the logged in user data from local session
