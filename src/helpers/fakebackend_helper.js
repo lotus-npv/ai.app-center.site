@@ -2,10 +2,16 @@ import axios from "axios";
 import { del, get, post, put } from "./api_helper";
 import * as url from "./url_helper";
 
-let config = {
+const config = {
   headers: {
       "Content-Type": "application/json",
   },
+};
+
+const config_upload_file = {
+  headers: {
+      'Content-Type': 'multipart/form-data'
+  }
 };
 
 // demo api
@@ -146,6 +152,8 @@ export const        getAvataDataId = (id) => get(`${url.GET_AVATA_ID}/${id}`,{ p
 export const addNewDataAvata = data =>         post(url.SET_AVATA, data, config);
 export const updateDataAvata = data =>       put(url.UPDATE_AVATA, data, config);
 export const deleteDataAvata = (id) =>    del(`${url.DELETE_AVATA}/${id}`, { params: { id } }, config);
+//upload avata
+export const uploadDataAvata = data =>         post(url.UPLOAD_AVATA, data, config_upload_file);
 
 
 // Gets the logged in user data from local session

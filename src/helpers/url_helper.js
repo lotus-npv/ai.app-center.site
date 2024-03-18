@@ -133,6 +133,8 @@ export const    GET_AVATA_ID =  "https://api.lotusocean-jp.com/api/avata/:id";
 export const    SET_AVATA =     "https://api.lotusocean-jp.com/api/avata/insert";
 export const UPDATE_AVATA =     "https://api.lotusocean-jp.com/api/avata/update";
 export const DELETE_AVATA =     "https://api.lotusocean-jp.com/api/avata/delete";
+// upload avata
+export const UPLOAD_AVATA =     "https://api.lotusocean-jp.com/upload";
 
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
