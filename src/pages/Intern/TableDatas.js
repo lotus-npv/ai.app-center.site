@@ -153,7 +153,7 @@ const TableDatas = (props) => {
 
     return (
         <div className="flex align-items-center gap-2">
-            <img  src={'https://i.pinimg.com/236x/0d/85/e4/0d85e4a8cd465ac49c265e29af5e53e8.jpg'} width="32" />
+            <img  src={'http://localhost:3004/uploads/avatar-1.jpg'} width="32" />
             <span>{name}</span>
         </div>
     );

@@ -9,6 +9,8 @@ import { withTranslation } from "react-i18next";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import ImageUploadForm from "./ImageUploadForm";
+
 
 const StatusPage = (props) => {
     document.title = "Status Page"; 
@@ -18,6 +20,7 @@ const StatusPage = (props) => {
                 <Container fluid={true}>
                     <TableDatas />
                     <ToastContainer />
+                    <ImageUploadForm/>
                 </Container>
             </div>
         </>
