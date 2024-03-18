@@ -16,7 +16,7 @@ export { getDemoData };
 const getCareerDataAll = () => get(url.GET_CAREER_ALL);
 export { getCareerDataAll };
 
-const getCareerDataId = () => get(`${url.GET_CAREER_ID}/${id}`, { params: { id } });
+const getCareerDataId = (id) => get(`${url.GET_CAREER_ID}/${id}`, { params: { id } });
 export { getCareerDataId };
 
 const addNewDataCareer = data => post(url.SET_CAREER, data, config);

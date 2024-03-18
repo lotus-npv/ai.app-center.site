@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerId } from "store/actions";
+import { getCareerId , getCareerAll } from "store/career/actions";
 
 
 const StatusPage = (props) => {
@@ -19,15 +19,25 @@ const StatusPage = (props) => {
 
     const dispatch = useDispatch();
 
-    const { dataId } = useSelector(state => ({
-        dataId: state.Career.dataId
+    const { dataId, datas } = useSelector(state => ({
+        dataId: state.Career.dataId,
+        datas: state.Career.datas,
     }), shallowEqual);
     
       // Get du lieu lan dau 
     useEffect(() => {
-        dispatch(getCareerId(1));
+        dispatch(getCareerAll());
     }, [dispatch]);
-    console.log(dataId)
+
+    const handleGetDataId = () => {
+        dispatch(getCareerAll());
+        dispatch(getCareerId(1));
+        console.log(dataId)
+    }
+
+    console.log(datas)
+
+    
     return (
         <>
             <div className="page-content">
@@ -36,9 +46,7 @@ const StatusPage = (props) => {
                     <ToastContainer />
 
                     <div>
-                        <button type="button" onClick={(e) => {
-                            dispatch(getCareerId(1));
-                        }}>
+                        <button onClick={handleGetDataId}>
                             test
                         </button>
                         {/* <p>{dataId.name}</p> */}

@@ -38,11 +38,11 @@ import {
           ...state,
           error: action.payload,
         };
-      case GET_CAREER_ID:
-        return {
-          ...state,
-          dataId: action.payload,
-        };
+      // case GET_CAREER_ID:
+      //   return {
+      //     ...state,
+      //     dataId: action.payload,
+      //   };
       case GET_CAREER_ID_SUCCESS:
         return {
           ...state,
