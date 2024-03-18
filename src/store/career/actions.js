@@ -35,9 +35,9 @@ export const getCareerId = id => ({
   payload: id,
 });
 
-export const getCareerIdSuccess = dataId => ({
+export const getCareerIdSuccess = data => ({
   type: GET_CAREER_ID_SUCCESS,
-  payload: dataId,
+  payload: data,
 });
 
 export const getCareerIdFail = error => ({

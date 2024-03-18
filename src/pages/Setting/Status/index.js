@@ -33,11 +33,11 @@ const StatusPage = (props) => {
 
     const handleGetDataId = () => {
         dispatch(getCareerId(2));
-        dispatch(getCareerAll());
-        dispatch(getStatusAll());
+        // dispatch(getCareerAll());
+        // dispatch(getStatusAll());
         console.log(dataId)
-        console.log(datass)
-        console.log(dataStatus)
+        // console.log(datass)
+        // console.log(dataStatus)
     }
 
 

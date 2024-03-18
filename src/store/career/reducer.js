@@ -17,7 +17,7 @@ import {
   
   const INIT_STATE = {
     datas: [],
-    dataId: null,
+    dataId: [],
     data: {}
   };
   
