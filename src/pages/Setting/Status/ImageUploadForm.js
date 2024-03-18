@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function ImageUploadForm() {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [filename, setFileName] = useState('');
+    const [uploadDone, setUploadDone] = useState(false);
     const [avata, setAvata] = useState({
         key_license_id: 1,
         user_type: 'intern',
@@ -27,6 +29,22 @@ function ImageUploadForm() {
         setAvata({ ...avata, originalname: '', mimetype: f.type, size: f.size });
     };
 
+    useEffect( () => {
+        setAvata({ ...avata, originalname: filename });
+        setUploadDone(true);
+    }, [filename]);
+
+    useEffect(async() => {
+        if(uploadDone) {
+            await axios.post('http://localhost:3010/api/avata/insert', avata, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            setUploadDone(false);
+        }
+    }, [uploadDone]);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -45,25 +63,8 @@ function ImageUploadForm() {
                 }
             });
             console.log('File uploaded successfully:', response.data);
-            // Hàm để kiểm tra xem giá trị uploadedFilename đã được nhận hay chưa
-            const checkOriginalName = async () => {
-                if (!response) {
-                    console.log('Waiting for response...');
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
-                    await checkOriginalName(); // Tiếp tục kiểm tra
-                }
-            };
-            await checkOriginalName(); // Bắt đầu kiểm tra
-            console.log(avata)
+            setFileName(response.data.filename);
 
-            setAvata({ ...avata, originalname: response.data.filename });
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Chờ 1 giây
-            // Gửi yêu cầu POST để chèn thông tin avata vào cơ sở dữ liệu
-            await axios.post('http://localhost:3010/api/avata/insert', avata, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
 
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -71,7 +72,7 @@ function ImageUploadForm() {
         }
     };
 
-    
+
 
     return (
         <div>
