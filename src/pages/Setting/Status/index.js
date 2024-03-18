@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getStatusAll, updateStatus, deleteStatus, setStatus, getCareerId } from "store/actions";
+import { getCareerId } from "store/actions";
 
 
 const StatusPage = (props) => {

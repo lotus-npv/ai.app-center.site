@@ -17,16 +17,16 @@ import {
   
   const INIT_STATE = {
     datas: [],
-    dataId: [],
+    dataId: {},
     data: {}
   };
   
   const Career = (state = INIT_STATE, action) => {
     switch (action.type) {
-      case GET_CAREER_ALL:
-        return {
-          ...state,
-        };
+      // case GET_CAREER_ALL:
+      //   return {
+      //     ...state,
+      //   };
       case GET_CAREER_ALL_SUCCESS:
         return {
           ...state,

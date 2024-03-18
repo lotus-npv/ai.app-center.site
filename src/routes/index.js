@@ -93,11 +93,9 @@ import Pages500 from "../pages/Utility/pages-500";
 
 // Input page
 import StatusPage from "pages/Setting/Status";
-import InputStatus from "pages/Setting/Status/input";
 
 // Career page
 import CareerPage from "pages/Setting/Career";
-import InputCareer from "pages/Setting/Career/input";
 
 // Dispatching Company page
 import DispatchingCompanyPage from "pages/DispatchingCompany";
@@ -189,10 +187,8 @@ const authProtectedRoutes = [
 
   //Setting 
   {path: "/pages-status", component: <StatusPage />},
-  {path: "/input-status", component: <InputStatus />},
 
   {path: "/pages-career", component: <CareerPage />},
-  {path: "/input-career", component: <InputCareer />},
 
   // Dispatching company
   {path: "/dispatching-company", component: <DispatchingCompanyPage />},

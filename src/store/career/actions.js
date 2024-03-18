@@ -30,13 +30,14 @@ export const getCareerAllFail = error => ({
   payload: error,
 });
 
-export const getCareerId = () => ({
+export const getCareerId = id => ({
   type: GET_CAREER_ID,
+  id,
 });
 
-export const getCareerIdSuccess = data => ({
+export const getCareerIdSuccess = dataId => ({
   type: GET_CAREER_ID_SUCCESS,
-  payload: data,
+  payload: dataId,
 });
 
 export const getCareerIdFail = error => ({
