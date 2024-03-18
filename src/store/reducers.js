@@ -23,7 +23,9 @@ import Career from "./career/reducer";
 // Status
 import Status from "./status/reducer";
 // intern
-import Status from "./intern/reducer";
+import Intern from "./intern/reducer";
+// ReceivingFactory
+import ReceivingFactory from "./receiving-factory/reducer";
 
 
 const rootReducer = combineReducers({
@@ -37,7 +39,9 @@ const rootReducer = combineReducers({
   projects,
   Demo,
   Career,
-  Status
+  Status,
+  Intern,
+  ReceivingFactory
 });
 
 export default rootReducer;

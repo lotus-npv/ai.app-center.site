@@ -1,17 +1,17 @@
 import {
-  GET_INTERN_ALL,
-  GET_INTERN_ALL_SUCCESS,
-  GET_INTERN_ALL_FAIL,
-  GET_INTERN_ID_SUCCESS,
-  GET_INTERN_ID_FAIL,
-  SET_INTERN,
-  SET_INTERN_SUCCESS,
-  SET_INTERN_FAIL,
-  UPDATE_INTERN,
-  UPDATE_INTERN_SUCCESS,
-  UPDATE_INTERN_FAIL,
-  DELETE_INTERN_SUCCESS,
-  DELETE_INTERN_FAIL
+  GET_RECEIVINGFACTORY_ALL,
+  GET_RECEIVINGFACTORY_ALL_SUCCESS,
+  GET_RECEIVINGFACTORY_ALL_FAIL,
+  GET_RECEIVINGFACTORY_ID_SUCCESS,
+  GET_RECEIVINGFACTORY_ID_FAIL,
+  SET_RECEIVINGFACTORY,
+  SET_RECEIVINGFACTORY_SUCCESS,
+  SET_RECEIVINGFACTORY_FAIL,
+  UPDATE_RECEIVINGFACTORY,
+  UPDATE_RECEIVINGFACTORY_SUCCESS,
+  UPDATE_RECEIVINGFACTORY_FAIL,
+  DELETE_RECEIVINGFACTORY_SUCCESS,
+  DELETE_RECEIVINGFACTORY_FAIL
   } from "./actionTypes";
   
   const INIT_STATE = {
@@ -19,60 +19,60 @@ import {
     data: {}
   };
   
-  const Intern = (state = INIT_STATE, action) => {
+  const ReceivingFactory = (state = INIT_STATE, action) => {
     switch (action.type) {
-      case GET_INTERN_ALL:
+      case GET_RECEIVINGFACTORY_ALL:
         return {
           ...state,
         };
-      case GET_INTERN_ALL_SUCCESS:
+      case GET_RECEIVINGFACTORY_ALL_SUCCESS:
         return {
           ...state,
           datas: action.payload,
         };
   
-      case GET_INTERN_ALL_FAIL:
+      case GET_RECEIVINGFACTORY_ALL_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case SET_INTERN:
+      case SET_RECEIVINGFACTORY:
         return {
           ...state,
           data: action.payload,
         };
-      case SET_INTERN_SUCCESS:
+      case SET_RECEIVINGFACTORY_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
   
-      case SET_INTERN_FAIL:
+      case SET_RECEIVINGFACTORY_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case UPDATE_INTERN:
+      case UPDATE_RECEIVINGFACTORY:
         return {
           ...state,
           data: action.payload,
         };
-      case UPDATE_INTERN_SUCCESS:
+      case UPDATE_RECEIVINGFACTORY_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
-      case UPDATE_INTERN_FAIL:
+      case UPDATE_RECEIVINGFACTORY_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case DELETE_INTERN_SUCCESS:
+      case DELETE_RECEIVINGFACTORY_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
-      case DELETE_INTERN_FAIL:
+      case DELETE_RECEIVINGFACTORY_FAIL:
         return {
           ...state,
           error: action.payload,
@@ -83,4 +83,4 @@ import {
     }
   };
   
-  export default Intern;
+  export default ReceivingFactory;

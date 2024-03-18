@@ -22,3 +22,5 @@ export * from "./career/actions"
 export * from "./status/actions"
 // intern
 export * from "./intern/actions"
+// ReceivingFactory
+export * from "./receiving-factory/actions"

@@ -12,6 +12,7 @@ import demoSaga from "./demo/saga";
 import CareerSaga from "./career/saga";
 import StatusSaga from "./status/saga";
 import InternSaga from "./intern/saga";
+import ReceivingFactory from "./receiving-factory/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -27,5 +28,6 @@ export default function* rootSaga() {
     fork(CareerSaga),
     fork(StatusSaga),
     fork(InternSaga),
+    fork(ReceivingFactory),
   ]);
 }
