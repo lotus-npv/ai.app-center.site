@@ -140,6 +140,12 @@ export const        getKeyLicenseDataId = (id) => get(`${url.GET_KEYLICENSE_ID}/
 export const addNewDataKeyLicense = data =>         post(url.SET_KEYLICENSE, data, config);
 export const updateDataKeyLicense = data =>       put(url.UPDATE_KEYLICENSE, data, config);
 export const deleteDataKeyLicense = (id) =>    del(`${url.DELETE_KEYLICENSE}/${id}`, { params: { id } }, config);
+// avata
+export const        getAvataDataAll = () =>     get(url.GET_AVATA_ALL);
+export const        getAvataDataId = (id) => get(`${url.GET_AVATA_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataAvata = data =>         post(url.SET_AVATA, data, config);
+export const updateDataAvata = data =>       put(url.UPDATE_AVATA, data, config);
+export const deleteDataAvata = (id) =>    del(`${url.DELETE_AVATA}/${id}`, { params: { id } }, config);
 
 
 // Gets the logged in user data from local session

@@ -127,6 +127,12 @@ export const    GET_KEYLICENSE_ID =  "https://api.lotusocean-jp.com/api/key_lice
 export const    SET_KEYLICENSE =     "https://api.lotusocean-jp.com/api/key_license/insert";
 export const UPDATE_KEYLICENSE =     "https://api.lotusocean-jp.com/api/key_license/update";
 export const DELETE_KEYLICENSE =     "https://api.lotusocean-jp.com/api/key_license/delete";
+// avata
+export const    GET_AVATA_ALL = "https://api.lotusocean-jp.com/api/avata/all";
+export const    GET_AVATA_ID =  "https://api.lotusocean-jp.com/api/avata/:id";
+export const    SET_AVATA =     "https://api.lotusocean-jp.com/api/avata/insert";
+export const UPDATE_AVATA =     "https://api.lotusocean-jp.com/api/avata/update";
+export const DELETE_AVATA =     "https://api.lotusocean-jp.com/api/avata/delete";
 
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";

@@ -31,7 +31,7 @@ function ImageUploadForm() {
 
     useEffect(() => {
         if (uploadDone) {
-            axios.post('http://localhost:3010/api/avata/insert', { ...avata, originalname: filename }, {
+            axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -53,7 +53,7 @@ function ImageUploadForm() {
         formData.append('image', selectedFile);
 
         try {
-            const response = await axios.post('http://localhost:3010/upload', formData, {
+            const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
