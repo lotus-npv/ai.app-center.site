@@ -15,13 +15,15 @@ import { toast } from "react-toastify";
 
 
 
-function* onUploadFile({ payload: data }) {
+function* onUploadFile({ payload: file }) {
+  const formData = new FormData();
+  formData.append('file', file);
   try {
-      const response = yield call(uploadDataAvata, data);
-      yield put(uploadFileSuccess(response));
+      const response = yield call(uploadDataAvata, formData);
+      yield put(uploadFileSuccess(response.data));
       toast.success("Upload file Successfully", { autoClose: 2000 });
   } catch (error) {
-      yield put(uploadFileFail(error));
+      yield put(uploadFileFail(error.message));
       toast.error("Upload file Failed", { autoClose: 2000 });
   }
 }

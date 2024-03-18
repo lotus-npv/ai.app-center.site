@@ -1,5 +1,4 @@
 import {
-  UPLOAD_FILE,
   UPLOAD_FILE_SUCCESS,
   UPLOAD_FILE_FAIL,
   } from "./actionTypes";

@@ -59,16 +59,16 @@ function ImageUploadForm() {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('image', selectedFile);
+        // const formData = new FormData();
+        // formData.append('image', selectedFile);
 
         try {
-            const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            // dispatch(uploadFile(formData));
+            // const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+            dispatch(uploadFile(selectedFile));
             // console.log('File uploaded successfully:', uploadResult.data);
             // setFileName(uploadResult.data.filename);
             setUploadDone(true);
