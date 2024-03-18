@@ -63,12 +63,12 @@ function ImageUploadForm() {
         formData.append('image', selectedFile);
 
         try {
-            // const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data'
-            //     }
-            // });
-            dispatch(uploadFile(formData));
+            const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            // dispatch(uploadFile(formData));
             // console.log('File uploaded successfully:', uploadResult.data);
             // setFileName(uploadResult.data.filename);
             setUploadDone(true);
