@@ -29,21 +29,17 @@ function ImageUploadForm() {
         setAvata({ ...avata, originalname: '', mimetype: f.type, size: f.size });
     };
 
-    useEffect( () => {
-        setAvata({ ...avata, originalname: filename });
-        setUploadDone(true);
-    }, [filename]);
-
-    useEffect(async() => {
-        if(uploadDone) {
-            await axios.post('http://localhost:3010/api/avata/insert', avata, {
+    useEffect(() => {
+        if (uploadDone) {
+            axios.post('http://localhost:3010/api/avata/insert', { ...avata, originalname: filename }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             setUploadDone(false);
         }
-    }, [uploadDone]);
+    }, [filename]);
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -64,8 +60,8 @@ function ImageUploadForm() {
             });
             console.log('File uploaded successfully:', response.data);
             setFileName(response.data.filename);
-
-
+            setUploadDone(true);
+           
         } catch (error) {
             console.error('Error uploading file:', error);
             // Xử lý lỗi khi upload file
@@ -76,7 +72,7 @@ function ImageUploadForm() {
 
     return (
         <div>
-            <h2>Image Upload Form aa</h2>
+            <h2>Image Upload Form</h2>
             <form onSubmit={handleSubmit}>
                 <input type="file" onChange={handleFileChange} />
                 <button type="submit">Upload</button>
