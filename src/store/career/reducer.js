@@ -17,6 +17,7 @@ import {
   
   const INIT_STATE = {
     datas: [],
+    dataId: {},
     data: {}
   };
   
@@ -44,7 +45,7 @@ import {
       case GET_CAREER_ID_SUCCESS:
         return {
           ...state,
-          datas: action.payload,
+          dataId: action.payload,
         };
       case GET_CAREER_ID_FAIL:
         return {

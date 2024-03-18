@@ -192,8 +192,8 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     isAuto ? formik.setFieldValue('status_type', 'automatic') : formik.setFieldValue('status_type', 'manual');
   }, [isAuto])
 
-  console.log(isAuto)
-  console.log(formik.values)
+  // console.log(isAuto)
+  // console.log(formik.values)
 
   return (
     <>

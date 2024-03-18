@@ -144,7 +144,7 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
-  console.log(datas)
+  // console.log(datas)
 
   return (
     <div className="card" >
