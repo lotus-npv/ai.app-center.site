@@ -40,12 +40,12 @@ function ImageUploadForm() {
 
     useEffect(() => {
         if (uploadDone) {
-            // axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     }
-            // });
-            dispatch(uploadFile({ ...avata, originalname: filename }))
+            axios.post('https://api.lotusocean-jp.com/api/avata/insert', { ...avata, originalname: filename }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
             setUploadDone(false);
         }
     }, [filename]);
@@ -63,13 +63,14 @@ function ImageUploadForm() {
         formData.append('image', selectedFile);
 
         try {
-            const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log('File uploaded successfully:', response.data);
-            setFileName(response.data.filename);
+            // const response = await axios.post('https://api.lotusocean-jp.com/upload', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // });
+            dispatch(uploadFile(formData));
+            // console.log('File uploaded successfully:', uploadResult.data);
+            // setFileName(uploadResult.data.filename);
             setUploadDone(true);
 
         } catch (error) {
@@ -79,6 +80,7 @@ function ImageUploadForm() {
     };
 
 
+    console.log(avata)
     console.log(uploadResult)
     return (
         <div>
