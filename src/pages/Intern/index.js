@@ -258,7 +258,7 @@ const InternPage = (props) => {
                                             tog_standard();
                                             setIsUpdateStatus(true);
                                         }}>
-                                        <i className="fas fa-info-circle"></i>{' '}
+                                        <i className="fas fa-info-circle text-secondary"></i>{' '}
                                         Cập nhật trạng thái
                                     </Button>
                                     <Button
@@ -267,7 +267,7 @@ const InternPage = (props) => {
                                             tog_standard();
                                             setIsUpdateStatus(false);
                                         }}>
-                                        <i className="fas fa-user-shield"></i>{' '}
+                                        <i className="fas fa-user-shield text-secondary"></i>{' '}
                                         Cập nhật lưu trú
                                     </Button>
                                     <Button
@@ -275,7 +275,7 @@ const InternPage = (props) => {
                                         onClick={() => {
                                             tog_xlarge();
                                         }}>
-                                        <i className="fas fa-ban" color="gray-soft"></i>{' '}
+                                        <i className="fas fa-ban text-secondary" ></i>{' '}
                                         Thêm vi phạm
                                     </Button>
                                 </div>
