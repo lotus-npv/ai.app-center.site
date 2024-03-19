@@ -137,7 +137,8 @@ $colors: (
     "black":      $black,
     "white":      $white,
     "gray":       $gray-600,
-    "gray-dark":  $gray-800
+    "gray-dark":  $gray-800,
+    "gray-soft":  $gray-400
 );
 // scss-docs-end colors-map
 
@@ -151,6 +152,7 @@ $warning:       $main_orange;
 $danger:        $red;
 $light:         $gray-200;
 $dark:          $gray-800;
+$gray-soft:     $gray-400;
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
@@ -164,7 +166,8 @@ $theme-colors: (
     "danger":     $danger,
     "pink":       $pink,
     "light":      $light,
-    "dark":       $dark
+    "dark":       $dark,
+    "gray-soft":  $gray-soft,
 );
 
 // The contrast ratio to reach against white, to determine if color changes from "light" to "dark". Acceptable values for WCAG 2.0 are 3, 4.5 and 7.

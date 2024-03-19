@@ -178,7 +178,7 @@ const TableDatas = (props) => {
   // render status body
   const statusBody = (rowData) => {
     const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
-    console.log('intern id',rowData.id,'have status id:', arr[0].description)
+    // console.log('intern id',rowData.id,'have status id:', arr[0].description)
     return (
       <div className='d-flex gap-1'>
        { arr.map(s => (

@@ -253,6 +253,7 @@ const InternPage = (props) => {
                             <div className="d-flex justify-content-between">
                                 <div className="d-flex gap-3">
                                     <Button
+                                        color="gray-soft"
                                         onClick={() => {
                                             tog_standard();
                                             setIsUpdateStatus(true);
@@ -261,6 +262,7 @@ const InternPage = (props) => {
                                         Cập nhật trạng thái
                                     </Button>
                                     <Button
+                                        color="gray-soft"
                                         onClick={() => {
                                             tog_standard();
                                             setIsUpdateStatus(false);
@@ -269,10 +271,11 @@ const InternPage = (props) => {
                                         Cập nhật lưu trú
                                     </Button>
                                     <Button
+                                        color="gray-soft"
                                         onClick={() => {
                                             tog_xlarge();
                                         }}>
-                                        <i className="fas fa-ban"></i>{' '}
+                                        <i className="fas fa-ban" color="gray-soft"></i>{' '}
                                         Thêm vi phạm
                                     </Button>
                                 </div>
@@ -286,7 +289,7 @@ const InternPage = (props) => {
 
                         <CardBody>
 
-                            <TableDatas/>            
+                            <TableDatas />
                         </CardBody>
                     </Card>
 
