@@ -196,7 +196,7 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(cardInfo)
+  console.log(factoryData)
 
   return (
     <div className="card" >
