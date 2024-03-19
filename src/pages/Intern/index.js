@@ -15,8 +15,9 @@ import DataContext from "../../data/DataContext";
 
 import { withTranslation } from "react-i18next";
 
+import ModalTop from './ModalTop';
+import ModalDatas from "./ModalDatas";
 import TableDatas from "./TableDatas";
-import ModalTop from './ModalTop'
 
 
 const InternPage = (props) => {
@@ -50,6 +51,7 @@ const InternPage = (props) => {
     const [isUpdateStatus, setIsUpdateStatus] = useState(false);
     const [modal_standard, setmodal_standard] = useState(false);
     const [modal_xlarge, setmodal_xlarge] = useState(false);
+    const [modal_fullscreen, setmodal_fullscreen] = useState(false);
 
     function tog_standard() {
         setmodal_standard(!modal_standard);
@@ -60,6 +62,11 @@ const InternPage = (props) => {
         setmodal_xlarge(!modal_xlarge);
         removeBodyCss();
     }
+
+    function tog_fullscreen() {
+        setmodal_fullscreen(!modal_fullscreen);
+        removeBodyCss();
+      }
 
     function removeBodyCss() {
         document.body.classList.add("no_padding");
@@ -146,9 +153,9 @@ const InternPage = (props) => {
                             optionGroup={optionGroup}
                             modal_xlarge={modal_xlarge}
                         />
+
+                        <ModalDatas />
                     </Card>
-
-
                 </Container>
             </div>
         </>

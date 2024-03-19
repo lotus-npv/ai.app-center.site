@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Row,
-  Col,
-  Button,
-  Label,
-  Input,
-  FormFeedback,
   Form,
   Modal,
   CardBody,
   Card,
-  Badge
+  Badge,
+  CardTitle
 } from "reactstrap";
 
 import Switch from "react-switch";
@@ -88,54 +83,17 @@ const optionConditionMilestone = [
   { label: "Ngày sinh nhật", value: "Ngày sinh nhật" }
 ];
 
-const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch, setApi, updateApi }) => {
+const ModalDatas = ({ item, isEdit, modal_fullscreen, setmodal_fullscreen, tog_fullscreen, dispatch, setApi, updateApi }) => {
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: item !== null ? item.name : null,
-      status_type: item !== null ? item.status_type : 'manual',
-      colors: item !== null ? item.colors : null,
-      condition_date: item !== null ? item.condition_date : null,
-      condition_milestone: item !== null ? item.condition_milestone : null,
-      condition_value: item !== null ? item.condition_value : null,
-      description: item !== null ? item.description : null,
-      create_at: item !== null ? item.create_at : null
+
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required(
-        "This value is required"
-      ),
-      status_type: Yup.string().required(
-        "This value is required"
-      ),
-      colors: Yup.string().required(
-        "This value is required"
-      ),
-      // condition_date: Yup.string().required(
-      //   "This value is required"
-      // ),
-      // condition_milestone: Yup.string().required(
-      //   "This value is required"
-      // ),
-      // condition_value: Yup.number().required(
-      //   "Please Enter Your Number"
-      // ),
-      description: Yup.string().required(
-        "This value is required"
-      ),
+
     }),
-  //   validate: (data) => {
-  //     let errors = {};
 
-  //     if (data.status_type == 'automatic') {
-  //         if(data.condition_value) {
-  //           errors.condition_value = 'City is required.';
-  //         }
-  //     }
-
-  //     return errors;
-  // },
     onSubmit: async (value) => {
 
       if (isEdit) {
@@ -195,9 +153,80 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
 
   return (
     <>
-      <Form
-      >
-
+      <Form>
+        <Card>
+          <CardBody>
+            <CardTitle className="h4">
+              Fullscreen Modal
+            </CardTitle>
+            <p className="card-title-desc">Another override is the option to pop up a modal that covers the user viewport, available via modifier classes that are placed on a <code>.modal-fullscreen</code>.</p>
+            <div>
+              <button
+                type="button"
+                onClick={() => {
+                  tog_fullscreen();
+                }}
+                className="btn btn-primary "
+                data-toggle="modal"
+              >
+                Fullscreen Modal
+              </button>
+              <Modal
+                size="xl"
+                isOpen={modal_fullscreen}
+                toggle={() => {
+                  tog_fullscreen();
+                }}
+                className="modal-fullscreen"
+              >
+                <div className="modal-header">
+                  <h5
+                    className="modal-title mt-0"
+                    id="exampleModalFullscreenLabel"
+                  >
+                    Fullscreen Modal
+                  </h5>
+                  <button
+                    onClick={() => {
+                      setmodal_fullscreen(false);
+                    }}
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <h5>Overflowing text to show scroll behavior</h5>
+                  <p>Cras mattis consectetur purus sit amet fermentum.
+                    Cras justo odio, dapibus ac facilisis in,
+                    egestas eget quam. Morbi leo risus, porta ac
+                    consectetur ac, vestibulum at eros.</p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      tog_fullscreen();
+                    }}
+                    className="btn btn-secondary "
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary "
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </Modal>
+            </div>
+          </CardBody>
+        </Card>
       </Form>
     </>
   )
