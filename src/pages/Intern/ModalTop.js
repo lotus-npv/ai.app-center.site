@@ -11,13 +11,13 @@ import "flatpickr/dist/themes/material_blue.css";
 // import context
 import DataContext from "../../data/DataContext";
 
-const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, tog_xlarge, setmodal_xlarge, isUpdateStatus,setIsUpdateStatus, optionGroup, modal_xlarge }) => {
+const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, tog_xlarge, setmodal_xlarge, isUpdateStatus, setIsUpdateStatus, optionGroup, modal_xlarge }) => {
     const addForm = () => {
         navigate('/input-intern');
     }
 
-        // data context
-        const { internDatas, updateInternDatas, statusData,  tog_fullscreen} = useContext(DataContext)
+    // data context
+    const { tog_fullscreen } = useContext(DataContext)
 
     return (
         <>

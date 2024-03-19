@@ -99,6 +99,8 @@ const DataProvider = ({ children }) => {
         document.body.classList.add("no_padding");
     }
 
+    // edit intern
+    const [isEditIntern, setIsEditIntern] = useState(false);
 
 
 
@@ -123,7 +125,9 @@ const DataProvider = ({ children }) => {
                 vh,
                 modal_fullscreen,
                 setmodal_fullscreen,
-                tog_fullscreen
+                tog_fullscreen,
+                isEditIntern,
+                setIsEditIntern
             }}
         >
             {children}

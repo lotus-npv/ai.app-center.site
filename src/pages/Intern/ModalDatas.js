@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Form,
   Modal,
@@ -14,76 +14,13 @@ import Select from "react-select";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
+// import context
+import DataContext from "../../data/DataContext";
 
-const Offsymbol = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        fontSize: 12,
-        color: "#fff",
-        paddingRight: 2
-      }}
-    >
-      {" "}
-      No
-    </div>
-  );
-};
+const ModalDatas = ({ item, isEdit,  dispatch, setApi, updateApi }) => {
 
-const OnSymbol = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        fontSize: 12,
-        color: "#fff",
-        paddingRight: 2
-      }}
-    >
-      {" "}
-      Yes
-    </div>
-  );
-};
-
-const optionConditionDate = [
-  { label: "Before", value: "before" },
-  { label: "After", value: "after" },
-];
-
-const optionColor = [
-  {
-    label: <Badge className="font-size-12 badge-soft-success" >
-      success
-    </Badge>
-    , value: "success"
-  },
-  {
-    label: <Badge className="font-size-12 badge-soft-danger">
-      danger
-    </Badge>, value: "danger"
-  },
-  {
-    label: <Badge className="font-size-12 badge-soft-warning">
-      warning
-    </Badge>, value: "warning"
-  },
-];
-
-const optionConditionMilestone = [
-  { label: "Ngày nhập cảnh", value: "Ngày nhập cảnh" },
-  { label: "Ngày hết hạn tư cách lưu trú", value: "Ngày hết hạn tư cách lưu trú" },
-  { label: "Ngày sinh nhật", value: "Ngày sinh nhật" }
-];
-
-const ModalDatas = ({ item, isEdit, modal_fullscreen, setmodal_fullscreen, tog_fullscreen, dispatch, setApi, updateApi }) => {
+  // data context
+  const {  modal_fullscreen, setmodal_fullscreen,  tog_fullscreen} = useContext(DataContext)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -144,12 +81,6 @@ const ModalDatas = ({ item, isEdit, modal_fullscreen, setmodal_fullscreen, tog_f
     formik.handleSubmit();
   }
 
-  const [isAuto, setIsAuto] = useState(formik.values.status_type == 'automatic' ? true : false)
-
-  useEffect(() => {
-    isAuto ? formik.setFieldValue('status_type', 'automatic') : formik.setFieldValue('status_type', 'manual');
-  }, [isAuto])
-
 
   return (
     <>
@@ -167,7 +98,7 @@ const ModalDatas = ({ item, isEdit, modal_fullscreen, setmodal_fullscreen, tog_f
               className="modal-title mt-0"
               id="exampleModalFullscreenLabel"
             >
-              Fullscreen Modal
+              {isEdit ? item.full_name_jp : 'null value'}
             </h5>
             <button
               onClick={() => {
