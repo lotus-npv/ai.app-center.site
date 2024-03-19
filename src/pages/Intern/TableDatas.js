@@ -161,7 +161,7 @@ const TableDatas = (props) => {
     })].filter(e => e.data == 1)
   }
 
-  const [customActiveTab, setcustomActiveTab] = useState("1");
+  const [customActiveTab, setcustomActiveTab] = useState("0");
   const toggleCustom = tab => {
     if (customActiveTab !== tab) {
       setcustomActiveTab(tab);
@@ -173,73 +173,28 @@ const TableDatas = (props) => {
       <div className=''>
         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
         <Nav tabs className="nav-tabs-custom">
-          <NavItem style={{minWidth: '80px'}}>
-            <NavLink
-              style={{ cursor: "pointer" }}
-              className={classnames({
-                active: customActiveTab === "1",
-              })}
-              onClick={() => {
-                toggleCustom("1");
-              }}
-            >
-              <span className="d-block d-sm-none">
-                <i className="fas fa-home"></i>
-              </span>
-              <div className='d-flex gap-1'>
-                <span className="d-none d-sm-block">Home</span>
-                <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>3</Badge>
-              </div>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              style={{ cursor: "pointer" }}
-              className={classnames({
-                active: customActiveTab === "2",
-              })}
-              onClick={() => {
-                toggleCustom("2");
-              }}
-            >
-              <span className="d-block d-sm-none">
-                <i className="far fa-user"></i>
-              </span>
-              <span className="d-none d-sm-block">Profile</span>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              style={{ cursor: "pointer" }}
-              className={classnames({
-                active: customActiveTab === "3",
-              })}
-              onClick={() => {
-                toggleCustom("3");
-              }}
-            >
-              <span className="d-block d-sm-none">
-                <i className="far fa-envelope"></i>
-              </span>
-              <span className="d-none d-sm-block">Messages</span>
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              style={{ cursor: "pointer" }}
-              className={classnames({
-                active: customActiveTab === "4",
-              })}
-              onClick={() => {
-                toggleCustom("4");
-              }}
-            >
-              <span className="d-block d-sm-none">
-                <i className="fas fa-cog"></i>
-              </span>
-              <span className="d-none d-sm-block">Settings</span>
-            </NavLink>
-          </NavItem>
+          {items.map((item, index) => (
+            <NavItem key={index}>
+              <NavLink
+                style={{ cursor: "pointer" }}
+                className={classnames({
+                  active: customActiveTab === (`${index}`),
+                })}
+                onClick={() => {
+                  toggleCustom(`${index}`);
+                }}
+              >
+                <span className="d-block d-sm-none">
+                  <i className="fas fa-home"></i>
+                </span>
+                <div className='d-flex gap-2'>
+                  <span className="d-none d-sm-block">{item.name}</span>
+                  <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
+                </div>
+              </NavLink>
+            </NavItem>
+          ))}
+
         </Nav>
 
       </div>
