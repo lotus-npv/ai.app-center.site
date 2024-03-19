@@ -40,9 +40,9 @@ const TableDatas = (props) => {
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    full_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    factory_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    company_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    full_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    factory_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    company_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
     residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
     status: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
@@ -165,17 +165,14 @@ const TableDatas = (props) => {
     );
   };
 
-  // import avata from '../../assets/images/avata/avata-loading.png';
 
+  // render col name
   const nameBodyTemplate = (rowData) => {
-    const avata = avataData.find(item => item.user_type == 'intern' && item.object_id == rowData.id);
-    // console.log(avata.originalname)
-
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${avata.originalname}`} size="large" shape="circle">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.avata_name}`} size="large" shape="circle">
         </Avatar>
-        <span>{rowData.full_name}</span>
+        <span>{rowData.full_name_jp}</span>
       </div>
     );
   };
@@ -199,7 +196,7 @@ const TableDatas = (props) => {
       <DataTable value={internDataAllInfo} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="full_name_jp" header="Tên thực tập sinh" filterField="full_name_jp"  filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="full_name_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp"  filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
