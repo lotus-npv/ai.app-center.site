@@ -15,9 +15,8 @@ import DataContext from "../../data/DataContext";
 
 import { withTranslation } from "react-i18next";
 
-import ModalTop from './ModalTop';
-import ModalDatas from "./ModalDatas";
 import TableDatas from "./TableDatas";
+import ModalTop from "./ModalTop";
 
 
 const InternPage = (props) => {
@@ -154,7 +153,7 @@ const InternPage = (props) => {
                             modal_xlarge={modal_xlarge}
                         />
 
-                        <ModalDatas />
+                        {/* <ModalDatas /> */}
                     </Card>
                 </Container>
             </div>

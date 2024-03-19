@@ -21,6 +21,7 @@ import DataContext from 'data/DataContext';
 
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
+import ModalTop from './ModalTop';
 
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";

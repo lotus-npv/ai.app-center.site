@@ -154,79 +154,59 @@ const ModalDatas = ({ item, isEdit, modal_fullscreen, setmodal_fullscreen, tog_f
   return (
     <>
       <Form>
-        <Card>
-          <CardBody>
-            <CardTitle className="h4">
+        <Modal
+          size="xl"
+          isOpen={modal_fullscreen}
+          toggle={() => {
+            tog_fullscreen();
+          }}
+          className="modal-fullscreen"
+        >
+          <div className="modal-header">
+            <h5
+              className="modal-title mt-0"
+              id="exampleModalFullscreenLabel"
+            >
               Fullscreen Modal
-            </CardTitle>
-            <p className="card-title-desc">Another override is the option to pop up a modal that covers the user viewport, available via modifier classes that are placed on a <code>.modal-fullscreen</code>.</p>
-            <div>
-              <button
-                type="button"
-                onClick={() => {
-                  tog_fullscreen();
-                }}
-                className="btn btn-primary "
-                data-toggle="modal"
-              >
-                Fullscreen Modal
-              </button>
-              <Modal
-                size="xl"
-                isOpen={modal_fullscreen}
-                toggle={() => {
-                  tog_fullscreen();
-                }}
-                className="modal-fullscreen"
-              >
-                <div className="modal-header">
-                  <h5
-                    className="modal-title mt-0"
-                    id="exampleModalFullscreenLabel"
-                  >
-                    Fullscreen Modal
-                  </h5>
-                  <button
-                    onClick={() => {
-                      setmodal_fullscreen(false);
-                    }}
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <h5>Overflowing text to show scroll behavior</h5>
-                  <p>Cras mattis consectetur purus sit amet fermentum.
-                    Cras justo odio, dapibus ac facilisis in,
-                    egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.</p>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      tog_fullscreen();
-                    }}
-                    className="btn btn-secondary "
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary "
-                  >
-                    Save changes
-                  </button>
-                </div>
-              </Modal>
-            </div>
-          </CardBody>
-        </Card>
+            </h5>
+            <button
+              onClick={() => {
+                setmodal_fullscreen(false);
+              }}
+              type="button"
+              className="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <h5>Overflowing text to show scroll behavior</h5>
+            <p>Cras mattis consectetur purus sit amet fermentum.
+              Cras justo odio, dapibus ac facilisis in,
+              egestas eget quam. Morbi leo risus, porta ac
+              consectetur ac, vestibulum at eros.</p>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              onClick={() => {
+                tog_fullscreen();
+              }}
+              className="btn btn-secondary "
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary "
+            >
+              Save changes
+            </button>
+          </div>
+        </Modal>
       </Form>
     </>
   )

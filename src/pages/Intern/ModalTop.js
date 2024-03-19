@@ -8,9 +8,47 @@ import Select from "react-select";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 
-const ModalTop = ({tog_standard,modal_standard, setmodal_standard, setStatus, tog_xlarge, setmodal_xlarge, isUpdateStatus , optionGroup, modal_xlarge}) => {
+const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, tog_xlarge, setmodal_xlarge, isUpdateStatus, optionGroup, modal_xlarge }) => {
+    const [isUpdateStatus, setIsUpdateStatus] = useState(false);
+
+    
     return (
         <>
+            <div className="d-flex justify-content-between">
+                <div className="d-flex gap-3">
+                    <Button
+                        color="gray-soft"
+                        onClick={() => {
+                            tog_standard();
+                            setIsUpdateStatus(true);
+                        }}>
+                        <i className="fas fa-info-circle text-secondary"></i>{' '}
+                        Cập nhật trạng thái
+                    </Button>
+                    <Button
+                        color="gray-soft"
+                        onClick={() => {
+                            tog_standard();
+                            setIsUpdateStatus(false);
+                        }}>
+                        <i className="fas fa-user-shield text-secondary"></i>{' '}
+                        Cập nhật lưu trú
+                    </Button>
+                    <Button
+                        color="gray-soft"
+                        onClick={() => {
+                            tog_xlarge();
+                        }}>
+                        <i className="fas fa-ban text-secondary" ></i>{' '}
+                        Thêm vi phạm
+                    </Button>
+                </div>
+                <div>
+                    <Button color="primary" onClick={addForm}>
+                        Thêm mới
+                    </Button>
+                </div>
+            </div>
             <Modal
                 isOpen={modal_standard}
                 toggle={() => {
