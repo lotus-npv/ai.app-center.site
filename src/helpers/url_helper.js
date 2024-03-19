@@ -20,6 +20,7 @@ export const DELETE_STATUS = "https://api.lotusocean-jp.com/api/status/delete";
 
 // intern
 export const GET_INTERN_ALL = "https://api.lotusocean-jp.com/api/intern/all";
+export const GET_INTERN_ALLINFO = "https://api.lotusocean-jp.com/api/intern/allInfo";
 export const GET_INTERN_ID = "https://api.lotusocean-jp.com/api/intern/:id";
 export const SET_INTERN = "https://api.lotusocean-jp.com/api/intern/insert";
 export const UPDATE_INTERN = "https://api.lotusocean-jp.com/api/intern/update";
