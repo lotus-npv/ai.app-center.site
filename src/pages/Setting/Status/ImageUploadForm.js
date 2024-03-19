@@ -4,8 +4,10 @@ import axios from 'axios';
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { uploadImageRequest } from 'store/actions';
 import { uploadFile } from 'store/actions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function ImageUploadForm() {
+function ImageUploadForm({save}) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [filename, setFileName] = useState('');
     const [uploadDone, setUploadDone] = useState(false);
@@ -25,6 +27,8 @@ function ImageUploadForm() {
         delete_at: null,
         flag: 1
     })
+    const notifySuccess = () => toast.success("Avata Upload Successfully", { autoClose: 2000 });
+    const notifyError = () => toast.error("Avata Upload Fall", { autoClose: 2000 });
 
     // Khai bao du lieu
     const dispatch = useDispatch();
@@ -47,8 +51,8 @@ function ImageUploadForm() {
                     'Content-Type': 'application/json'
                 }
             });
-
             setUploadDone(false);
+            notifySuccess();
         }
     }, [filename]);
 
@@ -87,23 +91,22 @@ function ImageUploadForm() {
 
         } catch (error) {
             console.error('Error uploading file:', error);
+            notifyError();
             // Xử lý lỗi khi upload file
         }
     };
 
-    
 
-    console.log(uploadedFilename)
+
+    console.log(save)
     return (
         <div>
-            <h2>Image Upload Form a</h2>
             <form onSubmit={handleSubmit}>
                 <input type="file" onChange={handleFileChange} />
-                <button type="submit" disabled={uploading}>Upload</button>
+                <button type="submit">Upload</button>
             </form>
-            {uploading && <p>Uploading...</p>}
-            {error && <p>Error: {error}</p>}
-            <p>{uploadedFilename}</p>
+            <p>{save?'true':'false'}</p>
+            <ToastContainer />
         </div>
     );
 }

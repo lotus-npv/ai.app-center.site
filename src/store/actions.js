@@ -34,3 +34,5 @@ export * from "./status_detail/actions"
 export * from "./upload/actions"
 // upload file
 export * from "./upload_image/actions"
+// upload file
+export * from "./avata/actions"

@@ -11,16 +11,27 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import ImageUploadForm from "./ImageUploadForm";
 
-
 const StatusPage = (props) => {
-    document.title = "Status Page"; 
+    const [save, setSave] = useState(false);
+    const colorOptions = [
+        { value: 'red', label: 'Red' },
+        { value: 'green', label: 'Green' },
+        { value: 'blue', label: 'Blue' }
+    ];
+
+    const handChangeSave = () => {
+        setSave(!save);
+    }
+
+    document.title = "Status Page";
     return (
         <>
             <div className="page-content">
                 <Container fluid={true}>
                     <TableDatas />
                     <ToastContainer />
-                    <ImageUploadForm/>
+                    <ImageUploadForm save={save} />
+                    <button onClick={handChangeSave}>save</button>
                 </Container>
             </div>
         </>

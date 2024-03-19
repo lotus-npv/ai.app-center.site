@@ -6,6 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { TabMenu } from 'primereact/tabmenu';
 import { Badge } from 'primereact/badge';
+import { Avatar } from 'primereact/avatar';
 
 import DataContext from 'data/DataContext';
 
@@ -19,7 +20,7 @@ import avata from '../../assets/images/avata/avata-loading.png';
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll } from "store/actions";
+import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAvataAll, getReceivingFactoryAll, getDispatchingCompanyAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -30,6 +31,8 @@ FilterService.register('custom_activity', (value, filters) => {
   return from <= value && value <= to;
 });
 
+
+
 const TableDatas = (props) => {
 
   const { vh } = useContext(DataContext);
@@ -39,27 +42,36 @@ const TableDatas = (props) => {
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    factory: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    company: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    full_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    factory_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    company_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
     residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
     status: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAll, statusData, statusDetailData } = useSelector(state => ({
+  const { internDataAll, statusData, statusDetailData, avataData, factoryData, companyData } = useSelector(state => ({
     internDataAll: state.Intern.datas,
     statusData: state.Status.datas,
-    statusDetailData: state.StatusDetail.datas
+    statusDetailData: state.StatusDetail.datas,
+    avataData: state.Avata.datas,
+    factoryData: state.ReceivingFactory.datas,
+    companyData: state.DispatchingCompany.datas,
   }), shallowEqual);
+
+
 
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getInternAll());
     dispatch(getStatusAll());
     dispatch(getStatusDetailAll());
+    dispatch(getAvataAll());
+    dispatch(getReceivingFactoryAll());
+    dispatch(getDispatchingCompanyAll());
   }, [dispatch]);
+
 
   // get lai data sau moi 10s
   useEffect(() => {
@@ -72,6 +84,18 @@ const TableDatas = (props) => {
     };
   }, []);
 
+  // render data intern
+  const [dataRender, setDataRender] = useState([])
+  useEffect(() => {
+    setDataRender(internDataAll.map(intern => {
+      return { ...intern, 
+        full_name: `${intern.last_name_jp} ${intern.middle_name_jp} ${intern.first_name_jp}`, 
+        factory_name: factoryData.find(item => item.id == intern.receiving_factory_id).name_jp,
+        company_name:  companyData.find(item => item.id == intern.dispatching_company_id).name_jp,
+      }
+    }))
+  }, [internDataAll])
+
   // modal edit or addnew
   const [isEdit, setIsEdit] = useState(false);
   const [modal_xlarge, setmodal_xlarge] = useState(false);
@@ -82,7 +106,7 @@ const TableDatas = (props) => {
   function removeBodyCss() {
     document.body.classList.add("no_padding");
   }
-// add new
+  // add new
   const addForm = () => {
     setRowSelect(null);
     setIsEdit(false);
@@ -131,8 +155,8 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    return [{ name: 'All',data: 1, template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
-      return { name: status.name,data: statusDetailData.filter(e => e.status_id == status.id).length , template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length)}
+    return [{ name: 'All', data: 1, template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
+      return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
     })].filter(e => e.data == 1)
   }
 
@@ -145,19 +169,20 @@ const TableDatas = (props) => {
     );
   };
 
-// import avata from '../../assets/images/avata/avata-loading.png';
+  // import avata from '../../assets/images/avata/avata-loading.png';
 
   const nameBodyTemplate = (rowData) => {
-    const name = `${rowData.last_name_jp} ${rowData.first_name_jp}`;
-    const avata = rowData.avata;
+    const avata = avataData.find(item => item.user_type == 'intern' && item.object_id == rowData.id);
+    // console.log(avata.originalname)
 
     return (
-        <div className="flex align-items-center gap-2">
-            <img  src={'http://localhost:3004/uploads/avatar-1.jpg'} width="32" />
-            <span>{name}</span>
-        </div>
+      <div className="flex align-items-center gap-2">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${avata.originalname}`} size="large" shape="circle">
+        </Avatar>
+        <span>{rowData.full_name}</span>
+      </div>
     );
-};
+  };
 
   const actionBody = (rowData) => {
     return (
@@ -171,16 +196,16 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(statusDetailData)
+  console.log(dataRender)
 
   return (
     <div className="card" >
-      <DataTable value={internDataAll} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+      <DataTable value={dataRender} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="name" header="Tên thực tập sinh" filterField="name" body={nameBodyTemplate} filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="factory" header="Xí nghiệp" filterField="factory" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="company" header="Phái cử" filterField="company" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="full_name" header="Tên thực tập sinh" filterField="full_name" body={nameBodyTemplate} filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="factory_name" header="Xí nghiệp" filterField="factory_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="company_name" header="Phái cử" filterField="company_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="residence" header="Tư cách lưu trú" filterField="residence" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="status" header="Trạng thái" filter filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} ></Column>
