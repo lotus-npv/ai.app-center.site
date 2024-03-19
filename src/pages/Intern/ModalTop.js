@@ -17,7 +17,7 @@ const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, 
     }
 
     // data context
-    const { tog_fullscreen } = useContext(DataContext)
+    const { tog_fullscreen, setIsEditIntern } = useContext(DataContext)
 
     return (
         <>
@@ -51,7 +51,10 @@ const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, 
                     </Button>
                 </div>
                 <div>
-                    <Button color="primary" onClick={tog_fullscreen}>
+                    <Button color="primary" onClick={() => {
+                        setIsEditIntern(false);
+                        tog_fullscreen();
+                    }}>
                         Thêm mới
                     </Button>
                 </div>
