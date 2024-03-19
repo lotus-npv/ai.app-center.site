@@ -156,17 +156,20 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    return [{ name: 'All', data: 1, template: (item) => itemRenderer(item, 0, internDataAllInfo.length) }, ...statusData.map((status, index) => {
+    return [{ name: 'All', data: internDataAllInfo.length, template: (item) => itemRenderer(item, 0, internDataAllInfo.length) }, ...statusData.map((status, index) => {
       return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
-    })].filter(e => e.data == 1)
+    })].filter(e => e.data >= 1)
   }
 
-  const [customActiveTab, setcustomActiveTab] = useState("0");
-  const toggleCustom = tab => {
-    if (customActiveTab !== tab) {
-      setcustomActiveTab(tab);
+  // active tab
+  const [customActiveTab, setcustomActiveTab] = useState({index: "0", value: "all"});
+  const toggleCustom = (tab, data) => {
+    if (customActiveTab.index !== tab) {
+      setcustomActiveTab({index: tab, value: data});
     }
   };
+
+  // goi ham render mang data
   const items = rendLabel();
   const renderHeader = () => {
     return (
@@ -178,10 +181,10 @@ const TableDatas = (props) => {
               <NavLink
                 style={{ cursor: "pointer" }}
                 className={classnames({
-                  active: customActiveTab === (`${index}`),
+                  active: customActiveTab.index === (`${index}`),
                 })}
                 onClick={() => {
-                  toggleCustom(`${index}`);
+                  toggleCustom(`${index}`, item.name);
                 }}
               >
                 <span className="d-block d-sm-none">
@@ -194,12 +197,16 @@ const TableDatas = (props) => {
               </NavLink>
             </NavItem>
           ))}
-
         </Nav>
-
       </div>
     );
   };
+
+  console.log(customActiveTab)
+
+  // useEffect(() => {
+
+  // }, [customActiveTab])
 
 
   // render col name
@@ -238,7 +245,7 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(internDataAllInfo)
+  // console.log(internDataAllInfo)
 
   return (
     <div className="card" >
