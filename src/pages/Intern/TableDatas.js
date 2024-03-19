@@ -203,10 +203,14 @@ const TableDatas = (props) => {
   };
 
   console.log(customActiveTab)
+  const [dataTable, setDataTable] = useState(internDataAllInfo)
 
-  // useEffect(() => {
+  useEffect(() => {
+    if(customActiveTab.value === 'Đỗ đơn hàng') {
+      internDataAllInfo
+    }
 
-  // }, [customActiveTab])
+  }, [customActiveTab])
 
 
   // render col name
@@ -245,11 +249,11 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  // console.log(internDataAllInfo)
+  console.log(dataTable)
 
   return (
     <div className="card" >
-      <DataTable value={internDataAllInfo} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+      <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="full_name_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
