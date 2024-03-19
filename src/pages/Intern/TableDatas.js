@@ -205,9 +205,18 @@ const TableDatas = (props) => {
   console.log(customActiveTab)
   const [dataTable, setDataTable] = useState(internDataAllInfo)
 
+  const getListInternStatus = (key) => {
+    const idStatus = statusData.find(item => item.name == key).id;
+    const arr =  statusDetailData.filter(item => item.status_id == idStatus);
+    const newList = internDataAllInfo.filter(intern => arr.some(item => item.intern_id === intern.id));
+    setDataTable(newList);
+  }
+
   useEffect(() => {
     if(customActiveTab.value === 'Đỗ đơn hàng') {
-      internDataAllInfo
+      getListInternStatus('Đỗ đơn hàng');
+    } else if(customActiveTab.value === 'All') {
+      setDataTable(internDataAllInfo);
     }
 
   }, [customActiveTab])
