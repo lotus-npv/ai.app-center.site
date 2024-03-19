@@ -173,7 +173,7 @@ const TableDatas = (props) => {
       <div className=''>
         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
         <Nav tabs className="nav-tabs-custom">
-          <NavItem>
+          <NavItem style={{minWidth: '80px'}}>
             <NavLink
               style={{ cursor: "pointer" }}
               className={classnames({
@@ -186,7 +186,7 @@ const TableDatas = (props) => {
               <span className="d-block d-sm-none">
                 <i className="fas fa-home"></i>
               </span>
-              <div className='d-flex gap-2'>
+              <div className='d-flex gap-1'>
                 <span className="d-none d-sm-block">Home</span>
                 <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>3</Badge>
               </div>
