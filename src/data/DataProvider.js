@@ -76,6 +76,28 @@ const DataProvider = ({ children }) => {
       setVh(`${wh}px`);
     }, [])
 
+    const [modal_standard, setmodal_standard] = useState(false);
+    const [modal_xlarge, setmodal_xlarge] = useState(false);
+    const [modal_fullscreen, setmodal_fullscreen] = useState(false);
+
+    function tog_standard() {
+        setmodal_standard(!modal_standard);
+        removeBodyCss();
+    }
+
+    function tog_xlarge() {
+        setmodal_xlarge(!modal_xlarge);
+        removeBodyCss();
+    }
+
+    function tog_fullscreen() {
+        setmodal_fullscreen(!modal_fullscreen);
+        removeBodyCss();
+    }
+
+    function removeBodyCss() {
+        document.body.classList.add("no_padding");
+    }
 
 
 
@@ -98,7 +120,10 @@ const DataProvider = ({ children }) => {
                 updateStatusData,
                 careerData,
                 updateCareerData,
-                vh
+                vh,
+                modal_fullscreen,
+                setmodal_fullscreen,
+                tog_fullscreen
             }}
         >
             {children}

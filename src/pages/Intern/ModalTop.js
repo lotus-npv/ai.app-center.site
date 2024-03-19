@@ -8,10 +8,17 @@ import Select from "react-select";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 
-const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, tog_xlarge, setmodal_xlarge, isUpdateStatus, optionGroup, modal_xlarge }) => {
-    const [isUpdateStatus, setIsUpdateStatus] = useState(false);
+// import context
+import DataContext from "../../data/DataContext";
 
-    
+const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, tog_xlarge, setmodal_xlarge, isUpdateStatus,setIsUpdateStatus, optionGroup, modal_xlarge }) => {
+    const addForm = () => {
+        navigate('/input-intern');
+    }
+
+        // data context
+        const { internDatas, updateInternDatas, statusData,  tog_fullscreen} = useContext(DataContext)
+
     return (
         <>
             <div className="d-flex justify-content-between">
@@ -44,7 +51,7 @@ const ModalTop = ({ tog_standard, modal_standard, setmodal_standard, setStatus, 
                     </Button>
                 </div>
                 <div>
-                    <Button color="primary" onClick={addForm}>
+                    <Button color="primary" onClick={tog_fullscreen}>
                         Thêm mới
                     </Button>
                 </div>

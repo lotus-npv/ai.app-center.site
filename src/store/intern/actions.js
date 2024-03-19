@@ -16,7 +16,8 @@ import {
   UPDATE_INTERN_FAIL,
   DELETE_INTERN,
   DELETE_INTERN_SUCCESS,
-  DELETE_INTERN_FAIL
+  DELETE_INTERN_FAIL,
+  OPEN_MODAL
 } from "./actionTypes";
 
 export const getInternAll = () => ({
@@ -103,4 +104,9 @@ export const deleteInternSuccess = data => ({
 export const deleteInternFail = error => ({
   type: DELETE_INTERN_FAIL,
   payload: error,
+});
+
+export const openModal = (data) => ({
+  type: OPEN_MODAL,
+  payload: data
 });

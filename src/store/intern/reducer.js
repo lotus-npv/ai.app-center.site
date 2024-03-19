@@ -14,12 +14,14 @@ import {
   UPDATE_INTERN_SUCCESS,
   UPDATE_INTERN_FAIL,
   DELETE_INTERN_SUCCESS,
-  DELETE_INTERN_FAIL
+  DELETE_INTERN_FAIL,
+  OPEN_MODAL
   } from "./actionTypes";
   
   const INIT_STATE = {
     datas: [],
-    data: {}
+    data: {},
+    isOpen: 'init text'
   };
   
   const Intern = (state = INIT_STATE, action) => {
@@ -94,6 +96,11 @@ import {
         return {
           ...state,
           error: action.payload,
+        };
+      case OPEN_MODAL:
+        return {
+          ...state,
+          isOpen: action.payload,
         };
 
       default:

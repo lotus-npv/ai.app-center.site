@@ -100,6 +100,13 @@ const TableDatas = (props) => {
 
   // modal edit or addnew
   const [isEdit, setIsEdit] = useState(false);
+  const [modal_fullscreen, setmodal_fullscreen] = useState(false);
+  function tog_fullscreen() {
+    setmodal_fullscreen(!modal_fullscreen);
+    removeBodyCss();
+}
+
+
   const [modal_xlarge, setmodal_xlarge] = useState(false);
   function tog_xlarge() {
     setmodal_xlarge(!modal_xlarge);
@@ -250,7 +257,7 @@ const TableDatas = (props) => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEdit(true) }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEdit(true) }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -283,9 +290,9 @@ const TableDatas = (props) => {
       <ModalDatas
         item={rowSelect}
         isEdit={isEdit}
-        modal_xlarge={modal_xlarge}
-        setmodal_xlarge={setmodal_xlarge}
-        tog_xlarge={tog_xlarge}
+        modal_fullscreen={modal_fullscreen}
+        setmodal_fullscreen={setmodal_fullscreen}
+        tog_fullscreen={tog_fullscreen}
         dispatch={dispatch}
         setApi={setIntern}
         updateApi={updateIntern}

@@ -2,7 +2,7 @@ import { takeEvery, put, call, all, fork, takeLatest } from "redux-saga/effects"
 
 // Login Redux States
 import {
-  DELETE_INTERN,GET_INTERN_ALL, SET_INTERN, UPDATE_INTERN,GET_INTERN_ALLINFO
+  DELETE_INTERN,GET_INTERN_ALL, SET_INTERN, UPDATE_INTERN,GET_INTERN_ALLINFO, OPEN_MODAL
 } from "./actionTypes"
 import {
   getInternAllFail,
@@ -14,11 +14,16 @@ import {
   updateInternSuccess,
   updateInternFail,
   deleteInternSuccess,
-  deleteInternFail
+  deleteInternFail,
+  openModal
 } from "./actions"
 
 import { getInternDataAll, addNewDataIntern, updateDataIntern, deleteDataIntern, getInternDataAllInfo } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
+
+function* changeTogModal(action) {
+  yield put({ type: 'OPEN_MODAL', payload: action.payload });
+}
 
 function* fetInternData() {
   try {
@@ -85,6 +90,7 @@ function* InternSaga() {
   yield takeLatest(SET_INTERN, onAddNewIntern)
   yield takeLatest(UPDATE_INTERN, onUpdateIntern)
   yield takeLatest(DELETE_INTERN, onDeleteIntern)
+  yield takeEvery(OPEN_MODAL, changeTogModal)
 }
 
 export default InternSaga;
