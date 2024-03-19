@@ -5,8 +5,10 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { TabMenu } from 'primereact/tabmenu';
-import { Badge } from 'primereact/badge';
 import { Avatar } from 'primereact/avatar';
+
+import {Badge} from "reactstrap";
+import { Badge as BadgePrime}  from 'primereact/badge';
 
 import DataContext from 'data/DataContext';
 
@@ -141,7 +143,7 @@ const TableDatas = (props) => {
 
   const itemRenderer = (item, itemIndex, data) => (
     <a className="p-menuitem-link flex align-items-center gap-2" onClick={() => setActiveIndex(itemIndex)}>
-      <Badge value={data}></Badge>
+      <BadgePrime value={data}></BadgePrime>
       <span className="font-bold">{props.t(item.name)}</span>
     </a>
   );
@@ -177,9 +179,13 @@ const TableDatas = (props) => {
   const statusBody = (rowData) => {
     const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
     console.log('intern id',rowData.id,'have status id:', arr[0].description)
-    return arr.map(status => (
-      <Badge className={"p-2 font-size-12 badge-soft-succes"} key={status.id}>{status.description}</Badge>
-    ))
+    return (
+      <div className='d-flex gap-1'>
+       { arr.map(s => (
+        <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.description}</Badge>
+      ))}
+      </div>
+    )
   }
 
   const actionBody = (rowData) => {
@@ -205,7 +211,7 @@ const TableDatas = (props) => {
         <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="status" header="Trạng thái" body={statusBody} filter filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
+        <Column header="Trạng thái" body={statusBody} filter filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} ></Column>
       </DataTable>
 
