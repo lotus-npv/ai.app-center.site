@@ -673,7 +673,7 @@ function UiTabsAccordions(props) {
                     </NavItem>
                   </Nav>
 
-                  <TabContent
+                  {/* <TabContent
                     activeTab={customActiveTab}
                     className="p-3 text-muted"
                   >
@@ -751,7 +751,7 @@ function UiTabsAccordions(props) {
                         </Col>
                       </Row>
                     </TabPane>
-                  </TabContent>
+                  </TabContent> */}
                 </CardBody>
               </Card>
             </Col>

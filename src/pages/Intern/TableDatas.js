@@ -7,8 +7,15 @@ import { Button } from 'primereact/button';
 import { TabMenu } from 'primereact/tabmenu';
 import { Avatar } from 'primereact/avatar';
 
-import {Badge} from "reactstrap";
-import { Badge as BadgePrime}  from 'primereact/badge';
+import {
+  Nav,
+  NavItem,
+  NavLink,
+} from "reactstrap";
+import classnames from "classnames";
+
+import { Badge } from "reactstrap";
+import { Badge as BadgePrime } from 'primereact/badge';
 
 import DataContext from 'data/DataContext';
 
@@ -51,7 +58,7 @@ const TableDatas = (props) => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAllInfo, statusData, statusDetailData,} = useSelector(state => ({
+  const { internDataAllInfo, statusData, statusDetailData, } = useSelector(state => ({
     internDataAllInfo: state.Intern.datas,
     statusData: state.Status.datas,
     statusDetailData: state.StatusDetail.datas,
@@ -154,11 +161,87 @@ const TableDatas = (props) => {
     })].filter(e => e.data == 1)
   }
 
+  const [customActiveTab, setcustomActiveTab] = useState("1");
+  const toggleCustom = tab => {
+    if (customActiveTab !== tab) {
+      setcustomActiveTab(tab);
+    }
+  };
   const items = rendLabel();
   const renderHeader = () => {
     return (
       <div className=''>
-        <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+        {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
+        <Nav tabs className="nav-tabs-custom">
+          <NavItem>
+            <NavLink
+              style={{ cursor: "pointer" }}
+              className={classnames({
+                active: customActiveTab === "1",
+              })}
+              onClick={() => {
+                toggleCustom("1");
+              }}
+            >
+              <span className="d-block d-sm-none">
+                <i className="fas fa-home"></i>
+              </span>
+              <div className='d-flex gap-2'>
+                <span className="d-none d-sm-block">Home</span>
+                <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>3</Badge>
+              </div>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              style={{ cursor: "pointer" }}
+              className={classnames({
+                active: customActiveTab === "2",
+              })}
+              onClick={() => {
+                toggleCustom("2");
+              }}
+            >
+              <span className="d-block d-sm-none">
+                <i className="far fa-user"></i>
+              </span>
+              <span className="d-none d-sm-block">Profile</span>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              style={{ cursor: "pointer" }}
+              className={classnames({
+                active: customActiveTab === "3",
+              })}
+              onClick={() => {
+                toggleCustom("3");
+              }}
+            >
+              <span className="d-block d-sm-none">
+                <i className="far fa-envelope"></i>
+              </span>
+              <span className="d-none d-sm-block">Messages</span>
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              style={{ cursor: "pointer" }}
+              className={classnames({
+                active: customActiveTab === "4",
+              })}
+              onClick={() => {
+                toggleCustom("4");
+              }}
+            >
+              <span className="d-block d-sm-none">
+                <i className="fas fa-cog"></i>
+              </span>
+              <span className="d-none d-sm-block">Settings</span>
+            </NavLink>
+          </NavItem>
+        </Nav>
+
       </div>
     );
   };
@@ -181,9 +264,9 @@ const TableDatas = (props) => {
     // console.log('intern id',rowData.id,'have status id:', arr[0].description)
     return (
       <div className='d-flex gap-1'>
-       { arr.map(s => (
-        <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.description}</Badge>
-      ))}
+        {arr.map(s => (
+          <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.description}</Badge>
+        ))}
       </div>
     )
   }
@@ -207,7 +290,7 @@ const TableDatas = (props) => {
       <DataTable value={internDataAllInfo} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="full_name_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp"  filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="full_name_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
