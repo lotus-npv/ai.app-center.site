@@ -6,17 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import Select from "react-select";
 
-// import TableContainer from './TableContainer';
-// import TableContainer from "components/Common/TableContainer";
-
 //Import Flatepicker
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 
 // import context
 import DataContext from "../../data/DataContext";
-
-import { Avata, Name, Factory, Archival_Status, Status } from './InternColList';
 
 import { withTranslation } from "react-i18next";
 
@@ -139,10 +134,21 @@ const InternPage = (props) => {
                         <CardBody>
                             <TableDatas />
                         </CardBody>
-                        <ModalTop tog_standard={tog_standard} modal_standard={modal_standard} setmodal_standard={setmodal_standard} setStatus={setStatus} tog_xlarge={tog_xlarge} setmodal_xlarge={setmodal_xlarge} isUpdateStatus={isUpdateStatus} optionGroup={optionGroup} modal_xlarge={modal_xlarge} />
+
+                        <ModalTop
+                            tog_standard={tog_standard}
+                            modal_standard={modal_standard}
+                            setmodal_standard={setmodal_standard}
+                            setStatus={setStatus}
+                            tog_xlarge={tog_xlarge}
+                            setmodal_xlarge={setmodal_xlarge}
+                            isUpdateStatus={isUpdateStatus}
+                            optionGroup={optionGroup}
+                            modal_xlarge={modal_xlarge}
+                        />
                     </Card>
 
-                   
+
                 </Container>
             </div>
         </>
