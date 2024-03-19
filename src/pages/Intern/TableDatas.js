@@ -162,7 +162,7 @@ const TableDatas = (props) => {
   }
 
   // active tab
-  const [customActiveTab, setcustomActiveTab] = useState({index: "0", value: "all"});
+  const [customActiveTab, setcustomActiveTab] = useState({index: "0", value: "All"});
   const toggleCustom = (tab, data) => {
     if (customActiveTab.index !== tab) {
       setcustomActiveTab({index: tab, value: data});
@@ -206,6 +206,7 @@ const TableDatas = (props) => {
   const [dataTable, setDataTable] = useState(internDataAllInfo)
 
   const getListInternStatus = (key) => {
+    console.log('key ',key)
     const idStatus = statusData.find(item => item.name == key).id;
     const arr =  statusDetailData.filter(item => item.status_id == idStatus);
     const newList = internDataAllInfo.filter(intern => arr.some(item => item.intern_id === intern.id));
@@ -213,13 +214,12 @@ const TableDatas = (props) => {
   }
 
   useEffect(() => {
-    if(customActiveTab.value === 'Đỗ đơn hàng') {
-      getListInternStatus('Đỗ đơn hàng');
-    } else if(customActiveTab.value === 'All') {
+    if(customActiveTab.value === 'All') {
       setDataTable(internDataAllInfo);
+    } else {
+      getListInternStatus(customActiveTab.value);
     }
-
-  }, [customActiveTab])
+  }, [customActiveTab, internDataAllInfo])
 
 
   // render col name
