@@ -2,6 +2,9 @@ import {
   GET_INTERN_ALL,
   GET_INTERN_ALL_SUCCESS,
   GET_INTERN_ALL_FAIL,
+  GET_INTERN_ALLINFO,
+  GET_INTERN_ALLINFO_SUCCESS,
+  GET_INTERN_ALLINFO_FAIL,
   GET_INTERN_ID,
   GET_INTERN_ID_SUCCESS,
   GET_INTERN_ID_FAIL,
@@ -27,6 +30,19 @@ export const getInternAllSuccess = data => ({
 
 export const getInternAllFail = error => ({
   type: GET_INTERN_ALL_FAIL,
+  payload: error,
+});
+export const getInternAllInfo = () => ({
+  type: GET_INTERN_ALLINFO,
+});
+
+export const getInternAllInfoSuccess = data => ({
+  type: GET_INTERN_ALLINFO_SUCCESS,
+  payload: data,
+});
+
+export const getInternAllInfoFail = error => ({
+  type: GET_INTERN_ALLINFO_FAIL,
   payload: error,
 });
 

@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAvataAll, getReceivingFactoryAll, getDispatchingCompanyAll, getAlienRegistrationCardAllInfo } from "store/actions";
+import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -49,8 +49,8 @@ const TableDatas = (props) => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAll, statusData, statusDetailData, avataData, factoryData, companyData , cardInfo} = useSelector(state => ({
-    internDataAll: state.Intern.datas,
+  const { internDataAllInfo, statusData, statusDetailData, avataData, factoryData, companyData , cardInfo} = useSelector(state => ({
+    internDataAllInfo: state.Intern.datas,
     statusData: state.Status.datas,
     statusDetailData: state.StatusDetail.datas,
     avataData: state.Avata.datas,
@@ -63,20 +63,16 @@ const TableDatas = (props) => {
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getInternAll());
+    dispatch(getInternAllInfo());
     dispatch(getStatusAll());
     dispatch(getStatusDetailAll());
-    dispatch(getAvataAll());
-    dispatch(getReceivingFactoryAll());
-    dispatch(getDispatchingCompanyAll());
-    dispatch(getAlienRegistrationCardAllInfo());
   }, [dispatch]);
 
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getInternAll());
+      dispatch(getInternAllInfo());
     }, 10000);
     // Hàm dọn dẹp khi unmount
     return () => {
@@ -85,16 +81,16 @@ const TableDatas = (props) => {
   }, []);
 
   // render data intern
-  const [dataRender, setDataRender] = useState([])
-  useEffect(() => {
-    setDataRender(internDataAll.map(intern => {
-      return { ...intern, 
-        full_name: `${intern.last_name_jp} ${intern.middle_name_jp} ${intern.first_name_jp}`, 
-        factory_name: factoryData.find(item => item.id == intern.receiving_factory_id).name_jp,
-        company_name:  companyData.find(item => item.id == intern.dispatching_company_id).name_jp,
-      }
-    }))
-  }, [internDataAll])
+  // const [dataRender, setDataRender] = useState([])
+  // useEffect(() => {
+  //   setDataRender(internDataAll.map(intern => {
+  //     return { ...intern, 
+  //       full_name: `${intern.last_name_jp} ${intern.middle_name_jp} ${intern.first_name_jp}`, 
+  //       factory_name: factoryData.find(item => item.id == intern.receiving_factory_id).name_jp,
+  //       company_name:  companyData.find(item => item.id == intern.dispatching_company_id).name_jp,
+  //     }
+  //   }))
+  // }, [internDataAll])
 
   // modal edit or addnew
   const [isEdit, setIsEdit] = useState(false);
@@ -155,7 +151,7 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    return [{ name: 'All', data: 1, template: (item) => itemRenderer(item, 0, internDataAll.length) }, ...statusData.map((status, index) => {
+    return [{ name: 'All', data: 1, template: (item) => itemRenderer(item, 0, internDataAllInfo.length) }, ...statusData.map((status, index) => {
       return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
     })].filter(e => e.data == 1)
   }
@@ -196,17 +192,17 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(factoryData)
+  console.log(internDataAllInfo)
 
   return (
     <div className="card" >
-      <DataTable value={dataRender} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+      <DataTable value={internDataAllInfo} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="full_name" header="Tên thực tập sinh" filterField="full_name" body={nameBodyTemplate} filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="factory_name" header="Xí nghiệp" filterField="factory_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="company_name" header="Phái cử" filterField="company_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="residence" header="Tư cách lưu trú" filterField="residence" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="full_name_jp" header="Tên thực tập sinh" filterField="full_name_jp"  filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="status" header="Trạng thái" filter filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '14rem' }} body={actionBody} ></Column>
       </DataTable>

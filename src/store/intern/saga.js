@@ -2,11 +2,13 @@ import { takeEvery, put, call, all, fork, takeLatest } from "redux-saga/effects"
 
 // Login Redux States
 import {
-  DELETE_INTERN,GET_INTERN_ALL, SET_INTERN, UPDATE_INTERN,
+  DELETE_INTERN,GET_INTERN_ALL, SET_INTERN, UPDATE_INTERN,GET_INTERN_ALLINFO
 } from "./actionTypes"
 import {
   getInternAllFail,
   getInternAllSuccess,
+  getInternAllInfoFail,
+  getInternAllInfoSuccess,
   setInternSuccess,
   setInternFail,
   updateInternSuccess,
@@ -15,7 +17,7 @@ import {
   deleteInternFail
 } from "./actions"
 
-import { getInternDataAll, addNewDataIntern, updateDataIntern, deleteDataIntern } from "../../helpers/fakebackend_helper";
+import { getInternDataAll, addNewDataIntern, updateDataIntern, deleteDataIntern, getInternDataAllInfo } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetInternData() {
@@ -24,6 +26,15 @@ function* fetInternData() {
     yield put(getInternAllSuccess(response));
   } catch (error) {
     yield put(getInternAllFail(error))
+  }
+}
+
+function* fetInternDataAllInfo() {
+  try {
+    const response = yield call(getInternDataAllInfo);
+    yield put(getInternAllInfoSuccess(response));
+  } catch (error) {
+    yield put(getInternAllInfoFail(error))
   }
 }
 
@@ -70,6 +81,7 @@ function* refreshInternData() {
 
 function* InternSaga() {
   yield takeLatest(GET_INTERN_ALL, fetInternData)
+  yield takeLatest(GET_INTERN_ALLINFO, fetInternDataAllInfo)
   yield takeLatest(SET_INTERN, onAddNewIntern)
   yield takeLatest(UPDATE_INTERN, onUpdateIntern)
   yield takeLatest(DELETE_INTERN, onDeleteIntern)

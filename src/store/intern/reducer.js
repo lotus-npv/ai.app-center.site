@@ -2,6 +2,9 @@ import {
   GET_INTERN_ALL,
   GET_INTERN_ALL_SUCCESS,
   GET_INTERN_ALL_FAIL,
+  GET_INTERN_ALLINFO,
+  GET_INTERN_ALLINFO_SUCCESS,
+  GET_INTERN_ALLINFO_FAIL,
   GET_INTERN_ID_SUCCESS,
   GET_INTERN_ID_FAIL,
   SET_INTERN,
@@ -32,6 +35,21 @@ import {
         };
   
       case GET_INTERN_ALL_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+      case GET_INTERN_ALLINFO:
+        return {
+          ...state,
+        };
+      case GET_INTERN_ALLINFO_SUCCESS:
+        return {
+          ...state,
+          datas: action.payload,
+        };
+  
+      case GET_INTERN_ALLINFO_FAIL:
         return {
           ...state,
           error: action.payload,
