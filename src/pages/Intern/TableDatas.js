@@ -16,11 +16,9 @@ import ModalDatas from './ModalDatas'
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
-import avata from '../../assets/images/avata/avata-loading.png';
-
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAvataAll, getReceivingFactoryAll, getDispatchingCompanyAll } from "store/actions";
+import { getInternAll, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAvataAll, getReceivingFactoryAll, getDispatchingCompanyAll, getAlienRegistrationCardAllInfo } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -51,13 +49,14 @@ const TableDatas = (props) => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAll, statusData, statusDetailData, avataData, factoryData, companyData } = useSelector(state => ({
+  const { internDataAll, statusData, statusDetailData, avataData, factoryData, companyData , cardInfo} = useSelector(state => ({
     internDataAll: state.Intern.datas,
     statusData: state.Status.datas,
     statusDetailData: state.StatusDetail.datas,
     avataData: state.Avata.datas,
     factoryData: state.ReceivingFactory.datas,
     companyData: state.DispatchingCompany.datas,
+    cardInfo: state.AlienRegistrationCard.datas,
   }), shallowEqual);
 
 
@@ -70,6 +69,7 @@ const TableDatas = (props) => {
     dispatch(getAvataAll());
     dispatch(getReceivingFactoryAll());
     dispatch(getDispatchingCompanyAll());
+    dispatch(getAlienRegistrationCardAllInfo());
   }, [dispatch]);
 
 
@@ -196,7 +196,7 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(dataRender)
+  console.log(cardInfo)
 
   return (
     <div className="card" >

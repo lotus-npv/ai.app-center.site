@@ -19,6 +19,7 @@ import StatusDetailSaga from "./status_detail/saga";
 import UploadFileSaga from "./upload/saga";
 import watchUploadImage from './upload_image/sagas'
 import AvataSaga from "./avata/saga";
+import AlienRegistrationCardSaga from "./alien_registration_card/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -39,6 +40,7 @@ export default function* rootSaga() {
     fork(Address),
     fork(StatusDetailSaga),
     fork(AvataSaga),
+    fork(AlienRegistrationCardSaga),
     UploadFileSaga(),
     watchUploadImage(),
   ]);

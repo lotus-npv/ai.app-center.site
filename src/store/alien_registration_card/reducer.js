@@ -2,6 +2,9 @@ import {
   GET_ALIENREGISTRATIONCARD_ALL,
   GET_ALIENREGISTRATIONCARD_ALL_SUCCESS,
   GET_ALIENREGISTRATIONCARD_ALL_FAIL,
+  GET_ALIENREGISTRATIONCARD_ALLINFO,
+  GET_ALIENREGISTRATIONCARD_ALLINFO_SUCCESS,
+  GET_ALIENREGISTRATIONCARD_ALLINFO_FAIL,
   GET_ALIENREGISTRATIONCARD_ID,
   GET_ALIENREGISTRATIONCARD_ID_SUCCESS,
   GET_ALIENREGISTRATIONCARD_ID_FAIL,
@@ -21,15 +24,24 @@ import {
     data: {}
   };
   
-  const Career = (state = INIT_STATE, action) => {
+  const AlienRegistrationCard = (state = INIT_STATE, action) => {
     switch (action.type) {
       case GET_ALIENREGISTRATIONCARD_ALL_SUCCESS:
         return {
           ...state,
           datas: action.payload,
         };
-  
       case GET_ALIENREGISTRATIONCARD_ALL_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+      case GET_ALIENREGISTRATIONCARD_ALLINFO_SUCCESS:
+        return {
+          ...state,
+          datas: action.payload,
+        };
+      case GET_ALIENREGISTRATIONCARD_ALLINFO_FAIL:
         return {
           ...state,
           error: action.payload,
@@ -91,4 +103,4 @@ import {
     }
   };
   
-  export default Career;
+  export default AlienRegistrationCard;

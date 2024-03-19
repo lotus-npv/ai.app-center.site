@@ -2,6 +2,9 @@ import {
   GET_ALIENREGISTRATIONCARD_ALL,
   GET_ALIENREGISTRATIONCARD_ALL_SUCCESS,
   GET_ALIENREGISTRATIONCARD_ALL_FAIL,
+  GET_ALIENREGISTRATIONCARD_ALLINFO,
+  GET_ALIENREGISTRATIONCARD_ALLINFO_SUCCESS,
+  GET_ALIENREGISTRATIONCARD_ALLINFO_FAIL,
   GET_ALIENREGISTRATIONCARD_ID,
   GET_ALIENREGISTRATIONCARD_ID_SUCCESS,
   GET_ALIENREGISTRATIONCARD_ID_FAIL,
@@ -27,6 +30,20 @@ export const getAlienRegistrationCardAllSuccess = data => ({
 
 export const getAlienRegistrationCardAllFail = error => ({
   type: GET_ALIENREGISTRATIONCARD_ALL_FAIL,
+  payload: error,
+});
+
+export const getAlienRegistrationCardAllInfo = () => ({
+  type: GET_ALIENREGISTRATIONCARD_ALLINFO,
+});
+
+export const getAlienRegistrationCardAllInfoSuccess = data => ({
+  type: GET_ALIENREGISTRATIONCARD_ALLINFO_SUCCESS,
+  payload: data,
+});
+
+export const getAlienRegistrationCardAllInfoFail = error => ({
+  type: GET_ALIENREGISTRATIONCARD_ALLINFO_FAIL,
   payload: error,
 });
 

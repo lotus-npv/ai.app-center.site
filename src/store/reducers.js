@@ -36,7 +36,10 @@ import StatusDetail from "./status_detail/reducer";
 import UploadFile from "./upload/reducer";
 
 import reducer from "./upload_image/reducer";
+// Avata
 import Avata from "./avata/reducer";
+// AlienRegistrationCard
+import AlienRegistrationCard from "./alien_registration_card/reducer";
 
 
 const rootReducer = combineReducers({
@@ -58,7 +61,8 @@ const rootReducer = combineReducers({
   StatusDetail,
   UploadFile,
   reducer,
-  Avata
+  Avata,
+  AlienRegistrationCard
 });
 
 export default rootReducer;
