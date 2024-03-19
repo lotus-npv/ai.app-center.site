@@ -51,6 +51,7 @@ export const DELETE_ADDRESS = "https://api.lotusocean-jp.com/api/address/delete"
 
 // alien_registration_card
 export const GET_ALIENREGISTRATIONCARD_ALL = "https://api.lotusocean-jp.com/api/alien_registration_card/all";
+export const GET_ALIENREGISTRATIONCARD_ALLINFO = "https://api.lotusocean-jp.com/api/alien_registration_card/allInfo";
 export const GET_ALIENREGISTRATIONCARD_ID = "https://api.lotusocean-jp.com/api/alien_registration_card/:id";
 export const SET_ALIENREGISTRATIONCARD = "https://api.lotusocean-jp.com/api/alien_registration_card/insert";
 export const UPDATE_ALIENREGISTRATIONCARD = "https://api.lotusocean-jp.com/api/alien_registration_card/update";

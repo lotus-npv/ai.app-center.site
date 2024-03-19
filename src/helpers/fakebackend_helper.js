@@ -69,6 +69,7 @@ export const deleteDataAddress = (id) => del(`${url.DELETE_ADDRESS}/${id}`, { pa
 
 // alien_registration_card
 export const getAlienRegistrationCardDataAll = () => get(url.GET_ALIENREGISTRATIONCARD_ALL);
+export const getAlienRegistrationCardDataAllInfo = () => get(url.GET_ALIENREGISTRATIONCARD_ALLINFO);
 export const getAlienRegistrationCardDataId = () => get(url.GET_ALIENREGISTRATIONCARD_ID);
 export const addNewDataAlienRegistrationCard = data => post(url.SET_ALIENREGISTRATIONCARD, data, config);
 export const updateDataAlienRegistrationCard = data => put(url.UPDATE_ALIENREGISTRATIONCARD, data, config);
