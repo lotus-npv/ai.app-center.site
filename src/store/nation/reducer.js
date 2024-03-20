@@ -18,15 +18,23 @@ import {
   const INIT_STATE = {
     datas: [],
     dataId: [],
-    data: {}
+    data: {},
+    loading: false
   };
   
   const Nation = (state = INIT_STATE, action) => {
     switch (action.type) {
+      case GET_NATION_ALL:
+        return {
+          ...state,
+          datas: action.payload,
+          loading: true
+        };
       case GET_NATION_ALL_SUCCESS:
         return {
           ...state,
           datas: action.payload,
+          loading: false
         };
   
       case GET_NATION_ALL_FAIL:

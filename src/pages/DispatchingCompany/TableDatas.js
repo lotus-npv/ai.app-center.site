@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getDispatchingCompanyAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll } from "store/actions";
+import { getDispatchingCompanyAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll, getNationAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -42,7 +42,6 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = (props) => {
-  // const [loading, setLoading] = useState(true);
   // data context
   const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
 
@@ -52,19 +51,18 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { companyData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
+  const { companyData, addressData, loading, nationData } = useSelector(state => ({
     companyData: state.DispatchingCompany.datas,
     addressData: state.Address.datas,
-    provinceById: state.Province.dataId,
-    provinceData: state.Province.datas,
-    loading: state.Province.loading,
+    nationData: state.Nation.datas,
+    loading: state.Nation.loading
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getDispatchingCompanyAll());
     dispatch(getAddressAll());
-    dispatch(getProvinceAll());
+    dispatch(getNationAll());
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -108,37 +106,38 @@ const TableDatas = (props) => {
 
   const rendLabel = () => {
     // lọc ra danh sách các địa chỉ của xí nghiệp
-    const array = addressData.filter(address => address.user_type === 'receiving_factory');
+    const array = addressData.filter(address => address.user_type === 'dispatching_company');
+    console.log('array:', array)
 
     // tạo danh sách địa
-    const number_of_factory = array.filter(address => address.is_default == 1).length;
+    const number_of_company = array.filter(address => address.is_default == 1).length;
     // console.log('number_of_factory', number_of_factory)
 
     let map = new Map();
     array.forEach(obj => {
-      if (!map.has(obj.province_id)) {
-        map.set(obj.province_id, { data: 1, obj });
+      if (!map.has(obj.nation_id)) {
+        map.set(obj.nation_id, { data: 1, obj });
       } else {
-        map.get(obj.province_id).data += 1;
+        map.get(obj.nation_id).data += 1;
       }
     });
 
     // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
     // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
-      return { name: !loading ? provinceData.find(province => province.StateID == item.obj.province_id).StateName_ja : 'loading...', data: item.data, provinceId: item.obj.province_id }
+      return { name: !loading ? nationData.find(nation => nation.CountryID == item.obj.nation_id).CountryName_ja : 'loading...', data: item.data, nationId: item.obj.nation_id }
     });
 
-    return [{ name: 'All', data: number_of_factory, provinceById: 0 }, ...uniqueArray.map((address) => {
-      return { name: address.name, data: address.data, provinceId: address.provinceId }
+    return [{ name: 'All', data: number_of_company, nationId: 0 }, ...uniqueArray.map((address) => {
+      return { name: address.name, data: address.data, nationId: address.nationId }
     })].filter(e => e.data >= 1);
   }
 
   // acctive tab
   const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All", id: 0 });
-  const toggleCustom = (tab, data, provinceId) => {
+  const toggleCustom = (tab, data, id) => {
     if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data, id: provinceId });
+      setcustomActiveTab({ index: tab, value: data, id: id });
     }
   };
 
@@ -169,7 +168,7 @@ const TableDatas = (props) => {
 
   // goi ham render mang data
   const items = rendLabel();
-  // console.log('items', items)
+
   const renderHeader = () => {
     return (
       <>
@@ -222,9 +221,9 @@ const TableDatas = (props) => {
   const getListInternStatus = (key) => {
     console.log('key ', key)
     // const idStatus = statusData.find(item => item.name == key).id;
-    const arr = addressData.filter(item => item.province_id == key);
+    const arr = addressData.filter(item => item.nation_id == key);
     console.log('arr:', arr)
-    const newList = companyData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory'));
+    const newList = companyData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company'));
     setDataTable(newList);
   }
 
@@ -264,10 +263,12 @@ const TableDatas = (props) => {
 
 
 
-  console.log('loading:', loading)
+  // console.log('loading:', loading)
+  // console.log('nation:', nationData)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
+  console.log('companyData:', companyData);
 
   return (
     <div className="card" >
