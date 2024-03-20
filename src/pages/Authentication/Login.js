@@ -33,7 +33,7 @@ const Login = props => {
 
     initialValues: {
       email: "admin@themesbrand.com" || '',
-      password: "1234567" || '',
+      password: "123456" || '',
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),

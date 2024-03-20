@@ -13,7 +13,7 @@ export const DELETE_CAREER = "https://api.lotusocean-jp.com/api/career/delete";
 
 // status
 export const GET_STATUS_ALL = "https://api.lotusocean-jp.com/api/status/all";
-export const GET_STATUS_ID = "https://api.lotusocean-jp.com/api/status/:id";
+export const GET_STATUS_ID = "https://api.lotusocean-jp.com/api/status/";
 export const SET_STATUS = "https://api.lotusocean-jp.com/api/status/insert";
 export const UPDATE_STATUS = "https://api.lotusocean-jp.com/api/status/update";
 export const DELETE_STATUS = "https://api.lotusocean-jp.com/api/status/delete";
@@ -21,31 +21,31 @@ export const DELETE_STATUS = "https://api.lotusocean-jp.com/api/status/delete";
 // intern
 export const GET_INTERN_ALL = "https://api.lotusocean-jp.com/api/intern/all";
 export const GET_INTERN_ALLINFO = "https://api.lotusocean-jp.com/api/intern/allInfo";
-export const GET_INTERN_ID = "https://api.lotusocean-jp.com/api/intern/:id";
+export const GET_INTERN_ID = "https://api.lotusocean-jp.com/api/intern/";
 export const SET_INTERN = "https://api.lotusocean-jp.com/api/intern/insert";
 export const UPDATE_INTERN = "https://api.lotusocean-jp.com/api/intern/update";
 export const DELETE_INTERN = "https://api.lotusocean-jp.com/api/intern/delete";
 // syndication
 export const GET_SYNDICATION_ALL = "https://api.lotusocean-jp.com/api/syndication/all";
-export const GET_SYNDICATION_ID = "https://api.lotusocean-jp.com/api/syndication/:id";
+export const GET_SYNDICATION_ID = "https://api.lotusocean-jp.com/api/syndication/";
 export const SET_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/insert";
 export const UPDATE_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/update";
 export const DELETE_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/delete";
 // dispatching_company
 export const    GET_DISPATCHINGCOMPANY_ALL = "https://api.lotusocean-jp.com/api/dispatching_company/all";
-export const    GET_DISPATCHINGCOMPANY_ID =  "https://api.lotusocean-jp.com/api/dispatching_company/:id";
+export const    GET_DISPATCHINGCOMPANY_ID =  "https://api.lotusocean-jp.com/api/dispatching_company/";
 export const    SET_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/insert";
 export const UPDATE_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/update";
 export const DELETE_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/delete";
 // receiving_factory
 export const GET_RECEIVINGFACTORY_ALL = "https://api.lotusocean-jp.com/api/receiving_factory/all";
-export const GET_RECEIVINGFACTORY_ID = "https://api.lotusocean-jp.com/api/receiving_factory/:id";
+export const GET_RECEIVINGFACTORY_ID = "https://api.lotusocean-jp.com/api/receiving_factory/";
 export const SET_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/insert";
 export const UPDATE_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/update";
 export const DELETE_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/delete";
 // address
 export const GET_ADDRESS_ALL = "https://api.lotusocean-jp.com/api/address/all";
-export const GET_ADDRESS_ID = "https://api.lotusocean-jp.com/api/address/:id";
+export const GET_ADDRESS_ID = "https://api.lotusocean-jp.com/api/address/";
 export const SET_ADDRESS = "https://api.lotusocean-jp.com/api/address/insert";
 export const UPDATE_ADDRESS = "https://api.lotusocean-jp.com/api/address/update";
 export const DELETE_ADDRESS = "https://api.lotusocean-jp.com/api/address/delete";
@@ -53,85 +53,85 @@ export const DELETE_ADDRESS = "https://api.lotusocean-jp.com/api/address/delete"
 // alien_registration_card
 export const GET_ALIENREGISTRATIONCARD_ALL = "https://api.lotusocean-jp.com/api/alien_registration_card/all";
 export const GET_ALIENREGISTRATIONCARD_ALLINFO = "https://api.lotusocean-jp.com/api/alien_registration_card/allInfo";
-export const GET_ALIENREGISTRATIONCARD_ID = "https://api.lotusocean-jp.com/api/alien_registration_card/:id";
+export const GET_ALIENREGISTRATIONCARD_ID = "https://api.lotusocean-jp.com/api/alien_registration_card/";
 export const SET_ALIENREGISTRATIONCARD = "https://api.lotusocean-jp.com/api/alien_registration_card/insert";
 export const UPDATE_ALIENREGISTRATIONCARD = "https://api.lotusocean-jp.com/api/alien_registration_card/update";
 export const DELETE_ALIENREGISTRATIONCARD = "https://api.lotusocean-jp.com/api/alien_registration_card/delete";
 // status_of_residence
 export const GET_STATUSOFRESIDENCE_ALL = "https://api.lotusocean-jp.com/api/status_of_residence/all";
-export const GET_STATUSOFRESIDENCE_ID = "https://api.lotusocean-jp.com/api/status_of_residence/:id";
+export const GET_STATUSOFRESIDENCE_ID = "https://api.lotusocean-jp.com/api/status_of_residence/";
 export const SET_STATUSOFRESIDENCE = "https://api.lotusocean-jp.com/api/status_of_residence/insert";
 export const UPDATE_STATUSOFRESIDENCE = "https://api.lotusocean-jp.com/api/status_of_residence/update";
 export const DELETE_STATUSOFRESIDENCE = "https://api.lotusocean-jp.com/api/status_of_residence/delete";
 // status_detail
 export const    GET_STATUSDETAIL_ALL = "https://api.lotusocean-jp.com/api/status_detail/all";
-export const    GET_STATUSDETAIL_ID =  "https://api.lotusocean-jp.com/api/status_detail/:id";
+export const    GET_STATUSDETAIL_ID =  "https://api.lotusocean-jp.com/api/status_detail/";
 export const    SET_STATUSDETAIL =     "https://api.lotusocean-jp.com/api/status_detail/insert";
 export const UPDATE_STATUSDETAIL =     "https://api.lotusocean-jp.com/api/status_detail/update";
 export const DELETE_STATUSDETAIL =     "https://api.lotusocean-jp.com/api/status_detail/delete";
 // violate_list
 export const    GET_VIOLATELIST_ALL = "https://api.lotusocean-jp.com/api/violate_list/all";
-export const    GET_VIOLATELIST_ID =  "https://api.lotusocean-jp.com/api/violate_list/:id";
+export const    GET_VIOLATELIST_ID =  "https://api.lotusocean-jp.com/api/violate_list/";
 export const    SET_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate_list/insert";
 export const UPDATE_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate_list/update";
 export const DELETE_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate_list/delete";
 // violate
 export const GET_VIOLATE_ALL = "https://api.lotusocean-jp.com/api/violate/all";
-export const GET_VIOLATE_ID = "https://api.lotusocean-jp.com/api/violate/:id";
+export const GET_VIOLATE_ID = "https://api.lotusocean-jp.com/api/violate/";
 export const SET_VIOLATE = "https://api.lotusocean-jp.com/api/violate/insert";
 export const UPDATE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/update";
 export const DELETE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/delete";
 // violate_type
 export const    GET_VIOLATETYPE_ALL = "https://api.lotusocean-jp.com/api/violate_type/all";
-export const    GET_VIOLATETYPE_ID =  "https://api.lotusocean-jp.com/api/violate_type/:id";
+export const    GET_VIOLATETYPE_ID =  "https://api.lotusocean-jp.com/api/violate_type/";
 export const    SET_VIOLATETYPE =     "https://api.lotusocean-jp.com/api/violate_type/insert";
 export const UPDATE_VIOLATETYPE =     "https://api.lotusocean-jp.com/api/violate_type/update";
 export const DELETE_VIOLATETYPE =     "https://api.lotusocean-jp.com/api/violate_type/delete";
 // ticket
 export const    GET_TICKET_ALL = "https://api.lotusocean-jp.com/api/ticket/all";
-export const    GET_TICKET_ID =  "https://api.lotusocean-jp.com/api/ticket/:id";
+export const    GET_TICKET_ID =  "https://api.lotusocean-jp.com/api/ticket/";
 export const    SET_TICKET =     "https://api.lotusocean-jp.com/api/ticket/insert";
 export const UPDATE_TICKET =     "https://api.lotusocean-jp.com/api/ticket/update";
 export const DELETE_TICKET =     "https://api.lotusocean-jp.com/api/ticket/delete";
 // ticket_detail
 export const    GET_TICKETDETAIL_ALL = "https://api.lotusocean-jp.com/api/ticket_detail/all";
-export const    GET_TICKETDETAIL_ID =  "https://api.lotusocean-jp.com/api/ticket_detail/:id";
+export const    GET_TICKETDETAIL_ID =  "https://api.lotusocean-jp.com/api/ticket_detail/";
 export const    SET_TICKETDETAIL =     "https://api.lotusocean-jp.com/api/ticket_detail/insert";
 export const UPDATE_TICKETDETAIL =     "https://api.lotusocean-jp.com/api/ticket_detail/update";
 export const DELETE_TICKETDETAIL =     "https://api.lotusocean-jp.com/api/ticket_detail/delete";
 // positions
 export const    GET_POSITIONS_ALL = "https://api.lotusocean-jp.com/api/positions/all";
-export const    GET_POSITIONS_ID =  "https://api.lotusocean-jp.com/api/positions/:id";
+export const    GET_POSITIONS_ID =  "https://api.lotusocean-jp.com/api/positions/";
 export const    SET_POSITIONS =     "https://api.lotusocean-jp.com/api/positions/insert";
 export const UPDATE_POSITIONS =     "https://api.lotusocean-jp.com/api/positions/update";
 export const DELETE_POSITIONS =     "https://api.lotusocean-jp.com/api/positions/delete";
 // employee
 export const    GET_EMPLOYEE_ALL = "https://api.lotusocean-jp.com/api/employee/all";
-export const    GET_EMPLOYEE_ID =  "https://api.lotusocean-jp.com/api/employee/:id";
+export const    GET_EMPLOYEE_ID =  "https://api.lotusocean-jp.com/api/employee/";
 export const    SET_EMPLOYEE =     "https://api.lotusocean-jp.com/api/employee/insert";
 export const UPDATE_EMPLOYEE =     "https://api.lotusocean-jp.com/api/employee/update";
 export const DELETE_EMPLOYEE =     "https://api.lotusocean-jp.com/api/employee/delete";
 // permission
 export const    GET_PERMISSION_ALL = "https://api.lotusocean-jp.com/api/permission/all";
-export const    GET_PERMISSION_ID =  "https://api.lotusocean-jp.com/api/permission/:id";
+export const    GET_PERMISSION_ID =  "https://api.lotusocean-jp.com/api/permission/";
 export const    SET_PERMISSION =     "https://api.lotusocean-jp.com/api/permission/insert";
 export const UPDATE_PERMISSION =     "https://api.lotusocean-jp.com/api/permission/update";
 export const DELETE_PERMISSION =     "https://api.lotusocean-jp.com/api/permission/delete";
 // users
 export const    GET_USERS_ALL = "https://api.lotusocean-jp.com/api/users/all";
-export const    GET_USERS_ID =  "https://api.lotusocean-jp.com/api/users/:id";
+export const    GET_USERS_ID =  "https://api.lotusocean-jp.com/api/users/";
 export const    SET_USERS =     "https://api.lotusocean-jp.com/api/users/insert";
 export const UPDATE_USERS =     "https://api.lotusocean-jp.com/api/users/update";
 export const DELETE_USERS =     "https://api.lotusocean-jp.com/api/users/delete";
 // key_license
 export const    GET_KEYLICENSE_ALL = "https://api.lotusocean-jp.com/api/key_license/all";
-export const    GET_KEYLICENSE_ID =  "https://api.lotusocean-jp.com/api/key_license/:id";
+export const    GET_KEYLICENSE_ID =  "https://api.lotusocean-jp.com/api/key_license/";
 export const    SET_KEYLICENSE =     "https://api.lotusocean-jp.com/api/key_license/insert";
 export const UPDATE_KEYLICENSE =     "https://api.lotusocean-jp.com/api/key_license/update";
 export const DELETE_KEYLICENSE =     "https://api.lotusocean-jp.com/api/key_license/delete";
 // avata
 export const    GET_AVATA_ALL = "https://api.lotusocean-jp.com/api/avata/all";
-export const    GET_AVATA_ID =  "https://api.lotusocean-jp.com/api/avata/:id";
+export const    GET_AVATA_ID =  "https://api.lotusocean-jp.com/api/avata/";
 export const    SET_AVATA =     "https://api.lotusocean-jp.com/api/avata/insert";
 export const UPDATE_AVATA =     "https://api.lotusocean-jp.com/api/avata/update";
 export const DELETE_AVATA =     "https://api.lotusocean-jp.com/api/avata/delete";
