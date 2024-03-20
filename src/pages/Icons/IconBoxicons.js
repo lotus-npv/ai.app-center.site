@@ -4,32 +4,41 @@ import { Row, Col, Card, CardBody, CardTitle, Container } from "reactstrap"
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
-import socketIOClient from "socket.io-client";
 
-// const socket = io('http://localhost:3010');
-const ENDPOINT = "http://localhost:3010";
+import io from 'socket.io-client';
+const ENDPOINT = 'http://45.252.251.108:80';
+ // Thay đổi U
 
 const IconBoxicons = () => {
+  
   //meta title
   document.title = "Boxicons | Skote - React Admin & Dashboard Template";
-  const [response, setResponse] = useState('');
   const [message, setMessage] = useState('');
-  const [socket, setSocket] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState()
 
   useEffect(() => {
-    const newSocket = socketIOClient(ENDPOINT);
+    const newSocket = io(ENDPOINT);
     setSocket(newSocket);
-    newSocket.on('chat message', (msg) => {
-      setResponse(msg);
+    newSocket.on('message', (message) => {
+      setMessages([...messages, message]);
     });
 
-    return () => newSocket.disconnect();
-  }, []);
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [messages]);
+
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
 
   const sendMessage = () => {
-    socket.emit('chat message', message);
+    socket.emit('message', message);
     setMessage('');
   };
+
+  console.log(messages)
 
   return (
     <React.Fragment>
@@ -41,9 +50,13 @@ const IconBoxicons = () => {
               <Card>
                 <CardTitle>
                   <div>
-                    <input value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <div>
+                      {messages.map((msg, index) => (
+                        <div key={index}>{msg}</div>
+                      ))}
+                    </div>
+                    <input type="text" value={message} onChange={handleMessageChange} />
                     <button onClick={sendMessage}>Send</button>
-                    <p>Message from server: {response}</p>
                   </div>
                 </CardTitle>
                 <CardBody>

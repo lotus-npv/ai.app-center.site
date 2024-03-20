@@ -1,14 +1,37 @@
-import React from "react"
+import React, {useState , useEffect} from "react"
 
-import { Row, Col, Card, CardBody, Container } from "reactstrap"
+import { Row, Col, Card, CardBody, Container, CardHeader } from "reactstrap"
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
+import socketIOClient from 'socket.io-client';
+
+const ENDPOINT = 'http://localhost:3010';
+
 
 const IconDripicons = () => {
-  
-   //meta title
-   document.title = "Dripicons | Skote - React Admin & Dashboard Template";
+
+  //meta title
+  document.title = "Dripicons | Skote - React Admin & Dashboard Template";
+
+  const [response, setResponse] = useState('');
+  const [message, setMessage] = useState('');
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = socketIOClient(ENDPOINT);
+    setSocket(newSocket);
+    newSocket.on('chat message', (msg) => {
+      setResponse(msg);
+    });
+
+    return () => newSocket.disconnect();
+  }, []);
+
+  const sendMessage = () => {
+    socket.emit('chat message', message);
+    setMessage('');
+  };
 
   return (
     <React.Fragment>
@@ -19,6 +42,13 @@ const IconDripicons = () => {
           <Row>
             <Col xs="12">
               <Card>
+                <CardHeader>
+                  <div>
+                    <input value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <button onClick={sendMessage}>Send</button>
+                    <p>Message from server: {response}</p>
+                  </div>
+                </CardHeader>
                 <CardBody>
                   <h4 className="card-title">Examples</h4>
                   <p className="card-title-desc mb-2">
