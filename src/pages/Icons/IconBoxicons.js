@@ -18,7 +18,11 @@ const IconBoxicons = () => {
   const [socket, setSocket] = useState()
 
   useEffect(() => {
-    const newSocket = io(ENDPOINT);
+    const newSocket = io('https://api.lotusocean-jp.com', {
+      secure: true,
+      rejectUnauthorized: false, // Chỉ cần đặt rejectUnauthorized là false nếu bạn sử dụng chứng chỉ tự ký
+      path: '/socket.io'
+    });
     setSocket(newSocket);
     newSocket.on('message', (message) => {
       setMessages([...messages, message]);

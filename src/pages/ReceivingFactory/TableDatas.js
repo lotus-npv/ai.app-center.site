@@ -264,10 +264,11 @@ const TableDatas = (props) => {
 
 
 
-  console.log('loading:', loading)
+  // console.log('loading:', loading)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
+  console.log('dataTable:', dataTable);
 
   return (
     <div className="card" >
