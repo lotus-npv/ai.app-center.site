@@ -138,6 +138,31 @@ export const DELETE_AVATA =     "https://api.lotusocean-jp.com/api/avata/delete"
 // upload avata
 export const UPLOAD_AVATA =     "https://api.lotusocean-jp.com/upload";
 
+// nation
+export const    GET_NATION_ALL = "https://address.itomo.vn/v1/country/all";
+export const    GET_NATION_ID =  "https://address.itomo.vn/v1/country/:id";
+export const    SET_NATION =     "https://address.itomo.vn/v1/country/insert";
+export const UPDATE_NATION =     "https://address.itomo.vn/v1/country/update";
+export const DELETE_NATION =     "https://address.itomo.vn/v1/country/delete/:id";
+// province
+export const    GET_PROVINCE_ALL = "https://address.itomo.vn/v1/state/all";
+export const    GET_PROVINCE_ID =  "https://address.itomo.vn/v1/state/:id";
+export const    SET_PROVINCE =     "https://address.itomo.vn/v1/state/insert";
+export const UPDATE_PROVINCE =     "https://address.itomo.vn/v1/state/update";
+export const DELETE_PROVINCE =     "https://address.itomo.vn/v1/state/delete/:id";
+// district
+export const    GET_DISTRICT_ALL = "https://address.itomo.vn/v1/district/all";
+export const    GET_DISTRICT_ID =  "https://address.itomo.vn/v1/district/:id";
+export const    SET_DISTRICT =     "https://address.itomo.vn/v1/district/insert";
+export const UPDATE_DISTRICT =     "https://address.itomo.vn/v1/district/update";
+export const DELETE_DISTRICT =     "https://address.itomo.vn/v1/district/delete/:id";
+// commune
+export const    GET_COMMUNE_ALL = "https://address.itomo.vn/v1/ward/all";
+export const    GET_COMMUNE_ID =  "https://address.itomo.vn/v1/ward/:id";
+export const    SET_COMMUNE =     "https://address.itomo.vn/v1/ward/insert";
+export const UPDATE_COMMUNE =     "https://address.itomo.vn/v1/ward/update";
+export const DELETE_COMMUNE =     "https://address.itomo.vn/v1/ward/delete/:id";
+
 //LOGIN
 export const POST_FAKE_LOGIN = "/post-fake-login";
 export const POST_FAKE_JWT_LOGIN = "/post-jwt-login";

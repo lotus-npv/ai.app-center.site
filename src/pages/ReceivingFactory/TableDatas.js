@@ -150,7 +150,7 @@ const TableDatas = (props) => {
 
   // goi ham render mang data
   const items = rendLabel();
-  console.log('items', items)
+  // console.log('items', items)
   const renderHeader = () => {
     return (
       <div className=''>
@@ -186,48 +186,39 @@ const TableDatas = (props) => {
     }
   };
 
-  // const [dataTable, setDataTable] = useState(factoryData)
 
-  // const getListInternStatus = (key) => {
-  //   console.log('key ', key)
-  //   const idStatus = statusData.find(item => item.name == key).id;
-  //   const arr = statusDetailData.filter(item => item.status_id == idStatus);
-  //   const newList = internDataAllInfo.filter(intern => arr.some(item => item.intern_id === intern.id));
-  //   setDataTable(newList);
-  // }
+  const [dataTable, setDataTable] = useState(factoryData)
 
-  // useEffect(() => {
-  //   if (customActiveTab.value === 'All') {
-  //     setDataTable(factoryData);
-  //   } else {
-  //     getListInternStatus(customActiveTab.value);
-  //   }
-  // }, [customActiveTab, factoryData])
+  const getListInternStatus = (key) => {
+    // console.log('key ', key)
+    // const idStatus = statusData.find(item => item.name == key).id;
+    const arr = addressData.filter(item => item.province_id == key);
+    console.log('arr:', arr)
+    const newList = factoryData.filter(factory => arr.some(item => item.object_id === factory.id));
+    setDataTable(newList);
+  }
 
+  useEffect(() => {
+    if (customActiveTab.value === 'All') {
+      setDataTable(factoryData);
+    } else {
+      getListInternStatus(customActiveTab.value);
+    }
+  }, [customActiveTab, factoryData])
+
+  // console.log('customActiveTab:', customActiveTab)
 
   // render col name
   const nameBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.avata_name}`} size="large" shape="circle">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`} size="large" shape="circle">
         </Avatar>
         <span>{rowData.name_jp}</span>
       </div>
     );
   };
 
-  // render status body
-  // const statusBody = (rowData) => {
-  //   const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
-  //   // console.log('intern id',rowData.id,'have status id:', arr[0].description)
-  //   return (
-  //     <div className='d-flex gap-1'>
-  //       {arr.map(s => (
-  //         <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.description}</Badge>
-  //       ))}
-  //     </div>
-  //   )
-  // }
 
   const actionBody = (rowData) => {
     return (
@@ -241,7 +232,7 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  // console.log(addressData)
+  // console.log(factoryData)
 
   return (
     <div className="card" >
@@ -249,7 +240,7 @@ const TableDatas = (props) => {
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="phone" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="phone_number" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="date_of_joining_syndication" header="Ngày gia nhập" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="description" header="Ghi chú" style={{ minWidth: '12rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
