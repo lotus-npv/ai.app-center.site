@@ -164,6 +164,13 @@ export const addNewDataProvince = data =>         post(url.SET_PROVINCE, data, c
 export const updateDataProvince = data =>       put(url.UPDATE_PROVINCE, data, config);
 export const deleteDataProvince = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
 
+// nation
+export const        getNationDataAll = () =>     get(url.GET_NATION_ALL);
+export const        getNationDataId = (id) => get(`${url.GET_NATION_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataNation = data =>         post(url.SET_NATION, data, config);
+export const updateDataNation = data =>       put(url.UPDATE_NATION, data, config);
+export const deleteDataNation = (id) =>    del(`${url.DELETE_NATION}/${id}`, { params: { id } }, config);
+
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
   const user = localStorage.getItem("user");

@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll } from "store/actions";
+import { getDispatchingCompanyAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -52,8 +52,8 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { factoryData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
-    factoryData: state.ReceivingFactory.datas,
+  const { companyData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
+    companyData: state.DispatchingCompany.datas,
     addressData: state.Address.datas,
     provinceById: state.Province.dataId,
     provinceData: state.Province.datas,
@@ -62,7 +62,7 @@ const TableDatas = (props) => {
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getReceivingFactoryAll());
+    dispatch(getDispatchingCompanyAll());
     dispatch(getAddressAll());
     dispatch(getProvinceAll());
   }, [dispatch]);
@@ -70,7 +70,7 @@ const TableDatas = (props) => {
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getReceivingFactoryAll());
+      dispatch(getDispatchingCompanyAll());
     }, 10000);
     return () => {
       clearInterval(intervalId);
@@ -217,24 +217,24 @@ const TableDatas = (props) => {
   };
 
 
-  const [dataTable, setDataTable] = useState(factoryData)
+  const [dataTable, setDataTable] = useState(companyData)
 
   const getListInternStatus = (key) => {
     console.log('key ', key)
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.province_id == key);
     console.log('arr:', arr)
-    const newList = factoryData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory'));
+    const newList = companyData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory'));
     setDataTable(newList);
   }
 
   useEffect(() => {
     if (customActiveTab.value === 'All') {
-      setDataTable(factoryData);
+      setDataTable(companyData);
     } else {
       getListInternStatus(customActiveTab.id);
     }
-  }, [customActiveTab, factoryData])
+  }, [customActiveTab, companyData])
 
   // console.log('customActiveTab:', customActiveTab)
 

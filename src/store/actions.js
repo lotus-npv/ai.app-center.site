@@ -38,5 +38,7 @@ export * from "./upload_image/actions"
 export * from "./avata/actions"
 // alien_registration_card file
 export * from "./alien_registration_card/actions"
-// alien_registration_card file
+// province 
 export * from "./province/actions"
+// nation
+export * from "./nation/actions"

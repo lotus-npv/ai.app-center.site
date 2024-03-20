@@ -41,6 +41,7 @@ import Avata from "./avata/reducer";
 // AlienRegistrationCard
 import AlienRegistrationCard from "./alien_registration_card/reducer";
 import Province from "./province/reducer";
+import Nation from "./nation/reducer";
 
 
 const rootReducer = combineReducers({
@@ -64,7 +65,8 @@ const rootReducer = combineReducers({
   reducer,
   Avata,
   AlienRegistrationCard,
-  Province
+  Province,
+  Nation
 });
 
 export default rootReducer;
