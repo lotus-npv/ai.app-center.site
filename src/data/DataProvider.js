@@ -123,9 +123,9 @@ const DataProvider = ({ children }) => {
                 careerData,
                 updateCareerData,
                 vh,
-                modal_fullscreen,
-                setmodal_fullscreen,
-                tog_fullscreen,
+                modal_standard, setmodal_standard,tog_standard,
+                modal_xlarge, setmodal_xlarge,tog_xlarge,
+                modal_fullscreen,setmodal_fullscreen,tog_fullscreen,
                 isEditIntern,
                 setIsEditIntern
             }}
