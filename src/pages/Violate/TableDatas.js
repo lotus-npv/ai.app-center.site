@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getReceivingFactoryAll, getAddressAll, getProvinceId, getProvinceAll, getViolateAll, getViolateListAll } from "store/actions";
+import { getReceivingFactoryAll, getAddressAll, getProvinceId, getProvinceAll, getViolateAll, getViolateListAll, getUsersLogin } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -52,13 +52,14 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { violateListData,violateData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
+  const { violateListData,violateData, addressData, provinceById, provinceData, loading , user} = useSelector(state => ({
     violateListData: state.ViolateList.datas,
     violateData: state.Violate.datas,
     addressData: state.Address.datas,
     provinceById: state.Province.dataId,
     provinceData: state.Province.datas,
     loading: state.Province.loading,
+    user: state.Users.datas
   }), shallowEqual);
 
   // Get du lieu lan dau 
@@ -66,6 +67,7 @@ const TableDatas = (props) => {
     dispatch(getViolateListAll());
     dispatch(getViolateAll());
     dispatch(getProvinceAll());
+    dispatch(getUsersLogin('admin', '123456'));
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -77,6 +79,8 @@ const TableDatas = (props) => {
       clearInterval(intervalId);
     };
   }, []);
+
+  console.log('user', user)
 
   // //delete modal
   const [item, setItem] = useState(null);
@@ -276,8 +280,8 @@ const TableDatas = (props) => {
   // console.log('loading:', loading)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
-  console.log('violatelist:', violateListData);
-  console.log('violate:', violateData);
+  // console.log('violatelist:', violateListData);
+  // console.log('violate:', violateData);
   // console.log('dataTable:', dataTable);
 
   return (

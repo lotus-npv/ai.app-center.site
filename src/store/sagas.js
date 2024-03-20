@@ -25,6 +25,7 @@ import NationSaga from "./nation/saga";
 import ViolateSaga from "./violate/saga";
 import ViolateListSaga from "./violate_list/saga";
 import ViolateTypeSaga from "./violate_type/saga";
+import UsersSaga from "./users/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -53,5 +54,6 @@ export default function* rootSaga() {
     fork(ViolateSaga),
     fork(ViolateListSaga),
     fork(ViolateTypeSaga),
+    fork(UsersSaga),
   ]);
 }

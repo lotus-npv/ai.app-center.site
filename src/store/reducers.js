@@ -45,6 +45,7 @@ import Nation from "./nation/reducer";
 import Violate from "./violate/reducer";
 import ViolateList from "./violate_list/reducer";
 import ViolateType from "./violate_type/reducer";
+import Users from "./users/reducer";
 
 
 const rootReducer = combineReducers({
@@ -72,7 +73,8 @@ const rootReducer = combineReducers({
   Nation,
   Violate,
   ViolateList,
-  ViolateType
+  ViolateType,
+  Users
 });
 
 export default rootReducer;

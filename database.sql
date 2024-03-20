@@ -362,7 +362,7 @@ create table if not exists users (
     id int primary key auto_increment,
     key_license_id INT,
     role ENUM('admin','managers','user'),
-    user_type ENUM('syndication','receiving_factory','dispatching_company','intern'),
+    is_employee BOOLEAN, -- neu la employee thi truy van vao bang employee, khong thi truy van vao bang intern
     object_id INT,  -- dua vao user_type de xac dinh id cua doi tuong 
     username VARCHAR(50),
     password_hash VARCHAR(100),

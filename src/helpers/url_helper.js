@@ -118,11 +118,12 @@ export const    SET_PERMISSION =     "https://api.lotusocean-jp.com/api/permissi
 export const UPDATE_PERMISSION =     "https://api.lotusocean-jp.com/api/permission/update";
 export const DELETE_PERMISSION =     "https://api.lotusocean-jp.com/api/permission/delete";
 // users
-export const    GET_USERS_ALL = "https://api.lotusocean-jp.com/api/users/all";
-export const    GET_USERS_ID =  "https://api.lotusocean-jp.com/api/users/";
-export const    SET_USERS =     "https://api.lotusocean-jp.com/api/users/insert";
-export const UPDATE_USERS =     "https://api.lotusocean-jp.com/api/users/update";
-export const DELETE_USERS =     "https://api.lotusocean-jp.com/api/users/delete";
+export const    GET_USERS_ALL =  "https://api.lotusocean-jp.com/api/users/all";
+export const    GET_USERS_ID =   "https://api.lotusocean-jp.com/api/users/id";
+export const    GET_USERS_LOGIN ="https://api.lotusocean-jp.com/api/users/login";
+export const    SET_USERS =      "https://api.lotusocean-jp.com/api/users/insert";
+export const UPDATE_USERS =      "https://api.lotusocean-jp.com/api/users/update";
+export const DELETE_USERS =      "https://api.lotusocean-jp.com/api/users/delete";
 // key_license
 export const    GET_KEYLICENSE_ALL = "https://api.lotusocean-jp.com/api/key_license/all";
 export const    GET_KEYLICENSE_ID =  "https://api.lotusocean-jp.com/api/key_license/";
