@@ -27,7 +27,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId } from "store/actions";
+import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -46,17 +46,18 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { factoryData, addressData, provinceById } = useSelector(state => ({
+  const { factoryData, addressData, provinceById, provinceData } = useSelector(state => ({
     factoryData: state.ReceivingFactory.datas,
     addressData: state.Address.datas,
-    provinceById: state.Province.dataId
+    provinceById: state.Province.dataId,
+    provinceData: state.Province.datas
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getReceivingFactoryAll());
     dispatch(getAddressAll());
-    dispatch(getProvinceId(12));
+    dispatch(getProvinceAll());
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -128,7 +129,6 @@ const TableDatas = (props) => {
     const array = addressData.filter(address => address.user_type === 'receiving_factory');
 
     // tạo danh sách địa
-    
     const number_of_factory = array.filter(address => address.is_default == 1).length;
     console.log('number_of_factory', number_of_factory)
 
@@ -142,8 +142,9 @@ const TableDatas = (props) => {
     });
  
     // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
+
     let uniqueArray = Array.from(map.values()).map(item => {
-      return {name: item.obj.province_id, data: item.data}
+      return {name: provinceData.find(province => province.StateID == item.obj.province_id).StateName_ja, data: item.data}
     });
 
     // console.log('uniqueArray', uniqueArray)
@@ -238,7 +239,9 @@ const TableDatas = (props) => {
 
 
   // console.log(factoryData)
-  console.log('provinceById:', provinceById)
+  // console.log('provinceById:', provinceById)
+  console.log('provinceData:', provinceData)
+  // console.log(provinceById[0].StateName_ja);
 
   return (
     <div className="card" >
