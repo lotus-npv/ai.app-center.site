@@ -3,14 +3,11 @@ import { Card, CardBody, Container, Button, CardHeader, Row, Col, UncontrolledTo
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import PropTypes from 'prop-types';
 
-import DataContext from "../../data/DataContext";
 import TableDatas from "./TableDatas";
 
 
 const ReceivingFactoryPage = (props) => {
     document.title = "Receiving Factory Page";
-    const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen } = useContext(DataContext)
-
     return (
         <>
             <div className="page-content">

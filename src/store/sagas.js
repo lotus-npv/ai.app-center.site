@@ -22,10 +22,15 @@ import AvataSaga from "./avata/saga";
 import AlienRegistrationCardSaga from "./alien_registration_card/saga";
 import ProvinceSaga from "./province/saga";
 import NationSaga from "./nation/saga";
+import ViolateSaga from "./violate/saga";
+import ViolateListSaga from "./violate_list/saga";
+import ViolateTypeSaga from "./violate_type/saga";
 
 export default function* rootSaga() {
   yield all([
     //public
+    UploadFileSaga(),
+    watchUploadImage(),
     fork(AccountSaga),
     fork(AuthSaga),
     fork(ForgetSaga),
@@ -45,7 +50,8 @@ export default function* rootSaga() {
     fork(AlienRegistrationCardSaga),
     fork(ProvinceSaga),
     fork(NationSaga),
-    UploadFileSaga(),
-    watchUploadImage(),
+    fork(ViolateSaga),
+    fork(ViolateListSaga),
+    fork(ViolateTypeSaga),
   ]);
 }

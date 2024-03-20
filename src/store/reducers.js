@@ -42,6 +42,9 @@ import Avata from "./avata/reducer";
 import AlienRegistrationCard from "./alien_registration_card/reducer";
 import Province from "./province/reducer";
 import Nation from "./nation/reducer";
+import Violate from "./violate/reducer";
+import ViolateList from "./violate_list/reducer";
+import ViolateType from "./violate_type/reducer";
 
 
 const rootReducer = combineReducers({
@@ -66,7 +69,10 @@ const rootReducer = combineReducers({
   Avata,
   AlienRegistrationCard,
   Province,
-  Nation
+  Nation,
+  Violate,
+  ViolateList,
+  ViolateType
 });
 
 export default rootReducer;
