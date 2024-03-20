@@ -1,13 +1,35 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Row, Col, Card, CardBody, CardTitle, Container } from "reactstrap"
 
 //Import Breadcrumb
 import Breadcrumbs from "../../components/Common/Breadcrumb"
+import socketIOClient from "socket.io-client";
+
+// const socket = io('http://localhost:3010');
+const ENDPOINT = "http://localhost:3010";
 
 const IconBoxicons = () => {
   //meta title
   document.title = "Boxicons | Skote - React Admin & Dashboard Template";
+  const [response, setResponse] = useState('');
+  const [message, setMessage] = useState('');
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = socketIOClient(ENDPOINT);
+    setSocket(newSocket);
+    newSocket.on('chat message', (msg) => {
+      setResponse(msg);
+    });
+
+    return () => newSocket.disconnect();
+  }, []);
+
+  const sendMessage = () => {
+    socket.emit('chat message', message);
+    setMessage('');
+  };
 
   return (
     <React.Fragment>
@@ -17,6 +39,13 @@ const IconBoxicons = () => {
           <Row>
             <Col className="col-12">
               <Card>
+                <CardTitle>
+                  <div>
+                    <input value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <button onClick={sendMessage}>Send</button>
+                    <p>Message from server: {response}</p>
+                  </div>
+                </CardTitle>
                 <CardBody>
                   <CardTitle className="h4">Examples</CardTitle>
                   <p className="card-subtitle mb-4">Use class <code>&lt;i className="bx bx-**"&quot;&gt;&lt;/i&gt;</code></p>
