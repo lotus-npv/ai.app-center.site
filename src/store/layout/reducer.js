@@ -34,7 +34,7 @@ const INIT_STATE = {
   topbarTheme: topBarThemeTypes.LIGHT,
   isPreloader: false,
   showRightSidebar: true,
-  isMobile: false,
+  isMobile: true,
   showSidebar: true,
   leftMenu: true,
 }

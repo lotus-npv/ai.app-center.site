@@ -47,16 +47,13 @@ create table if not exists intern
     update_by INT,
     delete_at DATETIME,
     flag BOOLEAN
-    -- foreign key (key_license_id) references key_license(id),
-    -- foreign key (dispatching_company_id) references dispatching_company(id),
-    -- foreign key (receiving_factory_id) references receiving_factory(id),
-    -- foreign key (career_id) references career(id)
 );
 
 create table if not exists syndication  (
     id int primary key auto_increment,
     key_license_id INT,
     name VARCHAR(50),
+    type VARCHAR(20) DEFAULT 'syndication',
     phone VARCHAR(20),
     email VARCHAR(50),
     description VARCHAR(200),
@@ -75,6 +72,7 @@ create table if not exists receiving_factory (
     logo VARCHAR(100),
     name_jp VARCHAR(50),
     name_en VARCHAR(50),
+    type VARCHAR(20) DEFAULT 'receiving_factory',
     tax_code VARCHAR(50),
     date_of_joining_syndication DATE,
     address_id INT,
@@ -95,6 +93,7 @@ create table if not exists dispatching_company (
     logo VARCHAR(100),
     name_jp VARCHAR(50),
     name_en VARCHAR(50),
+    type VARCHAR(20) DEFAULT 'dispatching_company',
     tax_code VARCHAR(50),
     date_of_joining_syndication DATETIME,
     address_id INT,
@@ -387,6 +386,24 @@ CREATE TABLE if not exists key_license (
     name VARCHAR(50) UNIQUE,
     key_type VARCHAR(50),
     active BOOLEAN,
+    description VARCHAR(200),
+    create_at DATETIME,
+    create_by INT,
+    update_at DATETIME,
+    update_by INT,
+    delete_at DATETIME,
+    flag BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS avata (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    key_license_id INT,
+    user_type ENUM('syndication','receiving_factory','dispatching_company','intern'),
+    object_id INT,  -- dua vao user_type de xac dinh id cua doi tuong 
+    path VARCHAR(255) NOT NULL,
+    originalname VARCHAR(255) NOT NULL,
+    mimetype VARCHAR(255) NOT NULL,
+    size INT NOT NULL,
     description VARCHAR(200),
     create_at DATETIME,
     create_by INT,
