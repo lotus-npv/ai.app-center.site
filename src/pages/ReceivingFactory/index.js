@@ -9,7 +9,7 @@ import TableDatas from "./TableDatas";
 
 const ReceivingFactoryPage = (props) => {
     document.title = "Receiving Factory Page";
-
+    const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen } = useContext(DataContext)
 
     return (
         <>
@@ -19,7 +19,10 @@ const ReceivingFactoryPage = (props) => {
                     <Card>
                         <CardHeader>
                             <div className="d-flex mb-3 justify-content-end">
-                                <Button color="primary">
+                                <Button color="primary" onClick={() => {
+                                    // setIsEditIntern(false);
+                                    tog_fullscreen();
+                                }}>
                                     Thêm mới
                                 </Button>
                             </div>

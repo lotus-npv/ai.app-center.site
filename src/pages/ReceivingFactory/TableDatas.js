@@ -2,15 +2,17 @@ import React, { useState, useEffect, useContext } from 'react';
 import { FilterMatchMode, FilterService } from 'primereact/api';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-// import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 // import { TabMenu } from 'primereact/tabmenu';
 import { Avatar } from 'primereact/avatar';
+import { InputText } from 'primereact/inputtext';
 
 import {
   Nav,
   NavItem,
   NavLink,
+  Row,
+  Col
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -42,6 +44,9 @@ const TableDatas = (props) => {
 
   // data context
   const { vh, tog_fullscreen, isEditIntern, setIsEditIntern } = useContext(DataContext);
+
+  //table
+
 
   // Khai bao du lieu
   const dispatch = useDispatch();
@@ -89,31 +94,6 @@ const TableDatas = (props) => {
   };
 
   // TABLE 
-  // Global filter 
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
-  const [selectedItems, setSelectedItems] = useState(null);
-  const [filters, setFilters] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    full_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    factory_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    company_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    status: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  });
-
-  // Row selected edit
-  const [rowSelect, setRowSelect] = useState(null)
-
-  const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
-    let _filters = { ...filters };
-
-    _filters['global'].value = value;
-
-    setFilters(_filters);
-    setGlobalFilterValue(value);
-  };
-
   // render label tab
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -135,68 +115,98 @@ const TableDatas = (props) => {
     let map = new Map();
     array.forEach(obj => {
       if (!map.has(obj.province_id)) {
-        map.set(obj.province_id, {data: 1, obj});
+        map.set(obj.province_id, { data: 1, obj });
       } else {
         map.get(obj.province_id).data += 1;
       }
     });
- 
-    // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
 
+    // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
+    // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
-      return {name: provinceData.find(province => province.StateID == item.obj.province_id).StateName_ja, data: item.data}
+      return { name: provinceData ? provinceData.find(province => province.StateID == item.obj.province_id).StateName_ja : 'loading...', data: item.data, provinceId: item.obj.province_id }
     });
 
-    // console.log('uniqueArray', uniqueArray)
-
-    return [{ name: 'All', data: number_of_factory }, ...uniqueArray.map((address) => {
-      return { name: address.name, data: address.data }
+    return [{ name: 'All', data: number_of_factory, provinceById: 0 }, ...uniqueArray.map((address) => {
+      return { name: address.name, data: address.data, provinceId: address.provinceId }
     })].filter(e => e.data >= 1)
   }
+
+  // acctive tab
+  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All", id: 0 });
+  const toggleCustom = (tab, data, provinceId) => {
+    if (customActiveTab.index !== tab) {
+      setcustomActiveTab({ index: tab, value: data, id: provinceId });
+    }
+  };
+
+  // Global filter 
+
+  const [selectedItems, setSelectedItems] = useState(null);
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    nam_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    phone_number: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    date_of_joining_syndication: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  });
+
+  // Row selected edit
+  const [rowSelect, setRowSelect] = useState(null)
+
+  // Global search
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const onGlobalFilterChange = (e) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
+
+    _filters['global'].value = value;
+
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+  };
 
   // goi ham render mang data
   const items = rendLabel();
   // console.log('items', items)
   const renderHeader = () => {
     return (
-      <div className=''>
-        {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
-        <Nav tabs className="nav-tabs-custom">
-          {items.map((item, index) => (
-            <NavItem key={index} style={{ minWidth: '100px'}}>
-              <NavLink
-                style={{ cursor: "pointer" }}
-                className={classnames({
-                  active: customActiveTab.index === (`${index}`),
-                })}
-                onClick={() => {
-                  toggleCustom(`${index}`, item.name);
-                }}
-              >
-                <div className='d-flex gap-2 justify-content-center'>
-                  <span className="d-none d-sm-block">{item.name}</span>
-                  <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
-                </div>
-              </NavLink>
-            </NavItem>
-          ))}
-        </Nav>
-      </div>
+      <Row>
+        <div className='d-flex justify-content-between'>
+          {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
+          <Nav tabs className="nav-tabs-custom">
+            {items.map((item, index) => (
+              <NavItem key={index} style={{ minWidth: '100px' }}>
+                <NavLink
+                  style={{ cursor: "pointer" }}
+                  className={classnames({
+                    active: customActiveTab.index === (`${index}`),
+                  })}
+                  onClick={() => {
+                    toggleCustom(`${index}`, item.name, item.provinceId);
+                  }}
+                >
+                  <div className='d-flex gap-2 justify-content-center'>
+                    <span className="d-none d-sm-block">{item.name}</span>
+                    <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
+                  </div>
+                </NavLink>
+              </NavItem>
+            ))}
+          </Nav>
+          <span className="p-input-icon-left">
+            <i className="pi pi-search" />
+            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
+          </span>
+        </div>
+      </Row>
     );
-  };
-
-  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All" });
-  const toggleCustom = (tab, data) => {
-    if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data });
-    }
   };
 
 
   const [dataTable, setDataTable] = useState(factoryData)
 
   const getListInternStatus = (key) => {
-    // console.log('key ', key)
+    console.log('key ', key)
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.province_id == key);
     console.log('arr:', arr)
@@ -208,7 +218,7 @@ const TableDatas = (props) => {
     if (customActiveTab.value === 'All') {
       setDataTable(factoryData);
     } else {
-      getListInternStatus(customActiveTab.value);
+      getListInternStatus(customActiveTab.id);
     }
   }, [customActiveTab, factoryData])
 
@@ -238,15 +248,17 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
+
+
   // console.log(factoryData)
   // console.log('provinceById:', provinceById)
-  console.log('provinceData:', provinceData)
+  // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
 
   return (
     <div className="card" >
       <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
-        filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
+        filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="phone_number" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
@@ -265,8 +277,8 @@ const TableDatas = (props) => {
         item={rowSelect}
         isEdit={isEditIntern}
         dispatch={dispatch}
-        // setApi={setIntern}
-        // updateApi={updateIntern}
+      // setApi={setIntern}
+      // updateApi={updateIntern}
       />
 
     </div>
