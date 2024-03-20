@@ -100,7 +100,7 @@ const TableDatas = (props) => {
   // }, [internDataAll])
 
   // modal edit or addnew
- 
+
 
   const [modal_xlarge, setmodal_xlarge] = useState(false);
   function tog_xlarge() {
@@ -158,6 +158,7 @@ const TableDatas = (props) => {
     </a>
   );
 
+  // render data tab
   const rendLabel = () => {
     return [{ name: 'All', data: internDataAllInfo.length, template: (item) => itemRenderer(item, 0, internDataAllInfo.length) }, ...statusData.map((status, index) => {
       return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
@@ -165,15 +166,16 @@ const TableDatas = (props) => {
   }
 
   // active tab
-  const [customActiveTab, setcustomActiveTab] = useState({index: "0", value: "All"});
+  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All" });
   const toggleCustom = (tab, data) => {
     if (customActiveTab.index !== tab) {
-      setcustomActiveTab({index: tab, value: data});
+      setcustomActiveTab({ index: tab, value: data });
     }
   };
 
   // goi ham render mang data
   const items = rendLabel();
+
   const renderHeader = () => {
     return (
       <div className=''>
@@ -205,19 +207,19 @@ const TableDatas = (props) => {
     );
   };
 
-  console.log(customActiveTab)
+  // quan ly trang thai du lieu table
   const [dataTable, setDataTable] = useState(internDataAllInfo)
 
-  const getListInternStatus = (key) => {
-    console.log('key ',key)
-    const idStatus = statusData.find(item => item.name == key).id;
-    const arr =  statusDetailData.filter(item => item.status_id == idStatus);
+  // Lay du lieu cua table phu thuoc vao tung tab khac nhau
+  const getListInternStatus = (tab) => {
+    const idStatus = statusData.find(item => item.name == tab).id;
+    const arr = statusDetailData.filter(item => item.status_id == idStatus);
     const newList = internDataAllInfo.filter(intern => arr.some(item => item.intern_id === intern.id));
     setDataTable(newList);
   }
 
   useEffect(() => {
-    if(customActiveTab.value === 'All') {
+    if (customActiveTab.value === 'All') {
       setDataTable(internDataAllInfo);
     } else {
       getListInternStatus(customActiveTab.value);
@@ -272,7 +274,7 @@ const TableDatas = (props) => {
         <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column header="Trạng thái" body={statusBody}  filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
+        <Column header="Trạng thái" body={statusBody} filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
 

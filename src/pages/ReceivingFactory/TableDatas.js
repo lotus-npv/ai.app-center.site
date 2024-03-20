@@ -27,7 +27,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll } from "store/actions";
+import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -38,64 +38,34 @@ FilterService.register('custom_activity', (value, filters) => {
   return from <= value && value <= to;
 });
 
-
-
 const TableDatas = (props) => {
 
   // data context
   const { vh, tog_fullscreen, isEditIntern, setIsEditIntern } = useContext(DataContext);
 
-  // Global filter 
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
-  const [selectedItems, setSelectedItems] = useState(null);
-  const [filters, setFilters] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    full_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    factory_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    company_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    status: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  });
-
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAllInfo, statusData, statusDetailData, } = useSelector(state => ({
-    internDataAllInfo: state.Intern.datas,
-    statusData: state.Status.datas,
-    statusDetailData: state.StatusDetail.datas,
+
+  const { factoryData, addressData } = useSelector(state => ({
+    factoryData: state.ReceivingFactory.datas,
+    addressData: state.Address.datas
   }), shallowEqual);
-
-
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getInternAllInfo());
-    dispatch(getStatusAll());
-    dispatch(getStatusDetailAll());
+    dispatch(getReceivingFactoryAll());
+    dispatch(getAddressAll());
   }, [dispatch]);
-
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getInternAllInfo());
     }, 10000);
-    // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId);
     };
   }, []);
-
-
-  const [modal_xlarge, setmodal_xlarge] = useState(false);
-  function tog_xlarge() {
-    setmodal_xlarge(!modal_xlarge);
-    removeBodyCss();
-  }
-
-  function removeBodyCss() {
-    document.body.classList.add("no_padding");
-  }
 
   // //delete modal
   const [item, setItem] = useState(null);
@@ -114,6 +84,19 @@ const TableDatas = (props) => {
       setDeleteModal(false);
     }
   };
+
+  // TABLE 
+  // Global filter 
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const [selectedItems, setSelectedItems] = useState(null);
+  const [filters, setFilters] = useState({
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    full_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    factory_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    company_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    status: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  });
 
   // Row selected edit
   const [rowSelect, setRowSelect] = useState(null)
@@ -139,16 +122,36 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    return [{ name: 'All', data: internDataAllInfo.length, template: (item) => itemRenderer(item, 0, internDataAllInfo.length) }, ...statusData.map((status, index) => {
-      return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
+    const array = addressData.filter(address => address.type === 'receiving_factory');
+    console.log(array);
+
+    let map = new Map();
+    array.forEach(obj => {
+      if (!map.has(obj.nation_id)) {
+        map.set(obj.nation_id, { count: 1, obj });
+      } else {
+        map.get(obj.nation_id).count += 1;
+      }
+    });
+
+    let uniqueArray = Array.from(map.values()).map(({ count, obj }) => ({ ...obj, count }));
+
+
+    return [{ name: 'All', data: factoryData.length }, ...addressData.map((status, index) => {
+      return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length }
     })].filter(e => e.data >= 1)
   }
+  // const rendLabel = () => {
+  //   return [{ name: 'All', data: factoryData.length, template: (item) => itemRenderer(item, 0, factoryData.length) }, ...statusData.map((status, index) => {
+  //     return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
+  //   })].filter(e => e.data >= 1)
+  // }
 
   // active tab
-  const [customActiveTab, setcustomActiveTab] = useState({index: "0", value: "All"});
+  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All" });
   const toggleCustom = (tab, data) => {
     if (customActiveTab.index !== tab) {
-      setcustomActiveTab({index: tab, value: data});
+      setcustomActiveTab({ index: tab, value: data });
     }
   };
 
@@ -188,15 +191,15 @@ const TableDatas = (props) => {
   const [dataTable, setDataTable] = useState(internDataAllInfo)
 
   const getListInternStatus = (key) => {
-    console.log('key ',key)
+    console.log('key ', key)
     const idStatus = statusData.find(item => item.name == key).id;
-    const arr =  statusDetailData.filter(item => item.status_id == idStatus);
+    const arr = statusDetailData.filter(item => item.status_id == idStatus);
     const newList = internDataAllInfo.filter(intern => arr.some(item => item.intern_id === intern.id));
     setDataTable(newList);
   }
 
   useEffect(() => {
-    if(customActiveTab.value === 'All') {
+    if (customActiveTab.value === 'All') {
       setDataTable(internDataAllInfo);
     } else {
       getListInternStatus(customActiveTab.value);
@@ -240,18 +243,18 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(dataTable)
+  console.log(addressData)
 
   return (
     <div className="card" >
-      <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+      <DataTable value={factoryData} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="full_name_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column header="Trạng thái" body={statusBody}  filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
+        <Column header="Trạng thái" body={statusBody} filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
 
