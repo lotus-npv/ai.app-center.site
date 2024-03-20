@@ -34,10 +34,10 @@ const optionGroup = [
   { label: "Relish", value: "Relish" }
 ];
 
-const ModalDatas = ({ item, isEdit, dispatch, setApi, updateApi }) => {
+const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen } = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, setIsEdit, isEdit } = useContext(DataContext)
 
   const formik = useFormik({
     enableReinitialize: true,

@@ -17,16 +17,6 @@ const ReceivingFactoryPage = (props) => {
 
                 <Container fluid={true}>
                     <Card>
-                        <CardHeader>
-                            <div className="d-flex mb-3 justify-content-end">
-                                <Button color="primary" onClick={() => {
-                                    // setIsEditIntern(false);
-                                    tog_fullscreen();
-                                }}>
-                                    Thêm mới
-                                </Button>
-                            </div>
-                        </CardHeader>
                         <CardBody>
                             <TableDatas />
                         </CardBody>

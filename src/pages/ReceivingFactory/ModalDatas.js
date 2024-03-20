@@ -34,10 +34,10 @@ const optionGroup = [
   { label: "Relish", value: "Relish" }
 ];
 
-const ModalDatas = ({ item, isEdit, dispatch, setApi, updateApi }) => {
+const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen } = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen , isEdit, setIsEdit} = useContext(DataContext)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -178,7 +178,7 @@ const ModalDatas = ({ item, isEdit, dispatch, setApi, updateApi }) => {
               className="modal-title mt-0"
               id="exampleModalFullscreenLabel"
             >
-              {isEdit ? item.full_name_jp : 'null value'}
+              {isEdit ? `Chỉnh sửa ${item.name_jp}` : 'Thêm mới'}
             </h5>
             <button
               onClick={() => {
@@ -192,9 +192,6 @@ const ModalDatas = ({ item, isEdit, dispatch, setApi, updateApi }) => {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
-
-
 
           <div className="modal-body">
             <Form>
@@ -210,7 +207,6 @@ const ModalDatas = ({ item, isEdit, dispatch, setApi, updateApi }) => {
                               width: '90%',
                             }}
                           >
-
                             <CardBody className='d-flex flex-column'>
                               <div style={{ aspectRatio: 1 }}>
                                 <img
@@ -220,7 +216,6 @@ const ModalDatas = ({ item, isEdit, dispatch, setApi, updateApi }) => {
                                   src={selectedFile}
                                 />
                               </div>
-
 
                               <CardTitle tag="h5" className='text-center mt-2'>
                                 Admin

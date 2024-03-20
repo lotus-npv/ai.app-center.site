@@ -18,15 +18,22 @@ import {
   const INIT_STATE = {
     datas: [],
     dataId: [],
-    data: {}
+    data: {},
+    loading: false
   };
   
   const Province = (state = INIT_STATE, action) => {
     switch (action.type) {
+      case GET_PROVINCE_ALL:
+        return {
+          ...state,
+          loading: true,
+        };
       case GET_PROVINCE_ALL_SUCCESS:
         return {
           ...state,
           datas: action.payload,
+          loading: false
         };
   
       case GET_PROVINCE_ALL_FAIL:

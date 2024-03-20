@@ -12,7 +12,8 @@ import {
   NavItem,
   NavLink,
   Row,
-  Col
+  Col,
+  Button as ButtonRS
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -41,9 +42,9 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = (props) => {
-
+  // const [loading, setLoading] = useState(true);
   // data context
-  const { vh, tog_fullscreen, isEditIntern, setIsEditIntern } = useContext(DataContext);
+  const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
 
   //table
 
@@ -51,11 +52,12 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { factoryData, addressData, provinceById, provinceData } = useSelector(state => ({
+  const { factoryData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
     factoryData: state.ReceivingFactory.datas,
     addressData: state.Address.datas,
     provinceById: state.Province.dataId,
-    provinceData: state.Province.datas
+    provinceData: state.Province.datas,
+    loading: state.Province.loading,
   }), shallowEqual);
 
   // Get du lieu lan dau 
@@ -110,7 +112,7 @@ const TableDatas = (props) => {
 
     // tạo danh sách địa
     const number_of_factory = array.filter(address => address.is_default == 1).length;
-    console.log('number_of_factory', number_of_factory)
+    // console.log('number_of_factory', number_of_factory)
 
     let map = new Map();
     array.forEach(obj => {
@@ -124,12 +126,12 @@ const TableDatas = (props) => {
     // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
     // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
-      return { name: provinceData ? provinceData.find(province => province.StateID == item.obj.province_id).StateName_ja : 'loading...', data: item.data, provinceId: item.obj.province_id }
+      return { name: !loading ? provinceData.find(province => province.StateID == item.obj.province_id).StateName_ja : 'loading...', data: item.data, provinceId: item.obj.province_id }
     });
 
     return [{ name: 'All', data: number_of_factory, provinceById: 0 }, ...uniqueArray.map((address) => {
       return { name: address.name, data: address.data, provinceId: address.provinceId }
-    })].filter(e => e.data >= 1)
+    })].filter(e => e.data >= 1);
   }
 
   // acctive tab
@@ -170,35 +172,47 @@ const TableDatas = (props) => {
   // console.log('items', items)
   const renderHeader = () => {
     return (
-      <Row>
-        <div className='d-flex justify-content-between'>
-          {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
-          <Nav tabs className="nav-tabs-custom">
-            {items.map((item, index) => (
-              <NavItem key={index} style={{ minWidth: '100px' }}>
-                <NavLink
-                  style={{ cursor: "pointer" }}
-                  className={classnames({
-                    active: customActiveTab.index === (`${index}`),
-                  })}
-                  onClick={() => {
-                    toggleCustom(`${index}`, item.name, item.provinceId);
-                  }}
-                >
-                  <div className='d-flex gap-2 justify-content-center'>
-                    <span className="d-none d-sm-block">{item.name}</span>
-                    <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
-                  </div>
-                </NavLink>
-              </NavItem>
-            ))}
-          </Nav>
-          <span className="p-input-icon-left">
-            <i className="pi pi-search" />
-            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
-          </span>
-        </div>
-      </Row>
+      <>
+        <Row className='mb-2'>
+          <div className='d-flex justify-content-between'>
+            <span className="p-input-icon-left">
+              <i className="pi pi-search" />
+              <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
+            </span>
+            <ButtonRS color="primary" onClick={() => {
+              setIsEdit(false);
+              tog_fullscreen();
+            }}>
+              Thêm mới
+            </ButtonRS>
+          </div>
+        </Row>
+        <Row>
+          <div className='d-flex justify-content-between'>
+            {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
+            <Nav tabs className="nav-tabs-custom">
+              {items.map((item, index) => (
+                <NavItem key={index} style={{ minWidth: '100px' }}>
+                  <NavLink
+                    style={{ cursor: "pointer" }}
+                    className={classnames({
+                      active: customActiveTab.index === (`${index}`),
+                    })}
+                    onClick={() => {
+                      toggleCustom(`${index}`, item.name, item.provinceId);
+                    }}
+                  >
+                    <div className='d-flex gap-2 justify-content-center'>
+                      <span className="d-none d-sm-block">{item.name}</span>
+                      <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
+                    </div>
+                  </NavLink>
+                </NavItem>
+              ))}
+            </Nav>
+          </div>
+        </Row>
+      </>
     );
   };
 
@@ -239,7 +253,7 @@ const TableDatas = (props) => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEditIntern(true) }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEdit(true) }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -250,7 +264,7 @@ const TableDatas = (props) => {
 
 
 
-  // console.log(factoryData)
+  console.log('loading:', loading)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
@@ -275,7 +289,6 @@ const TableDatas = (props) => {
 
       <ModalDatas
         item={rowSelect}
-        isEdit={isEditIntern}
         dispatch={dispatch}
       // setApi={setIntern}
       // updateApi={updateIntern}

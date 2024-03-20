@@ -21,7 +21,8 @@ import {
   const INIT_STATE = {
     datas: [],
     data: {},
-    isOpen: 'init text'
+    isOpen: 'init text',
+    loading: false
   };
   
   const Intern = (state = INIT_STATE, action) => {
@@ -29,11 +30,13 @@ import {
       case GET_INTERN_ALL:
         return {
           ...state,
+          loading: true
         };
       case GET_INTERN_ALL_SUCCESS:
         return {
           ...state,
           datas: action.payload,
+          loading: false
         };
   
       case GET_INTERN_ALL_FAIL:
@@ -44,11 +47,13 @@ import {
       case GET_INTERN_ALLINFO:
         return {
           ...state,
+          loading: true
         };
       case GET_INTERN_ALLINFO_SUCCESS:
         return {
           ...state,
           datas: action.payload,
+          loading: false
         };
   
       case GET_INTERN_ALLINFO_FAIL:

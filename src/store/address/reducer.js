@@ -16,7 +16,8 @@ import {
   
   const INIT_STATE = {
     datas: [],
-    data: {}
+    data: {},
+    loading: false
   };
   
   const Address = (state = INIT_STATE, action) => {
@@ -24,10 +25,12 @@ import {
       case GET_ADDRESS_ALL:
         return {
           ...state,
+          loading: true
         };
       case GET_ADDRESS_ALL_SUCCESS:
         return {
           ...state,
+          loading: false,
           datas: action.payload,
         };
   

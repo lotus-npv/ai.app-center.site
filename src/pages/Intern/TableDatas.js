@@ -44,7 +44,7 @@ FilterService.register('custom_activity', (value, filters) => {
 const TableDatas = (props) => {
 
   // data context
-  const { vh, tog_fullscreen, isEditIntern, setIsEditIntern } = useContext(DataContext);
+  const { vh, tog_fullscreen, setIsEdit } = useContext(DataContext);
 
   // Global filter 
   const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -109,12 +109,6 @@ const TableDatas = (props) => {
   }
   function removeBodyCss() {
     document.body.classList.add("no_padding");
-  }
-  // add new
-  const addForm = () => {
-    setRowSelect(null);
-    setIsEdit(false);
-    tog_xlarge();
   }
 
   // //delete modal
@@ -250,7 +244,7 @@ const TableDatas = (props) => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEditIntern(true) }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEdit(true) }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -282,7 +276,6 @@ const TableDatas = (props) => {
 
       <ModalDatas
         item={rowSelect}
-        isEdit={isEditIntern}
         dispatch={dispatch}
         setApi={setIntern}
         updateApi={updateIntern}

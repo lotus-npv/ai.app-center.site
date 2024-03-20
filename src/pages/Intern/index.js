@@ -14,7 +14,7 @@ import ModalTop from "./ModalTop";
 const InternPage = (props) => {
     document.title = "Thực tập sinh";
     // data context
-    const {statusData} = useContext(DataContext)
+    const {statusData, modal_fullscreen, setmodal_fullscreen, tog_fullscreen} = useContext(DataContext)
 
     // Modal
     const [isUpdateStatus, setIsUpdateStatus] = useState(false);
