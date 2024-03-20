@@ -27,7 +27,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll } from "store/actions";
+import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -46,15 +46,17 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { factoryData, addressData } = useSelector(state => ({
+  const { factoryData, addressData, provinceById } = useSelector(state => ({
     factoryData: state.ReceivingFactory.datas,
-    addressData: state.Address.datas
+    addressData: state.Address.datas,
+    provinceById: state.Province.dataId
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getReceivingFactoryAll());
     dispatch(getAddressAll());
+    dispatch(getProvinceId(12));
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -122,8 +124,13 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
+    // lọc ra danh sách các địa chỉ của xí nghiệp
     const array = addressData.filter(address => address.user_type === 'receiving_factory');
+
+    // tạo danh sách địa
     
+    const number_of_factory = array.filter(address => address.is_default == 1).length;
+    console.log('number_of_factory', number_of_factory)
 
     let map = new Map();
     array.forEach(obj => {
@@ -133,9 +140,7 @@ const TableDatas = (props) => {
         map.get(obj.province_id).data += 1;
       }
     });
-
-    // console.log('map', Array.from(map.values()))
-
+ 
     // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
     let uniqueArray = Array.from(map.values()).map(item => {
       return {name: item.obj.province_id, data: item.data}
@@ -143,7 +148,7 @@ const TableDatas = (props) => {
 
     // console.log('uniqueArray', uniqueArray)
 
-    return [{ name: 'All', data: array.length }, ...uniqueArray.map((address) => {
+    return [{ name: 'All', data: number_of_factory }, ...uniqueArray.map((address) => {
       return { name: address.name, data: address.data }
     })].filter(e => e.data >= 1)
   }
@@ -194,7 +199,7 @@ const TableDatas = (props) => {
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.province_id == key);
     console.log('arr:', arr)
-    const newList = factoryData.filter(factory => arr.some(item => item.object_id === factory.id));
+    const newList = factoryData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory'));
     setDataTable(newList);
   }
 
@@ -233,10 +238,11 @@ const TableDatas = (props) => {
 
 
   // console.log(factoryData)
+  console.log('provinceById:', provinceById)
 
   return (
     <div className="card" >
-      <DataTable value={factoryData} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+      <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>

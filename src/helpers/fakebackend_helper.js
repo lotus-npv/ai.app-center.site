@@ -157,6 +157,12 @@ export const deleteDataAvata = (id) =>    del(`${url.DELETE_AVATA}/${id}`, { par
 //upload avata
 export const uploadDataAvata = data =>         post(url.UPLOAD_AVATA, data, config_upload_file);
 
+// province
+export const        getProvinceDataAll = () =>     get(url.GET_PROVINCE_ALL);
+export const        getProvinceDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataProvince = data =>         post(url.SET_PROVINCE, data, config);
+export const updateDataProvince = data =>       put(url.UPDATE_PROVINCE, data, config);
+export const deleteDataProvince = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {
