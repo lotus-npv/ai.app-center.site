@@ -137,7 +137,7 @@ const ModalDatas = ({ item, isEdit, dispatch, setApi, updateApi }) => {
       updateAddressData(arr);
   }
 
-  console.log(addressData)
+  // console.log(addressData)
 
 
   return (

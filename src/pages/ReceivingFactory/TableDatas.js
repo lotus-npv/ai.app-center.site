@@ -60,7 +60,7 @@ const TableDatas = (props) => {
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getInternAllInfo());
+      dispatch(getReceivingFactoryAll());
     }, 10000);
     return () => {
       clearInterval(intervalId);
@@ -122,24 +122,26 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    const array = addressData.filter(address => address.type === 'receiving_factory');
-    console.log(array);
+    const array = addressData.filter(address => address.user_type === 'receiving_factory');
+    
 
     let map = new Map();
     array.forEach(obj => {
-      if (!map.has(obj.nation_id)) {
-        map.set(obj.nation_id, { count: 1, obj });
+      if (!map.has(obj.province_id)) {
+        map.set(obj.province_id, { count: 1, obj });
       } else {
-        map.get(obj.nation_id).count += 1;
+        map.get(obj.province_id).count += 1;
       }
     });
 
-    let uniqueArray = Array.from(map.values()).map(({ count, obj }) => ({ ...obj, count }));
+    console.log('map', map)
+
+    return Array.from(map.values()).map(({ count, obj }) => ({ ...obj, count }));
 
 
-    return [{ name: 'All', data: factoryData.length }, ...addressData.map((status, index) => {
-      return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length }
-    })].filter(e => e.data >= 1)
+    // return [{ name: 'All', data: factoryData.length }, ...addressData.map((status, index) => {
+    //   return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length }
+    // })].filter(e => e.data >= 1)
   }
   // const rendLabel = () => {
   //   return [{ name: 'All', data: factoryData.length, template: (item) => itemRenderer(item, 0, factoryData.length) }, ...statusData.map((status, index) => {
@@ -147,16 +149,9 @@ const TableDatas = (props) => {
   //   })].filter(e => e.data >= 1)
   // }
 
-  // active tab
-  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All" });
-  const toggleCustom = (tab, data) => {
-    if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data });
-    }
-  };
-
   // goi ham render mang data
   const items = rendLabel();
+  console.log('items', items)
   const renderHeader = () => {
     return (
       <div className=''>
@@ -188,23 +183,30 @@ const TableDatas = (props) => {
     );
   };
 
-  const [dataTable, setDataTable] = useState(internDataAllInfo)
-
-  const getListInternStatus = (key) => {
-    console.log('key ', key)
-    const idStatus = statusData.find(item => item.name == key).id;
-    const arr = statusDetailData.filter(item => item.status_id == idStatus);
-    const newList = internDataAllInfo.filter(intern => arr.some(item => item.intern_id === intern.id));
-    setDataTable(newList);
-  }
-
-  useEffect(() => {
-    if (customActiveTab.value === 'All') {
-      setDataTable(internDataAllInfo);
-    } else {
-      getListInternStatus(customActiveTab.value);
+  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All" });
+  const toggleCustom = (tab, data) => {
+    if (customActiveTab.index !== tab) {
+      setcustomActiveTab({ index: tab, value: data });
     }
-  }, [customActiveTab, internDataAllInfo])
+  };
+
+  // const [dataTable, setDataTable] = useState(factoryData)
+
+  // const getListInternStatus = (key) => {
+  //   console.log('key ', key)
+  //   const idStatus = statusData.find(item => item.name == key).id;
+  //   const arr = statusDetailData.filter(item => item.status_id == idStatus);
+  //   const newList = internDataAllInfo.filter(intern => arr.some(item => item.intern_id === intern.id));
+  //   setDataTable(newList);
+  // }
+
+  // useEffect(() => {
+  //   if (customActiveTab.value === 'All') {
+  //     setDataTable(factoryData);
+  //   } else {
+  //     getListInternStatus(customActiveTab.value);
+  //   }
+  // }, [customActiveTab, factoryData])
 
 
   // render col name
@@ -213,23 +215,23 @@ const TableDatas = (props) => {
       <div className="flex align-items-center gap-2">
         <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.avata_name}`} size="large" shape="circle">
         </Avatar>
-        <span>{rowData.full_name_jp}</span>
+        <span>{rowData.name_jp}</span>
       </div>
     );
   };
 
   // render status body
-  const statusBody = (rowData) => {
-    const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
-    // console.log('intern id',rowData.id,'have status id:', arr[0].description)
-    return (
-      <div className='d-flex gap-1'>
-        {arr.map(s => (
-          <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.description}</Badge>
-        ))}
-      </div>
-    )
-  }
+  // const statusBody = (rowData) => {
+  //   const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
+  //   // console.log('intern id',rowData.id,'have status id:', arr[0].description)
+  //   return (
+  //     <div className='d-flex gap-1'>
+  //       {arr.map(s => (
+  //         <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.description}</Badge>
+  //       ))}
+  //     </div>
+  //   )
+  // }
 
   const actionBody = (rowData) => {
     return (
@@ -243,18 +245,18 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(addressData)
+  // console.log(addressData)
 
   return (
     <div className="card" >
       <DataTable value={factoryData} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="full_name_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="nam_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column header="Trạng thái" body={statusBody} filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
+        <Column header="Trạng thái"  filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
 
@@ -268,8 +270,8 @@ const TableDatas = (props) => {
         item={rowSelect}
         isEdit={isEditIntern}
         dispatch={dispatch}
-        setApi={setIntern}
-        updateApi={updateIntern}
+        // setApi={setIntern}
+        // updateApi={updateIntern}
       />
 
     </div>
