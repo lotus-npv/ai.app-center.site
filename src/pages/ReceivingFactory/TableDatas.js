@@ -128,26 +128,25 @@ const TableDatas = (props) => {
     let map = new Map();
     array.forEach(obj => {
       if (!map.has(obj.province_id)) {
-        map.set(obj.province_id, { count: 1, obj });
+        map.set(obj.province_id, {data: 1, obj});
       } else {
-        map.get(obj.province_id).count += 1;
+        map.get(obj.province_id).data += 1;
       }
     });
 
-    console.log('map', map)
+    // console.log('map', Array.from(map.values()))
 
-    return Array.from(map.values()).map(({ count, obj }) => ({ ...obj, count }));
+    // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
+    let uniqueArray = Array.from(map.values()).map(item => {
+      return {name: item.obj.province_id, data: item.data}
+    });
 
+    // console.log('uniqueArray', uniqueArray)
 
-    // return [{ name: 'All', data: factoryData.length }, ...addressData.map((status, index) => {
-    //   return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length }
-    // })].filter(e => e.data >= 1)
+    return [{ name: 'All', data: array.length }, ...uniqueArray.map((address) => {
+      return { name: address.name, data: address.data }
+    })].filter(e => e.data >= 1)
   }
-  // const rendLabel = () => {
-  //   return [{ name: 'All', data: factoryData.length, template: (item) => itemRenderer(item, 0, factoryData.length) }, ...statusData.map((status, index) => {
-  //     return { name: status.name, data: statusDetailData.filter(e => e.status_id == status.id).length, template: (item) => itemRenderer(item, index + 1, statusDetailData.filter(e => e.status_id == status.id).length) }
-  //   })].filter(e => e.data >= 1)
-  // }
 
   // goi ham render mang data
   const items = rendLabel();
@@ -158,7 +157,7 @@ const TableDatas = (props) => {
         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
         <Nav tabs className="nav-tabs-custom">
           {items.map((item, index) => (
-            <NavItem key={index}>
+            <NavItem key={index} style={{ minWidth: '100px'}}>
               <NavLink
                 style={{ cursor: "pointer" }}
                 className={classnames({
@@ -168,10 +167,7 @@ const TableDatas = (props) => {
                   toggleCustom(`${index}`, item.name);
                 }}
               >
-                <span className="d-block d-sm-none">
-                  <i className="fas fa-home"></i>
-                </span>
-                <div className='d-flex gap-2'>
+                <div className='d-flex gap-2 justify-content-center'>
                   <span className="d-none d-sm-block">{item.name}</span>
                   <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
                 </div>
@@ -252,11 +248,10 @@ const TableDatas = (props) => {
       <DataTable value={factoryData} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="nam_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column header="Trạng thái"  filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
+        <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="phone" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="date_of_joining_syndication" header="Ngày gia nhập" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="description" header="Ghi chú" style={{ minWidth: '12rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
 

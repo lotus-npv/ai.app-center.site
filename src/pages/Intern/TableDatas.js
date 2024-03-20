@@ -182,7 +182,7 @@ const TableDatas = (props) => {
         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
         <Nav tabs className="nav-tabs-custom">
           {items.map((item, index) => (
-            <NavItem key={index}>
+            <NavItem key={index} style={{ minWidth: '100px'}}>
               <NavLink
                 style={{ cursor: "pointer" }}
                 className={classnames({
@@ -192,10 +192,7 @@ const TableDatas = (props) => {
                   toggleCustom(`${index}`, item.name);
                 }}
               >
-                <span className="d-block d-sm-none">
-                  <i className="fas fa-home"></i>
-                </span>
-                <div className='d-flex gap-2'>
+                <div className='d-flex gap-2 justify-content-center'>
                   <span className="d-none d-sm-block">{item.name}</span>
                   <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
                 </div>
@@ -241,7 +238,6 @@ const TableDatas = (props) => {
   // render status body
   const statusBody = (rowData) => {
     const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
-    // console.log('intern id',rowData.id,'have status id:', arr[0].description)
     return (
       <div className='d-flex gap-1'>
         {arr.map(s => (
