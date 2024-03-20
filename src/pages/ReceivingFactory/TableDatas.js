@@ -126,7 +126,15 @@ const TableDatas = (props) => {
     // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
     // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
-      return { name: !loading ? provinceData.find(province => province.StateID == item.obj.province_id).StateName_ja : 'loading...', data: item.data, provinceId: item.obj.province_id }
+      let name = 'loading ...';
+      if(!loading)  {
+         let nation = provinceData.find(province => province.StateID == item.obj.province_id);
+         if(nation !== undefined) {
+            name = nation.StateName_ja;
+         }
+      }
+
+      return { name: name, data: item.data, provinceId: item.obj.province_id }
     });
 
     return [{ name: 'All', data: number_of_factory, provinceById: 0 }, ...uniqueArray.map((address) => {

@@ -107,7 +107,7 @@ const TableDatas = (props) => {
   const rendLabel = () => {
     // lọc ra danh sách các địa chỉ của xí nghiệp
     const array = addressData.filter(address => address.user_type === 'dispatching_company');
-    console.log('array:', array)
+    // console.log('array:', array)
 
     // tạo danh sách địa
     const number_of_company = array.filter(address => address.is_default == 1).length;
@@ -125,8 +125,17 @@ const TableDatas = (props) => {
     // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
     // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
-      return { name: !loading ? nationData.find(nation => nation.CountryID == item.obj.nation_id).CountryName_ja : 'loading...', data: item.data, nationId: item.obj.nation_id }
+      let name = 'loading ...';
+      if(!loading)  {
+         let nation = nationData.find(nation => nation.CountryID == item.obj.nation_id);
+         if(nation !== undefined) {
+            name = nation.CountryName_ja;
+         }
+      }
+      return { name: name, data: item.data, nationId: item.obj.nation_id }
     });
+
+    // console.log('uniqueArray', uniqueArray)
 
     return [{ name: 'All', data: number_of_company, nationId: 0 }, ...uniqueArray.map((address) => {
       return { name: address.name, data: address.data, nationId: address.nationId }
@@ -169,6 +178,8 @@ const TableDatas = (props) => {
   // goi ham render mang data
   const items = rendLabel();
 
+    // console.log('items', items)
+
   const renderHeader = () => {
     return (
       <>
@@ -198,7 +209,7 @@ const TableDatas = (props) => {
                       active: customActiveTab.index === (`${index}`),
                     })}
                     onClick={() => {
-                      toggleCustom(`${index}`, item.name, item.provinceId);
+                      toggleCustom(`${index}`, item.name, item.nationId);
                     }}
                   >
                     <div className='d-flex gap-2 justify-content-center'>
@@ -235,7 +246,7 @@ const TableDatas = (props) => {
     }
   }, [customActiveTab, companyData])
 
-  // console.log('customActiveTab:', customActiveTab)
+  console.log('customActiveTab:', customActiveTab)
 
   // render col name
   const nameBodyTemplate = (rowData) => {
