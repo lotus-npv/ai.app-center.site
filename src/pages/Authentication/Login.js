@@ -23,7 +23,7 @@ import logo from "assets/images/logo.svg";
 const Login = props => {
 
   //meta title
-  document.title = "Login | Skote - React Admin & Dashboard Template";
+  document.title = "Login ";
 
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const Login = props => {
 
     initialValues: {
       email: "admin@themesbrand.com" || '',
-      password: "123456" || '',
+      password: "1234567" || '',
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),

@@ -52,8 +52,9 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { violateListData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
+  const { violateListData,violateData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
     violateListData: state.ViolateList.datas,
+    violateData: state.Violate.datas,
     addressData: state.Address.datas,
     provinceById: state.Province.dataId,
     provinceData: state.Province.datas,
@@ -63,7 +64,7 @@ const TableDatas = (props) => {
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getViolateListAll());
-    dispatch(getAddressAll());
+    dispatch(getViolateAll());
     dispatch(getProvinceAll());
   }, [dispatch]);
 
@@ -276,6 +277,7 @@ const TableDatas = (props) => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   console.log('violatelist:', violateListData);
+  console.log('violate:', violateData);
   // console.log('dataTable:', dataTable);
 
   return (
@@ -283,11 +285,11 @@ const TableDatas = (props) => {
       <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="phone_number" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="date_of_joining_syndication" header="Ngày gia nhập" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="description" header="Ghi chú" style={{ minWidth: '12rem' }} ></Column>
-        <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
+        <Column field="violate_date" header="Ngày vi phạm" filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="violate_name" header="Loại vi phạm" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="number_of_intern_violate" header="Số người vi phạm" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="description" header="Diễn giải" style={{ minWidth: '12rem' }} ></Column>
+        <Column field="action" header="Thao tác" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
 
       <DeleteModal

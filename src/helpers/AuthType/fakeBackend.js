@@ -55,6 +55,13 @@ let users = [
     password: "123456",
     email: "admin@themesbrand.com",
   },
+  {
+    uid: 2,
+    username: "nampp",
+    role: "admin",
+    password: "123456",
+    email: "nampp@themesbrand.com",
+  },
 ]
 
 const fakeBackend = () => {
