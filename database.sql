@@ -21,6 +21,7 @@ create table if not exists intern
 (
     id int primary key auto_increment,
     key_license_id int,
+    type VARCHAR(20) DEFAULT 'intern',
     avata VARCHAR(100),
     avata_update_at DATETIME,
     first_name_jp VARCHAR(20),
@@ -52,8 +53,8 @@ create table if not exists intern
 create table if not exists syndication  (
     id int primary key auto_increment,
     key_license_id INT,
-    name VARCHAR(50),
     type VARCHAR(20) DEFAULT 'syndication',
+    name VARCHAR(50),
     phone VARCHAR(20),
     email VARCHAR(50),
     description VARCHAR(200),
@@ -69,10 +70,11 @@ create table if not exists syndication  (
 create table if not exists receiving_factory (
     id int primary key auto_increment,
     key_license_id INT,
+    type VARCHAR(20) DEFAULT 'receiving_factory',
+    syndication_id INT,
     logo VARCHAR(100),
     name_jp VARCHAR(50),
     name_en VARCHAR(50),
-    type VARCHAR(20) DEFAULT 'receiving_factory',
     tax_code VARCHAR(50),
     date_of_joining_syndication DATE,
     address_id INT,
@@ -90,10 +92,11 @@ create table if not exists receiving_factory (
 create table if not exists dispatching_company (
     id int primary key auto_increment,
     key_license_id INT,
+    type VARCHAR(20) DEFAULT 'dispatching_company',
+    syndication_id INT,
     logo VARCHAR(100),
     name_jp VARCHAR(50),
     name_en VARCHAR(50),
-    type VARCHAR(20) DEFAULT 'dispatching_company',
     tax_code VARCHAR(50),
     date_of_joining_syndication DATETIME,
     address_id INT,
