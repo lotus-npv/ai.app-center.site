@@ -11,6 +11,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Spinner
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -60,10 +61,11 @@ const TableDatas = (props) => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAllInfo, statusData, statusDetailData, } = useSelector(state => ({
+  const { internDataAllInfo, statusData, statusDetailData, loading } = useSelector(state => ({
     internDataAllInfo: state.Intern.datas,
     statusData: state.Status.datas,
     statusDetailData: state.StatusDetail.datas,
+    loading: state.Intern.loading,
   }), shallowEqual);
 
 
@@ -176,7 +178,7 @@ const TableDatas = (props) => {
         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
         <Nav tabs className="nav-tabs-custom">
           {items.map((item, index) => (
-            <NavItem key={index} style={{ minWidth: '100px'}}>
+            <NavItem key={index} style={{ minWidth: '100px' }}>
               <NavLink
                 style={{ cursor: "pointer" }}
                 className={classnames({
@@ -224,7 +226,7 @@ const TableDatas = (props) => {
       <div className="flex align-items-center gap-2">
         <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.avata_name}`} size="large" shape="circle">
         </Avatar>
-        <span>{rowData.full_name_jp}</span>
+        <span>{!loading ? rowData.full_name_jp : '....'}</span>
       </div>
     );
   };

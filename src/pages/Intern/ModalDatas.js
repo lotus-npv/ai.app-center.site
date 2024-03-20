@@ -156,7 +156,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
               className="modal-title mt-0"
               id="exampleModalFullscreenLabel"
             >
-              {isEdit ? item.full_name_jp : 'null value'}
+              {isEdit ? 'Sửa thông tin' : 'Thêm thực tập sinh'}
             </h5>
             <button
               onClick={() => {

@@ -178,7 +178,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
               className="modal-title mt-0"
               id="exampleModalFullscreenLabel"
             >
-              {isEdit ? `Chỉnh sửa ${item.name_jp}` : 'Thêm mới'}
+              {isEdit ? `Chỉnh sửa xí nghiệp` : 'Thêm xí nghiệp'}
             </h5>
             <button
               onClick={() => {
