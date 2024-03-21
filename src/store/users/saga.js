@@ -32,14 +32,27 @@ function* fetUsersData() {
   }
 }
 
-function* fetUsersDataLogin({payload: {username, password}}) {
+function* fetUsersDataLogin({ payload: { user, history } }) {
   try {
-    const response = yield call(getUsersDataLogin, {username: username, password: password});
+    const response = yield call(getUsersDataLogin, user.email,user.password);
     yield put(getUsersLoginSuccess(response));
+    if(response.length == 1) {
+      localStorage.setItem("authUser", JSON.stringify(response));
+    }
+    history('/dashboard');
   } catch (error) {
     yield put(getUsersLoginFail(error))
   }
 }
+// function* fetUsersDataLogin(action) {
+//   try {
+//     const {username, password} = action.payload;
+//     const response = yield call(getUsersDataLogin, username, password);
+//     yield put(getUsersLoginSuccess(response));
+//   } catch (error) {
+//     yield put(getUsersLoginFail(error))
+//   }
+// }
 
 function* fetUsersDataId({payload: id}) {
   try {

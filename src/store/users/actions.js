@@ -23,7 +23,7 @@ export const getUsersAll = () => ({
   type: GET_USERS_ALL,
 });
 
-export const getUsersAllSuccess = data => ({
+export const getUsersAllSuccess = (data) => ({
   type: GET_USERS_ALL_SUCCESS,
   payload: data,
 });
@@ -33,13 +33,18 @@ export const getUsersAllFail = error => ({
   payload: error,
 });
 
-export const getUsersLogin = () => ({
+// export const getUsersLogin = (username, password) => ({
+//   type: GET_USERS_LOGIN,
+//   payload: { username, password }
+// });
+export const getUsersLogin = (user, history) => ({
   type: GET_USERS_LOGIN,
+  payload: { user, history }
 });
 
-export const getUsersLoginSuccess = data => ({
+export const getUsersLoginSuccess = user => ({
   type: GET_USERS_LOGIN_SUCCESS,
-  payload: data,
+  payload: user,
 });
 
 export const getUsersLoginFail = error => ({

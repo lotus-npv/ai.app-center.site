@@ -59,7 +59,7 @@ const TableDatas = (props) => {
     provinceById: state.Province.dataId,
     provinceData: state.Province.datas,
     loading: state.Province.loading,
-    user: state.Users.datas
+    user: state.Users.user
   }), shallowEqual);
 
   // Get du lieu lan dau 
@@ -67,7 +67,6 @@ const TableDatas = (props) => {
     dispatch(getViolateListAll());
     dispatch(getViolateAll());
     dispatch(getProvinceAll());
-    dispatch(getUsersLogin('admin', '123456'));
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -282,7 +281,7 @@ const TableDatas = (props) => {
   // console.log('provinceData:', provinceData)
   // console.log('violatelist:', violateListData);
   // console.log('violate:', violateData);
-  // console.log('dataTable:', dataTable);
+  console.log('user:', user);
 
   return (
     <div className="card" >

@@ -22,7 +22,8 @@ import {
     datas: [],
     dataId: [],
     data: {},
-    loading: false
+    loading: false,
+    user: null
   };
   
   const Users = (state = INIT_STATE, action) => {
@@ -48,13 +49,12 @@ import {
       case GET_USERS_LOGIN:
         return {
           ...state,
-          datas: action.payload,
           loading: true
         };
       case GET_USERS_LOGIN_SUCCESS:
         return {
           ...state,
-          datas: action.payload,
+          user: action.payload,
           loading: false
         };
   
@@ -62,6 +62,7 @@ import {
         return {
           ...state,
           error: action.payload,
+          user: null
         };
       case GET_USERS_ID_SUCCESS:
         return {

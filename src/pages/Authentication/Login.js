@@ -14,7 +14,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 // actions
-import { loginUser, socialLogin } from "../../store/actions";
+import { loginUser, socialLogin, getUsersLogin } from "../../store/actions";
 
 // import images
 import profile from "assets/images/profile-img.png";
@@ -40,12 +40,12 @@ const Login = props => {
       password: Yup.string().required("Please Enter Your Password"),
     }),
     onSubmit: (values) => {
-      dispatch(loginUser(values, props.router.navigate));
+      dispatch(getUsersLogin(values, props.router.navigate));
     }
   });
 
 
-  const selectLoginState = (state) => state.Login;
+  const selectLoginState = (state) => state.Users;
     const LoginProperties = createSelector(
       selectLoginState,
         (login) => ({
