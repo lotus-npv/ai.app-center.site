@@ -12,7 +12,6 @@ import {
   NavItem,
   NavLink,
   Row,
-  Col,
   Button as ButtonRS
 } from "reactstrap";
 import classnames from "classnames";
@@ -30,7 +29,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getDispatchingCompanyAll, getAddressAll, getNationAll, getEmployeeAll } from "store/actions";
+import { getDispatchingCompanyAll, getEmployeeAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -54,7 +53,7 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { employeeData, loading, nationData } = useSelector(state => ({
+  const { employeeData, loading } = useSelector(state => ({
     employeeData: state.Employee.datas,
     loading: state.Employee.loading
   }), shallowEqual);
@@ -125,9 +124,11 @@ const TableDatas = (props) => {
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    nam_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    full_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
     phone_number: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    date_of_joining_syndication: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    email: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    positions_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    office_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
 
   // Row selected edit
@@ -147,7 +148,6 @@ const TableDatas = (props) => {
 
   // goi ham render mang data
   const items = rendLabel();
-
   // console.log('items', items)
 
   const renderHeader = () => {
@@ -201,10 +201,8 @@ const TableDatas = (props) => {
 
   const getListInternStatus = (key) => {
     // console.log('key ', key)
-    // const idStatus = statusData.find(item => item.name == key).id;
     const arr = employeeData.filter(item => item.user_type == key);
     // console.log('arr:', arr)
-    const newList = employeeData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company'));
     setDataTable(arr);
   }
 
@@ -215,7 +213,6 @@ const TableDatas = (props) => {
       getListInternStatus(customActiveTab.value);
     }
   }, [customActiveTab, employeeData])
-
   // console.log('customActiveTab:', customActiveTab)
 
   // render col name
@@ -241,9 +238,6 @@ const TableDatas = (props) => {
 
   const header = renderHeader();
 
-
-
-
   // console.log('loading:', loading)
   console.log('dataTable:', dataTable)
   // console.log('provinceById:', provinceById)
@@ -254,16 +248,16 @@ const TableDatas = (props) => {
   return (
     <div className="card" >
       <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
-        filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}
+        filterDisplay="row" globalFilterFields={['full_name', 'phone_number', 'email','positions_name', 'office_name']} header={header} emptyMessage="No matching results were found." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="full_name" header="Employee name" body={nameBodyTemplate} filterField="full_name" filter filterPlaceholder="Search by name" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="phone_number" header="Phone Number" filterField="phone_number" filter filterPlaceholder="Search by phone number" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="email" header="Email" filterField="email" filter filterPlaceholder="Search by email" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="date_of_joining_syndication" header="Ngày gia nhập" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="description" header="Ghi chú" style={{ minWidth: '12rem' }} ></Column>
+        <Column field="email" header="Email" filter filterField="email"  filterPlaceholder="Search by email" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="positions_name" header="Position" filter filterField="positions_name"  filterPlaceholder="Search by position" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="office_name" header="Office name" filter filterField="office_name" filterPlaceholder="Search by office name" style={{ minWidth: '12rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
 
