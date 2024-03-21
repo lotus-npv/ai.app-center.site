@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getReceivingFactoryAll, getAddressAll, getProvinceId, getProvinceAll, getViolateAll, getViolateListAll, getUsersLogin } from "store/actions";
+import { getReceivingFactoryAll, getAddressAll, getProvinceId, getProvinceAll, getViolateAll, getViolateListAll, getUsersLogin, getViolateTypeAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -52,9 +52,10 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { violateListData,violateData, addressData, provinceById, provinceData, loading , user} = useSelector(state => ({
+  const { violateListData,violateData,violateTypeData ,addressData, provinceById, provinceData, loading , user} = useSelector(state => ({
     violateListData: state.ViolateList.datas,
     violateData: state.Violate.datas,
+    violateTypeData: state.ViolateType.datas,
     addressData: state.Address.datas,
     provinceById: state.Province.dataId,
     provinceData: state.Province.datas,
@@ -67,6 +68,7 @@ const TableDatas = (props) => {
     dispatch(getViolateListAll());
     dispatch(getViolateAll());
     dispatch(getProvinceAll());
+    dispatch(getViolateTypeAll());
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -79,7 +81,9 @@ const TableDatas = (props) => {
     };
   }, []);
 
-  console.log('user', user)
+  //render lai data
+
+
 
   // //delete modal
   const [item, setItem] = useState(null);
@@ -111,39 +115,12 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    // lọc ra danh sách các địa chỉ của xí nghiệp
-    const array = addressData.filter(address => address.user_type === 'receiving_factory');
-
     // tạo danh sách địa
-    const number_of_factory = array.filter(address => address.is_default == 1).length;
-    // console.log('number_of_factory', number_of_factory)
+    const number_of_violate_list = violateListData.length;
 
-    let map = new Map();
-    array.forEach(obj => {
-      if (!map.has(obj.province_id)) {
-        map.set(obj.province_id, { data: 1, obj });
-      } else {
-        map.get(obj.province_id).data += 1;
-      }
-    });
-
-    // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
-    // Tao mang chua du lieu 
-    let uniqueArray = Array.from(map.values()).map(item => {
-      let name = 'loading ...';
-      if(!loading)  {
-         let nation = provinceData.find(province => province.StateID == item.obj.province_id);
-         if(nation !== undefined) {
-            name = nation.StateName_ja;
-         }
-      }
-
-      return { name: name, data: item.data, provinceId: item.obj.province_id }
-    });
-
-    return [{ name: 'All', data: number_of_factory, provinceById: 0 }, ...uniqueArray.map((address) => {
-      return { name: address.name, data: address.data, provinceId: address.provinceId }
-    })].filter(e => e.data >= 1);
+    return [{ name: 'All', data: number_of_violate_list, type_id: 0 }, ...violateTypeData.map(type => {
+      return { name: type.name, data: violateListData.filter(violate => violate.violate_type_id == type.id).length, type_id: type.id }
+    })].filter(item => item.data > 0)
   }
 
   // acctive tab
@@ -181,7 +158,9 @@ const TableDatas = (props) => {
 
   // goi ham render mang data
   const items = rendLabel();
-  // console.log('items', items)
+
+  console.log('items', items)
+
   const renderHeader = () => {
     return (
       <>
@@ -211,7 +190,7 @@ const TableDatas = (props) => {
                       active: customActiveTab.index === (`${index}`),
                     })}
                     onClick={() => {
-                      toggleCustom(`${index}`, item.name, item.provinceId);
+                      toggleCustom(`${index}`, item.name, item.type_id);
                     }}
                   >
                     <div className='d-flex gap-2 justify-content-center'>
@@ -232,12 +211,14 @@ const TableDatas = (props) => {
   const [dataTable, setDataTable] = useState(violateListData)
 
   const getListInternStatus = (key) => {
-    console.log('key ', key)
+    // console.log('key ', key)
     // const idStatus = statusData.find(item => item.name == key).id;
-    const arr = addressData.filter(item => item.province_id == key);
-    console.log('arr:', arr)
-    const newList = violateListData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory'));
-    setDataTable(newList);
+    const arr = violateListData.filter(item => item.violate_type_id == key);
+    const newArr = arr.map(item => {
+      return {...item, number_of_violate: violateData.filter(v => v.violate_list_id == item.id).length}
+    })
+    // console.log('arr:', newArr)
+    setDataTable(newArr);
   }
 
   useEffect(() => {
@@ -281,7 +262,7 @@ const TableDatas = (props) => {
   // console.log('provinceData:', provinceData)
   // console.log('violatelist:', violateListData);
   // console.log('violate:', violateData);
-  console.log('user:', user);
+  // console.log('user:', user);
 
   return (
     <div className="card" >
@@ -290,7 +271,7 @@ const TableDatas = (props) => {
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="violate_date" header="Ngày vi phạm" filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="violate_name" header="Loại vi phạm" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="number_of_intern_violate" header="Số người vi phạm" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="number_of_violate" header="Số người vi phạm" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="description" header="Diễn giải" style={{ minWidth: '12rem' }} ></Column>
         <Column field="action" header="Thao tác" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
