@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getDispatchingCompanyAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll, getNationAll } from "store/actions";
+import { getDispatchingCompanyAll, getAddressAll, getNationAll, getEmployeeAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -41,34 +41,30 @@ FilterService.register('custom_activity', (value, filters) => {
   return from <= value && value <= to;
 });
 
+const options = ['syndication','receiving_factory','dispatching_company'];
+ 
 const TableDatas = (props) => {
   // data context
   const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
 
-  //table
-
-
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { companyData, addressData, loading, nationData } = useSelector(state => ({
-    companyData: state.DispatchingCompany.datas,
-    addressData: state.Address.datas,
-    nationData: state.Nation.datas,
-    loading: state.Nation.loading
+  const {  employeeData, loading, nationData } = useSelector(state => ({
+    employeeData: state.Employee.datas,
+    loading: state.Employee.loading
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
+    dispatch(getEmployeeAll());
     dispatch(getDispatchingCompanyAll());
-    dispatch(getAddressAll());
-    dispatch(getNationAll());
   }, [dispatch]);
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getDispatchingCompanyAll());
+      dispatch(getEmployeeAll());
     }, 10000);
     return () => {
       clearInterval(intervalId);
@@ -105,41 +101,12 @@ const TableDatas = (props) => {
   );
 
   const rendLabel = () => {
-    // lọc ra danh sách các địa chỉ của xí nghiệp
-    const array = addressData.filter(address => address.user_type === 'dispatching_company');
-    // console.log('array:', array)
-
     // tạo danh sách địa
-    const number_of_company = array.filter(address => address.is_default == 1).length;
-    // console.log('number_of_factory', number_of_factory)
+    const number_of_contacts = employeeData.length;
 
-    let map = new Map();
-    array.forEach(obj => {
-      if (!map.has(obj.nation_id)) {
-        map.set(obj.nation_id, { data: 1, obj });
-      } else {
-        map.get(obj.nation_id).data += 1;
-      }
-    });
-
-    // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
-    // Tao mang chua du lieu 
-    let uniqueArray = Array.from(map.values()).map(item => {
-      let name = 'loading ...';
-      if (!loading) {
-        let nation = nationData.find(nation => nation.CountryID == item.obj.nation_id);
-        if (nation !== undefined) {
-          name = nation.CountryName_ja;
-        }
-      }
-      return { name: name, data: item.data, nationId: item.obj.nation_id }
-    });
-
-    // console.log('uniqueArray', uniqueArray)
-
-    return [{ name: 'All', data: number_of_company, nationId: 0 }, ...uniqueArray.map((address) => {
-      return { name: address.name, data: address.data, nationId: address.nationId }
-    })].filter(e => e.data >= 1);
+    return [{ name: 'All', data: number_of_contacts, type_id: 0 }, ...options.map((type, index) => {
+      return { name: type, data: employeeData.filter(employee => employee.user_type == type).length, type_id: index }
+    })].filter(item => item.data > 0)
   }
 
   // acctive tab
@@ -227,24 +194,24 @@ const TableDatas = (props) => {
   };
 
 
-  const [dataTable, setDataTable] = useState(companyData)
+  const [dataTable, setDataTable] = useState(employeeData)
 
   const getListInternStatus = (key) => {
     console.log('key ', key)
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.nation_id == key);
     console.log('arr:', arr)
-    const newList = companyData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company'));
+    const newList = employeeData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company'));
     setDataTable(newList);
   }
 
   useEffect(() => {
     if (customActiveTab.value === 'All') {
-      setDataTable(companyData);
+      setDataTable(employeeData);
     } else {
       getListInternStatus(customActiveTab.id);
     }
-  }, [customActiveTab, companyData])
+  }, [customActiveTab, employeeData])
 
   console.log('customActiveTab:', customActiveTab)
 
@@ -279,7 +246,7 @@ const TableDatas = (props) => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  console.log('companyData:', companyData);
+  console.log('employeeData:', employeeData);
 
   return (
     <div className="card" >

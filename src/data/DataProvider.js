@@ -66,13 +66,13 @@ const DataProvider = ({ children }) => {
   
     window.addEventListener('resize', function() {
       var screenHeight = window.innerHeight;
-      let wh = screenHeight - 245;
+      let wh = screenHeight - 250;
       setVh(`${wh}px`);
       // setWindowHeight(screenHeight);
     });
   
     useEffect(() => {
-      let wh = screenAvailHeight - 245;
+      let wh = screenAvailHeight - 250;
       setVh(`${wh}px`);
     }, [])
 

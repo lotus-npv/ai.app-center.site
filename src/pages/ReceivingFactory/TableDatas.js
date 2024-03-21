@@ -127,11 +127,11 @@ const TableDatas = (props) => {
     // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
       let name = 'loading ...';
-      if(!loading)  {
-         let nation = provinceData.find(province => province.StateID == item.obj.province_id);
-         if(nation !== undefined) {
-            name = nation.StateName_ja;
-         }
+      if (!loading) {
+        let nation = provinceData.find(province => province.StateID == item.obj.province_id);
+        if (nation !== undefined) {
+          name = nation.StateName_ja;
+        }
       }
 
       return { name: name, data: item.data, provinceId: item.obj.province_id }
@@ -281,7 +281,10 @@ const TableDatas = (props) => {
   return (
     <div className="card" >
       <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
-        filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
+        filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+      >
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="phone_number" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>

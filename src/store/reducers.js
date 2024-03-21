@@ -46,6 +46,7 @@ import Violate from "./violate/reducer";
 import ViolateList from "./violate_list/reducer";
 import ViolateType from "./violate_type/reducer";
 import Users from "./users/reducer";
+import Employee from "./employee/reducer";
 
 
 const rootReducer = combineReducers({
@@ -74,7 +75,8 @@ const rootReducer = combineReducers({
   Violate,
   ViolateList,
   ViolateType,
-  Users
+  Users,
+  Employee
 });
 
 export default rootReducer;

@@ -6,6 +6,7 @@ import { Button } from 'primereact/button';
 // import { TabMenu } from 'primereact/tabmenu';
 import { Avatar } from 'primereact/avatar';
 import { InputText } from 'primereact/inputtext';
+import moment from 'moment';
 
 import {
   Nav,
@@ -52,7 +53,7 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { violateListData,violateData,violateTypeData ,addressData, provinceById, provinceData, loading , user} = useSelector(state => ({
+  const { violateListData, violateData, violateTypeData, addressData, provinceById, provinceData, loading, user } = useSelector(state => ({
     violateListData: state.ViolateList.datas,
     violateData: state.Violate.datas,
     violateTypeData: state.ViolateType.datas,
@@ -211,28 +212,31 @@ const TableDatas = (props) => {
   const [dataTable, setDataTable] = useState(violateListData)
 
   const getListInternStatus = (key) => {
-    // console.log('key ', key)
-    // const idStatus = statusData.find(item => item.name == key).id;
-    const arr = violateListData.filter(item => item.violate_type_id == key);
-    const newArr = arr.map(item => {
-      return {...item, number_of_violate: violateData.filter(v => v.violate_list_id == item.id).length}
-    })
+    console.log('key ', key)
+
+    if (key == '0') {
+      const newArr = violateListData.map(item => {
+        return { ...item, violate_date: moment(item.violate_date).format('YYYY-MM-DD'), number_of_violate: violateData.filter(v => v.violate_list_id == item.id).length }
+      })
+      setDataTable(newArr);
+    } else {
+      const arr = violateListData.filter(item => item.violate_type_id == key);
+      const newArr = arr.map(item => {
+        return { ...item, violate_date: moment(item.violate_date).format('YYYY-MM-DD'), number_of_violate: violateData.filter(v => v.violate_list_id == item.id).length }
+      })
+      setDataTable(newArr);
+    }
     // console.log('arr:', newArr)
-    setDataTable(newArr);
   }
 
   useEffect(() => {
-    if (customActiveTab.value === 'All') {
-      setDataTable(violateListData);
-    } else {
-      getListInternStatus(customActiveTab.id);
-    }
+    getListInternStatus(customActiveTab.id);
   }, [customActiveTab, violateListData])
 
   // console.log('customActiveTab:', customActiveTab)
 
   // render col name
-  const nameBodyTemplate = (rowData) => {
+  const dateBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
         <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`} size="large" shape="circle">
@@ -267,7 +271,10 @@ const TableDatas = (props) => {
   return (
     <div className="card" >
       <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
-        filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}>
+        filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+      >
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="violate_date" header="Ngày vi phạm" filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="violate_name" header="Loại vi phạm" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>

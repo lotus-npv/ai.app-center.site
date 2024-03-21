@@ -50,3 +50,5 @@ export * from "./violate_list/actions"
 export * from "./violate_type/actions"
 // users
 export * from "./users/actions"
+// employee
+export * from "./employee/actions"
