@@ -38,12 +38,90 @@ const DataProvider = ({ children }) => {
         setViolateDatas(newData);
     };
 
-    // address intern
-    const address = {name: 0, phone: ''}
-    const [addressData, setAddressData] = useState([address])
+    // address receiving fatory
+    const addressFactory = {
+        id: null,
+        key_license_id: null,
+        user_type: 'receiving_factory',
+        object_id: null,
+        nation_id: null,
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        detail: null,
+        phone_number: null,
+        email: null,
+        fax: null,
+        is_default: false,
+        description: null,
+        create_at: null,
+        create_by: 1,
+        update_at: null,
+        update_by: 1,
+        delete_at: null,
+        flag: 1
+    }
+    const [addressDataFactory, setAddressDataFactory] = useState([addressFactory])
 
-    const updateAddressData = newData => {
-        setAddressData(newData);
+    const updateAddressDataFactory = newData => {
+        setAddressDataFactory(newData);
+    };
+    // address dispatching company
+    const addressCompany = {
+        id: null,
+        key_license_id: null,
+        user_type: 'receiving_factory',
+        object_id: null,
+        nation_id: null,
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        detail: null,
+        phone_number: null,
+        email: null,
+        fax: null,
+        is_default: false,
+        description: null,
+        create_at: null,
+        create_by: 1,
+        update_at: null,
+        update_by: 1,
+        delete_at: null,
+        flag: 1
+    }
+    const [addressDataCompany, setAddressDataCompany] = useState([addressCompany])
+
+    const updateAddressDataCompany = newData => {
+        setAddressDataCompany(newData);
+    };
+
+    // address intern
+    const addressIntern = {
+        id: null,
+        key_license_id: null,
+        user_type: 'receiving_factory',
+        object_id: null,
+        nation_id: null,
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        detail: null,
+        phone_number: null,
+        email: null,
+        fax: null,
+        is_default: false,
+        description: null,
+        create_at: null,
+        create_by: 1,
+        update_at: null,
+        update_by: 1,
+        delete_at: null,
+        flag: 1
+    }
+    const [addressDataIntern, setAddressDataIntern] = useState([addressIntern])
+
+    const updateAddressDataIntern = newData => {
+        setAddressDataIntern(newData);
     };
 
     //Status
@@ -63,17 +141,17 @@ const DataProvider = ({ children }) => {
     // get screen
     const screenAvailHeight = window.innerHeight;
     const [vh, setVh] = useState('')
-  
-    window.addEventListener('resize', function() {
-      var screenHeight = window.innerHeight;
-      let wh = screenHeight - 250;
-      setVh(`${wh}px`);
-      // setWindowHeight(screenHeight);
+
+    window.addEventListener('resize', function () {
+        var screenHeight = window.innerHeight;
+        let wh = screenHeight - 250;
+        setVh(`${wh}px`);
+        // setWindowHeight(screenHeight);
     });
-  
+
     useEffect(() => {
-      let wh = screenAvailHeight - 250;
-      setVh(`${wh}px`);
+        let wh = screenAvailHeight - 250;
+        setVh(`${wh}px`);
     }, [])
 
     const [modal_standard, setmodal_standard] = useState(false);
@@ -115,17 +193,23 @@ const DataProvider = ({ children }) => {
                 updateDispatchingCompanyDatas,
                 violateDatas,
                 updateViolateDatas,
-                address,
-                addressData,
-                updateAddressData,
+                addressFactory,
+                addressDataFactory,
+                updateAddressDataFactory,
+                addressCompany,
+                addressDataCompany,
+                updateAddressDataCompany,
+                addressIntern,
+                addressDataIntern,
+                updateAddressDataIntern,
                 statusData,
                 updateStatusData,
                 careerData,
                 updateCareerData,
                 vh,
-                modal_standard, setmodal_standard,tog_standard,
-                modal_xlarge, setmodal_xlarge,tog_xlarge,
-                modal_fullscreen,setmodal_fullscreen,tog_fullscreen,
+                modal_standard, setmodal_standard, tog_standard,
+                modal_xlarge, setmodal_xlarge, tog_xlarge,
+                modal_fullscreen, setmodal_fullscreen, tog_fullscreen,
                 isEdit,
                 setIsEdit,
             }}

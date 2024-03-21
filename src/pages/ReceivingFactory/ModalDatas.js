@@ -26,6 +26,7 @@ import { useFormik } from "formik";
 // import context
 import DataContext from "../../data/DataContext";
 import avata from '../../assets/images/users/avatar-1.jpg'
+import { add } from 'lodash';
 
 
 const optionGroup = [
@@ -34,10 +35,10 @@ const optionGroup = [
   { label: "Relish", value: "Relish" }
 ];
 
-const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
+const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen , isEdit, setIsEdit, address, addressData, updateAddressData} = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory,addressDataFactory,updateAddressDataFactory, } = useContext(DataContext)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -48,6 +49,8 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
       tax_code: item != null ? item.tax_code : '',
       date_of_joining_syndication: item != null ? item.date_of_joining_syndication : '',
       description: item != null ? item.description : '',
+
+      description_address: "",
     },
     validationSchema: Yup.object().shape({
       name_jp: Yup.string().required(
@@ -68,6 +71,9 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
       ),
       tax_code: Yup.string().required(
         "Please Enter Your Tax code"
+      ),
+      description_address: Yup.string().required(
+        "Please Enter Your Textarea"
       ),
     }),
 
@@ -91,7 +97,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
           delete_at: null,
           flag: 1
         }
-        dispatch(updateApi(obj));
+        // dispatch(updateApi(obj));
       } else {
         let obj = {
           key_license_id: 1,
@@ -109,10 +115,11 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
           delete_at: null,
           flag: 1
         }
-        dispatch(setApi(obj));
+        // dispatch(setApi(obj));
       }
       formik.resetForm();
       tog_xlarge();
+      console.log('submit done');
     }
   });
 
@@ -121,12 +128,18 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
     formik.handleSubmit();
   }
 
+  // xu ly form address
   const handleAddForm = () => {
-    const count = addressData.length
-    address['name'] = count;
-    updateAddressData([...addressData, address])
+    updateAddressDataFactory([...addressDataFactory, addressFactory])
   };
 
+  const handleDeleteColumn = (getIndex) => {
+    const arr = [...addressDataFactory];
+    arr.splice(getIndex, 1);
+    updateAddressDataFactory(arr);
+  }
+
+  // xu ly form nhap anh
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(avata);
   const handleChange = (event) => {
@@ -152,13 +165,10 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
     settextcount(event.target.value.length);
   }
 
-  const handleDeleteColumn = (getIndex) => {
-    const arr = [...addressData];
-    arr.splice(getIndex, 1);
-    updateAddressData(arr);
-  }
 
-  console.log('addressData:', addressData)
+
+  // console.log('addressData:', addressDataFactory)
+  console.log('data:', formik.values)
 
 
   return (
@@ -193,7 +203,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
           </div>
 
           <div className="modal-body">
-            <Form>
+            {/* <Form> */}
               <Row>
                 <Col lg={12}>
                   <Card>
@@ -272,18 +282,18 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
                               <div className="mb-3">
                                 <Label>Ngày gia nhập</Label>
                                 <Input
-                                  name="jont_date"
+                                  name="date_of_joining_syndication"
                                   type="date"
                                   placeholder="Chọn ngày"
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
-                                  value={formik.values.jont_date || ""}
+                                  value={formik.values.date_of_joining_syndication || ""}
                                   invalid={
-                                    formik.touched.jont_date && formik.errors.jont_date ? true : false
+                                    formik.touched.date_of_joining_syndication && formik.errors.date_of_joining_syndication ? true : false
                                   }
                                 />
-                                {formik.touched.jont_date && formik.errors.jont_date ? (
-                                  <FormFeedback type="invalid">{formik.errors.jont_date}</FormFeedback>
+                                {formik.touched.date_of_joining_syndication && formik.errors.date_of_joining_syndication ? (
+                                  <FormFeedback type="invalid">{formik.errors.date_of_joining_syndication}</FormFeedback>
                                 ) : null}
                               </div>
                             </Col>
@@ -374,23 +384,31 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
                           </Row>
                         </div>
 
-                        {addressData.map((address, index) => {
+                        {addressDataFactory.map((address, index) => {
                           return (
                             <Row className='mt-2' key={index} id={"nested" + index}>
                               <Col lg={8}>
                                 <Row>
                                   <Col lg={2} className='mt-2 fw-bold '>
-                                    <div className="mb-3">
-                                      <Select
-                                        name='country'
-                                        placeholder='Quốc gia'
-                                        value={optionGroup.find(option => option.value === formik.values.province)}
-                                        onChange={(item) => {
-                                          formik.setFieldValue('province', item == null ? null : item.value);
+                                  <div className="mb-3">
+                                      <Input
+                                        name="description_address"
+                                        type="text"
+                                        placeholder='Branch name'
+                                        onChange={(e) => {
+                                          const arr = [...addressDataFactory];
+                                          arr[index] = { ...arr[index], description: e.target.value }
+                                          updateAddressDataFactory(arr);
                                         }}
-                                        options={optionGroup}
-                                      // isClearable
+                                        onBlur={formik.handleBlur}
+                                        value={address.description}
+                                        invalid={
+                                          formik.touched.detail && formik.errors.detail ? true : false
+                                        }
                                       />
+                                      {formik.touched.detail && formik.errors.detail ? (
+                                        <FormFeedback type="invalid">{formik.errors.detail}</FormFeedback>
+                                      ) : null}
                                     </div>
                                   </Col>
 
@@ -556,7 +574,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
                         <Row className='mb-2 mt-2'>
                           <Col lg={6} className='d-flex gap-2'>
                             <Button onClick={handleAddForm} color="secondary" >
-                              Add Address
+                              <i className="mdi mdi-plus font-size-18" id="deletetooltip" />
                             </Button>
                           </Col>
                         </Row>
@@ -566,7 +584,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
                 </Col>
               </Row>
 
-            </Form>
+            {/* </Form> */}
 
           </div>
 
@@ -586,6 +604,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
             <button
               type="button"
               className="btn btn-primary "
+              onClick={handleSubmit}
             >
               Save changes
             </button>
