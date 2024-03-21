@@ -38,17 +38,21 @@ export * from "./upload_image/actions"
 export * from "./avata/actions"
 // alien_registration_card file
 export * from "./alien_registration_card/actions"
-// province 
-export * from "./province/actions"
-// nation
-export * from "./nation/actions"
-// nation
+// violate
 export * from "./violate/actions"
-// nation
+// violate_list
 export * from "./violate_list/actions"
-// nation
+// violate_type
 export * from "./violate_type/actions"
 // users
 export * from "./users/actions"
 // employee
 export * from "./employee/actions"
+// nation
+export * from "./nation/actions"
+// province 
+export * from "./province/actions"
+// district 
+export * from "./district/actions"
+// commune 
+export * from "./commune/actions"

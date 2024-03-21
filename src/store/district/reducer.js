@@ -1,118 +1,118 @@
 import {
-  GET_PROVINCE_ALL,
-  GET_PROVINCE_ALL_SUCCESS,
-  GET_PROVINCE_ALL_FAIL,
-  GET_PROVINCE_ID,
-  GET_PROVINCE_ID_SUCCESS,
-  GET_PROVINCE_ID_FAIL,
-  GET_PROVINCE_BY_NATION_ID,
-  GET_PROVINCE_BY_NATION_ID_SUCCESS,
-  GET_PROVINCE_BY_NATION_ID_FAIL,
-  SET_PROVINCE,
-  SET_PROVINCE_SUCCESS,
-  SET_PROVINCE_FAIL,
-  UPDATE_PROVINCE,
-  UPDATE_PROVINCE_SUCCESS,
-  UPDATE_PROVINCE_FAIL,
-  DELETE_PROVINCE_SUCCESS,
-  DELETE_PROVINCE_FAIL
+  GET_DISTRICT_ALL,
+  GET_DISTRICT_ALL_SUCCESS,
+  GET_DISTRICT_ALL_FAIL,
+  GET_DISTRICT_ID,
+  GET_DISTRICT_ID_SUCCESS,
+  GET_DISTRICT_ID_FAIL,
+  GET_DISTRICT_BY_PROVINCE_ID,
+  GET_DISTRICT_BY_PROVINCE_ID_SUCCESS,
+  GET_DISTRICT_BY_PROVINCE_ID_FAIL,
+  SET_DISTRICT,
+  SET_DISTRICT_SUCCESS,
+  SET_DISTRICT_FAIL,
+  UPDATE_DISTRICT,
+  UPDATE_DISTRICT_SUCCESS,
+  UPDATE_DISTRICT_FAIL,
+  DELETE_DISTRICT_SUCCESS,
+  DELETE_DISTRICT_FAIL
   } from "./actionTypes";
   
   const INIT_STATE = {
     datas: [],
     dataId: null,
-    dataByNationId: null,
+    dataByProvinceId: null,
     data: {},
     loading: false
   };
   
-  const Province = (state = INIT_STATE, action) => {
+  const District = (state = INIT_STATE, action) => {
     switch (action.type) {
-      case GET_PROVINCE_ALL:
+      case GET_DISTRICT_ALL:
         return {
           ...state,
           loading: true,
         };
-      case GET_PROVINCE_ALL_SUCCESS:
+      case GET_DISTRICT_ALL_SUCCESS:
         return {
           ...state,
           datas: action.payload,
           loading: false
         };
   
-      case GET_PROVINCE_ALL_FAIL:
+      case GET_DISTRICT_ALL_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case GET_PROVINCE_ID:
+      case GET_DISTRICT_ID:
         return {
           ...state,
           dataId: action.payload,
         };
-      case GET_PROVINCE_ID_SUCCESS:
+      case GET_DISTRICT_ID_SUCCESS:
         return {
           ...state,
           dataId: action.payload,
         };
-      case GET_PROVINCE_ID_FAIL:
+      case GET_DISTRICT_ID_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case GET_PROVINCE_BY_NATION_ID:
+      case GET_DISTRICT_BY_PROVINCE_ID:
         return {
           ...state,
           loading: true,
         };
-      case GET_PROVINCE_BY_NATION_ID_SUCCESS:
+      case GET_DISTRICT_BY_PROVINCE_ID_SUCCESS:
         return {
           ...state,
-          dataByNationId: action.payload,
+          dataByProvinceId: action.payload,
           loading: false
         };
-      case GET_PROVINCE_BY_NATION_ID_FAIL:
+      case GET_DISTRICT_BY_PROVINCE_ID_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case SET_PROVINCE:
+      case SET_DISTRICT:
         return {
           ...state,
           data: action.payload,
         };
-      case SET_PROVINCE_SUCCESS:
+      case SET_DISTRICT_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
   
-      case SET_PROVINCE_FAIL:
+      case SET_DISTRICT_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case UPDATE_PROVINCE:
+      case UPDATE_DISTRICT:
         return {
           ...state,
           data: action.payload,
         };
-      case UPDATE_PROVINCE_SUCCESS:
+      case UPDATE_DISTRICT_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
-      case UPDATE_PROVINCE_FAIL:
+      case UPDATE_DISTRICT_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case DELETE_PROVINCE_SUCCESS:
+      case DELETE_DISTRICT_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
-      case DELETE_PROVINCE_FAIL:
+      case DELETE_DISTRICT_FAIL:
         return {
           ...state,
           error: action.payload,
@@ -123,4 +123,4 @@ import {
     }
   };
   
-  export default Province;
+  export default District;

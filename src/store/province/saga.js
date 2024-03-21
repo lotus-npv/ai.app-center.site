@@ -3,13 +3,15 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  GET_PROVINCE_ALL,GET_PROVINCE_ID, SET_PROVINCE, UPDATE_PROVINCE,DELETE_PROVINCE
+  GET_PROVINCE_ALL,GET_PROVINCE_ID, SET_PROVINCE, UPDATE_PROVINCE,DELETE_PROVINCE, GET_PROVINCE_BY_NATION_ID
 } from "./actionTypes"
 import {
     getProvinceAllFail,
     getProvinceAllSuccess,
     getProvinceIdSuccess,
     getProvinceIdFail,
+    getProvinceByNationIdSuccess,
+    getProvinceByNationIdFail,
     setProvinceSuccess,
     setProvinceFail,
     updateProvinceSuccess,
@@ -18,7 +20,7 @@ import {
     deleteProvinceFail
 } from "./actions"
                                       
-import { getProvinceDataAll,getProvinceDataId ,addNewDataProvince, updateDataProvince, deleteDataProvince } from "../../helpers/fakebackend_helper";
+import { getProvinceDataAll,getProvinceDataId, getProvinceByNationDataId ,addNewDataProvince, updateDataProvince, deleteDataProvince } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetProvinceData() {
@@ -36,6 +38,15 @@ function* fetProvinceDataId({payload: id}) {
     yield put(getProvinceIdSuccess(response));
   } catch (error) {
     yield put(getProvinceIdFail(error))
+  }
+}
+
+function* fetProvinceByNationDataId({payload: id}) {
+  try {
+    const response = yield call(getProvinceByNationDataId, id);
+    yield put(getProvinceByNationIdSuccess(response));
+  } catch (error) {
+    yield put(getProvinceByNationIdFail(error))
   }
 }
 
@@ -83,6 +94,7 @@ function* refreshProvinceData() {
 function* ProvinceSaga() {
   yield takeEvery(GET_PROVINCE_ALL, fetProvinceData)
   yield takeEvery(GET_PROVINCE_ID, fetProvinceDataId)
+  yield takeEvery(GET_PROVINCE_BY_NATION_ID, fetProvinceByNationDataId)
   yield takeEvery(SET_PROVINCE, onAddNewProvince)
   yield takeEvery(UPDATE_PROVINCE, onUpdateProvince)
   yield takeEvery(DELETE_PROVINCE, onDeleteProvince)

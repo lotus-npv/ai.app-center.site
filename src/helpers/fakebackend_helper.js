@@ -158,19 +158,38 @@ export const deleteDataAvata = (id) =>    del(`${url.DELETE_AVATA}/${id}`, { par
 //upload avata
 export const uploadDataAvata = data =>         post(url.UPLOAD_AVATA, data, config_upload_file);
 
-// province
-export const        getProvinceDataAll = () =>     get(url.GET_PROVINCE_ALL);
-export const        getProvinceDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
-export const addNewDataProvince = data =>         post(url.SET_PROVINCE, data, config);
-export const updateDataProvince = data =>       put(url.UPDATE_PROVINCE, data, config);
-export const deleteDataProvince = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
-
 // nation
 export const        getNationDataAll = () =>     get(url.GET_NATION_ALL);
 export const        getNationDataId = (id) => get(`${url.GET_NATION_ID}/${id}`,{ params: { id } }, config);
 export const addNewDataNation = data =>         post(url.SET_NATION, data, config);
 export const updateDataNation = data =>       put(url.UPDATE_NATION, data, config);
 export const deleteDataNation = (id) =>    del(`${url.DELETE_NATION}/${id}`, { params: { id } }, config);
+
+// province
+export const        getProvinceDataAll = () =>     get(url.GET_PROVINCE_ALL);
+export const        getProvinceDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const        getProvinceByNationDataId = (id) => get(`${url.GET_PROVINCE_BY_NATION_ID}/${id}`, config);
+export const addNewDataProvince = data =>         post(url.SET_PROVINCE, data, config);
+export const updateDataProvince = data =>       put(url.UPDATE_PROVINCE, data, config);
+export const deleteDataProvince = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
+
+// district
+export const        getDistrictDataAll = () =>     get(url.GET_PROVINCE_ALL);
+export const        getDistrictDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const        getDistrictByProvinceDataId = (id) => get(`${url.GET_DISTRICT_BY_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataDistrict = data =>         post(url.SET_PROVINCE, data, config);
+export const updateDataDistrict = data =>       put(url.UPDATE_PROVINCE, data, config);
+export const deleteDataDistrict = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
+
+// commune
+export const        getCommuneDataAll = () =>     get(url.GET_PROVINCE_ALL);
+export const        getCommuneDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const        getCommuneByDistrictDataId = (id) => get(`${url.GET_COMMUNE_BY_DISTRICT_ID}/${id}`,{ params: { id } }, config);
+export const addNewDataCommune = data =>         post(url.SET_PROVINCE, data, config);
+export const updateDataCommune = data =>       put(url.UPDATE_PROVINCE, data, config);
+export const deleteDataCommune = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
+
+
 
 // Gets the logged in user data from local session
 const getLoggedInUser = () => {

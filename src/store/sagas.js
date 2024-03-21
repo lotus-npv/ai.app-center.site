@@ -20,13 +20,15 @@ import UploadFileSaga from "./upload/saga";
 import watchUploadImage from './upload_image/sagas'
 import AvataSaga from "./avata/saga";
 import AlienRegistrationCardSaga from "./alien_registration_card/saga";
-import ProvinceSaga from "./province/saga";
-import NationSaga from "./nation/saga";
 import ViolateSaga from "./violate/saga";
 import ViolateListSaga from "./violate_list/saga";
 import ViolateTypeSaga from "./violate_type/saga";
 import UsersSaga from "./users/saga";
 import EmployeeSaga from "./employee/saga";
+import NationSaga from "./nation/saga";
+import ProvinceSaga from "./province/saga";
+import DistrictSaga from "./district/saga";
+import CommuneSaga from "./commune/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -50,12 +52,14 @@ export default function* rootSaga() {
     fork(StatusDetailSaga),
     fork(AvataSaga),
     fork(AlienRegistrationCardSaga),
-    fork(ProvinceSaga),
-    fork(NationSaga),
     fork(ViolateSaga),
     fork(ViolateListSaga),
     fork(ViolateTypeSaga),
     fork(UsersSaga),
     fork(EmployeeSaga),
+    fork(NationSaga),
+    fork(ProvinceSaga),
+    fork(DistrictSaga),
+    fork(CommuneSaga),
   ]);
 }

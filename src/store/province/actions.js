@@ -5,6 +5,9 @@ import {
   GET_PROVINCE_ID,
   GET_PROVINCE_ID_SUCCESS,
   GET_PROVINCE_ID_FAIL,
+  GET_PROVINCE_BY_NATION_ID,
+  GET_PROVINCE_BY_NATION_ID_SUCCESS,
+  GET_PROVINCE_BY_NATION_ID_FAIL,
   SET_PROVINCE,
   SET_PROVINCE_SUCCESS,
   SET_PROVINCE_FAIL,
@@ -42,6 +45,21 @@ export const getProvinceIdSuccess = data => ({
 
 export const getProvinceIdFail = error => ({
   type: GET_PROVINCE_ID_FAIL,
+  payload: error,
+});
+
+export const getProvinceByNationId = id => ({
+  type: GET_PROVINCE_BY_NATION_ID,
+  payload: id,
+});
+
+export const getProvinceByNationIdSuccess = data => ({
+  type: GET_PROVINCE_BY_NATION_ID_SUCCESS,
+  payload: data,
+});
+
+export const getProvinceByNationIdFail = error => ({
+  type: GET_PROVINCE_BY_NATION_ID_FAIL,
   payload: error,
 });
 

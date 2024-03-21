@@ -40,13 +40,15 @@ import reducer from "./upload_image/reducer";
 import Avata from "./avata/reducer";
 // AlienRegistrationCard
 import AlienRegistrationCard from "./alien_registration_card/reducer";
-import Province from "./province/reducer";
-import Nation from "./nation/reducer";
 import Violate from "./violate/reducer";
 import ViolateList from "./violate_list/reducer";
 import ViolateType from "./violate_type/reducer";
 import Users from "./users/reducer";
 import Employee from "./employee/reducer";
+import Nation from "./nation/reducer";
+import Province from "./province/reducer";
+import District from "./district/reducer";
+import Commune from "./commune/reducer";
 
 
 const rootReducer = combineReducers({
@@ -70,13 +72,15 @@ const rootReducer = combineReducers({
   reducer,
   Avata,
   AlienRegistrationCard,
-  Province,
-  Nation,
   Violate,
   ViolateList,
   ViolateType,
   Users,
-  Employee
+  Employee,
+  Nation,
+  Province,
+  District,
+  Commune
 });
 
 export default rootReducer;

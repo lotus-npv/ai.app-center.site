@@ -35,10 +35,27 @@ const optionGroup = [
   { label: "Relish", value: "Relish" }
 ];
 
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { getProvinceByNationId } from "store/actions";
+
 const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext);
+
+  const {provinceDataByNationId} = useSelector(state => (
+    {
+      provinceDataByNationId: state.Province.dataByNationId,
+    }
+  ))
+
+  useEffect(() => {
+    dispatch(getProvinceByNationId(1));
+  }, [dispatch])
+
+
+  console.log('provinceDataByNationId:', provinceDataByNationId);
 
   const formik = useFormik({
     enableReinitialize: true,
