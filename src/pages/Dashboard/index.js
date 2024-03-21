@@ -32,16 +32,8 @@ import modalimage1 from "../../assets/images/product/img-7.png";
 import modalimage2 from "../../assets/images/product/img-4.png";
 
 // Pages Components
-import WelcomeComp from "./WelcomeComp";
-import MonthlyEarning from "./MonthlyEarning";
-import SocialSource from "./SocialSource";
-import ActivityComp from "./ActivityComp";
-import TopCities from "./TopCities";
-import LatestTranaction from "./LatestTranaction";
 import Transactions from "./transactions";
 
-//Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb";
 
 //i18n
 import { withTranslation } from "react-i18next";
@@ -194,7 +186,7 @@ const Dashboard = props => {
                         <Col xl={4} className="d-flex justify-content-end">
                           <div className="w-75">
                             <Button className="btn btn-sm w-100 mb-1">Quốc gia</Button>
-                            <Button className="btn btn-sm w-100">Tư cách</Button>
+                            {/* <Button className="btn btn-sm w-100">Tư cách</Button> */}
                           </div>
                         </Col>
                       </Row>
@@ -250,7 +242,7 @@ const Dashboard = props => {
                         <h4 className="card-title mb-4">Số lượng thực tập sinh nhập cảnh theo quốc gia</h4>
                         <div className="ms-auto">
                           <ul className="nav nav-pills">
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                               <Link
                                 to="#"
                                 className={classNames(
@@ -264,7 +256,7 @@ const Dashboard = props => {
                               >
                                 Week
                               </Link>{" "}
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                               <Link
                                 to="#"
@@ -296,7 +288,7 @@ const Dashboard = props => {
                               </Link>
                             </li>
                           </ul>
-                          <div className="btn-group btn-group-sm  d-flex justify-center mt-1" role="group">
+                          <div className="btn-group btn-group-sm  d-flex justify-center mt-1 d-none" role="group">
                             <button type="button" className="btn btn-outline-secondary">Năm :</button>
                             <button type="button" className="btn btn-outline-secondary">2024</button>
                           </div>

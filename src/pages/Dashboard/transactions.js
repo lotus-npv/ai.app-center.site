@@ -15,6 +15,7 @@ import classnames from "classnames"
 //Simple bar
 import SimpleBar from "simplebar-react"
 import { transactionsDataALL, transactionsDataBuy, transactionsDataSell } from "common/data"
+import "./dashboard.scss";
 
 const Transactions = ({ title }) => {
   const [activeTab, setactiveTab] = useState("1")
@@ -38,7 +39,7 @@ const Transactions = ({ title }) => {
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: activeTab === "2" })}
+                className={classnames({ active1: activeTab === "2" })}
                 onClick={() => {
                   setactiveTab("2")
                 }}
