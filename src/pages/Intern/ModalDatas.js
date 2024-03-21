@@ -37,7 +37,7 @@ const optionGroup = [
 const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, setIsEdit, isEdit } = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, setIsEdit, isEdit , addressIntern,addressDataIntern,updateAddressDataIntern,} = useContext(DataContext)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -98,13 +98,16 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
     formik.handleSubmit();
   }
 
-  const { address, addressData, updateAddressData } = useContext(DataContext);
-
+  // xu ly address intern
   const handleAddForm = () => {
-      const count = addressData.length
-      address['name'] = count;
-      updateAddressData([...addressData, address])
+      updateAddressDataIntern([...addressDataIntern, addressIntern])
   };
+
+  const handleDeleteColumn = (getIndex) => {
+    const arr = [...addressDataIntern];
+    arr.splice(getIndex, 1);
+    updateAddressDataIntern(arr);
+}
 
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(avata);
@@ -130,14 +133,6 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
       }
       settextcount(event.target.value.length);
   }
-
-  const handleDeleteColumn = (getIndex) => {
-      const arr = [...addressData];
-      arr.splice(getIndex, 1);
-      updateAddressData(arr);
-  }
-
-  console.log(addressData)
 
 
   return (
@@ -646,7 +641,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                                 return <Address key={index} getIndex={index} />
                                             })} */}
 
-                        {addressData.map((_, index) => {
+                        {addressDataIntern.map((_, index) => {
                           return (
                             <Row className='mt-2' key={index}>
                               <Col lg={2} className='mt-2 fw-bold '>

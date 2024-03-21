@@ -38,19 +38,21 @@ const optionGroup = [
 const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory,addressDataFactory,updateAddressDataFactory, } = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext)
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      id: item != null ? item.id : '',
       logo: item != null ? item.logo : '',
       name_jp: item != null ? item.name_jp : '',
       name_en: item != null ? item.name_en : '',
       tax_code: item != null ? item.tax_code : '',
       date_of_joining_syndication: item != null ? item.date_of_joining_syndication : '',
-      description: item != null ? item.description : '',
+      description: item !== null ? item.description : '',
+      create_at: item !== null ? item.create_at : '',
 
-      description_address: "",
+      // description_address: "",
     },
     validationSchema: Yup.object().shape({
       name_jp: Yup.string().required(
@@ -59,11 +61,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
       name_en: Yup.string().required(
         "This value is required"
       ),
-      email: Yup.string()
-        .email("Must be a valid Email")
-        .max(255)
-        .required("Email is required"),
-      jont_date: Yup.date().required(
+      date_of_joining_syndication: Yup.date().required(
         "Please select date"
       ),
       description: Yup.string().required(
@@ -72,9 +70,13 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
       tax_code: Yup.string().required(
         "Please Enter Your Tax code"
       ),
-      description_address: Yup.string().required(
-        "Please Enter Your Textarea"
-      ),
+      // description_address: Yup.string().required(
+      //   "Please Enter Your Textarea"
+      // ),
+      // email: Yup.string()
+      //   .email("Must be a valid Email")
+      //   .max(255)
+      //   .required("Email is required"),
     }),
 
     onSubmit: async (value) => {
@@ -83,12 +85,12 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
         let obj = {
           id: value.id,
           key_license_id: 1,
-          colors: value.colors,
-          status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
-          name: value.name,
-          condition_date: value.condition_date,
-          condition_milestone: value.condition_milestone,
-          condition_value: value.condition_value,
+          syndication_id: 1,
+          logo: './fff/ff', // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
+          name_jp: value.name_jp,
+          name_en: value.name_en,
+          tax_code: value.tax_code,
+          date_of_joining_syndication: value.date_of_joining_syndication,
           description: value.description,
           create_at: value.create_at,
           create_by: 1,
@@ -97,31 +99,43 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
           delete_at: null,
           flag: 1
         }
-        // dispatch(updateApi(obj));
+        dispatch(updateApi(obj));
       } else {
         let obj = {
           key_license_id: 1,
-          colors: value.colors,
-          status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
-          name: value.name,
-          condition_date: value.condition_date,
-          condition_milestone: value.condition_milestone,
-          condition_value: value.condition_value,
+          syndication_id: 1,
+          logo: './fff/ff', // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
+          name_jp: value.name_jp,
+          name_en: value.name_en,
+          tax_code: value.tax_code,
+          date_of_joining_syndication: value.date_of_joining_syndication,
           description: value.description,
-          create_at: value.create_at,
+          create_at: null,
           create_by: 1,
           update_at: null,
           update_by: 1,
           delete_at: null,
           flag: 1
         }
-        // dispatch(setApi(obj));
+        dispatch(setApi(obj));
       }
       formik.resetForm();
-      tog_xlarge();
       console.log('submit done');
+      tog_fullscreen();
     }
   });
+
+  const formilkAddress = useFormik({
+    initialValues: {
+
+    },
+    validationSchema: {
+
+    },
+    onSubmit: async (values) => {
+
+    }
+  })
 
   const handleSubmit = () => {
     console.log('submit');
@@ -168,12 +182,11 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
 
   // console.log('addressData:', addressDataFactory)
-  console.log('data:', formik.values)
+  // console.log('data:', formik.values)
 
 
   return (
     <>
-      <Form>
         <Modal
           size="xl"
           isOpen={modal_fullscreen}
@@ -204,11 +217,12 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
           <div className="modal-body">
             {/* <Form> */}
-              <Row>
-                <Col lg={12}>
-                  <Card>
-                    <CardBody>
+            <Row>
+              <Col lg={12}>
+                <Card>
+                  <CardBody>
 
+                    <Form>
                       <Row>
                         <Col lg={3} xl={2}>
                           <Card
@@ -341,7 +355,10 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                           </Row>
                         </Col>
                       </Row>
+                    {/* </Form> */}
 
+
+                    {/* <Form> */}
                       <Row className='border border-secondary mt-3'>
                         <div>
                           <Row className='bg-secondary text-light'>
@@ -390,7 +407,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                               <Col lg={8}>
                                 <Row>
                                   <Col lg={2} className='mt-2 fw-bold '>
-                                  <div className="mb-3">
+                                    <div className="mb-3">
                                       <Input
                                         name="description_address"
                                         type="text"
@@ -400,14 +417,14 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                           arr[index] = { ...arr[index], description: e.target.value }
                                           updateAddressDataFactory(arr);
                                         }}
-                                        onBlur={formik.handleBlur}
+                                        onBlur={formilkAddress.handleBlur}
                                         value={address.description}
                                         invalid={
-                                          formik.touched.detail && formik.errors.detail ? true : false
+                                          formilkAddress.touched.detail && formilkAddress.errors.detail ? true : false
                                         }
                                       />
-                                      {formik.touched.detail && formik.errors.detail ? (
-                                        <FormFeedback type="invalid">{formik.errors.detail}</FormFeedback>
+                                      {formilkAddress.touched.detail && formilkAddress.errors.detail ? (
+                                        <FormFeedback type="invalid">{formilkAddress.errors.detail}</FormFeedback>
                                       ) : null}
                                     </div>
                                   </Col>
@@ -417,9 +434,9 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                       <Select
                                         name='province'
                                         placeholder='Tỉnh'
-                                        value={optionGroup.find(option => option.value === formik.values.province)}
+                                        value={optionGroup.find(option => option.value === formilkAddress.values.province)}
                                         onChange={(item) => {
-                                          formik.setFieldValue('province', item == null ? null : item.value);
+                                          formilkAddress.setFieldValue('province', item == null ? null : item.value);
                                         }}
                                         options={optionGroup}
                                       // isClearable
@@ -432,9 +449,9 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                       <Select
                                         name='district'
                                         placeholder='Quận/Huyện'
-                                        value={optionGroup.find(option => option.value === formik.values.district)}
+                                        value={optionGroup.find(option => option.value === formilkAddress.values.district)}
                                         onChange={(item) => {
-                                          formik.setFieldValue('district', item == null ? null : item.value);
+                                          formilkAddress.setFieldValue('district', item == null ? null : item.value);
                                         }}
                                         options={optionGroup}
                                         className="select2-selection"
@@ -448,9 +465,9 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                       <Select
                                         name='commune'
                                         placeholder='Xã/Phường'
-                                        value={optionGroup.find(option => option.value === formik.values.commune)}
+                                        value={optionGroup.find(option => option.value === formilkAddress.values.commune)}
                                         onChange={(item) => {
-                                          formik.setFieldValue('commune', item == null ? null : item.value);
+                                          formilkAddress.setFieldValue('commune', item == null ? null : item.value);
                                         }}
                                         options={optionGroup}
                                         className="select2-selection"
@@ -465,15 +482,15 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                         name="detail"
                                         type="text"
                                         placeholder='Số nhà, đường, phố...'
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        value={formik.values.detail || ""}
+                                        onChange={formilkAddress.handleChange}
+                                        onBlur={formilkAddress.handleBlur}
+                                        value={formilkAddress.values.detail || ""}
                                         invalid={
-                                          formik.touched.detail && formik.errors.detail ? true : false
+                                          formilkAddress.touched.detail && formilkAddress.errors.detail ? true : false
                                         }
                                       />
-                                      {formik.touched.detail && formik.errors.detail ? (
-                                        <FormFeedback type="invalid">{formik.errors.detail}</FormFeedback>
+                                      {formilkAddress.touched.detail && formilkAddress.errors.detail ? (
+                                        <FormFeedback type="invalid">{formilkAddress.errors.detail}</FormFeedback>
                                       ) : null}
                                     </div>
                                   </Col>
@@ -486,15 +503,15 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                     name="phone_number"
                                     type="text"
                                     placeholder='Điện thoại'
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.phone_number || ""}
+                                    onChange={formilkAddress.handleChange}
+                                    onBlur={formilkAddress.handleBlur}
+                                    value={formilkAddress.values.phone_number || ""}
                                     invalid={
-                                      formik.touched.phone_number && formik.errors.phone_number ? true : false
+                                      formilkAddress.touched.phone_number && formilkAddress.errors.phone_number ? true : false
                                     }
                                   />
-                                  {formik.touched.phone_number && formik.errors.phone_number ? (
-                                    <FormFeedback type="invalid">{formik.errors.phone_number}</FormFeedback>
+                                  {formilkAddress.touched.phone_number && formilkAddress.errors.phone_number ? (
+                                    <FormFeedback type="invalid">{formilkAddress.errors.phone_number}</FormFeedback>
                                   ) : null}
                                 </div>
                               </Col>
@@ -504,15 +521,15 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                     name="fax"
                                     type="text"
                                     placeholder='Fax'
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.fax || ""}
+                                    onChange={formilkAddress.handleChange}
+                                    onBlur={formilkAddress.handleBlur}
+                                    value={formilkAddress.values.fax || ""}
                                     invalid={
-                                      formik.touched.fax && formik.errors.fax ? true : false
+                                      formilkAddress.touched.fax && formilkAddress.errors.fax ? true : false
                                     }
                                   />
-                                  {formik.touched.fax && formik.errors.fax ? (
-                                    <FormFeedback type="invalid">{formik.errors.fax}</FormFeedback>
+                                  {formilkAddress.touched.fax && formilkAddress.errors.fax ? (
+                                    <FormFeedback type="invalid">{formilkAddress.errors.fax}</FormFeedback>
                                   ) : null}
                                 </div>
                               </Col>
@@ -525,15 +542,15 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                                           name="email"
                                           type="email"
                                           placeholder='Email'
-                                          onChange={formik.handleChange}
-                                          onBlur={formik.handleBlur}
-                                          value={formik.values.email || ""}
+                                          onChange={formilkAddress.handleChange}
+                                          onBlur={formilkAddress.handleBlur}
+                                          value={formilkAddress.values.email || ""}
                                           invalid={
-                                            formik.touched.email && formik.errors.email ? true : false
+                                            formilkAddress.touched.email && formilkAddress.errors.email ? true : false
                                           }
                                         />
-                                        {formik.touched.email && formik.errors.email ? (
-                                          <FormFeedback type="invalid">{formik.errors.email}</FormFeedback>
+                                        {formilkAddress.touched.email && formilkAddress.errors.email ? (
+                                          <FormFeedback type="invalid">{formilkAddress.errors.email}</FormFeedback>
                                         ) : null}
 
                                       </div>
@@ -579,12 +596,12 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                           </Col>
                         </Row>
                       </Row>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
+                    </Form>
 
-            {/* </Form> */}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
 
           </div>
 
@@ -602,7 +619,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
               Close
             </button>
             <button
-              type="button"
+              type="submit"
               className="btn btn-primary "
               onClick={handleSubmit}
             >
@@ -610,7 +627,6 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
             </button>
           </div>
         </Modal>
-      </Form>
     </>
   )
 }
