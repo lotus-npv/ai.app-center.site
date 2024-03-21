@@ -37,18 +37,17 @@ const optionGroup = [
 const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen , isEdit, setIsEdit} = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen , isEdit, setIsEdit, address, addressData, updateAddressData} = useContext(DataContext)
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      syndication_id: 1,
-      logo: '',
-      name_jp: '',
-      name_en: '',
-      tax_code: '',
-      date_of_joining_syndication: '',
-      description: '',
+      logo: item != null ? item.logo : '',
+      name_jp: item != null ? item.name_jp : '',
+      name_en: item != null ? item.name_en : '',
+      tax_code: item != null ? item.tax_code : '',
+      date_of_joining_syndication: item != null ? item.date_of_joining_syndication : '',
+      description: item != null ? item.description : '',
     },
     validationSchema: Yup.object().shape({
       name_jp: Yup.string().required(
@@ -122,8 +121,6 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
     formik.handleSubmit();
   }
 
-  const { address, addressData, updateAddressData } = useContext(DataContext);
-
   const handleAddForm = () => {
     const count = addressData.length
     address['name'] = count;
@@ -161,7 +158,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
     updateAddressData(arr);
   }
 
-  // console.log(addressData)
+  console.log('addressData:', addressData)
 
 
   return (
@@ -377,9 +374,9 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
                           </Row>
                         </div>
 
-                        {addressData.map((_, index) => {
+                        {addressData.map((address, index) => {
                           return (
-                            <Row className='mt-2' key={index}>
+                            <Row className='mt-2' key={index} id={"nested" + index}>
                               <Col lg={8}>
                                 <Row>
                                   <Col lg={2} className='mt-2 fw-bold '>
@@ -579,6 +576,7 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
               type="button"
               onClick={() => {
                 tog_fullscreen();
+                formik.resetForm();
               }}
               className="btn btn-secondary "
               data-dismiss="modal"
