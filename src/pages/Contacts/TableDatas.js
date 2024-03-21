@@ -219,9 +219,9 @@ const TableDatas = (props) => {
   const nameBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`} size="large" shape="circle">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.first_name}`} size="large" shape="circle">
         </Avatar>
-        <span>{rowData.name_jp}</span>
+        <span>{rowData.first_name}</span>
       </div>
     );
   };
