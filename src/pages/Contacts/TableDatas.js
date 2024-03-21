@@ -222,9 +222,9 @@ const TableDatas = (props) => {
   const nameBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.first_name}`} size="large" shape="circle">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`} size="large" shape="circle">
         </Avatar>
-        <span>{rowData.first_name}</span>
+        <span>{rowData.full_name}</span>
       </div>
     );
   };
@@ -259,8 +259,9 @@ const TableDatas = (props) => {
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="phone_number" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="full_name" header="Employee name" body={nameBodyTemplate} filterField="full_name" filter filterPlaceholder="Search by name" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="phone_number" header="Phone Number" filterField="phone_number" filter filterPlaceholder="Search by phone number" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="email" header="Email" filterField="email" filter filterPlaceholder="Search by email" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="date_of_joining_syndication" header="Ngày gia nhập" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="description" header="Ghi chú" style={{ minWidth: '12rem' }} ></Column>
         <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
