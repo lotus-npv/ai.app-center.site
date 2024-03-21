@@ -300,9 +300,9 @@ const notificationsData = [
     {
         id: 1,
         avatar: img1,
-        title: "Donec vitae sapien ut",
-        description: "If several languages coalesce, the grammar of the resulting language",
-        author: "Joseph",
+        title: "Cập nhật thông tin đầy đủ cho TTS",
+        description: "Update lại avata mới nhất cho TTS - hạn đến 24-6-2024",
+        author: "Nghiệp đoàn 1",
         date: "12 Mar, 2020"
     },
     {

@@ -33,6 +33,7 @@ import modalimage2 from "../../assets/images/product/img-4.png";
 
 // Pages Components
 import Transactions from "./transactions";
+import Notifications from "./notifications";
 
 
 //i18n
@@ -81,6 +82,8 @@ const Dashboard = props => {
     setPeriodData(chartsData);
   }, [chartsData]);
 
+  const [isMonth, setIsMonth] = useState("btn-group btn-group-sm  d-flex justify-center  d-none")
+
   const onChangeChartPeriod = pType => {
     setPeriodType(pType);
     dispatch(onGetChartsData(pType));
@@ -110,6 +113,8 @@ const Dashboard = props => {
 
   //meta title
   document.title = "Dashboard";
+  const date = new Date();
+  console.log(date.getFullYear())
 
   return (
     <React.Fragment>
@@ -266,6 +271,7 @@ const Dashboard = props => {
                                 )}
                                 onClick={() => {
                                   onChangeChartPeriod("monthly");
+                                  setIsMonth("btn-group btn-group-sm  d-flex justify-center ")
                                 }}
                                 id="one_month"
                               >
@@ -281,6 +287,7 @@ const Dashboard = props => {
                                 )}
                                 onClick={() => {
                                   onChangeChartPeriod("yearly");
+                                  setIsMonth("btn-group btn-group-sm  d-flex justify-center  d-none")
                                 }}
                                 id="one_month"
                               >
@@ -288,9 +295,11 @@ const Dashboard = props => {
                               </Link>
                             </li>
                           </ul>
-                          <div className="btn-group btn-group-sm  d-flex justify-center mt-1 d-none" role="group">
-                            <button type="button" className="btn btn-outline-secondary">Năm :</button>
-                            <button type="button" className="btn btn-outline-secondary">2024</button>
+                          <div className="mt-1" style={{height: '40px'}}>
+                            <div className={isMonth} role="group">
+                              <button type="button" className="btn btn-outline-secondary">Năm :</button>
+                              <button type="button" className="btn btn-outline-secondary">{date.getFullYear()}</button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -314,7 +323,8 @@ const Dashboard = props => {
             </Col>
 
             <Col xl="4">
-              <Transactions title={'Top 5 xí nghiệp theo số lượng TTS'} />
+              {/* <Transactions title={'Top 5 xí nghiệp theo số lượng TTS'} /> */}
+              <Notifications/>
             </Col>
           </Row>
 
@@ -326,7 +336,7 @@ const Dashboard = props => {
         </Container>
       </div>
 
-      
+
     </React.Fragment>
   );
 };
