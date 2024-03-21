@@ -42,10 +42,12 @@ const ModalDatas = ({ item , dispatch, setApi, updateApi }) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      syndication_id: 1,
+      logo: '',
       name_jp: '',
       name_en: '',
-      jont_date: '',
       tax_code: '',
+      date_of_joining_syndication: '',
       description: '',
     },
     validationSchema: Yup.object().shape({
