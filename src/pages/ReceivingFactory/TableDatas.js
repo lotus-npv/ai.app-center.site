@@ -111,7 +111,8 @@ const TableDatas = (props) => {
     const array = addressData.filter(address => address.user_type === 'receiving_factory');
 
     // tạo danh sách địa
-    const number_of_factory = array.filter(address => address.is_default == 1).length;
+    // const number_of_factory = array.filter(address => address.is_default == 1).length;
+    const number_of_factory = factoryData.length;
     // console.log('number_of_factory', number_of_factory)
 
     let map = new Map();
