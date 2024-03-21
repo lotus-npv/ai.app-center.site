@@ -399,7 +399,7 @@ CREATE TABLE if not exists key_license (
 CREATE TABLE IF NOT EXISTS avata (
     id INT AUTO_INCREMENT PRIMARY KEY,
     key_license_id INT,
-    user_type ENUM('syndication','receiving_factory','dispatching_company','intern'),
+    user_type ENUM('syndication','receiving_factory','dispatching_company','intern', 'employee'),
     object_id INT,  -- dua vao user_type de xac dinh id cua doi tuong 
     path VARCHAR(255) NOT NULL,
     originalname VARCHAR(255) NOT NULL,

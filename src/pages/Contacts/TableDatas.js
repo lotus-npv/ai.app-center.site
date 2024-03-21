@@ -41,8 +41,12 @@ FilterService.register('custom_activity', (value, filters) => {
   return from <= value && value <= to;
 });
 
-const options = ['syndication','receiving_factory','dispatching_company'];
- 
+const options = [
+  { label: 'Syndication', value: 'syndication' },
+  { label: 'Receiving Factory', value: 'receiving_factory' },
+  { label: 'Dispatching Company', value: 'dispatching_company' }
+];
+
 const TableDatas = (props) => {
   // data context
   const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
@@ -50,7 +54,7 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const {  employeeData, loading, nationData } = useSelector(state => ({
+  const { employeeData, loading, nationData } = useSelector(state => ({
     employeeData: state.Employee.datas,
     loading: state.Employee.loading
   }), shallowEqual);
@@ -104,21 +108,20 @@ const TableDatas = (props) => {
     // tạo danh sách địa
     const number_of_contacts = employeeData.length;
 
-    return [{ name: 'All', data: number_of_contacts, type_id: 0 }, ...options.map((type, index) => {
-      return { name: type, data: employeeData.filter(employee => employee.user_type == type).length, type_id: index }
+    return [{ name: 'All', data: number_of_contacts, type: 'All' }, ...options.map((type, index) => {
+      return { name: type.label, data: employeeData.filter(employee => employee.user_type == type.value).length, type: type.value }
     })].filter(item => item.data > 0)
   }
 
   // acctive tab
-  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All", id: 0 });
-  const toggleCustom = (tab, data, id) => {
+  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All"});
+  const toggleCustom = (tab, data) => {
     if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data, id: id });
+      setcustomActiveTab({ index: tab, value: data});
     }
   };
 
   // Global filter 
-
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -176,7 +179,7 @@ const TableDatas = (props) => {
                       active: customActiveTab.index === (`${index}`),
                     })}
                     onClick={() => {
-                      toggleCustom(`${index}`, item.name, item.nationId);
+                      toggleCustom(`${index}`,item.type);
                     }}
                   >
                     <div className='d-flex gap-2 justify-content-center'>
@@ -197,23 +200,23 @@ const TableDatas = (props) => {
   const [dataTable, setDataTable] = useState(employeeData)
 
   const getListInternStatus = (key) => {
-    console.log('key ', key)
+    // console.log('key ', key)
     // const idStatus = statusData.find(item => item.name == key).id;
-    const arr = addressData.filter(item => item.nation_id == key);
-    console.log('arr:', arr)
+    const arr = employeeData.filter(item => item.user_type == key);
+    // console.log('arr:', arr)
     const newList = employeeData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company'));
-    setDataTable(newList);
+    setDataTable(arr);
   }
 
   useEffect(() => {
     if (customActiveTab.value === 'All') {
       setDataTable(employeeData);
     } else {
-      getListInternStatus(customActiveTab.id);
+      getListInternStatus(customActiveTab.value);
     }
   }, [customActiveTab, employeeData])
 
-  console.log('customActiveTab:', customActiveTab)
+  // console.log('customActiveTab:', customActiveTab)
 
   // render col name
   const nameBodyTemplate = (rowData) => {
@@ -242,11 +245,11 @@ const TableDatas = (props) => {
 
 
   // console.log('loading:', loading)
-  // console.log('nation:', nationData)
+  console.log('dataTable:', dataTable)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  console.log('employeeData:', employeeData);
+  // console.log('employeeData:', employeeData);
 
   return (
     <div className="card" >
