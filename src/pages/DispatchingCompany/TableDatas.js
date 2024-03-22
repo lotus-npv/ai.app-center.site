@@ -193,7 +193,7 @@ const TableDatas = (props) => {
             <ButtonRS color="primary" onClick={() => {
               setIsEditCompany(false);
               setRowSelect(null);
-              updateAddressDataCompany([addressCompany]);
+              updateAddressDataCompany([]);
               tog_fullscreen();
             }}>
               Thêm mới

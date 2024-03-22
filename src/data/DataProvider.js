@@ -69,25 +69,25 @@ const DataProvider = ({ children }) => {
     const addressCompany = {
         key_license_id: 1,
         user_type: 'dispatching_company',
-        object_id: '',
+        object_id: null,
         nation_id: 1,
-        province_id: '',
-        district_id: '',
-        commune_id: '',
-        detail: '',
-        phone_number: '',
-        email: '',
-        fax: '',
-        is_default: '',
-        description: '',
-        create_at: '',
+        province_id: null,
+        district_id: null,
+        commune_id: null,
+        detail: null,
+        phone_number: null,
+        email: null,
+        fax: null,
+        is_default: null,
+        description: null,
+        create_at: null,
         create_by: 1,
-        update_at: '',
+        update_at: null,
         update_by: 1,
-        delete_at: '',
+        delete_at: null,
         flag: 1
     }
-    const [addressDataCompany, setAddressDataCompany] = useState([addressCompany])
+    const [addressDataCompany, setAddressDataCompany] = useState([])
 
     const updateAddressDataCompany = newData => {
         setAddressDataCompany(newData);
@@ -137,7 +137,7 @@ const DataProvider = ({ children }) => {
 
     // get screen
     const screenAvailHeight = window.innerHeight;
-    const [vh, setVh] = useState('')
+    const [vh, setVh] = useState(null)
 
     window.addEventListener('resize', function () {
         var screenHeight = window.innerHeight;

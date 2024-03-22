@@ -197,6 +197,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
       }
     }, [isEditCompany])
 
+    // GHi du lieu dia chi vao database
   useEffect(() => {
     if (companyCreate != null) {
       const id = companyCreate['id'];
@@ -209,11 +210,10 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
           setIsCreateAddress(false);
         }
       })
-
     }
-
   }, [companyCreate])
 
+  // thuc thi formik
   const handleSubmit = () => {
     console.log('submit');
     formik.handleSubmit();
@@ -304,7 +304,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   console.log('addressDataCompany:', addressDataCompany)
-  // console.log('isEditCompany:', isEditCompany)
+  console.log('isEditCompany:', isEditCompany)
 
 
 
@@ -430,12 +430,13 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     value={optionGroup.find(option => option.value === formik.values.nation)}
                                     onChange={(item) => {
                                       formik.setFieldValue('nation', item == null ? null : item.value);
-                                      let arr = [...addressDataCompany]
-                                      const newArr = arr.map(address => {
-                                        return {...address, nation_id: item.value}
-                                      })
-                                      console.log('newArr', newArr)
-                                      updateAddressDataCompany(newArr);
+                                      // let arr = [...addressDataCompany]
+                                      // const newArr = arr.map(address => {
+                                      //   return {...address, nation_id: item.value}
+                                      // })
+                                      // console.log('newArr', newArr)
+                                      // updateAddressDataCompany(newArr);
+                                      addressCompany['nation_id'] = item.value;
                                     }}
                                     options={optionGroup}
                                   // isClearable
@@ -569,7 +570,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                           </Row>
                         </div>
 
-                        {addressDataCompany.map((address, index) => {
+                        {!isEditCompany && addressDataCompany.map((address, index) => {
                           return (
                             <Row className='mt-2' key={index} id={"nested" + index}>
                               <Col lg={8}>
@@ -590,7 +591,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                           arr[index] = { ...arr[index], description: e.target.value }
                                           updateAddressDataCompany(arr);
                                         }}
-                                        value={isEditCompany ? address.description : address.description}
+                                        value={address.description || ''}
                                       />
                                     </div>
 
@@ -602,8 +603,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                         name='province_id'
                                         placeholder='Tỉnh'
                                         // value={selectProvince || ""}
-                                        // defaultValue={isEditCompany ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
-                                        value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
+                                        defaultValue={isEditCompany ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
+                                        // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
                                         onChange={(item) => {
                                           setSelectProvince(item);
                                           const arr = [...addressDataCompany];
@@ -621,7 +622,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       <Select
                                         name='district'
                                         placeholder='Quận/Huyện'
-                                        value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
+                                        // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
                                         onChange={(item) => {
                                           setSelectDistrict(item);
                                           const arr = [...addressDataCompany];
@@ -640,7 +641,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       <Select
                                         name='commune'
                                         placeholder='Xã/Phường'
-                                        value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
+                                        // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
                                         onChange={(item) => {
                                           setSelectCommune(item);
                                           const arr = [...addressDataCompany];
@@ -770,7 +771,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
             tog_fullscreen();
             formik.resetForm();
             setIsEditCompany(false);
-            // updateAddressDataCompany([addressCompany])
+            updateAddressDataCompany([])
           }}
           className="btn btn-secondary "
           data-dismiss="modal"
