@@ -225,7 +225,7 @@ const TableDatas = (props) => {
   const nameBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.avata_name}`} size="large" shape="circle">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`} size="large" shape="circle">
         </Avatar>
         <span>{!loading ? rowData.full_name_jp : '....'}</span>
       </div>
@@ -256,7 +256,8 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log(dataTable)
+  console.log('dataTable:', dataTable)
+  console.log('internDataAllInfo:', internDataAllInfo)
   // console.log(dataUser)
 
   return (

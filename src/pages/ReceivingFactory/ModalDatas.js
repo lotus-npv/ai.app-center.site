@@ -38,21 +38,25 @@ const optionGroup = [
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress } from "store/actions";
+import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest , uploadFile } from "store/actions";
 
 const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
   const dispatch = useDispatch();
+
   // data context
   const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext);
-  // console.log('addressFactory', addressFactory)
+
+
   // Radio button
   const [selectAddressDefault, setSelectAddressDefault] = useState(0)
   const handleChangeDefault = (event) => {
     setSelectAddressDefault(event.target.value)
   }
 
+  // kiem tra trang thai xem co duoc ghi dia chi 
+  const [isCreateAddress, setIsCreateAddress] = useState(false);
 
-  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, factoryCreate, factoryData, factoryCreateLoading, uploadImageRequest , uploadFile} = useSelector(state => (
+  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, factoryCreate, factoryData, factoryCreateLoading} = useSelector(state => (
     {
       provinceDataByNationId: state.Province.dataByNationId,
       districtDataByProvinceId: state.District.dataByProvinceId,
@@ -165,7 +169,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
           flag: 1
         }
         dispatch(setApi(obj));
-
+        setIsCreateAddress(true);
         // upload anh len server
         if (selectedFile) {
           const formData = new FormData();
@@ -184,7 +188,6 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
 
 
 
-  // console.log('selectAddressDefault:', selectAddressDefault)
 
   // console.log('factoryCreate:', factoryCreate)
 
@@ -196,11 +199,13 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
       console.log('lay id moi ghi', id)
       addressDataFactory.forEach((address, index) => {
 
-        const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
+        const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 0 : 1 }
         if (id != null || id != undefined) {
-          console.log(newAddress)
           console.log('GHI BAN GHI ADDRESS:', newAddress)
-          dispatch(setAddress(newAddress));
+          if(isCreateAddress) {
+            dispatch(setAddress(newAddress));
+          }
+          setIsCreateAddress(false);
         }
       })
 
@@ -296,6 +301,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
   console.log('formik:', formik.values)
+  console.log('addressDataFactory:', addressDataFactory)
+  console.log('selectAddressDefault:', selectAddressDefault)
 
 
 

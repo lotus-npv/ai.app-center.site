@@ -252,7 +252,7 @@ const TableDatas = (props) => {
   const nameBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`} size="large" shape="circle">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`} size="large" shape="circle">
         </Avatar>
         <span>{rowData.name_jp}</span>
       </div>
@@ -278,7 +278,7 @@ const TableDatas = (props) => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  // console.log('dataTable:', dataTable);
+  console.log('dataTable:', dataTable);
 
   return (
     <div className="card" >
