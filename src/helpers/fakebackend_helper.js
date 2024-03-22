@@ -27,7 +27,7 @@ export const deleteDataCareer = (id) => del(`${url.DELETE_CAREER}/${id}`, { para
 
 // Status
 export const getStatusDataAll = () => get(url.GET_STATUS_ALL);
-export const getStatusDataId = () => get(url.GET_STATUS_ID);
+export const getStatusDataId = (id) => get(`${url.GET_STATUS_ID}/${id}`,{ params: { id } }, config);
 export const addNewDataStatus = data => post(url.SET_STATUS, data, config);
 export const updateDataStatus = data => put(url.UPDATE_STATUS, data, config);
 export const deleteDataStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { params: { id } }, config);

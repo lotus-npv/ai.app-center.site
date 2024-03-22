@@ -1,6 +1,8 @@
 import {
+  GET_STATUS_ALL,
   GET_STATUS_ALL_SUCCESS,
   GET_STATUS_ALL_FAIL,
+  GET_STATUS_ID,
   GET_STATUS_ID_SUCCESS,
   GET_STATUS_ID_FAIL,
   SET_STATUS_SUCCESS,
@@ -13,11 +15,16 @@ import {
   
   const INIT_STATE = {
     datas: [],
-    data: {}
+    data: {},
+    dataByid: []
   };
   
   const Status = (state = INIT_STATE, action) => {
     switch (action.type) {
+      case GET_STATUS_ALL:
+        return {
+          ...state,
+        };
       case GET_STATUS_ALL_SUCCESS:
         return {
           ...state,
@@ -25,6 +32,21 @@ import {
         };
   
       case GET_STATUS_ALL_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+      case GET_STATUS_ID:
+        return {
+          ...state,
+        };
+      case GET_STATUS_ID_SUCCESS:
+        return {
+          ...state,
+          dataByid: action.payload,
+        };
+  
+      case GET_STATUS_ID_FAIL:
         return {
           ...state,
           error: action.payload,

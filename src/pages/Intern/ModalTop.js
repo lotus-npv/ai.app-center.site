@@ -14,7 +14,7 @@ import DataContext from "../../data/DataContext";
 const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup }) => {
 
     // data context
-    const { tog_fullscreen, setIsEdit, tog_standard, modal_standard, setmodal_standard,modal_xlarge,tog_xlarge, setmodal_xlarge } = useContext(DataContext)
+    const { tog_fullscreen, setIsEditIntern, tog_standard, modal_standard, setmodal_standard,modal_xlarge,tog_xlarge, setmodal_xlarge } = useContext(DataContext)
 
     return (
         <>
@@ -49,7 +49,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                 </div>
                 <div>
                     <Button color="primary" onClick={() => {
-                        setIsEdit(false);
+                        setIsEditIntern(false);
                         tog_fullscreen();
                     }}>
                         Thêm mới

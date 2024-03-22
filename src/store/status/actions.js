@@ -30,8 +30,9 @@ export const getStatusAllFail = error => ({
   payload: error,
 });
 
-export const getStatusId = () => ({
+export const getStatusId = (id) => ({
   type: GET_STATUS_ID,
+  payload: id
 });
 
 export const getStatusIdSuccess = data => ({

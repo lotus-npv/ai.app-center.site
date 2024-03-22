@@ -3,7 +3,7 @@ import { takeEvery, put, call, all, fork } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  DELETE_STATUS,GET_STATUS_ALL, SET_STATUS, UPDATE_STATUS,
+  DELETE_STATUS,GET_STATUS_ALL, GET_STATUS_ID, SET_STATUS, UPDATE_STATUS,
 } from "./actionTypes"
 import {
   getStatusAllFail,
@@ -16,12 +16,22 @@ import {
   deleteStatusFail
 } from "./actions"
 
-import { getStatusDataAll, addNewDataStatus, updateDataStatus, deleteDataStatus } from "../../helpers/fakebackend_helper";
+import { getStatusDataAll, addNewDataStatus, updateDataStatus, deleteDataStatus , getStatusDataId} from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetStatusData() {
   try {
     const response = yield call(getStatusDataAll);
+    yield put(getStatusAllSuccess(response));
+  } catch (error) {
+    yield put(getStatusAllFail(error))
+  }
+}
+
+function* fetStatusDataId(action) {
+  try {
+    const id = action.payload;
+    const response = yield call(getStatusDataId, id);
     yield put(getStatusAllSuccess(response));
   } catch (error) {
     yield put(getStatusAllFail(error))
@@ -64,6 +74,7 @@ function* onDeleteStatus({ payload: id }) {
 
 function* StatusSaga() {
   yield takeEvery(GET_STATUS_ALL, fetStatusData)
+  yield takeEvery(GET_STATUS_ID, fetStatusDataId)
   yield takeEvery(SET_STATUS, onAddNewStatus)
   yield takeEvery(UPDATE_STATUS, onUpdateStatus)
   yield takeEvery(DELETE_STATUS, onDeleteStatus)

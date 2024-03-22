@@ -16,7 +16,7 @@ import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getStatusAll, updateStatus, deleteStatus, setStatus } from "store/actions";
+import { getStatusAll, updateStatus, deleteStatus, setStatus, getStatusId } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -38,19 +38,18 @@ const TableDatas = () => {
     name: { value: null, matchMode: FilterMatchMode.CONTAINS },
     description: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
-  const [loading, setLoading] = useState(true);
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const dispatch = useDispatch();
 
   const { datas } = useSelector(state => ({
-    datas: state.Status.datas
+    datas: state.Status.datas,
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getStatusAll());
-    setLoading(false);
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -63,6 +62,7 @@ const TableDatas = () => {
       clearInterval(intervalId);
     };
   }, []);
+
 
   // modal edit or addnew
   const [isEdit, setIsEdit] = useState(false);
