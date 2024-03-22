@@ -28,7 +28,7 @@ import avata from '../../assets/images/users/avatar-1.jpg'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest,  } from "store/actions";
+import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest, getDispatchingCompanyAll, getReceivingFactoryAll, getStatusAll, getCareerAll, getStatusOfResidenceAll} from "store/actions";
 
 
 const optionGroup = [
@@ -58,16 +58,31 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
   // kiem tra trang thai xem co duoc ghi dia chi 
   const [isCreateAddress, setIsCreateAddress] = useState(false);
 
-  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, companyCreate, companyData, companyCreateLoading } = useSelector(state => (
+  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, internCreate, companyData, factoryData, statusData, careerData, statusOfResidenceData } = useSelector(state => (
     {
       provinceDataByNationId: state.Province.dataByNationId,
       districtDataByProvinceId: state.District.dataByProvinceId,
       communeDataByDistrictId: state.Commune.dataByDistrictId,
-      companyCreate: state.DispatchingCompany.data,
+      internCreate: state.Intern.data,
       companyData: state.DispatchingCompany.datas,
-      companyCreateLoading: state.DispatchingCompany.loading,
+      factoryData: state.ReceivingFactory.datas,
+      statusData: state.Status.datas,
+      careerData: state.Career.datas,
+      statusOfResidenceData: state.StatusOfResidence.datas,
     }
-  ), shallowEqual)
+  ), shallowEqual);
+
+    // Get du lieu lan dau 
+    useEffect(() => {
+      dispatch(getDispatchingCompanyAll());
+      dispatch(getReceivingFactoryAll());
+      dispatch(getStatusAll());
+      dispatch(getCareerAll());
+      dispatch(getStatusOfResidenceAll());
+    }, [dispatch]);
+
+
+    // console.log(companyData);
 
   // xu ly form nhap anh
   const fileInputRef = useRef();
@@ -121,12 +136,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       update_by: item != null ? item.update_by : 1,
 
       nation_id: 1,
-      status_of_residence_id: '', // trạng thái
       alien_registration_card_number: '', // số thẻ ngoại kiều
       status_of_residence_id: '',  // Tư cách lưu trú
       license_date: '',
       expiration_date: '',
-      status_id: ''
+      status_id: '' // trạng thái
     },
     validationSchema: Yup.object().shape({
       first_name_jp: Yup.string().required(
@@ -292,8 +306,8 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
   // GHi du lieu dia chi vao database
   useEffect(() => {
-    if (companyCreate != null) {
-      const id = companyCreate['id'];
+    if (internCreate != null) {
+      const id = internCreate['id'];
       addressDataIntern.forEach((address, index) => {
         const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
         if (id != null || id != undefined) {
@@ -304,7 +318,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
         }
       })
     }
-  }, [companyCreate])
+  }, [internCreate])
 
   // thuc thi formik
   const handleSubmit = () => {
@@ -395,6 +409,8 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
 
   // console.log('formik:', formik.values)
+  console.log('statusData:', statusData)
+  console.log('careerData:', careerData)
 
 
   return (
@@ -757,11 +773,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                         <Select
                                           name='dispatching_company_id'
                                           placeholder='Chọn công ty phái cử'
-                                          value={optionGroup.find(option =>  option.value === formik.values.dispatching_company_id)}
+                                          value={companyData.find(option =>  option.value === formik.values.dispatching_company_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('dispatching_company_id', item.value);
                                           }}
-                                          options={optionGroup}
+                                          options={companyData}
                                         // isClearable
                                         />
                                       </div>
@@ -772,11 +788,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                         <Select
                                           name='receiving_factory_id'
                                           placeholder='Chọn xí nghiệp tiếp nhận'
-                                          value={optionGroup.find(option => option.value === formik.values.receiving_factory_id)}
+                                          value={factoryData.find(option => option.value === formik.values.receiving_factory_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('receiving_factory_id', item == null ? null : item.value);
                                           }}
-                                          options={optionGroup}
+                                          options={factoryData}
                                         // isClearable
                                         />
                                       </div>
@@ -808,11 +824,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                         <Select
                                           name='status_of_residence_id'
                                           placeholder='Chọn tư cách lưu trú'
-                                          value={optionGroup.find(option => option.value === formik.values.status_of_residence_id)}
+                                          value={statusOfResidenceData.find(option => option.value === formik.values.status_of_residence_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('status_of_residence_id', item == null ? null : item.value);
                                           }}
-                                          options={optionGroup}
+                                          options={statusOfResidenceData}
                                         // isClearable
                                         />
                                       </div>
@@ -866,11 +882,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                         <Select
                                           name='status_id'
                                           placeholder='Chọn trạng thái'
-                                          value={optionGroup.find(option => option.value === formik.values.status_id)}
+                                          value={statusData.find(option => option.value === formik.values.status_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('status_id', item == null ? null : item.value);
                                           }}
-                                          options={optionGroup}
+                                          options={statusData}
                                         // isClearable
                                         />
                                       </div>
@@ -881,11 +897,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                         <Select
                                           name='career_id'
                                           placeholder='Chọn ngành nghề'
-                                          value={optionGroup.find(option => option.value === formik.values.career_id)}
+                                          value={careerData.find(option => option.value === formik.values.career_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('career_id', item == null ? null : item.value);
                                           }}
-                                          options={optionGroup}
+                                          options={careerData}
                                         // isClearable
                                         />
                                       </div>

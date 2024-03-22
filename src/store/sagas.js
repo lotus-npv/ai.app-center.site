@@ -29,6 +29,7 @@ import NationSaga from "./nation/saga";
 import ProvinceSaga from "./province/saga";
 import DistrictSaga from "./district/saga";
 import CommuneSaga from "./commune/saga";
+import StatusOfResidenceSaga from "./status_of_residence/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -61,5 +62,6 @@ export default function* rootSaga() {
     fork(ProvinceSaga),
     fork(DistrictSaga),
     fork(CommuneSaga),
+    fork(StatusOfResidenceSaga),
   ]);
 }

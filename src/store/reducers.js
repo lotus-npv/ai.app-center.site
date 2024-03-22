@@ -49,6 +49,7 @@ import Nation from "./nation/reducer";
 import Province from "./province/reducer";
 import District from "./district/reducer";
 import Commune from "./commune/reducer";
+import StatusOfResidence from "./status_of_residence/reducer";
 
 
 const rootReducer = combineReducers({
@@ -80,7 +81,8 @@ const rootReducer = combineReducers({
   Nation,
   Province,
   District,
-  Commune
+  Commune,
+  StatusOfResidence
 });
 
 export default rootReducer;

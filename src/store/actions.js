@@ -56,3 +56,5 @@ export * from "./province/actions"
 export * from "./district/actions"
 // commune 
 export * from "./commune/actions"
+// status_of_residence 
+export * from "./status_of_residence/actions"
