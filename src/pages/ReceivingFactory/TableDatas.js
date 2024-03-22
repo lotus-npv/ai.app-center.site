@@ -89,7 +89,7 @@ const TableDatas = (props) => {
   const handleDeleteOrder = () => {
     if (item && item.id) {
       console.log('delete id :' + item.id);
-      dispatch(deleteCareer(item.id));
+      dispatch(deleteReceivingFactory(item.id));
 
       setDeleteModal(false);
     }
@@ -307,6 +307,7 @@ const TableDatas = (props) => {
         getApi={getReceivingFactoryAll}
         setApi={setReceivingFactory}
         updateApi={updateReceivingFactory}
+        addressData={addressData}
       />
 
     </div>

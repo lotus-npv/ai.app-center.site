@@ -57,6 +57,7 @@ function* onDeleteReceivingFactory({ payload: id }) {
       const response = yield call(deleteDataReceivingFactory, id)
       yield put(deleteReceivingFactorySuccess(response));
       toast.success("ReceivingFactory Delete Successfully", { autoClose: 2000 });
+      yield call(refreshReceivingFactoryData);
   } catch (error) {
       yield put(deleteReceivingFactoryFail(error))
       toast.error("ReceivingFactory Delete Failed", { autoClose: 2000 });

@@ -3,6 +3,9 @@ import { Card, CardBody, Container, Button, CardHeader, Row, Col, UncontrolledTo
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import PropTypes from 'prop-types';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import TableDatas from "./TableDatas";
 
 
@@ -18,6 +21,7 @@ const ReceivingFactoryPage = (props) => {
                             <TableDatas />
                         </CardBody>
                     </Card>
+                    <ToastContainer />
                 </Container>
             </div>
         </>

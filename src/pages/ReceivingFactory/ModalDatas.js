@@ -16,10 +16,8 @@ import {
   CloseButton
 } from "reactstrap";
 
-import Switch from "react-switch";
 import Select from "react-select";
-import { Link, Route, useNavigate } from "react-router-dom";
-
+import moment from 'moment';
 
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -27,8 +25,6 @@ import { useFormik } from "formik";
 // import context
 import DataContext from "../../data/DataContext";
 import avata from '../../assets/images/users/avatar-1.jpg'
-import { add, forEach } from 'lodash';
-
 
 const optionGroup = [
   { label: "Mustard", value: "Mustard" },
@@ -40,7 +36,7 @@ const optionGroup = [
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest , uploadFile } from "store/actions";
 
-const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
+const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   const dispatch = useDispatch();
 
   // data context
@@ -67,9 +63,20 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
     }
   ), shallowEqual)
 
+  // Tai du lieu thanh pho 
   useEffect(() => {
     dispatch(getProvinceByNationId(1));
   }, [])
+
+  // nap du lieu cho dia chi neu la chinh sua
+  useEffect(() => {
+    if(isEdit) {
+      const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'receiving_factory')
+      updateAddressDataFactory(arr)
+    }
+  }, [])
+
+
 
   // xu ly form nhap anh
   const fileInputRef = useRef();
@@ -99,7 +106,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
       name_jp: item != null ? item.name_jp : '',
       name_en: item != null ? item.name_en : '',
       tax_code: item != null ? item.tax_code : '',
-      date_of_joining_syndication: item != null ? item.date_of_joining_syndication : '',
+      date_of_joining_syndication: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
       description: item !== null ? item.description : '',
       create_at: item !== null ? item.create_at : '',
 
