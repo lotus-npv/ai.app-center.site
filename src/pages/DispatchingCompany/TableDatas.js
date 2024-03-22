@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getDispatchingCompanyAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll, getNationAll } from "store/actions";
+import { getDispatchingCompanyAll, getAddressAll, getProvinceId, getProvinceAll, getNationAll, deleteDispatchingCompany, setDispatchingCompany, updateDispatchingCompany } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -42,8 +42,9 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = (props) => {
+
   // data context
-  const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
+  const {vh, modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditCompany, setIsEditCompany,addressCompany, addressDataCompany, updateAddressDataCompany, } = useContext(DataContext);
 
   //table
 
@@ -87,7 +88,7 @@ const TableDatas = (props) => {
   const handleDeleteOrder = () => {
     if (item && item.id) {
       console.log('delete id :' + item.id);
-      dispatch(deleteCareer(item.id));
+      dispatch(deleteDispatchingCompany(item.id));
 
       setDeleteModal(false);
     }
@@ -190,7 +191,9 @@ const TableDatas = (props) => {
               <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
             </span>
             <ButtonRS color="primary" onClick={() => {
-              setIsEdit(false);
+              setIsEditCompany(false);
+              setRowSelect(null);
+              updateAddressDataCompany([addressCompany]);
               tog_fullscreen();
             }}>
               Thêm mới
@@ -246,13 +249,12 @@ const TableDatas = (props) => {
     }
   }, [customActiveTab, companyData])
 
-  console.log('customActiveTab:', customActiveTab)
 
   // render col name
   const nameBodyTemplate = (rowData) => {
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`} size="large" shape="circle">
+        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`} size="large" shape="circle">
         </Avatar>
         <span>{rowData.name_jp}</span>
       </div>
@@ -263,7 +265,7 @@ const TableDatas = (props) => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEdit(true) }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData);setIsEditCompany(true); tog_fullscreen();  }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -272,14 +274,13 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-
-
+  // console.log('customActiveTab:', customActiveTab)
   // console.log('loading:', loading)
   // console.log('nation:', nationData)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  console.log('companyData:', companyData);
+  // console.log('companyData:', companyData);
 
   return (
     <div className="card" >
@@ -305,8 +306,10 @@ const TableDatas = (props) => {
       <ModalDatas
         item={rowSelect}
         dispatch={dispatch}
-      // setApi={setIntern}
-      // updateApi={updateIntern}
+        getApi={getDispatchingCompanyAll}
+        setApi={setDispatchingCompany}
+        updateApi={updateDispatchingCompany}
+        addressData={addressData}
       />
 
     </div>

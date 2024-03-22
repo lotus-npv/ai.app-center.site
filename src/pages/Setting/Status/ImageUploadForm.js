@@ -78,15 +78,15 @@ function ImageUploadForm({save}) {
             setUploadDone(true);
 
 
-            // if (selectedFile) {
-            //     const formData = new FormData();
-            //     formData.append('image', selectedFile);
+            if (selectedFile) {
+                const formData = new FormData();
+                formData.append('image', selectedFile);
 
-            //     dispatch(uploadImageRequest(formData));
-            //     // dispatch(uploadFile(formData));
-            // } else {
-            //     alert('Please select a file.');
-            // }
+                dispatch(uploadImageRequest(formData));
+                // dispatch(uploadFile(formData));
+            } else {
+                alert('Please select a file.');
+            }
             // console.log('File uploaded successfully:', uploadedFilename);
 
         } catch (error) {

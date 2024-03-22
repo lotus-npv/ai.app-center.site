@@ -71,7 +71,7 @@ const TableDatas = (props) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getReceivingFactoryAll());
-    }, 30000);
+    }, 10000);
     return () => {
       clearInterval(intervalId);
     };
@@ -279,7 +279,7 @@ const TableDatas = (props) => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  console.log('dataTable:', dataTable);
+  // console.log('dataTable:', dataTable);
 
   return (
     <div className="card" >

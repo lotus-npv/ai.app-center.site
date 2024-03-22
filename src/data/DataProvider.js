@@ -176,6 +176,8 @@ const DataProvider = ({ children }) => {
 
     // edit factory
     const [isEditFactory, setIsEditFactory] = useState(false);
+    // edit company
+    const [isEditCompany, setIsEditCompany] = useState(false);
     // edit factory
     const [isEdit, setIsEdit] = useState(false);
 
@@ -184,34 +186,22 @@ const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider
             value={{
-                internDatas,
-                updateInternDatas,
-                receivingFactoryDatas,
-                updateReceivingFactoryDatas,
-                dispatchingCompanyDatas,
-                updateDispatchingCompanyDatas,
-                violateDatas,
-                updateViolateDatas,
-                addressFactory,
-                addressDataFactory,
-                updateAddressDataFactory,
-                addressCompany,
-                addressDataCompany,
-                updateAddressDataCompany,
-                addressIntern,
-                addressDataIntern,
-                updateAddressDataIntern,
-                statusData,
-                updateStatusData,
-                careerData,
-                updateCareerData,
+                internDatas, updateInternDatas,
+                receivingFactoryDatas, updateReceivingFactoryDatas,
+                dispatchingCompanyDatas, updateDispatchingCompanyDatas,
+                violateDatas, updateViolateDatas,
+                addressFactory, addressDataFactory, updateAddressDataFactory,
+                addressCompany, addressDataCompany, updateAddressDataCompany,
+                addressIntern, addressDataIntern, updateAddressDataIntern,
+                statusData, updateStatusData,
+                careerData, updateCareerData,
                 vh,
                 modal_standard, setmodal_standard, tog_standard,
                 modal_xlarge, setmodal_xlarge, tog_xlarge,
                 modal_fullscreen, setmodal_fullscreen, tog_fullscreen,
-                isEdit,setIsEdit,
-                isEditFactory,
-                setIsEditFactory,
+                isEdit, setIsEdit,
+                isEditFactory, setIsEditFactory,
+                isEditCompany, setIsEditCompany
             }}
         >
             {children}
