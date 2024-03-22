@@ -256,8 +256,8 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  // console.log(dataTable)
-  console.log(dataUser)
+  console.log(dataTable)
+  // console.log(dataUser)
 
   return (
     <div className="card" >

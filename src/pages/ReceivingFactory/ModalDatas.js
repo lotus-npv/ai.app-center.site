@@ -44,7 +44,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
   const dispatch = useDispatch();
   // data context
   const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext);
-  console.log('addressFactory', addressFactory)
+  // console.log('addressFactory', addressFactory)
   // Radio button
   const [selectAddressDefault, setSelectAddressDefault] = useState(0)
   const handleChangeDefault = (event) => {
@@ -52,7 +52,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
   }
 
 
-  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, factoryCreate, factoryData, factoryCreateLoading, uploadImageRequest } = useSelector(state => (
+  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, factoryCreate, factoryData, factoryCreateLoading, uploadImageRequest , uploadFile} = useSelector(state => (
     {
       provinceDataByNationId: state.Province.dataByNationId,
       districtDataByProvinceId: state.District.dataByProvinceId,
@@ -84,7 +84,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
     }
   }
 
-  console.log(selectedFile);
+  console.log('selectedFile:', selectedFile);
 
 
   const formik = useFormik({
@@ -147,16 +147,6 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
           flag: 1
         }
         dispatch(updateApi(obj));
-        if (selectedFile) {
-          const formData = new FormData();
-          formData.append('image', selectedFile);
-
-          dispatch(uploadImageRequest(formData));
-          // dispatch(uploadFile(formData));
-        } else {
-          alert('Please select a file.');
-        }
-
       } else {
         let obj = {
           key_license_id: 1,
@@ -175,18 +165,17 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
           flag: 1
         }
         dispatch(setApi(obj));
+
+        // upload anh len server
         if (selectedFile) {
           const formData = new FormData();
           formData.append('image', selectedFile);
-
           dispatch(uploadImageRequest(formData));
           // dispatch(uploadFile(formData));
-        } else {
-          alert('Please select a file.');
-        }
+        } 
       }
 
-      dispatch(getApi());
+      // dispatch(getApi());
       formik.resetForm();
       console.log('submit done');
       tog_fullscreen();
@@ -195,9 +184,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi }) => {
 
 
 
-  console.log('selectAddressDefault:', selectAddressDefault)
+  // console.log('selectAddressDefault:', selectAddressDefault)
 
-  console.log('factoryCreate:', factoryCreate)
+  // console.log('factoryCreate:', factoryCreate)
 
   useEffect(() => {
     console.log('bat dau ghi address')
