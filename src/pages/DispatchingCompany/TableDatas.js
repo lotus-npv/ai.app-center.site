@@ -305,7 +305,6 @@ const TableDatas = (props) => {
 
       <ModalDatas
         item={rowSelect}
-        dispatch={dispatch}
         getApi={getDispatchingCompanyAll}
         setApi={setDispatchingCompany}
         updateApi={updateDispatchingCompany}

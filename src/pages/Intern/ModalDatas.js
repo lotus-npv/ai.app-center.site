@@ -12,7 +12,8 @@ import {
   FormFeedback,
   Form,
   UncontrolledTooltip,
-  Modal
+  Modal,
+  CloseButton
 } from "reactstrap";
 
 import Switch from "react-switch";
@@ -27,6 +28,10 @@ import { useFormik } from "formik";
 import DataContext from "../../data/DataContext";
 import avata from '../../assets/images/users/avatar-1.jpg'
 
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest, } from "store/actions";
+
 
 const optionGroup = [
   { label: "Mustard", value: "Mustard" },
@@ -34,10 +39,52 @@ const optionGroup = [
   { label: "Relish", value: "Relish" }
 ];
 
-const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
+
+const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
+
+  const dispatch = useDispatch();
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, setIsEdit, isEdit , addressIntern,addressDataIntern,updateAddressDataIntern,} = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditIntern, setIsEditIntern, addressIntern, addressDataIntern, updateAddressDataIntern, } = useContext(DataContext)
+
+  // Radio button
+  const [selectAddressDefault, setSelectAddressDefault] = useState(0)
+  const handleChangeDefault = (event) => {
+    setSelectAddressDefault(event.target.value)
+  }
+
+  // kiem tra trang thai xem co duoc ghi dia chi 
+  const [isCreateAddress, setIsCreateAddress] = useState(false);
+
+  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, companyCreate, companyData, companyCreateLoading } = useSelector(state => (
+    {
+      provinceDataByNationId: state.Province.dataByNationId,
+      districtDataByProvinceId: state.District.dataByProvinceId,
+      communeDataByDistrictId: state.Commune.dataByDistrictId,
+      companyCreate: state.DispatchingCompany.data,
+      companyData: state.DispatchingCompany.datas,
+      companyCreateLoading: state.DispatchingCompany.loading,
+    }
+  ), shallowEqual)
+
+  // xu ly form nhap anh
+  const fileInputRef = useRef();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [showAvata, setShowAvata] = useState(avata);
+  const handleChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    formik.setFieldValue('logo', file.name);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setShowAvata(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  console.log('selectedFile:', selectedFile);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -50,7 +97,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
     onSubmit: async (value) => {
 
-      if (isEdit) {
+      if (isEditIntern) {
         let obj = {
           id: value.id,
           key_license_id: 1,
@@ -93,46 +140,124 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
     }
   });
 
-  const handleSubmit = () => {
-    console.log('submit');
-    formik.handleSubmit();
-  }
+  // Tai du lieu thanh pho 
+  useEffect(() => {
+    dispatch(getProvinceByNationId(formik.values.nation));
+  }, [formik.values.nation])
 
-  // xu ly address intern
+  // nap du lieu cho dia chi neu la chinh sua
+  useEffect(() => {
+    console.log('check');
+    if (isEditIntern) {
+      if (item !== null) {
+        const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'intern');
+        console.log('arr', arr)
+        updateAddressDataCompany(arr)
+      }
+    }
+  }, [isEditIntern])
+
+  // GHi du lieu dia chi vao database
+  useEffect(() => {
+    if (companyCreate != null) {
+      const id = companyCreate['id'];
+      addressDataCompany.forEach((address, index) => {
+        const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
+        if (id != null || id != undefined) {
+          if (isCreateAddress) {
+            dispatch(setAddress(newAddress));
+          }
+          setIsCreateAddress(false);
+        }
+      })
+    }
+  }, [companyCreate])
+
+    // thuc thi formik
+    const handleSubmit = () => {
+      console.log('submit');
+      formik.handleSubmit();
+    }
+
+  // xu ly them form address
   const handleAddForm = () => {
-      updateAddressDataIntern([...addressDataIntern, addressIntern])
+    updateAddressDataIntern([...addressDataIntern, addressIntern])
   };
 
   const handleDeleteColumn = (getIndex) => {
     const arr = [...addressDataIntern];
     arr.splice(getIndex, 1);
     updateAddressDataIntern(arr);
-}
-
-  const fileInputRef = useRef();
-  const [selectedFile, setSelectedFile] = useState(avata);
-  const handleChange = (event) => {
-      const file = event.target.files[0];
-      if (file) {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-              setSelectedFile(e.target.result);
-          };
-          reader.readAsDataURL(file);
-      }
   }
+
+
 
   const [textareabadge, settextareabadge] = useState(0);
   const [textcount, settextcount] = useState(0);
   function textareachange(event) {
-      const count = event.target.value.length;
-      if (count > 0) {
-          settextareabadge(true);
-      } else {
-          settextareabadge(false);
-      }
-      settextcount(event.target.value.length);
+    const count = event.target.value.length;
+    if (count > 0) {
+      settextareabadge(true);
+    } else {
+      settextareabadge(false);
+    }
+    settextcount(event.target.value.length);
   }
+
+  // render lua chon tinh, huyen, xa
+  const [selectProvince, setSelectProvince] = useState(null)
+  const [selectDistrict, setSelectDistrict] = useState(null)
+  const [selectCommune, setSelectCommune] = useState(null)
+
+  // tao danh sach lua chon tinh/thanh pho
+  const [provinceOptions, setProvinceOptions] = useState([])
+  useEffect(() => {
+    if (provinceDataByNationId) {
+      const data = provinceDataByNationId.map(province => {
+        return { ...province, label: province.StateName_ja, value: province.StateName_ja }
+      })
+      setProvinceOptions(data)
+    }
+  }, [provinceDataByNationId])
+
+  // Xu ly danh sach district
+  const [districtOptions, setDistrictOptions] = useState([])
+
+  useEffect(() => {
+    if (selectProvince !== null) {
+      dispatch(getDistrictByProvinceId(selectProvince.StateID));
+      setSelectDistrict('');
+    }
+  }, [selectProvince])
+
+  useEffect(() => {
+    if (districtDataByProvinceId !== null) {
+      const data = districtDataByProvinceId.map(district => {
+        return { ...district, label: district.DistrictName_ja, value: district.DistrictName_ja }
+      })
+      setDistrictOptions(data)
+    }
+  }, [districtDataByProvinceId])
+
+  // xu ly tai danh sach commune
+  const [communeOptions, setCommuneOptions] = useState([])
+  useEffect(() => {
+    if (selectDistrict !== null) {
+      dispatch(getCommuneByDistrictId(selectDistrict.DistrictID));
+      setSelectCommune('');
+    }
+  }, [selectDistrict])
+
+  useEffect(() => {
+    if (communeDataByDistrictId !== null) {
+      const data = communeDataByDistrictId.map(commune => {
+        return { ...commune, label: commune.WardName_ja, value: commune.WardName_ja }
+      })
+      setCommuneOptions(data)
+    }
+  }, [communeDataByDistrictId])
+
+
 
 
   return (
@@ -151,7 +276,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
               className="modal-title mt-0"
               id="exampleModalFullscreenLabel"
             >
-              {isEdit ? 'Sửa thông tin' : 'Thêm thực tập sinh'}
+              {isEditIntern ? 'Sửa thông tin' : 'Thêm thực tập sinh'}
             </h5>
             <button
               onClick={() => {
@@ -603,208 +728,238 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                         </Col>
                       </Row>
 
-                      <Row className='border border-secondary mt-3'>
-                        <div>
-                          <Row className='bg-secondary text-light'>
-                            <Col lg={2} className='text-center mt-2 fw-bold'>
-                              <p>Tỉnh</p>
-                            </Col>
-                            <Col lg={2} className='text-center mt-2 fw-bold'>
-                              <p>Quận/ Huyện</p>
-                            </Col>
-                            <Col lg={2} className='text-center mt-2 fw-bold'>
-                              <p>Xã/ Phường</p>
-                            </Col>
-                            <Col lg={2} className='text-center mt-2 fw-bold'>
-                              <p>Số nhà, đường, phố...</p>
-                            </Col>
-                            <Col lg={1} className='text-center mt-2 fw-bold'>
-                              <p>Số điện thoại</p>
-                            </Col>
-                            <Col lg={1} className='text-center mt-2 fw-bold'>
-                              <p>Fax</p>
-                            </Col>
-                            <Col lg={2} className='text-center mt-2 fw-bold'>
-                              <Row>
+                      <Card>
+                        {!isEditIntern && <CardBody>
+
+                          <Row className='border border-secondary mt-3'>
+                            <div>
+                              <Row className='bg-secondary text-light'>
                                 <Col lg={8}>
-                                  <p>Email</p>
+                                  <Row>
+                                    <Col lg={2} className='text-center mt-2 fw-bold'>
+                                      <p>Chi nhánh</p>
+                                    </Col>
+                                    <Col lg={2} className='text-center mt-2 fw-bold'>
+                                      <p>Tỉnh</p>
+                                    </Col>
+                                    <Col lg={2} className='text-center mt-2 fw-bold'>
+                                      <p>Quận/ Huyện</p>
+                                    </Col>
+                                    <Col lg={2} className='text-center mt-2 fw-bold'>
+                                      <p>Xã/ Phường</p>
+                                    </Col>
+                                    <Col lg={4} className='text-center mt-2 fw-bold'>
+                                      <p>Số nhà, đường, phố...</p>
+                                    </Col>
+                                  </Row>
                                 </Col>
-                                <Col lg={4}>
-                                  <p>Mặc định</p>
+
+                                <Col lg={1} className='text-center mt-2 fw-bold'>
+                                  <p>Số điện thoại</p>
+                                </Col>
+                                <Col lg={1} className='text-center mt-2 fw-bold'>
+                                  <p>Fax</p>
+                                </Col>
+                                <Col lg={2} className='text-center mt-2 fw-bold'>
+                                  <Row>
+                                    <Col lg={8}>
+                                      <p>Email</p>
+                                    </Col>
+                                    <Col lg={4}>
+                                      <p>Mặc định</p>
+                                    </Col>
+                                  </Row>
                                 </Col>
                               </Row>
-                            </Col>
-                          </Row>
-                        </div>
+                            </div>
 
-                        {/* {addressData.map((_, index) => {
-                                                return <Address key={index} getIndex={index} />
-                                            })} */}
+                            {addressDataIntern.map((address, index) => {
+                              return (
+                                <Row className='mt-2' key={index} id={"nested" + index}>
+                                  <Col lg={8}>
+                                    <Row>
+                                      <Col lg={2} className='d-flex justify-content-center gap-2 mt-2'>
 
-                        {addressDataIntern.map((_, index) => {
-                          return (
-                            <Row className='mt-2' key={index}>
-                              <Col lg={2} className='mt-2 fw-bold '>
-                                <div className="mb-3">
-                                  <Select
-                                    name='province'
-                                    placeholder='Chọn tỉnh'
-                                    value={optionGroup.find(option => option.value === formik.values.province)}
-                                    onChange={(item) => {
-                                      formik.setFieldValue('province', item == null ? null : item.value);
-                                    }}
-                                    options={optionGroup}
-                                  // isClearable
-                                  />
-                                </div>
-                              </Col>
+                                        <CloseButton className='mt-2' onClick={() => {
+                                          handleDeleteColumn(index);
+                                        }} />
 
-                              <Col lg={2} className='mt-2 fw-bold '>
-                                <div className="mb-3">
-                                  <Select
-                                    name='district'
-                                    placeholder='Chọn quận/huyện'
-                                    value={optionGroup.find(option => option.value === formik.values.district)}
-                                    onChange={(item) => {
-                                      formik.setFieldValue('district', item == null ? null : item.value);
-                                    }}
-                                    options={optionGroup}
-                                    className="select2-selection"
-                                  // isClearable
-                                  />
-                                </div>
-                              </Col>
+                                        <div className="mb-3">
+                                          <Input
+                                            name="description_address"
+                                            type="text"
+                                            placeholder='Branch name'
+                                            onChange={(e) => {
+                                              const arr = [...addressDataIntern];
+                                              arr[index] = { ...arr[index], description: e.target.value }
+                                              updateAddressDataIntern(arr);
+                                            }}
+                                            value={address.description || ''}
+                                          />
+                                        </div>
 
-                              <Col lg={2} className='mt-2 fw-bold '>
-                                <div className="mb-3">
-                                  <Select
-                                    name='commune'
-                                    placeholder='Chọn xã/phường'
-                                    value={optionGroup.find(option => option.value === formik.values.commune)}
-                                    onChange={(item) => {
-                                      formik.setFieldValue('commune', item == null ? null : item.value);
-                                    }}
-                                    options={optionGroup}
-                                    className="select2-selection"
-                                  // isClearable
-                                  />
-                                </div>
-                              </Col>
+                                      </Col>
 
-                              <Col lg={2} className='mt-2 fw-bold'>
-                                <div className="mb-3">
-                                  <Input
-                                    name="detail"
-                                    type="text"
-                                    placeholder='Nhập chi tiết'
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.detail || ""}
-                                    invalid={
-                                      formik.touched.detail && formik.errors.detail ? true : false
-                                    }
-                                  />
-                                  {formik.touched.detail && formik.errors.detail ? (
-                                    <FormFeedback type="invalid">{formik.errors.detail}</FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={1} className='mt-2 fw-bold'>
-                                <div className="mb-3">
-                                  <Input
-                                    name="phone_number"
-                                    type="text"
-                                    placeholder='Nhập số điện thoại'
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.phone_number || ""}
-                                    invalid={
-                                      formik.touched.phone_number && formik.errors.phone_number ? true : false
-                                    }
-                                  />
-                                  {formik.touched.phone_number && formik.errors.phone_number ? (
-                                    <FormFeedback type="invalid">{formik.errors.phone_number}</FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={1} className='mt-2 fw-bold'>
-                                <div className="mb-3">
-                                  <Input
-                                    name="fax"
-                                    type="text"
-                                    placeholder='Nhập fax'
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.fax || ""}
-                                    invalid={
-                                      formik.touched.fax && formik.errors.fax ? true : false
-                                    }
-                                  />
-                                  {formik.touched.fax && formik.errors.fax ? (
-                                    <FormFeedback type="invalid">{formik.errors.fax}</FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={2} className='mt-2'>
-                                <Row>
-                                  <Col lg={8} className='text-center fw-bold gx-1'>
-                                    <div className=" d-flex gap-1">
-                                      <div>
-                                        <Input
-                                          name="email"
-                                          type="email"
-                                          placeholder='Nhập email'
-                                          onChange={formik.handleChange}
-                                          onBlur={formik.handleBlur}
-                                          value={formik.values.email || ""}
-                                          invalid={
-                                            formik.touched.email && formik.errors.email ? true : false
-                                          }
-                                        />
-                                        {formik.touched.email && formik.errors.email ? (
-                                          <FormFeedback type="invalid">{formik.errors.email}</FormFeedback>
-                                        ) : null}
+                                      <Col lg={2} className='mt-2 fw-bold '>
+                                        <div className="mb-3">
+                                          <Select
+                                            name='province_id'
+                                            placeholder='Tỉnh'
+                                            // value={selectProvince || ""}
+                                            defaultValue={isEditIntern ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
+                                            // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
+                                            onChange={(item) => {
+                                              setSelectProvince(item);
+                                              const arr = [...addressDataIntern];
+                                              arr[index] = { ...arr[index], province_id: item.StateID }
+                                              updateAddressDataIntern(arr);
+                                            }}
+                                            options={provinceOptions}
+                                          // isClearable
+                                          />
+                                        </div>
+                                      </Col>
 
-                                      </div>
-                                    </div>
+                                      <Col lg={2} className='mt-2 fw-bold '>
+                                        <div className="mb-3">
+                                          <Select
+                                            name='district'
+                                            placeholder='Quận/Huyện'
+                                            // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
+                                            defaultValue={isEditIntern ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
+                                            onChange={(item) => {
+                                              setSelectDistrict(item);
+                                              const arr = [...addressDataIntern];
+                                              arr[index] = { ...arr[index], district_id: item.DistrictID }
+                                              updateAddressDataIntern(arr);
+                                            }}
+                                            options={districtOptions}
+                                            className="select2-selection"
+                                          // isClearable
+                                          />
+                                        </div>
+                                      </Col>
+
+                                      <Col lg={2} className='mt-2 fw-bold '>
+                                        <div className="mb-3">
+                                          <Select
+                                            name='commune'
+                                            placeholder='Xã/Phường'
+                                            // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
+                                            defaultValue={isEditIntern ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
+                                            onChange={(item) => {
+                                              setSelectCommune(item);
+                                              const arr = [...addressDataIntern];
+                                              arr[index] = { ...arr[index], commune_id: item.WardID }
+                                              updateAddressDataIntern(arr);
+                                            }}
+                                            options={communeOptions}
+                                            className="select2-selection"
+                                          // isClearable
+                                          />
+                                        </div>
+                                      </Col>
+
+                                      <Col lg={4} className='mt-2 fw-bold'>
+                                        <div className="mb-3">
+                                          <Input
+                                            name="detail"
+                                            type="text"
+                                            placeholder='Số nhà, đường, phố...'
+                                            value={address.detail || ''}
+                                            onChange={(e) => {
+                                              const arr = [...addressDataIntern];
+                                              arr[index] = { ...arr[index], detail: e.target.value }
+                                              updateAddressDataIntern(arr);
+                                            }}
+                                          />
+                                        </div>
+                                      </Col>
+                                    </Row>
                                   </Col>
-                                  <Col lg={4} className='d-flex justify-content-center gap-2'>
-                                    <div className='ms-4'>
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="exampleRadios"
-                                        id="exampleRadios1"
-                                        value="option1"
-                                        style={{ marginTop: '12px' }}
+
+                                  <Col lg={1} className='mt-2 fw-bold'>
+                                    <div className="mb-3">
+                                      <Input
+                                        name="phone_number"
+                                        type="text"
+                                        placeholder='Điện thoại'
+                                        value={address.phone_number || ''}
+                                        onChange={(e) => {
+                                          const arr = [...addressDataIntern];
+                                          arr[index] = { ...arr[index], phone_number: e.target.value }
+                                          updateAddressDataIntern(arr);
+                                        }}
                                       />
                                     </div>
-                                    <Link
-                                      to="#"
-                                      className="text-danger"
-                                      onClick={() => {
-                                        handleDeleteColumn(index);
-                                      }}
-                                    >
-                                      <i className="mdi mdi-delete font-size-24" id="deletetooltip" />
-                                      <UncontrolledTooltip placement="top" target="deletetooltip">
-                                        Delete
-                                      </UncontrolledTooltip>
-                                    </Link>
+                                  </Col>
+                                  <Col lg={1} className='mt-2 fw-bold'>
+                                    <div className="mb-3">
+                                      <Input
+                                        name="fax"
+                                        type="text"
+                                        placeholder='Fax'
+                                        value={address.fax || ''}
+                                        onChange={(e) => {
+                                          const arr = [...addressDataIntern];
+                                          arr[index] = { ...arr[index], fax: e.target.value }
+                                          updateAddressDataIntern(arr);
+                                        }}
+                                      />
+                                    </div>
+                                  </Col>
+                                  <Col lg={2} className='mt-2'>
+                                    <Row>
+                                      <Col lg={9} className='text-center fw-bold gx-1'>
+                                        <div className=" d-flex gap-1">
+                                          <div>
+                                            <Input
+                                              name="email"
+                                              type="email"
+                                              placeholder='Email'
+                                              value={address.email || ''}
+                                              onChange={(e) => {
+                                                const arr = [...addressDataIntern];
+                                                arr[index] = { ...arr[index], email: e.target.value }
+                                                updateAddressDataIntern(arr);
+                                              }}
+                                            />
+                                          </div>
+                                        </div>
+                                      </Col>
+                                      <Col lg={3} className='d-flex justify-content-center gap-2'>
+                                        <div className='ms-2'>
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="exampleRadios"
+                                            id={`radio-${index}`}
+                                            value={index}
+                                            style={{ marginTop: '12px' }}
+                                            onChange={handleChangeDefault}
+                                          />
+                                          <UncontrolledTooltip placement="top" target={`radio-${index}`}>
+                                            Đặt làm mặc định
+                                          </UncontrolledTooltip>
+                                        </div>
+
+                                      </Col>
+                                    </Row>
                                   </Col>
                                 </Row>
+                              )
+                            })}
+                            <Row className='mb-2 mt-2'>
+                              <Col lg={6} className='d-flex gap-2'>
+                                <Button onClick={handleAddForm} color="secondary" className='ms-4'>
+                                  <i className="mdi mdi-plus font-size-18" id="deletetooltip" />
+                                </Button>
                               </Col>
                             </Row>
-                          )
-                        })}
-                        <Row className='mb-2 mt-2'>
-                          <Col lg={6} className='d-flex gap-2'>
-                            <Button onClick={handleAddForm} color="secondary" >
-                              Add Address
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Row>
+                          </Row>
+                        </CardBody>}
+
+                      </Card>
                     </CardBody>
                   </Card>
                 </Col>
@@ -828,6 +983,9 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
               type="button"
               onClick={() => {
                 tog_fullscreen();
+                formik.resetForm();
+                setIsEditIntern(false);
+                updateAddressDataIntern([])
               }}
               className="btn btn-secondary "
               data-dismiss="modal"

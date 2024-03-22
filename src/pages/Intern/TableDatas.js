@@ -29,7 +29,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll } from "store/actions";
+import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAddressAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -61,11 +61,12 @@ const TableDatas = (props) => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAllInfo, statusData, statusDetailData, loading, dataUser } = useSelector(state => ({
+  const { internDataAllInfo, statusData, statusDetailData, loading, dataUser,addressData } = useSelector(state => ({
     internDataAllInfo: state.Intern.datas,
     statusData: state.Status.datas,
     statusDetailData: state.StatusDetail.datas,
     loading: state.Intern.loading,
+    addressData: state.Address.datas,
     // dataUser: state.login.user
   }), shallowEqual);
 
@@ -284,9 +285,9 @@ const TableDatas = (props) => {
 
       <ModalDatas
         item={rowSelect}
-        dispatch={dispatch}
         setApi={setIntern}
         updateApi={updateIntern}
+        addressData={addressData}
       />
 
     </div>

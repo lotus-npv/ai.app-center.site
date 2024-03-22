@@ -494,8 +494,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
                     {/* <Form> */}
                     <Card>
-                      <CardBody>
-
+                    {!isEditFactory && <CardBody>
 
                         <Row className='border border-secondary mt-3'>
                           <div>
@@ -560,7 +559,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                             arr[index] = { ...arr[index], description: e.target.value }
                                             updateAddressDataFactory(arr);
                                           }}
-                                          value={isEditFactory ? address.description : ""}
+                                          value={address.description || ''}
                                         />
                                       </div>
 
@@ -591,7 +590,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                         <Select
                                           name='district'
                                           placeholder='Quận/Huyện'
-                                          value={isEditFactory ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
+                                          // value={isEditFactory ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
+                                          defaultValue={isEditFactory ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
                                           onChange={(item) => {
                                             setSelectDistrict(item);
                                             const arr = [...addressDataFactory];
@@ -610,7 +610,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                         <Select
                                           name='commune'
                                           placeholder='Xã/Phường'
-                                          value={isEditFactory ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
+                                          // value={isEditFactory ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
+                                          defaultValue={isEditFactory ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
                                           onChange={(item) => {
                                             setSelectCommune(item);
                                             const arr = [...addressDataFactory];
@@ -721,7 +722,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                             </Col>
                           </Row>
                         </Row>
-                      </CardBody>
+                      </CardBody>}
                     </Card>
                   </Form>
 

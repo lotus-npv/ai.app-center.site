@@ -178,8 +178,8 @@ const DataProvider = ({ children }) => {
     const [isEditFactory, setIsEditFactory] = useState(false);
     // edit company
     const [isEditCompany, setIsEditCompany] = useState(false);
-    // edit factory
-    const [isEdit, setIsEdit] = useState(false);
+    // edit intern
+    const [isEditIntern, setIsEditIntern] = useState(false);
 
 
 
@@ -199,7 +199,7 @@ const DataProvider = ({ children }) => {
                 modal_standard, setmodal_standard, tog_standard,
                 modal_xlarge, setmodal_xlarge, tog_xlarge,
                 modal_fullscreen, setmodal_fullscreen, tog_fullscreen,
-                isEdit, setIsEdit,
+                isEditIntern, setIsEditIntern,
                 isEditFactory, setIsEditFactory,
                 isEditCompany, setIsEditCompany
             }}

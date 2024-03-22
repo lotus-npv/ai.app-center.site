@@ -147,6 +147,12 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
           flag: 1
         }
         dispatch(updateApi(obj));
+        if (selectedFile) {
+          const formData = new FormData();
+          formData.append('image', selectedFile);
+          dispatch(uploadImageRequest(formData));
+          // dispatch(uploadFile(formData));
+        }
       } else {
         let obj = {
           key_license_id: 1,
@@ -182,22 +188,24 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     }
   });
 
-    // Tai du lieu thanh pho 
-    useEffect(() => {
-      dispatch(getProvinceByNationId(formik.values.nation));
-    }, [formik.values.nation])
-  
-    // nap du lieu cho dia chi neu la chinh sua
-    useEffect(() => {
-      console.log('check');
-      if (isEditCompany) {
+  // Tai du lieu thanh pho 
+  useEffect(() => {
+    dispatch(getProvinceByNationId(formik.values.nation));
+  }, [formik.values.nation])
+
+  // nap du lieu cho dia chi neu la chinh sua
+  useEffect(() => {
+    console.log('check');
+    if (isEditCompany) {
+      if(item !== null) {
         const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'dispatching_company');
         console.log('arr', arr)
         updateAddressDataCompany(arr)
       }
-    }, [isEditCompany])
+    }
+  }, [isEditCompany])
 
-    // GHi du lieu dia chi vao database
+  // GHi du lieu dia chi vao database
   useEffect(() => {
     if (companyCreate != null) {
       const id = companyCreate['id'];
@@ -244,11 +252,12 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     settextcount(event.target.value.length);
   }
 
+  // render lua chon tinh, huyen, xa
   const [selectProvince, setSelectProvince] = useState(null)
   const [selectDistrict, setSelectDistrict] = useState(null)
   const [selectCommune, setSelectCommune] = useState(null)
 
-
+  // tao danh sach lua chon tinh/thanh pho
   const [provinceOptions, setProvinceOptions] = useState([])
   useEffect(() => {
     if (provinceDataByNationId) {
@@ -301,10 +310,10 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   // console.log('provinceOptions:', provinceOptions);
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  // console.log('formik:', formik.values)
+  console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  console.log('addressDataCompany:', addressDataCompany)
-  console.log('isEditCompany:', isEditCompany)
+  // console.log('addressDataCompany:', addressDataCompany)
+  // console.log('isEditCompany:', isEditCompany)
 
 
 
@@ -329,6 +338,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
           <button
             onClick={() => {
               setmodal_fullscreen(false);
+              setIsEditCompany(false);
             }}
             type="button"
             className="close"
@@ -441,352 +451,354 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     options={optionGroup}
                                   // isClearable
                                   />
-                                {formik.touched.nation && formik.errors.nation ? (
-                                  <FormFeedback type="invalid">{formik.errors.nation}</FormFeedback>
-                                ) : null}
-                              </div>
-                            </Col>
-                            <Col lg={6}>
-                              <Row>
-                                <Col lg={6}>
-                                  <div className="mb-3">
-                                    <Label className="form-label fw-bold">Ngày gia nhập</Label>
-                                    <Input
-                                      name="date_of_joining_syndication"
-                                      type="date"
-                                      placeholder="Chọn ngày"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.date_of_joining_syndication || ""}
-                                      invalid={
-                                        formik.touched.date_of_joining_syndication && formik.errors.date_of_joining_syndication ? true : false
-                                      }
-                                    />
-                                    {formik.touched.date_of_joining_syndication && formik.errors.date_of_joining_syndication ? (
-                                      <FormFeedback type="invalid">{formik.errors.date_of_joining_syndication}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                                <Col lg={6}>
-                                  <div className="mb-3">
-                                    <Label className="form-label fw-bold">Mã số thuế</Label>
-                                    <Input
-                                      name="tax_code"
-                                      placeholder="Nhập mã số thuế"
-                                      type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.tax_code || ""}
-                                      invalid={
-                                        formik.touched.tax_code && formik.errors.tax_code ? true : false
-                                      }
-                                    />
-                                    {formik.touched.tax_code && formik.errors.tax_code ? (
-                                      <FormFeedback type="invalid">{formik.errors.tax_code}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                              </Row>
-                            </Col>
-                          </Row>
-
-                          <Row>
-                            <Col>
-                              <div className="mb-2">
-                                <Label className="form-label fw-bold">Ghi chú</Label>
-                                <Input
-                                  name='description'
-                                  type="textarea"
-                                  id="textarea"
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  value={formik.values.description || ""}
-                                  maxLength="225"
-                                  rows="3"
-                                  placeholder="Nhập nội dung"
-                                  invalid={
-                                    formik.touched.description && formik.errors.description ? true : false
-                                  }
-                                />
-                                {formik.touched.description && formik.errors.description ? (
-                                  <FormFeedback type="invalid">{formik.errors.description}</FormFeedback>
-                                ) : null}
-                              </div>
-                            </Col>
-                          </Row>
-
-                        </CardBody>
-                      </Card>
-                    </Col>
-                  </Row>
-
-                  {/* </Form> */}
-
-
-                  {/* <Form> */}
-                  <Card>
-                    <CardBody>
-
-
-                      <Row className='border border-secondary mt-3'>
-                        <div>
-                          <Row className='bg-secondary text-light'>
-                            <Col lg={8}>
-                              <Row>
-                                <Col lg={2} className='text-center mt-2 fw-bold'>
-                                  <p>Chi nhánh</p>
-                                </Col>
-                                <Col lg={2} className='text-center mt-2 fw-bold'>
-                                  <p>Tỉnh</p>
-                                </Col>
-                                <Col lg={2} className='text-center mt-2 fw-bold'>
-                                  <p>Quận/ Huyện</p>
-                                </Col>
-                                <Col lg={2} className='text-center mt-2 fw-bold'>
-                                  <p>Xã/ Phường</p>
-                                </Col>
-                                <Col lg={4} className='text-center mt-2 fw-bold'>
-                                  <p>Số nhà, đường, phố...</p>
-                                </Col>
-                              </Row>
-                            </Col>
-
-                            <Col lg={1} className='text-center mt-2 fw-bold'>
-                              <p>Số điện thoại</p>
-                            </Col>
-                            <Col lg={1} className='text-center mt-2 fw-bold'>
-                              <p>Fax</p>
-                            </Col>
-                            <Col lg={2} className='text-center mt-2 fw-bold'>
-                              <Row>
-                                <Col lg={8}>
-                                  <p>Email</p>
-                                </Col>
-                                <Col lg={4}>
-                                  <p>Mặc định</p>
-                                </Col>
-                              </Row>
-                            </Col>
-                          </Row>
-                        </div>
-
-                        {!isEditCompany && addressDataCompany.map((address, index) => {
-                          return (
-                            <Row className='mt-2' key={index} id={"nested" + index}>
-                              <Col lg={8}>
-                                <Row>
-                                  <Col lg={2} className='d-flex justify-content-center gap-2 mt-2'>
-
-                                    <CloseButton className='mt-2' onClick={() => {
-                                      handleDeleteColumn(index);
-                                    }} />
-
-                                    <div className="mb-3">
-                                      <Input
-                                        name="description_address"
-                                        type="text"
-                                        placeholder='Branch name'
-                                        onChange={(e) => {
-                                          const arr = [...addressDataCompany];
-                                          arr[index] = { ...arr[index], description: e.target.value }
-                                          updateAddressDataCompany(arr);
-                                        }}
-                                        value={address.description || ''}
-                                      />
-                                    </div>
-
-                                  </Col>
-
-                                  <Col lg={2} className='mt-2 fw-bold '>
-                                    <div className="mb-3">
-                                      <Select
-                                        name='province_id'
-                                        placeholder='Tỉnh'
-                                        // value={selectProvince || ""}
-                                        defaultValue={isEditCompany ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
-                                        // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
-                                        onChange={(item) => {
-                                          setSelectProvince(item);
-                                          const arr = [...addressDataCompany];
-                                          arr[index] = { ...arr[index], province_id: item.StateID }
-                                          updateAddressDataCompany(arr);
-                                        }}
-                                        options={provinceOptions}
-                                      // isClearable
-                                      />
-                                    </div>
-                                  </Col>
-
-                                  <Col lg={2} className='mt-2 fw-bold '>
-                                    <div className="mb-3">
-                                      <Select
-                                        name='district'
-                                        placeholder='Quận/Huyện'
-                                        // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
-                                        onChange={(item) => {
-                                          setSelectDistrict(item);
-                                          const arr = [...addressDataCompany];
-                                          arr[index] = { ...arr[index], district_id: item.DistrictID }
-                                          updateAddressDataCompany(arr);
-                                        }}
-                                        options={districtOptions}
-                                        className="select2-selection"
-                                      // isClearable
-                                      />
-                                    </div>
-                                  </Col>
-
-                                  <Col lg={2} className='mt-2 fw-bold '>
-                                    <div className="mb-3">
-                                      <Select
-                                        name='commune'
-                                        placeholder='Xã/Phường'
-                                        // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
-                                        onChange={(item) => {
-                                          setSelectCommune(item);
-                                          const arr = [...addressDataCompany];
-                                          arr[index] = { ...arr[index], commune_id: item.WardID }
-                                          updateAddressDataCompany(arr);
-                                        }}
-                                        options={communeOptions}
-                                        className="select2-selection"
-                                      // isClearable
-                                      />
-                                    </div>
-                                  </Col>
-
-                                  <Col lg={4} className='mt-2 fw-bold'>
-                                    <div className="mb-3">
-                                      <Input
-                                        name="detail"
-                                        type="text"
-                                        placeholder='Số nhà, đường, phố...'
-                                        value={address.detail || ''}
-                                        onChange={(e) => {
-                                          const arr = [...addressDataCompany];
-                                          arr[index] = { ...arr[index], detail: e.target.value }
-                                          updateAddressDataCompany(arr);
-                                        }}
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </Col>
-
-                              <Col lg={1} className='mt-2 fw-bold'>
-                                <div className="mb-3">
-                                  <Input
-                                    name="phone_number"
-                                    type="text"
-                                    placeholder='Điện thoại'
-                                    value={address.phone_number || ''}
-                                    onChange={(e) => {
-                                      const arr = [...addressDataCompany];
-                                      arr[index] = { ...arr[index], phone_number: e.target.value }
-                                      updateAddressDataCompany(arr);
-                                    }}
-                                  />
+                                  {formik.touched.nation && formik.errors.nation ? (
+                                    <FormFeedback type="invalid">{formik.errors.nation}</FormFeedback>
+                                  ) : null}
                                 </div>
                               </Col>
-                              <Col lg={1} className='mt-2 fw-bold'>
-                                <div className="mb-3">
-                                  <Input
-                                    name="fax"
-                                    type="text"
-                                    placeholder='Fax'
-                                    value={address.fax || ''}
-                                    onChange={(e) => {
-                                      const arr = [...addressDataCompany];
-                                      arr[index] = { ...arr[index], fax: e.target.value }
-                                      updateAddressDataCompany(arr);
-                                    }}
-                                  />
-                                </div>
-                              </Col>
-                              <Col lg={2} className='mt-2'>
+                              <Col lg={6}>
                                 <Row>
-                                  <Col lg={9} className='text-center fw-bold gx-1'>
-                                    <div className=" d-flex gap-1">
-                                      <div>
-                                        <Input
-                                          name="email"
-                                          type="email"
-                                          placeholder='Email'
-                                          value={address.email || ''}
-                                          onChange={(e) => {
-                                            const arr = [...addressDataCompany];
-                                            arr[index] = { ...arr[index], email: e.target.value }
-                                            updateAddressDataCompany(arr);
-                                          }}
-                                        />
-                                      </div>
+                                  <Col lg={6}>
+                                    <div className="mb-3">
+                                      <Label className="form-label fw-bold">Ngày gia nhập</Label>
+                                      <Input
+                                        name="date_of_joining_syndication"
+                                        type="date"
+                                        placeholder="Chọn ngày"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.date_of_joining_syndication || ""}
+                                        invalid={
+                                          formik.touched.date_of_joining_syndication && formik.errors.date_of_joining_syndication ? true : false
+                                        }
+                                      />
+                                      {formik.touched.date_of_joining_syndication && formik.errors.date_of_joining_syndication ? (
+                                        <FormFeedback type="invalid">{formik.errors.date_of_joining_syndication}</FormFeedback>
+                                      ) : null}
                                     </div>
                                   </Col>
-                                  <Col lg={3} className='d-flex justify-content-center gap-2'>
-                                    <div className='ms-2'>
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="exampleRadios"
-                                        id={`radio-${index}`}
-                                        value={index}
-                                        style={{ marginTop: '12px' }}
-                                        onChange={handleChangeDefault}
+                                  <Col lg={6}>
+                                    <div className="mb-3">
+                                      <Label className="form-label fw-bold">Mã số thuế</Label>
+                                      <Input
+                                        name="tax_code"
+                                        placeholder="Nhập mã số thuế"
+                                        type="text"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.tax_code || ""}
+                                        invalid={
+                                          formik.touched.tax_code && formik.errors.tax_code ? true : false
+                                        }
                                       />
-                                      <UncontrolledTooltip placement="top" target={`radio-${index}`}>
-                                        Đặt làm mặc định
-                                      </UncontrolledTooltip>
+                                      {formik.touched.tax_code && formik.errors.tax_code ? (
+                                        <FormFeedback type="invalid">{formik.errors.tax_code}</FormFeedback>
+                                      ) : null}
                                     </div>
-
                                   </Col>
                                 </Row>
                               </Col>
                             </Row>
-                          )
-                        })}
-                        <Row className='mb-2 mt-2'>
-                          <Col lg={6} className='d-flex gap-2'>
-                            <Button onClick={handleAddForm} color="secondary" className='ms-4'>
-                              <i className="mdi mdi-plus font-size-18" id="deletetooltip" />
-                            </Button>
-                          </Col>
+
+                            <Row>
+                              <Col>
+                                <div className="mb-2">
+                                  <Label className="form-label fw-bold">Ghi chú</Label>
+                                  <Input
+                                    name='description'
+                                    type="textarea"
+                                    id="textarea"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.description || ""}
+                                    maxLength="225"
+                                    rows="3"
+                                    placeholder="Nhập nội dung"
+                                    invalid={
+                                      formik.touched.description && formik.errors.description ? true : false
+                                    }
+                                  />
+                                  {formik.touched.description && formik.errors.description ? (
+                                    <FormFeedback type="invalid">{formik.errors.description}</FormFeedback>
+                                  ) : null}
+                                </div>
+                              </Col>
+                            </Row>
+
+                          </CardBody>
+                        </Card>
+                      </Col>
+                    </Row>
+
+                    {/* </Form> */}
+
+
+                    {/* <Form> */}
+                    <Card>
+                      {!isEditCompany && <CardBody>
+
+
+                        <Row className='border border-secondary mt-3'>
+                          <div>
+                            <Row className='bg-secondary text-light'>
+                              <Col lg={8}>
+                                <Row>
+                                  <Col lg={2} className='text-center mt-2 fw-bold'>
+                                    <p>Chi nhánh</p>
+                                  </Col>
+                                  <Col lg={2} className='text-center mt-2 fw-bold'>
+                                    <p>Tỉnh</p>
+                                  </Col>
+                                  <Col lg={2} className='text-center mt-2 fw-bold'>
+                                    <p>Quận/ Huyện</p>
+                                  </Col>
+                                  <Col lg={2} className='text-center mt-2 fw-bold'>
+                                    <p>Xã/ Phường</p>
+                                  </Col>
+                                  <Col lg={4} className='text-center mt-2 fw-bold'>
+                                    <p>Số nhà, đường, phố...</p>
+                                  </Col>
+                                </Row>
+                              </Col>
+
+                              <Col lg={1} className='text-center mt-2 fw-bold'>
+                                <p>Số điện thoại</p>
+                              </Col>
+                              <Col lg={1} className='text-center mt-2 fw-bold'>
+                                <p>Fax</p>
+                              </Col>
+                              <Col lg={2} className='text-center mt-2 fw-bold'>
+                                <Row>
+                                  <Col lg={8}>
+                                    <p>Email</p>
+                                  </Col>
+                                  <Col lg={4}>
+                                    <p>Mặc định</p>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            </Row>
+                          </div>
+
+                          {addressDataCompany.map((address, index) => {
+                            return (
+                              <Row className='mt-2' key={index} id={"nested" + index}>
+                                <Col lg={8}>
+                                  <Row>
+                                    <Col lg={2} className='d-flex justify-content-center gap-2 mt-2'>
+
+                                      <CloseButton className='mt-2' onClick={() => {
+                                        handleDeleteColumn(index);
+                                      }} />
+
+                                      <div className="mb-3">
+                                        <Input
+                                          name="description_address"
+                                          type="text"
+                                          placeholder='Branch name'
+                                          onChange={(e) => {
+                                            const arr = [...addressDataCompany];
+                                            arr[index] = { ...arr[index], description: e.target.value }
+                                            updateAddressDataCompany(arr);
+                                          }}
+                                          value={address.description || ''}
+                                        />
+                                      </div>
+
+                                    </Col>
+
+                                    <Col lg={2} className='mt-2 fw-bold '>
+                                      <div className="mb-3">
+                                        <Select
+                                          name='province_id'
+                                          placeholder='Tỉnh'
+                                          // value={selectProvince || ""}
+                                          defaultValue={isEditCompany ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
+                                          // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
+                                          onChange={(item) => {
+                                            setSelectProvince(item);
+                                            const arr = [...addressDataCompany];
+                                            arr[index] = { ...arr[index], province_id: item.StateID }
+                                            updateAddressDataCompany(arr);
+                                          }}
+                                          options={provinceOptions}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+
+                                    <Col lg={2} className='mt-2 fw-bold '>
+                                      <div className="mb-3">
+                                        <Select
+                                          name='district'
+                                          placeholder='Quận/Huyện'
+                                          // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
+                                          defaultValue={isEditCompany ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
+                                          onChange={(item) => {
+                                            setSelectDistrict(item);
+                                            const arr = [...addressDataCompany];
+                                            arr[index] = { ...arr[index], district_id: item.DistrictID }
+                                            updateAddressDataCompany(arr);
+                                          }}
+                                          options={districtOptions}
+                                          className="select2-selection"
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+
+                                    <Col lg={2} className='mt-2 fw-bold '>
+                                      <div className="mb-3">
+                                        <Select
+                                          name='commune'
+                                          placeholder='Xã/Phường'
+                                          // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
+                                          defaultValue={isEditCompany ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
+                                          onChange={(item) => {
+                                            setSelectCommune(item);
+                                            const arr = [...addressDataCompany];
+                                            arr[index] = { ...arr[index], commune_id: item.WardID }
+                                            updateAddressDataCompany(arr);
+                                          }}
+                                          options={communeOptions}
+                                          className="select2-selection"
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+
+                                    <Col lg={4} className='mt-2 fw-bold'>
+                                      <div className="mb-3">
+                                        <Input
+                                          name="detail"
+                                          type="text"
+                                          placeholder='Số nhà, đường, phố...'
+                                          value={address.detail || ''}
+                                          onChange={(e) => {
+                                            const arr = [...addressDataCompany];
+                                            arr[index] = { ...arr[index], detail: e.target.value }
+                                            updateAddressDataCompany(arr);
+                                          }}
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                </Col>
+
+                                <Col lg={1} className='mt-2 fw-bold'>
+                                  <div className="mb-3">
+                                    <Input
+                                      name="phone_number"
+                                      type="text"
+                                      placeholder='Điện thoại'
+                                      value={address.phone_number || ''}
+                                      onChange={(e) => {
+                                        const arr = [...addressDataCompany];
+                                        arr[index] = { ...arr[index], phone_number: e.target.value }
+                                        updateAddressDataCompany(arr);
+                                      }}
+                                    />
+                                  </div>
+                                </Col>
+                                <Col lg={1} className='mt-2 fw-bold'>
+                                  <div className="mb-3">
+                                    <Input
+                                      name="fax"
+                                      type="text"
+                                      placeholder='Fax'
+                                      value={address.fax || ''}
+                                      onChange={(e) => {
+                                        const arr = [...addressDataCompany];
+                                        arr[index] = { ...arr[index], fax: e.target.value }
+                                        updateAddressDataCompany(arr);
+                                      }}
+                                    />
+                                  </div>
+                                </Col>
+                                <Col lg={2} className='mt-2'>
+                                  <Row>
+                                    <Col lg={9} className='text-center fw-bold gx-1'>
+                                      <div className=" d-flex gap-1">
+                                        <div>
+                                          <Input
+                                            name="email"
+                                            type="email"
+                                            placeholder='Email'
+                                            value={address.email || ''}
+                                            onChange={(e) => {
+                                              const arr = [...addressDataCompany];
+                                              arr[index] = { ...arr[index], email: e.target.value }
+                                              updateAddressDataCompany(arr);
+                                            }}
+                                          />
+                                        </div>
+                                      </div>
+                                    </Col>
+                                    <Col lg={3} className='d-flex justify-content-center gap-2'>
+                                      <div className='ms-2'>
+                                        <input
+                                          className="form-check-input"
+                                          type="radio"
+                                          name="exampleRadios"
+                                          id={`radio-${index}`}
+                                          value={index}
+                                          style={{ marginTop: '12px' }}
+                                          onChange={handleChangeDefault}
+                                        />
+                                        <UncontrolledTooltip placement="top" target={`radio-${index}`}>
+                                          Đặt làm mặc định
+                                        </UncontrolledTooltip>
+                                      </div>
+
+                                    </Col>
+                                  </Row>
+                                </Col>
+                              </Row>
+                            )
+                          })}
+                          <Row className='mb-2 mt-2'>
+                            <Col lg={6} className='d-flex gap-2'>
+                              <Button onClick={handleAddForm} color="secondary" className='ms-4'>
+                                <i className="mdi mdi-plus font-size-18" id="deletetooltip" />
+                              </Button>
+                            </Col>
+                          </Row>
                         </Row>
-                      </Row>
-                    </CardBody>
-                  </Card>
-                </Form>
+                      </CardBody>}
+                    </Card>
+                  </Form>
 
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
 
-      </div>
+        </div>
 
 
-      <div className="modal-footer">
-        <button
-          type="button"
-          onClick={() => {
-            tog_fullscreen();
-            formik.resetForm();
-            setIsEditCompany(false);
-            updateAddressDataCompany([])
-          }}
-          className="btn btn-secondary "
-          data-dismiss="modal"
-        >
-          Close
-        </button>
-        <button
-          type="submit"
-          className="btn btn-primary "
-          onClick={handleSubmit}
-        >
-          Save changes
-        </button>
-      </div>
-    </Modal >
+        <div className="modal-footer">
+          <button
+            type="button"
+            onClick={() => {
+              tog_fullscreen();
+              formik.resetForm();
+              setIsEditCompany(false);
+              updateAddressDataCompany([])
+            }}
+            className="btn btn-secondary "
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary "
+            onClick={handleSubmit}
+          >
+            Save changes
+          </button>
+        </div>
+      </Modal >
     </>
   )
 }
