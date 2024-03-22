@@ -16,7 +16,8 @@ import {
   
   const INIT_STATE = {
     datas: [],
-    data: {}
+    data: {},
+    loading: false
   };
   
   const ReceivingFactory = (state = INIT_STATE, action) => {
@@ -39,12 +40,14 @@ import {
       case SET_RECEIVINGFACTORY:
         return {
           ...state,
-          data: action.payload,
+          loading: true
+          // data: action.payload,
         };
       case SET_RECEIVINGFACTORY_SUCCESS:
         return {
           ...state,
           data: action.payload,
+          loading: false
         };
   
       case SET_RECEIVINGFACTORY_FAIL:

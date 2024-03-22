@@ -105,11 +105,12 @@ const TableDatas = (props) => {
 
   const rendLabel = () => {
     // tạo danh sách địa
-    const number_of_contacts = employeeData.length;
-
-    return [{ name: 'All', data: number_of_contacts, type: 'All' }, ...options.map((type, index) => {
-      return { name: type.label, data: employeeData.filter(employee => employee.user_type == type.value).length, type: type.value }
-    })].filter(item => item.data > 0)
+    if(employeeData !== null) {
+      const number_of_contacts = employeeData.length;
+      return [{ name: 'All', data: number_of_contacts, type: 'All' }, ...options.map((type, index) => {
+        return { name: type.label, data: employeeData.filter(employee => employee.user_type == type.value).length, type: type.value }
+      })].filter(item => item.data > 0)
+    }
   }
 
   // acctive tab
@@ -171,7 +172,7 @@ const TableDatas = (props) => {
           <div className='d-flex justify-content-between'>
             {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
             <Nav tabs className="nav-tabs-custom">
-              {items.map((item, index) => (
+               {items.map((item, index) => (
                 <NavItem key={index} style={{ minWidth: '100px' }}>
                   <NavLink
                     style={{ cursor: "pointer" }}

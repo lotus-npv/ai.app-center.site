@@ -37,7 +37,7 @@ const optionGroup = [
 const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -120,13 +120,17 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
     formik.handleSubmit();
   }
 
-  const { address, addressData, updateAddressData } = useContext(DataContext);
 
+  // xu ly form address
   const handleAddForm = () => {
-    const count = addressData.length
-    address['name'] = count;
-    updateAddressData([...addressData, address])
+    updateAddressDataFactory([...addressDataFactory, addressFactory])
   };
+
+  const handleDeleteColumn = (getIndex) => {
+    const arr = [...addressDataFactory];
+    arr.splice(getIndex, 1);
+    updateAddressDataFactory(arr);
+  }
 
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(avata);
@@ -153,11 +157,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
     settextcount(event.target.value.length);
   }
 
-  const handleDeleteColumn = (getIndex) => {
-    const arr = [...addressData];
-    arr.splice(getIndex, 1);
-    updateAddressData(arr);
-  }
+
 
   // console.log(addressData)
 
@@ -390,7 +390,7 @@ const ModalDatas = ({ item, dispatch, setApi, updateApi }) => {
                   </Row>
                 </div>
 
-                {addressData.map((_, index) => {
+                {addressDataFactory.map((_, index) => {
                   return (
                     <Row className='mt-2' key={index}>
                       <Col lg={8}>

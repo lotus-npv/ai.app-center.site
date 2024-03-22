@@ -40,11 +40,10 @@ const DataProvider = ({ children }) => {
 
     // address receiving fatory
     const addressFactory = {
-        id: null,
-        key_license_id: null,
+        key_license_id: 1,
         user_type: 'receiving_factory',
         object_id: null,
-        nation_id: null,
+        nation_id: 2,
         province_id: null,
         district_id: null,
         commune_id: null,
@@ -68,9 +67,8 @@ const DataProvider = ({ children }) => {
     };
     // address dispatching company
     const addressCompany = {
-        id: null,
         key_license_id: null,
-        user_type: 'receiving_factory',
+        user_type: 'dispatching_company',
         object_id: null,
         nation_id: null,
         province_id: null,
@@ -97,9 +95,8 @@ const DataProvider = ({ children }) => {
 
     // address intern
     const addressIntern = {
-        id: null,
         key_license_id: null,
-        user_type: 'receiving_factory',
+        user_type: 'intern',
         object_id: null,
         nation_id: null,
         province_id: null,

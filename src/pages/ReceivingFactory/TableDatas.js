@@ -71,7 +71,7 @@ const TableDatas = (props) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getReceivingFactoryAll());
-    }, 10000);
+    }, 30000);
     return () => {
       clearInterval(intervalId);
     };
@@ -304,6 +304,7 @@ const TableDatas = (props) => {
       <ModalDatas
         item={rowSelect}
         dispatch={dispatch}
+        getApi={getReceivingFactoryAll}
         setApi={setReceivingFactory}
         updateApi={updateReceivingFactory}
       />

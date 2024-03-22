@@ -322,7 +322,6 @@ create table if not exists employee (
     avata VARCHAR(200),
     user_type ENUM('syndication','receiving_factory','dispatching_company'),
     office_id INT, -- (id cu nghiep doan, xi nghiep hay cong ty phai cu nao do)
-    address_id INT,
     positions_id INT,
     description VARCHAR(200),
     create_at DATETIME,
