@@ -58,6 +58,20 @@ const OnSymbol = () => {
   );
 };
 
+const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
+  <div
+    {...innerProps}
+    style={{
+      backgroundColor: isFocused ? 'lightgray' : isSelected ? 'lightgray' : null,
+      fontWeight: isSelected ? 'bold' : 'normal',
+      height: '30px',
+      padding: '4px'
+    }}
+  >
+    {data.label}
+  </div>
+);
+
 const optionConditionDate = [
   { label: "Before", value: "before" },
   { label: "After", value: "after" },
@@ -262,6 +276,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                       formik.setFieldValue('colors', item.value);
                     }}
                     options={optionColor}
+                    components={{ Option: CustomOption }}
                     className="select2-selection"
                   />
                   {formik.touched.condition_date && formik.errors.condition_date ? (

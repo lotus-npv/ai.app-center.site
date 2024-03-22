@@ -13,14 +13,15 @@ import {
   Form,
   UncontrolledTooltip,
   Modal,
-  CloseButton
+  CloseButton,
+
 } from "reactstrap";
 
 import Switch from "react-switch";
-import Select from "react-select";
+import Select, { components } from 'react-select';
 
 import * as Yup from "yup";
-import { useFormik } from "formik";
+import { useFormik,   Field } from "formik";
 
 // import context
 import DataContext from "../../data/DataContext";
@@ -32,10 +33,27 @@ import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId,
 
 
 const optionGroup = [
-  { label: "Mustard", value: "Mustard" },
-  { label: "Ketchup", value: "Ketchup" },
-  { label: "Relish", value: "Relish" }
+  { label: "Viet Nam", value: 1 },
+  { label: "Japan", value: 2 },
 ];
+const optionGender = [
+  { label: "Male", value: 'male' },
+  { label: "Female", value: 'female' },
+];
+
+const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
+  <div
+    {...innerProps}
+    style={{
+      backgroundColor: isFocused ? 'lightgray' : isSelected ? 'gray' : null,
+      fontWeight: isSelected ? 'bold' : 'normal',
+      height: '30px',
+      padding: '4px'
+    }}
+  >
+    {data.label}
+  </div>
+);
 
 
 const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
@@ -87,9 +105,84 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      id: item != null ? item.id : '',
+      key_license_id: item != null ? item.key_license_id : 1,
+      syndication_id: item != null ? item.syndication_id : 1,
+      type: 'intern',
+      avata: item != null ? item.avata : '',
+      avata_update_at: item != null ? item.avata_update_at : '',
+      first_name_jp: item != null ? item.first_name_jp : '',
+      middle_name_jp: item != null ? item.middle_name_jp : '',
+      last_name_jp: item != null ? item.last_name_jp : '',
+      first_name_en: item != null ? item.first_name_en : '',
+      middle_name_en: item != null ? item.middle_name_en : '',
+      last_name_en: item != null ? item.last_name_en : '',
+      gender: item != null ? item.gender : '',
+      dob: item != null ? item.dob : '',
+      career_id: item != null ? item.career_id : '',
+      passport_code: item != null ? item.passport_code : '',
+      passport_license_date: item != null ? item.passport_license_date : '',
+      passport_expiration_date: item != null ? item.passport_expiration_date : '',
+      alert: item != null ? item.alert : '',
+      phone_domestically: item != null ? item.phone_domestically : '',
+      phone_abroad: item != null ? item.phone_abroad : '',
+      receiving_factory_id: item != null ? item.receiving_factory_id : '',
+      dispatching_company_id: item != null ? item.dispatching_company_id : '',
+      description: item != null ? item.description : '',
+      create_at: item != null ? item.create_at : '',
+      create_by: item != null ? item.create_by : 1,
+      update_at: item != null ? item.update_at : '',
+      update_by: item != null ? item.update_by : 1,
+
+      nation_id: 1,
+      status_of_residence_id: '', // trạng thái
+      alien_registration_card_number: '', // số thẻ ngoại kiều
+      status_of_residence_id: '',  // Tư cách lưu trú
 
     },
     validationSchema: Yup.object().shape({
+      first_name_jp: Yup.string().required(
+        "This value is required"
+      ),
+      last_name_jp: Yup.string().required(
+        "This value is required"
+      ),
+      first_name_en: Yup.string().required(
+        "This value is required"
+      ),
+      last_name_en: Yup.string().required(
+        "This value is required"
+      ),
+      gender: Yup.string().required(
+        "This value is required"
+      ),
+      dob: Yup.date().required(
+        "Please select date"
+      ),
+      career_id: Yup.string().required(
+        "This value is required"
+      ),
+      passport_code: Yup.string().required(
+        "This value is required"
+      ),
+      passport_license_date: Yup.date().required(
+        "Please select date"
+      ),
+      passport_expiration_date: Yup.date().required(
+        "Please select date"
+      ),
+      // phone_domestically: Yup.string().required(
+      //   "This value is required"
+      // ),
+      // phone_abroad: Yup.string().required(
+      //   "This value is required"
+      // ),
+      receiving_factory_id: Yup.string().required(
+        "This value is required"
+      ),
+      dispatching_company_id: Yup.string().required(
+        "This value is required"
+      ),
 
     }),
 
@@ -98,43 +191,90 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       if (isEditIntern) {
         let obj = {
           id: value.id,
-          key_license_id: 1,
-          colors: value.colors,
-          status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
-          name: value.name,
-          condition_date: value.condition_date,
-          condition_milestone: value.condition_milestone,
-          condition_value: value.condition_value,
+          key_license_id: value.key_license_id,
+          syndication_id: value.syndication_id,
+          type: 'intern',
+          avata: value.avata,
+          avata_update_at: value.avata_update_at,
+          first_name_jp: value.first_name_jp,
+          middle_name_jp: value.middle_name_jp,
+          last_name_jp: value.last_name_jp,
+          first_name_en: value.first_name_en,
+          middle_name_en: value.middle_name_en,
+          last_name_en: value.last_name_en,
+          gender: value.gender,
+          dob: value.dob,
+          career_id: value.career_id,
+          passport_code: value.passport_code,
+          passport_license_date: value.passport_license_date,
+          passport_expiration_date: value.passport_expiration_date,
+          alert: value.alert,
+          phone_domestically: value.phone_domestically,
+          phone_abroad: value.phone_abroad,
+          receiving_factory_id: value.receiving_factory_id,
+          dispatching_company_id: value.dispatching_company_id,
           description: value.description,
           create_at: value.create_at,
-          create_by: 1,
+          create_by: value.create_by,
           update_at: null,
-          update_by: 1,
+          update_by: value.update_by,
           delete_at: null,
           flag: 1
         }
         dispatch(updateApi(obj));
+        if (selectedFile) {
+          const formData = new FormData();
+          formData.append('image', selectedFile);
+          dispatch(uploadImageRequest(formData));
+          // dispatch(uploadFile(formData));
+        }
       } else {
         let obj = {
-          key_license_id: 1,
-          colors: value.colors,
-          status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
-          name: value.name,
-          condition_date: value.condition_date,
-          condition_milestone: value.condition_milestone,
-          condition_value: value.condition_value,
+          key_license_id: value.key_license_id,
+          syndication_id: value.syndication_id,
+          type: 'intern',
+          avata: value.avata,
+          avata_update_at: value.avata_update_at,
+          first_name_jp: value.first_name_jp,
+          middle_name_jp: value.middle_name_jp,
+          last_name_jp: value.last_name_jp,
+          first_name_en: value.first_name_en,
+          middle_name_en: value.middle_name_en,
+          last_name_en: value.last_name_en,
+          gender: value.gender,
+          dob: value.dob,
+          career_id: value.career_id,
+          passport_code: value.passport_code,
+          passport_license_date: value.passport_license_date,
+          passport_expiration_date: value.passport_expiration_date,
+          alert: value.alert,
+          phone_domestically: value.phone_domestically,
+          phone_abroad: value.phone_abroad,
+          receiving_factory_id: value.receiving_factory_id,
+          dispatching_company_id: value.dispatching_company_id,
           description: value.description,
-          create_at: value.create_at,
-          create_by: 1,
+          create_at: null,
+          create_by: value.create_by,
           update_at: null,
-          update_by: 1,
+          update_by: value.update_by,
           delete_at: null,
           flag: 1
         }
         dispatch(setApi(obj));
+        setIsCreateAddress(true);
+        // upload anh len server
+        if (selectedFile) {
+          const formData = new FormData();
+          formData.append('image', selectedFile);
+          dispatch(uploadImageRequest(formData));
+          // dispatch(uploadFile(formData));
+        }
       }
+
+
       formik.resetForm();
-      tog_xlarge();
+      // console.log('submit done');
+      tog_fullscreen();
     }
   });
 
@@ -145,11 +285,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
-    console.log('check');
+    // console.log('check');
     if (isEditIntern) {
       if (item !== null) {
         const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'intern');
-        console.log('arr', arr)
+        // console.log('arr', arr)
         updateAddressDataCompany(arr)
       }
     }
@@ -258,6 +398,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
 
 
+
+  console.log('formik:', formik.values)
+
+
   return (
     <>
       <Form>
@@ -279,6 +423,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
             <button
               onClick={() => {
                 setmodal_fullscreen(false);
+                setIsEditIntern(false);
               }}
               type="button"
               className="close"
@@ -332,38 +477,38 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row className='mb-3'>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Họ</Label>
+                                        <Label className="form-label fw-bold">Họ</Label>
                                         <Input
-                                          name="username"
+                                          name="first_name_jp"
                                           placeholder="Họ"
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.username || ""}
+                                          value={formik.values.first_name_jp || ""}
                                           invalid={
-                                            formik.touched.username && formik.errors.username ? true : false
+                                            formik.touched.first_name_jp && formik.errors.first_name_jp ? true : false
                                           }
                                         />
-                                        {formik.touched.username && formik.errors.username ? (
-                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        {formik.touched.first_name_jp && formik.errors.first_name_jp ? (
+                                          <FormFeedback type="invalid">{formik.errors.first_name_jp}</FormFeedback>
                                         ) : null}
                                       </div>
 
                                       <div className="mb-3">
                                         <Input
-                                          name="password1"
+                                          name="first_name_en"
                                           type="text"
                                           autoComplete="off"
                                           placeholder="Họ (En)"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.password1 || ""}
+                                          value={formik.values.first_name_en || ""}
                                           invalid={
-                                            formik.touched.password1 && formik.errors.password1 ? true : false
+                                            formik.touched.first_name_en && formik.errors.first_name_en ? true : false
                                           }
                                         />
-                                        {formik.touched.password1 && formik.errors.password1 ? (
-                                          <FormFeedback type="invalid">{formik.errors.password1}</FormFeedback>
+                                        {formik.touched.first_name_en && formik.errors.first_name_en ? (
+                                          <FormFeedback type="invalid">{formik.errors.first_name_en}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -371,36 +516,36 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       <div className="mb-3">
                                         <Label>Tên đệm</Label>
                                         <Input
-                                          name="password"
+                                          name="middle_name_jp"
                                           type="text"
                                           autoComplete="off"
                                           placeholder="Tên đệm"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.password || ""}
+                                          value={formik.values.middle_name_jp || ""}
                                           invalid={
-                                            formik.touched.password && formik.errors.password ? true : false
+                                            formik.touched.middle_name_jp && formik.errors.middle_name_jp ? true : false
                                           }
                                         />
-                                        {formik.touched.password && formik.errors.password ? (
-                                          <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
+                                        {formik.touched.middle_name_jp && formik.errors.middle_name_jp ? (
+                                          <FormFeedback type="invalid">{formik.errors.middle_name_jp}</FormFeedback>
                                         ) : null}
                                       </div>
 
                                       <div className="mb-3">
                                         <Input
-                                          name="email"
+                                          name="middle_name_en"
                                           placeholder="Tên đệm (En)"
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.email || ""}
+                                          value={formik.values.middle_name_en || ""}
                                           invalid={
-                                            formik.touched.email && formik.errors.email ? true : false
+                                            formik.touched.middle_name_en && formik.errors.middle_name_en ? true : false
                                           }
                                         />
-                                        {formik.touched.email && formik.errors.email ? (
-                                          <FormFeedback type="invalid">{formik.errors.email}</FormFeedback>
+                                        {formik.touched.middle_name_en && formik.errors.middle_name_en ? (
+                                          <FormFeedback type="invalid">{formik.errors.middle_name_en}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -408,36 +553,36 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       <div className="mb-3">
                                         <Label>Tên</Label>
                                         <Input
-                                          name="password"
+                                          name="last_name_jp"
                                           type="text"
                                           autoComplete="off"
                                           placeholder="Tên"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.password || ""}
+                                          value={formik.values.last_name_jp || ""}
                                           invalid={
-                                            formik.touched.password && formik.errors.password ? true : false
+                                            formik.touched.last_name_jp && formik.errors.last_name_jp ? true : false
                                           }
                                         />
-                                        {formik.touched.password && formik.errors.password ? (
-                                          <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
+                                        {formik.touched.last_name_jp && formik.errors.last_name_jp ? (
+                                          <FormFeedback type="invalid">{formik.errors.last_name_jp}</FormFeedback>
                                         ) : null}
                                       </div>
 
                                       <div className="mb-3">
                                         <Input
-                                          name="number"
+                                          name="text"
                                           placeholder="Tên (En)"
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.number || ""}
+                                          value={formik.values.last_name_en || ""}
                                           invalid={
-                                            formik.touched.number && formik.errors.number ? true : false
+                                            formik.touched.last_name_en && formik.errors.last_name_en ? true : false
                                           }
                                         />
-                                        {formik.touched.number && formik.errors.number ? (
-                                          <FormFeedback type="invalid">{formik.errors.number}</FormFeedback>
+                                        {formik.touched.last_name_en && formik.errors.last_name_en ? (
+                                          <FormFeedback type="invalid">{formik.errors.last_name_en}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -445,50 +590,51 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row className='mb-3'>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Quốc gia</Label>
+                                        <Label className="form-label fw-bold">Quốc gia</Label>
                                         <Select
-                                          name='province'
+                                          name='nation_id'
                                           placeholder='Chọn quốc gia'
-                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          value={optionGroup.find(option => option.value === formik.values.nation_id)}
                                           onChange={(item) => {
-                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                            formik.setFieldValue('nation_id', item.value);
                                           }}
                                           options={optionGroup}
+                                          // components={{ Option: CustomOption }}
                                         // isClearable
                                         />
                                       </div>
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Giới tính</Label>
+                                        <Label className="form-label fw-bold">Giới tính</Label>
                                         <Select
-                                          name='province'
+                                          name='gender'
                                           placeholder='Chọn giới tính'
-                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          value={optionGender.find(option => option.value === formik.values.gender)}
                                           onChange={(item) => {
                                             formik.setFieldValue('province', item == null ? null : item.value);
                                           }}
-                                          options={optionGroup}
+                                          options={optionGender}
                                         // isClearable
                                         />
                                       </div>
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Ngày sinh</Label>
+                                        <Label className="form-label fw-bold">Ngày sinh</Label>
                                         <Input
-                                          name="username"
-                                          placeholder="Type Something"
+                                          name="dob"
+                                          placeholder="Chọn ngày sinh"
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.username || ""}
+                                          value={formik.values.dob || ""}
                                           invalid={
-                                            formik.touched.username && formik.errors.username ? true : false
+                                            formik.touched.dob && formik.errors.dob ? true : false
                                           }
                                         />
-                                        {formik.touched.username && formik.errors.username ? (
-                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        {formik.touched.dob && formik.errors.dob ? (
+                                          <FormFeedback type="invalid">{formik.errors.dob}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -497,20 +643,20 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row className='mb-3'>
                                     <Col lg={12} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Số hộ chiếu</Label>
+                                        <Label className="form-label fw-bold">Số hộ chiếu</Label>
                                         <Input
-                                          name="username"
-                                          placeholder="Type Something"
+                                          name="passport_code"
+                                          placeholder="Nhập số hộ chiếu"
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.username || ""}
+                                          value={formik.values.passport_code || ""}
                                           invalid={
-                                            formik.touched.username && formik.errors.username ? true : false
+                                            formik.touched.passport_code && formik.errors.passport_code ? true : false
                                           }
                                         />
-                                        {formik.touched.username && formik.errors.username ? (
-                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        {formik.touched.passport_code && formik.errors.passport_code ? (
+                                          <FormFeedback type="invalid">{formik.errors.passport_code}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -519,39 +665,39 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row className='mb-3'>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Ngày cấp</Label>
+                                        <Label className="form-label fw-bold">Ngày cấp</Label>
                                         <Input
-                                          name="username"
-                                          placeholder="Type Something"
+                                          name="passport_license_date"
+                                          placeholder="Ngày cấp"
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.username || ""}
+                                          value={formik.values.passport_license_date || ""}
                                           invalid={
-                                            formik.touched.username && formik.errors.username ? true : false
+                                            formik.touched.passport_license_date && formik.errors.passport_license_date ? true : false
                                           }
                                         />
-                                        {formik.touched.username && formik.errors.username ? (
-                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        {formik.touched.passport_license_date && formik.errors.passport_license_date ? (
+                                          <FormFeedback type="invalid">{formik.errors.passport_license_date}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Ngày hết hạn</Label>
+                                        <Label className="form-label fw-bold">Ngày hết hạn</Label>
                                         <Input
-                                          name="username"
-                                          placeholder="Type Something"
+                                          name="passport_expiration_date"
+                                          placeholder="Ngày hết hạn"
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.username || ""}
+                                          value={formik.values.passport_expiration_date || ""}
                                           invalid={
-                                            formik.touched.username && formik.errors.username ? true : false
+                                            formik.touched.passport_expiration_date && formik.errors.passport_expiration_date ? true : false
                                           }
                                         />
-                                        {formik.touched.username && formik.errors.username ? (
-                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        {formik.touched.passport_expiration_date && formik.errors.passport_expiration_date ? (
+                                          <FormFeedback type="invalid">{formik.errors.passport_expiration_date}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -571,13 +717,13 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Công ty phái cử</Label>
+                                        <Label className="form-label fw-bold">Công ty phái cử</Label>
                                         <Select
-                                          name='province'
+                                          name='dispatching_company_id'
                                           placeholder='Chọn công ty phái cử'
-                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          value={ option ? optionGroup.find(option =>  option.value === formik.values.dispatching_company_id) : ''}
                                           onChange={(item) => {
-                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                            formik.setFieldValue('dispatching_company_id', item.value);
                                           }}
                                           options={optionGroup}
                                         // isClearable
@@ -586,7 +732,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Xí nghiệp tiếp nhận</Label>
+                                        <Label className="form-label fw-bold">Xí nghiệp tiếp nhận</Label>
                                         <Select
                                           name='province'
                                           placeholder='Chọn xí nghiệp tiếp nhận'
@@ -603,7 +749,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Số thẻ ngoại kiều</Label>
+                                        <Label className="form-label fw-bold">Số thẻ ngoại kiều</Label>
                                         <Input
                                           name="username"
                                           placeholder="Nhập số thẻ ngoại kiều"
@@ -622,7 +768,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Tư cách lưu trú</Label>
+                                        <Label className="form-label fw-bold">Tư cách lưu trú</Label>
                                         <Select
                                           name='province'
                                           placeholder='Chọn tư cách lưu trú'
@@ -639,7 +785,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Ngày cấp</Label>
+                                        <Label className="form-label fw-bold">Ngày cấp</Label>
                                         <Input
                                           name="username"
                                           placeholder="Nhập số thẻ ngoại kiều"
@@ -680,7 +826,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Trạng thái</Label>
+                                        <Label className="form-label fw-bold">Trạng thái</Label>
                                         <Select
                                           name='province'
                                           placeholder='Chọn trạng thái'
@@ -695,7 +841,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label">Ngành nghề</Label>
+                                        <Label className="form-label fw-bold">Ngành nghề</Label>
                                         <Select
                                           name='province'
                                           placeholder='Chọn ngành nghề'

@@ -84,7 +84,7 @@ const TableDatas = (props) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getInternAllInfo());
-    }, 10000);
+    }, 60000);
     // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId);
@@ -257,8 +257,8 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
 
-  console.log('dataTable:', dataTable)
-  console.log('internDataAllInfo:', internDataAllInfo)
+  // console.log('dataTable:', dataTable)
+  // console.log('internDataAllInfo:', internDataAllInfo)
   // console.log(dataUser)
 
   return (
