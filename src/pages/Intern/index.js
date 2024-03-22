@@ -10,6 +10,9 @@ import { withTranslation } from "react-i18next";
 import TableDatas from "./TableDatas";
 import ModalTop from "./ModalTop";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const InternPage = (props) => {
     document.title = "Thực tập sinh";
@@ -43,7 +46,7 @@ const InternPage = (props) => {
                                 setIsUpdateStatus={setIsUpdateStatus}
                             />
                         </CardHeader>
-
+                        <ToastContainer />
                         <CardBody>
                             <TableDatas />
                         </CardBody>

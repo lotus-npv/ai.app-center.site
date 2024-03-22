@@ -91,21 +91,6 @@ const TableDatas = (props) => {
     };
   }, []);
 
-  // render data intern
-  // const [dataRender, setDataRender] = useState([])
-  // useEffect(() => {
-  //   setDataRender(internDataAll.map(intern => {
-  //     return { ...intern, 
-  //       full_name: `${intern.last_name_jp} ${intern.middle_name_jp} ${intern.first_name_jp}`, 
-  //       factory_name: factoryData.find(item => item.id == intern.receiving_factory_id).name_jp,
-  //       company_name:  companyData.find(item => item.id == intern.dispatching_company_id).name_jp,
-  //     }
-  //   }))
-  // }, [internDataAll])
-
-  // modal edit or addnew
-
-
   const [modal_xlarge, setmodal_xlarge] = useState(false);
   function tog_xlarge() {
     setmodal_xlarge(!modal_xlarge);

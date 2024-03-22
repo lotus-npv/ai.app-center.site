@@ -28,7 +28,10 @@ import avata from '../../assets/images/users/avatar-1.jpg'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest, getDispatchingCompanyAll, getReceivingFactoryAll, getStatusAll, getCareerAll, getStatusOfResidenceAll} from "store/actions";
+import {
+  getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest, getDispatchingCompanyAll,
+  getReceivingFactoryAll, getStatusAll, getCareerAll, getStatusOfResidenceAll, setAlienRegistrationCard, setStatusDetail
+} from "store/actions";
 
 
 const optionGroup = [
@@ -45,6 +48,36 @@ const optionGender = [
 const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
   const dispatch = useDispatch();
+
+  // Tao doi tuong luu bang the ngoai kieu
+  const [alienCard, setAlienCard] = useState({
+    key_license_id: 1,
+    intern_id: null,
+    card_number: null,
+    status_of_residence_id: null,
+    license_date: null,
+    expiration_date: null,
+    description: null,
+    create_at: null,
+    create_by: 1,
+    update_at: null,
+    update_by: 1,
+    delete_at: null,
+    flag: 1
+  });
+  // Tao doi luong luu bang chi tiet trang thai
+  const [statusDetailObj, setStatusDetailObj] = useState({
+    key_license_id: 1,
+    intern_id: null,
+    status_id: null,
+    description: null,
+    create_at: null,
+    create_by: 1,
+    update_at: null,
+    update_by: 1,
+    delete_at: null,
+    flag: 1
+  });
 
   // data context
   const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditIntern, setIsEditIntern, addressIntern, addressDataIntern, updateAddressDataIntern, } = useContext(DataContext)
@@ -72,17 +105,17 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
     }
   ), shallowEqual);
 
-    // Get du lieu lan dau 
-    useEffect(() => {
-      dispatch(getDispatchingCompanyAll());
-      dispatch(getReceivingFactoryAll());
-      dispatch(getStatusAll());
-      dispatch(getCareerAll());
-      dispatch(getStatusOfResidenceAll());
-    }, [dispatch]);
+  // Get du lieu lan dau 
+  useEffect(() => {
+    dispatch(getDispatchingCompanyAll());
+    dispatch(getReceivingFactoryAll());
+    dispatch(getStatusAll());
+    dispatch(getCareerAll());
+    dispatch(getStatusOfResidenceAll());
+  }, [dispatch]);
 
 
-    // console.log(companyData);
+  // console.log(companyData);
 
   // xu ly form nhap anh
   const fileInputRef = useRef();
@@ -270,7 +303,8 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
           flag: 1
         }
         dispatch(setApi(obj));
-        setIsCreateAddress(true);
+        
+
         // upload anh len server
         if (selectedFile) {
           const formData = new FormData();
@@ -278,19 +312,26 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
           dispatch(uploadImageRequest(formData));
           // dispatch(uploadFile(formData));
         }
+
+        const card = { ...alienCard, card_number: value.alien_registration_card_number, status_of_residence_id: value.status_of_residence_id, license_date: value.license_date, expiration_date: value.expiration_date };
+        setAlienCard(card);
+        const status = { ...statusDetailObj, status_id: value.status_id };
+        setStatusDetailObj(status);
+        setIsCreateAddress(true);
+
       }
 
 
       // formik.resetForm();
-      // console.log('submit done');
+      console.log('submit done');
       tog_fullscreen();
     }
   });
 
   // Tai du lieu thanh pho 
   useEffect(() => {
-    dispatch(getProvinceByNationId(formik.values.nation));
-  }, [formik.values.nation])
+    dispatch(getProvinceByNationId(formik.values.nation_id));
+  }, [formik.values.nation_id])
 
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
@@ -304,21 +345,32 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
     }
   }, [isEditIntern])
 
+  //---------------------------------------------------------------------------------------------------------------
   // GHi du lieu dia chi vao database
   useEffect(() => {
     if (internCreate != null) {
       const id = internCreate['id'];
-      addressDataIntern.forEach((address, index) => {
-        const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
-        if (id != null || id != undefined) {
-          if (isCreateAddress) {
+      console.log('id:', id);
+
+      if (id != null || id != undefined) {
+        if (isCreateAddress) {
+          const newCard = { ...alienCard, intern_id: id };
+          const netStatus = { ...statusDetailObj, intern_id: id };
+          dispatch(setAlienRegistrationCard(newCard));
+          dispatch(setStatusDetail(netStatus));
+          addressDataIntern.forEach((address, index) => {
+            const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
             dispatch(setAddress(newAddress));
-          }
+          })
+
+          // setAlienCard({...alienCard, intern_id: id});
+          // setStatusDetailObj({...statusDetailObj, intern_id: id});
           setIsCreateAddress(false);
         }
-      })
+      }
     }
   }, [internCreate])
+  //----------------------------------------------------------------------------------------------------------------
 
   // thuc thi formik
   const handleSubmit = () => {
@@ -409,8 +461,8 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
 
   // console.log('formik:', formik.values)
-  console.log('statusData:', statusData)
-  console.log('careerData:', careerData)
+  // console.log('statusData:', statusData)
+  // console.log('careerData:', careerData)
 
 
   return (
@@ -444,9 +496,6 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
-
-
 
           <div className="modal-body">
             <Form>
@@ -759,10 +808,6 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                             </Col>
 
 
-                            {/* <Col lg={1} className='d-flex justify-content-center'>
-                          <div style={{ width: '2px', height: '100%' }} className='border border-left border-secondary'></div>
-                        </Col> */}
-
                             <Col lg={5} xl={5} className=''>
                               <Card>
                                 <CardBody>
@@ -773,7 +818,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                         <Select
                                           name='dispatching_company_id'
                                           placeholder='Chọn công ty phái cử'
-                                          value={companyData.find(option =>  option.value === formik.values.dispatching_company_id)}
+                                          value={companyData.find(option => option.value === formik.values.dispatching_company_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('dispatching_company_id', item.value);
                                           }}

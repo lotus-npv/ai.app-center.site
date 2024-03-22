@@ -95,7 +95,7 @@ const DataProvider = ({ children }) => {
 
     // address intern
     const addressIntern = {
-        key_license_id: null,
+        key_license_id: 1,
         user_type: 'intern',
         object_id: null,
         nation_id: null,
