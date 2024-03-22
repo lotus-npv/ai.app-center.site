@@ -57,6 +57,7 @@ function* onDeleteDispatchingCompany({ payload: id }) {
       const response = yield call(deleteDataDispatchingCompany, id)
       yield put(deleteDispatchingCompanySuccess(response));
       toast.success("DispatchingCompany Delete Successfully", { autoClose: 2000 });
+      yield call(refreshDispatchingCompanyData);
   } catch (error) {
       yield put(deleteDispatchingCompanyFail(error))
       toast.error("DispatchingCompany Delete Failed", { autoClose: 2000 });

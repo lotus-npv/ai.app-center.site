@@ -29,7 +29,6 @@ import avata from '../../assets/images/users/avatar-1.jpg'
 const optionGroup = [
   { label: "Viet Nam", value: 1 },
   { label: "Japan", value: 2 },
-  { label: "Korean", value: 3 }
 ];
 
 // //redux
@@ -40,7 +39,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   const dispatch = useDispatch();
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditCompany, setIsEditCompany, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext);
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditCompany, setIsEditCompany, addressCompany, addressDataCompany, updateAddressDataCompany, } = useContext(DataContext);
 
 
   // Radio button
@@ -62,23 +61,6 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
       companyCreateLoading: state.DispatchingCompany.loading,
     }
   ), shallowEqual)
-
-  // Tai du lieu thanh pho 
-  useEffect(() => {
-    dispatch(getProvinceByNationId(1));
-  }, [])
-
-  // nap du lieu cho dia chi neu la chinh sua
-  useEffect(() => {
-    console.log('check');
-    if (isEditCompany) {
-      const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'receiving_factory');
-      console.log('arr', arr)
-      updateAddressDataFactory(arr)
-    }
-  }, [isEditCompany])
-
-
 
   // xu ly form nhap anh
   const fileInputRef = useRef();
@@ -116,7 +98,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
       create_by: item !== null ? item.create_by : 1,
       update_at: item !== null ? item.update_at : '',
       update_by: item !== null ? item.update_by : 1,
-      nation: '',
+      nation: 1,
       // description_address: "",
     },
     validationSchema: Yup.object().shape({
@@ -200,10 +182,25 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     }
   });
 
+    // Tai du lieu thanh pho 
+    useEffect(() => {
+      dispatch(getProvinceByNationId(formik.values.nation));
+    }, [formik.values.nation])
+  
+    // nap du lieu cho dia chi neu la chinh sua
+    useEffect(() => {
+      console.log('check');
+      if (isEditCompany) {
+        const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'dispatching_company');
+        console.log('arr', arr)
+        updateAddressDataCompany(arr)
+      }
+    }, [isEditCompany])
+
   useEffect(() => {
     if (companyCreate != null) {
       const id = companyCreate['id'];
-      addressDataFactory.forEach((address, index) => {
+      addressDataCompany.forEach((address, index) => {
         const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
         if (id != null || id != undefined) {
           if (isCreateAddress) {
@@ -224,13 +221,13 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
   // xu ly them form address
   const handleAddForm = () => {
-    updateAddressDataFactory([...addressDataFactory, addressFactory])
+    updateAddressDataCompany([...addressDataCompany, addressCompany])
   };
 
   const handleDeleteColumn = (getIndex) => {
-    const arr = [...addressDataFactory];
+    const arr = [...addressDataCompany];
     arr.splice(getIndex, 1);
-    updateAddressDataFactory(arr);
+    updateAddressDataCompany(arr);
   }
 
 
@@ -304,9 +301,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   // console.log('provinceOptions:', provinceOptions);
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  console.log('formik:', formik.values)
+  // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  // console.log('addressDataFactory:', addressDataFactory)
+  console.log('addressDataCompany:', addressDataCompany)
   // console.log('isEditCompany:', isEditCompany)
 
 
@@ -433,6 +430,12 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     value={optionGroup.find(option => option.value === formik.values.nation)}
                                     onChange={(item) => {
                                       formik.setFieldValue('nation', item == null ? null : item.value);
+                                      let arr = [...addressDataCompany]
+                                      const newArr = arr.map(address => {
+                                        return {...address, nation_id: item.value}
+                                      })
+                                      console.log('newArr', newArr)
+                                      updateAddressDataCompany(newArr);
                                     }}
                                     options={optionGroup}
                                   // isClearable
@@ -530,7 +533,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                             <Col lg={8}>
                               <Row>
                                 <Col lg={2} className='text-center mt-2 fw-bold'>
-                                  <p>Quốc gia</p>
+                                  <p>Chi nhánh</p>
                                 </Col>
                                 <Col lg={2} className='text-center mt-2 fw-bold'>
                                   <p>Tỉnh</p>
@@ -566,7 +569,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                           </Row>
                         </div>
 
-                        {addressDataFactory.map((address, index) => {
+                        {addressDataCompany.map((address, index) => {
                           return (
                             <Row className='mt-2' key={index} id={"nested" + index}>
                               <Col lg={8}>
@@ -583,11 +586,11 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                         type="text"
                                         placeholder='Branch name'
                                         onChange={(e) => {
-                                          const arr = [...addressDataFactory];
+                                          const arr = [...addressDataCompany];
                                           arr[index] = { ...arr[index], description: e.target.value }
-                                          updateAddressDataFactory(arr);
+                                          updateAddressDataCompany(arr);
                                         }}
-                                        value={isEditCompany ? address.description : ""}
+                                        value={isEditCompany ? address.description : address.description}
                                       />
                                     </div>
 
@@ -599,13 +602,13 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                         name='province_id'
                                         placeholder='Tỉnh'
                                         // value={selectProvince || ""}
-                                        defaultValue={isEditCompany ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
-                                        // value={isEditCompany ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
+                                        // defaultValue={isEditCompany ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
+                                        value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
                                         onChange={(item) => {
                                           setSelectProvince(item);
-                                          const arr = [...addressDataFactory];
+                                          const arr = [...addressDataCompany];
                                           arr[index] = { ...arr[index], province_id: item.StateID }
-                                          updateAddressDataFactory(arr);
+                                          updateAddressDataCompany(arr);
                                         }}
                                         options={provinceOptions}
                                       // isClearable
@@ -618,12 +621,12 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       <Select
                                         name='district'
                                         placeholder='Quận/Huyện'
-                                        value={isEditCompany ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
+                                        value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
                                         onChange={(item) => {
                                           setSelectDistrict(item);
-                                          const arr = [...addressDataFactory];
+                                          const arr = [...addressDataCompany];
                                           arr[index] = { ...arr[index], district_id: item.DistrictID }
-                                          updateAddressDataFactory(arr);
+                                          updateAddressDataCompany(arr);
                                         }}
                                         options={districtOptions}
                                         className="select2-selection"
@@ -637,12 +640,12 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       <Select
                                         name='commune'
                                         placeholder='Xã/Phường'
-                                        value={isEditCompany ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
+                                        value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
                                         onChange={(item) => {
                                           setSelectCommune(item);
-                                          const arr = [...addressDataFactory];
+                                          const arr = [...addressDataCompany];
                                           arr[index] = { ...arr[index], commune_id: item.WardID }
-                                          updateAddressDataFactory(arr);
+                                          updateAddressDataCompany(arr);
                                         }}
                                         options={communeOptions}
                                         className="select2-selection"
@@ -657,11 +660,11 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                         name="detail"
                                         type="text"
                                         placeholder='Số nhà, đường, phố...'
-                                        value={isEditCompany ? address.detail : ""}
+                                        value={address.detail || ''}
                                         onChange={(e) => {
-                                          const arr = [...addressDataFactory];
+                                          const arr = [...addressDataCompany];
                                           arr[index] = { ...arr[index], detail: e.target.value }
-                                          updateAddressDataFactory(arr);
+                                          updateAddressDataCompany(arr);
                                         }}
                                       />
                                     </div>
@@ -675,11 +678,11 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     name="phone_number"
                                     type="text"
                                     placeholder='Điện thoại'
-                                    value={isEditCompany ? address.phone_number : ""}
+                                    value={address.phone_number || ''}
                                     onChange={(e) => {
-                                      const arr = [...addressDataFactory];
+                                      const arr = [...addressDataCompany];
                                       arr[index] = { ...arr[index], phone_number: e.target.value }
-                                      updateAddressDataFactory(arr);
+                                      updateAddressDataCompany(arr);
                                     }}
                                   />
                                 </div>
@@ -690,11 +693,11 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     name="fax"
                                     type="text"
                                     placeholder='Fax'
-                                    value={isEditCompany ? address.fax : ""}
+                                    value={address.fax || ''}
                                     onChange={(e) => {
-                                      const arr = [...addressDataFactory];
+                                      const arr = [...addressDataCompany];
                                       arr[index] = { ...arr[index], fax: e.target.value }
-                                      updateAddressDataFactory(arr);
+                                      updateAddressDataCompany(arr);
                                     }}
                                   />
                                 </div>
@@ -708,12 +711,12 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                           name="email"
                                           type="email"
                                           placeholder='Email'
+                                          value={address.email || ''}
                                           onChange={(e) => {
-                                            const arr = [...addressDataFactory];
+                                            const arr = [...addressDataCompany];
                                             arr[index] = { ...arr[index], email: e.target.value }
-                                            updateAddressDataFactory(arr);
+                                            updateAddressDataCompany(arr);
                                           }}
-                                          value={isEditCompany ? address.email : ""}
                                         />
                                       </div>
                                     </div>
@@ -767,7 +770,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
             tog_fullscreen();
             formik.resetForm();
             setIsEditCompany(false);
-            // updateAddressDataFactory([addressFactory])
+            // updateAddressDataCompany([addressCompany])
           }}
           className="btn btn-secondary "
           data-dismiss="modal"
