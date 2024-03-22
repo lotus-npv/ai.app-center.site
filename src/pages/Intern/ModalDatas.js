@@ -298,453 +298,454 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                 <Col lg={12}>
                   <Card>
                     <CardBody>
-                      <Row >
-                        <Col lg={2} xl={2}>
-                          <Card
-                            // style={{ width: '90%' }}
-                          >
-                            <CardBody className='d-flex flex-column'>
-                              <div style={{ aspectRatio: 1 }}>
-                                <img
-                                  style={{ width: '100%', height: '100%' }}
-                                  className='rounded-circle img-thumbnail'
-                                  alt="avata"
-                                  src={selectedFile}
-                                />
-                              </div>
-                              <CardTitle tag="h5" className='text-center mt-2'>
-                                Admin
-                              </CardTitle>
-                              <Button onClick={() => fileInputRef.current.click()}>
-                                Tải ảnh
-                              </Button>{" "}
-                              <input onChange={handleChange} multiple={false} ref={fileInputRef} type='file' hidden />
-                            </CardBody>
-                          </Card>
-                        </Col>
+
+                      <Card >
+                        <CardBody>
+                          <Row >
+                            <Col lg={1} xl={1}>
+                              <Card
+                              // style={{ width: '90%' }}
+                              >
+                                <CardBody className='d-flex flex-column'>
+                                  <div style={{ aspectRatio: 1 }}>
+                                    <img
+                                      style={{ width: '100%', height: '100%' }}
+                                      className='rounded-circle img-thumbnail'
+                                      alt="avata"
+                                      src={selectedFile}
+                                    />
+                                  </div>
+                                  <CardTitle tag="h5" className='text-center mt-2'>
+                                    Admin
+                                  </CardTitle>
+                                  <Button onClick={() => fileInputRef.current.click()}>
+                                    Tải ảnh
+                                  </Button>{" "}
+                                  <input onChange={handleChange} multiple={false} ref={fileInputRef} type='file' hidden />
+                                </CardBody>
+                              </Card>
+                            </Col>
+
+                            <Col lg={6} xl={6} className='h-100'>
+                              <Card>
+                                <CardBody>
+                                  <Row className='mb-3'>
+                                    <Col lg={4} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Họ</Label>
+                                        <Input
+                                          name="username"
+                                          placeholder="Họ"
+                                          type="text"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.username || ""}
+                                          invalid={
+                                            formik.touched.username && formik.errors.username ? true : false
+                                          }
+                                        />
+                                        {formik.touched.username && formik.errors.username ? (
+                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        ) : null}
+                                      </div>
+
+                                      <div className="mb-3">
+                                        <Input
+                                          name="password1"
+                                          type="text"
+                                          autoComplete="off"
+                                          placeholder="Họ (En)"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.password1 || ""}
+                                          invalid={
+                                            formik.touched.password1 && formik.errors.password1 ? true : false
+                                          }
+                                        />
+                                        {formik.touched.password1 && formik.errors.password1 ? (
+                                          <FormFeedback type="invalid">{formik.errors.password1}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                    <Col lg={4} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label>Tên đệm</Label>
+                                        <Input
+                                          name="password"
+                                          type="text"
+                                          autoComplete="off"
+                                          placeholder="Tên đệm"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.password || ""}
+                                          invalid={
+                                            formik.touched.password && formik.errors.password ? true : false
+                                          }
+                                        />
+                                        {formik.touched.password && formik.errors.password ? (
+                                          <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
+                                        ) : null}
+                                      </div>
+
+                                      <div className="mb-3">
+                                        <Input
+                                          name="email"
+                                          placeholder="Tên đệm (En)"
+                                          type="text"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.email || ""}
+                                          invalid={
+                                            formik.touched.email && formik.errors.email ? true : false
+                                          }
+                                        />
+                                        {formik.touched.email && formik.errors.email ? (
+                                          <FormFeedback type="invalid">{formik.errors.email}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                    <Col lg={4} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label>Tên</Label>
+                                        <Input
+                                          name="password"
+                                          type="text"
+                                          autoComplete="off"
+                                          placeholder="Tên"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.password || ""}
+                                          invalid={
+                                            formik.touched.password && formik.errors.password ? true : false
+                                          }
+                                        />
+                                        {formik.touched.password && formik.errors.password ? (
+                                          <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
+                                        ) : null}
+                                      </div>
+
+                                      <div className="mb-3">
+                                        <Input
+                                          name="number"
+                                          placeholder="Tên (En)"
+                                          type="text"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.number || ""}
+                                          invalid={
+                                            formik.touched.number && formik.errors.number ? true : false
+                                          }
+                                        />
+                                        {formik.touched.number && formik.errors.number ? (
+                                          <FormFeedback type="invalid">{formik.errors.number}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                  <Row className='mb-3'>
+                                    <Col lg={4} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Quốc gia</Label>
+                                        <Select
+                                          name='province'
+                                          placeholder='Chọn quốc gia'
+                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          onChange={(item) => {
+                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                          }}
+                                          options={optionGroup}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                    <Col lg={4} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Giới tính</Label>
+                                        <Select
+                                          name='province'
+                                          placeholder='Chọn giới tính'
+                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          onChange={(item) => {
+                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                          }}
+                                          options={optionGroup}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                    <Col lg={4} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Ngày sinh</Label>
+                                        <Input
+                                          name="username"
+                                          placeholder="Type Something"
+                                          type="date"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.username || ""}
+                                          invalid={
+                                            formik.touched.username && formik.errors.username ? true : false
+                                          }
+                                        />
+                                        {formik.touched.username && formik.errors.username ? (
+                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                  </Row>
+
+                                  <Row className='mb-3'>
+                                    <Col lg={12} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Số hộ chiếu</Label>
+                                        <Input
+                                          name="username"
+                                          placeholder="Type Something"
+                                          type="text"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.username || ""}
+                                          invalid={
+                                            formik.touched.username && formik.errors.username ? true : false
+                                          }
+                                        />
+                                        {formik.touched.username && formik.errors.username ? (
+                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                  </Row>
+
+                                  <Row className='mb-3'>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Ngày cấp</Label>
+                                        <Input
+                                          name="username"
+                                          placeholder="Type Something"
+                                          type="date"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.username || ""}
+                                          invalid={
+                                            formik.touched.username && formik.errors.username ? true : false
+                                          }
+                                        />
+                                        {formik.touched.username && formik.errors.username ? (
+                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Ngày hết hạn</Label>
+                                        <Input
+                                          name="username"
+                                          placeholder="Type Something"
+                                          type="date"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.username || ""}
+                                          invalid={
+                                            formik.touched.username && formik.errors.username ? true : false
+                                          }
+                                        />
+                                        {formik.touched.username && formik.errors.username ? (
+                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                </CardBody>
+                              </Card>
+                            </Col>
 
 
-
-                        <Col lg={5} xl={5} className=''>
-                          <Card>
-                            <CardBody>
-                              <Row>
-                                <Col lg={4} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Họ</Label>
-                                    <Input
-                                      name="username"
-                                      placeholder="Họ"
-                                      type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.username || ""}
-                                      invalid={
-                                        formik.touched.username && formik.errors.username ? true : false
-                                      }
-                                    />
-                                    {formik.touched.username && formik.errors.username ? (
-                                      <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
-                                    ) : null}
-                                  </div>
-
-                                  <div className="mb-3">
-                                    <Input
-                                      name="password1"
-                                      type="text"
-                                      autoComplete="off"
-                                      placeholder="Họ (En)"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.password1 || ""}
-                                      invalid={
-                                        formik.touched.password1 && formik.errors.password1 ? true : false
-                                      }
-                                    />
-                                    {formik.touched.password1 && formik.errors.password1 ? (
-                                      <FormFeedback type="invalid">{formik.errors.password1}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                                <Col lg={4} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label>Tên đệm</Label>
-                                    <Input
-                                      name="password"
-                                      type="text"
-                                      autoComplete="off"
-                                      placeholder="Tên đệm"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.password || ""}
-                                      invalid={
-                                        formik.touched.password && formik.errors.password ? true : false
-                                      }
-                                    />
-                                    {formik.touched.password && formik.errors.password ? (
-                                      <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
-                                    ) : null}
-                                  </div>
-
-                                  <div className="mb-3">
-                                    <Input
-                                      name="email"
-                                      placeholder="Tên đệm (En)"
-                                      type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.email || ""}
-                                      invalid={
-                                        formik.touched.email && formik.errors.email ? true : false
-                                      }
-                                    />
-                                    {formik.touched.email && formik.errors.email ? (
-                                      <FormFeedback type="invalid">{formik.errors.email}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                                <Col lg={4} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label>Tên</Label>
-                                    <Input
-                                      name="password"
-                                      type="text"
-                                      autoComplete="off"
-                                      placeholder="Tên"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.password || ""}
-                                      invalid={
-                                        formik.touched.password && formik.errors.password ? true : false
-                                      }
-                                    />
-                                    {formik.touched.password && formik.errors.password ? (
-                                      <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
-                                    ) : null}
-                                  </div>
-
-                                  <div className="mb-3">
-                                    <Input
-                                      name="number"
-                                      placeholder="Tên (En)"
-                                      type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.number || ""}
-                                      invalid={
-                                        formik.touched.number && formik.errors.number ? true : false
-                                      }
-                                    />
-                                    {formik.touched.number && formik.errors.number ? (
-                                      <FormFeedback type="invalid">{formik.errors.number}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col lg={4} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Quốc gia</Label>
-                                    <Select
-                                      name='province'
-                                      placeholder='Chọn quốc gia'
-                                      value={optionGroup.find(option => option.value === formik.values.province)}
-                                      onChange={(item) => {
-                                        formik.setFieldValue('province', item == null ? null : item.value);
-                                      }}
-                                      options={optionGroup}
-                                    // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                                <Col lg={4} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Giới tính</Label>
-                                    <Select
-                                      name='province'
-                                      placeholder='Chọn giới tính'
-                                      value={optionGroup.find(option => option.value === formik.values.province)}
-                                      onChange={(item) => {
-                                        formik.setFieldValue('province', item == null ? null : item.value);
-                                      }}
-                                      options={optionGroup}
-                                    // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                                <Col lg={4} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Ngày sinh</Label>
-                                    <Input
-                                      name="username"
-                                      placeholder="Type Something"
-                                      type="date"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.username || ""}
-                                      invalid={
-                                        formik.touched.username && formik.errors.username ? true : false
-                                      }
-                                    />
-                                    {formik.touched.username && formik.errors.username ? (
-                                      <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                              </Row>
-
-                              <Row>
-                                <Col lg={12} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Số hộ chiếu</Label>
-                                    <Input
-                                      name="username"
-                                      placeholder="Type Something"
-                                      type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.username || ""}
-                                      invalid={
-                                        formik.touched.username && formik.errors.username ? true : false
-                                      }
-                                    />
-                                    {formik.touched.username && formik.errors.username ? (
-                                      <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                              </Row>
-
-                              <Row>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Ngày cấp</Label>
-                                    <Input
-                                      name="username"
-                                      placeholder="Type Something"
-                                      type="date"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.username || ""}
-                                      invalid={
-                                        formik.touched.username && formik.errors.username ? true : false
-                                      }
-                                    />
-                                    {formik.touched.username && formik.errors.username ? (
-                                      <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Ngày hết hạn</Label>
-                                    <Input
-                                      name="username"
-                                      placeholder="Type Something"
-                                      type="date"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.username || ""}
-                                      invalid={
-                                        formik.touched.username && formik.errors.username ? true : false
-                                      }
-                                    />
-                                    {formik.touched.username && formik.errors.username ? (
-                                      <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                              </Row>
-                            </CardBody>
-                          </Card>
-                        </Col>
-
-
-                        {/* <Col lg={1} className='d-flex justify-content-center'>
+                            {/* <Col lg={1} className='d-flex justify-content-center'>
                           <div style={{ width: '2px', height: '100%' }} className='border border-left border-secondary'></div>
                         </Col> */}
 
-                        <Col lg={5} xl={5} className=''>
-                          <Card>
-                            <CardBody>
-
-
-                              <Row>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Công ty phái cử</Label>
-                                    <Select
-                                      name='province'
-                                      placeholder='Chọn công ty phái cử'
-                                      value={optionGroup.find(option => option.value === formik.values.province)}
-                                      onChange={(item) => {
-                                        formik.setFieldValue('province', item == null ? null : item.value);
-                                      }}
-                                      options={optionGroup}
-                                    // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Xí nghiệp tiếp nhận</Label>
-                                    <Select
-                                      name='province'
-                                      placeholder='Chọn xí nghiệp tiếp nhận'
-                                      value={optionGroup.find(option => option.value === formik.values.province)}
-                                      onChange={(item) => {
-                                        formik.setFieldValue('province', item == null ? null : item.value);
-                                      }}
-                                      options={optionGroup}
-                                    // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Số thẻ ngoại kiều</Label>
-                                    <Input
-                                      name="username"
-                                      placeholder="Nhập số thẻ ngoại kiều"
-                                      type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.username || ""}
-                                      invalid={
-                                        formik.touched.username && formik.errors.username ? true : false
-                                      }
-                                    />
-                                    {formik.touched.username && formik.errors.username ? (
-                                      <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Tư cách lưu trú</Label>
-                                    <Select
-                                      name='province'
-                                      placeholder='Chọn tư cách lưu trú'
-                                      value={optionGroup.find(option => option.value === formik.values.province)}
-                                      onChange={(item) => {
-                                        formik.setFieldValue('province', item == null ? null : item.value);
-                                      }}
-                                      options={optionGroup}
-                                    // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Ngày cấp</Label>
-                                    <Input
-                                      name="username"
-                                      placeholder="Nhập số thẻ ngoại kiều"
-                                      type="date"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.username || ""}
-                                      invalid={
-                                        formik.touched.username && formik.errors.username ? true : false
-                                      }
-                                    />
-                                    {formik.touched.username && formik.errors.username ? (
-                                      <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label>Ngày hết hạn</Label>
-                                    <Input
-                                      name="password"
-                                      type="date"
-                                      autoComplete="off"
-                                      placeholder="Password"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.password || ""}
-                                      invalid={
-                                        formik.touched.password && formik.errors.password ? true : false
-                                      }
-                                    />
-                                    {formik.touched.password && formik.errors.password ? (
-                                      <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Trạng thái</Label>
-                                    <Select
-                                      name='province'
-                                      placeholder='Chọn trạng thái'
-                                      value={optionGroup.find(option => option.value === formik.values.province)}
-                                      onChange={(item) => {
-                                        formik.setFieldValue('province', item == null ? null : item.value);
-                                      }}
-                                      options={optionGroup}
-                                    // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                                <Col lg={6} className='gx-1'>
-                                  <div className="mb-3">
-                                    <Label className="form-label">Ngành nghề</Label>
-                                    <Select
-                                      name='province'
-                                      placeholder='Chọn ngành nghề'
-                                      value={optionGroup.find(option => option.value === formik.values.province)}
-                                      onChange={(item) => {
-                                        formik.setFieldValue('province', item == null ? null : item.value);
-                                      }}
-                                      options={optionGroup}
-                                    // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col lg={12} className='gx-1'>
-                                  <div className="mt-2">
-                                    <Label>Ghi chú</Label>
-                                    <Input
-                                      type="textarea"
-                                      id="textarea"
-                                      onChange={e => {
-                                        textareachange(e);
-                                      }}
-                                      maxLength="225"
-                                      rows="3"
-                                      placeholder="Nhập ghi chú"
-                                    />
-                                    {textareabadge ? (
-                                      <span className="badgecount badge bg-success">
-                                        {" "}
-                                        {textcount} / 225{" "}
-                                      </span>
-                                    ) : null}
-                                  </div>
-                                </Col>
-                              </Row>
-                            </CardBody>
-                          </Card>
-                        </Col>
-                      </Row>
+                            <Col lg={5} xl={5} className=''>
+                              <Card>
+                                <CardBody>
+                                  <Row>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Công ty phái cử</Label>
+                                        <Select
+                                          name='province'
+                                          placeholder='Chọn công ty phái cử'
+                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          onChange={(item) => {
+                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                          }}
+                                          options={optionGroup}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Xí nghiệp tiếp nhận</Label>
+                                        <Select
+                                          name='province'
+                                          placeholder='Chọn xí nghiệp tiếp nhận'
+                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          onChange={(item) => {
+                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                          }}
+                                          options={optionGroup}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Số thẻ ngoại kiều</Label>
+                                        <Input
+                                          name="username"
+                                          placeholder="Nhập số thẻ ngoại kiều"
+                                          type="text"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.username || ""}
+                                          invalid={
+                                            formik.touched.username && formik.errors.username ? true : false
+                                          }
+                                        />
+                                        {formik.touched.username && formik.errors.username ? (
+                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Tư cách lưu trú</Label>
+                                        <Select
+                                          name='province'
+                                          placeholder='Chọn tư cách lưu trú'
+                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          onChange={(item) => {
+                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                          }}
+                                          options={optionGroup}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Ngày cấp</Label>
+                                        <Input
+                                          name="username"
+                                          placeholder="Nhập số thẻ ngoại kiều"
+                                          type="date"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.username || ""}
+                                          invalid={
+                                            formik.touched.username && formik.errors.username ? true : false
+                                          }
+                                        />
+                                        {formik.touched.username && formik.errors.username ? (
+                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label>Ngày hết hạn</Label>
+                                        <Input
+                                          name="password"
+                                          type="date"
+                                          autoComplete="off"
+                                          placeholder="Password"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.password || ""}
+                                          invalid={
+                                            formik.touched.password && formik.errors.password ? true : false
+                                          }
+                                        />
+                                        {formik.touched.password && formik.errors.password ? (
+                                          <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Trạng thái</Label>
+                                        <Select
+                                          name='province'
+                                          placeholder='Chọn trạng thái'
+                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          onChange={(item) => {
+                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                          }}
+                                          options={optionGroup}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label">Ngành nghề</Label>
+                                        <Select
+                                          name='province'
+                                          placeholder='Chọn ngành nghề'
+                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          onChange={(item) => {
+                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                          }}
+                                          options={optionGroup}
+                                        // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                  <Row>
+                                    <Col lg={12} className='gx-1'>
+                                      <div className="mt-2">
+                                        <Label>Ghi chú</Label>
+                                        <Input
+                                          type="textarea"
+                                          id="textarea"
+                                          onChange={e => {
+                                            textareachange(e);
+                                          }}
+                                          maxLength="225"
+                                          rows="3"
+                                          placeholder="Nhập ghi chú"
+                                        />
+                                        {textareabadge ? (
+                                          <span className="badgecount badge bg-success">
+                                            {" "}
+                                            {textcount} / 225{" "}
+                                          </span>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                  </Row>
+                                </CardBody>
+                              </Card>
+                            </Col>
+                          </Row>
+                        </CardBody>
+                      </Card>
 
                       <Card>
                         {!isEditIntern && <CardBody>
 
-                          <Row className='border border-secondary mt-3'>
+                          <Row className='border border-secondary mt-3' >
                             <div>
                               <Row className='bg-secondary text-light'>
-                                <Col lg={8}>
+                                <Col lg={8} sm={8}>
                                   <Row>
                                     <Col lg={2} className='text-center mt-2 fw-bold'>
                                       <p>Chi nhánh</p>
@@ -764,18 +765,18 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   </Row>
                                 </Col>
 
-                                <Col lg={1} className='text-center mt-2 fw-bold'>
+                                <Col lg={1} sm={1} className='text-center mt-2 fw-bold'>
                                   <p>Số điện thoại</p>
                                 </Col>
-                                <Col lg={1} className='text-center mt-2 fw-bold'>
+                                <Col lg={1} sm={1} className='text-center mt-2 fw-bold'>
                                   <p>Fax</p>
                                 </Col>
-                                <Col lg={2} className='text-center mt-2 fw-bold'>
+                                <Col lg={2} sm={2} className='text-center mt-2 fw-bold'>
                                   <Row>
-                                    <Col lg={8}>
+                                    <Col lg={9}>
                                       <p>Email</p>
                                     </Col>
-                                    <Col lg={4}>
+                                    <Col lg={3}>
                                       <p>Mặc định</p>
                                     </Col>
                                   </Row>
@@ -937,7 +938,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                           </div>
                                         </div>
                                       </Col>
-                                      <Col lg={3} className='d-flex justify-content-center gap-2'>
+                                      <Col lg={3} className='d-flex justify-content-center'>
                                         <div className='ms-2'>
                                           <input
                                             className="form-check-input"
