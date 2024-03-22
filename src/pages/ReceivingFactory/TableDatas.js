@@ -44,7 +44,7 @@ FilterService.register('custom_activity', (value, filters) => {
 const TableDatas = (props) => {
   // const [loading, setLoading] = useState(true);
   // data context
-  const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
+  const { vh, tog_fullscreen, isEditFactory, setIsEditFactory, addressFactory, addressDataFactory, updateAddressDataFactory } = useContext(DataContext);
 
   //table
 
@@ -189,9 +189,10 @@ const TableDatas = (props) => {
               <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
             </span>
             <ButtonRS color="primary" onClick={() => {
-              setIsEdit(false);
-              tog_fullscreen();
+              setIsEditFactory(false);
               setRowSelect(null);
+              updateAddressDataFactory([addressFactory]);
+              tog_fullscreen();
             }}>
               Thêm mới
             </ButtonRS>
@@ -263,8 +264,8 @@ const TableDatas = (props) => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEdit(true) }} />
-        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Edit" onClick={() => { setRowSelect(rowData); setIsEditFactory(true); tog_fullscreen(); }} />
+        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Delete" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
   }

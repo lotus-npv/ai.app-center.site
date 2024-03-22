@@ -35,12 +35,13 @@ const optionGroup = [
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest , uploadFile } from "store/actions";
+import { add } from 'lodash';
 
 const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   const dispatch = useDispatch();
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEdit, setIsEdit, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext);
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditFactory, setIsEditFactory, addressFactory, addressDataFactory, updateAddressDataFactory, } = useContext(DataContext);
 
 
   // Radio button
@@ -70,8 +71,10 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
-    if(isEdit) {
-      const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'receiving_factory')
+    console.log('check');
+    if(isEditFactory) {
+      const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'receiving_factory');
+      console.log('arr', arr)
       updateAddressDataFactory(arr)
     }
   }, [])
@@ -139,7 +142,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
     onSubmit: async (value) => {
 
-      if (isEdit) {
+      if (isEditFactory) {
         let obj = {
           id: value.id,
           key_license_id: 1,
@@ -193,22 +196,13 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     }
   });
 
-
-
-
-  // console.log('factoryCreate:', factoryCreate)
-
   useEffect(() => {
-    console.log('bat dau ghi address')
-
     if (factoryCreate != null) {
       const id = factoryCreate['id'];
-      console.log('lay id moi ghi', id)
       addressDataFactory.forEach((address, index) => {
 
         const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 0 : 1 }
         if (id != null || id != undefined) {
-          console.log('GHI BAN GHI ADDRESS:', newAddress)
           if(isCreateAddress) {
             dispatch(setAddress(newAddress));
           }
@@ -304,12 +298,14 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   }, [communeDataByDistrictId])
 
   // console.log('provinceDataByNationId:', provinceDataByNationId);
-  // console.log('provinceDataByNationId:', provinceOptions);
+  console.log('provinceOptions:', provinceOptions);
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  console.log('formik:', formik.values)
+  // console.log('formik:', formik.values)
+  // console.log('selectAddressDefault:', selectAddressDefault)
   console.log('addressDataFactory:', addressDataFactory)
-  console.log('selectAddressDefault:', selectAddressDefault)
+  console.log('isEditFactory:', isEditFactory)
+
 
 
 
@@ -328,7 +324,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
             className="modal-title mt-0"
             id="exampleModalFullscreenLabel"
           >
-            {isEdit ? `Chỉnh sửa xí nghiệp` : 'Thêm xí nghiệp'}
+            {isEditFactory ? `Chỉnh sửa xí nghiệp` : 'Thêm xí nghiệp'}
           </h5>
           <button
             onClick={() => {
@@ -549,7 +545,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                         arr[index] = { ...arr[index], description: e.target.value }
                                         updateAddressDataFactory(arr);
                                       }}
-                                      value={address.description || ""}
+                                      value={isEditFactory ? address.description : ""}
                                     />
                                   </div>
 
@@ -561,8 +557,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       name='province_id'
                                       placeholder='Tỉnh'
                                       // value={selectProvince || ""}
+                                      value={isEditFactory ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
                                       onChange={(item) => {
-                                        // console.log(item)
                                         setSelectProvince(item);
                                         const arr = [...addressDataFactory];
                                         arr[index] = { ...arr[index], province_id: item.StateID }
@@ -579,7 +575,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     <Select
                                       name='district'
                                       placeholder='Quận/Huyện'
-                                      // value={selectDistrict || ""}
+                                      value={isEditFactory ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
                                       onChange={(item) => {
                                         setSelectDistrict(item);
                                         const arr = [...addressDataFactory];
@@ -598,7 +594,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     <Select
                                       name='commune'
                                       placeholder='Xã/Phường'
-                                      // value={selectCommune || ""}
+                                      value={isEditFactory ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
                                       onChange={(item) => {
                                         setSelectCommune(item);
                                         const arr = [...addressDataFactory];
@@ -618,7 +614,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       name="detail"
                                       type="text"
                                       placeholder='Số nhà, đường, phố...'
-                                      value={address.detail || ""}
+                                      value={isEditFactory ? address.detail : ""}
                                       onChange={(e) => {
                                         const arr = [...addressDataFactory];
                                         arr[index] = { ...arr[index], detail: e.target.value }
@@ -636,7 +632,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                   name="phone_number"
                                   type="text"
                                   placeholder='Điện thoại'
-                                  value={address.phone_number || ""}
+                                  value={isEditFactory ? address.phone_number : ""}
                                   onChange={(e) => {
                                     const arr = [...addressDataFactory];
                                     arr[index] = { ...arr[index], phone_number: e.target.value }
@@ -651,7 +647,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                   name="fax"
                                   type="text"
                                   placeholder='Fax'
-                                  value={address.fax || ""}
+                                  value={isEditFactory ? address.fax : ""}
                                   onChange={(e) => {
                                     const arr = [...addressDataFactory];
                                     arr[index] = { ...arr[index], fax: e.target.value }
@@ -674,7 +670,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                           arr[index] = { ...arr[index], email: e.target.value }
                                           updateAddressDataFactory(arr);
                                         }}
-                                        value={address.email || ""}
+                                        value={isEditFactory ? address.email : ""}
                                       />
                                     </div>
                                   </div>

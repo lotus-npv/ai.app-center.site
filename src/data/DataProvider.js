@@ -174,7 +174,9 @@ const DataProvider = ({ children }) => {
         document.body.classList.add("no_padding");
     }
 
-    // edit intern
+    // edit factory
+    const [isEditFactory, setIsEditFactory] = useState(false);
+    // edit factory
     const [isEdit, setIsEdit] = useState(false);
 
 
@@ -207,8 +209,9 @@ const DataProvider = ({ children }) => {
                 modal_standard, setmodal_standard, tog_standard,
                 modal_xlarge, setmodal_xlarge, tog_xlarge,
                 modal_fullscreen, setmodal_fullscreen, tog_fullscreen,
-                isEdit,
-                setIsEdit,
+                isEdit,setIsEdit,
+                isEditFactory,
+                setIsEditFactory,
             }}
         >
             {children}
