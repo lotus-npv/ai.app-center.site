@@ -21,6 +21,7 @@ create table if not exists intern
 (
     id int primary key auto_increment,
     key_license_id int,
+    syndication_id INT,
     type VARCHAR(20) DEFAULT 'intern',
     avata VARCHAR(100),
     avata_update_at DATETIME,

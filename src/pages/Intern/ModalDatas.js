@@ -13,14 +13,14 @@ import {
   UncontrolledTooltip,
   Modal,
   CloseButton,
-
+  Form
 } from "reactstrap";
 
 import Switch from "react-switch";
 import Select, { components } from 'react-select';
 
 import * as Yup from "yup";
-import { useFormik, Formik, Form, Field } from "formik";
+import { useFormik } from "formik";
 
 // import context
 import DataContext from "../../data/DataContext";
@@ -28,7 +28,7 @@ import avata from '../../assets/images/users/avatar-1.jpg'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest, } from "store/actions";
+import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest,  } from "store/actions";
 
 
 const optionGroup = [
@@ -40,32 +40,9 @@ const optionGender = [
   { label: "Female", value: 'female' },
 ];
 
-const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
-  <div
-    {...innerProps}
-    style={{
-      backgroundColor: isFocused ? 'lightgray' : isSelected ? 'gray' : null,
-      fontWeight: isSelected ? 'bold' : 'normal',
-      height: '30px',
-      padding: '4px'
-    }}
-  >
-    {data.label}
-  </div>
-);
 
 
 const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
-
-  const CustomSelect = ({ options, field, form }) => (
-    <Select
-      options={options}
-      name={field.name}
-      value={options ? options.find(option => option.value === field.value) : ''}
-      onChange={(option) => form.setFieldValue(field.name, option.value)}
-      onBlur={field.onBlur}
-    />
-  );
 
   const dispatch = useDispatch();
 
@@ -99,7 +76,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
   const handleChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    formik.setFieldValue('logo', file.name);
+    formik.setFieldValue('avata', file.name);
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -119,20 +96,20 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       syndication_id: item != null ? item.syndication_id : 1,
       type: 'intern',
       avata: item != null ? item.avata : '',
-      avata_update_at: item != null ? item.avata_update_at : '',
+      avata_update_at: item != null ? item.avata_update_at : null,
       first_name_jp: item != null ? item.first_name_jp : '',
       middle_name_jp: item != null ? item.middle_name_jp : '',
       last_name_jp: item != null ? item.last_name_jp : '',
       first_name_en: item != null ? item.first_name_en : '',
       middle_name_en: item != null ? item.middle_name_en : '',
       last_name_en: item != null ? item.last_name_en : '',
-      gender: item != null ? item.gender : '',
+      gender: item != null ? item.gender : 'male',
       dob: item != null ? item.dob : '',
       career_id: item != null ? item.career_id : '',
       passport_code: item != null ? item.passport_code : '',
       passport_license_date: item != null ? item.passport_license_date : '',
       passport_expiration_date: item != null ? item.passport_expiration_date : '',
-      alert: item != null ? item.alert : '',
+      alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : '',
       phone_abroad: item != null ? item.phone_abroad : '',
       receiving_factory_id: item != null ? item.receiving_factory_id : '',
@@ -147,7 +124,9 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       status_of_residence_id: '', // trạng thái
       alien_registration_card_number: '', // số thẻ ngoại kiều
       status_of_residence_id: '',  // Tư cách lưu trú
-
+      license_date: '',
+      expiration_date: '',
+      status_id: ''
     },
     validationSchema: Yup.object().shape({
       first_name_jp: Yup.string().required(
@@ -191,6 +170,13 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       ),
       dispatching_company_id: Yup.string().required(
         "This value is required"
+      ),
+
+      license_date: Yup.date().required(
+        "Please select date"
+      ),
+      expiration_date: Yup.date().required(
+        "Please select date"
       ),
 
     }),
@@ -281,7 +267,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       }
 
 
-      formik.resetForm();
+      // formik.resetForm();
       // console.log('submit done');
       tog_fullscreen();
     }
@@ -408,12 +394,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
 
 
-  console.log('formik:', formik.values)
+  // console.log('formik:', formik.values)
 
 
   return (
     <>
-      <Formik>
+      <Form>
         <Modal
           size="xl"
           isOpen={modal_fullscreen}
@@ -483,7 +469,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                             <Col lg={6} xl={6} className='h-100'>
                               <Card>
                                 <CardBody>
-                                  <Row className='mb-3'>
+                                  <Row >
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Họ</Label>
@@ -580,7 +566,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
                                       <div className="mb-3">
                                         <Input
-                                          name="text"
+                                          name="last_name_en"
                                           placeholder="Tên (En)"
                                           type="text"
                                           onChange={formik.handleChange}
@@ -596,7 +582,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       </div>
                                     </Col>
                                   </Row>
-                                  <Row className='mb-3'>
+                                  <Row >
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Quốc gia</Label>
@@ -621,7 +607,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                           placeholder='Chọn giới tính'
                                           value={optionGender.find(option => option.value === formik.values.gender)}
                                           onChange={(item) => {
-                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                            formik.setFieldValue('gender', item == null ? null : item.value);
                                           }}
                                           options={optionGender}
                                         // isClearable
@@ -649,7 +635,48 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                     </Col>
                                   </Row>
 
-                                  <Row className='mb-3'>
+                                  <Row >
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label fw-bold">Số điện thoại trong nước</Label>
+                                        <Input
+                                          name="phone_domestically"
+                                          placeholder="Nhập số điện thoại"
+                                          type="text"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.phone_domestically || ""}
+                                          invalid={
+                                            formik.touched.phone_domestically && formik.errors.phone_domestically ? true : false
+                                          }
+                                        />
+                                        {formik.touched.phone_domestically && formik.errors.phone_domestically ? (
+                                          <FormFeedback type="invalid">{formik.errors.phone_domestically}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                    <Col lg={6} className='gx-1'>
+                                      <div className="mb-3">
+                                        <Label className="form-label fw-bold">Số điện thoại ngoài nước</Label>
+                                        <Input
+                                          name="phone_abroad"
+                                          placeholder="Nhập số điện thoại"
+                                          type="text"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.phone_abroad || ""}
+                                          invalid={
+                                            formik.touched.phone_abroad && formik.errors.phone_abroad ? true : false
+                                          }
+                                        />
+                                        {formik.touched.phone_abroad && formik.errors.phone_abroad ? (
+                                          <FormFeedback type="invalid">{formik.errors.phone_abroad}</FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </Col>
+                                  </Row>
+
+                                  <Row >
                                     <Col lg={12} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Số hộ chiếu</Label>
@@ -671,7 +698,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                     </Col>
                                   </Row>
 
-                                  <Row className='mb-3'>
+                                  <Row >
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Ngày cấp</Label>
@@ -727,36 +754,27 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Công ty phái cử</Label>
-                                        {/* <Select
+                                        <Select
                                           name='dispatching_company_id'
                                           placeholder='Chọn công ty phái cử'
-                                          value={ option ? optionGroup.find(option =>  option.value === formik.values.dispatching_company_id) : ''}
+                                          value={optionGroup.find(option =>  option.value === formik.values.dispatching_company_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('dispatching_company_id', item.value);
                                           }}
                                           options={optionGroup}
                                         // isClearable
-                                        /> */}
-
-                                        <Form>
-                                          <Field
-                                            name="fruit"
-                                            component={CustomSelect}
-                                            options={options}
-                                          />
-                                          <button type="submit">Submit</button>
-                                        </Form>
+                                        />
                                       </div>
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Xí nghiệp tiếp nhận</Label>
                                         <Select
-                                          name='province'
+                                          name='receiving_factory_id'
                                           placeholder='Chọn xí nghiệp tiếp nhận'
-                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          value={optionGroup.find(option => option.value === formik.values.receiving_factory_id)}
                                           onChange={(item) => {
-                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                            formik.setFieldValue('receiving_factory_id', item == null ? null : item.value);
                                           }}
                                           options={optionGroup}
                                         // isClearable
@@ -769,18 +787,18 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Số thẻ ngoại kiều</Label>
                                         <Input
-                                          name="username"
+                                          name="alien_registration_card_number"
                                           placeholder="Nhập số thẻ ngoại kiều"
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.username || ""}
+                                          value={formik.values.alien_registration_card_number || ""}
                                           invalid={
-                                            formik.touched.username && formik.errors.username ? true : false
+                                            formik.touched.alien_registration_card_number && formik.errors.alien_registration_card_number ? true : false
                                           }
                                         />
-                                        {formik.touched.username && formik.errors.username ? (
-                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        {formik.touched.alien_registration_card_number && formik.errors.alien_registration_card_number ? (
+                                          <FormFeedback type="invalid">{formik.errors.alien_registration_card_number}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -788,11 +806,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Tư cách lưu trú</Label>
                                         <Select
-                                          name='province'
+                                          name='status_of_residence_id'
                                           placeholder='Chọn tư cách lưu trú'
-                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          value={optionGroup.find(option => option.value === formik.values.status_of_residence_id)}
                                           onChange={(item) => {
-                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                            formik.setFieldValue('status_of_residence_id', item == null ? null : item.value);
                                           }}
                                           options={optionGroup}
                                         // isClearable
@@ -805,18 +823,18 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Ngày cấp</Label>
                                         <Input
-                                          name="username"
-                                          placeholder="Nhập số thẻ ngoại kiều"
+                                          name="license_date"
+                                          placeholder="Chọn ngày cấp"
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.username || ""}
+                                          value={formik.values.license_date || ""}
                                           invalid={
-                                            formik.touched.username && formik.errors.username ? true : false
+                                            formik.touched.license_date && formik.errors.license_date ? true : false
                                           }
                                         />
-                                        {formik.touched.username && formik.errors.username ? (
-                                          <FormFeedback type="invalid">{formik.errors.username}</FormFeedback>
+                                        {formik.touched.license_date && formik.errors.license_date ? (
+                                          <FormFeedback type="invalid">{formik.errors.license_date}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
@@ -824,33 +842,33 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       <div className="mb-3">
                                         <Label>Ngày hết hạn</Label>
                                         <Input
-                                          name="password"
+                                          name="expiration_date"
                                           type="date"
                                           autoComplete="off"
-                                          placeholder="Password"
+                                          placeholder="Chọn ngày hết hạn"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
-                                          value={formik.values.password || ""}
+                                          value={formik.values.expiration_date || ""}
                                           invalid={
-                                            formik.touched.password && formik.errors.password ? true : false
+                                            formik.touched.expiration_date && formik.errors.expiration_date ? true : false
                                           }
                                         />
-                                        {formik.touched.password && formik.errors.password ? (
-                                          <FormFeedback type="invalid">{formik.errors.password}</FormFeedback>
+                                        {formik.touched.expiration_date && formik.errors.expiration_date ? (
+                                          <FormFeedback type="invalid">{formik.errors.expiration_date}</FormFeedback>
                                         ) : null}
                                       </div>
                                     </Col>
                                   </Row>
-                                  <Row>
+                                  <Row className='mb-3'>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Trạng thái</Label>
                                         <Select
-                                          name='province'
+                                          name='status_id'
                                           placeholder='Chọn trạng thái'
-                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          value={optionGroup.find(option => option.value === formik.values.status_id)}
                                           onChange={(item) => {
-                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                            formik.setFieldValue('status_id', item == null ? null : item.value);
                                           }}
                                           options={optionGroup}
                                         // isClearable
@@ -861,11 +879,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Ngành nghề</Label>
                                         <Select
-                                          name='province'
+                                          name='career_id'
                                           placeholder='Chọn ngành nghề'
-                                          value={optionGroup.find(option => option.value === formik.values.province)}
+                                          value={optionGroup.find(option => option.value === formik.values.career_id)}
                                           onChange={(item) => {
-                                            formik.setFieldValue('province', item == null ? null : item.value);
+                                            formik.setFieldValue('career_id', item == null ? null : item.value);
                                           }}
                                           options={optionGroup}
                                         // isClearable
@@ -876,12 +894,14 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                   <Row>
                                     <Col lg={12} className='gx-1'>
                                       <div className="mt-2">
-                                        <Label>Ghi chú</Label>
+                                        <Label className="form-label fw-bold">Ghi chú</Label>
                                         <Input
+                                          name='description'
                                           type="textarea"
                                           id="textarea"
                                           onChange={e => {
                                             textareachange(e);
+                                            formik.setFieldValue('description', e.target.value)
                                           }}
                                           maxLength="225"
                                           rows="3"
@@ -1158,7 +1178,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
               type="button"
               onClick={() => {
                 tog_fullscreen();
-                formik.resetForm();
+                // formik.resetForm();
                 setIsEditIntern(false);
                 updateAddressDataIntern([])
               }}
@@ -1170,12 +1190,13 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
             <button
               type="button"
               className="btn btn-primary "
+              onClick={handleSubmit}
             >
               Save changes
             </button>
           </div>
         </Modal>
-      </Formik>
+      </Form>
     </>
   )
 }
