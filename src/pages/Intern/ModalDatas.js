@@ -10,7 +10,6 @@ import {
   Input,
   Container,
   FormFeedback,
-  Form,
   UncontrolledTooltip,
   Modal,
   CloseButton,
@@ -21,7 +20,7 @@ import Switch from "react-switch";
 import Select, { components } from 'react-select';
 
 import * as Yup from "yup";
-import { useFormik,   Field } from "formik";
+import { useFormik, Formik, Form, Field } from "formik";
 
 // import context
 import DataContext from "../../data/DataContext";
@@ -57,6 +56,16 @@ const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
 
 
 const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
+
+  const CustomSelect = ({ options, field, form }) => (
+    <Select
+      options={options}
+      name={field.name}
+      value={options ? options.find(option => option.value === field.value) : ''}
+      onChange={(option) => form.setFieldValue(field.name, option.value)}
+      onBlur={field.onBlur}
+    />
+  );
 
   const dispatch = useDispatch();
 
@@ -404,7 +413,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
   return (
     <>
-      <Form>
+      <Formik>
         <Modal
           size="xl"
           isOpen={modal_fullscreen}
@@ -599,7 +608,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                             formik.setFieldValue('nation_id', item.value);
                                           }}
                                           options={optionGroup}
-                                          // components={{ Option: CustomOption }}
+                                        // components={{ Option: CustomOption }}
                                         // isClearable
                                         />
                                       </div>
@@ -718,7 +727,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">Công ty phái cử</Label>
-                                        <Select
+                                        {/* <Select
                                           name='dispatching_company_id'
                                           placeholder='Chọn công ty phái cử'
                                           value={ option ? optionGroup.find(option =>  option.value === formik.values.dispatching_company_id) : ''}
@@ -727,7 +736,16 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                           }}
                                           options={optionGroup}
                                         // isClearable
-                                        />
+                                        /> */}
+
+                                        <Form>
+                                          <Field
+                                            name="fruit"
+                                            component={CustomSelect}
+                                            options={options}
+                                          />
+                                          <button type="submit">Submit</button>
+                                        </Form>
                                       </div>
                                     </Col>
                                     <Col lg={6} className='gx-1'>
@@ -1157,7 +1175,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
             </button>
           </div>
         </Modal>
-      </Form>
+      </Formik>
     </>
   )
 }
