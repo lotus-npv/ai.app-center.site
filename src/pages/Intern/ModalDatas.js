@@ -358,6 +358,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
           const netStatus = { ...statusDetailObj, intern_id: id };
           dispatch(setAlienRegistrationCard(newCard));
           dispatch(setStatusDetail(netStatus));
+          
           addressDataIntern.forEach((address, index) => {
             const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
             dispatch(setAddress(newAddress));

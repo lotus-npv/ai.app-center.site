@@ -221,10 +221,11 @@ const TableDatas = (props) => {
   // render status body
   const statusBody = (rowData) => {
     const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
+    // console.log(arr)
     return (
       <div className='d-flex gap-1'>
         {arr.map(s => (
-          <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.description}</Badge>
+          <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.name}</Badge>
         ))}
       </div>
     )
@@ -243,8 +244,9 @@ const TableDatas = (props) => {
 
 
   // console.log('dataTable:', dataTable)
-  console.log('internDataAllInfo:', internDataAllInfo)
+  // console.log('internDataAllInfo:', internDataAllInfo)
   // console.log(dataUser)
+  console.log('statusDetailData', statusDetailData)
 
   return (
     <div className="card" >

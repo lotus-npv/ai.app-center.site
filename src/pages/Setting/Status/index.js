@@ -30,8 +30,8 @@ const StatusPage = (props) => {
                 <Container fluid={true}>
                     <TableDatas />
                     <ToastContainer />
-                    <ImageUploadForm save={save} />
-                    <button onClick={handChangeSave}>save</button>
+                    {/* <ImageUploadForm save={save} /> */}
+                    {/* <button onClick={handChangeSave}>save</button> */}
                 </Container>
             </div>
         </>
