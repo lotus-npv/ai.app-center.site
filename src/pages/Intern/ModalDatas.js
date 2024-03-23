@@ -35,7 +35,7 @@ import avata from '../../assets/images/avata/avatar-null.png'
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import {
   getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest, getDispatchingCompanyAll,
-  getReceivingFactoryAll, getStatusAll, getCareerAll, getStatusOfResidenceAll, setAlienRegistrationCard, setStatusDetail
+  getReceivingFactoryAll, getStatusAll, getCareerAll, getStatusOfResidenceAll, setAlienRegistrationCard, setStatusDetail, getAlienRegistrationCardAll, updateStatus, updateAlienRegistrationCard, updateStatusDetail
 } from "store/actions";
 
 
@@ -106,7 +106,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // });
 
   // data context
-  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditIntern, setIsEditIntern, addressIntern, addressDataIntern, updateAddressDataIntern, } = useContext(DataContext)
+  const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditIntern, setIsEditIntern, addressIntern, addressDataIntern, updateAddressDataIntern} = useContext(DataContext)
 
   // Radio button
   const [selectAddressDefault, setSelectAddressDefault] = useState(0)
@@ -117,7 +117,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // kiem tra trang thai xem co duoc ghi dia chi 
   const [isCreateAddress, setIsCreateAddress] = useState(false);
 
-  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, internCreate, companyData, factoryData, statusData, careerData, statusOfResidenceData, loadingIntern } = useSelector(state => (
+  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, internCreate, companyData, factoryData, statusData, careerData, statusOfResidenceData, loadingIntern, alienCardDatas } = useSelector(state => (
     {
       provinceDataByNationId: state.Province.dataByNationId,
       districtDataByProvinceId: state.District.dataByProvinceId,
@@ -129,6 +129,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
       statusData: state.Status.datas,
       careerData: state.Career.datas,
       statusOfResidenceData: state.StatusOfResidence.datas,
+      alienCardDatas: state.AlienRegistrationCard.datas,
     }
   ), shallowEqual);
 
@@ -139,6 +140,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     dispatch(getStatusAll());
     dispatch(getCareerAll());
     dispatch(getStatusOfResidenceAll());
+    dispatch(getAlienRegistrationCardAll());
   }, [dispatch]);
 
 
@@ -165,14 +167,19 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     if (item != null && on == false) {
       // console.log('chay ------------------------------------------------------------------------')
       const arr = statusDetailData.filter(sdd => sdd.intern_id == item.id);
+      // console.log('arr', arr)
       arr.forEach(e => {
-        // console.log('e', e)
         const status = statusData.find(sd => sd.id == e.status_id);
         // console.log('status', status)
         if (status != null) {
           setselectedMultiStatus([...selectedMultiStatus, status]);
         }
       })
+
+      const card = alienCardDatas.find(item =>  item.intern_id == item.id);
+      console.log('card:', card)
+      setAlienCard(card);
+
       setOn(true);
     }
   }, [item])
@@ -308,6 +315,20 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
         }
         dispatch(updateApi(obj));
 
+        // Can phai tim xem cai status detail nao da co san de 
+        const multiStatusDetail = selectedMultiStatus.map((status) => {
+          return { ...statusDetailObj, status_id: status.id};
+        });
+        multiStatusDetail.forEach((st) => {
+          dispatch(updateStatusDetail(st));
+        });
+
+        const newCrad = {...alienCard,card_number: value.alien_registration_card_number, status_of_residence_id: value.status_of_residence_id, license_date: value.license_date, expiration_date: value.expiration_date };
+        dispatch(updateAlienRegistrationCard(newCrad));
+        // update card 
+        // const card = { ...alienCard, card_number: value.alien_registration_card_number, status_of_residence_id: value.status_of_residence_id, license_date: value.license_date, expiration_date: value.expiration_date };
+        
+
       } else {
         let obj = {
           key_license_id: value.key_license_id,
@@ -342,13 +363,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
         }
         dispatch(setApi(obj));
 
-        
         const card = { ...alienCard, card_number: value.alien_registration_card_number, status_of_residence_id: value.status_of_residence_id, license_date: value.license_date, expiration_date: value.expiration_date };
         setAlienCard(card);
-
         setIsCreateAddress(true);
-
       }
+      
+
 
       // upload anh len server
       if (selectedFile) {
@@ -403,7 +423,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
 
 
         const multiStatus = selectedMultiStatus.map((status) => {
-          return { ...statusDetailObj, status_id: status.id, id: id };
+          return { ...statusDetailObj, status_id: status.id, intern_id: id };
         });
         multiStatus.forEach((st) => {
           dispatch(setStatusDetail(st));
@@ -515,7 +535,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // console.log('item:', item)
   // console.log('isEditIntern:', isEditIntern)
   // console.log('loadingIntern:', loadingIntern)
-  // console.log('selectedMultiStatus:', selectedMultiStatus)
+  console.log('selectedMultiStatus:', selectedMultiStatus)
 
 
   return (
@@ -529,7 +549,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
           }}
           className="modal-fullscreen"
         >
-          <div className="modal-header">
+          <div className="modal-header bg-primary">
             <h5
               className="modal-title mt-0"
               id="exampleModalFullscreenLabel"
@@ -560,7 +580,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                     {/* <CardBody> */}
 
                     <Card >
-                      <CardBody>
+                      <CardBody className='bg-light'>
                         <Row >
                           <Col lg={1} xl={1}>
                             <Card
@@ -586,8 +606,8 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                             </Card>
                           </Col>
 
-                          <Col lg={6} xl={6} className='h-100'>
-                            <Card>
+                          <Col lg={6} xl={6} >
+                            <Card className='h-100'>
                               <CardBody>
                                 <Row >
                                   <Col lg={4} className='gx-1'>
@@ -863,8 +883,8 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                           </Col>
 
 
-                          <Col lg={5} xl={5} className=''>
-                            <Card>
+                          <Col lg={5} xl={5} >
+                            <Card className='h-100'>
                               <CardBody>
                                 <Row>
                                   <Col lg={6} className='gx-1'>
@@ -1058,7 +1078,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                     </Card>
 
                     {!isEditIntern && <Card>
-                      <CardBody>
+                      <CardBody className='bg-light'>
                         <h4 className='fw-bold'>{t('Contact Information')}</h4>
                         <Row className='border border-secondary mt-3' >
                           <div>
