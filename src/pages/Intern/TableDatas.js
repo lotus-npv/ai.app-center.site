@@ -44,10 +44,20 @@ FilterService.register('custom_activity', (value, filters) => {
 
 
 const TableDatas = (props) => {
-  const {t} = useTranslation();
-  
+  const { t } = useTranslation();
+
   // data context
   const { vh, tog_fullscreen, setIsEditIntern } = useContext(DataContext);
+
+  // --------------------------------------------------
+  // Modal top
+  const [isUpdateStatus, setIsUpdateStatus] = useState(false);
+
+  // edit status
+  const [status, setStatus] = useState('')
+
+  // --------------------------------------------------
+
 
   // Global filter 
   const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -63,7 +73,7 @@ const TableDatas = (props) => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAllInfo, statusData, statusDetailData, loading, dataUser,addressData, alienCardData } = useSelector(state => ({
+  const { internDataAllInfo, statusData, statusDetailData, loading, dataUser, addressData, alienCardData } = useSelector(state => ({
     internDataAllInfo: state.Intern.datas,
     statusData: state.Status.datas,
     statusDetailData: state.StatusDetail.datas,
@@ -258,10 +268,18 @@ const TableDatas = (props) => {
   // console.log('dataTable:', dataTable)
   // console.log('internDataAllInfo:', internDataAllInfo)
   // console.log(dataUser)
-  console.log('statusDetailData', statusDetailData)
+  // console.log('statusDetailData', statusDetailData)
+  console.log('selectedItems', selectedItems)
 
   return (
     <div className="card" >
+      <ModalTop
+        setStatus={setStatus}
+        isUpdateStatus={isUpdateStatus}
+        optionGroup={statusData}
+        setIsUpdateStatus={setIsUpdateStatus}
+      />
+
       <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"

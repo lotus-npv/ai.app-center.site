@@ -38,12 +38,14 @@ import Notifications from "./notifications";
 
 //i18n
 import { withTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "reselect";
 
 const Dashboard = props => {
+  const navigate = useNavigate();
   const [modal, setmodal] = useState(false);
   const [subscribemodal, setSubscribemodal] = useState(false);
 
@@ -60,12 +62,12 @@ const Dashboard = props => {
   } = useSelector(DashboardProperties);
 
   const reports = [
-    { title: "The item needing support has not been processed yet", iconClass: "bx bx-support", description: "3" },
-    { title: "The intern's visa is about to expire", iconClass: "bx bx-user", description: "12" },
+    { title: "The item needing support has not been processed yet", iconClass: "bx bx-support", description: "3" , value: 1},
+    { title: "The intern's visa is about to expire", iconClass: "bx bx-user", description: "12" , value: 2},
     {
       title: "Interns are about to enter the country",
       iconClass: "bx bx-user",
-      description: "5",
+      description: "5", value: 3
     },
   ];
 
@@ -110,6 +112,16 @@ const Dashboard = props => {
       },
     },
   };
+
+  const handleLink = (value) => {
+    if(value == 1) {
+      return '/ticket'
+    } else if(value == 2) {
+      return '/intern'
+    } else {
+      return '/intern'
+    }
+  }
 
   //meta title
   document.title = "Dashboard";
@@ -161,12 +173,10 @@ const Dashboard = props => {
 
                         <div className="d-flex align-items-center">
                           <Link
-                            to="#"
+                            to={handleLink(report.value)}
                             className="text-danger "
-                            onClick={() => {
-                            }}
                           >
-                            <i className="bx bx-chevrons-right font-size-24" id="deletetooltip" />
+                            <i className="bx bx-chevrons-right font-size-24 fw-bold" id="deletetooltip" />
                             <UncontrolledTooltip placement="top" target="deletetooltip">
                               {props.t('Detail')}
                             </UncontrolledTooltip>

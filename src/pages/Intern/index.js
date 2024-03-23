@@ -38,14 +38,14 @@ const InternPage = (props) => {
             <div className="page-content">
                 <Container fluid={true}>
                     <Card>
-                        <CardHeader>
+                        {/* <CardHeader>
                             <ModalTop
                                 setStatus={setStatus}
                                 isUpdateStatus={isUpdateStatus}
                                 optionGroup={optionGroup}
                                 setIsUpdateStatus={setIsUpdateStatus}
                             />
-                        </CardHeader>
+                        </CardHeader> */}
                         <ToastContainer />
                         <CardBody>
                             <TableDatas />

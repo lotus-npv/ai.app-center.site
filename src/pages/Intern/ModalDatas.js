@@ -140,7 +140,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     }
   }
 
-  console.log('statusDetailData:', statusDetailData);
+  // console.log('statusDetailData:', statusDetailData);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -357,7 +357,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   useEffect(() => {
     if (internCreate != null) {
       const id = internCreate['id'];
-      console.log('id:', id);
+      // console.log('id:', id);
 
       if (id != null || id != undefined) {
         if (isCreateAddress) {
@@ -471,7 +471,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // console.log('formik:', formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('item:', item)
-  console.log('isEditIntern:', isEditIntern)
+  // console.log('isEditIntern:', isEditIntern)
 
 
   return (

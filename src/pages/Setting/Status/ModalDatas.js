@@ -97,9 +97,10 @@ const optionColor = [
 ];
 
 const optionConditionMilestone = [
-  { label: "Ngày nhập cảnh", value: "Ngày nhập cảnh" },
-  { label: "Ngày hết hạn tư cách lưu trú", value: "Ngày hết hạn tư cách lưu trú" },
-  { label: "Ngày sinh nhật", value: "Ngày sinh nhật" }
+  { label: "Ngày nhập cảnh", value: "ngày nhập cảnh" },
+  { label: "Ngày hết hạn tư cách lưu trú", value: "ngày hết hạn tư cách lưu trú" },
+  { label: "Ngày sinh nhật", value: "ngày sinh nhật" },
+  { label: "Ngày hết hạn visa", value: "ngày sinh nhật" },
 ];
 
 const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch, setApi, updateApi }) => {

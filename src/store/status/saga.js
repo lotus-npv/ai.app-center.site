@@ -76,7 +76,7 @@ function* onDeleteStatus({ payload: id }) {
 
 function* refreshCareerData() {
   const response = yield call(getStatusDataAll);
-  yield put(getCareerAllSuccess(response));
+  yield put(getStatusAllSuccess(response));
 }
 
 

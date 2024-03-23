@@ -20,7 +20,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
 
     return (
         <>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between mb-3">
                 <div className="d-flex gap-3">
                     <Button
                         color="gray-soft"
