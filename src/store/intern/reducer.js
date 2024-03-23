@@ -13,6 +13,7 @@ import {
   UPDATE_INTERN,
   UPDATE_INTERN_SUCCESS,
   UPDATE_INTERN_FAIL,
+  DELETE_INTERN,
   DELETE_INTERN_SUCCESS,
   DELETE_INTERN_FAIL,
   OPEN_MODAL
@@ -66,48 +67,57 @@ import {
       case SET_INTERN:
         return {
           ...state,
-          data: action.payload,
+          loading: true,
+          // data: action.payload,
         };
       case SET_INTERN_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
   
       case SET_INTERN_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case UPDATE_INTERN:
         return {
           ...state,
-          data: action.payload,
+          loading: true,
+          // data: action.payload,
         };
       case UPDATE_INTERN_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
       case UPDATE_INTERN_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
+        };
+      case DELETE_INTERN:
+        return {
+          ...state,
+          loading: true,
+          data: action.payload,
         };
       case DELETE_INTERN_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
       case DELETE_INTERN_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
-        };
-      case OPEN_MODAL:
-        return {
-          ...state,
-          isOpen: action.payload,
         };
 
       default:

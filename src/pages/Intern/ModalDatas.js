@@ -48,12 +48,18 @@ const optionGender = [
   { label: "Female", value: 'female' },
 ];
 
-
+//---------------------------------------------------------------------------------------------------------------------------------------------------//
 
 const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statusDetailData, props }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  // theo doi lua chon status
+  const [selectedMulti, setselectedMulti] = useState(null);
+  function handleMulti(selectedMulti) {
+    setselectedMulti(selectedMulti);
+  }
 
   // Tao doi tuong luu bang the ngoai kieu
   const [alienCard, setAlienCard] = useState({
@@ -97,12 +103,13 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // kiem tra trang thai xem co duoc ghi dia chi 
   const [isCreateAddress, setIsCreateAddress] = useState(false);
 
-  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, internCreate, companyData, factoryData, statusData, careerData, statusOfResidenceData } = useSelector(state => (
+  const { provinceDataByNationId, districtDataByProvinceId, communeDataByDistrictId, internCreate, companyData, factoryData, statusData, careerData, statusOfResidenceData, loadingIntern } = useSelector(state => (
     {
       provinceDataByNationId: state.Province.dataByNationId,
       districtDataByProvinceId: state.District.dataByProvinceId,
       communeDataByDistrictId: state.Commune.dataByDistrictId,
       internCreate: state.Intern.data,
+      loadingIntern: state.Intern.loading,
       companyData: state.DispatchingCompany.datas,
       factoryData: state.ReceivingFactory.datas,
       statusData: state.Status.datas,
@@ -121,8 +128,6 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   }, [dispatch]);
 
 
-  // console.log(item);
-
   // xu ly form nhap anh
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(null);
@@ -139,8 +144,6 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
       reader.readAsDataURL(file);
     }
   }
-
-  // console.log('statusDetailData:', statusDetailData);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -335,6 +338,13 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     }
   });
 
+  // thuc thi formik
+  const handleSubmit = () => {
+    console.log('submit');
+    formik.handleSubmit();
+  }
+  //---------------------------------------------------------------------------------------
+
   // Tai du lieu thanh pho 
   useEffect(() => {
     dispatch(getProvinceByNationId(formik.values.nation_id));
@@ -355,50 +365,41 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   //---------------------------------------------------------------------------------------------------------------
   // GHi du lieu dia chi vao database
   useEffect(() => {
-    if (internCreate != null) {
-      const id = internCreate['id'];
-      // console.log('id:', id);
+    if (internCreate) {
+      if (isCreateAddress && !loadingIntern) {
+        const id = internCreate['id'];
+        // console.log('id:', id);
 
-      if (id != null || id != undefined) {
-        if (isCreateAddress) {
-          const newCard = { ...alienCard, intern_id: id };
-          const netStatus = { ...statusDetailObj, intern_id: id };
-          dispatch(setAlienRegistrationCard(newCard));
-          dispatch(setStatusDetail(netStatus));
+        const newCard = { ...alienCard, intern_id: id };
+        const netStatus = { ...statusDetailObj, intern_id: id };
+        dispatch(setAlienRegistrationCard(newCard));
+        dispatch(setStatusDetail(netStatus));
 
-          addressDataIntern.forEach((address, index) => {
-            const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
-            dispatch(setAddress(newAddress));
-          })
-
-          // setAlienCard({...alienCard, intern_id: id});
-          // setStatusDetailObj({...statusDetailObj, intern_id: id});
-          setIsCreateAddress(false);
-        }
+        addressDataIntern.forEach((address, index) => {
+          const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
+          dispatch(setAddress(newAddress));
+        })
+        setIsCreateAddress(false);
       }
     }
-  }, [internCreate])
+  }, [internCreate, isCreateAddress])
   //----------------------------------------------------------------------------------------------------------------
 
-  // thuc thi formik
-  const handleSubmit = () => {
-    console.log('submit');
-    formik.handleSubmit();
-  }
-
-  // xu ly them form address
+  // xu ly khi them form nhap dia chi
   const handleAddForm = () => {
     updateAddressDataIntern([...addressDataIntern, addressIntern])
   };
 
+  // xu ly khi xoa form nhap dia chi
   const handleDeleteColumn = (getIndex) => {
     const arr = [...addressDataIntern];
     arr.splice(getIndex, 1);
     updateAddressDataIntern(arr);
   }
 
+  //---------------------------------------------------------------------------------------
 
-
+  // dem so ky tu o nhap note
   const [textareabadge, settextareabadge] = useState(0);
   const [textcount, settextcount] = useState(0);
   function textareachange(event) {
@@ -410,6 +411,9 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     }
     settextcount(event.target.value.length);
   }
+
+
+  //---------------------------------------------------------------------------------------
 
   // render lua chon tinh, huyen, xa
   const [selectProvince, setSelectProvince] = useState(null)
@@ -427,15 +431,16 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     }
   }, [provinceDataByNationId])
 
+  //---------------------------------------------------------------------------------------
+
   // Xu ly danh sach district
   const [districtOptions, setDistrictOptions] = useState([])
-
   useEffect(() => {
     if (selectProvince !== null) {
       dispatch(getDistrictByProvinceId(selectProvince.StateID));
       setSelectDistrict('');
     }
-  }, [selectProvince])
+  }, [selectProvince]);
 
   useEffect(() => {
     if (districtDataByProvinceId !== null) {
@@ -444,8 +449,9 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
       })
       setDistrictOptions(data)
     }
-  }, [districtDataByProvinceId])
+  }, [districtDataByProvinceId]);
 
+  //---------------------------------------------------------------------------------------
   // xu ly tai danh sach commune
   const [communeOptions, setCommuneOptions] = useState([])
   useEffect(() => {
@@ -463,11 +469,9 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
       setCommuneOptions(data)
     }
   }, [communeDataByDistrictId])
+  //---------------------------------------------------------------------------------------
 
-  const [selectedMulti, setselectedMulti] = useState(null);
-  function handleMulti(selectedMulti) {
-    setselectedMulti(selectedMulti);
-  }
+
 
 
 
@@ -476,6 +480,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // console.log('alienCardData:', alienCardData)
   // console.log('item:', item)
   // console.log('isEditIntern:', isEditIntern)
+  // console.log('loadingIntern:', loadingIntern)
   console.log('selectedMulti:', selectedMulti)
 
 
