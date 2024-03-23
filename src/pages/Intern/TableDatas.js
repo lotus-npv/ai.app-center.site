@@ -116,7 +116,7 @@ const TableDatas = (props) => {
   const handleDeleteOrder = () => {
     if (item && item.id) {
       console.log('delete id :' + item.id);
-      dispatch(deleteCareer(item.id));
+      dispatch(deleteIntern(item.id));
 
       setDeleteModal(false);
     }
