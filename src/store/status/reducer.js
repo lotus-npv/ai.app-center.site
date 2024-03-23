@@ -17,7 +17,8 @@ import {
 const INIT_STATE = {
   datas: [],
   dataUpdateReponse: null,
-  dataByid: []
+  dataByid: [],
+  loading: false
 };
 
 const Status = (state = INIT_STATE, action) => {
@@ -66,15 +67,18 @@ const Status = (state = INIT_STATE, action) => {
     case UPDATE_STATUS:
       return {
         ...state,
+        loading: true
       };
     case UPDATE_STATUS_SUCCESS:
       return {
         ...state,
+        loading: false,
         dataUpdateReponse: action.payload,
       };
     case UPDATE_STATUS_FAIL:
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     case DELETE_STATUS_SUCCESS:

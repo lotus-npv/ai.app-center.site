@@ -18,20 +18,28 @@ import {
   const INIT_STATE = {
     datas: [],
     dataId: [],
-    data: {}
+    data: {},
+    loading: false
   };
   
   const Career = (state = INIT_STATE, action) => {
     switch (action.type) {
+      case GET_CAREER_ALL:
+        return {
+          ...state,
+          // loading: true
+        };
       case GET_CAREER_ALL_SUCCESS:
         return {
           ...state,
+          
           datas: action.payload,
         };
   
       case GET_CAREER_ALL_FAIL:
         return {
           ...state,
+          
           error: action.payload,
         };
       case GET_CAREER_ID_SUCCESS:
@@ -63,16 +71,19 @@ import {
       case UPDATE_CAREER:
         return {
           ...state,
+          loading: true,
           data: action.payload,
         };
       case UPDATE_CAREER_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
       case UPDATE_CAREER_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case DELETE_CAREER_SUCCESS:

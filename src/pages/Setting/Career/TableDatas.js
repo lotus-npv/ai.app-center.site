@@ -12,7 +12,7 @@ import ModalDatas from './ModalDatas'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getCareerAll, updateCareer, deleteCareer, setCareer } from "store/actions";
+import { getCareerAll, updateCareer, deleteCareer, setCareer, getInternAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -34,19 +34,22 @@ const TableDatas = () => {
     name: { value: null, matchMode: FilterMatchMode.CONTAINS },
     description: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
-  const [loading, setLoading] = useState(true);
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const dispatch = useDispatch();
 
-  const { datas } = useSelector(state => ({
-    datas: state.Career.datas
+  const { datas , loading, loadingIntern, dataUpdateReponse } = useSelector(state => ({
+    datas: state.Career.datas,
+    loading: state.Career.loading,
+    loadingIntern: state.Intern.loading,
+    dataUpdateReponse : state.Status.dataUpdateReponse,
   }), shallowEqual);
 
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getCareerAll());
-    setLoading(false);
+    dispatch(getInternAll());
   }, [dispatch]);
 
   // get lai data sau moi 10s
@@ -138,6 +141,8 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
+  console.log('loadingIntern', loadingIntern)
+  console.log('dataUpdateReponse', dataUpdateReponse)
 
   return (
     <div className="card" >

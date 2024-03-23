@@ -55,6 +55,7 @@ function* onUpdateCareer({ payload: data }) {
   try {
       const response = yield call(updateDataCareer, data)
       yield put(updateCareerSuccess(response));
+      console.log(response);
       toast.success("Career Updated Successfully", { autoClose: 2000 });
       yield call(refreshCareerData);
   } catch (error) {

@@ -35,13 +35,14 @@ import {
       case GET_INTERN_ALL_SUCCESS:
         return {
           ...state,
+          loading: false,
           datas: action.payload,
-          loading: false
         };
   
       case GET_INTERN_ALL_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case GET_INTERN_ALLINFO:
@@ -52,13 +53,14 @@ import {
       case GET_INTERN_ALLINFO_SUCCESS:
         return {
           ...state,
+          loading: false,
           datas: action.payload,
-          loading: false
         };
   
       case GET_INTERN_ALLINFO_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case SET_INTERN:

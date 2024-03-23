@@ -106,8 +106,7 @@ const optionConditionMilestone = [
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { updateStatus,  setStatus } from "store/actions";
-import { data } from 'common/data/lotus';
+import { updateStatus,  setStatus, getCareerAll } from "store/actions";
 
 
 const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
@@ -115,9 +114,20 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
 
   const dispatch = useDispatch();
 
-  let { dataUpdateReponse } = useSelector(state => state.Status);
+  let { dataUpdateReponse, datas , loadingUpload, loadingCareer , dataCareer} = useSelector(state => ({
+    dataUpdateReponse : state.Status.dataUpdateReponse,
+    datas : state.Status.datas,
+    loadingUpload : state.Status.loading,
+    loadingCareer : state.Career.loading,
+    dataCareer : state.Career.datas,
 
+  }), shallowEqual);
 
+  useEffect(() => {
+    dispatch(getCareerAll());
+  },[dispatch]);
+
+  const [isWork, setIsWork] = useState(false);
   const { isEditStatus, setIsEditStatus } = useContext(DataContext);
 
   const formik = useFormik({
@@ -143,15 +153,6 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
       colors: Yup.string().required(
         "This value is required"
       ),
-      // condition_date: Yup.string().required(
-      //   "This value is required"
-      // ),
-      // condition_milestone: Yup.string().required(
-      //   "This value is required"
-      // ),
-      // condition_value: Yup.number().required(
-      //   "Please Enter Your Number"
-      // ),
       description: Yup.string().required(
         "This value is required"
       ),
@@ -197,6 +198,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
         dispatch(setStatus(obj));
       }
       formik.resetForm();
+      setIsWork(true);
       setIsEditStatus(false);
       tog_xlarge();
     }
@@ -222,21 +224,20 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
   useEffect(() => {
     if(dataUpdateReponse) {
       console.log('dataUpdateReponse', dataUpdateReponse);
-      console.log('thuc thi cac viec khac');
-      dataUpdateReponse = null;
+      if(isWork && !loadingUpload) {
+        console.log('thuc thi cac viec co id:', dataUpdateReponse);
+        setIsWork(false);
+      }
+      console.log('ko lam gi !!!!');
     }
-  }, [ dataUpdateReponse ])
+  }, [ dataUpdateReponse, isWork ])
 
-
-  
-  // const [isAuto, setIsAuto] = useState(formik.values.status_type == 'automatic' ? true : false)
-
-  // useEffect(() => {
-  //   isAuto ? formik.setFieldValue('status_type', 'automatic') : formik.setFieldValue('status_type', 'manual');
-  // }, [isAuto])
 
   // console.log(isEditStatus)
   // console.log(formik.values)
+  // console.log('datas', datas)
+  console.log('loading', loadingCareer)
+  console.log('dataCareer', dataCareer)
 
   return (
     <>
