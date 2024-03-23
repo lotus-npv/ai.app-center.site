@@ -12,11 +12,40 @@ import DeleteModal from '../../components/Common/DeleteModal';
 
 import { withTranslation } from "react-i18next";
 
+const schedule = require('node-schedule');
+
 import { Avata, Name, Phone, JontDate, Note } from './TicketColList'
 
 const TicketPage = (props) => {
     document.title = "Ticket Page";
     const navigate = useNavigate();
+
+    const crontab = () => {
+        console.log('start job');
+        const job = schedule.scheduleJob('10 * * * * *', function(){
+            console.log('The answer to life, the universe, and everything!');
+          });
+    }
+
+    const cancelJob = () => {
+        console.log('start job 2');
+
+        const date = new Date(2024, 3,  23, 9, 52, 0);
+        const job3 = schedule.scheduleJob(date, function(){
+            console.log('The world is going to end today.');
+          });
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     const {receivingFactoryDatas , updateReceivingFactoryDatas} = useContext(DataContext);
 
@@ -144,6 +173,16 @@ const TicketPage = (props) => {
                     />
                     <Card>
                         <CardHeader>
+                            <Button onClick={() => {
+                                crontab();
+                            }}>
+                                JOB1
+                            </Button>
+                            <Button onClick={() => {
+                                cancelJob();
+                            }}>
+                                JOB2
+                            </Button>
                             <Row>
                                 <Col>
                                     <Breadcrumbs title="" breadcrumbItem="Hỗ trợ" />
