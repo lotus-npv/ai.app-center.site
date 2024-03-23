@@ -150,58 +150,58 @@ const SidebarContent = props => {
             <li>
               <Link to="/dashboard" >
                 <i className="bx bxs-report"></i>
-                <span>{props.t("Báo cáo")}</span>
+                <span>{props.t("Report")}</span>
               </Link>
             </li>
             <li>
               <Link to="/intern" >
                 <i className="mdi mdi-account-group"></i>
-                <span>{props.t("Thực tập sinh")}</span>
+                <span>{props.t("Intern")}</span>
               </Link>
             </li>
             <li>
               <Link to="/receiving-factory" >
                 <i className="bx bx-buildings"></i>
-                <span>{props.t("Xí nghiệp tiếp nhận")}</span>
+                <span>{props.t("Receiving Factory")}</span>
               </Link>
             </li>
             <li>
               <Link to="/dispatching-company" >
                 <i className="mdi mdi-google-earth"></i>
-                <span>{props.t("Công ty phái cử")}</span>
+                <span>{props.t("Dispatching Company")}</span>
               </Link>
             </li>
             <li>
               <Link to="/contacts" >
                 <i className="bx bxs-contact"></i>
-                <span>{props.t("Danh sách liên hệ")}</span>
+                <span>{props.t("Contact List")}</span>
               </Link>
             </li>
             <li>
               <Link to="/violate" >
                 <i className="bx bx-error"></i>
-                <span>{props.t("Danh sách vi phạm")}</span>
+                <span>{props.t("Violation List")}</span>
               </Link>
             </li>
             
             <li>
               <Link to="/ticket" >
                 <i className="bx bx-support"></i>
-                <span>{props.t("Hỗ trợ")}</span>
+                <span>{props.t("Support")}</span>
               </Link>
             </li>
 
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-cog"></i>
-                <span>{props.t("Cài đặt")}</span>
+                <span>{props.t("Settings")}</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/pages-status">{props.t("Trạng thái")}</Link>
+                  <Link to="/pages-status">{props.t("Status")}</Link>
                 </li>
                 <li>
-                  <Link to="/pages-career">{props.t("Ngành nghề")}</Link>
+                  <Link to="/pages-career">{props.t("Industry")}</Link>
                 </li>
               </ul>
             </li>

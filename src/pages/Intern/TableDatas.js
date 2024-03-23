@@ -180,7 +180,7 @@ const TableDatas = (props) => {
                 }}
               >
                 <div className='d-flex gap-2 justify-content-center'>
-                  <span className="d-none d-sm-block">{item.name}</span>
+                  <span className="d-none d-sm-block">{props.t(item.name)}</span>
                   <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
                 </div>
               </NavLink>
@@ -217,7 +217,7 @@ const TableDatas = (props) => {
       <div className="flex align-items-center gap-2">
         <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`} size="large" shape="circle">
         </Avatar>
-        <span>{!loading ? rowData.full_name_jp : '....'}</span>
+        <span>{rowData.full_name_jp}</span>
       </div>
     );
   };
@@ -269,11 +269,11 @@ const TableDatas = (props) => {
       >
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
         <Column field="full_name_jp" header={props.t("Intern name")} body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="factory_name_jp" header={props.t("Dispatching company")} filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column header="Trạng thái" body={statusBody} filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
-        <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
+        <Column field="factory_name_jp" header={props.t("Receiving Factory")} filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="company_name_jp" header={props.t("Dispatching Company")} filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="sor_name" header={props.t("Status of residence")} filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column header={props.t("Status")} body={statusBody} filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>
+        <Column field="action" header={props.t("Action")} style={{ minWidth: '10rem' }} body={actionBody} ></Column>
       </DataTable>
 
       <DeleteModal

@@ -8,11 +8,13 @@ import Select from "react-select";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 
+import { useTranslation } from "react-i18next";
+
 // import context
 import DataContext from "../../data/DataContext";
 
 const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup }) => {
-
+    const { t } = useTranslation();
     // data context
     const { tog_fullscreen, setIsEditIntern, tog_standard, modal_standard, setmodal_standard,modal_xlarge,tog_xlarge, setmodal_xlarge } = useContext(DataContext)
 
@@ -27,7 +29,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                             setIsUpdateStatus(true);
                         }}>
                         <i className="fas fa-info-circle text-secondary"></i>{' '}
-                        Cập nhật trạng thái
+                        {t('Update Status')}
                     </Button>
                     <Button
                         color="gray-soft"
@@ -36,7 +38,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                             setIsUpdateStatus(false);
                         }}>
                         <i className="fas fa-user-shield text-secondary"></i>{' '}
-                        Cập nhật lưu trú
+                        {t('Residence update')}
                     </Button>
                     <Button
                         color="gray-soft"
@@ -44,7 +46,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                             tog_xlarge();
                         }}>
                         <i className="fas fa-ban text-secondary" ></i>{' '}
-                        Thêm vi phạm
+                        {t('Add violations')}
                     </Button>
                 </div>
                 <div>
@@ -52,7 +54,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                         setIsEditIntern(false);
                         tog_fullscreen();
                     }}>
-                        Thêm mới
+                        {t('Add Intern')}
                     </Button>
                 </div>
             </div>
@@ -81,7 +83,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                 <Card>
                     <CardBody >
                         {isUpdateStatus && <div className="modal-body">
-                            <Label htmlFor="edit-status">Trạng thái</Label>
+                            <Label htmlFor="edit-status">{t('Status')}</Label>
                             <Select
                                 name='status'
                                 placeholder='Chọn trạng thái'
@@ -93,7 +95,7 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                             />
                         </div>}
                         {!isUpdateStatus && <div className="modal-body">
-                            <Label htmlFor="edit-status">Tư cách lưu trú</Label>
+                            <Label htmlFor="edit-status">{t('Residence Status')}</Label>
                             <Select
                                 name='status'
                                 placeholder='Chọn tư cách lưu trú'
@@ -115,13 +117,13 @@ const ModalTop = ({  setStatus,  isUpdateStatus, setIsUpdateStatus, optionGroup 
                         className="btn btn-secondary "
                         data-dismiss="modal"
                     >
-                        Close
+                        {t('Cancel')}
                     </button>
                     <button
                         type="button"
                         className="btn btn-primary "
                     >
-                        Save changes
+                        {t('Save')}
                     </button>
                 </div>
             </Modal>

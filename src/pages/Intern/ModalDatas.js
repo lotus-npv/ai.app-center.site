@@ -583,7 +583,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label>Tên đệm</Label>
+                                        <Label className="form-label fw-bold">Tên đệm</Label>
                                         <Input
                                           name="middle_name_jp"
                                           type="text"
@@ -620,7 +620,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label>Tên</Label>
+                                        <Label className="form-label fw-bold">Tên</Label>
                                         <Input
                                           name="last_name_jp"
                                           type="text"
@@ -910,7 +910,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label>Ngày hết hạn</Label>
+                                        <Label className="form-label fw-bold">Ngày hết hạn</Label>
                                         <Input
                                           name="expiration_date"
                                           type="date"
