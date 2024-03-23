@@ -114,13 +114,10 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
 
   const dispatch = useDispatch();
 
-  let { dataUpdateReponse, datas , loadingUpload, loadingCareer , dataCareer} = useSelector(state => ({
+  let { dataUpdateReponse, datas , loadingUpload} = useSelector(state => ({
     dataUpdateReponse : state.Status.dataUpdateReponse,
     datas : state.Status.datas,
     loadingUpload : state.Status.loading,
-    loadingCareer : state.Career.loading,
-    dataCareer : state.Career.datas,
-
   }), shallowEqual);
 
   useEffect(() => {
@@ -141,7 +138,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
       condition_milestone: item !== null ? item.condition_milestone : null,
       condition_value: item !== null ? item.condition_value : null,
       description: item !== null ? item.description : null,
-      create_at: item !== null ? item.create_at : null
+      create_at: item !== null ? item.create_at : null,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -193,7 +190,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
           update_at: null,
           update_by: 1,
           delete_at: null,
-          flag: 1
+          flag: 1,
         }
         dispatch(setStatus(obj));
       }
@@ -234,10 +231,10 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
 
 
   // console.log(isEditStatus)
-  // console.log(formik.values)
+  console.log(formik.values)
   // console.log('datas', datas)
-  console.log('loading', loadingCareer)
-  console.log('dataCareer', dataCareer)
+  // console.log('loading', loadingCareer)
+  // console.log('dataCareer', dataCareer)
 
   return (
     <>

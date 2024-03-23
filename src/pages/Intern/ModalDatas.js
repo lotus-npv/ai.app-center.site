@@ -56,9 +56,9 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   const dispatch = useDispatch();
 
   // theo doi lua chon status
-  const [selectedMulti, setselectedMulti] = useState(null);
-  function handleMulti(selectedMulti) {
-    setselectedMulti(selectedMulti);
+  const [selectedMultiStatus, setselectedMultiStatus] = useState(null);
+  function handleMulti(selectedMultiStatus) {
+    setselectedMultiStatus(selectedMultiStatus);
   }
 
   // Tao doi tuong luu bang the ngoai kieu
@@ -77,8 +77,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     delete_at: null,
     flag: 1
   });
+
   // Tao doi luong luu bang chi tiet trang thai
-  const [statusDetailObj, setStatusDetailObj] = useState({
+
+  const statusDetailObj = {
     key_license_id: 1,
     intern_id: null,
     status_id: null,
@@ -89,7 +91,19 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     update_by: 1,
     delete_at: null,
     flag: 1
-  });
+  };
+  // const [statusDetailObj, setStatusDetailObj] = useState({
+  //   key_license_id: 1,
+  //   intern_id: null,
+  //   status_id: null,
+  //   description: null,
+  //   create_at: null,
+  //   create_by: 1,
+  //   update_at: null,
+  //   update_by: 1,
+  //   delete_at: null,
+  //   flag: 1
+  // });
 
   // data context
   const { modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditIntern, setIsEditIntern, addressIntern, addressDataIntern, updateAddressDataIntern, } = useContext(DataContext)
@@ -322,11 +336,21 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
           dispatch(uploadImageRequest(formData));
           // dispatch(uploadFile(formData));
         }
-
         const card = { ...alienCard, card_number: value.alien_registration_card_number, status_of_residence_id: value.status_of_residence_id, license_date: value.license_date, expiration_date: value.expiration_date };
         setAlienCard(card);
-        const status = { ...statusDetailObj, status_id: value.status_id };
-        setStatusDetailObj(status);
+
+        const multiStatus = selectedMultiStatus.map((status) => {
+          const { value, label, ...newStatus } = status;
+          return newStatus;
+        });
+
+        const newMultiStatus = multiStatus.map((status) => {
+          return { ...status, }
+        })
+
+        // const status = { ...statusDetailObj, status_id: value.status_id };
+        // setStatusDetailObj(status);
+
         setIsCreateAddress(true);
 
       }
@@ -341,7 +365,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // thuc thi formik
   const handleSubmit = () => {
     console.log('submit');
-    formik.handleSubmit();
+    // formik.handleSubmit();
+    const multiStatus = selectedMultiStatus.map((status) => {
+      return { ...statusDetailObj, status_id: status.id };
+    });
+
+    console.log(multiStatus)
   }
   //---------------------------------------------------------------------------------------
 
@@ -481,7 +510,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // console.log('item:', item)
   // console.log('isEditIntern:', isEditIntern)
   // console.log('loadingIntern:', loadingIntern)
-  console.log('selectedMulti:', selectedMulti)
+  console.log('selectedMultiStatus:', selectedMultiStatus)
 
 
   return (
@@ -960,7 +989,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                           Multiple Select
                                         </label>
                                         <Select
-                                          value={selectedMulti}
+                                          value={selectedMultiStatus}
                                           isMulti={true}
                                           onChange={(value) => {
                                             console.log(value);
