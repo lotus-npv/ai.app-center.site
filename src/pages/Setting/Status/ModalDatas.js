@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Row,
   Col,
@@ -18,6 +18,7 @@ import Select from "react-select";
 
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import DataContext from 'data/DataContext';
 
 
 const Offsymbol = () => {
@@ -100,14 +101,29 @@ const optionConditionMilestone = [
   { label: "Ngày nhập cảnh", value: "ngày nhập cảnh" },
   { label: "Ngày hết hạn tư cách lưu trú", value: "ngày hết hạn tư cách lưu trú" },
   { label: "Ngày sinh nhật", value: "ngày sinh nhật" },
-  { label: "Ngày hết hạn visa", value: "ngày sinh nhật" },
+  { label: "Ngày hết hạn visa", value: "ngày hết hạn visa" },
 ];
 
-const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch, setApi, updateApi }) => {
+//redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { updateStatus,  setStatus } from "store/actions";
+import { data } from 'common/data/lotus';
+
+
+const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
+
+
+  const dispatch = useDispatch();
+
+  let { dataUpdateReponse } = useSelector(state => state.Status);
+
+
+  const { isEditStatus, setIsEditStatus } = useContext(DataContext);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      id: item != null ? item.id : null,
       name: item !== null ? item.name : null,
       status_type: item !== null ? item.status_type : 'manual',
       colors: item !== null ? item.colors : null,
@@ -140,20 +156,9 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
         "This value is required"
       ),
     }),
-  //   validate: (data) => {
-  //     let errors = {};
-
-  //     if (data.status_type == 'automatic') {
-  //         if(data.condition_value) {
-  //           errors.condition_value = 'City is required.';
-  //         }
-  //     }
-
-  //     return errors;
-  // },
     onSubmit: async (value) => {
 
-      if (isEdit) {
+      if (isEditStatus) {
         let obj = {
           id: value.id,
           key_license_id: 1,
@@ -171,7 +176,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
           delete_at: null,
           flag: 1
         }
-        dispatch(updateApi(obj));
+        dispatch(updateStatus(obj));
       } else {
         let obj = {
           key_license_id: 1,
@@ -189,9 +194,10 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
           delete_at: null,
           flag: 1
         }
-        dispatch(setApi(obj));
+        dispatch(setStatus(obj));
       }
       formik.resetForm();
+      setIsEditStatus(false);
       tog_xlarge();
     }
   });
@@ -201,24 +207,40 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     formik.handleSubmit();
   }
 
-  const [isAuto, setIsAuto] = useState(formik.values.status_type == 'automatic' ? true : false)
+  const [isAuto, setIsAuto] = useState(false)
 
   useEffect(() => {
-    isAuto ? formik.setFieldValue('status_type', 'automatic') : formik.setFieldValue('status_type', 'manual');
-  }, [isAuto])
+    if(isEditStatus) {
+      const sw = item.status_type;
+      const s = sw == 'manual' ? false : true;
+      console.log('s', s);
+      setIsAuto(s);
+    }
+  },[isEditStatus])
 
-  // console.log(isAuto)
-  console.log(formik.values)
+
+  useEffect(() => {
+    if(dataUpdateReponse) {
+      console.log('dataUpdateReponse', dataUpdateReponse);
+      console.log('thuc thi cac viec khac');
+      dataUpdateReponse = null;
+    }
+  }, [ dataUpdateReponse ])
+
+
+  
+  // const [isAuto, setIsAuto] = useState(formik.values.status_type == 'automatic' ? true : false)
+
+  // useEffect(() => {
+  //   isAuto ? formik.setFieldValue('status_type', 'automatic') : formik.setFieldValue('status_type', 'manual');
+  // }, [isAuto])
+
+  // console.log(isEditStatus)
+  // console.log(formik.values)
 
   return (
     <>
-      <Form
-      // onSubmit={(e) => {
-      //   e.preventDefault();
-      //   formik.handleSubmit();
-      //   return false;
-      // }}
-      >
+      <Form>
         <Modal className="needs-validation"
           size="xl"
           isOpen={modal_xlarge}
@@ -231,11 +253,12 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
               className="modal-title mt-0"
               id="myExtraLargeModalLabel"
             >
-              {isEdit ? 'Edit Status' : 'Add new Status'}
+              {isEditStatus ? 'Edit Status' : 'Add new Status'}
             </h5>
             <button
               onClick={() => {
                 setmodal_xlarge(false);
+                setIsEditStatus(false);
               }}
               type="button"
               className="close"
@@ -342,7 +365,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
                       <Select
                         name='condition_milestone'
                         placeholder='Chọn mốc thời gian'
-                        value={optionConditionDate.find((item) => item.value === formik.values.condition_milestone)}
+                        value={optionConditionMilestone.find((item) => item.value === formik.values.condition_milestone)}
                         onChange={(item) => {
                           formik.setFieldValue('condition_milestone', item.value);
                         }}
@@ -381,6 +404,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
               type="button"
               onClick={() => {
                 tog_xlarge();
+                setIsEditStatus(false);
               }}
               className="btn btn-secondary "
               data-dismiss="modal"

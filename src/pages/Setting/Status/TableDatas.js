@@ -29,7 +29,7 @@ FilterService.register('custom_activity', (value, filters) => {
 
 const TableDatas = () => {
 
-  const { vh } = useContext(DataContext);
+  const { vh, isEditStatus, setIsEditStatus } = useContext(DataContext);
 
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
@@ -65,7 +65,6 @@ const TableDatas = () => {
 
 
   // modal edit or addnew
-  const [isEdit, setIsEdit] = useState(false);
   const [modal_xlarge, setmodal_xlarge] = useState(false);
   function tog_xlarge() {
     setmodal_xlarge(!modal_xlarge);
@@ -124,7 +123,7 @@ const TableDatas = () => {
 
   const addForm = () => {
     setRowSelect(null);
-    setIsEdit(false);
+    setIsEditStatus(false);
     tog_xlarge();
   }
 
@@ -136,7 +135,7 @@ const TableDatas = () => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEdit(true) }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEditStatus(true) }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -169,7 +168,6 @@ const TableDatas = () => {
 
       <ModalDatas
         item={rowSelect}
-        isEdit={isEdit}
         modal_xlarge={modal_xlarge}
         setmodal_xlarge={setmodal_xlarge}
         tog_xlarge={tog_xlarge}

@@ -464,6 +464,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     }
   }, [communeDataByDistrictId])
 
+  const [selectedMulti, setselectedMulti] = useState(null);
+  function handleMulti(selectedMulti) {
+    setselectedMulti(selectedMulti);
+  }
 
 
 
@@ -472,6 +476,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   // console.log('alienCardData:', alienCardData)
   // console.log('item:', item)
   // console.log('isEditIntern:', isEditIntern)
+  console.log('selectedMulti:', selectedMulti)
 
 
   return (
@@ -944,6 +949,24 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                         // isClearable
                                         />
                                       </div>
+
+                                      <div className="mb-3">
+                                        <label className="control-label">
+                                          Multiple Select
+                                        </label>
+                                        <Select
+                                          value={selectedMulti}
+                                          isMulti={true}
+                                          onChange={(value) => {
+                                            console.log(value);
+                                            handleMulti(value);
+                                          }}
+                                          options={statusData}
+                                          className="select2-selection"
+                                          isLoading={true}
+                                        />
+                                      </div>
+
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
@@ -1205,7 +1228,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                             onChange={handleChangeDefault}
                                           />
                                           <UncontrolledTooltip placement="top" target={`radio-${index}`}>
-                                              {t('Default address')}
+                                            {t('Default address')}
                                           </UncontrolledTooltip>
                                         </div>
 
@@ -1246,7 +1269,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                 updateAddressDataIntern([])
               }}
               className="btn btn-secondary "
-              style={{minWidth: '80px'}}
+              style={{ minWidth: '80px' }}
               data-dismiss="modal"
             >
               {t('Cancel')}
@@ -1255,7 +1278,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
               type="button"
               className="btn btn-primary "
               onClick={handleSubmit}
-              style={{minWidth: '100px'}}
+              style={{ minWidth: '100px' }}
             >
               {t('Save')}
             </button>

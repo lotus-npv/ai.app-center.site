@@ -180,6 +180,9 @@ const DataProvider = ({ children }) => {
     const [isEditCompany, setIsEditCompany] = useState(false);
     // edit intern
     const [isEditIntern, setIsEditIntern] = useState(false);
+    // edit status
+    const [isEditStatus, setIsEditStatus] = useState(false);
+
 
 
 
@@ -201,7 +204,8 @@ const DataProvider = ({ children }) => {
                 modal_fullscreen, setmodal_fullscreen, tog_fullscreen,
                 isEditIntern, setIsEditIntern,
                 isEditFactory, setIsEditFactory,
-                isEditCompany, setIsEditCompany
+                isEditCompany, setIsEditCompany,
+                isEditStatus, setIsEditStatus
             }}
         >
             {children}

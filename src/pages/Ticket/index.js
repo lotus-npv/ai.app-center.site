@@ -13,6 +13,9 @@ import DeleteModal from '../../components/Common/DeleteModal';
 import { withTranslation } from "react-i18next";
 
 const schedule = require('node-schedule');
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAddressAll, getAlienRegistrationCardAll } from "store/actions";
 
 import { Avata, Name, Phone, JontDate, Note } from './TicketColList'
 
@@ -20,9 +23,17 @@ const TicketPage = (props) => {
     document.title = "Ticket Page";
     const navigate = useNavigate();
 
+
+    const dispatch = useDispatch();
+
+
+    const [count , setCount] = useState(1)
+
     const crontab = () => {
         console.log('start job');
-        const job = schedule.scheduleJob('10 * * * * *', function(){
+        const job = schedule.scheduleJob('1 * * * * *', function(){
+            dispatch(getStatusAll());
+            setCount(count + 1);
             console.log('The answer to life, the universe, and everything!');
           });
     }
@@ -30,8 +41,9 @@ const TicketPage = (props) => {
     const cancelJob = () => {
         console.log('start job 2');
 
-        const date = new Date(2024, 3,  23, 9, 52, 0);
+        const date = new Date(2024, 3,  23, 17, 10, 0);
         const job3 = schedule.scheduleJob(date, function(){
+            dispatch(getStatusAll());
             console.log('The world is going to end today.');
           });
     }
@@ -173,6 +185,7 @@ const TicketPage = (props) => {
                     />
                     <Card>
                         <CardHeader>
+                            <h3>Count: {count}</h3>
                             <Button onClick={() => {
                                 crontab();
                             }}>
