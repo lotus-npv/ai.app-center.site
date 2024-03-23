@@ -218,6 +218,14 @@ const TableDatas = (props) => {
     );
   };
 
+  // const colorList = (key) => {
+  //   switch(key) {
+  //     case 'success':
+  //       return ''
+
+  //   }
+  // }
+
   // render status body
   const statusBody = (rowData) => {
     const arr = statusDetailData.filter(item => item.intern_id == rowData.id);
@@ -225,7 +233,7 @@ const TableDatas = (props) => {
     return (
       <div className='d-flex gap-1'>
         {arr.map(s => (
-          <Badge className={"p-2 font-size-12 badge-soft-primary"} key={s.id}>{s.name}</Badge>
+          <Badge className={`p-2 font-size-12 badge-soft-${s.colors}`} key={s.id}>{s.name}</Badge>
         ))}
       </div>
     )

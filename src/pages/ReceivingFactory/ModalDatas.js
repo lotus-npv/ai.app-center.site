@@ -333,6 +333,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
           <button
             onClick={() => {
               setmodal_fullscreen(false);
+              setIsEditFactory(false);
             }}
             type="button"
             className="close"
@@ -571,7 +572,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                           name='province_id'
                                           placeholder='Tỉnh'
                                           // value={selectProvince || ""}
-                                          defaultValue={isEditFactory ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
+                                          defaultValue={provinceOptions.find(item => item.StateID == address.province_id) || ''}
                                           // value={isEditFactory ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
                                           onChange={(item) => {
                                             setSelectProvince(item);
@@ -591,7 +592,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                           name='district'
                                           placeholder='Quận/Huyện'
                                           // value={isEditFactory ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
-                                          defaultValue={isEditFactory ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
+                                          defaultValue={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
                                           onChange={(item) => {
                                             setSelectDistrict(item);
                                             const arr = [...addressDataFactory];
@@ -611,7 +612,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                           name='commune'
                                           placeholder='Xã/Phường'
                                           // value={isEditFactory ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
-                                          defaultValue={isEditFactory ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
+                                          defaultValue={communeOptions.find(item => item.WardID == address.commune_id) || ''}
                                           onChange={(item) => {
                                             setSelectCommune(item);
                                             const arr = [...addressDataFactory];
@@ -631,7 +632,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                           name="detail"
                                           type="text"
                                           placeholder='Số nhà, đường, phố...'
-                                          value={isEditFactory ? address.detail : ""}
+                                          value={address.detail || ""}
                                           onChange={(e) => {
                                             const arr = [...addressDataFactory];
                                             arr[index] = { ...arr[index], detail: e.target.value }
@@ -649,7 +650,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       name="phone_number"
                                       type="text"
                                       placeholder='Điện thoại'
-                                      value={isEditFactory ? address.phone_number : ""}
+                                      value={address.phone_number || ""}
                                       onChange={(e) => {
                                         const arr = [...addressDataFactory];
                                         arr[index] = { ...arr[index], phone_number: e.target.value }
@@ -664,7 +665,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                       name="fax"
                                       type="text"
                                       placeholder='Fax'
-                                      value={isEditFactory ? address.fax : ""}
+                                      value={address.fax || ""}
                                       onChange={(e) => {
                                         const arr = [...addressDataFactory];
                                         arr[index] = { ...arr[index], fax: e.target.value }
@@ -687,7 +688,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                               arr[index] = { ...arr[index], email: e.target.value }
                                               updateAddressDataFactory(arr);
                                             }}
-                                            value={isEditFactory ? address.email : ""}
+                                            value={address.email || ""}
                                           />
                                         </div>
                                       </div>
