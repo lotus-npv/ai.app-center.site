@@ -60,10 +60,10 @@ const Dashboard = props => {
   } = useSelector(DashboardProperties);
 
   const reports = [
-    { title: "Mục cần hỗ trợ chưa xử lý", iconClass: "bx bx-support", description: "3" },
-    { title: "Thực tập sinh sắp hết hạn visa", iconClass: "bx bx-user", description: "12" },
+    { title: "The item needing support has not been processed yet", iconClass: "bx bx-support", description: "3" },
+    { title: "The intern's visa is about to expire", iconClass: "bx bx-user", description: "12" },
     {
-      title: "Thực tập sinh sắp nhập cảnh",
+      title: "Interns are about to enter the country",
       iconClass: "bx bx-user",
       description: "5",
     },
@@ -125,7 +125,7 @@ const Dashboard = props => {
             title={props.t("Dashboards")}
             breadcrumbItem={props.t("Dashboard")}
           /> */}
-          <h4 className="fw-bold mt-1">Cần chú ý</h4>
+          <h4 className="fw-bold mt-1">{props.t('Need attention')}</h4>
           <Row>
             {/* <Col xl="4">
               <WelcomeComp />
@@ -153,7 +153,7 @@ const Dashboard = props => {
                             <h3 className="mb-0 fw-bold">{report.description}</h3>
                             <div className="d-flex">
                               <p className="">
-                                {report.title}
+                                {props.t(report.title)}
                               </p>
                             </div>
                           </div>
@@ -168,7 +168,7 @@ const Dashboard = props => {
                           >
                             <i className="bx bx-chevrons-right font-size-24" id="deletetooltip" />
                             <UncontrolledTooltip placement="top" target="deletetooltip">
-                              Detail
+                              {props.t('Detail')}
                             </UncontrolledTooltip>
                           </Link>
                         </div>
@@ -178,21 +178,21 @@ const Dashboard = props => {
                 ))}
               </Row>
 
-              <h4 className="mt-3 fw-bold">Thống kê</h4>
+              <h4 className="mt-3 fw-bold">{props.t('Detail')}</h4>
               <Row className="mb-3">
                 <Col xl={4}>
                   <Card className="h-100">
                     <CardBody>
                       <Row>
                         <Col xl={8}>
-                          <h4 className="card-title mb-2">Tỷ lệ thực tập sinh hiện tại</h4>
-                          <p>Tổng số lượng: <span className="text-primary fw-bold">5000</span> người</p>
+                          <h4 className="card-title mb-2">{props.t('Current intern ratio')}</h4>
+                          <p>{props.t('Total:')}<span className="text-primary fw-bold">5000</span> {props.t('people')}</p>
                         </Col>
                         <Col xl={4} className="d-flex justify-content-end">
-                          <div className="w-75">
-                            <Button className="btn btn-sm w-100 mb-1">Quốc gia</Button>
-                            {/* <Button className="btn btn-sm w-100">Tư cách</Button> */}
-                          </div>
+                          {/* <div className="w-75">
+                            <Button className="btn btn-sm w-100 mb-1">{props.t('Country')}</Button>
+                            <Button className="btn btn-sm w-100">Tư cách</Button>
+                          </div> */}
                         </Col>
                       </Row>
 
@@ -244,7 +244,7 @@ const Dashboard = props => {
                   <Card className="h-100">
                     <CardBody>
                       <div className="d-sm-flex flex-wrap">
-                        <h4 className="card-title mb-4">Số lượng thực tập sinh nhập cảnh theo quốc gia</h4>
+                        <h4 className="card-title mb-4">{props.t('Number of interns entering the country by country')}</h4>
                         <div className="ms-auto">
                           <ul className="nav nav-pills">
                             {/* <li className="nav-item">
@@ -275,7 +275,7 @@ const Dashboard = props => {
                                 }}
                                 id="one_month"
                               >
-                                Month
+                                {props.t('Month')}
                               </Link>
                             </li>
                             <li className="nav-item">
@@ -291,7 +291,7 @@ const Dashboard = props => {
                                 }}
                                 id="one_month"
                               >
-                                Year
+                                {props.t('Year')}
                               </Link>
                             </li>
                           </ul>
@@ -316,15 +316,15 @@ const Dashboard = props => {
 
           <Row>
             <Col xl="4">
-              <Transactions title={'Top 5 quốc gia theo số lượng TTS'} />
+              <Transactions title={props.t('Top 5 countries by number of interns')} />
             </Col>
             <Col xl="4">
-              <Transactions title={'Top 5 phái cử theo số lượng TTS'} />
+              <Transactions title={props.t('Top 5 nominated by number of interns')} />
             </Col>
 
-            <Col xl="4">
+            <Col xl="4" >
               {/* <Transactions title={'Top 5 xí nghiệp theo số lượng TTS'} /> */}
-              <Notifications/>
+              <Notifications title={props.t('Latest announcement')} />
             </Col>
           </Row>
 

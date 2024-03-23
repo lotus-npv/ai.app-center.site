@@ -5,13 +5,13 @@ import { Col, Card, CardBody } from "reactstrap";
 //Simple bar
 import SimpleBar from "simplebar-react";
 
-const Notifications = () => {
+const Notifications = ({title}) => {
   return (
     <React.Fragment>
       <Col xl="12">
         <Card>
           <CardBody>
-            <h4 className="card-title mb-4">Thông báo mới nhất</h4>
+            <h4 className="card-title mb-4">{title}</h4>
             <SimpleBar style={{ maxHeight: "390px" }}>
               <ul className="list-group">
                 {(notificationsData || []).map((item, index) => (

@@ -44,7 +44,7 @@ FilterService.register('custom_activity', (value, filters) => {
 
 
 const TableDatas = (props) => {
-
+  const {t} = useTranslation();
   
   // data context
   const { vh, tog_fullscreen, setIsEditIntern } = useContext(DataContext);
