@@ -24,6 +24,7 @@ import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
 import ModalTop from './ModalTop';
 
+import { useTranslation } from "react-i18next";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
@@ -44,6 +45,7 @@ FilterService.register('custom_activity', (value, filters) => {
 
 const TableDatas = (props) => {
 
+  
   // data context
   const { vh, tog_fullscreen, setIsEditIntern } = useContext(DataContext);
 
@@ -266,8 +268,8 @@ const TableDatas = (props) => {
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="full_name_jp" header="Tên thực tập sinh" body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="factory_name_jp" header="Xí nghiệp" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="full_name_jp" header={props.t("Intern name")} body={nameBodyTemplate} filterField="full_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
+        <Column field="factory_name_jp" header={props.t("Dispatching company")} filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="company_name_jp" header="Phái cử" filterField="company_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column field="sor_name" header="Tư cách lưu trú" filterField="sor_name" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
         <Column header="Trạng thái" body={statusBody} filterField="status" filterPlaceholder="tìm kiếm bằng mô tả" showFilterMenu={true} filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '14rem' }} ></Column>

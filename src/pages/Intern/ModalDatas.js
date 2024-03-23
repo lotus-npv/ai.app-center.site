@@ -23,6 +23,10 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import moment from 'moment';
 
+import { useTranslation } from "react-i18next";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
+
 // import context
 import DataContext from "../../data/DataContext";
 import avata from '../../assets/images/avata/avatar-null.png'
@@ -46,8 +50,9 @@ const optionGender = [
 
 
 
-const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statusDetailData }) => {
+const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statusDetailData , props}) => {
 
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   // Tao doi tuong luu bang the ngoai kieu
@@ -170,11 +175,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
       update_by: item != null ? item.update_by : 1,
 
       nation_id: 1,
-      alien_registration_card_number: item != null ? alienCardData.find(i => i.intern_id == item.id).card_number : '', // số thẻ ngoại kiều
-      status_of_residence_id: item != null ? statusOfResidenceData.find(i => i.name == item.sor_name).id : '',  // Tư cách lưu trú
-      license_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).license_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
-      expiration_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).expiration_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
-      status_id: item != null ? statusDetailData.find(i => i.intern_id == item.id).status_id : '' // trạng thái
+      alien_registration_card_number: item != null ? (alienCardData.find(i => i.intern_id == item.id) != null ? alienCardData.find(i => i.intern_id == item.id).card_number : '') : '', // số thẻ ngoại kiều
+      status_of_residence_id: item != null ? (statusOfResidenceData.find(i => i.name == item.sor_name) != null ? statusOfResidenceData.find(i => i.name == item.sor_name).id : '') : '',  // Tư cách lưu trú
+      // license_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).license_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
+      license_date: item != null ? (alienCardData.find(i => i.intern_id == item.id) != null ? moment(alienCardData.find(i => i.intern_id == item.id).license_date).utcOffset('+07:00').format("YYYY-MM-DD") : '') : '',
+      expiration_date: item != null ? (alienCardData.find(i => i.intern_id == item.id) != null ? moment(alienCardData.find(i => i.intern_id == item.id).expiration_date).utcOffset('+07:00').format("YYYY-MM-DD") : '') : '',
+      status_id: item != null ? (statusDetailData.find(i => i.intern_id == item.id) != null ? statusDetailData.find(i => i.intern_id == item.id).status_id : '') : '' // trạng thái
     },
     validationSchema: Yup.object().shape({
       first_name_jp: Yup.string().required(
@@ -527,7 +533,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     Admin
                                   </CardTitle>
                                   <Button onClick={() => fileInputRef.current.click()}>
-                                    Tải ảnh
+                                    {t('Upload Avata')}
                                   </Button>{" "}
                                   <input onChange={handleChange} multiple={false} ref={fileInputRef} type='file' hidden />
                                 </CardBody>
@@ -1279,4 +1285,9 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
   )
 }
 
-export default ModalDatas;
+ModalDatas.propTypes = {
+  t: PropTypes.any,
+};
+
+// export default ModalDatas;
+export default withTranslation()(ModalDatas);

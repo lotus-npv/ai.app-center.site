@@ -13,14 +13,14 @@ const languages = {
     label: "Japan",
     flag: japan,
   },
-  it: {
-    label: "Italian",
-    flag: italy,
-  },
-  rs: {
-    label: "Russian",
-    flag: russia,
-  },
+  // it: {
+  //   label: "Italian",
+  //   flag: italy,
+  // },
+  // rs: {
+  //   label: "Russian",
+  //   flag: russia,
+  // },
   en: {
     label: "English",
     flag: usFlag,
