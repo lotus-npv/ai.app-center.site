@@ -50,7 +50,7 @@ const optionGender = [
 
 
 
-const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statusDetailData , props}) => {
+const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statusDetailData, props }) => {
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -310,7 +310,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
           flag: 1
         }
         dispatch(setApi(obj));
-        
+
 
         // upload anh len server
         if (selectedFile) {
@@ -490,7 +490,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
               className="modal-title mt-0"
               id="exampleModalFullscreenLabel"
             >
-              {isEditIntern ? 'Sửa thông tin' : 'Thêm thực tập sinh'}
+              {isEditIntern ? t('Edit') : t('Add Intern')}
             </h5>
             <button
               onClick={() => {
@@ -546,10 +546,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row >
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Họ</Label>
+                                        <Label className="form-label fw-bold">{t('Last Name')}</Label>
                                         <Input
                                           name="first_name_jp"
-                                          placeholder="Họ"
+                                          placeholder={t('Last Name')}
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -568,7 +568,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                           name="first_name_en"
                                           type="text"
                                           autoComplete="off"
-                                          placeholder="Họ (En)"
+                                          placeholder={t('Last Name (English)')}
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
                                           value={formik.values.first_name_en || ""}
@@ -583,12 +583,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Tên đệm</Label>
+                                        <Label className="form-label fw-bold">{t('Middle Name')}</Label>
                                         <Input
                                           name="middle_name_jp"
                                           type="text"
                                           autoComplete="off"
-                                          placeholder="Tên đệm"
+                                          placeholder={t('Middle Name')}
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
                                           value={formik.values.middle_name_jp || ""}
@@ -604,7 +604,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                       <div className="mb-3">
                                         <Input
                                           name="middle_name_en"
-                                          placeholder="Tên đệm (En)"
+                                          placeholder={t('Middle Name (English)')}
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -620,12 +620,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Tên</Label>
+                                        <Label className="form-label fw-bold">{t('First Name')}</Label>
                                         <Input
                                           name="last_name_jp"
                                           type="text"
                                           autoComplete="off"
-                                          placeholder="Tên"
+                                          placeholder={t('First Name')}
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
                                           value={formik.values.last_name_jp || ""}
@@ -641,7 +641,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                       <div className="mb-3">
                                         <Input
                                           name="last_name_en"
-                                          placeholder="Tên (En)"
+                                          placeholder={t('First Name (English)')}
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -659,10 +659,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row >
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Quốc gia</Label>
+                                        <Label className="form-label fw-bold">{t('Country')}</Label>
                                         <Select
                                           name='nation_id'
-                                          placeholder='Chọn quốc gia'
+                                          placeholder={t('Country')}
                                           value={optionGroup.find(option => option.value === formik.values.nation_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('nation_id', item.value);
@@ -675,10 +675,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Giới tính</Label>
+                                        <Label className="form-label fw-bold">{t('Gender')}</Label>
                                         <Select
                                           name='gender'
-                                          placeholder='Chọn giới tính'
+                                          placeholder={t('Gender')}
                                           value={optionGender.find(option => option.value === formik.values.gender)}
                                           onChange={(item) => {
                                             formik.setFieldValue('gender', item == null ? null : item.value);
@@ -690,10 +690,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={4} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Ngày sinh</Label>
+                                        <Label className="form-label fw-bold">{t('Date of Birth')}</Label>
                                         <Input
                                           name="dob"
-                                          placeholder="Chọn ngày sinh"
+                                          placeholder={t('Date of Birth')}
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -712,10 +712,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row >
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Số điện thoại trong nước</Label>
+                                        <Label className="form-label fw-bold">{t('Domestic Phone Number')}</Label>
                                         <Input
                                           name="phone_domestically"
-                                          placeholder="Nhập số điện thoại"
+                                          placeholder={t('Domestic Phone Number')}
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -731,10 +731,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Số điện thoại ngoài nước</Label>
+                                        <Label className="form-label fw-bold">{t('Phone Number')}</Label>
                                         <Input
                                           name="phone_abroad"
-                                          placeholder="Nhập số điện thoại"
+                                          placeholder={t('Phone Number')}
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -753,10 +753,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row >
                                     <Col lg={12} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Số hộ chiếu</Label>
+                                        <Label className="form-label fw-bold">{t('Passport Number')}</Label>
                                         <Input
                                           name="passport_code"
-                                          placeholder="Nhập số hộ chiếu"
+                                          placeholder={t('Passport Number')}
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -775,10 +775,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row >
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Ngày cấp</Label>
+                                        <Label className="form-label fw-bold">{t('Date of Issue')}</Label>
                                         <Input
                                           name="passport_license_date"
-                                          placeholder="Ngày cấp"
+                                          placeholder={t('Date of Issue')}
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -794,10 +794,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Ngày hết hạn</Label>
+                                        <Label className="form-label fw-bold">{t('Expiry Date')}</Label>
                                         <Input
                                           name="passport_expiration_date"
-                                          placeholder="Ngày hết hạn"
+                                          placeholder={t('Expiry Date')}
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -823,10 +823,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Công ty phái cử</Label>
+                                        <Label className="form-label fw-bold">{t('Dispatching Company')}</Label>
                                         <Select
                                           name='dispatching_company_id'
-                                          placeholder='Chọn công ty phái cử'
+                                          placeholder={t('Dispatching Company')}
                                           value={companyData.find(option => option.value === formik.values.dispatching_company_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('dispatching_company_id', item.value);
@@ -838,10 +838,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Xí nghiệp tiếp nhận</Label>
+                                        <Label className="form-label fw-bold">{t('Receiving Company')}</Label>
                                         <Select
                                           name='receiving_factory_id'
-                                          placeholder='Chọn xí nghiệp tiếp nhận'
+                                          placeholder={t('Receiving Company')}
                                           value={factoryData.find(option => option.value === formik.values.receiving_factory_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('receiving_factory_id', item == null ? null : item.value);
@@ -855,10 +855,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Số thẻ ngoại kiều</Label>
+                                        <Label className="form-label fw-bold">{t('Foreigner Registration No.')}</Label>
                                         <Input
                                           name="alien_registration_card_number"
-                                          placeholder="Nhập số thẻ ngoại kiều"
+                                          placeholder={t('Foreigner Registration No.')}
                                           type="text"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -874,10 +874,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Tư cách lưu trú</Label>
+                                        <Label className="form-label fw-bold">{t('Residence Status')}</Label>
                                         <Select
                                           name='status_of_residence_id'
-                                          placeholder='Chọn tư cách lưu trú'
+                                          placeholder={t('Residence Status')}
                                           value={statusOfResidenceData.find(option => option.value === formik.values.status_of_residence_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('status_of_residence_id', item == null ? null : item.value);
@@ -891,10 +891,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Ngày cấp</Label>
+                                        <Label className="form-label fw-bold">{t('Date of Issue')}</Label>
                                         <Input
                                           name="license_date"
-                                          placeholder="Chọn ngày cấp"
+                                          placeholder={t('Date of Issue')}
                                           type="date"
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
@@ -910,12 +910,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Ngày hết hạn</Label>
+                                        <Label className="form-label fw-bold">{t('Expiry Date')}</Label>
                                         <Input
                                           name="expiration_date"
                                           type="date"
                                           autoComplete="off"
-                                          placeholder="Chọn ngày hết hạn"
+                                          placeholder={t('Expiry Date')}
                                           onChange={formik.handleChange}
                                           onBlur={formik.handleBlur}
                                           value={formik.values.expiration_date || ""}
@@ -932,10 +932,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row className='mb-3'>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Trạng thái</Label>
+                                        <Label className="form-label fw-bold">{t('Status')}</Label>
                                         <Select
                                           name='status_id'
-                                          placeholder='Chọn trạng thái'
+                                          placeholder={t('Status')}
                                           value={statusData.find(option => option.value === formik.values.status_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('status_id', item == null ? null : item.value);
@@ -947,10 +947,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                     </Col>
                                     <Col lg={6} className='gx-1'>
                                       <div className="mb-3">
-                                        <Label className="form-label fw-bold">Ngành nghề</Label>
+                                        <Label className="form-label fw-bold">{t('Industry')}</Label>
                                         <Select
                                           name='career_id'
-                                          placeholder='Chọn ngành nghề'
+                                          placeholder={t('Industry')}
                                           value={careerData.find(option => option.value === formik.values.career_id)}
                                           onChange={(item) => {
                                             formik.setFieldValue('career_id', item == null ? null : item.value);
@@ -964,7 +964,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                   <Row>
                                     <Col lg={12} className='gx-1'>
                                       <div className="mt-2">
-                                        <Label className="form-label fw-bold">Ghi chú</Label>
+                                        <Label className="form-label fw-bold">{t('Note')}</Label>
                                         <Input
                                           name='description'
                                           type="textarea"
@@ -976,7 +976,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                           value={formik.values.description || ''}
                                           maxLength="225"
                                           rows="3"
-                                          placeholder="Nhập ghi chú"
+                                          placeholder={t('Note')}
                                         />
                                         {textareabadge ? (
                                           <span className="badgecount badge bg-success">
@@ -994,45 +994,45 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                         </CardBody>
                       </Card>
 
-                      <Card>
-                        {!isEditIntern && <CardBody>
-
+                      {!isEditIntern && <Card>
+                        <CardBody>
+                          <h4 className='fw-bold'>{t('Contact Information')}</h4>
                           <Row className='border border-secondary mt-3' >
                             <div>
                               <Row className='bg-secondary text-light'>
                                 <Col lg={8} sm={8}>
                                   <Row>
                                     <Col lg={2} className='text-center mt-2 fw-bold'>
-                                      <p>Chi nhánh</p>
+                                      <p>{t('Branch')}</p>
                                     </Col>
                                     <Col lg={2} className='text-center mt-2 fw-bold'>
-                                      <p>Tỉnh</p>
+                                      <p>{t('Province')}</p>
                                     </Col>
                                     <Col lg={2} className='text-center mt-2 fw-bold'>
-                                      <p>Quận/ Huyện</p>
+                                      <p>{t('District')}</p>
                                     </Col>
                                     <Col lg={2} className='text-center mt-2 fw-bold'>
-                                      <p>Xã/ Phường</p>
+                                      <p>{t('Ward')}</p>
                                     </Col>
                                     <Col lg={4} className='text-center mt-2 fw-bold'>
-                                      <p>Số nhà, đường, phố...</p>
+                                      <p>{t('House Number, Street, etc.')}</p>
                                     </Col>
                                   </Row>
                                 </Col>
 
                                 <Col lg={1} sm={1} className='text-center mt-2 fw-bold'>
-                                  <p>Số điện thoại</p>
+                                  <p>{t('Phone Number')}</p>
                                 </Col>
                                 <Col lg={1} sm={1} className='text-center mt-2 fw-bold'>
-                                  <p>Fax</p>
+                                  <p>{t('Fax')}</p>
                                 </Col>
                                 <Col lg={2} sm={2} className='text-center mt-2 fw-bold'>
                                   <Row>
                                     <Col lg={9}>
-                                      <p>Email</p>
+                                      <p>{t('Email')}</p>
                                     </Col>
                                     <Col lg={3}>
-                                      <p>Mặc định</p>
+                                      <p>{t('Default address')}</p>
                                     </Col>
                                   </Row>
                                 </Col>
@@ -1054,7 +1054,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                           <Input
                                             name="description_address"
                                             type="text"
-                                            placeholder='Branch name'
+                                            placeholder={t('Branch')}
                                             onChange={(e) => {
                                               const arr = [...addressDataIntern];
                                               arr[index] = { ...arr[index], description: e.target.value }
@@ -1066,11 +1066,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
 
                                       </Col>
 
-                                      <Col lg={2} className='mt-2 fw-bold '>
+                                      <Col lg={2} className='mt-2'>
                                         <div className="mb-3">
                                           <Select
                                             name='province_id'
-                                            placeholder='Tỉnh'
+                                            placeholder={t('Province')}
                                             // value={selectProvince || ""}
                                             defaultValue={isEditIntern ? provinceOptions.find(item => item.StateID == address.province_id) : ''}
                                             // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
@@ -1086,11 +1086,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                         </div>
                                       </Col>
 
-                                      <Col lg={2} className='mt-2 fw-bold '>
+                                      <Col lg={2} className='mt-2 '>
                                         <div className="mb-3">
                                           <Select
                                             name='district'
-                                            placeholder='Quận/Huyện'
+                                            placeholder={t('District')}
                                             // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
                                             defaultValue={isEditIntern ? districtOptions.find(item => item.DistrictID == address.district_id) : ''}
                                             onChange={(item) => {
@@ -1106,11 +1106,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                         </div>
                                       </Col>
 
-                                      <Col lg={2} className='mt-2 fw-bold '>
+                                      <Col lg={2} className='mt-2'>
                                         <div className="mb-3">
                                           <Select
                                             name='commune'
-                                            placeholder='Xã/Phường'
+                                            placeholder={t('Ward')}
                                             // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
                                             defaultValue={isEditIntern ? communeOptions.find(item => item.WardID == address.commune_id) : ''}
                                             onChange={(item) => {
@@ -1131,7 +1131,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                           <Input
                                             name="detail"
                                             type="text"
-                                            placeholder='Số nhà, đường, phố...'
+                                            placeholder={t('House Number, Street, etc.')}
                                             value={address.detail || ''}
                                             onChange={(e) => {
                                               const arr = [...addressDataIntern];
@@ -1149,7 +1149,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                       <Input
                                         name="phone_number"
                                         type="text"
-                                        placeholder='Điện thoại'
+                                        placeholder={t('Phone Number')}
                                         value={address.phone_number || ''}
                                         onChange={(e) => {
                                           const arr = [...addressDataIntern];
@@ -1164,7 +1164,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                       <Input
                                         name="fax"
                                         type="text"
-                                        placeholder='Fax'
+                                        placeholder={t('Fax')}
                                         value={address.fax || ''}
                                         onChange={(e) => {
                                           const arr = [...addressDataIntern];
@@ -1182,7 +1182,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                             <Input
                                               name="email"
                                               type="email"
-                                              placeholder='Email'
+                                              placeholder={t('Email')}
                                               value={address.email || ''}
                                               onChange={(e) => {
                                                 const arr = [...addressDataIntern];
@@ -1205,7 +1205,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                                             onChange={handleChangeDefault}
                                           />
                                           <UncontrolledTooltip placement="top" target={`radio-${index}`}>
-                                            Đặt làm mặc định
+                                              {t('Default address')}
                                           </UncontrolledTooltip>
                                         </div>
 
@@ -1223,21 +1223,13 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                               </Col>
                             </Row>
                           </Row>
-                        </CardBody>}
+                        </CardBody>
 
-                      </Card>
+                      </Card>}
                     </CardBody>
                   </Card>
                 </Col>
               </Row>
-              {/* <div className="d-flex flex-wrap justify-content-end gap-2 mt-2">
-                <Button type="submit" color="primary" >
-                  Submit
-                </Button>{" "}
-                <Button type="reset" color="secondary" >
-                  Cancel
-                </Button>
-              </div> */}
 
             </Form>
 
@@ -1254,29 +1246,18 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
                 updateAddressDataIntern([])
               }}
               className="btn btn-secondary "
+              style={{minWidth: '80px'}}
               data-dismiss="modal"
             >
-              Close
+              {t('Cancel')}
             </button>
-            {/* <button
-              type="button"
-              onClick={() => {
-                // tog_fullscreen();
-                // setIsEditIntern(false);
-                formik.resetForm();
-                updateAddressDataIntern([])
-              }}
-              className="btn btn-secondary "
-              data-dismiss="modal"
-            >
-              Clear Data
-            </button> */}
             <button
               type="button"
               className="btn btn-primary "
               onClick={handleSubmit}
+              style={{minWidth: '100px'}}
             >
-              Save changes
+              {t('Save')}
             </button>
           </div>
         </Modal>
