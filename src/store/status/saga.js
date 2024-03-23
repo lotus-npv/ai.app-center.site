@@ -43,6 +43,7 @@ function* onAddNewStatus({ payload: data }) {
     const response = yield call(addNewDataStatus, data);
     yield put(setStatusSuccess(response));
     toast.success("Status Added Successfully", { autoClose: 2000 });
+    yield call(refreshCareerData);
   } catch (error) {
     yield put(setStatusFail(error));
     toast.error("Status Added Failed", { autoClose: 2000 });
@@ -54,6 +55,7 @@ function* onUpdateStatus({ payload: data }) {
     const response = yield call(updateDataStatus, data)
     yield put(updateStatusSuccess(response));
     toast.success("Status Updated Successfully", { autoClose: 2000 });
+    yield call(refreshCareerData);
   } catch (error) {
     yield put(updateStatusFail(error))
     toast.error("Status Updated Failed", { autoClose: 2000 });
@@ -65,10 +67,16 @@ function* onDeleteStatus({ payload: id }) {
     const response = yield call(deleteDataStatus, id)
     yield put(deleteStatusSuccess(response));
     toast.success("Status Delete Successfully", { autoClose: 2000 });
+    yield call(refreshCareerData);
   } catch (error) {
     yield put(deleteStatusFail(error))
     toast.error("Status Delete Failed", { autoClose: 2000 });
   }
+}
+
+function* refreshCareerData() {
+  const response = yield call(getStatusDataAll);
+  yield put(getCareerAllSuccess(response));
 }
 
 

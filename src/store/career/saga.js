@@ -68,6 +68,7 @@ function* onDeleteCareer({ payload: id }) {
       const response = yield call(deleteDataCareer, id)
       yield put(deleteCareerSuccess(response));
       toast.success("Career Delete Successfully", { autoClose: 2000 });
+      yield call(refreshCareerData);
   } catch (error) {
       yield put(deleteCareerFail(error))
       toast.error("Career Delete Failed", { autoClose: 2000 });

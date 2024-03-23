@@ -207,7 +207,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
   }, [isAuto])
 
   // console.log(isAuto)
-  // console.log(formik.values)
+  console.log(formik.values)
 
   return (
     <>

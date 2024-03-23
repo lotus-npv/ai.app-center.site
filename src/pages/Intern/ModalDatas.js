@@ -21,10 +21,11 @@ import Select, { components } from 'react-select';
 
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import moment from 'moment';
 
 // import context
 import DataContext from "../../data/DataContext";
-import avata from '../../assets/images/users/avatar-1.jpg'
+import avata from '../../assets/images/avata/avatar-null.png'
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -45,7 +46,7 @@ const optionGender = [
 
 
 
-const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
+const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => {
 
   const dispatch = useDispatch();
 
@@ -115,7 +116,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
   }, [dispatch]);
 
 
-  // console.log(companyData);
+  // console.log(item);
 
   // xu ly form nhap anh
   const fileInputRef = useRef();
@@ -134,7 +135,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
     }
   }
 
-  console.log('selectedFile:', selectedFile);
+  console.log('statusOfResidenceData:', statusOfResidenceData);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -144,7 +145,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       syndication_id: item != null ? item.syndication_id : 1,
       type: 'intern',
       avata: item != null ? item.avata : '',
-      avata_update_at: item != null ? item.avata_update_at : null,
+      avata_update_at: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
       first_name_jp: item != null ? item.first_name_jp : '',
       middle_name_jp: item != null ? item.middle_name_jp : '',
       last_name_jp: item != null ? item.last_name_jp : '',
@@ -152,11 +153,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       middle_name_en: item != null ? item.middle_name_en : '',
       last_name_en: item != null ? item.last_name_en : '',
       gender: item != null ? item.gender : 'male',
-      dob: item != null ? item.dob : '',
+      dob: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
       career_id: item != null ? item.career_id : '',
       passport_code: item != null ? item.passport_code : '',
-      passport_license_date: item != null ? item.passport_license_date : '',
-      passport_expiration_date: item != null ? item.passport_expiration_date : '',
+      passport_license_date: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
+      passport_expiration_date: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : '',
       phone_abroad: item != null ? item.phone_abroad : '',
@@ -169,10 +170,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       update_by: item != null ? item.update_by : 1,
 
       nation_id: 1,
-      alien_registration_card_number: '', // số thẻ ngoại kiều
-      status_of_residence_id: '',  // Tư cách lưu trú
-      license_date: '',
-      expiration_date: '',
+      alien_registration_card_number: item != null ? alienCardData.find(i => i.intern_id == item.id).card_number : '', // số thẻ ngoại kiều
+      status_of_residence_id: item != null ? statusOfResidenceData.find(i => i.name == item.sor_name).id : '',  // Tư cách lưu trú
+      license_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).license_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
+      expiration_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).expiration_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
       status_id: '' // trạng thái
     },
     validationSchema: Yup.object().shape({
@@ -340,7 +341,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
       if (item !== null) {
         const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'intern');
         // console.log('arr', arr)
-        updateAddressDataCompany(arr)
+        updateAddressDataIntern(arr)
       }
     }
   }, [isEditIntern])
@@ -358,7 +359,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
           const netStatus = { ...statusDetailObj, intern_id: id };
           dispatch(setAlienRegistrationCard(newCard));
           dispatch(setStatusDetail(netStatus));
-          
+
           addressDataIntern.forEach((address, index) => {
             const newAddress = { ...address, object_id: id, is_default: selectAddressDefault == index ? 1 : 0 }
             dispatch(setAddress(newAddress));
@@ -461,9 +462,9 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
 
 
 
-  // console.log('formik:', formik.values)
-  // console.log('statusData:', statusData)
-  // console.log('careerData:', careerData)
+  console.log('formik:', formik.values)
+  console.log('alienCardData:', alienCardData)
+  console.log('item:', item)
 
 
   return (
@@ -518,7 +519,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData }) => {
                                       style={{ width: '100%', height: '100%' }}
                                       className='rounded-circle img-thumbnail'
                                       alt="avata"
-                                      src={selectedFile}
+                                      src={showAvata}
                                     />
                                   </div>
                                   <CardTitle tag="h5" className='text-center mt-2'>
