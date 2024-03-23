@@ -79,8 +79,8 @@ function* onDeleteIntern({ payload: id }) {
 }
 
 function* refreshInternData() {
-  const response = yield call(getInternDataAll);
-  yield put(getInternAllSuccess(response));
+  const response = yield call(getInternDataAllInfo);
+  yield put(getInternAllInfoSuccess(response));
 }
 
 

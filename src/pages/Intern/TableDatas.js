@@ -269,7 +269,7 @@ const TableDatas = (props) => {
   // console.log('internDataAllInfo:', internDataAllInfo)
   // console.log(dataUser)
   // console.log('statusDetailData', statusDetailData)
-  console.log('selectedItems', selectedItems)
+  // console.log('selectedItems', selectedItems)
 
   return (
     <div className="card" >
