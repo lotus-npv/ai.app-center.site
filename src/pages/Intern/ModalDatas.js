@@ -46,7 +46,7 @@ const optionGender = [
 
 
 
-const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => {
+const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statusDetailData }) => {
 
   const dispatch = useDispatch();
 
@@ -135,7 +135,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => 
     }
   }
 
-  console.log('statusOfResidenceData:', statusOfResidenceData);
+  console.log('statusDetailData:', statusDetailData);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -145,7 +145,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => 
       syndication_id: item != null ? item.syndication_id : 1,
       type: 'intern',
       avata: item != null ? item.avata : '',
-      avata_update_at: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
+      avata_update_at: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : null,
       first_name_jp: item != null ? item.first_name_jp : '',
       middle_name_jp: item != null ? item.middle_name_jp : '',
       last_name_jp: item != null ? item.last_name_jp : '',
@@ -153,11 +153,11 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => 
       middle_name_en: item != null ? item.middle_name_en : '',
       last_name_en: item != null ? item.last_name_en : '',
       gender: item != null ? item.gender : 'male',
-      dob: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
+      dob: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : null,
       career_id: item != null ? item.career_id : '',
       passport_code: item != null ? item.passport_code : '',
-      passport_license_date: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
-      passport_expiration_date: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : '',
+      passport_license_date: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : null,
+      passport_expiration_date: item != null ? moment(item.date_of_joining_syndication).utcOffset('+07:00').format("YYYY-MM-DD") : null,
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : '',
       phone_abroad: item != null ? item.phone_abroad : '',
@@ -174,7 +174,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => 
       status_of_residence_id: item != null ? statusOfResidenceData.find(i => i.name == item.sor_name).id : '',  // Tư cách lưu trú
       license_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).license_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
       expiration_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).expiration_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
-      status_id: '' // trạng thái
+      status_id: item != null ? statusDetailData.find(i => i.intern_id == item.id).status_id : '' // trạng thái
     },
     validationSchema: Yup.object().shape({
       first_name_jp: Yup.string().required(
@@ -462,9 +462,10 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => 
 
 
 
-  console.log('formik:', formik.values)
-  console.log('alienCardData:', alienCardData)
-  console.log('item:', item)
+  // console.log('formik:', formik.values)
+  // console.log('alienCardData:', alienCardData)
+  // console.log('item:', item)
+  console.log('isEditIntern:', isEditIntern)
 
 
   return (
@@ -966,6 +967,7 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => 
                                             textareachange(e);
                                             formik.setFieldValue('description', e.target.value)
                                           }}
+                                          value={formik.values.description || ''}
                                           maxLength="225"
                                           rows="3"
                                           placeholder="Nhập ghi chú"
@@ -1250,6 +1252,19 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData }) => 
             >
               Close
             </button>
+            {/* <button
+              type="button"
+              onClick={() => {
+                // tog_fullscreen();
+                // setIsEditIntern(false);
+                formik.resetForm();
+                updateAddressDataIntern([])
+              }}
+              className="btn btn-secondary "
+              data-dismiss="modal"
+            >
+              Clear Data
+            </button> */}
             <button
               type="button"
               className="btn btn-primary "

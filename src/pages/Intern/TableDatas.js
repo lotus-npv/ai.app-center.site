@@ -86,7 +86,7 @@ const TableDatas = (props) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getInternAllInfo());
-    }, 60000);
+    }, 10000);
     // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId);
