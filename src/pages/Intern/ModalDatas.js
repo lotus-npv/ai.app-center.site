@@ -315,7 +315,12 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
         }
         dispatch(updateApi(obj));
 
-        // Can phai tim xem cai status detail nao da co san de 
+        // Xac dinh so luong statusdetail ban dau : a
+        // xem so luong statusdetail moi cap nhat : b
+        // neu a = b => thi tat ca deu la UPDATE
+        // neu a < b => a : se UPDATE , b-a : se SET
+        // neu a > b => b : se UPDATE , a-b : se DELETE
+
         const multiStatusDetail = selectedMultiStatus.map((status) => {
           return { ...statusDetailObj, status_id: status.id};
         });
