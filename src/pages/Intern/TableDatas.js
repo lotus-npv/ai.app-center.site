@@ -438,7 +438,6 @@ const TableDatas = props => {
         statusApidata={statusData}
         statusOfResidenceApiData={statusOfResidenceData}
         violateTypeApiData={violateTypeData}
-        internApiData={internDataAllInfo}
         statusDetailApiData={statusDetailData}
         alienCardApiData={alienCardData}
         setStatusDetailApi={setStatusDetail}
@@ -512,6 +511,15 @@ const TableDatas = props => {
           filterPlaceholder="Tìm kiếm bằng tên"
           sortable
           style={{ minWidth: "12rem" }}
+        ></Column>
+         <Column
+          header={props.t("Status")}
+          body={statusBody}
+          filterField="status"
+          filterPlaceholder="tìm kiếm bằng mô tả"
+          showFilterMenu={true}
+          filterMenuStyle={{ width: "14rem" }}
+          style={{ minWidth: "14rem" }}
         ></Column>
         <Column
           field="action"

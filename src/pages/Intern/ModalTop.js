@@ -28,7 +28,12 @@ import DataContext from "../../data/DataContext"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
-import { setViolateList, updateAlienRegistrationCard } from "store/actions"
+import {
+  setViolate,
+  setViolateList,
+  updateAlienRegistrationCard,
+  getInternAllInfo,
+} from "store/actions"
 
 import moment from "moment"
 
@@ -81,7 +86,6 @@ const ModalTop = ({
   statusApidata,
   statusOfResidenceApiData,
   violateTypeApiData,
-  internApiData,
   statusDetailApiData,
   alienCardApiData,
 }) => {
@@ -103,9 +107,6 @@ const ModalTop = ({
     setselectedMultiStatus(selectedMultiStatus)
   }
 
-  const [internData, setInternData] = useState(internApiData)
-  const [selectIntern, setSelectIntern] = useState([])
-
   // data context
   const {
     tog_fullscreen,
@@ -120,10 +121,21 @@ const ModalTop = ({
     setRowSelectedInternData,
   } = useContext(DataContext)
 
-  const {violateListAddDone, loading} = useSelector((state) => ({
-    violateListAddDone: state.ViolateList.data,
-    loading: state.ViolateList.loading
-  }))
+  const { violateListAddDone, loading, dataInternAll } = useSelector(
+    state => ({
+      violateListAddDone: state.ViolateList.data,
+      loading: state.ViolateList.loading,
+      dataInternAll: state.Intern.datas,
+    }),
+    shallowEqual
+  )
+
+  useEffect(() => {
+    dispatch(getInternAllInfo())
+  }, [dispatch])
+
+  const [internData, setInternData] = useState(dataInternAll)
+  const [selectIntern, setSelectIntern] = useState([])
 
   // data form
   const [dateViolate, setDateViolate] = useState("")
@@ -141,12 +153,19 @@ const ModalTop = ({
   // => lay danh sach intern vi pham
   // => tao vong lap va ghi vao bang violate
 
-  console.log("loading", loading)
-  console.log("violateListAddDone", violateListAddDone)
+  // console.log("loading", loading)
+  // console.log("rowsSelectedInternData", rowsSelectedInternData)
 
-  const [isDone, setIsDone] = useState(false);
+  useEffect(() => {
+    setSelectIntern(rowsSelectedInternData);
+    let arr = dataInternAll.filter(intern => !rowsSelectedInternData.some(item => item.id === intern.id));
+    setInternData(arr);
 
-  const violate = {
+  }, [rowsSelectedInternData])
+
+  const [isDone, setIsDone] = useState(false)
+
+  const violateList = {
     key_license_id: 1,
     violate_type_id: "",
     violate_date: "",
@@ -158,17 +177,51 @@ const ModalTop = ({
     delete_at: null,
     flag: 1,
   }
+
+  const violate = {
+    key_license_id: 1,
+    intern_id: "",
+    violate_list_id: "",
+    description: "",
+    create_at: null,
+    create_by: 1,
+    update_at: null,
+    update_by: 1,
+    delete_at: null,
+    flag: 1,
+  }
+
   const handleAddForm = () => {
     const newViolate = {
-      ...violate,
+      ...violateList,
       violate_type_id: violateType.id,
-      violate_date: moment(dateViolate[0]).utcOffset("+07:00").format("YYYY-MM-DD"),
+      violate_date: moment(dateViolate[0])
+        .utcOffset("+07:00")
+        .format("YYYY-MM-DD"),
       description: note,
     }
     dispatch(setViolateList(newViolate));
+    setIsDone(true);
+    tog_xlarge();
   }
 
-  //   console.log("rowsSelectedInternData", rowsSelectedInternData)
+  useEffect(() => {
+    if (violateListAddDone) {
+      if (isDone && !loading) {
+        const violate_type_id = violateListAddDone.id
+        selectIntern.forEach(intern => {
+          const vio = {
+            ...violate,
+            intern_id: intern.id,
+            violate_list_id: violate_type_id,
+          }
+          dispatch(setViolate(vio))
+        })
+      }
+    }
+  }, [violateListAddDone])
+
+  //   Xac dinh ham thuc thi
   const handleSave = () => {
     if (isUpdateStatus) {
       handleUpdateStatus()
@@ -282,7 +335,7 @@ const ModalTop = ({
     selectIntern ? selectIntern.length : 0
   } Intern.`
 
-  console.log(internApiData)
+  // console.log(internApiData)
 
   return (
     <>
@@ -341,6 +394,7 @@ const ModalTop = ({
           </Button>
         </div>
       </div>
+
       <Modal
         isOpen={modal_standard}
         toggle={() => {
@@ -450,7 +504,8 @@ const ModalTop = ({
         <div className="modal-body">
           <Card>
             <CardBody>
-              <Row className="mb-4">
+
+              {<Row className="mb-4">
                 <Col lg={3}>
                   <div className="mb-4">
                     <Label>Ngày vi phạm</Label>
@@ -496,7 +551,7 @@ const ModalTop = ({
                     />
                   </div>
                 </Col>
-              </Row>
+              </Row> }
 
               <Row className="pb-3">
                 <Col lg={3}>
