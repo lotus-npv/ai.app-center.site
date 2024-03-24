@@ -453,12 +453,14 @@ const ModalDatas = ({
         }
         dispatch(updateAlienRegistrationCard(newCrad));
 
-        
+
         setselectedMultiStatus([])
         setOn(false)
         tog_fullscreen()
         formik.resetForm()
         item = null
+        setSelectedFile(null)
+        
       } else {
         let obj = {
           key_license_id: value.key_license_id,
@@ -578,6 +580,7 @@ const ModalDatas = ({
         tog_fullscreen()
         formik.resetForm()
         item = null
+        setSelectedFile(null)
       }
     }
   }, [internCreate, isCreateAddress])
@@ -685,7 +688,8 @@ const ModalDatas = ({
   // console.log('item:', item)
   // console.log('isEditIntern:', isEditIntern)
   // console.log('loadingIntern:', loadingIntern)
-  console.log("selectedMultiStatus:", selectedMultiStatus)
+  // console.log("selectedMultiStatus:", selectedMultiStatus)
+  console.log("selectedFile:", selectedFile)
 
   return (
     <>
@@ -708,6 +712,7 @@ const ModalDatas = ({
                 setIsEditIntern(false)
                 setselectedMultiStatus([])
                 setOn(false)
+                setSelectedFile(null)
               }}
               type="button"
               className="close"
@@ -1802,6 +1807,7 @@ const ModalDatas = ({
                 setselectedMultiStatus([])
                 setOn(false)
                 item = null
+                setSelectedFile(null)
               }}
               className="btn btn-secondary "
               style={{ minWidth: "80px" }}
