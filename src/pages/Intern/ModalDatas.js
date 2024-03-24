@@ -241,8 +241,8 @@ const ModalDatas = ({
       avata_update_at:
         item != null
           ? moment(item.date_of_joining_syndication)
-            .utcOffset("+07:00")
-            .format("YYYY-MM-DD")
+              .utcOffset("+07:00")
+              .format("YYYY-MM-DD")
           : null,
       first_name_jp: item != null ? item.first_name_jp : "",
       middle_name_jp: item != null ? item.middle_name_jp : "",
@@ -254,22 +254,22 @@ const ModalDatas = ({
       dob:
         item != null
           ? moment(item.date_of_joining_syndication)
-            .utcOffset("+07:00")
-            .format("YYYY-MM-DD")
+              .utcOffset("+07:00")
+              .format("YYYY-MM-DD")
           : null,
       career_id: item != null ? item.career_id : "",
       passport_code: item != null ? item.passport_code : "",
       passport_license_date:
         item != null
           ? moment(item.date_of_joining_syndication)
-            .utcOffset("+07:00")
-            .format("YYYY-MM-DD")
+              .utcOffset("+07:00")
+              .format("YYYY-MM-DD")
           : null,
       passport_expiration_date:
         item != null
           ? moment(item.date_of_joining_syndication)
-            .utcOffset("+07:00")
-            .format("YYYY-MM-DD")
+              .utcOffset("+07:00")
+              .format("YYYY-MM-DD")
           : null,
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : "",
@@ -300,20 +300,20 @@ const ModalDatas = ({
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
             ? moment(
-              alienCardData.find(i => i.intern_id == item.id).license_date
-            )
-              .utcOffset("+07:00")
-              .format("YYYY-MM-DD")
+                alienCardData.find(i => i.intern_id == item.id).license_date
+              )
+                .utcOffset("+07:00")
+                .format("YYYY-MM-DD")
             : ""
           : "",
       expiration_date:
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
             ? moment(
-              alienCardData.find(i => i.intern_id == item.id).expiration_date
-            )
-              .utcOffset("+07:00")
-              .format("YYYY-MM-DD")
+                alienCardData.find(i => i.intern_id == item.id).expiration_date
+              )
+                .utcOffset("+07:00")
+                .format("YYYY-MM-DD")
             : ""
           : "",
       status_id:
@@ -334,15 +334,8 @@ const ModalDatas = ({
       passport_code: Yup.string().required("This value is required"),
       passport_license_date: Yup.date().required("Please select date"),
       passport_expiration_date: Yup.date().required("Please select date"),
-      // phone_domestically: Yup.string().required(
-      //   "This value is required"
-      // ),
-      // phone_abroad: Yup.string().required(
-      //   "This value is required"
-      // ),
       receiving_factory_id: Yup.string().required("This value is required"),
       dispatching_company_id: Yup.string().required("This value is required"),
-
       license_date: Yup.date().required("Please select date"),
       expiration_date: Yup.date().required("Please select date"),
     }),
@@ -385,11 +378,13 @@ const ModalDatas = ({
 
         // Xac dinh so luong numTicketStatus ban dau : a
         // xem so luong selectedMultiStatus moi cap nhat : b
-        // neu a > b => b : se UPDATE , a-b : se DELETE
+        // neu a > b => 0 - b : se UPDATE , b -> a : se DELETE
         // neu a = b => thi tat ca deu la UPDATE
         // neu a < b => a : se UPDATE , b-a : se SET
+        console.log("numTicketStatus.length", numTicketStatus.length)
+        console.log("selectedMultiStatus.length", selectedMultiStatus.length)
+
         if (numTicketStatus.length > 0) {
-          let internId = numTicketStatus[0].id
           if (numTicketStatus.length > selectedMultiStatus.length) {
             for (let i = 0; i < numTicketStatus.length; i++) {
               let ticketStatusId = numTicketStatus[i]
@@ -407,19 +402,42 @@ const ModalDatas = ({
             for (let i = 0; i < numTicketStatus.length; i++) {
               const newTicketDetail = {
                 ...numTicketStatus[i],
-                ticket_id: numTicketStatus[i].id,
+                ticket_id: selectedMultiStatus[i].id,
               }
               dispatch(updateStatusDetail(newTicketDetail))
             }
+          } else {
+            console.log("thuc hien ow day")
+            console.log("selectedMultiStatus.length new", selectedMultiStatus.length)
+            for (let i = 0; i < selectedMultiStatus.length; i++) {
+              if (i < numTicketStatus.length) {
+                const newTicketDetail = {
+                  ...numTicketStatus[i],
+                  ticket_id: selectedMultiStatus[i].id,
+                }
+                console.log('ghi dispatch update:', i)
+                dispatch(updateStatusDetail(newTicketDetail));
+              } else {
+                const newTicketDetail = {
+                  ...statusDetailObj,
+                  intern_id: value.id,
+                  status_id: selectedMultiStatus[i].id,
+                }
+                console.log('ghi dispatch set:', i)
+                dispatch(setStatusDetail(newTicketDetail))
+              }
+            }
+          }
+        } else {
+          for (let i = 0; i < selectedMultiStatus.length; i++) {
+            const newTicketDetail = {
+              ...statusDetailObj,
+              intern_id: value.id,
+              status_id: selectedMultiStatus[i].id,
+            }
+            dispatch(setStatusDetail(newTicketDetail))
           }
         }
-
-        const multiStatusDetail = selectedMultiStatus.map(status => {
-          return { ...statusDetailObj, status_id: status.id }
-        })
-        multiStatusDetail.forEach(st => {
-          dispatch(updateStatusDetail(st))
-        })
 
         const newCrad = {
           ...alienCard,
@@ -429,8 +447,6 @@ const ModalDatas = ({
           expiration_date: value.expiration_date,
         }
         dispatch(updateAlienRegistrationCard(newCrad))
-        // update card
-        // const card = { ...alienCard, card_number: value.alien_registration_card_number, status_of_residence_id: value.status_of_residence_id, license_date: value.license_date, expiration_date: value.expiration_date };
       } else {
         let obj = {
           key_license_id: value.key_license_id,
@@ -484,9 +500,12 @@ const ModalDatas = ({
         // dispatch(uploadFile(formData));
       }
 
-      // formik.resetForm();
       console.log("submit done")
+      setselectedMultiStatus([])
+      setOn(false)
       tog_fullscreen()
+      // formik.resetForm();
+      item = null
     },
   })
 
@@ -494,7 +513,6 @@ const ModalDatas = ({
   const handleSubmit = () => {
     console.log("submit")
     formik.handleSubmit()
-
     // console.log(multiStatus)
   }
   //---------------------------------------------------------------------------------------
@@ -750,13 +768,13 @@ const ModalDatas = ({
                                         }
                                         invalid={
                                           formik.touched.first_name_jp &&
-                                            formik.errors.first_name_jp
+                                          formik.errors.first_name_jp
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.first_name_jp &&
-                                        formik.errors.first_name_jp ? (
+                                      formik.errors.first_name_jp ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.first_name_jp}
                                         </FormFeedback>
@@ -776,13 +794,13 @@ const ModalDatas = ({
                                         }
                                         invalid={
                                           formik.touched.first_name_en &&
-                                            formik.errors.first_name_en
+                                          formik.errors.first_name_en
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.first_name_en &&
-                                        formik.errors.first_name_en ? (
+                                      formik.errors.first_name_en ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.first_name_en}
                                         </FormFeedback>
@@ -806,13 +824,13 @@ const ModalDatas = ({
                                         }
                                         invalid={
                                           formik.touched.middle_name_jp &&
-                                            formik.errors.middle_name_jp
+                                          formik.errors.middle_name_jp
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.middle_name_jp &&
-                                        formik.errors.middle_name_jp ? (
+                                      formik.errors.middle_name_jp ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.middle_name_jp}
                                         </FormFeedback>
@@ -831,13 +849,13 @@ const ModalDatas = ({
                                         }
                                         invalid={
                                           formik.touched.middle_name_en &&
-                                            formik.errors.middle_name_en
+                                          formik.errors.middle_name_en
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.middle_name_en &&
-                                        formik.errors.middle_name_en ? (
+                                      formik.errors.middle_name_en ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.middle_name_en}
                                         </FormFeedback>
@@ -859,13 +877,13 @@ const ModalDatas = ({
                                         value={formik.values.last_name_jp || ""}
                                         invalid={
                                           formik.touched.last_name_jp &&
-                                            formik.errors.last_name_jp
+                                          formik.errors.last_name_jp
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.last_name_jp &&
-                                        formik.errors.last_name_jp ? (
+                                      formik.errors.last_name_jp ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.last_name_jp}
                                         </FormFeedback>
@@ -882,13 +900,13 @@ const ModalDatas = ({
                                         value={formik.values.last_name_en || ""}
                                         invalid={
                                           formik.touched.last_name_en &&
-                                            formik.errors.last_name_en
+                                          formik.errors.last_name_en
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.last_name_en &&
-                                        formik.errors.last_name_en ? (
+                                      formik.errors.last_name_en ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.last_name_en}
                                         </FormFeedback>
@@ -917,8 +935,8 @@ const ModalDatas = ({
                                           )
                                         }}
                                         options={optionGroup}
-                                      // components={{ Option: CustomOption }}
-                                      // isClearable
+                                        // components={{ Option: CustomOption }}
+                                        // isClearable
                                       />
                                     </div>
                                   </Col>
@@ -942,7 +960,7 @@ const ModalDatas = ({
                                           )
                                         }}
                                         options={optionGender}
-                                      // isClearable
+                                        // isClearable
                                       />
                                     </div>
                                   </Col>
@@ -960,13 +978,13 @@ const ModalDatas = ({
                                         value={formik.values.dob || ""}
                                         invalid={
                                           formik.touched.dob &&
-                                            formik.errors.dob
+                                          formik.errors.dob
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.dob &&
-                                        formik.errors.dob ? (
+                                      formik.errors.dob ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.dob}
                                         </FormFeedback>
@@ -992,13 +1010,13 @@ const ModalDatas = ({
                                         }
                                         invalid={
                                           formik.touched.phone_domestically &&
-                                            formik.errors.phone_domestically
+                                          formik.errors.phone_domestically
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.phone_domestically &&
-                                        formik.errors.phone_domestically ? (
+                                      formik.errors.phone_domestically ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.phone_domestically}
                                         </FormFeedback>
@@ -1019,13 +1037,13 @@ const ModalDatas = ({
                                         value={formik.values.phone_abroad || ""}
                                         invalid={
                                           formik.touched.phone_abroad &&
-                                            formik.errors.phone_abroad
+                                          formik.errors.phone_abroad
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.phone_abroad &&
-                                        formik.errors.phone_abroad ? (
+                                      formik.errors.phone_abroad ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.phone_abroad}
                                         </FormFeedback>
@@ -1051,13 +1069,13 @@ const ModalDatas = ({
                                         }
                                         invalid={
                                           formik.touched.passport_code &&
-                                            formik.errors.passport_code
+                                          formik.errors.passport_code
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.passport_code &&
-                                        formik.errors.passport_code ? (
+                                      formik.errors.passport_code ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.passport_code}
                                         </FormFeedback>
@@ -1085,13 +1103,13 @@ const ModalDatas = ({
                                         invalid={
                                           formik.touched
                                             .passport_license_date &&
-                                            formik.errors.passport_license_date
+                                          formik.errors.passport_license_date
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.passport_license_date &&
-                                        formik.errors.passport_license_date ? (
+                                      formik.errors.passport_license_date ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.passport_license_date}
                                         </FormFeedback>
@@ -1116,14 +1134,14 @@ const ModalDatas = ({
                                         invalid={
                                           formik.touched
                                             .passport_expiration_date &&
-                                            formik.errors.passport_expiration_date
+                                          formik.errors.passport_expiration_date
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched
                                         .passport_expiration_date &&
-                                        formik.errors.passport_expiration_date ? (
+                                      formik.errors.passport_expiration_date ? (
                                         <FormFeedback type="invalid">
                                           {
                                             formik.errors
@@ -1162,7 +1180,7 @@ const ModalDatas = ({
                                           )
                                         }}
                                         options={companyData}
-                                      // isClearable
+                                        // isClearable
                                       />
                                     </div>
                                   </Col>
@@ -1186,7 +1204,7 @@ const ModalDatas = ({
                                           )
                                         }}
                                         options={factoryData}
-                                      // isClearable
+                                        // isClearable
                                       />
                                     </div>
                                   </Col>
@@ -1213,16 +1231,16 @@ const ModalDatas = ({
                                         invalid={
                                           formik.touched
                                             .alien_registration_card_number &&
-                                            formik.errors
-                                              .alien_registration_card_number
+                                          formik.errors
+                                            .alien_registration_card_number
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched
                                         .alien_registration_card_number &&
-                                        formik.errors
-                                          .alien_registration_card_number ? (
+                                      formik.errors
+                                        .alien_registration_card_number ? (
                                         <FormFeedback type="invalid">
                                           {
                                             formik.errors
@@ -1252,7 +1270,7 @@ const ModalDatas = ({
                                           )
                                         }}
                                         options={statusOfResidenceData}
-                                      // isClearable
+                                        // isClearable
                                       />
                                     </div>
                                   </Col>
@@ -1272,13 +1290,13 @@ const ModalDatas = ({
                                         value={formik.values.license_date || ""}
                                         invalid={
                                           formik.touched.license_date &&
-                                            formik.errors.license_date
+                                          formik.errors.license_date
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.license_date &&
-                                        formik.errors.license_date ? (
+                                      formik.errors.license_date ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.license_date}
                                         </FormFeedback>
@@ -1302,13 +1320,13 @@ const ModalDatas = ({
                                         }
                                         invalid={
                                           formik.touched.expiration_date &&
-                                            formik.errors.expiration_date
+                                          formik.errors.expiration_date
                                             ? true
                                             : false
                                         }
                                       />
                                       {formik.touched.expiration_date &&
-                                        formik.errors.expiration_date ? (
+                                      formik.errors.expiration_date ? (
                                         <FormFeedback type="invalid">
                                           {formik.errors.expiration_date}
                                         </FormFeedback>
@@ -1370,7 +1388,7 @@ const ModalDatas = ({
                                           )
                                         }}
                                         options={careerData}
-                                      // isClearable
+                                        // isClearable
                                       />
                                     </div>
                                   </Col>
@@ -1535,10 +1553,10 @@ const ModalDatas = ({
                                             defaultValue={
                                               isEditIntern
                                                 ? provinceOptions.find(
-                                                  item =>
-                                                    item.StateID ==
-                                                    address.province_id
-                                                )
+                                                    item =>
+                                                      item.StateID ==
+                                                      address.province_id
+                                                  )
                                                 : ""
                                             }
                                             // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
@@ -1552,7 +1570,7 @@ const ModalDatas = ({
                                               updateAddressDataIntern(arr)
                                             }}
                                             options={provinceOptions}
-                                          // isClearable
+                                            // isClearable
                                           />
                                         </div>
                                       </Col>
@@ -1566,10 +1584,10 @@ const ModalDatas = ({
                                             defaultValue={
                                               isEditIntern
                                                 ? districtOptions.find(
-                                                  item =>
-                                                    item.DistrictID ==
-                                                    address.district_id
-                                                )
+                                                    item =>
+                                                      item.DistrictID ==
+                                                      address.district_id
+                                                  )
                                                 : ""
                                             }
                                             onChange={item => {
@@ -1583,7 +1601,7 @@ const ModalDatas = ({
                                             }}
                                             options={districtOptions}
                                             className="select2-selection"
-                                          // isClearable
+                                            // isClearable
                                           />
                                         </div>
                                       </Col>
@@ -1597,10 +1615,10 @@ const ModalDatas = ({
                                             defaultValue={
                                               isEditIntern
                                                 ? communeOptions.find(
-                                                  item =>
-                                                    item.WardID ==
-                                                    address.commune_id
-                                                )
+                                                    item =>
+                                                      item.WardID ==
+                                                      address.commune_id
+                                                  )
                                                 : ""
                                             }
                                             onChange={item => {
@@ -1614,7 +1632,7 @@ const ModalDatas = ({
                                             }}
                                             options={communeOptions}
                                             className="select2-selection"
-                                          // isClearable
+                                            // isClearable
                                           />
                                         </div>
                                       </Col>
