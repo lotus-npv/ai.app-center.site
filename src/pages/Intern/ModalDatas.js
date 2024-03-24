@@ -203,7 +203,7 @@ const ModalDatas = ({
     }
   }
 
-  const [numTicketStatus, setNumTicketStatus] = useState([])
+  const [numStatusDetail, setNumTicketStatus] = useState([])
   const [on, setOn] = useState(false)
   useEffect(() => {
     // console.log('chay ------------------------------------------------------------------------', on)
@@ -212,23 +212,28 @@ const ModalDatas = ({
       const arr = statusDetailData.filter(sdd => sdd.intern_id == item.id)
       setNumTicketStatus(arr)
       // console.log('arr', arr)
-      arr.forEach(e => {
-        const status = statusData.find(sd => sd.id == e.status_id)
-        // console.log('status', status)
-        if (status != null) {
-          setselectedMultiStatus([...selectedMultiStatus, status])
-        }
+      // arr.forEach(e => {
+      //   const status = statusData.find(sd => sd.id == e.status_id)
+      //   // console.log('status', status)
+      //   if (status != null) {
+      //     setselectedMultiStatus([...selectedMultiStatus, status])
+      //   }
+      // })
+
+      const selectedStatus = arr.map((statusDetail, index) => {
+        return statusData.find(sd => sd.id == statusDetail.status_id)
       })
+      setselectedMultiStatus(selectedStatus)
 
       const card = alienCardDatas.find(item => item.intern_id == item.id)
-      console.log("card:", card)
+      // console.log("card:", card)
       setAlienCard(card)
 
       setOn(true)
     }
   }, [item])
 
-  console.log(numTicketStatus)
+  // console.log(numStatusDetail)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -376,66 +381,66 @@ const ModalDatas = ({
         }
         dispatch(updateApi(obj))
 
-        // Xac dinh so luong numTicketStatus ban dau : a
+        // Xac dinh so luong numStatusDetail ban dau : a
         // xem so luong selectedMultiStatus moi cap nhat : b
         // neu a > b => 0 - b : se UPDATE , b -> a : se DELETE
         // neu a = b => thi tat ca deu la UPDATE
         // neu a < b => a : se UPDATE , b-a : se SET
-        console.log("numTicketStatus.length", numTicketStatus.length)
+        console.log("numStatusDetail.length", numStatusDetail.length)
         console.log("selectedMultiStatus.length", selectedMultiStatus.length)
 
-        if (numTicketStatus.length > 0) {
-          if (numTicketStatus.length > selectedMultiStatus.length) {
-            for (let i = 0; i < numTicketStatus.length; i++) {
-              let ticketStatusId = numTicketStatus[i]
+        if (numStatusDetail.length > 0) {
+          if (numStatusDetail.length > selectedMultiStatus.length) {
+            for (let i = 0; i < numStatusDetail.length; i++) {
+              let ticketStatusId = numStatusDetail[i].id
               if (i < selectedMultiStatus.length) {
-                const newTicketDetail = {
-                  ...numTicketStatus[i],
-                  ticket_id: selectedMultiStatus[i].id,
+                const newStatusDetail = {
+                  ...numStatusDetail[i],
+                  status_id: selectedMultiStatus[i].id,
                 }
-                dispatch(updateStatusDetail(newTicketDetail))
+                const { name, colors, ...ns } = newStatusDetail
+                dispatch(updateStatusDetail(ns))
               } else {
                 dispatch(deleteStatusDetail(ticketStatusId))
               }
             }
-          } else if (numTicketStatus.length == selectedMultiStatus.length) {
-            for (let i = 0; i < numTicketStatus.length; i++) {
-              const newTicketDetail = {
-                ...numTicketStatus[i],
-                ticket_id: selectedMultiStatus[i].id,
+          } else if (numStatusDetail.length == selectedMultiStatus.length) {
+            for (let i = 0; i < numStatusDetail.length; i++) {
+              const newStatusDetail = {
+                ...numStatusDetail[i],
+                status_id: selectedMultiStatus[i].id,
               }
-              dispatch(updateStatusDetail(newTicketDetail))
+              const { name, colors, ...ns } = newStatusDetail
+              dispatch(updateStatusDetail(ns))
             }
           } else {
-            console.log("thuc hien ow day")
-            console.log("selectedMultiStatus.length new", selectedMultiStatus.length)
             for (let i = 0; i < selectedMultiStatus.length; i++) {
-              if (i < numTicketStatus.length) {
-                const newTicketDetail = {
-                  ...numTicketStatus[i],
-                  ticket_id: selectedMultiStatus[i].id,
+              if (i < numStatusDetail.length) {
+                const newStatusDetail = {
+                  ...numStatusDetail[i],
+                  status_id: selectedMultiStatus[i].id,
                 }
-                console.log('ghi dispatch update:', i)
-                dispatch(updateStatusDetail(newTicketDetail));
+                const { name, colors, ...ns } = newStatusDetail
+                // console.log('ns', ns)
+                dispatch(updateStatusDetail(ns))
               } else {
-                const newTicketDetail = {
+                const newStatusDetail = {
                   ...statusDetailObj,
                   intern_id: value.id,
                   status_id: selectedMultiStatus[i].id,
                 }
-                console.log('ghi dispatch set:', i)
-                dispatch(setStatusDetail(newTicketDetail))
+                dispatch(setStatusDetail(newStatusDetail))
               }
             }
           }
         } else {
           for (let i = 0; i < selectedMultiStatus.length; i++) {
-            const newTicketDetail = {
+            const newStatusDetail = {
               ...statusDetailObj,
               intern_id: value.id,
               status_id: selectedMultiStatus[i].id,
             }
-            dispatch(setStatusDetail(newTicketDetail))
+            dispatch(setStatusDetail(newStatusDetail))
           }
         }
 
@@ -446,7 +451,14 @@ const ModalDatas = ({
           license_date: value.license_date,
           expiration_date: value.expiration_date,
         }
-        dispatch(updateAlienRegistrationCard(newCrad))
+        dispatch(updateAlienRegistrationCard(newCrad));
+
+        
+        setselectedMultiStatus([])
+        setOn(false)
+        tog_fullscreen()
+        formik.resetForm()
+        item = null
       } else {
         let obj = {
           key_license_id: value.key_license_id,
@@ -488,7 +500,9 @@ const ModalDatas = ({
           license_date: value.license_date,
           expiration_date: value.expiration_date,
         }
-        setAlienCard(card)
+        // bo id trong card de insert
+        const { id, ...newCard } = card
+        setAlienCard(newCard)
         setIsCreateAddress(true)
       }
 
@@ -501,11 +515,6 @@ const ModalDatas = ({
       }
 
       console.log("submit done")
-      setselectedMultiStatus([])
-      setOn(false)
-      tog_fullscreen()
-      // formik.resetForm();
-      item = null
     },
   })
 
@@ -562,7 +571,13 @@ const ModalDatas = ({
           }
           dispatch(setAddress(newAddress))
         })
+
         setIsCreateAddress(false)
+        setselectedMultiStatus([])
+        setOn(false)
+        tog_fullscreen()
+        formik.resetForm()
+        item = null
       }
     }
   }, [internCreate, isCreateAddress])
