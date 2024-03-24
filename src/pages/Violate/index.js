@@ -2,8 +2,8 @@ import React, { useMemo, useState, useEffect, useContext } from "react";
 import { CardBody, CardHeader, Container, Card, Button, Row, Col, UncontrolledTooltip } from "reactstrap";
 import PropTypes from 'prop-types';
 
-import { withTranslation } from "react-i18next";
 import TableDatas from "./TableDatas";
+import { ToastContainer } from 'react-toastify';
 
 const ViolateListPage = (props) => {
     document.title = "Danh sách vi phạm";
@@ -17,6 +17,7 @@ const ViolateListPage = (props) => {
                             <TableDatas />
                         </CardBody>
                     </Card>
+                    <ToastContainer />
                 </Container>
             </div>
         </>

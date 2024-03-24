@@ -264,8 +264,8 @@ create table if not exists ticket (
     key_license_id INT,
     send_date DATETIME,
     title VARCHAR(100),
-    sender_id INT,
-    receiver_id INT,
+    sender_id INT, -- id user nguoi gui
+    receiver_id INT, -- id user nguoi nhan
     priority ENUM('Low', 'Medium', 'High'),
     description VARCHAR(200),
     create_at DATETIME,

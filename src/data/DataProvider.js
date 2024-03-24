@@ -159,6 +159,8 @@ const DataProvider = ({ children }) => {
     const [isEditIntern, setIsEditIntern] = useState(false);
     // edit status
     const [isEditStatus, setIsEditStatus] = useState(false);
+    // edit violate
+    const [isEditViolate, setIsEditViolate] = useState(false);
 
 
     // select row table intern
@@ -184,6 +186,7 @@ const DataProvider = ({ children }) => {
                 isEditFactory, setIsEditFactory,
                 isEditCompany, setIsEditCompany,
                 isEditStatus, setIsEditStatus,
+                isEditViolate, setIsEditViolate,
                 rowsSelectedInternData, setRowSelectedInternData,
             }}
         >

@@ -24,7 +24,8 @@ import { Badge as BadgePrime } from 'primereact/badge';
 import DataContext from 'data/DataContext';
 
 import DeleteModal from "components/Common/DeleteModal";
-import ModalDatas from './ModalDatas'
+// import ModalDatas from './ModalDatas'
+import ModalTop from './ModalTop';
 
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
@@ -45,7 +46,7 @@ FilterService.register('custom_activity', (value, filters) => {
 const TableDatas = (props) => {
 
   // data context
-  const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
+  const { vh, modal_xlarge, setmodal_xlarge, tog_xlarge, isEditViolate, setIsEditViolate } = useContext(DataContext);
 
   //table
 
@@ -172,8 +173,8 @@ const TableDatas = (props) => {
               <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
             </span>
             <ButtonRS color="primary" onClick={() => {
-              setIsEdit(false);
-              tog_fullscreen();
+              setIsEditViolate(false);
+              tog_xlarge();
             }}>
               Thêm mới
             </ButtonRS>
@@ -248,7 +249,7 @@ const TableDatas = (props) => {
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_fullscreen(); setIsEdit(true) }} />
+        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData); tog_xlarge(); setIsEditViolate(true) }} />
         <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
@@ -287,11 +288,16 @@ const TableDatas = (props) => {
         onCloseClick={() => setDeleteModal(false)}
       />
 
-      <ModalDatas
+      {/* <ModalDatas
         item={rowSelect}
         dispatch={dispatch}
       // setApi={setIntern}
       // updateApi={updateIntern}
+      /> */}
+
+      <ModalTop 
+        violateTypeData={violateTypeData}
+        rowSelect={rowSelect}
       />
 
     </div>
