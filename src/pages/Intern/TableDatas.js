@@ -29,7 +29,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAddressAll, getAlienRegistrationCardAll, setStatus, getStatusOfResidenceAll, getViolateTypeAll } from "store/actions";
+import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAddressAll, getAlienRegistrationCardAll, setStatus, getStatusOfResidenceAll, getViolateTypeAll, setStatusDetail } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -258,7 +258,8 @@ const TableDatas = (props) => {
         statusOfResidenceApiData={statusOfResidenceData}
         violateTypeApiData={violateTypeData}
         internApiData={internDataAllInfo}
-        insertStatusApi={setStatus}
+        statusDetailApiData={statusDetailData}
+        setStatusDetailApi={setStatusDetail}
       />
 
       <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={rowsSelectedInternData} onSelectionChange={(e) => setRowSelectedInternData(e.value)} dataKey="id" filters={filters}

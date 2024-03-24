@@ -35,7 +35,8 @@ const ModalTop = ({
   statusApidata,
   statusOfResidenceApiData,
   violateTypeApiData,
-  internApiData
+  internApiData,
+  statusDetailApiData
 }) => {
   const { t } = useTranslation()
 
@@ -45,8 +46,15 @@ const ModalTop = ({
 
   // edit status
   const [status, setStatus] = useState("")
-
   // --------------------------------------------------
+
+  // theo doi lua chon status
+  const [selectedMultiStatus, setselectedMultiStatus] = useState([])
+  function handleMulti(selectedMultiStatus) {
+    setselectedMultiStatus(selectedMultiStatus)
+  }
+
+  const [selectStatusOfResidence, setSelectStatusOfResidence] = useState(null)
 
   // data context
   const {
@@ -62,11 +70,27 @@ const ModalTop = ({
     setRowSelectedInternData,
   } = useContext(DataContext)
 
-//   console.log("rowsSelectedInternData", rowsSelectedInternData)
+  //   console.log("rowsSelectedInternData", rowsSelectedInternData)
+  const handleSave = () => {
+    if (isUpdateStatus) {
+      handleUpdateStatus()
+    } else {
+      handleUpdateStatusOfResidence()
+    }
+  }
 
-const handleUpdateStatus = () => {
+  const handleUpdateStatus = () => {
+    // kiem tra moi nguoi duoc chon da co trang thai do hay chua  => tao vong lap cho intern da chon //
+    // => lay danh sach status detail cuar nguoi dung => lay status_id 
+    // => tao vong lap danh sach status moi chon => tao vong lap long ben trong cho status da co => so sanh neu chua co thi tao moi, neu da co thi bo qua.
+    rowsSelectedInternData.forEach(element => {
+        
+    })
+  }
 
-}
+  const handleUpdateStatusOfResidence = () => {
+    console.log("handleUpdateStatusOfResidence")
+  }
 
   return (
     <>
@@ -140,16 +164,31 @@ const handleUpdateStatus = () => {
         <Card>
           <CardBody>
             {isUpdateStatus && (
-              <div className="modal-body">
-                <Label htmlFor="edit-status">{t("Status")}</Label>
+              //   <div className="modal-body">
+              //     <Label htmlFor="edit-status">{t("Status")}</Label>
+              //     <Select
+              //       name="status"
+              //       placeholder="Chọn trạng thái"
+              //       value={status}
+              //       onChange={item => {
+              //         setStatus(item["name"])
+              //       }}
+              //       options={statusApidata}
+              //     />
+              //   </div>
+              <div className="mb-3">
+                <Label className="form-label fw-bold">{t("Status")}</Label>
                 <Select
-                  name="status"
-                  placeholder="Chọn trạng thái"
-                  value={status}
-                  onChange={item => {
-                    setStatus(item["name"])
+                  placeholder={t("Status")}
+                  value={selectedMultiStatus}
+                  isMulti={true}
+                  onChange={value => {
+                    // console.log(value);
+                    handleMulti(value)
                   }}
                   options={statusApidata}
+                  className="select2-selection"
+                  isLoading={true}
                 />
               </div>
             )}
@@ -180,7 +219,12 @@ const handleUpdateStatus = () => {
           >
             {t("Cancel")}
           </button>
-          <button type="button" className="btn btn-primary ">
+
+          <button
+            type="button"
+            className="btn btn-primary "
+            onClick={handleSave}
+          >
             {t("Save")}
           </button>
         </div>
@@ -252,9 +296,7 @@ const handleUpdateStatus = () => {
                       id="note"
                       name="note"
                       type="text"
-                      onChange={e => {
-
-                      }}
+                      onChange={e => {}}
                     />
                   </div>
                 </Col>
