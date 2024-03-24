@@ -18,7 +18,8 @@ import {
   const INIT_STATE = {
     datas: [],
     dataId: [],
-    data: {}
+    data: null,
+    loading: false
   };
   
   const ViolateList = (state = INIT_STATE, action) => {
@@ -47,17 +48,19 @@ import {
       case SET_VIOLATELIST:
         return {
           ...state,
-          data: action.payload,
+          loading: true,
         };
       case SET_VIOLATELIST_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
   
       case SET_VIOLATELIST_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case UPDATE_VIOLATELIST:

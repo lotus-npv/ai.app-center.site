@@ -44,6 +44,7 @@ function* onAddNewViolateList({ payload: data }) {
       const response = yield call(addNewDataViolateList, data);
       yield put(setViolateListSuccess(response));
       toast.success("ViolateList Added Successfully", { autoClose: 2000 });
+      console.log(response);
       yield call(refreshViolateListData);
   } catch (error) {
       yield put(setViolateListFail(error));

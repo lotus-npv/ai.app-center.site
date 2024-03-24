@@ -7,14 +7,12 @@ import {
   Modal,
   Label,
   Input,
-  Button
+  Button,
 } from "reactstrap"
 
-import { FilterMatchMode, FilterService } from "primereact/api"
 import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
 import { Avatar } from "primereact/avatar"
-import { Tooltip } from "primereact/tooltip"
 import { Button as ButtonPrime } from "primereact/button"
 
 import Select from "react-select"
@@ -25,13 +23,14 @@ import "flatpickr/dist/themes/material_blue.css"
 import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
 
-
 // import context
 import DataContext from "../../data/DataContext"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
-import { updateAlienRegistrationCard } from "store/actions"
+import { setViolateList, updateAlienRegistrationCard } from "store/actions"
+
+import moment from "moment"
 
 // Tao doi luong luu bang chi tiet trang thai
 
@@ -47,6 +46,33 @@ const statusDetailObj = {
   delete_at: null,
   flag: 1,
 }
+
+const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
+  <div
+    {...innerProps}
+    style={{
+      backgroundColor: isFocused
+        ? "lightgray"
+        : isSelected
+        ? "lightgray"
+        : null,
+      fontWeight: isSelected ? "bold" : "normal",
+      height: "40px",
+      padding: "4px",
+      display: "flex",
+      gap: "10px",
+      justifyContent: "space-between",
+    }}
+  >
+    {data.label}{" "}
+    <Avatar
+      className="p-overlay-badge"
+      image={`https://api.lotusocean-jp.com/uploads/${data.avata}`}
+      size="normal"
+      shape="circle"
+    ></Avatar>
+  </div>
+)
 
 //--------------------------------------------------------------------------------------------------------------//
 
@@ -76,10 +102,9 @@ const ModalTop = ({
   function handleMulti(selectedMultiStatus) {
     setselectedMultiStatus(selectedMultiStatus)
   }
-  const [selectStatusOfResidence, setSelectStatusOfResidence] = useState(null)
 
   const [internData, setInternData] = useState(internApiData)
-  const [selectIntern, setSelectIntern] = useState([]);
+  const [selectIntern, setSelectIntern] = useState([])
 
   // data context
   const {
@@ -94,6 +119,54 @@ const ModalTop = ({
     rowsSelectedInternData,
     setRowSelectedInternData,
   } = useContext(DataContext)
+
+  const {violateListAddDone, loading} = useSelector((state) => ({
+    violateListAddDone: state.ViolateList.data,
+    loading: state.ViolateList.loading
+  }))
+
+  // data form
+  const [dateViolate, setDateViolate] = useState("")
+  const [violateType, setViolateType] = useState("")
+  const [note, setNote] = useState("")
+  const [selectedFile, setSelectedFile] = useState(null)
+
+  // thuc thi viec ghi vi pham
+  // => laay thong tin ngay vi pham
+  // => lay thong tin kieu vi pham.
+  // => lay ghi chu
+  // =====> ghi vao bang violate_list
+
+  // => lay id cua violate_list vua ghi.
+  // => lay danh sach intern vi pham
+  // => tao vong lap va ghi vao bang violate
+
+  console.log("loading", loading)
+  console.log("violateListAddDone", violateListAddDone)
+
+  const [isDone, setIsDone] = useState(false);
+
+  const violate = {
+    key_license_id: 1,
+    violate_type_id: "",
+    violate_date: "",
+    description: "",
+    create_at: null,
+    create_by: 1,
+    update_at: null,
+    update_by: 1,
+    delete_at: null,
+    flag: 1,
+  }
+  const handleAddForm = () => {
+    const newViolate = {
+      ...violate,
+      violate_type_id: violateType.id,
+      violate_date: moment(dateViolate[0]).utcOffset("+07:00").format("YYYY-MM-DD"),
+      description: note,
+    }
+    dispatch(setViolateList(newViolate));
+  }
 
   //   console.log("rowsSelectedInternData", rowsSelectedInternData)
   const handleSave = () => {
@@ -170,48 +243,46 @@ const ModalTop = ({
     tog_standard()
   }
 
-    // render col name
-    const nameBodyTemplate = rowData => {
-      return (
-        <div className="flex align-items-center gap-2">
-          <Avatar
-            className="p-overlay-badge"
-            image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`}
-            size="large"
-            shape="circle"
-          ></Avatar>
-          <span>{rowData.full_name_jp}</span>
-        </div>
-      )
-    }
+  // render col name
+  const nameBodyTemplate = rowData => {
+    return (
+      <div className="flex align-items-center gap-2">
+        <Avatar
+          className="p-overlay-badge"
+          image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`}
+          size="large"
+          shape="circle"
+        ></Avatar>
+        <span>{rowData.full_name_jp}</span>
+      </div>
+    )
+  }
 
-    const actionBody = (rowData) => {
-      return (
-        <div className="d-flex gap-3">
-          <ButtonPrime
-            icon="pi pi-trash"
-            rounded
-            text
-            severity="danger"
-            aria-label="Cancel"
-            onClick={() => {
-              const arr = selectIntern.filter(intern => intern.id !== rowData.id);
-              setSelectIntern(arr);
-              const newdata = [...internData, rowData];
-              setInternData(newdata);
-            }}
-          />
-        </div>
-      )
-    }
+  const actionBody = rowData => {
+    return (
+      <div className="d-flex gap-3">
+        <ButtonPrime
+          icon="pi pi-trash"
+          rounded
+          text
+          severity="danger"
+          aria-label="Cancel"
+          onClick={() => {
+            const arr = selectIntern.filter(intern => intern.id !== rowData.id)
+            setSelectIntern(arr)
+            const newdata = [...internData, rowData]
+            setInternData(newdata)
+          }}
+        />
+      </div>
+    )
+  }
 
-    const footer = `In total there are ${selectIntern ? selectIntern.length : 0} Intern.`;
+  const footer = `In total there are ${
+    selectIntern ? selectIntern.length : 0
+  } Intern.`
 
-
-
-
-    console.log(internApiData)
-
+  console.log(internApiData)
 
   return (
     <>
@@ -382,7 +453,7 @@ const ModalTop = ({
               <Row className="mb-4">
                 <Col lg={3}>
                   <div className="mb-4">
-                    <Label>Default Functionality</Label>
+                    <Label>Ngày vi phạm</Label>
                     <Flatpickr
                       className="form-control d-block"
                       placeholder="yyyy-MM-dd"
@@ -391,6 +462,8 @@ const ModalTop = ({
                         altFormat: "Y-m-d",
                         dateFormat: "Y-m-d",
                       }}
+                      value={dateViolate}
+                      onChange={date => setDateViolate(date)}
                     />
                   </div>
                 </Col>
@@ -401,9 +474,9 @@ const ModalTop = ({
                       id="edit-status"
                       name="status"
                       placeholder="Chọn tư cách lưu trú"
-                      value={status}
+                      value={violateType}
                       onChange={item => {
-                        setStatus(item["name"])
+                        setViolateType(item)
                       }}
                       options={violateTypeApiData}
                     />
@@ -416,7 +489,10 @@ const ModalTop = ({
                       id="note"
                       name="note"
                       type="text"
-                      onChange={e => {}}
+                      value={note}
+                      onChange={e => {
+                        setNote(e.target.value)
+                      }}
                     />
                   </div>
                 </Col>
@@ -439,14 +515,17 @@ const ModalTop = ({
                     <Select
                       id="search"
                       name="search_intern"
-                      value={selectIntern}
-                      onChange={(item) => {
-                        const arr = [...selectIntern, item];
-                        setSelectIntern(arr);
-                        const newdata = internData.filter(intern => intern !== item);
-                        setInternData(newdata);
+                      value=""
+                      onChange={item => {
+                        const arr = [...selectIntern, item]
+                        setSelectIntern(arr)
+                        const newdata = internData.filter(
+                          intern => intern !== item
+                        )
+                        setInternData(newdata)
                       }}
                       options={internData}
+                      components={{ Option: CustomOption }}
                       // className="select2-selection"
                     />
                   </div>
@@ -461,17 +540,24 @@ const ModalTop = ({
                     footer={footer}
                     tableStyle={{ minWidth: "60rem" }}
                   >
-                    <Column field="name" header={t('Intern')} body={nameBodyTemplate}></Column>
-                    <Column field="phone_abroad" header={t('Phone Number')} ></Column>
+                    <Column
+                      field="name"
+                      header={t("Intern")}
+                      body={nameBodyTemplate}
+                    ></Column>
+                    <Column
+                      field="phone_abroad"
+                      header={t("Phone Number")}
+                    ></Column>
                     <Column
                       field="factory_name_jp"
-                      header={t('Receiving Factory')}
+                      header={t("Receiving Factory")}
                     ></Column>
                     <Column
                       field="description"
-                      header={t('Description')}
+                      header={t("Description")}
                     ></Column>
-                    <Column header={t('Action')} body={actionBody}></Column>
+                    <Column header={t("Action")} body={actionBody}></Column>
                   </DataTable>
                 </div>
               </Row>
@@ -489,7 +575,11 @@ const ModalTop = ({
           >
             Close
           </button>
-          <button type="button" className="btn btn-primary ">
+          <button
+            type="button"
+            className="btn btn-primary "
+            onClick={handleAddForm}
+          >
             Save changes
           </button>
         </div>
