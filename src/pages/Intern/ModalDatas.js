@@ -161,12 +161,14 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
     }
   }
 
+  const [numTicketStatus, setNumTicketStatus] = useState(0)
   const [on, setOn] = useState(false)
   useEffect(() => {
     // console.log('chay ------------------------------------------------------------------------', on)
     if (item != null && on == false) {
       // console.log('chay ------------------------------------------------------------------------')
       const arr = statusDetailData.filter(sdd => sdd.intern_id == item.id);
+      setNumTicketStatus(arr.length);
       // console.log('arr', arr)
       arr.forEach(e => {
         const status = statusData.find(sd => sd.id == e.status_id);
@@ -183,6 +185,8 @@ const ModalDatas = ({ item, setApi, updateApi, addressData, alienCardData, statu
       setOn(true);
     }
   }, [item])
+
+  console.log(numTicketStatus);
 
 
   const formik = useFormik({
