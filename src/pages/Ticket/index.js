@@ -210,22 +210,7 @@ const TicketPage = (props) => {
                             </Row>
                         </CardHeader>
                         <CardBody>
-                            <TableContainer
-                                columns={columns}
-                                data={receivingFactoryDatas}
-                                isGlobalFilter={true}
-                                isAddOptions={false}
-                                customPageSize={10}
-                                isPagination={true}
-                                iscustomPageSizeOptions={true}
-                                isFactoryMenu={true}
-                                isFactoryGlobalFilter={false}
-                                isInternGlobalFilter={true}
-                                tableClass="align-middle table-nowrap table-check table"
-                                theadClass="table-dark"
-                                paginationDiv="col-12"
-                                pagination="justify-content-center pagination pagination-rounded"
-                            />
+                            
                         </CardBody>
                     </Card>
                 </Container>

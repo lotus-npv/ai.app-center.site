@@ -24,10 +24,10 @@ import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
-// import { font } from "./Roboto-Medium-normal"
+import { font } from "./Roboto-Medium-normal"
 // import { font2 } from "./BeVietnamPro-Medium-normal"
 // import './Roboto-Medium-normal';
-import "./myFont"
+// import "./myFont"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -156,16 +156,17 @@ const TableDatas = props => {
       import("jspdf-autotable").then(() => {
         const doc = new jsPDF.default(0, 0)
 
-        // doc.addFileToVFS('BeVietnamPro-Medium-normal.ttf', font2);
+        // doc.addFileToVFS("BeVietnamPro-Medium-normal.ttf", font2)
         // doc.addFont('BeVietnamPro-Medium-normal.ttf', 'BeVietnamPro-Medium', 'normal');
         // doc.setFont("BeVietnamPro-Medium-normal")
 
-        // doc.addFileToVFS('Roboto-Medium-normal.ttf', font);
-        // doc.addFont('Roboto-Medium-normal.ttf', 'Roboto-Medium', 'normal');
-        // doc.setFont("Roboto-Medium-normal")
-
+        doc.addFileToVFS("Roboto-Medium-normal.ttf", font)
         doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
-        doc.setFont("Roboto-Medium")
+        doc.setFont("Roboto-Medium-normal")
+
+        // doc.addFileToVFS("Roboto-Medium-normal.ttf", myFont);
+        // doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
+        // doc.setFont("Roboto-Medium")
 
         doc.autoTable(exportColumns, dataTable)
         doc.save("datatable.pdf")
