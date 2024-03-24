@@ -25,9 +25,9 @@ import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
 import { font } from "./Roboto-Medium-normal"
-// import { font2 } from "./BeVietnamPro-Medium-normal"
 // import './Roboto-Medium-normal';
 // import "./myFont"
+
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -512,15 +512,6 @@ const TableDatas = props => {
           filterPlaceholder="Tìm kiếm bằng tên"
           sortable
           style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          header={props.t("Status")}
-          body={statusBody}
-          filterField="status"
-          filterPlaceholder="tìm kiếm bằng mô tả"
-          showFilterMenu={true}
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "14rem" }}
         ></Column>
         <Column
           field="action"

@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect, useContext } from "react"
 import {
-  Button,
   Card,
   CardBody,
   Row,
@@ -8,7 +7,15 @@ import {
   Modal,
   Label,
   Input,
+  Button
 } from "reactstrap"
+
+import { FilterMatchMode, FilterService } from "primereact/api"
+import { DataTable } from "primereact/datatable"
+import { Column } from "primereact/column"
+import { Avatar } from "primereact/avatar"
+import { Tooltip } from "primereact/tooltip"
+import { Button as ButtonPrime } from "primereact/button"
 
 import Select from "react-select"
 //Import Flatepicker
@@ -17,6 +24,7 @@ import "flatpickr/dist/themes/material_blue.css"
 
 import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
+
 
 // import context
 import DataContext from "../../data/DataContext"
@@ -68,8 +76,10 @@ const ModalTop = ({
   function handleMulti(selectedMultiStatus) {
     setselectedMultiStatus(selectedMultiStatus)
   }
-
   const [selectStatusOfResidence, setSelectStatusOfResidence] = useState(null)
+
+  const [internData, setInternData] = useState(internApiData)
+  const [selectIntern, setSelectIntern] = useState([]);
 
   // data context
   const {
@@ -129,10 +139,10 @@ const ModalTop = ({
       }
     })
 
-    tog_standard();
+    tog_standard()
   }
 
-//   console.log(internApiData)
+  //   console.log(internApiData)
 
   const handleUpdateStatusOfResidence = () => {
     if (rowsSelectedInternData.length == 0) {
@@ -151,11 +161,57 @@ const ModalTop = ({
         }
         dispatch(updateAlienRegistrationCard(newCard))
       } else {
-        toast.warning(`Intern ${intern.full_name_jp} already exists state:  ${statusOfResidence.name}!`, { autoClose: 2000 })
+        toast.warning(
+          `Intern ${intern.full_name_jp} already exists state:  ${statusOfResidence.name}!`,
+          { autoClose: 2000 }
+        )
       }
     })
-    tog_standard();
+    tog_standard()
   }
+
+    // render col name
+    const nameBodyTemplate = rowData => {
+      return (
+        <div className="flex align-items-center gap-2">
+          <Avatar
+            className="p-overlay-badge"
+            image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`}
+            size="large"
+            shape="circle"
+          ></Avatar>
+          <span>{rowData.full_name_jp}</span>
+        </div>
+      )
+    }
+
+    const actionBody = (rowData) => {
+      return (
+        <div className="d-flex gap-3">
+          <ButtonPrime
+            icon="pi pi-trash"
+            rounded
+            text
+            severity="danger"
+            aria-label="Cancel"
+            onClick={() => {
+              const arr = selectIntern.filter(intern => intern.id !== rowData.id);
+              setSelectIntern(arr);
+              const newdata = [...internData, rowData];
+              setInternData(newdata);
+            }}
+          />
+        </div>
+      )
+    }
+
+    const footer = `In total there are ${selectIntern ? selectIntern.length : 0} Intern.`;
+
+
+
+
+    console.log(internApiData)
+
 
   return (
     <>
@@ -383,11 +439,14 @@ const ModalTop = ({
                     <Select
                       id="search"
                       name="search_intern"
-                      value={status}
-                      onChange={() => {
-                        // handleSelectGroup();
+                      value={selectIntern}
+                      onChange={(item) => {
+                        const arr = [...selectIntern, item];
+                        setSelectIntern(arr);
+                        const newdata = internData.filter(intern => intern !== item);
+                        setInternData(newdata);
                       }}
-                      options={internApiData}
+                      options={internData}
                       // className="select2-selection"
                     />
                   </div>
@@ -395,20 +454,26 @@ const ModalTop = ({
               </Row>
 
               <Row>
-                {/* <TableContainer
-                                    columns={columnsOfViolateTable}
-                                    data={internDatas}
-                                    isGlobalFilter={false}
-                                    isAddOptions={false}
-                                    customPageSize={5}
-                                    isPagination={true}
-                                    iscustomPageSizeOptions={false}
-                                    isInternMenu={false}
-                                    tableClass="align-middle table-nowrap table-check table"
-                                    theadClass="table-dark"
-                                    paginationDiv="col-12"
-                                    pagination="justify-content-center pagination pagination-rounded"
-                                /> */}
+                <div className="card">
+                  <DataTable
+                    value={selectIntern}
+                    // header={header}
+                    footer={footer}
+                    tableStyle={{ minWidth: "60rem" }}
+                  >
+                    <Column field="name" header={t('Intern')} body={nameBodyTemplate}></Column>
+                    <Column field="phone_abroad" header={t('Phone Number')} ></Column>
+                    <Column
+                      field="factory_name_jp"
+                      header={t('Receiving Factory')}
+                    ></Column>
+                    <Column
+                      field="description"
+                      header={t('Description')}
+                    ></Column>
+                    <Column header={t('Action')} body={actionBody}></Column>
+                  </DataTable>
+                </div>
               </Row>
             </CardBody>
           </Card>
