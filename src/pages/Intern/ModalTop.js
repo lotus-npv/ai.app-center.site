@@ -5,40 +5,53 @@ import {
   CardBody,
   Row,
   Col,
-  Container,
-  UncontrolledTooltip,
-  CardHeader,
   Modal,
   Label,
   Input,
-  FormGroup,
-  InputGroup,
 } from "reactstrap"
-import PropTypes from "prop-types"
-import { useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
+
 import Select from "react-select"
 //Import Flatepicker
 import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_blue.css"
 
 import { useTranslation } from "react-i18next"
+import { toast } from "react-toastify";
 
 // import context
 import DataContext from "../../data/DataContext"
 
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+
+// Tao doi luong luu bang chi tiet trang thai
+
+const statusDetailObj = {
+  key_license_id: null,
+  intern_id: null,
+  status_id: null,
+  description: null,
+  create_at: 1,
+  create_by: null,
+  update_at: null,
+  update_by: 1,
+  delete_at: null,
+  flag: 1,
+}
+
 //--------------------------------------------------------------------------------------------------------------//
 
 const ModalTop = ({
-  optionGroup,
-  insertStatusApi,
+  setStatusDetailApi,
   statusApidata,
   statusOfResidenceApiData,
   violateTypeApiData,
   internApiData,
-  statusDetailApiData
+  statusDetailApiData,
 }) => {
   const { t } = useTranslation()
+
+  const dispatch = useDispatch()
 
   // --------------------------------------------------
   // Modal top
@@ -80,12 +93,39 @@ const ModalTop = ({
   }
 
   const handleUpdateStatus = () => {
+    if(rowsSelectedInternData.length==0) {
+        toast.warning("Please select intern before edit !", { autoClose: 2000 });
+    }
     // kiem tra moi nguoi duoc chon da co trang thai do hay chua  => tao vong lap cho intern da chon //
-    // => lay danh sach status detail cuar nguoi dung => lay status_id 
+    // => lay danh sach status detail cuar nguoi dung => lay status_id
     // => tao vong lap danh sach status moi chon => tao vong lap long ben trong cho status da co => so sanh neu chua co thi tao moi, neu da co thi bo qua.
-    rowsSelectedInternData.forEach(element => {
-        
-    })
+    rowsSelectedInternData.forEach(intern => {
+      const stData = statusDetailApiData.filter(st => st.intern_id == intern.id)
+      for (let i = 0; i < selectedMultiStatus.length; i++) {
+        let isExist = false
+        for (let j = 0; j < stData.length; j++) {
+          if (selectedMultiStatus[i].id == stData[j].status_id) {
+            isExist = true;
+            toast.info(`Status ${selectedMultiStatus[i].name} already exist!`, { autoClose: 2000 });
+            break
+          }
+        }
+        if (!isExist) {
+          const statusId = selectedMultiStatus[i].id
+          const internId = intern.id
+          const statusDetail = {
+            ...statusDetailObj,
+            key_license_id: intern.key_license_id,
+            intern_id: internId,
+            status_id: statusId,
+          }
+          const { name, colors, ...newObj } = statusDetail
+          dispatch(setStatusDetailApi(newObj));
+        }
+      }
+    });
+
+    tog_standard();
   }
 
   const handleUpdateStatusOfResidence = () => {
@@ -99,8 +139,12 @@ const ModalTop = ({
           <Button
             color="gray-soft"
             onClick={() => {
-              tog_standard()
-              setIsUpdateStatus(true)
+                if(rowsSelectedInternData.length==0) {
+                    toast.warn("Please select intern before edit !", { autoClose: 2000 });
+                } else {
+                    tog_standard()
+                    setIsUpdateStatus(true)
+                }
             }}
           >
             <i className="fas fa-info-circle text-secondary"></i>{" "}
@@ -109,8 +153,12 @@ const ModalTop = ({
           <Button
             color="gray-soft"
             onClick={() => {
-              tog_standard()
-              setIsUpdateStatus(false)
+                if(rowsSelectedInternData.length==0) {
+                    toast.warn("Please select intern before edit !", { autoClose: 2000 });
+                } else {
+                    tog_standard()
+                    setIsUpdateStatus(false)
+                }
             }}
           >
             <i className="fas fa-user-shield text-secondary"></i>{" "}
@@ -164,18 +212,6 @@ const ModalTop = ({
         <Card>
           <CardBody>
             {isUpdateStatus && (
-              //   <div className="modal-body">
-              //     <Label htmlFor="edit-status">{t("Status")}</Label>
-              //     <Select
-              //       name="status"
-              //       placeholder="Chọn trạng thái"
-              //       value={status}
-              //       onChange={item => {
-              //         setStatus(item["name"])
-              //       }}
-              //       options={statusApidata}
-              //     />
-              //   </div>
               <div className="mb-3">
                 <Label className="form-label fw-bold">{t("Status")}</Label>
                 <Select
@@ -183,7 +219,6 @@ const ModalTop = ({
                   value={selectedMultiStatus}
                   isMulti={true}
                   onChange={value => {
-                    // console.log(value);
                     handleMulti(value)
                   }}
                   options={statusApidata}
