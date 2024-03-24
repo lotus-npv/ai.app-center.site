@@ -24,6 +24,10 @@ import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
+// import { font } from "./Roboto-Medium-normal"
+// import { font2 } from "./BeVietnamPro-Medium-normal"
+// import './Roboto-Medium-normal';
+import "./myFont"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -55,8 +59,6 @@ FilterService.register("custom_activity", (value, filters) => {
 const TableDatas = props => {
   const { t } = useTranslation()
 
-
-
   // data context
   const {
     vh,
@@ -65,8 +67,6 @@ const TableDatas = props => {
     rowsSelectedInternData,
     setRowSelectedInternData,
   } = useContext(DataContext)
-
-
 
   // Global filter
   const [globalFilterValue, setGlobalFilterValue] = useState("")
@@ -128,71 +128,81 @@ const TableDatas = props => {
     }
   }, [])
 
+  // quan ly trang thai du lieu table
+  const [dataTable, setDataTable] = useState(internDataAllInfo)
 
-    // quan ly trang thai du lieu table
-    const [dataTable, setDataTable] = useState(internDataAllInfo)
+  // export file
+  const dt = useRef(null)
 
-    // export file
-    const dt = useRef(null)
+  const cols = [
+    { field: "full_name_jp", header: "Intern name" },
+    { field: "factory_name_jp", header: "Receiving Factory" },
+    { field: "company_name_jp", header: "Dispatching Company" },
+    { field: "sor_name", header: "Status of residence" },
+    { field: "Status", header: "Status" },
+  ]
 
-    const cols = [
-      { field: "full_name_jp", header: "Intern name" },
-      { field: "factory_name_jp", header: "Receiving Factory" },
-      { field: "company_name_jp", header: "Dispatching Company" },
-      { field: "sor_name", header: "Status of residence" },
-      { field: "Status", header: "Status" },
-    ]
-  
-    const exportColumns = cols.map(col => ({
-      title: col.header,
-      dataKey: col.field,
-    }))
-  
-    const exportCSV = selectionOnly => {
-      dt.current.exportCSV({ selectionOnly })
-    }
-  
-    const exportPdf = () => {
-      import("jspdf").then(jsPDF => {
-        import("jspdf-autotable").then(() => {
-          const doc = new jsPDF.default(0, 0)
-  
-          doc.autoTable(exportColumns, dataTable)
-          doc.save("datatable.pdf")
+  const exportColumns = cols.map(col => ({
+    title: col.header,
+    dataKey: col.field,
+  }))
+
+  const exportCSV = selectionOnly => {
+    dt.current.exportCSV({ selectionOnly })
+  }
+
+  const exportPdf = () => {
+    import("jspdf").then(jsPDF => {
+      import("jspdf-autotable").then(() => {
+        const doc = new jsPDF.default(0, 0)
+
+        // doc.addFileToVFS('BeVietnamPro-Medium-normal.ttf', font2);
+        // doc.addFont('BeVietnamPro-Medium-normal.ttf', 'BeVietnamPro-Medium', 'normal');
+        // doc.setFont("BeVietnamPro-Medium-normal")
+
+        // doc.addFileToVFS('Roboto-Medium-normal.ttf', font);
+        // doc.addFont('Roboto-Medium-normal.ttf', 'Roboto-Medium', 'normal');
+        // doc.setFont("Roboto-Medium-normal")
+
+        doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
+        doc.setFont("Roboto-Medium")
+
+        doc.autoTable(exportColumns, dataTable)
+        doc.save("datatable.pdf")
+      })
+    })
+  }
+
+  const exportExcel = () => {
+    import("xlsx").then(xlsx => {
+      const worksheet = xlsx.utils.json_to_sheet(dataTable)
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] }
+      const excelBuffer = xlsx.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      })
+
+      saveAsExcelFile(excelBuffer, "datatable")
+    })
+  }
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    import("file-saver").then(module => {
+      if (module && module.default) {
+        let EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"
+        let EXCEL_EXTENSION = ".xlsx"
+        const data = new Blob([buffer], {
+          type: EXCEL_TYPE,
         })
-      })
-    }
-  
-    const exportExcel = () => {
-      import("xlsx").then(xlsx => {
-        const worksheet = xlsx.utils.json_to_sheet(dataTable)
-        const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] }
-        const excelBuffer = xlsx.write(workbook, {
-          bookType: "xlsx",
-          type: "array",
-        })
-  
-        saveAsExcelFile(excelBuffer, "datatable")
-      })
-    }
-  
-    const saveAsExcelFile = (buffer, fileName) => {
-      import("file-saver").then(module => {
-        if (module && module.default) {
-          let EXCEL_TYPE =
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"
-          let EXCEL_EXTENSION = ".xlsx"
-          const data = new Blob([buffer], {
-            type: EXCEL_TYPE,
-          })
-  
-          module.default.saveAs(
-            data,
-            fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
-          )
-        }
-      })
-    }
+
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        )
+      }
+    })
+  }
 
   // //delete modal
   const [item, setItem] = useState(null)
@@ -277,7 +287,7 @@ const TableDatas = props => {
 
   const renderHeader = () => {
     return (
-      <div className="d-flex">
+      <div className="d-flex justify-content-between">
         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
         <Nav tabs className="nav-tabs-custom">
           {items.map((item, index) => (
