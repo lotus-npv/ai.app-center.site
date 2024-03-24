@@ -16,13 +16,14 @@ import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_blue.css"
 
 import { useTranslation } from "react-i18next"
-import { toast } from "react-toastify";
+import { toast } from "react-toastify"
 
 // import context
 import DataContext from "../../data/DataContext"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
+import { updateAlienRegistrationCard } from "store/actions"
 
 // Tao doi luong luu bang chi tiet trang thai
 
@@ -48,6 +49,7 @@ const ModalTop = ({
   violateTypeApiData,
   internApiData,
   statusDetailApiData,
+  alienCardApiData,
 }) => {
   const { t } = useTranslation()
 
@@ -58,7 +60,7 @@ const ModalTop = ({
   const [isUpdateStatus, setIsUpdateStatus] = useState(false)
 
   // edit status
-  const [status, setStatus] = useState("")
+  const [statusOfResidence, setStatusOfResidence] = useState(null)
   // --------------------------------------------------
 
   // theo doi lua chon status
@@ -93,20 +95,22 @@ const ModalTop = ({
   }
 
   const handleUpdateStatus = () => {
-    if(rowsSelectedInternData.length==0) {
-        toast.warning("Please select intern before edit !", { autoClose: 2000 });
+    if (rowsSelectedInternData.length == 0) {
+      toast.warning("Please select intern before edit !", { autoClose: 2000 })
     }
-    // kiem tra moi nguoi duoc chon da co trang thai do hay chua  => tao vong lap cho intern da chon //
-    // => lay danh sach status detail cuar nguoi dung => lay status_id
-    // => tao vong lap danh sach status moi chon => tao vong lap long ben trong cho status da co => so sanh neu chua co thi tao moi, neu da co thi bo qua.
+    // 1=> kiem tra moi nguoi duoc chon da co trang thai do hay chua  => tao vong lap cho intern da chon //
+    // 2=> lay danh sach status detail cuar nguoi dung => lay status_id
+    // 3=> tao vong lap danh sach status moi chon => tao vong lap long ben trong cho status da co => so sanh neu chua co thi tao moi, neu da co thi bo qua.
     rowsSelectedInternData.forEach(intern => {
       const stData = statusDetailApiData.filter(st => st.intern_id == intern.id)
       for (let i = 0; i < selectedMultiStatus.length; i++) {
         let isExist = false
         for (let j = 0; j < stData.length; j++) {
           if (selectedMultiStatus[i].id == stData[j].status_id) {
-            isExist = true;
-            toast.info(`Status ${selectedMultiStatus[i].name} already exist!`, { autoClose: 2000 });
+            isExist = true
+            toast.info(`Status ${selectedMultiStatus[i].name} already exist!`, {
+              autoClose: 2000,
+            })
             break
           }
         }
@@ -120,16 +124,37 @@ const ModalTop = ({
             status_id: statusId,
           }
           const { name, colors, ...newObj } = statusDetail
-          dispatch(setStatusDetailApi(newObj));
+          dispatch(setStatusDetailApi(newObj))
         }
       }
-    });
+    })
 
     tog_standard();
   }
 
+  console.log(internApiData)
+
   const handleUpdateStatusOfResidence = () => {
-    console.log("handleUpdateStatusOfResidence")
+    if (rowsSelectedInternData.length == 0) {
+      toast.warning("Please select intern before edit !", { autoClose: 2000 })
+    }
+    // 1=> tao vong lap cho intern da chon //
+    // 2=> lay thong tin alien_registration_card  cua nguoi dung => lay status_of_residence_id
+    // 3=> so sanh status_of_residence moi chon voi trang thai cu neu chua co thi update, neu da co thi bo qua.
+    rowsSelectedInternData.forEach(intern => {
+      const cardData = alienCardApiData.find(st => st.intern_id == intern.id)
+      console.log(cardData)
+      if (cardData.status_of_residence_id !== statusOfResidence.id) {
+        const newCard = {
+          ...cardData,
+          status_of_residence_id: statusOfResidence.id,
+        }
+        dispatch(updateAlienRegistrationCard(newCard))
+      } else {
+        toast.warning(`Intern ${intern.full_name_jp} already exists state:  ${statusOfResidence.name}!`, { autoClose: 2000 })
+      }
+    })
+    tog_standard();
   }
 
   return (
@@ -139,12 +164,14 @@ const ModalTop = ({
           <Button
             color="gray-soft"
             onClick={() => {
-                if(rowsSelectedInternData.length==0) {
-                    toast.warn("Please select intern before edit !", { autoClose: 2000 });
-                } else {
-                    tog_standard()
-                    setIsUpdateStatus(true)
-                }
+              if (rowsSelectedInternData.length == 0) {
+                toast.warn("Please select intern before edit !", {
+                  autoClose: 2000,
+                })
+              } else {
+                tog_standard()
+                setIsUpdateStatus(true)
+              }
             }}
           >
             <i className="fas fa-info-circle text-secondary"></i>{" "}
@@ -153,12 +180,14 @@ const ModalTop = ({
           <Button
             color="gray-soft"
             onClick={() => {
-                if(rowsSelectedInternData.length==0) {
-                    toast.warn("Please select intern before edit !", { autoClose: 2000 });
-                } else {
-                    tog_standard()
-                    setIsUpdateStatus(false)
-                }
+              if (rowsSelectedInternData.length == 0) {
+                toast.warn("Please select intern before edit !", {
+                  autoClose: 2000,
+                })
+              } else {
+                tog_standard()
+                setIsUpdateStatus(false)
+              }
             }}
           >
             <i className="fas fa-user-shield text-secondary"></i>{" "}
@@ -233,9 +262,9 @@ const ModalTop = ({
                 <Select
                   name="status"
                   placeholder="Chọn tư cách lưu trú"
-                  value={status}
+                  value={statusOfResidence}
                   onChange={item => {
-                    setStatus(item["name"])
+                    setStatusOfResidence(item)
                   }}
                   options={statusOfResidenceApiData}
                 />
