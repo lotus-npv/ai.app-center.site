@@ -35,7 +35,6 @@ const optionGroup = [
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getProvinceByNationId, getDistrictByProvinceId, getCommuneByDistrictId, setAddress, uploadImageRequest, uploadFile } from "store/actions";
-import { add } from 'lodash';
 
 const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   const dispatch = useDispatch();
@@ -71,14 +70,13 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
-    console.log('check');
+    // console.log('check');
     if (isEditFactory) {
       const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'receiving_factory');
       console.log('arr', arr)
       updateAddressDataFactory(arr)
     }
   }, [isEditFactory])
-
 
 
   // xu ly form nhap anh
@@ -97,9 +95,6 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
       reader.readAsDataURL(file);
     }
   }
-
-  console.log('selectedFile:', selectedFile);
-
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -213,7 +208,6 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
           setIsCreateAddress(false);
         }
       })
-
     }
 
   }, [factoryCreate])
@@ -302,13 +296,15 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   }, [communeDataByDistrictId])
 
   // console.log('provinceDataByNationId:', provinceDataByNationId);
-  console.log('provinceOptions:', provinceOptions);
+  // console.log('provinceOptions:', provinceOptions);
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  console.log('addressDataFactory:', addressDataFactory)
-  console.log('isEditFactory:', isEditFactory)
+  // console.log('addressDataFactory:', addressDataFactory)
+  // console.log('isEditFactory:', isEditFactory)
+  // console.log('selectedFile:', selectedFile);
+
 
 
 

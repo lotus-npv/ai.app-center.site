@@ -43,7 +43,7 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = (props) => {
-  // const [loading, setLoading] = useState(true);
+
   // data context
   const { vh, tog_fullscreen, isEdit, setIsEdit } = useContext(DataContext);
 
@@ -160,7 +160,7 @@ const TableDatas = (props) => {
   // goi ham render mang data
   const items = rendLabel();
 
-  console.log('items', items)
+  // console.log('items', items)
 
   const renderHeader = () => {
     return (
@@ -212,8 +212,6 @@ const TableDatas = (props) => {
   const [dataTable, setDataTable] = useState(violateListData)
 
   const getListInternStatus = (key) => {
-    console.log('key ', key)
-
     if (key == '0') {
       const newArr = violateListData.map(item => {
         return { ...item, violate_date: moment(item.violate_date).format('YYYY-MM-DD'), number_of_violate: violateData.filter(v => v.violate_list_id == item.id).length }

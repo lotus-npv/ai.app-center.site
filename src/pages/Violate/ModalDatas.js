@@ -79,9 +79,6 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     }
   }
 
-  console.log('selectedFile:', selectedFile);
-
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -195,7 +192,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
-    console.log('check');
+    // console.log('check');
     if (isEditCompany) {
       if(item !== null) {
         const arr = addressData.filter(address => address.object_id == item.id && address.user_type == 'dispatching_company');
@@ -310,7 +307,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   // console.log('provinceOptions:', provinceOptions);
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  console.log('formik:', formik.values)
+  // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('addressDataCompany:', addressDataCompany)
   // console.log('isEditCompany:', isEditCompany)

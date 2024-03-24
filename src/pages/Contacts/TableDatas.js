@@ -240,7 +240,7 @@ const TableDatas = (props) => {
   const header = renderHeader();
 
   // console.log('loading:', loading)
-  console.log('dataTable:', dataTable)
+  // console.log('dataTable:', dataTable)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);

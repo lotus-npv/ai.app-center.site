@@ -128,8 +128,6 @@ const TableDatas = () => {
     tog_xlarge();
   }
 
-
-
   const actionBody = (rowData) => {
     return (
       <div className="d-flex gap-3">
@@ -141,8 +139,8 @@ const TableDatas = () => {
 
   const header = renderHeader();
 
-  console.log('loadingIntern', loadingIntern)
-  console.log('dataUpdateReponse', dataUpdateReponse)
+  // console.log('loadingIntern', loadingIntern)
+  // console.log('dataUpdateReponse', dataUpdateReponse)
 
   return (
     <div className="card" >

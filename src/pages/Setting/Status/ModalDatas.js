@@ -231,7 +231,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
 
 
   // console.log(isEditStatus)
-  console.log(formik.values)
+  // console.log(formik.values)
   // console.log('datas', datas)
   // console.log('loading', loadingCareer)
   // console.log('dataCareer', dataCareer)

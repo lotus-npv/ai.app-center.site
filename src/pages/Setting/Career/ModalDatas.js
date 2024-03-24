@@ -52,9 +52,7 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
         dispatch(setApi(obj));
       }
 
-      
       formik.resetForm();
-
       tog_xlarge();
     }
   });
@@ -64,16 +62,11 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     formik.handleSubmit();
   }
 
-  console.log(formik.values)
+  // console.log(formik.values)
 
   return (
     <>
       <Form
-        // onSubmit={(e) => {
-        //   e.preventDefault();
-        //   formik.handleSubmit();
-        //   return false;
-        // }}
       >
         <Modal className="needs-validation"
           size="xl"

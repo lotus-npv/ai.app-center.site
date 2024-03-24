@@ -42,7 +42,7 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = (props) => {
-  // const [loading, setLoading] = useState(true);
+
   // data context
   const { vh, tog_fullscreen, isEditFactory, setIsEditFactory, addressFactory, addressDataFactory, updateAddressDataFactory } = useContext(DataContext);
 
@@ -169,9 +169,7 @@ const TableDatas = (props) => {
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
-
     _filters['global'].value = value;
-
     setFilters(_filters);
     setGlobalFilterValue(value);
   };
@@ -179,6 +177,7 @@ const TableDatas = (props) => {
   // goi ham render mang data
   const items = rendLabel();
   // console.log('items', items)
+
   const renderHeader = () => {
     return (
       <>

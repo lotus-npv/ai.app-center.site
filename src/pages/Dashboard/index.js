@@ -126,7 +126,6 @@ const Dashboard = props => {
   //meta title
   document.title = "Dashboard";
   const date = new Date();
-  console.log(date.getFullYear())
 
   return (
     <React.Fragment>

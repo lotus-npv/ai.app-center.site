@@ -453,14 +453,13 @@ const ModalDatas = ({
         }
         dispatch(updateAlienRegistrationCard(newCrad));
 
-
         setselectedMultiStatus([])
         setOn(false)
         tog_fullscreen()
         formik.resetForm()
         item = null
         setSelectedFile(null)
-        
+
       } else {
         let obj = {
           key_license_id: value.key_license_id,
@@ -683,13 +682,13 @@ const ModalDatas = ({
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
-  // console.log('formik:', formik.values)
+  console.log('formik:', formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('item:', item)
   // console.log('isEditIntern:', isEditIntern)
   // console.log('loadingIntern:', loadingIntern)
   // console.log("selectedMultiStatus:", selectedMultiStatus)
-  console.log("selectedFile:", selectedFile)
+  // console.log("selectedFile:", selectedFile)
 
   return (
     <>
@@ -724,7 +723,7 @@ const ModalDatas = ({
           </div>
 
           <div className="modal-body">
-            <Form>
+
               <Row>
                 <Col lg={12}>
                   <Card>
@@ -1793,21 +1792,21 @@ const ModalDatas = ({
                   </Card>
                 </Col>
               </Row>
-            </Form>
+
           </div>
 
           <div className="modal-footer">
             <button
               type="button"
               onClick={() => {
-                tog_fullscreen()
-                // formik.resetForm();
+                formik.resetForm();
                 setIsEditIntern(false)
                 updateAddressDataIntern([])
                 setselectedMultiStatus([])
                 setOn(false)
                 item = null
                 setSelectedFile(null)
+                tog_fullscreen()
               }}
               className="btn btn-secondary "
               style={{ minWidth: "80px" }}

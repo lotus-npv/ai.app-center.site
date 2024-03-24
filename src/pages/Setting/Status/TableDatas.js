@@ -4,14 +4,11 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
 
 import {
   Badge
 } from "reactstrap";
-
 import DataContext from 'data/DataContext';
-
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
 //redux
@@ -28,7 +25,6 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = () => {
-
   const { vh, isEditStatus, setIsEditStatus } = useContext(DataContext);
 
   const [selectedItems, setSelectedItems] = useState(null);
@@ -62,7 +58,6 @@ const TableDatas = () => {
       clearInterval(intervalId);
     };
   }, []);
-
 
   // modal edit or addnew
   const [modal_xlarge, setmodal_xlarge] = useState(false);
@@ -98,9 +93,7 @@ const TableDatas = () => {
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
-
     _filters['global'].value = value;
-
     setFilters(_filters);
     setGlobalFilterValue(value);
   };
