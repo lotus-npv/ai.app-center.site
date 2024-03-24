@@ -107,7 +107,7 @@ import InputReceivingFactory from "pages/ReceivingFactory/input";
 
 // Intern
 import InternPage from "pages/Intern";
-import InputIntern from "pages/Intern/input";
+
 
 // Violate page
 import ViolateListPage from "pages/Violate";
@@ -200,7 +200,6 @@ const authProtectedRoutes = [
 
   // Intern 
   {path: "/intern", component: <InternPage />},
-  {path: "/input-intern", component: <InputIntern />},
 
   // Violate
   {path: "/violate", component: <ViolateListPage />},

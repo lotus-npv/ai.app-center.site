@@ -350,16 +350,17 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
                   <Form>
                     <Row>
-                      <Col lg={3} xl={2}>
+                      <Col lg={1} xl={1} sm={3}>
                         <Card
                           style={{
-                            width: '90%',
+                            width: '100%',
+                           
                           }}
                         >
-                          <CardBody className='d-flex flex-column'>
-                            <div style={{ aspectRatio: 1 }}>
+                          <CardBody className='d-flex flex-column bg-light'>
+                            <div style={{ aspectRatio: 1, display: 'flex', justifyContent: 'center' }}>
                               <img
-                                style={{ width: '100%', height: '100%' }}
+                                style={{ width: '90%', height: '90%' }}
                                 className='rounded-circle img-thumbnail'
                                 alt="avata"
                                 src={isEditFactory ? `https://api.lotusocean-jp.com/uploads/${formik.values.logo}` : showAvata}
@@ -376,9 +377,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                           </CardBody>
                         </Card>
                       </Col>
-                      <Col lg={9} xl={10}>
-                        <Card>
-                          <CardBody>
+                      <Col lg={11} xl={11} sm={12}>
+                        <Card className='bg-light h-100'>
+                          <CardBody >
                             <Row>
                               <Col lg={6}>
                                 <div className="mb-3">
@@ -491,9 +492,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
 
                     {/* <Form> */}
                     <Card>
-                    {!isEditFactory && <CardBody>
+                    {!isEditFactory && <CardBody className='bg-light mt-2'>
 
-                        <Row className='border border-secondary mt-3'>
+                        <Row className='border border-secondary '>
                           <div>
                             <Row className='bg-secondary text-light'>
                               <Col lg={8}>

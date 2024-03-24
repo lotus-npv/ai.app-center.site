@@ -8,7 +8,6 @@ import {
   CardTitle,
   Label,
   Input,
-  Container,
   FormFeedback,
   UncontrolledTooltip,
   Modal,
@@ -16,8 +15,7 @@ import {
   Form,
 } from "reactstrap"
 
-import Switch from "react-switch"
-import Select, { components } from "react-select"
+import Select from "react-select"
 
 import * as Yup from "yup"
 import { useFormik } from "formik"
@@ -71,7 +69,6 @@ const ModalDatas = ({
   addressData,
   alienCardData,
   statusDetailData,
-  props,
 }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -113,18 +110,6 @@ const ModalDatas = ({
     delete_at: null,
     flag: 1,
   }
-  // const [statusDetailObj, setStatusDetailObj] = useState({
-  //   key_license_id: 1,
-  //   intern_id: null,
-  //   status_id: null,
-  //   description: null,
-  //   create_at: null,
-  //   create_by: 1,
-  //   update_at: null,
-  //   update_by: 1,
-  //   delete_at: null,
-  //   flag: 1
-  // });
 
   // data context
   const {
@@ -211,14 +196,6 @@ const ModalDatas = ({
       // console.log('chay ------------------------------------------------------------------------')
       const arr = statusDetailData.filter(sdd => sdd.intern_id == item.id)
       setNumTicketStatus(arr)
-      // console.log('arr', arr)
-      // arr.forEach(e => {
-      //   const status = statusData.find(sd => sd.id == e.status_id)
-      //   // console.log('status', status)
-      //   if (status != null) {
-      //     setselectedMultiStatus([...selectedMultiStatus, status])
-      //   }
-      // })
 
       const selectedStatus = arr.map((statusDetail, index) => {
         return statusData.find(sd => sd.id == statusDetail.status_id)
@@ -300,7 +277,7 @@ const ModalDatas = ({
             ? statusOfResidenceData.find(i => i.name == item.sor_name).id
             : ""
           : "", // Tư cách lưu trú
-      // license_date: item != null ? moment(alienCardData.find(i => i.intern_id == item.id).license_date).utcOffset('+07:00').format("YYYY-MM-DD") : '',
+
       license_date:
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
@@ -682,7 +659,7 @@ const ModalDatas = ({
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
-  console.log('formik:', formik.values)
+  // console.log('formik:', formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('item:', item)
   // console.log('isEditIntern:', isEditIntern)
@@ -1799,12 +1776,12 @@ const ModalDatas = ({
             <button
               type="button"
               onClick={() => {
-                formik.resetForm();
+                item = null
+                formik.resetForm({values: formik.initialValues});
                 setIsEditIntern(false)
                 updateAddressDataIntern([])
                 setselectedMultiStatus([])
                 setOn(false)
-                item = null
                 setSelectedFile(null)
                 tog_fullscreen()
               }}
