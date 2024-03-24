@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import { FilterMatchMode, FilterService } from "primereact/api"
 import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
@@ -6,6 +6,7 @@ import { InputText } from "primereact/inputtext"
 import { Button } from "primereact/button"
 import { TabMenu } from "primereact/tabmenu"
 import { Avatar } from "primereact/avatar"
+import { Tooltip } from "primereact/tooltip"
 
 import { Nav, NavItem, NavLink } from "reactstrap"
 import classnames from "classnames"
@@ -49,8 +50,12 @@ FilterService.register("custom_activity", (value, filters) => {
   return from <= value && value <= to
 })
 
+//==================================================================================================================//
+
 const TableDatas = props => {
   const { t } = useTranslation()
+
+
 
   // data context
   const {
@@ -60,6 +65,8 @@ const TableDatas = props => {
     rowsSelectedInternData,
     setRowSelectedInternData,
   } = useContext(DataContext)
+
+
 
   // Global filter
   const [globalFilterValue, setGlobalFilterValue] = useState("")
@@ -120,6 +127,72 @@ const TableDatas = props => {
       clearInterval(intervalId)
     }
   }, [])
+
+
+    // quan ly trang thai du lieu table
+    const [dataTable, setDataTable] = useState(internDataAllInfo)
+
+    // export file
+    const dt = useRef(null)
+
+    const cols = [
+      { field: "full_name_jp", header: "Intern name" },
+      { field: "factory_name_jp", header: "Receiving Factory" },
+      { field: "company_name_jp", header: "Dispatching Company" },
+      { field: "sor_name", header: "Status of residence" },
+      { field: "Status", header: "Status" },
+    ]
+  
+    const exportColumns = cols.map(col => ({
+      title: col.header,
+      dataKey: col.field,
+    }))
+  
+    const exportCSV = selectionOnly => {
+      dt.current.exportCSV({ selectionOnly })
+    }
+  
+    const exportPdf = () => {
+      import("jspdf").then(jsPDF => {
+        import("jspdf-autotable").then(() => {
+          const doc = new jsPDF.default(0, 0)
+  
+          doc.autoTable(exportColumns, dataTable)
+          doc.save("datatable.pdf")
+        })
+      })
+    }
+  
+    const exportExcel = () => {
+      import("xlsx").then(xlsx => {
+        const worksheet = xlsx.utils.json_to_sheet(dataTable)
+        const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] }
+        const excelBuffer = xlsx.write(workbook, {
+          bookType: "xlsx",
+          type: "array",
+        })
+  
+        saveAsExcelFile(excelBuffer, "datatable")
+      })
+    }
+  
+    const saveAsExcelFile = (buffer, fileName) => {
+      import("file-saver").then(module => {
+        if (module && module.default) {
+          let EXCEL_TYPE =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"
+          let EXCEL_EXTENSION = ".xlsx"
+          const data = new Blob([buffer], {
+            type: EXCEL_TYPE,
+          })
+  
+          module.default.saveAs(
+            data,
+            fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+          )
+        }
+      })
+    }
 
   // //delete modal
   const [item, setItem] = useState(null)
@@ -204,7 +277,7 @@ const TableDatas = props => {
 
   const renderHeader = () => {
     return (
-      <div className="">
+      <div className="d-flex">
         {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
         <Nav tabs className="nav-tabs-custom">
           {items.map((item, index) => (
@@ -230,12 +303,34 @@ const TableDatas = props => {
             </NavItem>
           ))}
         </Nav>
+        <div className="flex align-items-center justify-content-end gap-2">
+          <Button
+            type="button"
+            icon="pi pi-file"
+            rounded
+            onClick={() => exportCSV(false)}
+            data-pr-tooltip="CSV"
+          />
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            severity="success"
+            rounded
+            onClick={exportExcel}
+            data-pr-tooltip="XLS"
+          />
+          <Button
+            type="button"
+            icon="pi pi-file-pdf"
+            severity="warning"
+            rounded
+            onClick={exportPdf}
+            data-pr-tooltip="PDF"
+          />
+        </div>
       </div>
     )
   }
-
-  // quan ly trang thai du lieu table
-  const [dataTable, setDataTable] = useState(internDataAllInfo)
 
   // Lay du lieu cua table phu thuoc vao tung tab khac nhau
   const getListInternStatus = tab => {
@@ -337,8 +432,10 @@ const TableDatas = props => {
         alienCardApiData={alienCardData}
         setStatusDetailApi={setStatusDetail}
       />
+      <Tooltip target=".export-buttons>button" position="bottom" />
 
       <DataTable
+        ref={dt}
         value={dataTable}
         paginator
         rows={15}

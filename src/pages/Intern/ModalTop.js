@@ -132,7 +132,7 @@ const ModalTop = ({
     tog_standard();
   }
 
-  console.log(internApiData)
+//   console.log(internApiData)
 
   const handleUpdateStatusOfResidence = () => {
     if (rowsSelectedInternData.length == 0) {
