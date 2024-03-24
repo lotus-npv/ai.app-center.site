@@ -11,7 +11,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Spinner
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -30,7 +29,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAddressAll, getAlienRegistrationCardAll } from "store/actions";
+import { getInternAllInfo, updateIntern, deleteIntern, setIntern, getStatusAll, getStatusDetailAll, getAddressAll, getAlienRegistrationCardAll, setStatus, getStatusOfResidenceAll, getViolateTypeAll } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -47,21 +46,12 @@ const TableDatas = (props) => {
   const { t } = useTranslation();
 
   // data context
-  const { vh, tog_fullscreen, setIsEditIntern } = useContext(DataContext);
-
-  // --------------------------------------------------
-  // Modal top
-  const [isUpdateStatus, setIsUpdateStatus] = useState(false);
-
-  // edit status
-  const [status, setStatus] = useState('')
-
-  // --------------------------------------------------
+  const { vh, tog_fullscreen, setIsEditIntern , rowsSelectedInternData, setRowSelectedInternData,} = useContext(DataContext);
 
 
   // Global filter 
   const [globalFilterValue, setGlobalFilterValue] = useState('');
-  const [selectedItems, setSelectedItems] = useState(null);
+
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     full_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -73,13 +63,15 @@ const TableDatas = (props) => {
 
   // Khai bao du lieu
   const dispatch = useDispatch();
-  const { internDataAllInfo, statusData, statusDetailData, loading, dataUser, addressData, alienCardData } = useSelector(state => ({
+  const { internDataAllInfo, statusData, statusDetailData, loading, dataUser, addressData, alienCardData, statusOfResidenceData, violateTypeData } = useSelector(state => ({
     internDataAllInfo: state.Intern.datas,
     statusData: state.Status.datas,
     statusDetailData: state.StatusDetail.datas,
     loading: state.Intern.loading,
     addressData: state.Address.datas,
     alienCardData: state.AlienRegistrationCard.datas,
+    statusOfResidenceData: state.StatusOfResidence.datas,
+    violateTypeData: state.ViolateType.datas,
     // dataUser: state.login.user
   }), shallowEqual);
 
@@ -91,6 +83,8 @@ const TableDatas = (props) => {
     dispatch(getStatusAll());
     dispatch(getStatusDetailAll());
     dispatch(getAlienRegistrationCardAll());
+    dispatch(getStatusOfResidenceAll());
+    dispatch(getViolateTypeAll());
   }, [dispatch]);
 
 
@@ -105,14 +99,6 @@ const TableDatas = (props) => {
     };
   }, []);
 
-  const [modal_xlarge, setmodal_xlarge] = useState(false);
-  function tog_xlarge() {
-    setmodal_xlarge(!modal_xlarge);
-    removeBodyCss();
-  }
-  function removeBodyCss() {
-    document.body.classList.add("no_padding");
-  }
 
   // //delete modal
   const [item, setItem] = useState(null);
@@ -232,13 +218,6 @@ const TableDatas = (props) => {
     );
   };
 
-  // const colorList = (key) => {
-  //   switch(key) {
-  //     case 'success':
-  //       return ''
-
-  //   }
-  // }
 
   // render status body
   const statusBody = (rowData) => {
@@ -269,18 +248,20 @@ const TableDatas = (props) => {
   // console.log('internDataAllInfo:', internDataAllInfo)
   // console.log(dataUser)
   // console.log('statusDetailData', statusDetailData)
-  // console.log('selectedItems', selectedItems)
+  // console.log('rowsSelectedInternData', rowsSelectedInternData)
 
   return (
     <div className="card" >
       <ModalTop
-        setStatus={setStatus}
-        isUpdateStatus={isUpdateStatus}
         optionGroup={statusData}
-        setIsUpdateStatus={setIsUpdateStatus}
+        statusApidata={statusData}
+        statusOfResidenceApiData={statusOfResidenceData}
+        violateTypeApiData={violateTypeData}
+        internApiData={internDataAllInfo}
+        insertStatusApi={setStatus}
       />
 
-      <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
+      <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={rowsSelectedInternData} onSelectionChange={(e) => setRowSelectedInternData(e.value)} dataKey="id" filters={filters}
         filterDisplay="row" globalFilterFields={['id', 'name', 'description']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         currentPageReportTemplate={`${t('Showing')} {first} ${t('to')} {last} ${t('of')} {totalRecords} ${t('items')}`}

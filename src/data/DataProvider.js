@@ -1,35 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import DataContext from './DataContext';
 
-import { dataIntern } from '../common/data/intern'
-import { dataReceivingFactory } from '../common/data/receiving-factory';
-import { dataDispatchingCompany } from '../common/data/dispatching-company';
 import { dataViolate } from 'common/data/violate';
 import { dataStatus } from 'common/data/status';
 import { dataCareer } from 'common/data/career';
 
 const DataProvider = ({ children }) => {
 
-    // Intern
-    const [internDatas, setInternDatas] = useState(dataIntern);
-
-    const updateInternDatas = newData => {
-        setInternDatas(newData);
-    };
-
-    // Receiving Factory
-    const [receivingFactoryDatas, setReceivingFactoryDatas] = useState(dataReceivingFactory);
-
-    const updateReceivingFactoryDatas = newData => {
-        setReceivingFactoryDatas(newData);
-    };
-
-    // Dispatching Company
-    const [dispatchingCompanyDatas, setDispatchingCompanyDatas] = useState(dataDispatchingCompany);
-
-    const updateDispatchingCompanyDatas = newData => {
-        setDispatchingCompanyDatas(newData);
-    };
 
     // Violate
     const [violateDatas, setViolateDatas] = useState(dataViolate);
@@ -121,19 +98,19 @@ const DataProvider = ({ children }) => {
         setAddressDataIntern(newData);
     };
 
-    //Status
-    const [statusData, setStatusData] = useState(dataStatus)
+    // //Status
+    // const [statusData, setStatusData] = useState(dataStatus)
 
-    const updateStatusData = newData => {
-        setStatusData(newData);
-    };
+    // const updateStatusData = newData => {
+    //     setStatusData(newData);
+    // };
 
-    // Career
-    const [careerData, setCareerData] = useState(dataCareer)
+    // // Career
+    // const [careerData, setCareerData] = useState(dataCareer)
 
-    const updateCareerData = newData => {
-        setCareerData(newData);
-    };
+    // const updateCareerData = newData => {
+    //     setCareerData(newData);
+    // };
 
     // get screen
     const screenAvailHeight = window.innerHeight;
@@ -184,20 +161,21 @@ const DataProvider = ({ children }) => {
     const [isEditStatus, setIsEditStatus] = useState(false);
 
 
+    // select row table intern
+    const [rowsSelectedInternData, setRowSelectedInternData] = useState([]);
+
+
 
 
     return (
         <DataContext.Provider
             value={{
-                internDatas, updateInternDatas,
-                receivingFactoryDatas, updateReceivingFactoryDatas,
-                dispatchingCompanyDatas, updateDispatchingCompanyDatas,
                 violateDatas, updateViolateDatas,
                 addressFactory, addressDataFactory, updateAddressDataFactory,
                 addressCompany, addressDataCompany, updateAddressDataCompany,
                 addressIntern, addressDataIntern, updateAddressDataIntern,
-                statusData, updateStatusData,
-                careerData, updateCareerData,
+                // statusData, updateStatusData,
+                // careerData, updateCareerData,
                 vh,
                 modal_standard, setmodal_standard, tog_standard,
                 modal_xlarge, setmodal_xlarge, tog_xlarge,
@@ -205,7 +183,8 @@ const DataProvider = ({ children }) => {
                 isEditIntern, setIsEditIntern,
                 isEditFactory, setIsEditFactory,
                 isEditCompany, setIsEditCompany,
-                isEditStatus, setIsEditStatus
+                isEditStatus, setIsEditStatus,
+                rowsSelectedInternData, setRowSelectedInternData,
             }}
         >
             {children}
