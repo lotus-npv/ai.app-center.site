@@ -189,7 +189,7 @@ const DataProvider = ({ children }) => {
 
     async function  tog_resresh() {
         updateRefresh(!isRefresh);
-        await delay(1000);
+        await delay(4000);
         updateRefresh(isRefresh);
     }
 

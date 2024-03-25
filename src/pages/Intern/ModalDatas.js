@@ -13,6 +13,7 @@ import {
   Modal,
   CloseButton,
   Form,
+  Spinner,
 } from "reactstrap"
 
 import Select from "react-select"
@@ -1687,12 +1688,14 @@ async function  tog_resresh() {
                     <Card>
                       <CardBody>
                         {isRefresh && <AddressDatas item={item} />}
+                        {!isRefresh && <div className="d-flex gap-3 mt-1 "><h4 className="fw-bold text-success">update data</h4> <Spinner type="grow" size="sm" className="ms-2 mt-1" color="primary" /> </div>}
                       </CardBody>
                     </Card>
                   )}
 
                   {/* </CardBody> */}
                 </Card>
+                
               </Col>
             </Row>
           </div>
@@ -1724,13 +1727,13 @@ async function  tog_resresh() {
             >
               {t("Save")}
             </button>
-            <button
+            {/* <button
               onClick={() => {
                 tog_resresh()
               }}
             >
               refresh
-            </button>
+            </button> */}
           </div>
         </Modal>
       </Form>
