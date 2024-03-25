@@ -17,6 +17,8 @@ import {
   getProvinceAll,
 } from "store/actions"
 
+import ModalEditAddress from './ModalEditAddress'
+
 import map from "../../assets/images/icon/map.png"
 
 const NationList = [
@@ -33,7 +35,7 @@ const AddressDatas = ({ item }) => {
     commune: "",
     detail: "",
   }
-  const [addresss, setAddresss] = useState([addObj])
+  const [addresss, setAddresss] = useState([])
 
   const dispatch = useDispatch()
 
@@ -85,6 +87,8 @@ const AddressDatas = ({ item }) => {
         dispatch(getCommuneId(arr[index].commune_id))
 
         const array = [...addresss];
+        array.push(addObj)
+
         array[index].nation = NationList.find(nation => nation.value == arr[index].nation_id)['country'],
         array[index].detail = arr[index].detail;
         setAddresss(array);
@@ -151,39 +155,42 @@ const AddressDatas = ({ item }) => {
 
   const itemTemplate = (address, index) => {
     return (
-      <div className="col-12" key={index}>
+      <div className="col-12 d-flex justify-content-center bg-light" key={index}>
         <div
           className={classNames(
-            "flex flex-column xl:flex-row xl:align-items-start p-4 gap-4",
+            "flex flex-column xl:flex-row xl:align-items-center p-21 gap-4 col-10",
             { "border-top-1 surface-border": index !== 0 }
           )}
         >
           <img
-            className="w-6 sm:w-8rem xl:w-6rem shadow-2 block xl:block mx-auto border-round"
+            className="w-4 sm:w-4rem xl:w-3rem shadow-2 block xl:block mx-auto border-round"
             src={map}
             alt={address.name}
           />
-          <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-2">
-            <div className="flex flex-column align-items-center sm:align-items-start gap-3">
-              <div className="text-2xl font-bold text-900">{address.name}</div>
-              <Rating value={address.rating} readOnly cancel={false}></Rating>
+          <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-1">
+            <div className="flex flex-column align-items-center sm:align-items-start gap-1">
+              <div className="text-2xl font-bold text-700">{address.nation}</div>
               <div className="flex align-items-center gap-3">
                 <span className="flex align-items-center gap-2">
                   <i className="pi pi-tag"></i>
-                  <span className="font-semibold">{address.category}</span>
+                  <span className="font-semibold">{address.detail} -</span>
+                  <span className="font-semibold">{address.commune} -</span>
+                  <span className="font-semibold">{address.district} -</span>
+                  <span className="font-semibold">{address.province}   </span>
                 </span>
                 <Tag
-                  value={address.inventoryStatus}
+                  value={address.province}
                   severity={getSeverity(address)}
                 ></Tag>
               </div>
             </div>
-            <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-              <span className="text-2xl font-semibold">${address.price}</span>
+            <div className="flex sm:flex-row align-items-center align-self-center sm:align-items-center gap-3 sm:gap-2">
               <Button
-                icon="pi pi-shopping-cart"
+                icon="pi pi-pencil"
                 className="p-button-rounded"
-                disabled={address.inventoryStatus === "OUTOFSTOCK"}
+                aria-label="Cancel"
+                text
+                rounded
               ></Button>
             </div>
           </div>
@@ -205,6 +212,7 @@ const AddressDatas = ({ item }) => {
   return (
     <div className="card">
       <DataView value={addresss} listTemplate={listTemplate} />
+      <ModalEditAddress/>
     </div>
   )
 }
