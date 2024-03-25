@@ -107,6 +107,9 @@ const Dashboard = props => {
     }
   }, [])
 
+
+  // console.log('chartsData', chartsData)
+
   //=====================================================================
 
   // get thong tin thuc tap sinh theo trang thai
@@ -175,6 +178,7 @@ const Dashboard = props => {
     '["--bs-primary", "--bs-primary-2", "--bs-info", "--bs-secondary"]'
   const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors)
   const iconColors = ["primary", "primary-2", "info", "secondary"]
+
   const [dataCharst, setDataCharst] = useState([])
 
   // danh sach intern => link bảng address
@@ -196,8 +200,8 @@ const Dashboard = props => {
         })
         return newData
       })
-      console.log("newarr", newarr)
-      setDataCharst(newarr.filter(item => item.data != 0))
+      // console.log("newarr", newarr)
+      setDataCharst(newarr)
     }
   }, [dataIntern])
 
@@ -428,6 +432,7 @@ const Dashboard = props => {
                       <StackedColumnChart
                         periodData={periodData}
                         dataColors='["--bs-primary", "--bs-warning", "--bs-success"]'
+
                       />
                     </CardBody>
                   </Card>
@@ -440,6 +445,8 @@ const Dashboard = props => {
             <Col xl="4">
               <Transactions
                 title={props.t("Top 5 countries by number of interns")}
+                dataIntern={dataIntern}
+                dataCharst={dataCharst}
               />
             </Col>
             <Col xl="4">

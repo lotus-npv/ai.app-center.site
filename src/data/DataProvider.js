@@ -166,9 +166,9 @@ const DataProvider = ({ children }) => {
 
 
     const NationList = [
-        {label: 'Vietnam', value: 1, country: 'Viet Nam', data: 0},
-        {label: 'Japan', value: 2, country: 'Nhat Ban', data: 0},
-        {label: 'Korea', value: 3, country: 'Han Quoc', data: 0},
+        {label: 'Vietnam', value: 1, country: 'Viet Nam', data: 0, violate: 2},
+        {label: 'Japan', value: 2, country: 'Nhat Ban', data: 0, violate: 4},
+        {label: 'Korea', value: 3, country: 'Han Quoc', data: 0, violate: 6},
     ]
 
 
