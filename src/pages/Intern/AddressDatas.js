@@ -86,6 +86,12 @@ const AddressDatas = ({ item }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if(!isRefresh) {
+        setIsRefresh(true);
+    }
+  })
+
   const [addressOriginal, setAddressOriginal] = useState([])
 
   const [isReadData, setIsReadData] = useState(false)

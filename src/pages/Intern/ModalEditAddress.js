@@ -180,7 +180,6 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
     setIsEditDetail(false)
     tog_standard();
     setIsRefresh(!isRefresh)
-    setIsRefresh(!isRefresh)
   }
 
   // console.log('address', address)
