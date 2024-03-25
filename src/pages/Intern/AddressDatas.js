@@ -38,7 +38,7 @@ const AddressDatas = ({ item }) => {
     detail: "",
   }
 
-  const { tog_standard, modal_standard, setmodal_standard } =
+  const { tog_standard, modal_standard, setmodal_standard,isRefresh, setIsRefresh } =
     useContext(DataContext)
 
   const [isEditDetail, setIsEditDetail] = useState(false)
@@ -57,6 +57,7 @@ const AddressDatas = ({ item }) => {
     districtLoading,
     CommuneLoading,
     provinceDataAll,
+    updateAddressLoading
   } = useSelector(
     state => ({
       addressData: state.Address.datas,
@@ -66,6 +67,7 @@ const AddressDatas = ({ item }) => {
       provinceLoading: state.Province.loading,
       districtLoading: state.District.loading,
       CommuneLoading: state.Commune.loading,
+      updateAddressLoading: state.Address.loading
     }),
     shallowEqual
   )
@@ -73,6 +75,16 @@ const AddressDatas = ({ item }) => {
   useEffect(() => {
     dispatch(getAddressAll())
   }, [dispatch])
+
+   // get lai data sau moi 10s
+   useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch(getAddressAll())
+    }, 10000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
 
   const [addressOriginal, setAddressOriginal] = useState([])
 
@@ -133,7 +145,7 @@ const AddressDatas = ({ item }) => {
         }
       }
     }
-  }, [addressData, provinceDataId, isReadData, districtDataId, communeDataId])
+  }, [addressData, provinceDataId, isReadData, districtDataId, communeDataId, isRefresh])
 
   // console.log('addresss', addresss)
   // console.log('provinceLoading', provinceLoading)
@@ -229,7 +241,7 @@ const AddressDatas = ({ item }) => {
   return (
     <div className="card">
       <DataView value={addresss} listTemplate={listTemplate} />
-      {isEditDetail && (
+      {isEditDetail &&  (
         <ModalEditAddress address={selectAddress} isEditDetail={isEditDetail}  setIsEditDetail={setIsEditDetail}/>
       )}
     </div>

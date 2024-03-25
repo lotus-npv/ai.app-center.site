@@ -58,16 +58,19 @@ import {
       case UPDATE_ADDRESS:
         return {
           ...state,
-          data: action.payload,
+          loading: true,
+          // data: action.payload,
         };
       case UPDATE_ADDRESS_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
       case UPDATE_ADDRESS_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case DELETE_ADDRESS_SUCCESS:

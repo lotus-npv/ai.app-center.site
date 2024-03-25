@@ -175,6 +175,9 @@ const DataProvider = ({ children }) => {
         {label: 'Korea', value: 3, country: 'Han Quoc', data: 0, violate: 6},
     ]
 
+    // edit address
+    const [isRefresh, setIsRefresh] = useState(true)
+
 
     return (
         <DataContext.Provider
@@ -197,6 +200,7 @@ const DataProvider = ({ children }) => {
                 rowsSelectedInternData, setRowSelectedInternData,
                 NationList,
                 loadData, setLoadData,
+                isRefresh, setIsRefresh,
             }}
         >
             {children}

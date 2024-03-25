@@ -123,6 +123,7 @@ const ModalDatas = ({
     addressIntern,
     addressDataIntern,
     updateAddressDataIntern,
+    isRefresh, setIsRefresh 
   } = useContext(DataContext)
 
   // Radio button
@@ -675,6 +676,7 @@ const ModalDatas = ({
   // console.log('loadingIntern:', loadingIntern)
   // console.log("selectedMultiStatus:", selectedMultiStatus)
   // console.log("selectedFile:", selectedFile)
+  console.log("isRefresh:", isRefresh)
 
   return (
     <>
@@ -1666,7 +1668,7 @@ const ModalDatas = ({
                   {isEditIntern && (
                     <Card>
                       <CardBody>
-                        <AddressDatas item={item} />
+                        {isRefresh && <AddressDatas item={item} />}
                       </CardBody>
                     </Card>
                   )}
@@ -1703,6 +1705,11 @@ const ModalDatas = ({
               style={{ minWidth: "100px" }}
             >
               {t("Save")}
+            </button>
+            <button onClick={() => {
+              setIsRefresh(!isRefresh)
+            }}>
+              refresh
             </button>
           </div>
         </Modal>
