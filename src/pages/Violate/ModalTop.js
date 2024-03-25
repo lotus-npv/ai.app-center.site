@@ -22,6 +22,7 @@ import "flatpickr/dist/themes/material_blue.css"
 
 import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
+import moment from "moment"
 
 // import context
 import DataContext from "../../data/DataContext"
@@ -34,23 +35,6 @@ import {
   updateAlienRegistrationCard,
   getInternAllInfo,
 } from "store/actions"
-
-import moment from "moment"
-
-// Tao doi luong luu bang chi tiet trang thai
-
-const statusDetailObj = {
-  key_license_id: null,
-  intern_id: null,
-  status_id: null,
-  description: null,
-  create_at: 1,
-  create_by: null,
-  update_at: null,
-  update_by: 1,
-  delete_at: null,
-  flag: 1,
-}
 
 const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
   <div
@@ -85,29 +69,20 @@ const ModalTop = ({
   setStatusDetailApi,
   statusDetailApiData,
   alienCardApiData,
-  violateTypeData
+  violateTypeData,
+  rowSelect,
+  violateData,
 }) => {
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
 
   // --------------------------------------------------
-  // Modal top
-  const [isUpdateStatus, setIsUpdateStatus] = useState(false)
-
-  // edit status
-  const [statusOfResidence, setStatusOfResidence] = useState(null)
-  // --------------------------------------------------
-
-  // theo doi lua chon status
-  const [selectedMultiStatus, setselectedMultiStatus] = useState([])
-  function handleMulti(selectedMultiStatus) {
-    setselectedMultiStatus(selectedMultiStatus)
-  }
 
   // data context
   const {
-    isEditViolate, setIsEditViolate,
+    isEditViolate,
+    setIsEditViolate,
     tog_standard,
     modal_xlarge,
     tog_xlarge,
@@ -129,7 +104,10 @@ const ModalTop = ({
     dispatch(getInternAllInfo())
   }, [dispatch])
 
+  // Quan ly danh sach intern trong hop tim kiem
   const [internData, setInternData] = useState(dataInternAll)
+
+  // Quan ly danh sach intern dang lua chon
   const [selectIntern, setSelectIntern] = useState([])
 
   // data form
@@ -139,7 +117,7 @@ const ModalTop = ({
   const [selectedFile, setSelectedFile] = useState(null)
 
   // thuc thi viec ghi vi pham
-  // => laay thong tin ngay vi pham
+  // => lay thong tin ngay vi pham
   // => lay thong tin kieu vi pham.
   // => lay ghi chu
   // =====> ghi vao bang violate_list
@@ -152,12 +130,14 @@ const ModalTop = ({
   // console.log("rowsSelectedInternData", rowsSelectedInternData)
 
   useEffect(() => {
-    setSelectIntern(rowsSelectedInternData);
-    let arr = dataInternAll.filter(intern => !rowsSelectedInternData.some(item => item.id === intern.id));
-    setInternData(arr);
-
+    setSelectIntern(rowsSelectedInternData)
+    let arr = dataInternAll.filter(
+      intern => !rowsSelectedInternData.some(item => item.id === intern.id)
+    )
+    setInternData(arr)
   }, [rowsSelectedInternData])
 
+  // Quan ly trang thai cho phep ghi du lieu vao bang violate
   const [isDone, setIsDone] = useState(false)
 
   const violateList = {
@@ -195,9 +175,15 @@ const ModalTop = ({
         .format("YYYY-MM-DD"),
       description: note,
     }
-    dispatch(setViolateList(newViolate));
-    setIsDone(true);
-    tog_xlarge();
+    dispatch(setViolateList(newViolate))
+    setIsDone(true)
+    setIsEditViolate(false)
+    setDateViolate("")
+    setViolateType("")
+    setNote("")
+    setSelectIntern("")
+    setInternData(dataInternAll)
+    tog_xlarge()
   }
 
   useEffect(() => {
@@ -216,7 +202,30 @@ const ModalTop = ({
     }
   }, [violateListAddDone])
 
- 
+  // Xu ly edit form
+  useEffect(() => {
+    if (isEditViolate) {
+      setDateViolate(rowSelect.violate_date)
+      const vt = violateTypeData.find(
+        item => item.id === rowSelect.violate_type_id
+      )
+      if (vt) {
+        setViolateType(vt)
+      }
+      setNote(rowSelect.description)
+      // tim danh sach nhan vien co trong vi pham => set len setSelectIntern
+      const arr = violateData.filter(
+        violate => violate.violate_list_id === rowSelect.id
+      )
+      const newListIntern = internData.filter(intern =>
+        arr.some(vio => vio.intern_id == intern.id)
+      )
+      console.log("newListIntern", newListIntern)
+      setSelectIntern(newListIntern)
+    }
+  }, [isEditViolate, rowSelect])
+
+  // console.log('isEditViolate', isEditViolate)
 
   // render col name
   const nameBodyTemplate = rowData => {
@@ -278,6 +287,12 @@ const ModalTop = ({
           <button
             onClick={() => {
               setmodal_xlarge(false)
+              setIsEditViolate(false)
+              setDateViolate("")
+              setViolateType("")
+              setNote("")
+              setSelectIntern("")
+              setInternData(dataInternAll)
             }}
             type="button"
             className="close"
@@ -290,54 +305,55 @@ const ModalTop = ({
         <div className="modal-body">
           <Card>
             <CardBody>
-
-              {<Row className="mb-4">
-                <Col lg={3}>
-                  <div className="mb-4">
-                    <Label>Ngày vi phạm</Label>
-                    <Flatpickr
-                      className="form-control d-block"
-                      placeholder="yyyy-MM-dd"
-                      options={{
-                        altInput: true,
-                        altFormat: "Y-m-d",
-                        dateFormat: "Y-m-d",
-                      }}
-                      value={dateViolate}
-                      onChange={date => setDateViolate(date)}
-                    />
-                  </div>
-                </Col>
-                <Col lg={3}>
-                  <div className="mb-4">
-                    <Label htmlFor="edit-status">Loại vi phạm</Label>
-                    <Select
-                      id="edit-status"
-                      name="status"
-                      placeholder="Chọn tư cách lưu trú"
-                      value={violateType}
-                      onChange={item => {
-                        setViolateType(item)
-                      }}
-                      options={violateTypeData}
-                    />
-                  </div>
-                </Col>
-                <Col lg={6}>
-                  <div className="mb-4">
-                    <Label htmlFor="note">Ghi chú</Label>
-                    <Input
-                      id="note"
-                      name="note"
-                      type="text"
-                      value={note}
-                      onChange={e => {
-                        setNote(e.target.value)
-                      }}
-                    />
-                  </div>
-                </Col>
-              </Row> }
+              {
+                <Row className="mb-4">
+                  <Col lg={3}>
+                    <div className="mb-4">
+                      <Label>Ngày vi phạm</Label>
+                      <Flatpickr
+                        className="form-control d-block"
+                        placeholder="yyyy-MM-dd"
+                        options={{
+                          altInput: true,
+                          altFormat: "Y-m-d",
+                          dateFormat: "Y-m-d",
+                        }}
+                        value={dateViolate}
+                        onChange={date => setDateViolate(date)}
+                      />
+                    </div>
+                  </Col>
+                  <Col lg={3}>
+                    <div className="mb-4">
+                      <Label htmlFor="edit-status">Loại vi phạm</Label>
+                      <Select
+                        id="edit-status"
+                        name="status"
+                        placeholder="Chọn tư cách lưu trú"
+                        value={violateType}
+                        onChange={item => {
+                          setViolateType(item)
+                        }}
+                        options={violateTypeData}
+                      />
+                    </div>
+                  </Col>
+                  <Col lg={6}>
+                    <div className="mb-4">
+                      <Label htmlFor="note">Ghi chú</Label>
+                      <Input
+                        id="note"
+                        name="note"
+                        type="text"
+                        value={note}
+                        onChange={e => {
+                          setNote(e.target.value)
+                        }}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              }
 
               <Row className="pb-3">
                 <Col lg={3}>
@@ -410,6 +426,12 @@ const ModalTop = ({
             type="button"
             onClick={() => {
               tog_xlarge()
+              setIsEditViolate(false)
+              setDateViolate("")
+              setViolateType("")
+              setNote("")
+              setSelectIntern("")
+              setInternData(dataInternAll)
             }}
             className="btn btn-secondary "
             data-dismiss="modal"

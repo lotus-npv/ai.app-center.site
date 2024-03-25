@@ -298,6 +298,7 @@ const TableDatas = (props) => {
       <ModalTop 
         violateTypeData={violateTypeData}
         rowSelect={rowSelect}
+        violateData={violateData}
       />
 
     </div>
