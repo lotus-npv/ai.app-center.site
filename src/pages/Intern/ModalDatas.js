@@ -29,6 +29,8 @@ import PropTypes from "prop-types"
 import DataContext from "../../data/DataContext"
 import avata from "../../assets/images/avata/avatar-null.png"
 
+import AddressDatas from './AddressDatas'
+
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -1649,6 +1651,14 @@ const ModalDatas = ({
                       </CardBody>
                     </Card>
                   )}
+
+                  <Card>
+                    <CardBody>
+                       <AddressDatas 
+                        item={item}
+                       />
+                    </CardBody>
+                  </Card>
 
                   {/* </CardBody> */}
                 </Card>

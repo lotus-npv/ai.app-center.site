@@ -48,16 +48,18 @@ import {
       case GET_PROVINCE_ID:
         return {
           ...state,
-          dataId: action.payload,
+          loading: true,
         };
       case GET_PROVINCE_ID_SUCCESS:
         return {
           ...state,
+          loading: false,
           dataId: action.payload,
         };
       case GET_PROVINCE_ID_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case GET_PROVINCE_BY_NATION_ID:

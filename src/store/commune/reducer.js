@@ -48,16 +48,18 @@ import {
       case GET_COMMUNE_ID:
         return {
           ...state,
-          dataId: action.payload,
+          loading: true,
         };
       case GET_COMMUNE_ID_SUCCESS:
         return {
           ...state,
+          loading: false,
           dataId: action.payload,
         };
       case GET_COMMUNE_ID_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case GET_COMMUNE_BY_DISTRICT_ID:
