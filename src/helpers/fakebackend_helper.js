@@ -167,27 +167,27 @@ export const deleteDataNation = (id) =>    del(`${url.DELETE_NATION}/${id}`, { p
 
 // province
 export const        getProvinceDataAll = () =>     get(url.GET_PROVINCE_ALL);
-export const        getProvinceDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const        getProvinceDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`, config);
 export const        getProvinceByNationDataId = (id) => get(`${url.GET_PROVINCE_BY_NATION_ID}/${id}`, config);
 export const addNewDataProvince = data =>         post(url.SET_PROVINCE, data, config);
 export const updateDataProvince = data =>       put(url.UPDATE_PROVINCE, data, config);
 export const deleteDataProvince = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
 
 // district
-export const        getDistrictDataAll = () =>     get(url.GET_PROVINCE_ALL);
-export const        getDistrictDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const        getDistrictDataAll = () =>     get(url.GET_DISTRICT_ALL);
+export const        getDistrictDataId = (id) => get(`${url.GET_DISTRICT_ID}/${id}`,{ params: { id } }, config);
 export const        getDistrictByProvinceDataId = (id) => get(`${url.GET_DISTRICT_BY_PROVINCE_ID}/${id}`,{ params: { id } }, config);
-export const addNewDataDistrict = data =>         post(url.SET_PROVINCE, data, config);
-export const updateDataDistrict = data =>       put(url.UPDATE_PROVINCE, data, config);
-export const deleteDataDistrict = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
+export const addNewDataDistrict = data =>         post(url.SET_DISTRICT, data, config);
+export const updateDataDistrict = data =>       put(url.UPDATE_DISTRICT, data, config);
+export const deleteDataDistrict = (id) =>    del(`${url.DELETE_DISTRICT}/${id}`, { params: { id } }, config);
 
 // commune
-export const        getCommuneDataAll = () =>     get(url.GET_PROVINCE_ALL);
-export const        getCommuneDataId = (id) => get(`${url.GET_PROVINCE_ID}/${id}`,{ params: { id } }, config);
+export const        getCommuneDataAll = () =>     get(url.GET_COMMUNE_ALL);
+export const        getCommuneDataId = (id) => get(`${url.GET_COMMUNE_ID}/${id}`,{ params: { id } }, config);
 export const        getCommuneByDistrictDataId = (id) => get(`${url.GET_COMMUNE_BY_DISTRICT_ID}/${id}`,{ params: { id } }, config);
-export const addNewDataCommune = data =>         post(url.SET_PROVINCE, data, config);
-export const updateDataCommune = data =>       put(url.UPDATE_PROVINCE, data, config);
-export const deleteDataCommune = (id) =>    del(`${url.DELETE_PROVINCE}/${id}`, { params: { id } }, config);
+export const addNewDataCommune = data =>         post(url.SET_COMMUNE, data, config);
+export const updateDataCommune = data =>       put(url.UPDATE_COMMUNE, data, config);
+export const deleteDataCommune = (id) =>    del(`${url.DELETE_COMMUNE}/${id}`, { params: { id } }, config);
 
 
 

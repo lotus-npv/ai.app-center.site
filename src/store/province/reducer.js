@@ -22,7 +22,7 @@ import {
     datas: [],
     dataId: null,
     dataByNationId: null,
-    data: {},
+    data: null,
     loading: false
   };
   

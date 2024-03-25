@@ -36,6 +36,7 @@ function* fetDistrictDataId({payload: id}) {
   try {
     const response = yield call(getDistrictDataId, id);
     yield put(getDistrictIdSuccess(response));
+    // console.log(response);
   } catch (error) {
     yield put(getDistrictIdFail(error))
   }
