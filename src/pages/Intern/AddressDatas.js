@@ -31,8 +31,9 @@ const AddressDatas = ({ item }) => {
     province: "",
     district: "",
     commune: "",
+    detail: "",
   }
-  const [addresss, setAddresss] = useState(addObj)
+  const [addresss, setAddresss] = useState([addObj])
 
   const dispatch = useDispatch()
 
@@ -49,7 +50,6 @@ const AddressDatas = ({ item }) => {
     state => ({
       addressData: state.Address.datas,
       provinceDataId: state.Province.dataId,
-      //   provinceDataAll: state.Province.datas,
       districtDataId: state.District.dataId,
       communeDataId: state.Commune.dataId,
       provinceLoading: state.Province.loading,
@@ -59,82 +59,77 @@ const AddressDatas = ({ item }) => {
     shallowEqual
   )
 
-  const [isReadData, setIsReadData] = useState(false)
-
+  
   useEffect(() => {
-    dispatch(getAddressAll())
-    // dispatch(getProvinceId(1))
-    // dispatch(getProvinceAll())
-  }, [dispatch])
+      dispatch(getAddressAll())
+    }, [dispatch])
+    
+    
+    const [isReadData, setIsReadData] = useState(false)
+    const [isDispath, setIsDitpath] = useState(true)
+    const [index, setIndex] = useState(0);
+
 
   useEffect(() => {
     if (addressData) {
-      const arr = addressData.find(
+      const arr = addressData.filter(
         add => add.object_id == item.id && add.user_type == "intern"
       )
 
-      if (arr) {
+      if (arr && isDispath && (index < arr.length)) {
         console.log("arr", arr)
-        dispatch(getProvinceId(arr.province_id))
-        dispatch(getDistrictId(arr.district_id))
-        dispatch(getCommuneId(arr.commune_id))
+        console.log("index", index)
 
-        setIsReadData(true)
-      }
+        dispatch(getProvinceId(arr[index].province_id))
+        dispatch(getDistrictId(arr[index].district_id))
+        dispatch(getCommuneId(arr[index].commune_id))
 
-      //   setAddresss(arr)
+        const array = [...addresss];
+        array[index].nation = NationList.find(nation => nation.value == arr[index].nation_id)['country'],
+        array[index].detail = arr[index].detail;
+        setAddresss(array);
+        setIsDitpath(false);
+        setIsReadData(true);
     }
-  }, [addressData])
 
-  useEffect(() => {
-    if (provinceDataId && districtDataId && communeDataId) {
-      if (
-        isReadData &&
-        !provinceLoading &&
-        !districtLoading &&
-        !CommuneLoading
-      ) {
-        const arr = { ...addresss }
-        arr.province = provinceDataId[0].StateName_ja
-        arr.district = districtDataId[0].DistrictName_ja
-        arr.commune = communeDataId[0].WardName_ja
-        setAddresss(arr)
+    if (provinceDataId && districtDataId && communeDataId && isReadData) {
+        if (
+          !provinceLoading &&
+          !districtLoading &&
+          !CommuneLoading
+        ) {
+          console.log("check done")
+  
+          const arr = [...addresss]
+          arr[index].province = provinceDataId[0].StateName_ja
+          arr[index].district = districtDataId[0].DistrictName_ja
+          arr[index].commune = communeDataId[0].WardName_ja
+  
+          setAddresss(arr)
+        }
+  
+        if (
+          addresss[index].province != "" &&
+          addresss[index].district != "" &&
+          addresss[index].commune != "" &&
+          addresss[index].nation != "" &&
+          addresss[index].detail != "" 
+        ) {
+          console.log("addresss", addresss)
+          setIsReadData(false);
+          setIsDitpath(true);
+          setIndex(index + 1);
+        }
       }
-      if (
-        addresss.province != "" &&
-        addresss.district != "" &&
-        addresss.commune != ""
-      ) {
-        console.log("addresss", addresss)
-
-        setIsReadData(false)
-      }
-    }
-    // if(districtDataId) {
-    //     if(isReadData && !districtLoading) {
-    //         const arr = {...addresss};
-    //         // console.log('districtDataId[0]', districtDataId[0])
-    //         arr.district = districtDataId[0].DistrictName_ja;
-    //         setAddresss([arr])
-    //     }
-    // }
-    // if(communeDataId) {
-    //     if(isReadData && !CommuneLoading) {
-    //         const arr = {...addresss};
-    //         arr.commune = communeDataId[0].WardName_ja;
-    //         setAddresss(arr)
-    //     }
-    // }
-    // if(addresss.province != '' && addresss.district != '' && addresss.commune != '') {
-    //     setIsReadData(false);
-    // }
-  }, [provinceDataId, isReadData, districtDataId, communeDataId])
+  }
+  }, [addressData, provinceDataId, isReadData, districtDataId, communeDataId])
 
   // console.log('addresss', addresss)
   // console.log('provinceLoading', provinceLoading)
   //   console.log("provinceDataId", provinceDataId)
   //   console.log("districtDataId", districtDataId)
-  //   console.log("communeDataId", communeDataId)
+  // console.log("communeDataId", communeDataId)
+//   console.log("isReadData", isReadData)
 
   const getSeverity = address => {
     switch (address.inventoryStatus) {
@@ -156,7 +151,7 @@ const AddressDatas = ({ item }) => {
 
   const itemTemplate = (address, index) => {
     return (
-      <div className="col-12" key={address.id}>
+      <div className="col-12" key={index}>
         <div
           className={classNames(
             "flex flex-column xl:flex-row xl:align-items-start p-4 gap-4",
@@ -209,7 +204,7 @@ const AddressDatas = ({ item }) => {
 
   return (
     <div className="card">
-      {/* <DataView value={addresss} listTemplate={listTemplate} /> */}
+      <DataView value={addresss} listTemplate={listTemplate} />
     </div>
   )
 }
