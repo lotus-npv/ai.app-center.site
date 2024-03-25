@@ -45,7 +45,7 @@ const Dashboard = props => {
   const [modal, setmodal] = useState(false)
   // const [subscribemodal, setSubscribemodal] = useState(false);
 
-  const {NationList} = useContext(DataContext);
+  const { NationList } = useContext(DataContext)
 
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
@@ -56,29 +56,6 @@ const Dashboard = props => {
   )
 
   const { chartsData } = useSelector(DashboardProperties)
-
-  // The intern's visa is about to expire
-
-  const reports = [
-    {
-      title: "The item needing support has not been processed yet",
-      iconClass: "bx bx-support",
-      description: "0",
-      value: 1,
-    },
-    {
-      title: "The intern's visa is about to expire",
-      iconClass: "bx bx-user",
-      description: "0",
-      value: 2,
-    },
-    {
-      title: "Interns are about to enter the country",
-      iconClass: "bx bx-user",
-      description: "0",
-      value: 3,
-    },
-  ]
 
   const [periodData, setPeriodData] = useState([])
   const [periodType, setPeriodType] = useState("yearly")
@@ -107,7 +84,7 @@ const Dashboard = props => {
     state => ({
       dataIntern: state.Intern.datas,
       dataStatusDetail: state.StatusDetail.datas,
-      dataAddress: state.Address.datas
+      dataAddress: state.Address.datas,
     }),
     shallowEqual
   )
@@ -118,14 +95,52 @@ const Dashboard = props => {
     dispatch(getAddressAll())
   }, [dispatch])
 
-  const [reportss, setReportss] = useState(reports)
+  // get lai data sau moi 10s
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch(getInternAllInfo())
+      dispatch(getAddressAll())
+    }, 10000)
+    // Hàm dọn dẹp khi unmount
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
+  //=====================================================================
 
   // get thong tin thuc tap sinh theo trang thai
+  // The intern's visa is about to expire
+
+  const reports = [
+    {
+      title: "The item needing support has not been processed yet",
+      iconClass: "bx bx-support",
+      description: "0",
+      value: 1,
+    },
+    {
+      title: "The intern's visa is about to expire",
+      iconClass: "bx bx-user",
+      description: "0",
+      value: 2,
+    },
+    {
+      title: "Interns are about to enter the country",
+      iconClass: "bx bx-user",
+      description: "0",
+      value: 3,
+    },
+  ]
+
+  const [reportss, setReportss] = useState(reports)
+
+
   const [visaExpire, setVisaExpire] = useState(null)
   const [prepareEntry, setPrepareEntry] = useState(null)
   useEffect(() => {
     if (dataIntern) {
-      console.log(dataIntern)
+      // console.log(dataIntern)
 
       const internPrepareEntry = dataStatusDetail.filter(st => {
         return st.status_id == 10
@@ -153,49 +168,36 @@ const Dashboard = props => {
       setReportss(newArr)
     }
   }, [dataIntern])
-
-  // get lai data sau moi 10s
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch(getInternAllInfo())
-    }, 10000)
-    // Hàm dọn dẹp khi unmount
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
-
-  // console.log(dataIntern)
-
+  //=====================================================================
 
   // Charst
-  const dataColors = '["--bs-primary", "--bs-primary-2", "--bs-info", "--bs-secondary"]';
-  const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors);
-  const iconColors = ["primary", "primary-2", "info", "secondary"];
-  const [dataCharst ,setDataCharst] = useState([
-    { country: "VietNam", value: 0 , id: 1},
-    { country: "Japan", value: 0 , id: 2},
-    { country: "Korean", value: 0 , id: 3 },
-  ])
+  const dataColors =
+    '["--bs-primary", "--bs-primary-2", "--bs-info", "--bs-secondary"]'
+  const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors)
+  const iconColors = ["primary", "primary-2", "info", "secondary"]
+  const [dataCharst, setDataCharst] = useState([])
 
-
-
-  // danh sach intern => link bảng address 
+  // danh sach intern => link bảng address
   useEffect(() => {
-    if(dataIntern) {
-        const arr =  dataAddress.filter(address => dataIntern.some(intern => address.object_id == intern.id && address.user_type == 'intern'));
-        console.log('arr', arr);
+    if (dataIntern) {
+      const arr = dataAddress.filter(address =>
+        dataIntern.some(
+          intern =>
+            address.object_id == intern.id && address.user_type == "intern"
+        )
+      )
+      // console.log("arr", arr)
+      const newarr = NationList.map(nation => {
+        const newData = { ...nation }
         arr.forEach(address => {
-          const newarr = [...dataCharst];
-          newarr.forEach((e, index)=> {
-            if(e.id == address.nation_id) {
-              e.value++; 
-            }
-          })
-
-          setDataCharst(newarr);
+          if (address.nation_id == newData.value) {
+            newData.data++
+          }
         })
-        console.log(dataCharst);
+        return newData
+      })
+      console.log("newarr", newarr)
+      setDataCharst(newarr.filter(item => item.data != 0))
     }
   }, [dataIntern])
 
@@ -203,11 +205,18 @@ const Dashboard = props => {
     if (value == 1) {
       return "/ticket"
     } else if (value == 2) {
-      return "/intern"
+      return {
+        pathname: "/intern",
+        state: { tab: "het han visa" },
+      }
     } else {
-      return "/intern"
+      return {
+        pathname: "/intern",
+        state: { tab: "sap nhap canh" },
+      }
     }
   }
+  //=====================================================================
 
   //meta title
   document.title = "Dashboard"
@@ -288,8 +297,10 @@ const Dashboard = props => {
                             {props.t("people")}
                           </p>
                         </Col>
-                        <Col xl={4} className="d-flex justify-content-end">
-                        </Col>
+                        <Col
+                          xl={4}
+                          className="d-flex justify-content-end"
+                        ></Col>
                       </Row>
 
                       <div>
@@ -307,7 +318,7 @@ const Dashboard = props => {
                                 },
                               },
                             }}
-                            series={dataCharst.map(item => item.value)}
+                            series={dataCharst.map(item => item.data)}
                             type="donut"
                             height={300}
                             className="apex-charts"
@@ -316,15 +327,17 @@ const Dashboard = props => {
                       </div>
 
                       <div className="text-center text-muted d-flex justify-content-around">
-                          {dataCharst.map((option, index) => (
-                            <div className="mt-4" key={option.country}>
-                              <p className="mb-2 text-truncate">
-                                <i className={`mdi mdi-circle text-${iconColors[index]} me-1`} />{" "}
-                                {option.country}
-                              </p>
-                              <h5>{option.value}</h5>
-                            </div>
-                          ))}
+                        {dataCharst.map((option, index) => (
+                          <div className="mt-4" key={option.country}>
+                            <p className="mb-2 text-truncate">
+                              <i
+                                className={`mdi mdi-circle text-${iconColors[index]} me-1`}
+                              />{" "}
+                              {option.country}
+                            </p>
+                            <h5>{option.data}</h5>
+                          </div>
+                        ))}
                       </div>
                     </CardBody>
                   </Card>
