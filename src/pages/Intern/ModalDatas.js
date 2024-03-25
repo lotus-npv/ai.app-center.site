@@ -123,7 +123,8 @@ const ModalDatas = ({
     addressIntern,
     addressDataIntern,
     updateAddressDataIntern,
-    isRefresh, setIsRefresh 
+    isRefresh,
+    updateRefresh
   } = useContext(DataContext)
 
   // Radio button
@@ -668,6 +669,23 @@ const ModalDatas = ({
     }
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
+
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+async function  tog_resresh() {
+  console.log('11111')
+    updateRefresh(!isRefresh);
+    await delay(2000);
+    console.log('22222')
+    updateRefresh(isRefresh);
+}
+
+
+  // if (isRefresh === false) {
+  //   updateRefresh(true)
+  // }
 
   // console.log('formik:', formik.values)
   // console.log('alienCardData:', alienCardData)
@@ -1706,9 +1724,11 @@ const ModalDatas = ({
             >
               {t("Save")}
             </button>
-            <button onClick={() => {
-              setIsRefresh(!isRefresh)
-            }}>
+            <button
+              onClick={() => {
+                tog_resresh()
+              }}
+            >
               refresh
             </button>
           </div>

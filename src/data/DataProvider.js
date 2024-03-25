@@ -175,8 +175,36 @@ const DataProvider = ({ children }) => {
         {label: 'Korea', value: 3, country: 'Han Quoc', data: 0, violate: 6},
     ]
 
+
+
     // edit address
     const [isRefresh, setIsRefresh] = useState(true)
+    const updateRefresh = (value) => {
+        setIsRefresh(value);
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+    async function  tog_resresh() {
+        updateRefresh(!isRefresh);
+        await delay(1000);
+        updateRefresh(isRefresh);
+    }
+
+    // useEffect(() => {
+    //     const intervalId = setInterval(() => {
+    //       console.log('check rf:', isRefresh)
+    //       if (isRefresh === false) {
+    //         updateRefresh(true)
+    //       }
+    //     }, 2000)
+    
+    //     return () => {
+    //       clearInterval(intervalId)
+    //     }
+    //   }, [])
 
 
     return (
@@ -200,7 +228,7 @@ const DataProvider = ({ children }) => {
                 rowsSelectedInternData, setRowSelectedInternData,
                 NationList,
                 loadData, setLoadData,
-                isRefresh, setIsRefresh,
+                isRefresh, updateRefresh,tog_resresh
             }}
         >
             {children}

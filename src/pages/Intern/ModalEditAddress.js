@@ -61,7 +61,7 @@ import moment from "moment"
 
 const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   // data context
-  const { tog_standard, modal_standard, setmodal_standard, isRefresh, setIsRefresh } =
+  const { tog_standard, modal_standard, setmodal_standard, isRefresh, updateRefresh, tog_resresh } =
     useContext(DataContext)
 
   const { t } = useTranslation()
@@ -178,8 +178,8 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
     setSelectDistrict(null)
     setSelectCommune(null)
     setIsEditDetail(false)
+    tog_resresh();
     tog_standard();
-    setIsRefresh(!isRefresh)
   }
 
   // console.log('address', address)

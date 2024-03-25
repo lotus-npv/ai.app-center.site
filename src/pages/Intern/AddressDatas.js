@@ -38,7 +38,7 @@ const AddressDatas = ({ item }) => {
     detail: "",
   }
 
-  const { tog_standard, modal_standard, setmodal_standard,isRefresh, setIsRefresh } =
+  const { tog_standard, modal_standard, setmodal_standard,isRefresh, updateRefresh, } =
     useContext(DataContext)
 
   const [isEditDetail, setIsEditDetail] = useState(false)
@@ -79,18 +79,14 @@ const AddressDatas = ({ item }) => {
    // get lai data sau moi 10s
    useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getAddressAll())
-    }, 10000)
+      dispatch(getAddressAll());
+
+    }, 5000)
     return () => {
       clearInterval(intervalId)
     }
   }, [])
 
-  useEffect(() => {
-    if(!isRefresh) {
-        setIsRefresh(true);
-    }
-  })
 
   const [addressOriginal, setAddressOriginal] = useState([])
 
