@@ -7,6 +7,7 @@ import {
   Card,
   CardBody,
   UncontrolledTooltip,
+  Spinner,
 } from "reactstrap"
 import { Link } from "react-router-dom"
 
@@ -107,7 +108,6 @@ const Dashboard = props => {
     }
   }, [])
 
-
   // console.log('chartsData', chartsData)
 
   //=====================================================================
@@ -137,7 +137,7 @@ const Dashboard = props => {
   ]
 
   const [reportss, setReportss] = useState(reports)
-
+  console.log('reportss', reportss)
 
   const [visaExpire, setVisaExpire] = useState(null)
   const [prepareEntry, setPrepareEntry] = useState(null)
@@ -229,6 +229,7 @@ const Dashboard = props => {
   return (
     <React.Fragment>
       <div className="page-content">
+        {!(reportss.length > 0) && <Spinner className="ms-2" color="primary" />}
         <Container fluid>
           <h4 className="fw-bold mt-1">{props.t("Need attention")}</h4>
           <Row>
@@ -432,7 +433,6 @@ const Dashboard = props => {
                       <StackedColumnChart
                         periodData={periodData}
                         dataColors='["--bs-primary", "--bs-warning", "--bs-success"]'
-
                       />
                     </CardBody>
                   </Card>

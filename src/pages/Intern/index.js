@@ -1,35 +1,39 @@
-import React  from "react";
-import { Card, CardBody, Container, CardHeader } from "reactstrap";
-import PropTypes from 'prop-types';
+import React from "react"
+import { Card, CardBody, Container, CardHeader, Spinner } from "reactstrap"
+import PropTypes from "prop-types"
 
-import TableDatas from "./TableDatas";
+import TableDatas from "./TableDatas"
+import { useLocation } from "react-router-dom"
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const InternPage = () => {
-    document.title = "Thực tập sinh";
+  document.title = "Thực tập sinh"
+  const location = useLocation()
+  const receivedData = location.state
 
-    return (
-        <>
-            <div className="page-content">
-                <Container fluid={true}>
-                    <Card>
-                        <ToastContainer />
-                        <CardBody>
-                            <TableDatas />
-                        </CardBody>
-                    </Card>
-                </Container>
-            </div>
-        </>
-    );
+  console.log(receivedData);
+
+  return (
+    <>
+      <div className="page-content">
+        <Container fluid={true}>
+          <Card>
+            <ToastContainer />
+            <CardBody>
+              <TableDatas />
+            </CardBody>
+          </Card>
+        </Container>
+      </div>
+    </>
+  )
 }
 
 InternPage.propTypes = {
-    preGlobalFilteredRows: PropTypes.any,
-};
+  preGlobalFilteredRows: PropTypes.any,
+}
 
 // export default withRouter(withTranslation()(StatusPage));
-export default InternPage;
+export default InternPage
