@@ -17,8 +17,10 @@ import {
     deleteViolateSuccess,
     deleteViolateFail
 } from "./actions"
+
+import { getViolateListAllSuccess } from "store/actions";
                                       
-import { getViolateDataAll,getViolateDataId ,addNewDataViolate, updateDataViolate, deleteDataViolate } from "../../helpers/fakebackend_helper";
+import { getViolateDataAll,getViolateDataId ,addNewDataViolate, updateDataViolate, deleteDataViolate, getViolateListDataAll } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetViolateData() {
@@ -45,6 +47,7 @@ function* onAddNewViolate({ payload: data }) {
       yield put(setViolateSuccess(response));
       toast.success("Violate Added Successfully", { autoClose: 2000 });
       yield call(refreshViolateData);
+      yield call(refreshViolateListData);
   } catch (error) {
       yield put(setViolateFail(error));
       toast.error("Violate Added Failed", { autoClose: 2000 });
@@ -57,6 +60,7 @@ function* onUpdateViolate({ payload: data }) {
       yield put(updateViolateSuccess(response));
       toast.success("Violate Updated Successfully", { autoClose: 2000 });
       yield call(refreshViolateData);
+      yield call(refreshViolateListData);
   } catch (error) {
       yield put(updateViolateFail(error))
       toast.error("Violate Updated Failed", { autoClose: 2000 });
@@ -77,6 +81,11 @@ function* onDeleteViolate({ payload: id }) {
 function* refreshViolateData() {
   const response = yield call(getViolateDataAll);
   yield put(getViolateAllSuccess(response));
+}
+
+function* refreshViolateListData() {
+  const response = yield call(getViolateListDataAll);
+  yield put(getViolateListAllSuccess(response));
 }
                                       
 

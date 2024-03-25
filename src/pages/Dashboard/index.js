@@ -101,6 +101,7 @@ const Dashboard = props => {
     const intervalId = setInterval(() => {
       dispatch(getInternAllInfo())
       dispatch(getAddressAll())
+      dispatch(getStatusDetailAll())
     }, 10000)
     // Hàm dọn dẹp khi unmount
     return () => {
