@@ -16,8 +16,12 @@ import {
     deleteAddressSuccess,
     deleteAddressFail
 } from "./actions"
+
+import {
+  getInternAllInfoSuccess
+} from '../intern/actions'
                                       
-import { getAddressDataAll, addNewDataAddress, updateDataAddress, deleteDataAddress } from "../../helpers/fakebackend_helper";
+import { getAddressDataAll, addNewDataAddress, updateDataAddress, deleteDataAddress, getInternDataAllInfo } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetAddressData() {
@@ -35,6 +39,7 @@ function* onAddNewAddress({ payload: data }) {
       yield put(setAddressSuccess(response));
       toast.success("Address Added Successfully", { autoClose: 2000 });
       yield call(refreshAddressData);
+      yield call(refreshInternData);
   } catch (error) {
       yield put(setAddressFail(error));
       toast.error("Address Added Failed", { autoClose: 2000 });
@@ -67,6 +72,11 @@ function* onDeleteAddress({ payload: id }) {
 function* refreshAddressData() {
   const response = yield call(getAddressDataAll);
   yield put(getAddressAllSuccess(response));
+}
+
+function* refreshInternData() {
+  const response = yield call(getInternDataAllInfo);
+  yield put(getInternAllInfoSuccess(response));
 }
                                       
 

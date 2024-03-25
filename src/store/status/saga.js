@@ -16,6 +16,10 @@ import {
   deleteStatusFail
 } from "./actions"
 
+import {
+  getInternAllInfoSuccess
+} from '../intern/actions'
+
 import { getStatusDataAll, addNewDataStatus, updateDataStatus, deleteDataStatus , getStatusDataId} from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
@@ -44,6 +48,7 @@ function* onAddNewStatus({ payload: data }) {
     yield put(setStatusSuccess(response));
     toast.success("Status Added Successfully", { autoClose: 2000 });
     yield call(refreshCareerData);
+    yield call(refreshInternData);
   } catch (error) {
     yield put(setStatusFail(error));
     toast.error("Status Added Failed", { autoClose: 2000 });
@@ -57,6 +62,7 @@ function* onUpdateStatus({ payload: data }) {
     // console.log('saga', response);
     toast.success("Status Updated Successfully", { autoClose: 2000 });
     yield call(refreshCareerData);
+    yield call(refreshInternData);
   } catch (error) {
     yield put(updateStatusFail(error))
     toast.error("Status Updated Failed", { autoClose: 2000 });
@@ -78,6 +84,11 @@ function* onDeleteStatus({ payload: id }) {
 function* refreshCareerData() {
   const response = yield call(getStatusDataAll);
   yield put(getStatusAllSuccess(response));
+}
+
+function* refreshInternData() {
+  const response = yield call(getInternDataAllInfo);
+  yield put(getInternAllInfoSuccess(response));
 }
 
 

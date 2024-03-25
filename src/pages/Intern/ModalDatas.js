@@ -503,11 +503,6 @@ const ModalDatas = ({
   }
   //---------------------------------------------------------------------------------------
 
-  // Tai du lieu thanh pho
-  useEffect(() => {
-    dispatch(getProvinceByNationId(formik.values.nation_id))
-  }, [formik.values.nation_id])
-
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
     // console.log('check');
@@ -591,12 +586,27 @@ const ModalDatas = ({
   //---------------------------------------------------------------------------------------
 
   // render lua chon tinh, huyen, xa
+
+  const [selectNation, setSelectNation] = useState(null)
   const [selectProvince, setSelectProvince] = useState(null)
   const [selectDistrict, setSelectDistrict] = useState(null)
   const [selectCommune, setSelectCommune] = useState(null)
 
-  // tao danh sach lua chon tinh/thanh pho
   const [provinceOptions, setProvinceOptions] = useState([])
+  const [districtOptions, setDistrictOptions] = useState([])
+  const [communeOptions, setCommuneOptions] = useState([])
+
+  // Tai du lieu thanh pho
+  useEffect(() => {
+    if (selectNation) {
+      dispatch(getProvinceByNationId(selectNation.value))
+      // setSelectProvince([]);
+    }
+  }, [selectNation])
+
+  //---------------------------------------------------------------------------------------
+
+  // tao danh sach lua chon tinh/thanh pho
   useEffect(() => {
     if (provinceDataByNationId) {
       const data = provinceDataByNationId.map(province => {
@@ -613,7 +623,6 @@ const ModalDatas = ({
   //---------------------------------------------------------------------------------------
 
   // Xu ly danh sach district
-  const [districtOptions, setDistrictOptions] = useState([])
   useEffect(() => {
     if (selectProvince !== null) {
       dispatch(getDistrictByProvinceId(selectProvince.StateID))
@@ -636,7 +645,6 @@ const ModalDatas = ({
 
   //---------------------------------------------------------------------------------------
   // xu ly tai danh sach commune
-  const [communeOptions, setCommuneOptions] = useState([])
   useEffect(() => {
     if (selectDistrict !== null) {
       dispatch(getCommuneByDistrictId(selectDistrict.DistrictID))
@@ -698,7 +706,7 @@ const ModalDatas = ({
             </button>
           </div>
 
-          <div className="modal-body">
+          <div className="modal-body" style={{ paddingBottom: "200px" }}>
             <Row>
               <Col lg={12}>
                 <Card>
@@ -707,7 +715,7 @@ const ModalDatas = ({
                   <Card>
                     <CardBody className="bg-light">
                       <Row>
-                        <Col lg={1} xl={1}>
+                        <Col lg={2} xl={1} sm={3}>
                           <Card
                           // style={{ width: '90%' }}
                           >
@@ -739,7 +747,7 @@ const ModalDatas = ({
                           </Card>
                         </Col>
 
-                        <Col lg={6} xl={6}>
+                        <Col lg={5} xl={6}>
                           <Card className="h-100">
                             <CardBody>
                               <Row>
@@ -1390,8 +1398,8 @@ const ModalDatas = ({
                   </Card>
 
                   {!isEditIntern && (
-                    <Card>
-                      <CardBody className="bg-light">
+                    <Card style={{minWidth: '1100px'}}>
+                      <CardBody className="bg-light" >
                         <h4 className="fw-bold">{t("Contact Information")}</h4>
                         <Row className="border border-secondary mt-3">
                           <div>
@@ -1399,72 +1407,43 @@ const ModalDatas = ({
                               <Col lg={12} sm={12}>
                                 <Row>
                                   <Col
-                                    lg={2}
+                                    lg={2} sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Country")}</p>
                                   </Col>
                                   <Col
-                                    lg={2}
+                                    lg={2} sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Province")}</p>
                                   </Col>
                                   <Col
-                                    lg={2}
+                                    lg={2} sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("District")}</p>
                                   </Col>
                                   <Col
-                                    lg={2}
+                                    lg={2} sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Ward")}</p>
                                   </Col>
                                   <Col
-                                    lg={3}
+                                    lg={3} sm={3}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("House Number, Street, etc.")}</p>
                                   </Col>
                                   <Col
-                                    lg={1}
+                                    lg={1} sm={1}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Default address")}</p>
                                   </Col>
                                 </Row>
                               </Col>
-
-                              {/* <Col
-                                lg={1}
-                                sm={1}
-                                className="text-center mt-2 fw-bold"
-                              >
-                                <p>{t("Phone Number")}</p>
-                              </Col> */}
-                              {/* <Col
-                                lg={1}
-                                sm={1}
-                                className="text-center mt-2 fw-bold"
-                              >
-                                <p>{t("Fax")}</p>
-                              </Col> */}
-                              {/* <Col
-                                lg={2}
-                                sm={2}
-                                className="text-center mt-2 fw-bold"
-                              >
-                                <Row>
-                                  <Col lg={9}>
-                                    <p>{t("Email")}</p>
-                                  </Col>
-                                  <Col lg={3}>
-                                    <p>{t("Default address")}</p>
-                                  </Col>
-                                </Row>
-                              </Col> */}
                             </Row>
                           </div>
 
@@ -1476,263 +1455,179 @@ const ModalDatas = ({
                                 id={"nested" + index}
                               >
                                 <Col lg={12}>
-                                  <Row>
-                                    <Col
-                                      lg={2}
-                                      className="d-flex justify-content-between gap-1 mt-2"
-                                    >
-                                      <CloseButton
-                                        className="mt-2"
-                                        onClick={() => {
-                                          handleDeleteColumn(index)
-                                        }}
-                                      />
-                                      <div className="mb-3 w-75">
-                                        <Select
-                                          name="nation_id"
-                                          placeholder={t("Country")}
-                                          value={optionGroup.find(
-                                            option =>
-                                              option.value ===
-                                              formik.values.nation_id
-                                          )}
-                                          onChange={item => {
-                                            formik.setFieldValue(
-                                              "nation_id",
-                                              item.value
-                                            )
-                                          }}
-                                          options={optionGroup}
-                                          className="w-100"
-                                         
-                                        />
-                                      </div>
-                                    </Col>
+                                  <div >
+                                    <Row>
+                                      <Col
+                                        lg={2} sm={2}
+                                        className="d-flex justify-content-between gap-2 mt-2"
+                                      >
+                                        <div className="mb-3">
+                                          <CloseButton
+                                            className="mt-2"
+                                            onClick={() => {
+                                              handleDeleteColumn(index)
+                                            }}
+                                          />
+                                        </div>
+                                        <div className="mb-3 w-100">
+                                          <Select
+                                            name="nation_id"
+                                            placeholder={t("Country")}
+                                            // value={selectNation}
+                                            onChange={item => {
+                                              setSelectNation(item)
+                                              const arr = [...addressDataIntern]
+                                              arr[index] = {
+                                                ...arr[index],
+                                                nation_id: item.value,
+                                              }
+                                              updateAddressDataIntern(arr)
+                                            }}
+                                            options={optionGroup}
+                                            className="w-100"
+                                          />
+                                        </div>
+                                      </Col>
 
-                                    <Col lg={2} className="mt-2">
-                                      <div className="mb-3">
-                                        <Select
-                                          name="province_id"
-                                          placeholder={t("Province")}
-                                          // value={selectProvince || ""}
-                                          defaultValue={
-                                            isEditIntern
-                                              ? provinceOptions.find(
-                                                  item =>
-                                                    item.StateID ==
-                                                    address.province_id
-                                                )
-                                              : ""
-                                          }
-                                          // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
-                                          onChange={item => {
-                                            setSelectProvince(item)
-                                            const arr = [...addressDataIntern]
-                                            arr[index] = {
-                                              ...arr[index],
-                                              province_id: item.StateID,
+                                      <Col lg={2} sm={2} className="mt-2">
+                                        <div className="mb-3">
+                                          <Select
+                                            name="province_id"
+                                            placeholder={t("Province")}
+                                            // value={selectProvince || ""}
+                                            defaultValue={
+                                              isEditIntern
+                                                ? provinceOptions.find(
+                                                    item =>
+                                                      item.StateID ==
+                                                      address.province_id
+                                                  )
+                                                : ""
                                             }
-                                            updateAddressDataIntern(arr)
-                                          }}
-                                          options={provinceOptions}
-                                          // isClearable
-                                        />
-                                      </div>
-                                    </Col>
+                                            // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
+                                            onChange={item => {
+                                              setSelectProvince(item)
+                                              const arr = [...addressDataIntern]
+                                              arr[index] = {
+                                                ...arr[index],
+                                                province_id: item.StateID,
+                                              }
+                                              updateAddressDataIntern(arr)
+                                            }}
+                                            options={provinceOptions}
+                                            // isClearable
+                                          />
+                                        </div>
+                                      </Col>
 
-                                    <Col lg={2} className="mt-2 ">
-                                      <div className="mb-3">
-                                        <Select
-                                          name="district"
-                                          placeholder={t("District")}
-                                          // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
-                                          defaultValue={
-                                            isEditIntern
-                                              ? districtOptions.find(
-                                                  item =>
-                                                    item.DistrictID ==
-                                                    address.district_id
-                                                )
-                                              : ""
-                                          }
-                                          onChange={item => {
-                                            setSelectDistrict(item)
-                                            const arr = [...addressDataIntern]
-                                            arr[index] = {
-                                              ...arr[index],
-                                              district_id: item.DistrictID,
+                                      <Col lg={2} sm={2} className="mt-2 ">
+                                        <div className="mb-3">
+                                          <Select
+                                            name="district"
+                                            placeholder={t("District")}
+                                            // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
+                                            defaultValue={
+                                              isEditIntern
+                                                ? districtOptions.find(
+                                                    item =>
+                                                      item.DistrictID ==
+                                                      address.district_id
+                                                  )
+                                                : ""
                                             }
-                                            updateAddressDataIntern(arr)
-                                          }}
-                                          options={districtOptions}
-                                          className="select2-selection"
-                                          // isClearable
-                                        />
-                                      </div>
-                                    </Col>
+                                            onChange={item => {
+                                              setSelectDistrict(item)
+                                              const arr = [...addressDataIntern]
+                                              arr[index] = {
+                                                ...arr[index],
+                                                district_id: item.DistrictID,
+                                              }
+                                              updateAddressDataIntern(arr)
+                                            }}
+                                            options={districtOptions}
+                                            className="select2-selection"
+                                            // isClearable
+                                          />
+                                        </div>
+                                      </Col>
 
-                                    <Col lg={2} className="mt-2">
-                                      <div className="mb-3">
-                                        <Select
-                                          name="commune"
-                                          placeholder={t("Ward")}
-                                          // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
-                                          defaultValue={
-                                            isEditIntern
-                                              ? communeOptions.find(
-                                                  item =>
-                                                    item.WardID ==
-                                                    address.commune_id
-                                                )
-                                              : ""
-                                          }
-                                          onChange={item => {
-                                            setSelectCommune(item)
-                                            const arr = [...addressDataIntern]
-                                            arr[index] = {
-                                              ...arr[index],
-                                              commune_id: item.WardID,
+                                      <Col lg={2} sm={2} className="mt-2">
+                                        <div className="mb-3">
+                                          <Select
+                                            name="commune"
+                                            placeholder={t("Ward")}
+                                            // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
+                                            defaultValue={
+                                              isEditIntern
+                                                ? communeOptions.find(
+                                                    item =>
+                                                      item.WardID ==
+                                                      address.commune_id
+                                                  )
+                                                : ""
                                             }
-                                            updateAddressDataIntern(arr)
-                                          }}
-                                          options={communeOptions}
-                                          className="select2-selection"
-                                          // isClearable
-                                        />
-                                      </div>
-                                    </Col>
+                                            onChange={item => {
+                                              setSelectCommune(item)
+                                              const arr = [...addressDataIntern]
+                                              arr[index] = {
+                                                ...arr[index],
+                                                commune_id: item.WardID,
+                                              }
+                                              updateAddressDataIntern(arr)
+                                            }}
+                                            options={communeOptions}
+                                            className="select2-selection"
+                                            // isClearable
+                                          />
+                                        </div>
+                                      </Col>
 
-                                    <Col lg={3} className="mt-2 fw-bold">
-                                      <div className="mb-3">
-                                        <Input
-                                          name="detail"
-                                          type="text"
-                                          placeholder={t(
-                                            "House Number, Street, etc."
-                                          )}
-                                          value={address.detail || ""}
-                                          onChange={e => {
-                                            const arr = [...addressDataIntern]
-                                            arr[index] = {
-                                              ...arr[index],
-                                              detail: e.target.value,
-                                            }
-                                            updateAddressDataIntern(arr)
-                                          }}
-                                        />
-                                      </div>
-                                    </Col>
-
-                                    <Col
-                                      lg={1}
-                                      className="d-flex justify-content-center"
-                                    >
-                                      <div className="ms-2">
-                                        <input
-                                          className="form-check-input"
-                                          type="radio"
-                                          name="exampleRadios"
-                                          id={`radio-${index}`}
-                                          value={index}
-                                          style={{ marginTop: "12px" }}
-                                          onChange={handleChangeDefault}
-                                        />
-                                        <UncontrolledTooltip
-                                          placement="top"
-                                          target={`radio-${index}`}
-                                        >
-                                          {t("Default address")}
-                                        </UncontrolledTooltip>
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </Col>
-
-                                {/* <Col lg={1} className="mt-2 fw-bold">
-                                  <div className="mb-3">
-                                    <Input
-                                      name="phone_number"
-                                      type="text"
-                                      placeholder={t("Phone Number")}
-                                      value={address.phone_number || ""}
-                                      onChange={e => {
-                                        const arr = [...addressDataIntern]
-                                        arr[index] = {
-                                          ...arr[index],
-                                          phone_number: e.target.value,
-                                        }
-                                        updateAddressDataIntern(arr)
-                                      }}
-                                    />
-                                  </div>
-                                </Col> */}
-                                {/* <Col lg={1} className="mt-2 fw-bold">
-                                  <div className="mb-3">
-                                    <Input
-                                      name="fax"
-                                      type="text"
-                                      placeholder={t("Fax")}
-                                      value={address.fax || ""}
-                                      onChange={e => {
-                                        const arr = [...addressDataIntern]
-                                        arr[index] = {
-                                          ...arr[index],
-                                          fax: e.target.value,
-                                        }
-                                        updateAddressDataIntern(arr)
-                                      }}
-                                    />
-                                  </div>
-                                </Col> */}
-                                {/* <Col lg={2} className="mt-2">
-                                  <Row>
-                                    <Col
-                                      lg={9}
-                                      className="text-center fw-bold gx-1"
-                                    >
-                                      <div className=" d-flex gap-1">
-                                        <div>
+                                      <Col lg={3} sm={3} className="mt-2 fw-bold">
+                                        <div className="mb-3">
                                           <Input
-                                            name="email"
-                                            type="email"
-                                            placeholder={t("Email")}
-                                            value={address.email || ""}
+                                            name="detail"
+                                            type="text"
+                                            placeholder={t(
+                                              "House Number, Street, etc."
+                                            )}
+                                            value={address.detail || ""}
                                             onChange={e => {
                                               const arr = [...addressDataIntern]
                                               arr[index] = {
                                                 ...arr[index],
-                                                email: e.target.value,
+                                                detail: e.target.value,
                                               }
                                               updateAddressDataIntern(arr)
                                             }}
                                           />
                                         </div>
-                                      </div>
-                                    </Col>
-                                    <Col
-                                      lg={3}
-                                      className="d-flex justify-content-center"
-                                    >
-                                      <div className="ms-2">
-                                        <input
-                                          className="form-check-input"
-                                          type="radio"
-                                          name="exampleRadios"
-                                          id={`radio-${index}`}
-                                          value={index}
-                                          style={{ marginTop: "12px" }}
-                                          onChange={handleChangeDefault}
-                                        />
-                                        <UncontrolledTooltip
-                                          placement="top"
-                                          target={`radio-${index}`}
-                                        >
-                                          {t("Default address")}
-                                        </UncontrolledTooltip>
-                                      </div>
-                                    </Col>
-                                  </Row>
-                                </Col> */}
+                                      </Col>
+
+                                      <Col
+                                        lg={1} sm={1}
+                                        className="d-flex justify-content-center"
+                                      >
+                                        <div className="ms-2">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="exampleRadios"
+                                            id={`radio-${index}`}
+                                            value={index}
+                                            style={{ marginTop: "12px" }}
+                                            onChange={handleChangeDefault}
+                                          />
+                                          <UncontrolledTooltip
+                                            placement="top"
+                                            target={`radio-${index}`}
+                                          >
+                                            {t("Default address")}
+                                          </UncontrolledTooltip>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </div>
+                                </Col>
                               </Row>
                             )
                           })}
