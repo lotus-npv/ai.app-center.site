@@ -20,6 +20,7 @@ import StackedColumnChart from "./StackedColumnChart"
 
 //import action
 import {
+  getAddressAll,
   getStatusDetailAll,
   getChartsData as onGetChartsData,
 } from "../../store/actions"
@@ -102,10 +103,11 @@ const Dashboard = props => {
   }, [dispatch])
 
   // get intern data
-  const { dataIntern, dataStatusDetail } = useSelector(
+  const { dataIntern, dataStatusDetail, dataAddress } = useSelector(
     state => ({
       dataIntern: state.Intern.datas,
       dataStatusDetail: state.StatusDetail.datas,
+      dataAddress: state.Address.datas
     }),
     shallowEqual
   )
@@ -113,6 +115,7 @@ const Dashboard = props => {
   useEffect(() => {
     dispatch(getInternAllInfo())
     dispatch(getStatusDetailAll())
+    dispatch(getAddressAll())
   }, [dispatch])
 
   const [reportss, setReportss] = useState(reports)
@@ -166,28 +169,35 @@ const Dashboard = props => {
 
 
   // Charst
-  const dataColors = '["--bs-primary", "--bs-success", "--bs-danger"]'
-  const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors)
-  const series = [56, 38, 26]
-  const dataCharst = [
-    { country: "VietNam", value: 56 },
-    { country: "Japan", value: 38 },
-    { country: "Korean", value: 26 },
-  ]
-  const options = {
-    labels: dataCharst.map(item => item.country),
-    colors: apexsalesAnalyticsChartColors,
-    legend: { show: !1 },
-    plotOptions: {
-      pie: {
-        donut: {
-          size: "70%",
-        },
-      },
-    },
-  }
+  const dataColors = '["--bs-primary", "--bs-primary-2", "--bs-info", "--bs-secondary"]';
+  const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors);
+  const iconColors = ["primary", "primary-2", "info", "secondary"];
+  const [dataCharst ,setDataCharst] = useState([
+    { country: "VietNam", value: 0 , id: 1},
+    { country: "Japan", value: 0 , id: 2},
+    { country: "Korean", value: 0 , id: 3 },
+  ])
 
-  // danh sach intern => link bảng address lấy 
+
+
+  // danh sach intern => link bảng address 
+  useEffect(() => {
+    if(dataIntern) {
+        const arr =  dataAddress.filter(address => dataIntern.some(intern => address.object_id == intern.id && address.user_type == 'intern'));
+        console.log('arr', arr);
+        arr.forEach(address => {
+          const newarr = [...dataCharst];
+          newarr.forEach((e, index)=> {
+            if(e.id == address.nation_id) {
+              e.value++; 
+            }
+          })
+
+          setDataCharst(newarr);
+        })
+        console.log(dataCharst);
+    }
+  }, [dataIntern])
 
   const handleLink = value => {
     if (value == 1) {
@@ -207,17 +217,8 @@ const Dashboard = props => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          {/* Render Breadcrumb */}
-          {/* <Breadcrumbs
-            title={props.t("Dashboards")}
-            breadcrumbItem={props.t("Dashboard")}
-          /> */}
           <h4 className="fw-bold mt-1">{props.t("Need attention")}</h4>
           <Row>
-            {/* <Col xl="4">
-              <WelcomeComp />
-              <MonthlyEarning />
-            </Col> */}
             <Col xl="12">
               <Row>
                 {/* Reports Render */}
@@ -294,8 +295,19 @@ const Dashboard = props => {
                       <div>
                         <div id="donut-chart">
                           <ReactApexChart
-                            options={options}
-                            series={series}
+                            options={{
+                              labels: dataCharst.map(item => item.country),
+                              colors: apexsalesAnalyticsChartColors,
+                              legend: { show: !1 },
+                              plotOptions: {
+                                pie: {
+                                  donut: {
+                                    size: "70%",
+                                  },
+                                },
+                              },
+                            }}
+                            series={dataCharst.map(item => item.value)}
                             type="donut"
                             height={300}
                             className="apex-charts"
@@ -304,10 +316,10 @@ const Dashboard = props => {
                       </div>
 
                       <div className="text-center text-muted d-flex justify-content-around">
-                          {dataCharst.map(option => (
+                          {dataCharst.map((option, index) => (
                             <div className="mt-4" key={option.country}>
                               <p className="mb-2 text-truncate">
-                                <i className="mdi mdi-circle text-primary me-1" />{" "}
+                                <i className={`mdi mdi-circle text-${iconColors[index]} me-1`} />{" "}
                                 {option.country}
                               </p>
                               <h5>{option.value}</h5>
