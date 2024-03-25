@@ -126,9 +126,6 @@ const ModalTop = ({
   // => lay danh sach intern vi pham
   // => tao vong lap va ghi vao bang violate
 
-  // console.log("loading", loading)
-  // console.log("rowsSelectedInternData", rowsSelectedInternData)
-
   useEffect(() => {
     setSelectIntern(rowsSelectedInternData)
     let arr = dataInternAll.filter(
@@ -167,28 +164,26 @@ const ModalTop = ({
   }
 
   const handleAddForm = () => {
-    const newViolate = {
-      ...violateList,
-      violate_type_id: violateType.id,
-      violate_date: moment(dateViolate[0])
-        .utcOffset("+07:00")
-        .format("YYYY-MM-DD"),
-      description: note,
-    }
-    dispatch(setViolateList(newViolate))
-    setIsDone(true)
-    setIsEditViolate(false)
-    setDateViolate("")
-    setViolateType("")
-    setNote("")
-    setSelectIntern("")
-    setInternData(dataInternAll)
-    tog_xlarge()
+    if(!isEditViolate) {
+      const newViolate = {
+        ...violateList,
+        violate_type_id: violateType.id,
+        violate_date: moment(dateViolate[0])
+          .utcOffset("+07:00")
+          .format("YYYY-MM-DD"),
+        description: note,
+      }
+      dispatch(setViolateList(newViolate))
+      setIsDone(true)
+    } else {
+      
+    }    
   }
 
   useEffect(() => {
     if (violateListAddDone) {
-      if (isDone && !loading) {
+      if (isDone && !loading && !isEditViolate) {
+        console.log("check", selectIntern)
         const violate_type_id = violateListAddDone.id
         selectIntern.forEach(intern => {
           const vio = {
@@ -199,6 +194,13 @@ const ModalTop = ({
           dispatch(setViolate(vio))
         })
       }
+      setIsEditViolate(false)
+      setDateViolate("")
+      setViolateType("")
+      setNote("")
+      setSelectIntern("")
+      setInternData(dataInternAll)
+      tog_xlarge()
     }
   }, [violateListAddDone])
 
@@ -224,8 +226,6 @@ const ModalTop = ({
       setSelectIntern(newListIntern)
     }
   }, [isEditViolate, rowSelect])
-
-  // console.log('isEditViolate', isEditViolate)
 
   // render col name
   const nameBodyTemplate = rowData => {
@@ -267,6 +267,10 @@ const ModalTop = ({
   } Intern.`
 
   // console.log(internApiData)
+  // console.log('isEditViolate', isEditViolate)
+  console.log("selectIntern", selectIntern)
+  // console.log("loading", loading)
+  // console.log("rowsSelectedInternData", rowsSelectedInternData)
 
   return (
     <>

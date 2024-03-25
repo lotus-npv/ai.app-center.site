@@ -23,6 +23,7 @@ import StackedColumnChart from "./StackedColumnChart"
 import {
   getAddressAll,
   getStatusDetailAll,
+  getViolateAll,
   getChartsData as onGetChartsData,
 } from "../../store/actions"
 
@@ -78,11 +79,12 @@ const Dashboard = props => {
   }, [dispatch])
 
   // get intern data
-  const { dataIntern, dataStatusDetail, dataAddress } = useSelector(
+  const { dataIntern, dataStatusDetail, dataAddress, dataViolate } = useSelector(
     state => ({
       dataIntern: state.Intern.datas,
       dataStatusDetail: state.StatusDetail.datas,
       dataAddress: state.Address.datas,
+      dataViolate: state.Violate.datas,
     }),
     shallowEqual
   )
@@ -91,6 +93,7 @@ const Dashboard = props => {
     dispatch(getInternAllInfo())
     dispatch(getStatusDetailAll())
     dispatch(getAddressAll())
+    dispatch(getViolateAll())
   }, [dispatch])
 
   // get lai data sau moi 10s
@@ -192,17 +195,26 @@ const Dashboard = props => {
       const arr = dataAddress.filter(address =>
         dataIntern.some(
           intern =>
-            address.object_id == intern.id && address.user_type == "intern"
+            address.object_id == intern.id && address.user_type == "intern" && address.is_default == 1
         )
       )
+
       // console.log("arr", arr)
       const newarr = NationList.map(nation => {
         const newData = { ...nation }
+        const idIntern = []
         arr.forEach(address => {
           if (address.nation_id == newData.value) {
-            newData.data++
+            newData.data++;
+            idIntern.push(address.object_id);
           }
         })
+        const numberViolate = dataViolate.filter(violate => idIntern.some(id => id == violate.intern_id));
+        newData.violate = numberViolate.length;
+        // console.log('numberViolate', numberViolate)
+
+        // lay danh sach violate
+        // tao danh sach
         return newData
       })
       // console.log("newarr", newarr)
