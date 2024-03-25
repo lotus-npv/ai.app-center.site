@@ -1396,13 +1396,13 @@ const ModalDatas = ({
                         <Row className="border border-secondary mt-3">
                           <div>
                             <Row className="bg-secondary text-light">
-                              <Col lg={8} sm={8}>
+                              <Col lg={12} sm={12}>
                                 <Row>
                                   <Col
                                     lg={2}
                                     className="text-center mt-2 fw-bold"
                                   >
-                                    <p>{t("Branch")}</p>
+                                    <p>{t("Country")}</p>
                                   </Col>
                                   <Col
                                     lg={2}
@@ -1423,29 +1423,35 @@ const ModalDatas = ({
                                     <p>{t("Ward")}</p>
                                   </Col>
                                   <Col
-                                    lg={4}
+                                    lg={3}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("House Number, Street, etc.")}</p>
                                   </Col>
+                                  <Col
+                                    lg={1}
+                                    className="text-center mt-2 fw-bold"
+                                  >
+                                    <p>{t("Default address")}</p>
+                                  </Col>
                                 </Row>
                               </Col>
 
-                              <Col
+                              {/* <Col
                                 lg={1}
                                 sm={1}
                                 className="text-center mt-2 fw-bold"
                               >
                                 <p>{t("Phone Number")}</p>
-                              </Col>
-                              <Col
+                              </Col> */}
+                              {/* <Col
                                 lg={1}
                                 sm={1}
                                 className="text-center mt-2 fw-bold"
                               >
                                 <p>{t("Fax")}</p>
-                              </Col>
-                              <Col
+                              </Col> */}
+                              {/* <Col
                                 lg={2}
                                 sm={2}
                                 className="text-center mt-2 fw-bold"
@@ -1458,7 +1464,7 @@ const ModalDatas = ({
                                     <p>{t("Default address")}</p>
                                   </Col>
                                 </Row>
-                              </Col>
+                              </Col> */}
                             </Row>
                           </div>
 
@@ -1469,11 +1475,11 @@ const ModalDatas = ({
                                 key={index}
                                 id={"nested" + index}
                               >
-                                <Col lg={8}>
+                                <Col lg={12}>
                                   <Row>
                                     <Col
                                       lg={2}
-                                      className="d-flex justify-content-center gap-2 mt-2"
+                                      className="d-flex justify-content-between gap-1 mt-2"
                                     >
                                       <CloseButton
                                         className="mt-2"
@@ -1481,21 +1487,24 @@ const ModalDatas = ({
                                           handleDeleteColumn(index)
                                         }}
                                       />
-
-                                      <div className="mb-3">
-                                        <Input
-                                          name="description_address"
-                                          type="text"
-                                          placeholder={t("Branch")}
-                                          onChange={e => {
-                                            const arr = [...addressDataIntern]
-                                            arr[index] = {
-                                              ...arr[index],
-                                              description: e.target.value,
-                                            }
-                                            updateAddressDataIntern(arr)
+                                      <div className="mb-3 w-75">
+                                        <Select
+                                          name="nation_id"
+                                          placeholder={t("Country")}
+                                          value={optionGroup.find(
+                                            option =>
+                                              option.value ===
+                                              formik.values.nation_id
+                                          )}
+                                          onChange={item => {
+                                            formik.setFieldValue(
+                                              "nation_id",
+                                              item.value
+                                            )
                                           }}
-                                          value={address.description || ""}
+                                          options={optionGroup}
+                                          className="w-100"
+                                         
                                         />
                                       </div>
                                     </Col>
@@ -1593,7 +1602,7 @@ const ModalDatas = ({
                                       </div>
                                     </Col>
 
-                                    <Col lg={4} className="mt-2 fw-bold">
+                                    <Col lg={3} className="mt-2 fw-bold">
                                       <div className="mb-3">
                                         <Input
                                           name="detail"
@@ -1613,10 +1622,33 @@ const ModalDatas = ({
                                         />
                                       </div>
                                     </Col>
+
+                                    <Col
+                                      lg={1}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <div className="ms-2">
+                                        <input
+                                          className="form-check-input"
+                                          type="radio"
+                                          name="exampleRadios"
+                                          id={`radio-${index}`}
+                                          value={index}
+                                          style={{ marginTop: "12px" }}
+                                          onChange={handleChangeDefault}
+                                        />
+                                        <UncontrolledTooltip
+                                          placement="top"
+                                          target={`radio-${index}`}
+                                        >
+                                          {t("Default address")}
+                                        </UncontrolledTooltip>
+                                      </div>
+                                    </Col>
                                   </Row>
                                 </Col>
 
-                                <Col lg={1} className="mt-2 fw-bold">
+                                {/* <Col lg={1} className="mt-2 fw-bold">
                                   <div className="mb-3">
                                     <Input
                                       name="phone_number"
@@ -1633,8 +1665,8 @@ const ModalDatas = ({
                                       }}
                                     />
                                   </div>
-                                </Col>
-                                <Col lg={1} className="mt-2 fw-bold">
+                                </Col> */}
+                                {/* <Col lg={1} className="mt-2 fw-bold">
                                   <div className="mb-3">
                                     <Input
                                       name="fax"
@@ -1651,8 +1683,8 @@ const ModalDatas = ({
                                       }}
                                     />
                                   </div>
-                                </Col>
-                                <Col lg={2} className="mt-2">
+                                </Col> */}
+                                {/* <Col lg={2} className="mt-2">
                                   <Row>
                                     <Col
                                       lg={9}
@@ -1700,7 +1732,7 @@ const ModalDatas = ({
                                       </div>
                                     </Col>
                                   </Row>
-                                </Col>
+                                </Col> */}
                               </Row>
                             )
                           })}

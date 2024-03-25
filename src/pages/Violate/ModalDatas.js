@@ -541,10 +541,10 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                               <Col lg={8}>
                                 <Row>
                                   <Col lg={2} className='text-center mt-2 fw-bold'>
-                                    <p>Chi nhánh</p>
+                                    <p>Quốc gia</p>
                                   </Col>
                                   <Col lg={2} className='text-center mt-2 fw-bold'>
-                                    <p>Tỉnh</p>
+                                    <p>Tỉnh/Thành phố</p>
                                   </Col>
                                   <Col lg={2} className='text-center mt-2 fw-bold'>
                                     <p>Quận/ Huyện</p>
@@ -555,16 +555,19 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                   <Col lg={4} className='text-center mt-2 fw-bold'>
                                     <p>Số nhà, đường, phố...</p>
                                   </Col>
+                                  <Col lg={4}>
+                                    <p>Mặc định</p>
+                                  </Col>
                                 </Row>
                               </Col>
 
-                              <Col lg={1} className='text-center mt-2 fw-bold'>
+                              {/* <Col lg={1} className='text-center mt-2 fw-bold'>
                                 <p>Số điện thoại</p>
-                              </Col>
-                              <Col lg={1} className='text-center mt-2 fw-bold'>
+                              </Col> */}
+                              {/* <Col lg={1} className='text-center mt-2 fw-bold'>
                                 <p>Fax</p>
-                              </Col>
-                              <Col lg={2} className='text-center mt-2 fw-bold'>
+                              </Col> */}
+                              {/* <Col lg={2} className='text-center mt-2 fw-bold'>
                                 <Row>
                                   <Col lg={8}>
                                     <p>Email</p>
@@ -573,7 +576,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     <p>Mặc định</p>
                                   </Col>
                                 </Row>
-                              </Col>
+                              </Col> */}
                             </Row>
                           </div>
 
