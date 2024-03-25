@@ -24,6 +24,8 @@ import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
+import { jsPDF } from "jspdf";
+
 import { font } from "./Roboto-Medium-normal"
 // import './Roboto-Medium-normal';
 // import "./myFont"
@@ -139,7 +141,7 @@ const TableDatas = props => {
     { field: "factory_name_jp", header: "Receiving Factory" },
     { field: "company_name_jp", header: "Dispatching Company" },
     { field: "sor_name", header: "Status of residence" },
-    { field: "Status", header: "Status" },
+    { field: "status", header: "Status" },
   ]
 
   const exportColumns = cols.map(col => ({
@@ -162,16 +164,33 @@ const TableDatas = props => {
 
         doc.addFileToVFS("Roboto-Medium-normal.ttf", font)
         doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
-        doc.setFont("Roboto-Medium-normal")
+        doc.setFont("Roboto-Medium")
+
+        doc.autoTable({
+          columns: exportColumns,
+          body: dataTable
+        });
 
         // doc.addFileToVFS("Roboto-Medium-normal.ttf", myFont);
         // doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
         // doc.setFont("Roboto-Medium")
 
-        doc.autoTable(exportColumns, dataTable)
+        // doc.autoTable(exportColumns, dataTable)
         doc.save("datatable.pdf")
       })
     })
+  }
+
+  const printPdf = () => {
+    const doc = new jsPDF();
+    doc.addFileToVFS("Roboto-Medium-normal.ttf", font)
+    doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
+    doc.setFont("Roboto-Medium")
+    doc.autoTable({
+      columns: exportColumns,
+      body: dataTable
+    });
+    doc.save("datatable.pdf")
   }
 
   const exportExcel = () => {
@@ -335,7 +354,7 @@ const TableDatas = props => {
             icon="pi pi-file-pdf"
             severity="warning"
             rounded
-            onClick={exportPdf}
+            onClick={printPdf}
             data-pr-tooltip="PDF"
           />
         </div>

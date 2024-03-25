@@ -46,7 +46,7 @@ const Dashboard = props => {
   const [modal, setmodal] = useState(false)
   // const [subscribemodal, setSubscribemodal] = useState(false);
 
-  const { NationList } = useContext(DataContext)
+  const { NationList , loadData, setLoadData} = useContext(DataContext)
 
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
@@ -61,9 +61,6 @@ const Dashboard = props => {
   const [periodData, setPeriodData] = useState([])
   const [periodType, setPeriodType] = useState("yearly")
 
-  useEffect(() => {
-    setPeriodData(chartsData)
-  }, [chartsData])
 
   const [isMonth, setIsMonth] = useState(
     "btn-group btn-group-sm  d-flex justify-center  d-none"
@@ -108,6 +105,14 @@ const Dashboard = props => {
     }
   }, [])
 
+  
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadData(false)
+    }, 2000)
+  }, [])
+
   // console.log('chartsData', chartsData)
 
   //=====================================================================
@@ -137,7 +142,7 @@ const Dashboard = props => {
   ]
 
   const [reportss, setReportss] = useState(reports)
-  console.log('reportss', reportss)
+  // console.log("reportss", reportss)
 
   const [visaExpire, setVisaExpire] = useState(null)
   const [prepareEntry, setPrepareEntry] = useState(null)
@@ -167,10 +172,10 @@ const Dashboard = props => {
 
         return newReport
       })
-
+     
       setReportss(newArr)
     }
-  }, [dataIntern])
+  }, [dataIntern, dataStatusDetail])
   //=====================================================================
 
   // Charst
@@ -202,8 +207,9 @@ const Dashboard = props => {
       })
       // console.log("newarr", newarr)
       setDataCharst(newarr)
+      setPeriodData(chartsData)
     }
-  }, [dataIntern])
+  }, [dataIntern, dataAddress])
 
   const handleLink = value => {
     if (value == 1) {
@@ -229,9 +235,11 @@ const Dashboard = props => {
   return (
     <React.Fragment>
       <div className="page-content">
-        {!(reportss.length > 0) && <Spinner className="ms-2" color="primary" />}
         <Container fluid>
-          <h4 className="fw-bold mt-1">{props.t("Need attention")}</h4>
+          <div>
+            {loadData && <div className="d-flex gap-3 mt-1 "><h4 className="fw-bold text-success">analyzing data</h4> <Spinner type="grow" size="sm" className="ms-2" color="primary" /> </div>}
+            {!loadData && <h4 className="fw-bold mt-1">{props.t("Need attention")}</h4>}
+          </div>
           <Row>
             <Col xl="12">
               <Row>

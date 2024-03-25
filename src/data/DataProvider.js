@@ -165,6 +165,10 @@ const DataProvider = ({ children }) => {
     const [rowsSelectedInternData, setRowSelectedInternData] = useState([]);
 
 
+    // dashboard
+    const [loadData, setLoadData] = useState(true)
+
+
     const NationList = [
         {label: 'Vietnam', value: 1, country: 'Viet Nam', data: 0, violate: 2},
         {label: 'Japan', value: 2, country: 'Nhat Ban', data: 0, violate: 4},
@@ -192,6 +196,7 @@ const DataProvider = ({ children }) => {
                 isEditViolate, setIsEditViolate,
                 rowsSelectedInternData, setRowSelectedInternData,
                 NationList,
+                loadData, setLoadData,
             }}
         >
             {children}
