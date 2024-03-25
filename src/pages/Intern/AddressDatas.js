@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Button } from "primereact/button"
 import { DataView } from "primereact/dataview"
 import { Rating } from "primereact/rating"
@@ -18,6 +18,8 @@ import {
 } from "store/actions"
 
 import ModalEditAddress from './ModalEditAddress'
+// import context
+import DataContext from "data/DataContext"
 
 import map from "../../assets/images/icon/map.png"
 
@@ -35,6 +37,17 @@ const AddressDatas = ({ item }) => {
     commune: "",
     detail: "",
   }
+
+  const {
+    tog_standard,
+    modal_standard,
+    setmodal_standard,
+  } = useContext(DataContext)
+
+
+  const [isEditDetail, setIsEditDetail] = useState(false);
+
+  const [selectAddress, setSelectAddress] = useState(null)
   const [addresss, setAddresss] = useState([])
 
   const dispatch = useDispatch()
@@ -65,6 +78,8 @@ const AddressDatas = ({ item }) => {
   useEffect(() => {
       dispatch(getAddressAll())
     }, [dispatch])
+
+    const [addressOriginal, setAddressOriginal] = useState([])
     
     
     const [isReadData, setIsReadData] = useState(false)
@@ -78,9 +93,12 @@ const AddressDatas = ({ item }) => {
         add => add.object_id == item.id && add.user_type == "intern"
       )
 
+      
+
       if (arr && isDispath && (index < arr.length)) {
         console.log("arr", arr)
         console.log("index", index)
+        setAddressOriginal(arr);
 
         dispatch(getProvinceId(arr[index].province_id))
         dispatch(getDistrictId(arr[index].district_id))
@@ -191,6 +209,11 @@ const AddressDatas = ({ item }) => {
                 aria-label="Cancel"
                 text
                 rounded
+                onClick={() => {
+                    setSelectAddress(addressOriginal[index]);
+                    setIsEditDetail(true);
+                    tog_standard();
+                }}
               ></Button>
             </div>
           </div>
@@ -212,7 +235,10 @@ const AddressDatas = ({ item }) => {
   return (
     <div className="card">
       <DataView value={addresss} listTemplate={listTemplate} />
-      <ModalEditAddress/>
+      <ModalEditAddress
+        address={selectAddress}
+        isEditDetail={isEditDetail}
+      />
     </div>
   )
 }

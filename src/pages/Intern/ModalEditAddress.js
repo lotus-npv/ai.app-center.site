@@ -29,54 +29,70 @@ import DataContext from "../../data/DataContext"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
-  setViolate,
-  setViolateList,
+  getProvinceByNationId,
+  getDistrictByProvinceId,
+  getCommuneByDistrictId,
+  setAddress,
+  uploadImageRequest,
+  getDispatchingCompanyAll,
+  getReceivingFactoryAll,
+  getStatusAll,
+  getCareerAll,
+  getStatusOfResidenceAll,
+  setAlienRegistrationCard,
+  setStatusDetail,
+  getAlienRegistrationCardAll,
+  updateStatus,
   updateAlienRegistrationCard,
-  getInternAllInfo,
+  updateStatusDetail,
+  deleteStatusDetail,
 } from "store/actions"
+
+const optionGroup = [
+  { label: "Viet Nam", value: 1 },
+  { label: "Japan", value: 2 },
+]
 
 import moment from "moment"
 
-const ModalEditAddress = () => {
+const ModalEditAddress = ({address, isEditDetail}) => {
   // data context
   const {
-    tog_fullscreen,
-    setIsEditIntern,
     tog_standard,
     modal_standard,
     setmodal_standard,
-    modal_xlarge,
-    tog_xlarge,
-    setmodal_xlarge,
-    rowsSelectedInternData,
-    setRowSelectedInternData,
   } = useContext(DataContext)
+
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
 
-  const { violateListAddDone, loading, dataInternAll } = useSelector(
+  const {
+    provinceDataByNationId,
+    districtDataByProvinceId,
+    communeDataByDistrictId,
+  } = useSelector(
     state => ({
-      violateListAddDone: state.ViolateList.data,
-      loading: state.ViolateList.loading,
-      dataInternAll: state.Intern.datas,
+      provinceDataByNationId: state.Province.dataByNationId,
+      districtDataByProvinceId: state.District.dataByProvinceId,
+      communeDataByDistrictId: state.Commune.dataByDistrictId,
     }),
     shallowEqual
   )
 
-  useEffect(() => {
-    dispatch(getInternAllInfo())
-  }, [dispatch])
+  // Get du lieu lan dau
+  useEffect(() => {}, [dispatch])
 
   //   Xac dinh ham thuc thi
   const handleSave = () => {}
 
   // render lua chon tinh, huyen, xa
 
-  const [selectNation, setSelectNation] = useState(null)
-  const [selectProvince, setSelectProvince] = useState(null)
-  const [selectDistrict, setSelectDistrict] = useState(null)
-  const [selectCommune, setSelectCommune] = useState(null)
+  const [selectNation, setSelectNation] = useState('')
+  const [selectProvince, setSelectProvince] = useState('')
+  const [selectDistrict, setSelectDistrict] = useState('')
+  const [selectCommune, setSelectCommune] = useState('')
+  const [detail, setDetail] = useState('')
 
   const [provinceOptions, setProvinceOptions] = useState([])
   const [districtOptions, setDistrictOptions] = useState([])
@@ -152,9 +168,12 @@ const ModalEditAddress = () => {
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
+
+  // console.log('address', address)
+
   return (
     <>
-      <Modal
+      {isEditDetail && <Modal
         isOpen={modal_standard}
         toggle={() => {
           tog_standard()
@@ -182,44 +201,63 @@ const ModalEditAddress = () => {
               <Select
                 name="nation_id"
                 placeholder={t("Country")}
-                // value={selectNation}
+                value={selectNation}
                 onChange={item => {
                   setSelectNation(item)
-                  const arr = [...addressDataIntern]
-                  arr[index] = {
-                    ...arr[index],
-                    nation_id: item.value,
-                  }
-                  updateAddressDataIntern(arr)
                 }}
                 options={optionGroup}
                 className="w-100"
               />
             </div>
+
             <div className="mb-3">
               <Select
                 name="province_id"
                 placeholder={t("Province")}
-                // value={selectProvince || ""}
-                defaultValue={
-                  isEditIntern
-                    ? provinceOptions.find(
-                        item => item.StateID == address.province_id
-                      )
-                    : ""
-                }
-                // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
+                value={selectProvince}
                 onChange={item => {
                   setSelectProvince(item)
-                  const arr = [...addressDataIntern]
-                  arr[index] = {
-                    ...arr[index],
-                    province_id: item.StateID,
-                  }
-                  updateAddressDataIntern(arr)
                 }}
                 options={provinceOptions}
                 // isClearable
+              />
+            </div>
+
+            <div className="mb-3">
+              <Select
+                name="district"
+                placeholder={t("District")}
+                value={selectDistrict}
+                onChange={item => {
+                  setSelectDistrict(item)
+                }}
+                options={districtOptions}
+                className="select2-selection"
+                // isClearable
+              />
+            </div>
+            <div className="mb-3">
+              <Select
+                name="commune"
+                placeholder={t("Ward")}
+                value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
+                onChange={item => {
+                  setSelectCommune(item)
+                }}
+                options={communeOptions}
+                className="select2-selection"
+                // isClearable
+              />
+            </div>
+            <div className="mb-3">
+              <Input
+                name="detail"
+                type="text"
+                placeholder={t("House Number, Street, etc.")}
+                value={address != null ? address.detail : ""}
+                onChange={e => {
+                    address.detail = e.target.value;
+                }}
               />
             </div>
           </CardBody>
@@ -244,7 +282,7 @@ const ModalEditAddress = () => {
             {t("Save")}
           </button>
         </div>
-      </Modal>
+      </Modal>}
     </>
   )
 }
