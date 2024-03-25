@@ -1,18 +1,11 @@
 import PropTypes from "prop-types"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {
   Container,
   Row,
   Col,
-  Button,
   Card,
   CardBody,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Table,
   UncontrolledTooltip,
 } from "reactstrap"
 import { Link } from "react-router-dom"
@@ -26,10 +19,10 @@ import classNames from "classnames"
 import StackedColumnChart from "./StackedColumnChart"
 
 //import action
-import { getChartsData as onGetChartsData } from "../../store/actions"
-
-import modalimage1 from "../../assets/images/product/img-7.png"
-import modalimage2 from "../../assets/images/product/img-4.png"
+import {
+  getStatusDetailAll,
+  getChartsData as onGetChartsData,
+} from "../../store/actions"
 
 // Pages Components
 import Transactions from "./transactions"
@@ -43,12 +36,15 @@ import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { getInternAllInfo } from "../../store/actions"
 import { createSelector } from "reselect"
-import { yearData } from "common/data"
+
+import DataContext from "data/DataContext"
 
 const Dashboard = props => {
   const navigate = useNavigate()
   const [modal, setmodal] = useState(false)
   // const [subscribemodal, setSubscribemodal] = useState(false);
+
+  const {NationList} = useContext(DataContext);
 
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
@@ -66,28 +62,22 @@ const Dashboard = props => {
     {
       title: "The item needing support has not been processed yet",
       iconClass: "bx bx-support",
-      description: "3",
+      description: "0",
       value: 1,
     },
     {
       title: "The intern's visa is about to expire",
       iconClass: "bx bx-user",
-      description: "12",
+      description: "0",
       value: 2,
     },
     {
       title: "Interns are about to enter the country",
       iconClass: "bx bx-user",
-      description: "5",
+      description: "0",
       value: 3,
     },
   ]
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setSubscribemodal(true);
-  //   }, 2000);
-  // }, []);
 
   const [periodData, setPeriodData] = useState([])
   const [periodType, setPeriodType] = useState("yearly")
@@ -112,18 +102,52 @@ const Dashboard = props => {
   }, [dispatch])
 
   // get intern data
-  const { dataIntern } = useSelector(state => ({
-    dataIntern: state.Intern.datas,
-  }))
+  const { dataIntern, dataStatusDetail } = useSelector(
+    state => ({
+      dataIntern: state.Intern.datas,
+      dataStatusDetail: state.StatusDetail.datas,
+    }),
+    shallowEqual
+  )
 
   useEffect(() => {
     dispatch(getInternAllInfo())
+    dispatch(getStatusDetailAll())
   }, [dispatch])
 
+  const [reportss, setReportss] = useState(reports)
+
   // get thong tin thuc tap sinh theo trang thai
+  const [visaExpire, setVisaExpire] = useState(null)
+  const [prepareEntry, setPrepareEntry] = useState(null)
   useEffect(() => {
     if (dataIntern) {
       console.log(dataIntern)
+
+      const internPrepareEntry = dataStatusDetail.filter(st => {
+        return st.status_id == 10
+      })
+      // setPrepareEntry(internPrepareEntry);
+
+      const internVisaExpire = dataStatusDetail.filter(st => {
+        return st.status_id == 11
+      })
+      // setVisaExpire(internVisaExpire);
+
+      const arr = [...reports]
+      const newArr = arr.map(report => {
+        const newReport = { ...report }
+        if (newReport.value == 2) {
+          newReport.description = `${internVisaExpire.length}`
+        }
+        if (newReport.value == 3) {
+          newReport.description = `${internPrepareEntry.length}`
+        }
+
+        return newReport
+      })
+
+      setReportss(newArr)
     }
   }, [dataIntern])
 
@@ -140,12 +164,18 @@ const Dashboard = props => {
 
   // console.log(dataIntern)
 
+
   // Charst
   const dataColors = '["--bs-primary", "--bs-success", "--bs-danger"]'
   const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors)
   const series = [56, 38, 26]
+  const dataCharst = [
+    { country: "VietNam", value: 56 },
+    { country: "Japan", value: 38 },
+    { country: "Korean", value: 26 },
+  ]
   const options = {
-    labels: ["Series A", "Series B", "Series C"],
+    labels: dataCharst.map(item => item.country),
     colors: apexsalesAnalyticsChartColors,
     legend: { show: !1 },
     plotOptions: {
@@ -156,6 +186,8 @@ const Dashboard = props => {
       },
     },
   }
+
+  // danh sach intern => link bảng address lấy 
 
   const handleLink = value => {
     if (value == 1) {
@@ -189,7 +221,7 @@ const Dashboard = props => {
             <Col xl="12">
               <Row>
                 {/* Reports Render */}
-                {reports.map((report, key) => (
+                {reportss.map((report, key) => (
                   <Col md="4" key={"_col_" + key} className="mb-2">
                     <Card className="mini-stats-wid h-100">
                       <CardBody className="d-flex justify-content-between">
@@ -250,16 +282,12 @@ const Dashboard = props => {
                           <p>
                             {props.t("Total:")}
                             <span className="text-primary fw-bold">
-                              5000
+                              {dataIntern.length}
                             </span>{" "}
                             {props.t("people")}
                           </p>
                         </Col>
                         <Col xl={4} className="d-flex justify-content-end">
-                          {/* <div className="w-75">
-                            <Button className="btn btn-sm w-100 mb-1">{props.t('Country')}</Button>
-                            <Button className="btn btn-sm w-100">Tư cách</Button>
-                          </div> */}
                         </Col>
                       </Row>
 
@@ -275,36 +303,16 @@ const Dashboard = props => {
                         </div>
                       </div>
 
-                      <div className="text-center text-muted">
-                        <Row>
-                          <Col xs="4">
-                            <div className="mt-4">
+                      <div className="text-center text-muted d-flex justify-content-around">
+                          {dataCharst.map(option => (
+                            <div className="mt-4" key={option.country}>
                               <p className="mb-2 text-truncate">
                                 <i className="mdi mdi-circle text-primary me-1" />{" "}
-                                Viet Nam
+                                {option.country}
                               </p>
-                              <h5>3,132</h5>
+                              <h5>{option.value}</h5>
                             </div>
-                          </Col>
-                          <Col xs="4">
-                            <div className="mt-4">
-                              <p className="mb-2 text-truncate">
-                                <i className="mdi mdi-circle text-success me-1" />{" "}
-                                Japan
-                              </p>
-                              <h5>1,763</h5>
-                            </div>
-                          </Col>
-                          <Col xs="4">
-                            <div className="mt-4">
-                              <p className="mb-2 text-truncate">
-                                <i className="mdi mdi-circle text-danger me-1" />{" "}
-                                Korean
-                              </p>
-                              <h5>105</h5>
-                            </div>
-                          </Col>
-                        </Row>
+                          ))}
                       </div>
                     </CardBody>
                   </Card>

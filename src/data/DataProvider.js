@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DataContext from './DataContext';
-
 import { dataViolate } from 'common/data/violate';
-import { dataStatus } from 'common/data/status';
-import { dataCareer } from 'common/data/career';
+
 
 const DataProvider = ({ children }) => {
 
@@ -167,6 +165,11 @@ const DataProvider = ({ children }) => {
     const [rowsSelectedInternData, setRowSelectedInternData] = useState([]);
 
 
+    const NationList = [
+        {label: 'Vietnam', value: 1, name: 'Viet Nam'},
+        {label: 'Japan', value: 2, name: 'Nhat Ban'},
+        {label: 'Korea', value: 3, name: 'Han Quoc'},
+    ]
 
 
     return (
@@ -188,6 +191,7 @@ const DataProvider = ({ children }) => {
                 isEditStatus, setIsEditStatus,
                 isEditViolate, setIsEditViolate,
                 rowsSelectedInternData, setRowSelectedInternData,
+                NationList,
             }}
         >
             {children}
