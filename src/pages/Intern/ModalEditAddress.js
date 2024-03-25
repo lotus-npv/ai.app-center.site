@@ -46,6 +46,9 @@ import {
   updateAlienRegistrationCard,
   updateStatusDetail,
   deleteStatusDetail,
+  getProvinceId,
+  getDistrictId,
+  getCommuneId,
 } from "store/actions"
 
 const optionGroup = [
@@ -55,7 +58,10 @@ const optionGroup = [
 
 import moment from "moment"
 
-const ModalEditAddress = ({address, isEditDetail}) => {
+const ModalEditAddress = ({address, isEditDetail, setIsEditDetail}) => {
+
+
+
   // data context
   const {
     tog_standard,
@@ -71,32 +77,46 @@ const ModalEditAddress = ({address, isEditDetail}) => {
     provinceDataByNationId,
     districtDataByProvinceId,
     communeDataByDistrictId,
+    provinceDataId,
+    districtDataId,
+    communeDataId
   } = useSelector(
     state => ({
       provinceDataByNationId: state.Province.dataByNationId,
       districtDataByProvinceId: state.District.dataByProvinceId,
       communeDataByDistrictId: state.Commune.dataByDistrictId,
+      provinceDataId: state.Province.dataId,
+      districtDataId: state.District.dataId,
+      communeDataId: state.Commune.dataId,
     }),
     shallowEqual
   )
 
   // Get du lieu lan dau
-  useEffect(() => {}, [dispatch])
+  useEffect(() => {
+    dispatch(getProvinceByNationId(address.nation_id))
+    dispatch(getDistrictByProvinceId(address.province_id))
+    dispatch(getCommuneByDistrictId(address.district_id))
+    dispatch(getProvinceId(address.province_id))
+    dispatch(getDistrictId(address.district_id))
+    dispatch(getCommuneId(address.commune_id))
+  }, [dispatch, isEditDetail])
 
   //   Xac dinh ham thuc thi
-  const handleSave = () => {}
+  const handleSave = () => {
+    address.nation_id = selectNation.value
+  }
 
   // render lua chon tinh, huyen, xa
+  const [selectNation, setSelectNation] = useState(optionGroup.find(item => item.value == address.nation_id))
+  const [selectProvince, setSelectProvince] = useState(provinceDataId[0])
+  const [selectDistrict, setSelectDistrict] = useState(districtDataId[0])
+  const [selectCommune, setSelectCommune] = useState(communeDataId[0])
 
-  const [selectNation, setSelectNation] = useState('')
-  const [selectProvince, setSelectProvince] = useState('')
-  const [selectDistrict, setSelectDistrict] = useState('')
-  const [selectCommune, setSelectCommune] = useState('')
-  const [detail, setDetail] = useState('')
+  const [provinceOptions, setProvinceOptions] = useState(provinceDataByNationId)
+  const [districtOptions, setDistrictOptions] = useState(districtDataByProvinceId)
+  const [communeOptions, setCommuneOptions] = useState(communeDataByDistrictId)
 
-  const [provinceOptions, setProvinceOptions] = useState([])
-  const [districtOptions, setDistrictOptions] = useState([])
-  const [communeOptions, setCommuneOptions] = useState([])
 
   // Tai du lieu thanh pho
   useEffect(() => {
@@ -111,14 +131,7 @@ const ModalEditAddress = ({address, isEditDetail}) => {
   // tao danh sach lua chon tinh/thanh pho
   useEffect(() => {
     if (provinceDataByNationId) {
-      const data = provinceDataByNationId.map(province => {
-        return {
-          ...province,
-          label: province.StateName_ja,
-          value: province.StateName_ja,
-        }
-      })
-      setProvinceOptions(data)
+      setProvinceOptions(provinceDataByNationId)
     }
   }, [provinceDataByNationId])
 
@@ -128,20 +141,13 @@ const ModalEditAddress = ({address, isEditDetail}) => {
   useEffect(() => {
     if (selectProvince !== null) {
       dispatch(getDistrictByProvinceId(selectProvince.StateID))
-      setSelectDistrict("")
+      // setSelectDistrict("")
     }
   }, [selectProvince])
 
   useEffect(() => {
     if (districtDataByProvinceId !== null) {
-      const data = districtDataByProvinceId.map(district => {
-        return {
-          ...district,
-          label: district.DistrictName_ja,
-          value: district.DistrictName_ja,
-        }
-      })
-      setDistrictOptions(data)
+      setDistrictOptions(districtDataByProvinceId)
     }
   }, [districtDataByProvinceId])
 
@@ -150,25 +156,20 @@ const ModalEditAddress = ({address, isEditDetail}) => {
   useEffect(() => {
     if (selectDistrict !== null) {
       dispatch(getCommuneByDistrictId(selectDistrict.DistrictID))
-      setSelectCommune("")
+      // setSelectCommune("")
     }
   }, [selectDistrict])
 
   useEffect(() => {
     if (communeDataByDistrictId !== null) {
-      const data = communeDataByDistrictId.map(commune => {
-        return {
-          ...commune,
-          label: commune.WardName_ja,
-          value: commune.WardName_ja,
-        }
-      })
-      setCommuneOptions(data)
+      setCommuneOptions(communeDataByDistrictId)
     }
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
 
+  // console.log('address', address)
+  console.log('communeDataId', communeDataId)
   // console.log('address', address)
 
   return (
@@ -240,7 +241,7 @@ const ModalEditAddress = ({address, isEditDetail}) => {
               <Select
                 name="commune"
                 placeholder={t("Ward")}
-                value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
+                value={selectCommune}
                 onChange={item => {
                   setSelectCommune(item)
                 }}
@@ -266,7 +267,12 @@ const ModalEditAddress = ({address, isEditDetail}) => {
           <button
             type="button"
             onClick={() => {
-              tog_standard()
+              tog_standard();
+              setSelectNation(null)
+              setSelectProvince(null)
+              setSelectDistrict(null)
+              setSelectCommune(null)
+              setIsEditDetail(false)
             }}
             className="btn btn-secondary "
             data-dismiss="modal"

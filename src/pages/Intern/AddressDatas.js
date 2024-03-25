@@ -17,7 +17,7 @@ import {
   getProvinceAll,
 } from "store/actions"
 
-import ModalEditAddress from './ModalEditAddress'
+import ModalEditAddress from "./ModalEditAddress"
 // import context
 import DataContext from "data/DataContext"
 
@@ -38,14 +38,10 @@ const AddressDatas = ({ item }) => {
     detail: "",
   }
 
-  const {
-    tog_standard,
-    modal_standard,
-    setmodal_standard,
-  } = useContext(DataContext)
+  const { tog_standard, modal_standard, setmodal_standard } =
+    useContext(DataContext)
 
-
-  const [isEditDetail, setIsEditDetail] = useState(false);
+  const [isEditDetail, setIsEditDetail] = useState(false)
 
   const [selectAddress, setSelectAddress] = useState(null)
   const [addresss, setAddresss] = useState([])
@@ -74,18 +70,15 @@ const AddressDatas = ({ item }) => {
     shallowEqual
   )
 
-  
   useEffect(() => {
-      dispatch(getAddressAll())
-    }, [dispatch])
+    dispatch(getAddressAll())
+  }, [dispatch])
 
-    const [addressOriginal, setAddressOriginal] = useState([])
-    
-    
-    const [isReadData, setIsReadData] = useState(false)
-    const [isDispath, setIsDitpath] = useState(true)
-    const [index, setIndex] = useState(0);
+  const [addressOriginal, setAddressOriginal] = useState([])
 
+  const [isReadData, setIsReadData] = useState(false)
+  const [isDispath, setIsDitpath] = useState(true)
+  const [index, setIndex] = useState(0)
 
   useEffect(() => {
     if (addressData) {
@@ -93,57 +86,53 @@ const AddressDatas = ({ item }) => {
         add => add.object_id == item.id && add.user_type == "intern"
       )
 
-      
-
-      if (arr && isDispath && (index < arr.length)) {
+      if (arr && isDispath && index < arr.length) {
         console.log("arr", arr)
         console.log("index", index)
-        setAddressOriginal(arr);
+        setAddressOriginal(arr)
 
         dispatch(getProvinceId(arr[index].province_id))
         dispatch(getDistrictId(arr[index].district_id))
         dispatch(getCommuneId(arr[index].commune_id))
 
-        const array = [...addresss];
+        const array = [...addresss]
         array.push(addObj)
 
-        array[index].nation = NationList.find(nation => nation.value == arr[index].nation_id)['country'],
-        array[index].detail = arr[index].detail;
-        setAddresss(array);
-        setIsDitpath(false);
-        setIsReadData(true);
-    }
+        ;(array[index].nation = NationList.find(
+          nation => nation.value == arr[index].nation_id
+        )["country"]),
+          (array[index].detail = arr[index].detail)
+        setAddresss(array)
+        setIsDitpath(false)
+        setIsReadData(true)
+      }
 
-    if (provinceDataId && districtDataId && communeDataId && isReadData) {
-        if (
-          !provinceLoading &&
-          !districtLoading &&
-          !CommuneLoading
-        ) {
+      if (provinceDataId && districtDataId && communeDataId && isReadData) {
+        if (!provinceLoading && !districtLoading && !CommuneLoading) {
           console.log("check done")
-  
+
           const arr = [...addresss]
           arr[index].province = provinceDataId[0].StateName_ja
           arr[index].district = districtDataId[0].DistrictName_ja
           arr[index].commune = communeDataId[0].WardName_ja
-  
+
           setAddresss(arr)
         }
-  
+
         if (
           addresss[index].province != "" &&
           addresss[index].district != "" &&
           addresss[index].commune != "" &&
           addresss[index].nation != "" &&
-          addresss[index].detail != "" 
+          addresss[index].detail != ""
         ) {
-          console.log("addresss", addresss)
-          setIsReadData(false);
-          setIsDitpath(true);
-          setIndex(index + 1);
+          //   console.log("addresss", addresss)
+          setIsReadData(false)
+          setIsDitpath(true)
+          setIndex(index + 1)
         }
       }
-  }
+    }
   }, [addressData, provinceDataId, isReadData, districtDataId, communeDataId])
 
   // console.log('addresss', addresss)
@@ -151,7 +140,7 @@ const AddressDatas = ({ item }) => {
   //   console.log("provinceDataId", provinceDataId)
   //   console.log("districtDataId", districtDataId)
   // console.log("communeDataId", communeDataId)
-//   console.log("isReadData", isReadData)
+  //   console.log("isReadData", isReadData)
 
   const getSeverity = address => {
     switch (address.inventoryStatus) {
@@ -173,7 +162,10 @@ const AddressDatas = ({ item }) => {
 
   const itemTemplate = (address, index) => {
     return (
-      <div className="col-12 d-flex justify-content-center bg-light" key={index}>
+      <div
+        className="col-12 d-flex justify-content-center bg-light"
+        key={index}
+      >
         <div
           className={classNames(
             "flex flex-column xl:flex-row xl:align-items-center p-21 gap-4 col-10",
@@ -187,14 +179,16 @@ const AddressDatas = ({ item }) => {
           />
           <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-1">
             <div className="flex flex-column align-items-center sm:align-items-start gap-1">
-              <div className="text-2xl font-bold text-700">{address.nation}</div>
+              <div className="text-2xl font-bold text-700">
+                {address.nation}
+              </div>
               <div className="flex align-items-center gap-3">
                 <span className="flex align-items-center gap-2">
                   <i className="pi pi-tag"></i>
                   <span className="font-semibold">{address.detail} -</span>
                   <span className="font-semibold">{address.commune} -</span>
                   <span className="font-semibold">{address.district} -</span>
-                  <span className="font-semibold">{address.province}   </span>
+                  <span className="font-semibold">{address.province} </span>
                 </span>
                 <Tag
                   value={address.province}
@@ -210,9 +204,9 @@ const AddressDatas = ({ item }) => {
                 text
                 rounded
                 onClick={() => {
-                    setSelectAddress(addressOriginal[index]);
-                    setIsEditDetail(true);
-                    tog_standard();
+                  setSelectAddress(addressOriginal[index])
+                  setIsEditDetail(true)
+                  tog_standard()
                 }}
               ></Button>
             </div>
@@ -235,10 +229,9 @@ const AddressDatas = ({ item }) => {
   return (
     <div className="card">
       <DataView value={addresss} listTemplate={listTemplate} />
-      <ModalEditAddress
-        address={selectAddress}
-        isEditDetail={isEditDetail}
-      />
+      {isEditDetail && (
+        <ModalEditAddress address={selectAddress} isEditDetail={isEditDetail}  setIsEditDetail={setIsEditDetail}/>
+      )}
     </div>
   )
 }

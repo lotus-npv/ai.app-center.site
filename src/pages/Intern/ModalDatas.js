@@ -29,7 +29,7 @@ import PropTypes from "prop-types"
 import DataContext from "../../data/DataContext"
 import avata from "../../assets/images/avata/avatar-null.png"
 
-import AddressDatas from './AddressDatas'
+import AddressDatas from "./AddressDatas"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -1400,8 +1400,8 @@ const ModalDatas = ({
                   </Card>
 
                   {!isEditIntern && (
-                    <Card style={{minWidth: '1100px'}}>
-                      <CardBody className="bg-light" >
+                    <Card style={{ minWidth: "1100px" }}>
+                      <CardBody className="bg-light">
                         <h4 className="fw-bold">{t("Contact Information")}</h4>
                         <Row className="border border-secondary mt-3">
                           <div>
@@ -1409,37 +1409,43 @@ const ModalDatas = ({
                               <Col lg={12} sm={12}>
                                 <Row>
                                   <Col
-                                    lg={2} sm={2}
+                                    lg={2}
+                                    sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Country")}</p>
                                   </Col>
                                   <Col
-                                    lg={2} sm={2}
+                                    lg={2}
+                                    sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Province")}</p>
                                   </Col>
                                   <Col
-                                    lg={2} sm={2}
+                                    lg={2}
+                                    sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("District")}</p>
                                   </Col>
                                   <Col
-                                    lg={2} sm={2}
+                                    lg={2}
+                                    sm={2}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Ward")}</p>
                                   </Col>
                                   <Col
-                                    lg={3} sm={3}
+                                    lg={3}
+                                    sm={3}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("House Number, Street, etc.")}</p>
                                   </Col>
                                   <Col
-                                    lg={1} sm={1}
+                                    lg={1}
+                                    sm={1}
                                     className="text-center mt-2 fw-bold"
                                   >
                                     <p>{t("Default address")}</p>
@@ -1457,10 +1463,11 @@ const ModalDatas = ({
                                 id={"nested" + index}
                               >
                                 <Col lg={12}>
-                                  <div >
+                                  <div>
                                     <Row>
                                       <Col
-                                        lg={2} sm={2}
+                                        lg={2}
+                                        sm={2}
                                         className="d-flex justify-content-between gap-2 mt-2"
                                       >
                                         <div className="mb-3">
@@ -1584,7 +1591,11 @@ const ModalDatas = ({
                                         </div>
                                       </Col>
 
-                                      <Col lg={3} sm={3} className="mt-2 fw-bold">
+                                      <Col
+                                        lg={3}
+                                        sm={3}
+                                        className="mt-2 fw-bold"
+                                      >
                                         <div className="mb-3">
                                           <Input
                                             name="detail"
@@ -1606,7 +1617,8 @@ const ModalDatas = ({
                                       </Col>
 
                                       <Col
-                                        lg={1} sm={1}
+                                        lg={1}
+                                        sm={1}
                                         className="d-flex justify-content-center"
                                       >
                                         <div className="ms-2">
@@ -1651,14 +1663,13 @@ const ModalDatas = ({
                       </CardBody>
                     </Card>
                   )}
-
-                  <Card>
-                    <CardBody>
-                       <AddressDatas 
-                        item={item}
-                       />
-                    </CardBody>
-                  </Card>
+                  {isEditIntern && (
+                    <Card>
+                      <CardBody>
+                        <AddressDatas item={item} />
+                      </CardBody>
+                    </Card>
+                  )}
 
                   {/* </CardBody> */}
                 </Card>
