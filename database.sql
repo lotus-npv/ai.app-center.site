@@ -298,8 +298,6 @@ create table if not exists ticket_detail (
     update_by INT,
     delete_at DATETIME,
     flag BOOLEAN
-    -- foreign key (key_license_id) references key_license(id),
-    -- foreign key (ticket_id) references ticket(id)
 );
 
 create table if not exists positions (
