@@ -6,7 +6,7 @@ import { Button } from "primereact/button"
 // import { TabMenu } from 'primereact/tabmenu';
 import { Avatar } from "primereact/avatar"
 import { InputText } from "primereact/inputtext"
-import { TabView, TabPanel } from 'primereact/tabview';
+import { TabView, TabPanel } from "primereact/tabview"
 import moment from "moment"
 
 import { Nav, NavItem, NavLink, Row, Col, Button as ButtonRS } from "reactstrap"
@@ -106,7 +106,7 @@ const TableDatas = props => {
     }
   }, [])
 
-  console.log("ticketData", ticketData)
+  // console.log("ticketData", ticketData)
 
   //render lai data
 
@@ -139,8 +139,6 @@ const TableDatas = props => {
 
   // TABLE
   // render label tab
-  const [activeIndex, setActiveIndex] = useState(0)
-
   const itemRenderer = (item, itemIndex, data) => (
     <a
       className="p-menuitem-link flex align-items-center gap-2"
@@ -239,8 +237,8 @@ const TableDatas = props => {
           </div>
         </Row>
         <Row>
+          {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
           <div className="d-flex justify-content-between">
-            {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
             <Nav tabs className="nav-tabs-custom">
               {items.map((item, index) => (
                 <NavItem key={index} style={{ minWidth: "100px" }}>
@@ -273,22 +271,26 @@ const TableDatas = props => {
   }
 
   const [dataTable, setDataTable] = useState(ticketData)
-
+  const [activeIndex, setActiveIndex] = useState(0)
+  const types = ["All", "new", "processing", "done"]
 
   const renHeader = () => {
-    const types = ["All","new", "processing", "done"];
     const tabs = types.map((type, index) => {
-      return {title: type , value: index}
+      return { title: type, value: index }
     })
 
+    console.log(activeIndex)
 
     return (
       <>
-        <TabView scrollable>
+        <TabView
+          scrollable
+          activeIndex={activeIndex}
+          onTabChange={e => setActiveIndex(e.index)}
+        >
           {tabs.map(tab => {
             return (
-              <TabPanel key={tab.title} header={tab.title}>
-                {/* <p className="m-0">{tab.content}</p> */}
+              <TabPanel key={tab.title} header={tab.title} contentStyle={{display: 'none'}}>
               </TabPanel>
             )
           })}
@@ -296,19 +298,6 @@ const TableDatas = props => {
       </>
     )
   }
-
-
-  // const checkInfo = (type, id) => {
-  //     if(type == 'intern') {
-  //      return  internData.find(item => item.id == id).full_name_jp;
-  //     } else if(type == 'syndication') {
-  //       return syndicationData.find(item => item.id == id).name;
-  //     } else if(type == 'receiving_factory') {
-  //       return factoryData.find(item => item.id == id);
-  //     } else {
-  //       return companyData.find(item => item.id == id);
-  //     }
-  // }
 
   const getListInternStatus = key => {
     if (key == "0") {
@@ -410,7 +399,7 @@ const TableDatas = props => {
         filters={filters}
         filterDisplay="row"
         globalFilterFields={["id", "nam_jp", "phone_number"]}
-        header={header}
+        header={renHeader}
         emptyMessage="Không tìm thấy kết quả phù hợp."
         tableStyle={{ minWidth: "50rem" }}
         scrollable
