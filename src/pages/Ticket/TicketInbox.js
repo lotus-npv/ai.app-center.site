@@ -146,7 +146,9 @@ const TicketInbox = props => {
     }
   }, [ticketData, activeTab])
 
-  console.log(counters)
+  // console.log(counters)
+  console.log(ticketData)
+
   return (
     <React.Fragment>
       <div className="bg-light">
