@@ -13,24 +13,17 @@ import {
   ModalHeader,
   NavItem,
   NavLink,
+  CardBody,
 } from "reactstrap"
-
 import "./table.scss"
 import TableDatas from "./TableDatas"
-
 import classnames from "classnames"
-
-import { map } from "lodash"
-
 // Import Editor
 import { Editor } from "react-draft-wysiwyg"
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
-
-import { getMailsLists as onGetMailsLists } from "store/mails/actions"
-
 //Import Email Topbar
 import EmailToolbar from "./email-toolbar"
-
+import Chat from "./chat"
 //redux
 import Spinners from "components/Common/Spinner"
 import moment from "moment"
@@ -98,6 +91,7 @@ const EmailInbox = props => {
     }
   }, [])
   const types = ["All", "new", "processing", "done"]
+  const [counters, setCounters] = useState([])
   const [dataTable, setDataTable] = useState(ticketData)
 
   const [isLoading, setLoading] = useState(true)
@@ -130,7 +124,20 @@ const EmailInbox = props => {
     getListInternStatus(activeTab)
   }, [activeTab, ticketData])
 
-  console.log(dataTable)
+  useEffect(() => {
+    if (ticketData) {
+      const arr = types.map((type, index) => {
+        if (type === "All") {
+          return ticketData.length
+        } else {
+          return ticketData.filter(item => item.ticket_status === type).length
+        }
+      })
+      setCounters(arr)
+    }
+  }, [ticketData, activeTab])
+
+  console.log(counters)
   return (
     <React.Fragment>
       <div className="">
@@ -160,7 +167,7 @@ const EmailInbox = props => {
                       }}
                     >
                       <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
-                      <span className="ml-1 float-end">(18)</span>
+                      <span className="ml-1 float-end">({counters[0]})</span>
                     </NavLink>
                   </NavItem>
 
@@ -174,6 +181,7 @@ const EmailInbox = props => {
                       }}
                     >
                       <i className="mdi mdi-star-outline me-2"></i>New
+                      <span className="ml-1 float-end">({counters[1]})</span>
                     </NavLink>
                   </NavItem>
 
@@ -187,6 +195,7 @@ const EmailInbox = props => {
                       }}
                     >
                       <i className="mdi mdi-diamond-stone me-2"></i>Processing
+                      <span className="ml-1 float-end">({counters[2]})</span>
                     </NavLink>
                   </NavItem>
 
@@ -200,6 +209,7 @@ const EmailInbox = props => {
                       }}
                     >
                       <i className="mdi mdi-file-outline me-2"></i>Done
+                      <span className="ml-1 float-end">({counters[3]})</span>
                     </NavLink>
                   </NavItem>
 
@@ -269,6 +279,7 @@ const EmailInbox = props => {
             </Card>
 
             <Modal
+              size="xl"
               isOpen={modal}
               autoFocus={true}
               centered={true}
@@ -301,6 +312,11 @@ const EmailInbox = props => {
                         placeholder="Subject"
                       />
                     </div>
+                    <Card>
+                      <CardBody className="bg-light">
+                        <Chat />
+                      </CardBody>
+                    </Card>
                     <Editor
                       toolbarClassName="toolbarClassName"
                       wrapperClassName="wrapperClassName"
