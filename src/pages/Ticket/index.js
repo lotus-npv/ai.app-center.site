@@ -3,6 +3,7 @@ import { CardBody, CardHeader, Container, Card, Button, Row, Col, UncontrolledTo
 import PropTypes from 'prop-types';
 
 import TableDatas from "./TableDatas";
+import EmailInbox from "./email-inbox";
 import { ToastContainer } from 'react-toastify';
 
 const TicketPage = (props) => {
@@ -14,7 +15,8 @@ const TicketPage = (props) => {
                 <Container fluid={true}>
                     <Card>
                         <CardBody>
-                            <TableDatas />
+                            {/* <TableDatas /> */}
+                            <EmailInbox/>
                         </CardBody>
                     </Card>
                     <ToastContainer />

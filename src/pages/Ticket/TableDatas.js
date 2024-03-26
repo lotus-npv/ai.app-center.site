@@ -212,7 +212,7 @@ const TableDatas = props => {
   const [activeIndex, setActiveIndex] = useState(0)
   const types = ["All", "new", "processing", "done"]
 
-  const renHeader = () => {
+const renHeader = () => {
     if (ticketData) {
       const tabs = types.map((type, index) => {
         return {
@@ -326,7 +326,7 @@ const TableDatas = props => {
   // console.log('dataTable:', dataTable);
 
   return (
-    <div className="card">
+    <div className="card mt-3">
       <DataTable
         value={dataTable}
         paginator
@@ -338,13 +338,13 @@ const TableDatas = props => {
         selection={selectedItems}
         onSelectionChange={e => setSelectedItems(e.value)}
         dataKey="id"
-       
         globalFilterFields={["id", "nam_jp", "phone_number"]}
-        header={renHeader}
+        // header={renHeader}
         emptyMessage="Không tìm thấy kết quả phù hợp."
         tableStyle={{ minWidth: "50rem" }}
         scrollable
         scrollHeight={vh}
+        style={{minHeight: vh}}
         size={"small"}
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
@@ -428,6 +428,40 @@ const TableDatas = props => {
 
 TableDatas.propTypes = {
   t: PropTypes.any,
+}
+
+export const RenHeader = ({ticketData, types, activeIndex}) => {
+  if (ticketData) {
+    const tabs = types.map((type, index) => {
+      return {
+        title: type,
+        value: index,
+        data: type == "All" ? ticketData.length : ticketData.filter(item => item.ticket_status == type).length
+      }
+    })
+
+    console.log(activeIndex)
+
+    return (
+      <>
+        <TabView
+          scrollable
+          activeIndex={activeIndex}
+          onTabChange={e => setActiveIndex(e.index)}
+        >
+          {tabs.map(tab => {
+            return (
+              <TabPanel
+                key={tab.title}
+                header = {<div><span>{tab.title}</span> <BadgePrime className="ms-1" value={tab.data} severity="success"></BadgePrime></div>}
+                contentStyle={{ display: "none" }}
+              ></TabPanel>
+            )
+          })}
+        </TabView>
+      </>
+    )
+  }
 }
 
 export default withTranslation()(TableDatas)

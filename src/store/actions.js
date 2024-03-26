@@ -64,3 +64,6 @@ export * from "./ticket/actions"
 export * from "./ticket_detail/actions"
 // syndication 
 export * from "./syndication/actions"
+
+// contacts
+export * from "./mails/actions";

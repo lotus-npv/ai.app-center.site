@@ -33,6 +33,7 @@ import StatusOfResidenceSaga from "./status_of_residence/saga";
 import TicketSaga from "./ticket/saga";
 import TicketDetailSaga from "./ticket_detail/saga";
 import SyndicationSaga from "./syndication/saga";
+import mailsSaga from "./mails/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -69,5 +70,6 @@ export default function* rootSaga() {
     fork(TicketSaga),
     fork(TicketDetailSaga),
     fork(SyndicationSaga),
+    fork(mailsSaga),
   ]);
 }

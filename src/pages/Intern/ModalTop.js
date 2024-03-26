@@ -157,10 +157,11 @@ const ModalTop = ({
   // console.log("rowsSelectedInternData", rowsSelectedInternData)
 
   useEffect(() => {
-    setSelectIntern(rowsSelectedInternData);
-    let arr = dataInternAll.filter(intern => !rowsSelectedInternData.some(item => item.id === intern.id));
-    setInternData(arr);
-
+    setSelectIntern(rowsSelectedInternData)
+    let arr = dataInternAll.filter(
+      intern => !rowsSelectedInternData.some(item => item.id === intern.id)
+    )
+    setInternData(arr)
   }, [rowsSelectedInternData])
 
   const [isDone, setIsDone] = useState(false)
@@ -200,9 +201,9 @@ const ModalTop = ({
         .format("YYYY-MM-DD"),
       description: note,
     }
-    dispatch(setViolateList(newViolate));
-    setIsDone(true);
-    tog_xlarge();
+    dispatch(setViolateList(newViolate))
+    setIsDone(true)
+    tog_xlarge()
   }
 
   useEffect(() => {
@@ -339,7 +340,72 @@ const ModalTop = ({
 
   return (
     <>
-      <div className="d-flex justify-content-between mb-3">
+      <Row>
+        <Col lg={4}>
+          <Row>
+            <Col>
+              <Button
+                color="gray-soft"
+                onClick={() => {
+                  if (rowsSelectedInternData.length == 0) {
+                    toast.warn("Please select intern before edit !", {
+                      autoClose: 2000,
+                    })
+                  } else {
+                    tog_standard()
+                    setIsUpdateStatus(true)
+                  }
+                }}
+              >
+                <i className="fas fa-info-circle text-secondary"></i>{" "}
+                {t("Update Status")}
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                color="gray-soft"
+                onClick={() => {
+                  if (rowsSelectedInternData.length == 0) {
+                    toast.warn("Please select intern before edit !", {
+                      autoClose: 2000,
+                    })
+                  } else {
+                    tog_standard()
+                    setIsUpdateStatus(false)
+                  }
+                }}
+              >
+                <i className="fas fa-user-shield text-secondary"></i>{" "}
+                {t("Residence update")}
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                color="gray-soft"
+                onClick={() => {
+                  tog_xlarge()
+                }}
+              >
+                <i className="fas fa-ban text-secondary"></i>{" "}
+                {t("Add violations")}
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+        <Col lg={8}>
+          <Button
+            color="primary"
+            onClick={() => {
+              setIsEditIntern(false)
+              tog_fullscreen()
+            }}
+          >
+            {t("Add Intern")}
+          </Button>
+        </Col>
+      </Row>
+
+      {/* <div className="d-flex justify-content-between mb-3">
         <div className="d-flex gap-3">
           <Button
             color="gray-soft"
@@ -393,7 +459,7 @@ const ModalTop = ({
             {t("Add Intern")}
           </Button>
         </div>
-      </div>
+      </div> */}
 
       <Modal
         isOpen={modal_standard}
@@ -504,54 +570,55 @@ const ModalTop = ({
         <div className="modal-body">
           <Card>
             <CardBody>
-
-              {<Row className="mb-4">
-                <Col lg={3}>
-                  <div className="mb-4">
-                    <Label>Ngày vi phạm</Label>
-                    <Flatpickr
-                      className="form-control d-block"
-                      placeholder="yyyy-MM-dd"
-                      options={{
-                        altInput: true,
-                        altFormat: "Y-m-d",
-                        dateFormat: "Y-m-d",
-                      }}
-                      value={dateViolate}
-                      onChange={date => setDateViolate(date)}
-                    />
-                  </div>
-                </Col>
-                <Col lg={3}>
-                  <div className="mb-4">
-                    <Label htmlFor="edit-status">Loại vi phạm</Label>
-                    <Select
-                      id="edit-status"
-                      name="status"
-                      placeholder="Chọn tư cách lưu trú"
-                      value={violateType}
-                      onChange={item => {
-                        setViolateType(item)
-                      }}
-                      options={violateTypeApiData}
-                    />
-                  </div>
-                </Col>
-                <Col lg={6}>
-                  <div className="mb-4">
-                    <Label htmlFor="note">Ghi chú</Label>
-                    <Input
-                      id="note"
-                      name="note"
-                      type="text"
-                      value={note}
-                      onChange={e => {
-                        setNote(e.target.value)
-                      }}
-                    />
-                  </div>
-                </Col>
-              </Row> }
+              {
+                <Row className="mb-4">
+                  <Col lg={3}>
+                    <div className="mb-4">
+                      <Label>Ngày vi phạm</Label>
+                      <Flatpickr
+                        className="form-control d-block"
+                        placeholder="yyyy-MM-dd"
+                        options={{
+                          altInput: true,
+                          altFormat: "Y-m-d",
+                          dateFormat: "Y-m-d",
+                        }}
+                        value={dateViolate}
+                        onChange={date => setDateViolate(date)}
+                      />
+                    </div>
+                  </Col>
+                  <Col lg={3}>
+                    <div className="mb-4">
+                      <Label htmlFor="edit-status">Loại vi phạm</Label>
+                      <Select
+                        id="edit-status"
+                        name="status"
+                        placeholder="Chọn tư cách lưu trú"
+                        value={violateType}
+                        onChange={item => {
+                          setViolateType(item)
+                        }}
+                        options={violateTypeApiData}
+                      />
+                    </div>
+                  </Col>
+                  <Col lg={6}>
+                    <div className="mb-4">
+                      <Label htmlFor="note">Ghi chú</Label>
+                      <Input
+                        id="note"
+                        name="note"
+                        type="text"
+                        value={note}
+                        onChange={e => {
+                          setNote(e.target.value)
+                        }}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              }
 
               <Row className="pb-3">
                 <Col lg={3}>

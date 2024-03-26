@@ -54,6 +54,9 @@ import Ticket from "./ticket/reducer";
 import TicketDetail from "./ticket_detail/reducer";
 import Syndication from "./syndication/reducer";
 
+//mails
+import mails from "./mails/reducer";
+
 
 const rootReducer = combineReducers({
   // public
@@ -89,6 +92,7 @@ const rootReducer = combineReducers({
   Ticket,
   TicketDetail,
   Syndication,
+  mails,
 });
 
 export default rootReducer;
