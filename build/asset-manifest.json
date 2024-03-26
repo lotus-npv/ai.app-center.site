@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.601c3586.css",
-    "main.js": "/static/js/main.ea47dec7.js",
+    "main.css": "/static/css/main.e7c0c32e.css",
+    "main.js": "/static/js/main.78813deb.js",
     "static/js/557.fd203c17.chunk.js": "/static/js/557.fd203c17.chunk.js",
     "static/js/238.0949ab69.chunk.js": "/static/js/238.0949ab69.chunk.js",
     "static/js/450.5ebe6a14.chunk.js": "/static/js/450.5ebe6a14.chunk.js",
@@ -102,8 +102,8 @@
     "static/media/spotify.svg": "/static/media/spotify.eefab5a9268d3721c294c608709c049e.svg",
     "static/media/airbnb.svg": "/static/media/airbnb.c9f6f43d5cd777ae2a2ab458fc9309de.svg",
     "static/media/adobe.svg": "/static/media/adobe.18e56447696e4920ce55f2008547dba4.svg",
-    "main.601c3586.css.map": "/static/css/main.601c3586.css.map",
-    "main.ea47dec7.js.map": "/static/js/main.ea47dec7.js.map",
+    "main.e7c0c32e.css.map": "/static/css/main.e7c0c32e.css.map",
+    "main.78813deb.js.map": "/static/js/main.78813deb.js.map",
     "557.fd203c17.chunk.js.map": "/static/js/557.fd203c17.chunk.js.map",
     "238.0949ab69.chunk.js.map": "/static/js/238.0949ab69.chunk.js.map",
     "450.5ebe6a14.chunk.js.map": "/static/js/450.5ebe6a14.chunk.js.map",
@@ -112,7 +112,7 @@
     "455.c6f08aa5.chunk.js.map": "/static/js/455.c6f08aa5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.601c3586.css",
-    "static/js/main.ea47dec7.js"
+    "static/css/main.e7c0c32e.css",
+    "static/js/main.78813deb.js"
   ]
 }
