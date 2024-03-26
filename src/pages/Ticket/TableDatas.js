@@ -6,6 +6,7 @@ import { Button } from "primereact/button"
 // import { TabMenu } from 'primereact/tabmenu';
 import { Avatar } from "primereact/avatar"
 import { InputText } from "primereact/inputtext"
+import { TabView, TabPanel } from 'primereact/tabview';
 import moment from "moment"
 
 import { Nav, NavItem, NavLink, Row, Col, Button as ButtonRS } from "reactstrap"
@@ -69,7 +70,7 @@ const TableDatas = props => {
     companyData,
     factoryData,
     syndicationData,
-    internData
+    internData,
   } = useSelector(
     state => ({
       ticketData: state.Ticket.datas,
@@ -85,8 +86,8 @@ const TableDatas = props => {
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getTicketAll());
-    dispatch(getTicketDetailAll());
+    dispatch(getTicketAll())
+    dispatch(getTicketDetailAll())
     // dispatch(getTicketAllInfo());
     // dispatch(getUsersAll())
     // dispatch(getDispatchingCompanyAll())
@@ -105,8 +106,7 @@ const TableDatas = props => {
     }
   }, [])
 
-  console.log('ticketData', ticketData)
-
+  console.log("ticketData", ticketData)
 
   //render lai data
 
@@ -153,20 +153,18 @@ const TableDatas = props => {
 
   const rendLabel = () => {
     // tạo danh sách địa
-    let numberOfTicket = 0;
-    if(ticketData) {
+    let numberOfTicket = 0
+    if (ticketData) {
       numberOfTicket = ticketData.length
     }
-    const type = ['new', 'processing', 'done']
+    const type = ["new", "processing", "done"]
 
     return [
-      { name: "All", data: numberOfTicket, type_id: 0 },
+      { name: "All", data: numberOfTicket, type: "All" },
       ...type.map((type, index) => {
         return {
           name: type,
-          data: ticketData.filter(
-            (ticket) => ticket.ticket_type == type
-          ).length,
+          data: ticketData.filter(ticket => ticket.ticket_type == type).length,
           type_id: index + 1,
         }
       }),
@@ -275,17 +273,42 @@ const TableDatas = props => {
   }
 
   const [dataTable, setDataTable] = useState(ticketData)
-  const checkInfo = (type, id) => {
-      if(type == 'intern') {
-       return  internData.find(item => item.id == id).full_name_jp;
-      } else if(type == 'syndication') {
-        return syndicationData.find(item => item.id == id).name;
-      } else if(type == 'receiving_factory') {
-        return factoryData.find(item => item.id == id);
-      } else {
-        return companyData.find(item => item.id == id);
-      } 
+
+
+  const renHeader = () => {
+    const types = ["All","new", "processing", "done"];
+    const tabs = types.map((type, index) => {
+      return {title: type , value: index}
+    })
+
+
+    return (
+      <>
+        <TabView scrollable>
+          {tabs.map(tab => {
+            return (
+              <TabPanel key={tab.title} header={tab.title}>
+                {/* <p className="m-0">{tab.content}</p> */}
+              </TabPanel>
+            )
+          })}
+        </TabView>
+      </>
+    )
   }
+
+
+  // const checkInfo = (type, id) => {
+  //     if(type == 'intern') {
+  //      return  internData.find(item => item.id == id).full_name_jp;
+  //     } else if(type == 'syndication') {
+  //       return syndicationData.find(item => item.id == id).name;
+  //     } else if(type == 'receiving_factory') {
+  //       return factoryData.find(item => item.id == id);
+  //     } else {
+  //       return companyData.find(item => item.id == id);
+  //     }
+  // }
 
   const getListInternStatus = key => {
     if (key == "0") {
@@ -293,12 +316,11 @@ const TableDatas = props => {
         return {
           ...item,
           send_date: moment(item.send_date).format("YYYY-MM-DD"),
-          sender_id: checkInfo(item.sender_type)
         }
       })
       setDataTable(newArr)
     } else {
-      const arr = ticketData.filter(item => item.violate_type_id == key)
+      const arr = ticketData.filter(item => item.ticket_status == key)
       const newArr = arr.map(item => {
         return {
           ...item,
@@ -421,7 +443,7 @@ const TableDatas = props => {
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
-          field="sender_id"
+          field="sender_name"
           header="Sender"
           filterField="date_of_joining_syndication"
           filter
@@ -430,7 +452,7 @@ const TableDatas = props => {
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
-          field="receiver_id"
+          field="receiver_name"
           header="Receiver"
           style={{ minWidth: "12rem" }}
         ></Column>
