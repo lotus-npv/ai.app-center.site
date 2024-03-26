@@ -187,6 +187,8 @@ const DataProvider = ({ children }) => {
 
   //Ticket
   const [isReponse, setIsReponse] = useState(false)
+  const [modal, setmodal] = useState(false)
+  const [ticketRowData, setTicketRowData] = useState(null)
 
   return (
     <DataContext.Provider
@@ -232,7 +234,9 @@ const DataProvider = ({ children }) => {
         isRefresh,
         updateRefresh,
         tog_resresh,
-        isReponse, setIsReponse
+        isReponse, setIsReponse,
+        modal, setmodal,
+        ticketRowData, setTicketRowData
       }}
     >
       {children}

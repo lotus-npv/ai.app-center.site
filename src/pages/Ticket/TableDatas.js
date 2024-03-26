@@ -18,8 +18,6 @@ import DeleteModal from "components/Common/DeleteModal"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
-import "./table.scss"
-
 
 FilterService.register("custom_activity", (value, filters) => {
   const [from, to] = filters ?? [null, null]
@@ -37,6 +35,8 @@ const TableDatas = ({dataTable}) => {
     tog_xlarge,
     isEditViolate,
     setIsEditViolate,
+    modal, setmodal,
+    ticketRowData, setTicketRowData
   } = useContext(DataContext)
 
 
@@ -54,15 +54,15 @@ const TableDatas = ({dataTable}) => {
       console.log("delete id :" + item.id)
       dispatch(deleteTicket(item.id))
 
-      // tim nhung tts co gan voi id cua vi pham moi xoa de xoa tiep
-      if (ticketData) {
-        const arr = ticketData.filter(vio => vio.violate_list_id == item.id)
-        if (arr) {
-          arr.forEach((item, index) => {
-            dispatch(deleteTicket(item.id))
-          })
-        }
-      }
+      // // tim nhung tts co gan voi id cua vi pham moi xoa de xoa tiep
+      // if (ticketData) {
+      //   const arr = ticketData.filter(vio => vio.violate_list_id == item.id)
+      //   if (arr) {
+      //     arr.forEach((item, index) => {
+      //       dispatch(deleteTicket(item.id))
+      //     })
+      //   }
+      // }
       setDeleteModal(false)
     }
   }
@@ -97,17 +97,28 @@ const TableDatas = ({dataTable}) => {
     return (
       <div className="d-flex gap-3">
         <Button
+          icon="pi pi-eye"
+          rounded
+          text
+          severity="success"
+          aria-label="Views"
+          onClick={() => {
+            setTicketRowData(rowData)
+            setmodal(!modal)
+          }}
+        />
+        {/* <Button
           icon="pi pi-pencil"
           rounded
           text
           severity="success"
           aria-label="Cancel"
           onClick={() => {
-            setRowSelect(rowData)
+            setTicketRowData(rowData)
             tog_xlarge()
             setIsEditViolate(true)
           }}
-        />
+        /> */}
         <Button
           icon="pi pi-trash"
           rounded
@@ -137,7 +148,7 @@ const TableDatas = ({dataTable}) => {
   }, [])
 
   return (
-    <div className="mt-3">
+    <div className="">
       <DataTable
         value={dataTable}
         paginator

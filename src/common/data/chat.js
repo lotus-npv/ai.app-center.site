@@ -197,7 +197,7 @@ const messages = [
     time: "1 hr",
     usermessages: [
       { id: 1, to_id: 1, msg: "Good morning 😊", time: "10:00" },
-      { id: 2, to_id: 2, msg: "Hi, How are you? What about our next meeting?", time: "10:02" },
+      { id: 2, to_id: 2, msg: "Hi, How are you? What about our next meeting? Hi, How are you? What about our next meeting? Hi, How are you? What about our next meeting? Hi, How are you? What about our next meeting? Hi, How are you? What about our next meeting?", time: "10:02" },
       { id: 3, to_id: 1, msg: "Yeah everything is fine", time: "10:06" },
       { id: 4, to_id: 2, msg: "& Next meeting tomorrow 10.00AM", time: "10:06" },
       { id: 5, to_id: 1, msg: "Wow that's great", time: "10:07" },

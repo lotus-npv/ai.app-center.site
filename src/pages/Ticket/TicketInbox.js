@@ -15,7 +15,6 @@ import {
   NavLink,
   CardBody,
 } from "reactstrap"
-import "./table.scss"
 import TableDatas from "./TableDatas"
 import classnames from "classnames"
 import { Link } from "react-router-dom"
@@ -50,7 +49,7 @@ const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
 
-  const { isReponse, setIsReponse } = useContext(DataContext)
+  const { isReponse, setIsReponse, modal, setmodal, ticketRowData, setTicketRowData } = useContext(DataContext)
 
   const dispatch = useDispatch()
   const {
@@ -96,13 +95,13 @@ const TicketInbox = props => {
     }
   }, [])
 
-  const types = ["All", "new", "processing", "done"]
+  const types = ["Inbox", "new", "processing", "done","Outbox"]
   const [counters, setCounters] = useState([])
   const [dataTable, setDataTable] = useState(ticketData)
 
   const [isLoading, setLoading] = useState(true)
   const [activeTab, setactiveTab] = useState(0)
-  const [modal, setmodal] = useState(false)
+  // const [modal, setmodal] = useState(false)
 
   const getListInternStatus = index => {
     if (index == 0) {
@@ -133,9 +132,13 @@ const TicketInbox = props => {
   useEffect(() => {
     if (ticketData) {
       const arr = types.map((type, index) => {
-        if (type === "All") {
+        if (type === "Inbox") {
           return ticketData.length
-        } else {
+        } else if(type === "Outbox") {
+          return ticketData.length
+        }
+        else
+        {
           return ticketData.filter(item => item.ticket_status === type).length
         }
       })
@@ -150,86 +153,100 @@ const TicketInbox = props => {
         <Row>
           <Col lg="2">
             <div className="d-flex justify-content-center">
-            <Card className="w-100">
-              <Button
-                type="button"
-                color="danger"
-                onClick={() => {
-                  setmodal(!modal)
-                }}
-                block
-              >
-                New Ticket
-              </Button>
-              <div className="mail-list mt-4">
-                <Nav tabs className="nav-tabs-custom" vertical role="tablist">
-                  <NavItem>
-                    <NavLink
-                      className={classnames({
-                        active: activeTab === 0,
-                      })}
-                      onClick={() => {
-                        setactiveTab(0)
-                      }}
-                    >
-                      <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
-                      <span className="ml-1 float-end">({counters[0]})</span>
-                    </NavLink>
-                  </NavItem>
+              <Card className="w-100" style={{margin: '10px 10px 10px 10px'}}>
+                <Button
+                  type="button"
+                  color="danger"
+                  onClick={() => {
+                    setmodal(!modal)
+                  }}
+                  block
+                >
+                  New Ticket
+                </Button>
+                <div className="mail-list mt-4">
+                  <Nav tabs className="nav-tabs-custom" vertical role="tablist">
+                    <NavItem>
+                      <NavLink
+                        className={classnames({
+                          active: activeTab === 0,
+                        })}
+                        onClick={() => {
+                          setactiveTab(0)
+                        }}
+                      >
+                        <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
+                        <span className="ml-1 float-end">({counters[0]})</span>
+                      </NavLink>
+                    </NavItem>
 
-                  <NavItem>
-                    <NavLink
-                      className={classnames({
-                        active: activeTab === 1,
-                      })}
-                      onClick={() => {
-                        setactiveTab(1)
-                      }}
-                    >
-                      <i className="mdi mdi-star-outline me-2"></i>New
-                      <span className="ml-1 float-end">({counters[1]})</span>
-                    </NavLink>
-                  </NavItem>
+                    <NavItem>
+                      <NavLink
+                        className={classnames({
+                          active: activeTab === 4,
+                        })}
+                        onClick={() => {
+                          setactiveTab(4)
+                        }}
+                      >
+                        <i className="mdi mdi-email-outline me-2"></i> Outbox{" "}
+                        <span className="ml-1 float-end">({counters[4]})</span>
+                      </NavLink>
+                    </NavItem>
 
-                  <NavItem>
-                    <NavLink
-                      className={classnames({
-                        active: activeTab === 2,
-                      })}
-                      onClick={() => {
-                        setactiveTab(2)
-                      }}
-                    >
-                      <i className="mdi mdi-diamond-stone me-2"></i>Processing
-                      <span className="ml-1 float-end">({counters[2]})</span>
-                    </NavLink>
-                  </NavItem>
+                    <NavItem>
+                      <NavLink
+                        className={classnames({
+                          active: activeTab === 1,
+                        })}
+                        onClick={() => {
+                          setactiveTab(1)
+                        }}
+                      >
+                        <i className="mdi mdi-star-outline me-2"></i>New
+                        <span className="ml-1 float-end">({counters[1]})</span>
+                      </NavLink>
+                    </NavItem>
 
-                  <NavItem>
-                    <NavLink
-                      className={classnames({
-                        active: activeTab === 3,
-                      })}
-                      onClick={() => {
-                        setactiveTab(3)
-                      }}
-                    >
-                      <i className="mdi mdi-file-outline me-2"></i>Done
-                      <span className="ml-1 float-end">({counters[3]})</span>
-                    </NavLink>
-                  </NavItem>
-                </Nav>
-              </div>
-            </Card>
+                    <NavItem>
+                      <NavLink
+                        className={classnames({
+                          active: activeTab === 2,
+                        })}
+                        onClick={() => {
+                          setactiveTab(2)
+                        }}
+                      >
+                        <i className="mdi mdi-diamond-stone me-2"></i>Processing
+                        <span className="ml-1 float-end">({counters[2]})</span>
+                      </NavLink>
+                    </NavItem>
+
+                    <NavItem>
+                      <NavLink
+                        className={classnames({
+                          active: activeTab === 3,
+                        })}
+                        onClick={() => {
+                          setactiveTab(3)
+                        }}
+                      >
+                        <i className="mdi mdi-file-outline me-2"></i>Done
+                        <span className="ml-1 float-end">({counters[3]})</span>
+                      </NavLink>
+                    </NavItem>
+                  </Nav>
+                </div>
+              </Card>
             </div>
           </Col>
 
           <Col lg="10">
-            <div className="d-fex justify-content-center">
+            <div className="d-flex justify-content-center">
               {isLoading ? (
                 <Spinners setLoading={setLoading} />
               ) : (
-                <Card>
+                <Card className="w-100" style={{margin: '10px 10px 10px 10px'}}>
                   <TableDatas dataTable={dataTable} />
                 </Card>
               )}
@@ -239,7 +256,7 @@ const TicketInbox = props => {
           <Modal
             size="xl"
             isOpen={modal}
-            autoFocus={true}
+            autoFocus={false}
             centered={true}
             toggle={() => {
               setmodal(!modal)
@@ -251,24 +268,28 @@ const TicketInbox = props => {
                   setmodal(!modal)
                 }}
               >
-                View Message
+                Ticket ID - {ticketRowData != null ? ticketRowData.id : '---'}
               </ModalHeader>
               <ModalBody>
                 <form>
                   <div className="mb-3">
-                    <Input
+                    {/* <Input
                       type="email"
                       className="form-control"
                       placeholder="To"
-                    />
+                    /> */}
+                    <h3>{ticketRowData != null ? ticketRowData.title : 'Title'}</h3>
                   </div>
 
                   <div className="mb-3">
-                    <Input
+                    {/* <Input
                       type="text"
                       className="form-control"
                       placeholder="Subject"
-                    />
+                    /> */}
+                    <Card className="bg-light d-flex justify-content-center">
+                      <p className="m-2 fw-bold">{ticketRowData != null ? ticketRowData.content : 'Content'}</p>
+                    </Card>
                   </div>
                   <Card>
                     <CardBody className="bg-light">
