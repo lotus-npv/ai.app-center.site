@@ -89,6 +89,7 @@ export const UPDATE_VIOLATETYPE =     "https://api.lotusocean-jp.com/api/violate
 export const DELETE_VIOLATETYPE =     "https://api.lotusocean-jp.com/api/violate_type/delete";
 // ticket
 export const    GET_TICKET_ALL = "https://api.lotusocean-jp.com/api/ticket/all";
+export const    GET_TICKET_ALLINFO = "https://api.lotusocean-jp.com/api/ticket/allInfo";
 export const    GET_TICKET_ID =  "https://api.lotusocean-jp.com/api/ticket";
 export const    SET_TICKET =     "https://api.lotusocean-jp.com/api/ticket/insert";
 export const UPDATE_TICKET =     "https://api.lotusocean-jp.com/api/ticket/update";

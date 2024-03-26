@@ -50,6 +50,9 @@ import Province from "./province/reducer";
 import District from "./district/reducer";
 import Commune from "./commune/reducer";
 import StatusOfResidence from "./status_of_residence/reducer";
+import Ticket from "./ticket/reducer";
+import TicketDetail from "./ticket_detail/reducer";
+import Syndication from "./syndication/reducer";
 
 
 const rootReducer = combineReducers({
@@ -82,7 +85,10 @@ const rootReducer = combineReducers({
   Province,
   District,
   Commune,
-  StatusOfResidence
+  StatusOfResidence,
+  Ticket,
+  TicketDetail,
+  Syndication,
 });
 
 export default rootReducer;

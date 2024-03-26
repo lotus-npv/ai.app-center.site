@@ -264,9 +264,12 @@ create table if not exists ticket (
     key_license_id INT,
     send_date DATETIME,
     title VARCHAR(100),
+    sender_type ENUM('syndication','receiving_factory','dispatching_company','intern'),
     sender_id INT, -- id user nguoi gui
+    receiver_type ENUM('syndication','receiving_factory','dispatching_company','intern'),
     receiver_id INT, -- id user nguoi nhan
     priority ENUM('Low', 'Medium', 'High'),
+    ticket_status ENUM('new', 'processing', 'done')
     description VARCHAR(200),
     create_at DATETIME,
     create_by INT,
@@ -284,6 +287,8 @@ create table if not exists ticket_detail (
     id int primary key auto_increment,
     key_license_id INT,
     ticket_id INT,
+    sender_type ENUM('syndication','receiving_factory','dispatching_company','intern'),
+    sender_id INT, -- id user nguoi gui
     send_date DATETIME,
     content VARCHAR(1000),
     description VARCHAR(200),

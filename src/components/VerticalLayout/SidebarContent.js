@@ -206,9 +206,9 @@ const SidebarContent = props => {
               </ul>
             </li>
 
-            <li className="menu-title">{props.t("Components")}</li>
+            {/* <li className="menu-title">{props.t("Components")}</li> */}
 
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-tone" />
                 <span>{props.t("UI Elements")}</span>
@@ -394,7 +394,7 @@ const SidebarContent = props => {
                   <Link to="/icons-fontawesome">{props.t("Font awesome")}</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
         
 
           </ul>

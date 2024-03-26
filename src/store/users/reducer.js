@@ -31,19 +31,19 @@ import {
       case GET_USERS_ALL:
         return {
           ...state,
-          datas: action.payload,
           loading: true
         };
       case GET_USERS_ALL_SUCCESS:
         return {
           ...state,
+          loading: false,
           datas: action.payload,
-          loading: false
         };
   
       case GET_USERS_ALL_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case GET_USERS_LOGIN:

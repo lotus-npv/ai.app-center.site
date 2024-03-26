@@ -58,3 +58,9 @@ export * from "./district/actions"
 export * from "./commune/actions"
 // status_of_residence 
 export * from "./status_of_residence/actions"
+// ticket 
+export * from "./ticket/actions"
+// ticket_detail 
+export * from "./ticket_detail/actions"
+// syndication 
+export * from "./syndication/actions"

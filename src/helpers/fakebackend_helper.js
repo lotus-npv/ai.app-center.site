@@ -108,6 +108,7 @@ export const updateDataViolateType = data =>       put(url.UPDATE_VIOLATETYPE, d
 export const deleteDataViolateType = (id) =>    del(`${url.DELETE_VIOLATETYPE}/${id}`, { params: { id } }, config);
 // ticket
 export const        getTicketDataAll = () =>     get(url.GET_TICKET_ALL);
+export const        getTicketDataAllInfo = () =>     get(url.GET_TICKET_ALLINFO);
 export const        getTicketDataId = (id) => get(`${url.GET_TICKET_ID}/${id}`,{ params: { id } }, config);
 export const addNewDataTicket = data =>         post(url.SET_TICKET, data, config);
 export const updateDataTicket = data =>       put(url.UPDATE_TICKET, data, config);
