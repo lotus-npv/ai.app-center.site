@@ -26,20 +26,20 @@ import PropTypes from "prop-types"
 
 import "./table.scss"
 
-// //redux
-import { useSelector, useDispatch, shallowEqual } from "react-redux"
-import {
-  deleteTicket,
-  getCareerAll,
-  getDispatchingCompanyAll,
-  getInternAllInfo,
-  getReceivingFactoryAll,
-  getSyndicationAll,
-  getTicketAll,
-  getTicketAllInfo,
-  getTicketDetailAll,
-  getUsersAll,
-} from "store/actions"
+// // //redux
+// import { useSelector, useDispatch, shallowEqual } from "react-redux"
+// import {
+//   deleteTicket,
+//   getCareerAll,
+//   getDispatchingCompanyAll,
+//   getInternAllInfo,
+//   getReceivingFactoryAll,
+//   getSyndicationAll,
+//   getTicketAll,
+//   getTicketAllInfo,
+//   getTicketDetailAll,
+//   getUsersAll,
+// } from "store/actions"
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register("custom_activity", (value, filters) => {
@@ -50,10 +50,9 @@ FilterService.register("custom_activity", (value, filters) => {
   return from <= value && value <= to
 })
 
-const TableDatas = props => {
+const TableDatas = ({dataTable}) => {
   // data context
   const {
-    vh,
     modal_xlarge,
     setmodal_xlarge,
     tog_xlarge,
@@ -63,54 +62,50 @@ const TableDatas = props => {
 
   //table
   // Khai bao du lieu
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const {
-    ticketData,
-    ticketDetailData,
-    usersData,
-    companyData,
-    factoryData,
-    syndicationData,
-    internData,
-  } = useSelector(
-    state => ({
-      ticketData: state.Ticket.datas,
-      ticketDetailData: state.TicketDetail.datas,
-      usersData: state.Users.datas,
-      companyData: state.DispatchingCompany.datas,
-      factoryData: state.ReceivingFactory.datas,
-      syndicationData: state.Syndication.datas,
-      internData: state.Intern.datas,
-    }),
-    shallowEqual
-  )
+  // const {
+  //   ticketData,
+  //   ticketDetailData,
+  //   usersData,
+  //   companyData,
+  //   factoryData,
+  //   syndicationData,
+  //   internData,
+  // } = useSelector(
+  //   state => ({
+  //     ticketData: state.Ticket.datas,
+  //     ticketDetailData: state.TicketDetail.datas,
+  //     usersData: state.Users.datas,
+  //     companyData: state.DispatchingCompany.datas,
+  //     factoryData: state.ReceivingFactory.datas,
+  //     syndicationData: state.Syndication.datas,
+  //     internData: state.Intern.datas,
+  //   }),
+  //   shallowEqual
+  // )
 
   // Get du lieu lan dau
-  useEffect(() => {
-    dispatch(getTicketAll())
-    dispatch(getTicketDetailAll())
-    // dispatch(getTicketAllInfo());
-    // dispatch(getUsersAll())
-    // dispatch(getDispatchingCompanyAll())
-    // dispatch(getReceivingFactoryAll())
-    // dispatch(getSyndicationAll())
-    // dispatch(getInternAllInfo())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getTicketAll())
+  //   dispatch(getTicketDetailAll())
+  //   // dispatch(getTicketAllInfo());
+  //   // dispatch(getUsersAll())
+  //   // dispatch(getDispatchingCompanyAll())
+  //   // dispatch(getReceivingFactoryAll())
+  //   // dispatch(getSyndicationAll())
+  //   // dispatch(getInternAllInfo())
+  // }, [dispatch])
 
   // get lai data sau moi 10s
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch(getTicketAll())
-    }, 10000)
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
-
-  // console.log("ticketData", ticketData)
-
-  //render lai data
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     dispatch(getTicketAll())
+  //   }, 10000)
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [])
 
   // //delete modal
   const [item, setItem] = useState(null)
@@ -139,53 +134,10 @@ const TableDatas = props => {
     }
   }
 
-  // TABLE
-  // render label tab
-  const itemRenderer = (item, itemIndex, data) => (
-    <a
-      className="p-menuitem-link flex align-items-center gap-2"
-      onClick={() => setActiveIndex(itemIndex)}
-    >
-      <BadgePrime value={data}></BadgePrime>
-      <span className="font-bold">{props.t(item.name)}</span>
-    </a>
-  )
-
-  const rendLabel = () => {
-    // tạo danh sách địa
-    let numberOfTicket = 0
-    if (ticketData) {
-      numberOfTicket = ticketData.length
-    }
-    const type = ["new", "processing", "done"]
-
-    return [
-      { name: "All", data: numberOfTicket, type: "All" },
-      ...type.map((type, index) => {
-        return {
-          name: type,
-          data: ticketData.filter(ticket => ticket.ticket_type == type).length,
-          type_id: index + 1,
-        }
-      }),
-    ]
-  }
-
-  // acctive tab
-  const [customActiveTab, setcustomActiveTab] = useState({
-    index: "0",
-    value: "All",
-    id: 0,
-  })
-  const toggleCustom = (tab, data, provinceId) => {
-    if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data, id: provinceId })
-    }
-  }
-
-  // Global filter
-
+  // Row selected edit
+  const [rowSelect, setRowSelect] = useState(null)
   const [selectedItems, setSelectedItems] = useState(null)
+
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nam_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -205,89 +157,87 @@ const TableDatas = props => {
     setGlobalFilterValue(value)
   }
 
-  // Row selected edit
-  const [rowSelect, setRowSelect] = useState(null)
+  // const [dataTable, setDataTable] = useState(ticketData)
+  // const [activeIndex, setActiveIndex] = useState(0)
+  // const types = ["All", "new", "processing", "done"]
 
-  const [dataTable, setDataTable] = useState(ticketData)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const types = ["All", "new", "processing", "done"]
+  // const renHeader = () => {
+  //     if (ticketData) {
+  //       const tabs = types.map((type, index) => {
+  //         return {
+  //           title: type,
+  //           value: index,
+  //           data: type == "All" ? ticketData.length : ticketData.filter(item => item.ticket_status == type).length
+  //         }
+  //       })
 
-const renHeader = () => {
-    if (ticketData) {
-      const tabs = types.map((type, index) => {
-        return {
-          title: type,
-          value: index,
-          data: type == "All" ? ticketData.length : ticketData.filter(item => item.ticket_status == type).length
-        }
-      })
+  //       console.log(activeIndex)
 
-      console.log(activeIndex)
+  //       return (
+  //         <>
+  //           <TabView
+  //             scrollable
+  //             activeIndex={activeIndex}
+  //             onTabChange={e => setActiveIndex(e.index)}
+  //           >
+  //             {tabs.map(tab => {
+  //               return (
+  //                 <TabPanel
+  //                   key={tab.title}
+  //                   header = {<div><span>{tab.title}</span> <BadgePrime className="ms-1" value={tab.data} severity="success"></BadgePrime></div>}
+  //                   contentStyle={{ display: "none" }}
+  //                 ></TabPanel>
+  //               )
+  //             })}
+  //           </TabView>
+  //         </>
+  //       )
+  //     }
+  //   }
 
-      return (
-        <>
-          <TabView
-            scrollable
-            activeIndex={activeIndex}
-            onTabChange={e => setActiveIndex(e.index)}
-          >
-            {tabs.map(tab => {
-              return (
-                <TabPanel
-                  key={tab.title}
-                  header = {<div><span>{tab.title}</span> <BadgePrime className="ms-1" value={tab.data} severity="success"></BadgePrime></div>}
-                  contentStyle={{ display: "none" }}
-                ></TabPanel>
-              )
-            })}
-          </TabView>
-        </>
-      )
-    }
-  }
+  // const getListInternStatus = index => {
+  //   if (index == 0) {
+  //     const newArr = ticketData.map(item => {
+  //       return {
+  //         ...item,
+  //         send_date: moment(item.send_date).format("YYYY-MM-DD"),
+  //       }
+  //     })
+  //     setDataTable(newArr)
+  //   } else {
+  //     const arr = ticketData.filter(item => item.ticket_status == types[index])
+  //     const newArr = arr.map(item => {
+  //       return {
+  //         ...item,
+  //         send_date: moment(item.violate_date).format("YYYY-MM-DD"),
+  //       }
+  //     })
+  //     setDataTable(newArr)
+  //   }
+  //   // console.log('arr:', newArr)
+  // }
 
-  const getListInternStatus = index => {
-    if (index == 0) {
-      const newArr = ticketData.map(item => {
-        return {
-          ...item,
-          send_date: moment(item.send_date).format("YYYY-MM-DD"),
-        }
-      })
-      setDataTable(newArr)
-    } else {
-      const arr = ticketData.filter(item => item.ticket_status == types[index])
-      const newArr = arr.map(item => {
-        return {
-          ...item,
-          send_date: moment(item.violate_date).format("YYYY-MM-DD"),
-        }
-      })
-      setDataTable(newArr)
-    }
-    // console.log('arr:', newArr)
-  }
-
-  useEffect(() => {
-    getListInternStatus(activeIndex)
-  }, [activeIndex, ticketData])
+  // useEffect(() => {
+  //   getListInternStatus(activeIndex)
+  // }, [activeIndex, ticketData])
 
   // console.log('customActiveTab:', customActiveTab)
 
   // render col name
-  const dateBodyTemplate = rowData => {
-    return (
-      <div className="flex align-items-center gap-2">
-        <Avatar
-          className="p-overlay-badge"
-          image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`}
-          size="large"
-          shape="circle"
-        ></Avatar>
-        <span>{rowData.name_jp}</span>
-      </div>
-    )
-  }
+  // const dateBodyTemplate = rowData => {
+  //   return (
+  //     <div className="flex align-items-center gap-2">
+  //       <Avatar
+  //         className="p-overlay-badge"
+  //         image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`}
+  //         size="large"
+  //         shape="circle"
+  //       ></Avatar>
+  //       <span>{rowData.name_jp}</span>
+  //     </div>
+  //   )
+  // }
+  const [isInbox, setIsInbox] = useState(true)
 
   const actionBody = rowData => {
     return (
@@ -318,7 +268,21 @@ const renHeader = () => {
     )
   }
 
-  // console.log('loading:', loading)
+  const screenAvailHeight = window.innerHeight;
+  const [vh, setVh] = useState(null)
+  window.addEventListener("resize", function () {
+    var screenHeight = window.innerHeight
+    let wh = screenHeight - 220
+    setVh(`${wh}px`)
+    // setWindowHeight(screenHeight);
+  })
+
+  useEffect(() => {
+    let wh = screenAvailHeight - 220
+    setVh(`${wh}px`)
+  }, [])
+
+
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log('violatelist:', ticketData);
@@ -326,7 +290,7 @@ const renHeader = () => {
   // console.log('dataTable:', dataTable);
 
   return (
-    <div className="card mt-3">
+    <div className=" mt-3">
       <DataTable
         value={dataTable}
         paginator
@@ -341,10 +305,10 @@ const renHeader = () => {
         globalFilterFields={["id", "nam_jp", "phone_number"]}
         // header={renHeader}
         emptyMessage="Không tìm thấy kết quả phù hợp."
-        tableStyle={{ minWidth: "50rem" }}
+        tableStyle={{ minWidth: "50rem"}}
         scrollable
         scrollHeight={vh}
-        style={{minHeight: vh}}
+        style={{ minHeight: vh }}
         size={"small"}
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
@@ -372,7 +336,7 @@ const renHeader = () => {
           // sortable
           style={{ minWidth: "12rem" }}
         ></Column>
-        <Column
+        {isInbox && <Column
           field="sender_name"
           header="Sender"
           filterField="date_of_joining_syndication"
@@ -380,12 +344,12 @@ const renHeader = () => {
           filterPlaceholder="Tìm kiếm bằng tên"
           // sortable
           style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
+        ></Column>}
+       {!isInbox &&  <Column
           field="receiver_name"
           header="Receiver"
           style={{ minWidth: "12rem" }}
-        ></Column>
+        ></Column>}
         <Column
           field="priority"
           header="Priority"
@@ -409,59 +373,12 @@ const renHeader = () => {
         onDeleteClick={handleDeleteOrder}
         onCloseClick={() => setDeleteModal(false)}
       />
-
-      {/* <ModalDatas
-        item={rowSelect}
-        dispatch={dispatch}
-      // setApi={setIntern}
-      // updateApi={updateIntern}
-      /> */}
-
-      <ModalTop
-        // violateTypeData={violateTypeData}
-        rowSelect={rowSelect}
-        ticketData={ticketData}
-      />
     </div>
   )
 }
 
 TableDatas.propTypes = {
   t: PropTypes.any,
-}
-
-export const RenHeader = ({ticketData, types, activeIndex}) => {
-  if (ticketData) {
-    const tabs = types.map((type, index) => {
-      return {
-        title: type,
-        value: index,
-        data: type == "All" ? ticketData.length : ticketData.filter(item => item.ticket_status == type).length
-      }
-    })
-
-    console.log(activeIndex)
-
-    return (
-      <>
-        <TabView
-          scrollable
-          activeIndex={activeIndex}
-          onTabChange={e => setActiveIndex(e.index)}
-        >
-          {tabs.map(tab => {
-            return (
-              <TabPanel
-                key={tab.title}
-                header = {<div><span>{tab.title}</span> <BadgePrime className="ms-1" value={tab.data} severity="success"></BadgePrime></div>}
-                contentStyle={{ display: "none" }}
-              ></TabPanel>
-            )
-          })}
-        </TabView>
-      </>
-    )
-  }
 }
 
 export default withTranslation()(TableDatas)

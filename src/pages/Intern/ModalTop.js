@@ -341,9 +341,9 @@ const ModalTop = ({
   return (
     <>
       <Row>
-        <Col lg={5} md={12}>
+        <Col xl={5} md={12}>
           <Row>
-            <Col lg={4} md={12} className="d-flex justify-content-center">
+            <Col xl={4} md={12} className="d-flex justify-content-center">
               <Button
                 color="gray-soft"
                 style={{ minWidth: '170px', marginBottom: '5px', width: '80%'}}
@@ -362,10 +362,10 @@ const ModalTop = ({
                 {t("Update Status")}
               </Button>
             </Col>
-            <Col lg={4} md={12}>
+            <Col xl={4} md={12} className="d-flex justify-content-center">
               <Button
                 color="gray-soft"
-                style={{minWidth: '170px', marginBottom: '5px'}}
+                style={{minWidth: '170px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -381,10 +381,10 @@ const ModalTop = ({
                 {t("Residence update")}
               </Button>
             </Col>
-            <Col lg={4} md={12}>
+            <Col xl={4} md={12} className="d-flex justify-content-center">
               <Button
                 color="gray-soft"
-                style={{ minWidth: '170px', marginBottom: '5px'}}
+                style={{ minWidth: '170px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   tog_xlarge()
                 }}
@@ -395,7 +395,7 @@ const ModalTop = ({
             </Col>
           </Row>
         </Col>
-        <Col lg={7} md={4}>
+        <Col xl={7} md={12}>
           <Row>
             <Col className="d-flex justify-content-end">
               <Button

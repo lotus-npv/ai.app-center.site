@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import withRouter from "components/Common/withRouter";
+import React, { useState, useEffect } from "react"
+import withRouter from "components/Common/withRouter"
 import {
   Button,
   Card,
   Col,
-  Container,
   Input,
-  Label,
   Row,
   Nav,
   Modal,
@@ -16,169 +13,197 @@ import {
   ModalHeader,
   NavItem,
   NavLink,
-} from "reactstrap";
+} from "reactstrap"
 
-import './table.scss'
-import TableDatas from "./TableDatas";
+import "./table.scss"
+import TableDatas from "./TableDatas"
 
-//Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb";
+import classnames from "classnames"
 
-import classnames from "classnames";
-
-import { map } from "lodash";
+import { map } from "lodash"
 
 // Import Editor
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { Editor } from "react-draft-wysiwyg"
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
-import {
-  getMailsLists as onGetMailsLists,
-  getSelectedMails as onGetSelectedMails,
-  updateMail as onUpdateMail
-} from "store/mails/actions";
+import { getMailsLists as onGetMailsLists } from "store/mails/actions"
 
 //Import Email Topbar
-import EmailToolbar from "./email-toolbar";
+import EmailToolbar from "./email-toolbar"
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
-import { createSelector } from "reselect";
-import { labelsData, mailChatData } from "common/data";
-import { handleSearchData } from "components/Common/searchFile";
-import Spinners from "components/Common/Spinner";
+import Spinners from "components/Common/Spinner"
+import moment from "moment"
+
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+import {
+  deleteTicket,
+  getCareerAll,
+  getDispatchingCompanyAll,
+  getInternAllInfo,
+  getReceivingFactoryAll,
+  getSyndicationAll,
+  getTicketAll,
+  getTicketAllInfo,
+  getTicketDetailAll,
+  getUsersAll,
+} from "store/actions"
 
 const EmailInbox = props => {
-
   //meta title
-  document.title = "Inbox | Skote - React Admin & Dashboard Template";
+  document.title = "Inbox | Skote - React Admin & Dashboard Template"
 
-  const dispatch = useDispatch();
-
-  const selectMailsState = (state) => state.mails;
-  const EmailProperties = createSelector(
-    selectMailsState,
-    (Mails) => ({
-      mailslists: Mails.mailslists,
-      selectedmails: Mails.selectedmails,
-      loading: Mails.loading
-    })
-  );
-
+  const dispatch = useDispatch()
   const {
-    mailslists,
-    selectedmails,
-    loading
-  } = useSelector(EmailProperties);
-  const [isLoading, setLoading] = useState(loading)
+    ticketData,
+    ticketDetailData,
+    usersData,
+    companyData,
+    factoryData,
+    syndicationData,
+    internData,
+  } = useSelector(
+    state => ({
+      ticketData: state.Ticket.datas,
+      ticketDetailData: state.TicketDetail.datas,
+      usersData: state.Users.datas,
+      companyData: state.DispatchingCompany.datas,
+      factoryData: state.ReceivingFactory.datas,
+      syndicationData: state.Syndication.datas,
+      internData: state.Intern.datas,
+    }),
+    shallowEqual
+  )
 
-  const [mailsList, setMailsList] = useState();
-  const [activeTab, setactiveTab] = useState(0);
-  const [modal, setmodal] = useState(false);
+  // Get du lieu lan dau
+  useEffect(() => {
+    dispatch(getTicketAll())
+    dispatch(getTicketDetailAll())
+    // dispatch(getTicketAllInfo());
+    // dispatch(getUsersAll())
+    // dispatch(getDispatchingCompanyAll())
+    // dispatch(getReceivingFactoryAll())
+    // dispatch(getSyndicationAll())
+    // dispatch(getInternAllInfo())
+  }, [dispatch])
+
+  // get lai data sau moi 10s
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch(getTicketAll())
+    }, 10000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+  const types = ["All", "new", "processing", "done"]
+  const [dataTable, setDataTable] = useState(ticketData)
+
+  const [isLoading, setLoading] = useState(true)
+  const [activeTab, setactiveTab] = useState(0)
+  const [modal, setmodal] = useState(false)
+
+  const getListInternStatus = index => {
+    if (index == 0) {
+      const newArr = ticketData.map(item => {
+        return {
+          ...item,
+          send_date: moment(item.send_date).format("YYYY-MM-DD"),
+        }
+      })
+      setDataTable(newArr)
+    } else {
+      const arr = ticketData.filter(item => item.ticket_status == types[index])
+      const newArr = arr.map(item => {
+        return {
+          ...item,
+          send_date: moment(item.send_date).format("YYYY-MM-DD"),
+        }
+      })
+      setDataTable(newArr)
+    }
+    // console.log('arr:', newArr)
+  }
 
   useEffect(() => {
-    dispatch(onGetMailsLists(0));
-  }, [dispatch]);
+    getListInternStatus(activeTab)
+  }, [activeTab, ticketData])
 
-  useEffect(() => {
-    setMailsList(mailslists)
-  }, [mailslists])
-
-  const handleSelect = (selectedItems) => {
-    dispatch(onGetSelectedMails(selectedItems));
-  };
-
-  const hasStarred = (mail) => {
-    const updateTodo = {
-      id: mail.id,
-      starred: !mail.starred
-    };
-    dispatch(onUpdateMail(updateTodo));
-  };
-
-  // search 
-  const [search, setSearch] = useState('');
-  useEffect(() => {
-    handleSearchData({ setState: setMailsList, data: mailslists, item: search })
-  }, [search])
-
+  console.log(dataTable)
   return (
     <React.Fragment>
       <div className="">
-          <Row>
-            <Col xs="12">
-              {/* Render Email SideBar */}
-              <Card className="email-leftbar">
-                <Button
-                  type="button"
-                  color="danger"
-                  onClick={() => {
-                    setmodal(!modal);
-                  }}
-                  block
-                >
-                  New Ticket
-                </Button>
-                <div className="mail-list mt-4">
-                  <Nav tabs className="nav-tabs-custom" vertical role="tablist">
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === 0,
-                        })}
-                        onClick={() => {
-                          setactiveTab(0);
-                          dispatch(onGetMailsLists(0));
-                        }}
-                      >
-                        <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
-                        <span className="ml-1 float-end">(18)</span>
-                      </NavLink>
-                    </NavItem>
+        <Row>
+          <Col xs="12">
+            {/* Render Email SideBar */}
+            <Card className="email-leftbar">
+              <Button
+                type="button"
+                color="danger"
+                onClick={() => {
+                  setmodal(!modal)
+                }}
+                block
+              >
+                New Ticket
+              </Button>
+              <div className="mail-list mt-4">
+                <Nav tabs className="nav-tabs-custom" vertical role="tablist">
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: activeTab === 0,
+                      })}
+                      onClick={() => {
+                        setactiveTab(0)
+                      }}
+                    >
+                      <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
+                      <span className="ml-1 float-end">(18)</span>
+                    </NavLink>
+                  </NavItem>
 
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === 6,
-                        })}
-                        onClick={() => {
-                          setactiveTab(6);
-                          dispatch(onGetMailsLists(6));
-                        }}
-                      >
-                        <i className="mdi mdi-star-outline me-2"></i>New
-                      </NavLink>
-                    </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: activeTab === 1,
+                      })}
+                      onClick={() => {
+                        setactiveTab(1)
+                      }}
+                    >
+                      <i className="mdi mdi-star-outline me-2"></i>New
+                    </NavLink>
+                  </NavItem>
 
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === 1,
-                        })}
-                        onClick={() => {
-                          setactiveTab(1);
-                          dispatch(onGetMailsLists(1));
-                        }}
-                      >
-                        <i className="mdi mdi-diamond-stone me-2"></i>Processing
-                      </NavLink>
-                    </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: activeTab === 2,
+                      })}
+                      onClick={() => {
+                        setactiveTab(2)
+                      }}
+                    >
+                      <i className="mdi mdi-diamond-stone me-2"></i>Processing
+                    </NavLink>
+                  </NavItem>
 
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === 2,
-                        })}
-                        onClick={() => {
-                          setactiveTab(2);
-                          dispatch(onGetMailsLists(2));
-                        }}
-                      >
-                        <i className="mdi mdi-file-outline me-2"></i>Done
-                      </NavLink>
-                    </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: activeTab === 3,
+                      })}
+                      onClick={() => {
+                        setactiveTab(3)
+                      }}
+                    >
+                      <i className="mdi mdi-file-outline me-2"></i>Done
+                    </NavLink>
+                  </NavItem>
 
-                    {/* <NavItem>
+                  {/* <NavItem>
                       <NavLink
                         className={classnames({
                           active: activeTab === 3,
@@ -192,7 +217,7 @@ const EmailInbox = props => {
                         Mail
                       </NavLink>
                     </NavItem> */}
-{/* 
+                  {/* 
                     <NavItem>
                       <NavLink
                         className={classnames({
@@ -206,11 +231,10 @@ const EmailInbox = props => {
                         <i className="mdi mdi-trash-can-outline me-2"></i>Trash
                       </NavLink>
                     </NavItem> */}
+                </Nav>
+              </div>
 
-                  </Nav>
-                </div>
-
-                {/* <h6 className="mt-4">Labels</h6>
+              {/* <h6 className="mt-4">Labels</h6>
 
                 <div className="mail-list mt-1">
                   {
@@ -242,73 +266,84 @@ const EmailInbox = props => {
                     ))
                   }
                 </div> */}
-              </Card>
+            </Card>
 
-              <Modal
-                isOpen={modal}
-                autoFocus={true}
-                centered={true}
-                toggle={() => {
-                  setmodal(!modal);
-                }}
-              >
-                <div className="modal-content">
-                  <ModalHeader
-                    toggle={() => {
-                      setmodal(!modal);
+            <Modal
+              isOpen={modal}
+              autoFocus={true}
+              centered={true}
+              toggle={() => {
+                setmodal(!modal)
+              }}
+            >
+              <div className="modal-content">
+                <ModalHeader
+                  toggle={() => {
+                    setmodal(!modal)
+                  }}
+                >
+                  New Message
+                </ModalHeader>
+                <ModalBody>
+                  <form>
+                    <div className="mb-3">
+                      <Input
+                        type="email"
+                        className="form-control"
+                        placeholder="To"
+                      />
+                    </div>
+
+                    <div className="mb-3">
+                      <Input
+                        type="text"
+                        className="form-control"
+                        placeholder="Subject"
+                      />
+                    </div>
+                    <Editor
+                      toolbarClassName="toolbarClassName"
+                      wrapperClassName="wrapperClassName"
+                      editorClassName="editorClassName"
+                    />
+                  </form>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    onClick={() => {
+                      setmodal(!modal)
                     }}
                   >
-                    New Message
-                  </ModalHeader>
-                  <ModalBody>
-                    <form>
-                      <div className="mb-3">
-                        <Input
-                          type="email"
-                          className="form-control"
-                          placeholder="To"
-                        />
-                      </div>
+                    Close
+                  </Button>
+                  <Button
+                    type="button"
+                    color="primary"
+                    onClick={() => setmodal(!modal)}
+                  >
+                    Send <i className="fab fa-telegram-plane ms-1"></i>
+                  </Button>
+                </ModalFooter>
+              </div>
+            </Modal>
 
-                      <div className="mb-3">
-                        <Input
-                          type="text"
-                          className="form-control"
-                          placeholder="Subject"
-                        />
-                      </div>
-                      <Editor
-                        toolbarClassName="toolbarClassName"
-                        wrapperClassName="wrapperClassName"
-                        editorClassName="editorClassName"
-                      />
-                    </form>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      type="button"
-                      color="secondary"
-                      onClick={() => {
-                        setmodal(!modal);
-                      }}
-                    >
-                      Close
-                    </Button>
-                    <Button type="button" color="primary" onClick={() => setmodal(!modal)}>
-                      Send <i className="fab fa-telegram-plane ms-1"></i>
-                    </Button>
-                  </ModalFooter>
-                </div>
-              </Modal>
-              <div className="email-rightbar mb-3">
-                {
-                  isLoading ? <Spinners setLoading={setLoading} />
-                    :
-                    <Card>
-                      <TableDatas/>
-                      {/* {mailslists.length > 0 ?
+            <div className="email-rightbar mb-3">
+              {isLoading ? (
+                <Spinners setLoading={setLoading} />
+              ) : (
+                <Card>
+                  <TableDatas dataTable={dataTable} />
+
+                  {/* <EmailToolbar
+                    selectedmails={selectedmails}
+                    activeTab={activeTab}
+                    setSearch={setSearch}
+                  /> */}
+
+                  {/* {mailslists.length > 0 ?
                         <>
-                          <EmailToolbar selectedmails={selectedmails} activeTab={activeTab} setSearch={setSearch} />
                           <ul className="message-list">
                             {map(mailsList, (mail, key) => (
                               <li key={key} className={mail.read ? "" : "unread"}>
@@ -340,39 +375,14 @@ const EmailInbox = props => {
                         </>
                         : <div className="align-items-center text-center p-4"> <i className="mdi mdi-email-outline me-2 display-5"></i> <h4> No Recored Found </h4>
                         </div>} */}
-                    </Card>
-                }
-                {/* {mailslists.length > 0 &&
-                  <Row>
-                    <Col xs="7">Showing 1 - 20 of 1,524</Col>
-                    <Col xs="5">
-                      <div className="btn-group float-end">
-                        <Button
-                          type="button"
-                          color="success"
-                          size="sm"
-
-                        >
-                          <i className="fa fa-chevron-left" />
-                        </Button>
-                        <Button
-                          type="button"
-                          color="success"
-                          size="sm"
-
-                        >
-                          <i className="fa fa-chevron-right" />
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
-                } */}
-              </div>
-            </Col>
-          </Row>
+                </Card>
+              )}
+            </div>
+          </Col>
+        </Row>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default withRouter(EmailInbox);
+export default withRouter(EmailInbox)
