@@ -341,11 +341,12 @@ const ModalTop = ({
   return (
     <>
       <Row>
-        <Col lg={4}>
+        <Col lg={5} md={12}>
           <Row>
-            <Col>
+            <Col lg={4} md={12} className="d-flex justify-content-center">
               <Button
                 color="gray-soft"
+                style={{ minWidth: '170px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -361,9 +362,10 @@ const ModalTop = ({
                 {t("Update Status")}
               </Button>
             </Col>
-            <Col>
+            <Col lg={4} md={12}>
               <Button
                 color="gray-soft"
+                style={{minWidth: '170px', marginBottom: '5px'}}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -379,9 +381,10 @@ const ModalTop = ({
                 {t("Residence update")}
               </Button>
             </Col>
-            <Col>
+            <Col lg={4} md={12}>
               <Button
                 color="gray-soft"
+                style={{ minWidth: '170px', marginBottom: '5px'}}
                 onClick={() => {
                   tog_xlarge()
                 }}
@@ -392,16 +395,20 @@ const ModalTop = ({
             </Col>
           </Row>
         </Col>
-        <Col lg={8}>
-          <Button
-            color="primary"
-            onClick={() => {
-              setIsEditIntern(false)
-              tog_fullscreen()
-            }}
-          >
-            {t("Add Intern")}
-          </Button>
+        <Col lg={7} md={4}>
+          <Row>
+            <Col className="d-flex justify-content-end">
+              <Button
+                color="primary"
+                onClick={() => {
+                  setIsEditIntern(false)
+                  tog_fullscreen()
+                }}
+              >
+                {t("Add Intern")}
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
 
