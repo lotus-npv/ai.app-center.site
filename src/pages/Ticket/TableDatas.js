@@ -24,6 +24,8 @@ import ModalTop from "./ModalTop"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
+import "./table.scss"
+
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -193,10 +195,6 @@ const TableDatas = props => {
       matchMode: FilterMatchMode.CONTAINS,
     },
   })
-
-  // Row selected edit
-  const [rowSelect, setRowSelect] = useState(null)
-
   // Global search
   const [globalFilterValue, setGlobalFilterValue] = useState("")
   const onGlobalFilterChange = e => {
@@ -207,100 +205,49 @@ const TableDatas = props => {
     setGlobalFilterValue(value)
   }
 
-  // goi ham render mang data
-  const items = rendLabel()
-
-  // console.log('item:', items)
-
-  const renderHeader = () => {
-    return (
-      <>
-        <Row className="mb-2">
-          <div className="d-flex justify-content-between">
-            <span className="p-input-icon-left">
-              <i className="pi pi-search" />
-              <InputText
-                value={globalFilterValue}
-                onChange={onGlobalFilterChange}
-                placeholder="Nhập từ khoá tìm kiếm ..."
-              />
-            </span>
-            <ButtonRS
-              color="primary"
-              onClick={() => {
-                setIsEditViolate(false)
-                tog_xlarge()
-              }}
-            >
-              Thêm mới
-            </ButtonRS>
-          </div>
-        </Row>
-        <Row>
-          {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
-          <div className="d-flex justify-content-between">
-            <Nav tabs className="nav-tabs-custom">
-              {items.map((item, index) => (
-                <NavItem key={index} style={{ minWidth: "100px" }}>
-                  <NavLink
-                    style={{ cursor: "pointer" }}
-                    className={classnames({
-                      active: customActiveTab.index === `${index}`,
-                    })}
-                    onClick={() => {
-                      toggleCustom(`${index}`, item.name, item.type_id)
-                    }}
-                  >
-                    <div className="d-flex gap-2 justify-content-center">
-                      <span className="d-none d-sm-block">{item.name}</span>
-                      <Badge
-                        pill
-                        className={"p-2 font-size-12 badge-soft-primary"}
-                      >
-                        {item.data}
-                      </Badge>
-                    </div>
-                  </NavLink>
-                </NavItem>
-              ))}
-            </Nav>
-          </div>
-        </Row>
-      </>
-    )
-  }
+  // Row selected edit
+  const [rowSelect, setRowSelect] = useState(null)
 
   const [dataTable, setDataTable] = useState(ticketData)
   const [activeIndex, setActiveIndex] = useState(0)
   const types = ["All", "new", "processing", "done"]
 
   const renHeader = () => {
-    const tabs = types.map((type, index) => {
-      return { title: type, value: index }
-    })
+    if (ticketData) {
+      const tabs = types.map((type, index) => {
+        return {
+          title: type,
+          value: index,
+          data: type == "All" ? ticketData.length : ticketData.filter(item => item.ticket_status == type).length
+        }
+      })
 
-    console.log(activeIndex)
+      console.log(activeIndex)
 
-    return (
-      <>
-        <TabView
-          scrollable
-          activeIndex={activeIndex}
-          onTabChange={e => setActiveIndex(e.index)}
-        >
-          {tabs.map(tab => {
-            return (
-              <TabPanel key={tab.title} header={tab.title} contentStyle={{display: 'none'}}>
-              </TabPanel>
-            )
-          })}
-        </TabView>
-      </>
-    )
+      return (
+        <>
+          <TabView
+            scrollable
+            activeIndex={activeIndex}
+            onTabChange={e => setActiveIndex(e.index)}
+          >
+            {tabs.map(tab => {
+              return (
+                <TabPanel
+                  key={tab.title}
+                  header = {<div><span>{tab.title}</span> <BadgePrime className="ms-1" value={tab.data} severity="success"></BadgePrime></div>}
+                  contentStyle={{ display: "none" }}
+                ></TabPanel>
+              )
+            })}
+          </TabView>
+        </>
+      )
+    }
   }
 
-  const getListInternStatus = key => {
-    if (key == "0") {
+  const getListInternStatus = index => {
+    if (index == 0) {
       const newArr = ticketData.map(item => {
         return {
           ...item,
@@ -309,14 +256,11 @@ const TableDatas = props => {
       })
       setDataTable(newArr)
     } else {
-      const arr = ticketData.filter(item => item.ticket_status == key)
+      const arr = ticketData.filter(item => item.ticket_status == types[index])
       const newArr = arr.map(item => {
         return {
           ...item,
-          violate_date: moment(item.violate_date).format("YYYY-MM-DD"),
-          number_of_violate: ticketData.filter(
-            v => v.violate_list_id == item.id
-          ).length,
+          send_date: moment(item.violate_date).format("YYYY-MM-DD"),
         }
       })
       setDataTable(newArr)
@@ -325,8 +269,8 @@ const TableDatas = props => {
   }
 
   useEffect(() => {
-    getListInternStatus(customActiveTab.id)
-  }, [customActiveTab, ticketData])
+    getListInternStatus(activeIndex)
+  }, [activeIndex, ticketData])
 
   // console.log('customActiveTab:', customActiveTab)
 
@@ -374,8 +318,6 @@ const TableDatas = props => {
     )
   }
 
-  const header = renderHeader()
-
   // console.log('loading:', loading)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
@@ -396,8 +338,7 @@ const TableDatas = props => {
         selection={selectedItems}
         onSelectionChange={e => setSelectedItems(e.value)}
         dataKey="id"
-        filters={filters}
-        filterDisplay="row"
+       
         globalFilterFields={["id", "nam_jp", "phone_number"]}
         header={renHeader}
         emptyMessage="Không tìm thấy kết quả phù hợp."
@@ -417,7 +358,7 @@ const TableDatas = props => {
           field="send_date"
           header="Send Date"
           filterField="send_date"
-          filter
+          // filter
           filterPlaceholder="Tìm kiếm bằng tên"
           sortable
           style={{ minWidth: "12rem" }}
@@ -426,18 +367,18 @@ const TableDatas = props => {
           field="title"
           header="Title"
           filterField="title"
-          filter
+          // filter
           filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
+          // sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="sender_name"
           header="Sender"
           filterField="date_of_joining_syndication"
-          filter
+          // filter
           filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
+          // sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
