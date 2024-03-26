@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useContext } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { isEmpty, map } from "lodash"
@@ -40,13 +40,13 @@ import SimpleBar from "simplebar-react"
 import "simplebar-react/dist/simplebar.min.css"
 
 import { chats, messages, contacts, groups } from "../../common/data/chat"
+import DataContext from "data/DataContext"
 
-//redux
-import { useSelector, useDispatch } from "react-redux"
-import { createSelector } from "reselect"
 import Spinners from "components/Common/Spinner"
 
-const Chat = () => {
+const ChatBox = () => {
+    const {isReponse, setIsReponse} = useContext(DataContext)
+
   const [isLoading, setLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
   const [copyMsgAlert, setCopyMsgAlert] = useState(false)
@@ -124,10 +124,10 @@ const Chat = () => {
       setSelectedImage(null)
     }
   }
-  const [deleteMsg, setDeleteMsg] = useState("");
-  const toggle_deleMsg = (id) => {
-    setDeleteMsg(!deleteMsg);
-  };
+  const [deleteMsg, setDeleteMsg] = useState("")
+  const toggle_deleMsg = id => {
+    setDeleteMsg(!deleteMsg)
+  }
 
   return (
     <>
@@ -135,7 +135,7 @@ const Chat = () => {
         <Card>
           <div>
             <div className="chat-conversation p-3">
-              <SimpleBar ref={scroollRef} style={{ height: "300px" }}>
+              <SimpleBar ref={scroollRef} style={{ height: isReponse ? "320px" : "450px" }}>
                 {isLoading ? (
                   <Spinners setLoading={setLoading} />
                 ) : (
@@ -163,16 +163,6 @@ const Chat = () => {
                                       href="#"
                                     >
                                       Copy
-                                    </DropdownItem>
-                                    <DropdownItem href="#">Save</DropdownItem>
-                                    <DropdownItem href="#">
-                                      Forward
-                                    </DropdownItem>
-                                    <DropdownItem
-                                      onClick={e => toggle_deleMsg(userMsg.id)}
-                                      href="#"
-                                    >
-                                      Delete
                                     </DropdownItem>
                                   </DropdownMenu>
                                 </UncontrolledDropdown>
@@ -242,95 +232,6 @@ const Chat = () => {
                 height={382}
               />
             )}
-            {/* <div className="p-3 chat-input-section">
-              <Row>
-                <Col>
-                  <div className="position-relative">
-                    <input
-                      type="text"
-                      value={curMessage}
-                      onKeyPress={onKeyPress}
-                      onChange={e => {
-                        setcurMessage(e.target.value)
-                        setDisable(true)
-                      }}
-                      className="form-control chat-input"
-                      placeholder="Enter Message..."
-                    />
-                    <div className="chat-input-links">
-                      <ul className="list-inline mb-0">
-                        <li
-                          className="list-inline-item"
-                          onClick={() => setEmoji(!emoji)}
-                        >
-                          <Link to="#">
-                            <i
-                              className="mdi mdi-emoticon-happy-outline me-1"
-                              id="Emojitooltip"
-                            />
-                            <UncontrolledTooltip
-                              placement="top"
-                              target="Emojitooltip"
-                            >
-                              Emojis
-                            </UncontrolledTooltip>
-                          </Link>
-                        </li>
-                        <li className="list-inline-item">
-                          <label
-                            htmlFor="imageInput"
-                            style={{ color: "#556ee6", fontSize: 16 }}
-                          >
-                            <i
-                              className="mdi mdi-file-image-outline me-1"
-                              id="Imagetooltip"
-                            />
-                            <UncontrolledTooltip
-                              placement="top"
-                              target="Imagetooltip"
-                            >
-                              Images
-                            </UncontrolledTooltip>
-                          </label>
-                          <input
-                            type="file"
-                            id="imageInput"
-                            className="d-none"
-                            onChange={handleImageChange}
-                          />
-                        </li>
-                        <li className="list-inline-item">
-                          <Link to="#">
-                            <i
-                              className="mdi mdi-file-document-outline"
-                              id="Filetooltip"
-                            />
-                            <UncontrolledTooltip
-                              placement="top"
-                              target="Filetooltip"
-                            >
-                              Add Files
-                            </UncontrolledTooltip>
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </Col>
-                <Col className="col-auto">
-                  <Button
-                    type="button"
-                    color="primary"
-                    disabled={!isdisable}
-                    onClick={() => addMessage()}
-                    className="btn btn-primary btn-rounded chat-send w-md "
-                  >
-                    <span className="d-none d-sm-inline-block me-2">Send</span>{" "}
-                    <i className="mdi mdi-send" />
-                  </Button>
-                </Col>
-              </Row>
-            </div> */}
           </div>
         </Card>
       </div>
@@ -338,4 +239,4 @@ const Chat = () => {
   )
 }
 
-export default Chat
+export default ChatBox;

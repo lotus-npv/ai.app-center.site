@@ -11,37 +11,16 @@ import moment from "moment"
 
 import { Nav, NavItem, NavLink, Row, Col, Button as ButtonRS } from "reactstrap"
 import classnames from "classnames"
-
 import { Badge } from "reactstrap"
 import { Badge as BadgePrime } from "primereact/badge"
-
 import DataContext from "data/DataContext"
-
 import DeleteModal from "components/Common/DeleteModal"
-// import ModalDatas from './ModalDatas'
-import ModalTop from "./ModalTop"
-
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
 import "./table.scss"
 
-// // //redux
-// import { useSelector, useDispatch, shallowEqual } from "react-redux"
-// import {
-//   deleteTicket,
-//   getCareerAll,
-//   getDispatchingCompanyAll,
-//   getInternAllInfo,
-//   getReceivingFactoryAll,
-//   getSyndicationAll,
-//   getTicketAll,
-//   getTicketAllInfo,
-//   getTicketDetailAll,
-//   getUsersAll,
-// } from "store/actions"
 
-// The rule argument should be a string in the format "custom_[field]".
 FilterService.register("custom_activity", (value, filters) => {
   const [from, to] = filters ?? [null, null]
   if (from === null && to === null) return true
@@ -60,52 +39,6 @@ const TableDatas = ({dataTable}) => {
     setIsEditViolate,
   } = useContext(DataContext)
 
-  //table
-  // Khai bao du lieu
-  // const dispatch = useDispatch()
-
-  // const {
-  //   ticketData,
-  //   ticketDetailData,
-  //   usersData,
-  //   companyData,
-  //   factoryData,
-  //   syndicationData,
-  //   internData,
-  // } = useSelector(
-  //   state => ({
-  //     ticketData: state.Ticket.datas,
-  //     ticketDetailData: state.TicketDetail.datas,
-  //     usersData: state.Users.datas,
-  //     companyData: state.DispatchingCompany.datas,
-  //     factoryData: state.ReceivingFactory.datas,
-  //     syndicationData: state.Syndication.datas,
-  //     internData: state.Intern.datas,
-  //   }),
-  //   shallowEqual
-  // )
-
-  // Get du lieu lan dau
-  // useEffect(() => {
-  //   dispatch(getTicketAll())
-  //   dispatch(getTicketDetailAll())
-  //   // dispatch(getTicketAllInfo());
-  //   // dispatch(getUsersAll())
-  //   // dispatch(getDispatchingCompanyAll())
-  //   // dispatch(getReceivingFactoryAll())
-  //   // dispatch(getSyndicationAll())
-  //   // dispatch(getInternAllInfo())
-  // }, [dispatch])
-
-  // get lai data sau moi 10s
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     dispatch(getTicketAll())
-  //   }, 10000)
-  //   return () => {
-  //     clearInterval(intervalId)
-  //   }
-  // }, [])
 
   // //delete modal
   const [item, setItem] = useState(null)
@@ -157,86 +90,7 @@ const TableDatas = ({dataTable}) => {
     setGlobalFilterValue(value)
   }
 
-  // const [dataTable, setDataTable] = useState(ticketData)
-  // const [activeIndex, setActiveIndex] = useState(0)
-  // const types = ["All", "new", "processing", "done"]
 
-  // const renHeader = () => {
-  //     if (ticketData) {
-  //       const tabs = types.map((type, index) => {
-  //         return {
-  //           title: type,
-  //           value: index,
-  //           data: type == "All" ? ticketData.length : ticketData.filter(item => item.ticket_status == type).length
-  //         }
-  //       })
-
-  //       console.log(activeIndex)
-
-  //       return (
-  //         <>
-  //           <TabView
-  //             scrollable
-  //             activeIndex={activeIndex}
-  //             onTabChange={e => setActiveIndex(e.index)}
-  //           >
-  //             {tabs.map(tab => {
-  //               return (
-  //                 <TabPanel
-  //                   key={tab.title}
-  //                   header = {<div><span>{tab.title}</span> <BadgePrime className="ms-1" value={tab.data} severity="success"></BadgePrime></div>}
-  //                   contentStyle={{ display: "none" }}
-  //                 ></TabPanel>
-  //               )
-  //             })}
-  //           </TabView>
-  //         </>
-  //       )
-  //     }
-  //   }
-
-  // const getListInternStatus = index => {
-  //   if (index == 0) {
-  //     const newArr = ticketData.map(item => {
-  //       return {
-  //         ...item,
-  //         send_date: moment(item.send_date).format("YYYY-MM-DD"),
-  //       }
-  //     })
-  //     setDataTable(newArr)
-  //   } else {
-  //     const arr = ticketData.filter(item => item.ticket_status == types[index])
-  //     const newArr = arr.map(item => {
-  //       return {
-  //         ...item,
-  //         send_date: moment(item.violate_date).format("YYYY-MM-DD"),
-  //       }
-  //     })
-  //     setDataTable(newArr)
-  //   }
-  //   // console.log('arr:', newArr)
-  // }
-
-  // useEffect(() => {
-  //   getListInternStatus(activeIndex)
-  // }, [activeIndex, ticketData])
-
-  // console.log('customActiveTab:', customActiveTab)
-
-  // render col name
-  // const dateBodyTemplate = rowData => {
-  //   return (
-  //     <div className="flex align-items-center gap-2">
-  //       <Avatar
-  //         className="p-overlay-badge"
-  //         image={`https://api.lotusocean-jp.com/uploads/${rowData.originalname}`}
-  //         size="large"
-  //         shape="circle"
-  //       ></Avatar>
-  //       <span>{rowData.name_jp}</span>
-  //     </div>
-  //   )
-  // }
   const [isInbox, setIsInbox] = useState(true)
 
   const actionBody = rowData => {
@@ -282,15 +136,8 @@ const TableDatas = ({dataTable}) => {
     setVh(`${wh}px`)
   }, [])
 
-
-  // console.log('provinceById:', provinceById)
-  // console.log('provinceData:', provinceData)
-  // console.log('violatelist:', ticketData);
-  // console.log('ticketData:', ticketData);
-  // console.log('dataTable:', dataTable);
-
   return (
-    <div className=" mt-3">
+    <div className="mt-3">
       <DataTable
         value={dataTable}
         paginator
