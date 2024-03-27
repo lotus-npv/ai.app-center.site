@@ -18,7 +18,6 @@ import DeleteModal from "components/Common/DeleteModal"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
-
 FilterService.register("custom_activity", (value, filters) => {
   const [from, to] = filters ?? [null, null]
   if (from === null && to === null) return true
@@ -27,7 +26,7 @@ FilterService.register("custom_activity", (value, filters) => {
   return from <= value && value <= to
 })
 
-const TableDatas = ({dataTable}) => {
+const TableDatas = ({ dataTable }) => {
   // data context
   const {
     modal_xlarge,
@@ -35,13 +34,17 @@ const TableDatas = ({dataTable}) => {
     tog_xlarge,
     isEditViolate,
     setIsEditViolate,
-    modal, setmodal,
-    ticketRowData, setTicketRowData,
+    modal,
+    setmodal,
+    ticketRowData,
+    setTicketRowData,
     isEditTicket,
     setIsEditTicket,
-    isInbox, setIsInbox,isOutbox, setIsOutbox
+    isInbox,
+    setIsInbox,
+    isOutbox,
+    setIsOutbox,
   } = useContext(DataContext)
-
 
   // //delete modal
   const [item, setItem] = useState(null)
@@ -76,9 +79,9 @@ const TableDatas = ({dataTable}) => {
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    nam_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    phone_number: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    date_of_joining_syndication: {
+    send_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    title: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    sender_name: {
       value: null,
       matchMode: FilterMatchMode.CONTAINS,
     },
@@ -98,14 +101,15 @@ const TableDatas = ({dataTable}) => {
       <div className="d-flex justify-content-between">
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
-          <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
+          <InputText
+            value={globalFilterValue}
+            onChange={onGlobalFilterChange}
+            placeholder="Nhập từ khoá tìm kiếm ..."
+          />
         </span>
       </div>
-    );
-  };
-
-
-  
+    )
+  }
 
   const actionBody = rowData => {
     return (
@@ -117,7 +121,7 @@ const TableDatas = ({dataTable}) => {
           severity="success"
           aria-label="Views"
           onClick={() => {
-            setTicketRowData(rowData);
+            setTicketRowData(rowData)
             setIsEditTicket(true)
             setmodal(!modal)
           }}
@@ -148,27 +152,34 @@ const TableDatas = ({dataTable}) => {
     )
   }
 
-
-
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'new': 
-        return 'success';
-      case 'processing': 
-        return 'warning';
-      case 'done': 
-        return 'info';
+  const getStatusColor = status => {
+    switch (status) {
+      case "new":
+        return "success"
+      case "processing":
+        return "warning"
+      case "done":
+        return "info"
       default:
-        return 'secondary';
+        return "secondary"
     }
   }
 
-  const statusBodyTemplate = (rowData) => {
-    return <Badge className={"p-2 font-size-12 badge-soft-"+`${getStatusColor(rowData.ticket_status)}`} style={{minWidth: '80px'}}>{rowData.ticket_status}</Badge>
-  };
+  const statusBodyTemplate = rowData => {
+    return (
+      <Badge
+        className={
+          "p-2 font-size-12 badge-soft-" +
+          `${getStatusColor(rowData.ticket_status)}`
+        }
+        style={{ minWidth: "80px" }}
+      >
+        {rowData.ticket_status}
+      </Badge>
+    )
+  }
 
-
-  const screenAvailHeight = window.innerHeight;
+  const screenAvailHeight = window.innerHeight
   const [vh, setVh] = useState(null)
   window.addEventListener("resize", function () {
     var screenHeight = window.innerHeight
@@ -192,13 +203,14 @@ const TableDatas = ({dataTable}) => {
         rowsPerPageOptions={[5, 10, 15, 20, 50]}
         dragSelection
         // selectionMode={"row"}
+        filters={filters}
         selection={selectedItems}
         onSelectionChange={e => setSelectedItems(e.value)}
         dataKey="id"
-        globalFilterFields={["id", "nam_jp", "phone_number"]}
+        globalFilterFields={["send_date", "title", "receiver_name"]}
         header={renderHeader}
         emptyMessage="Không tìm thấy kết quả phù hợp."
-        tableStyle={{ minWidth: "50rem"}}
+        tableStyle={{ minWidth: "50rem" }}
         scrollable
         scrollHeight={vh}
         style={{ minHeight: vh }}
@@ -218,41 +230,42 @@ const TableDatas = ({dataTable}) => {
           // filter
           filterPlaceholder="Tìm kiếm bằng tên"
           sortable
-          style={{ minWidth: "12rem" }}
+          style={{ minWidth: "10rem" }}
         ></Column>
         <Column
           field="title"
           header="Title"
           filterField="title"
-          // filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          // sortable
-          style={{ minWidth: "12rem" }}
+          style={{ minWidth: "15rem" }}
         ></Column>
-        {isInbox && <Column
-          field="sender_name"
-          header="Sender"
-          filterField="date_of_joining_syndication"
-          // filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          // sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>}
-       {isOutbox &&  <Column
-          field="receiver_name"
-          header="Receiver"
-          style={{ minWidth: "12rem" }}
-        ></Column>}
+        {isInbox && (
+          <Column
+            field="sender_name"
+            header="Sender"
+            filterField="date_of_joining_syndication"
+            // filter
+            filterPlaceholder="Tìm kiếm bằng tên"
+            // sortable
+            style={{ minWidth: "12rem" }}
+          ></Column>
+        )}
+        {isOutbox && (
+          <Column
+            field="receiver_name"
+            header="Receiver"
+            style={{ minWidth: "12rem" }}
+          ></Column>
+        )}
         <Column
           field="priority"
           header="Priority"
-          style={{ minWidth: "12rem" }}
+          style={{ minWidth: "8rem" }}
         ></Column>
         <Column
           field="ticket_status"
           header="Ticket Status"
           body={statusBodyTemplate}
-          style={{ minWidth: "12rem" }}
+          style={{ minWidth: "8rem" }}
         ></Column>
         <Column
           field="action"

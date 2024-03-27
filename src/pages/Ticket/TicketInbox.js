@@ -48,6 +48,7 @@ import {
   getUsersAll,
   setTicket,
   setTicketDetail,
+  updateTicket,
 } from "store/actions"
 import ChatBox from "./ChatBox"
 import { EffectCards } from "swiper/modules"
@@ -56,6 +57,15 @@ import { toast } from "react-toastify"
 const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
+  const [modal_backdrop, setmodal_backdrop] = useState(false);
+  function tog_backdrop() {
+    setmodal_backdrop(!modal_backdrop);
+    removeBodyCss();
+  }
+
+  function removeBodyCss() {
+    document.body.classList.add("no_padding");
+  }
 
   const {
     isReponse,
@@ -163,7 +173,8 @@ const TicketInbox = props => {
         const arr = ticketData.filter(
           item =>
             item.ticket_status == types[index] &&
-            item.receiver_type == user.user_type
+            (item.receiver_type == user.user_type ||
+              item.sender_type == user.user_type)
         )
         const newArr = arr.map(item => {
           return {
@@ -198,7 +209,9 @@ const TicketInbox = props => {
         } else {
           return ticketData.filter(
             item =>
-              item.ticket_status == type && item.receiver_type == user.user_type
+              item.ticket_status == type &&
+              (item.receiver_type == user.user_type ||
+                item.sender_type == user.user_type)
           ).length
         }
       })
@@ -283,7 +296,9 @@ const TicketInbox = props => {
     }
   }
 
+  // add ticket detail
   const handleResponseTicket = () => {
+    let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
     console.log("edit")
     if (content) {
       const newTicketDetail = {
@@ -291,7 +306,7 @@ const TicketInbox = props => {
         ticket_id: ticketRowData.id,
         sender_type: user.user_type,
         sender_id: user.id,
-        send_date: moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss"),
+        send_date: time,
         content: content,
         description: "",
         create_at: null,
@@ -301,17 +316,42 @@ const TicketInbox = props => {
         delete_at: null,
         flag: 1,
       }
-      console.log("content", newTicketDetail)
-      dispatch(setTicketDetail(newTicketDetail))
-      setIsReponse(false)
-      setmodal(!modal)
+      dispatch(setTicketDetail(newTicketDetail));
+
+      const { receiver_name, sender_name, ...oldTicket } = ticketRowData;
+      const ticket = {
+        ...oldTicket,
+        ticket_status: "processing",
+        update_at: time,
+      }
+      dispatch(updateTicket(ticket));
+      setIsReponse(false);
+      setmodal(!modal);
     } else {
       toast.warning("Please enter complete information !", { autoClose: 2000 })
     }
   }
 
+  // Close ticket
+  const handleCloseTicket = () => {
+    let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss");
+    if(ticketRowData) {
+      const { receiver_name, sender_name, ...oldTicket } = ticketRowData;
+      const ticket = {
+        ...oldTicket,
+        ticket_status: "done",
+        update_at: time,
+      }
+      dispatch(updateTicket(ticket));
+      setIsReponse(false);
+      setmodal_backdrop(false);
+      setmodal(!modal);
+    }
+  }
+
+  //-------------------------------------------------------------------------------
+
   // console.log('ticketData', ticketData)
-  console.log("content", content)
   // console.log('outbox', isOutbox)
 
   return (
@@ -380,6 +420,8 @@ const TicketInbox = props => {
                         })}
                         onClick={() => {
                           setactiveTab(1)
+                          setIsInbox(true)
+                          setIsOutbox(true)
                         }}
                       >
                         <i className="mdi mdi-star-outline me-2"></i>New
@@ -394,6 +436,8 @@ const TicketInbox = props => {
                         })}
                         onClick={() => {
                           setactiveTab(2)
+                          setIsInbox(true)
+                          setIsOutbox(true)
                         }}
                       >
                         <i className="mdi mdi-diamond-stone me-2"></i>Processing
@@ -408,6 +452,8 @@ const TicketInbox = props => {
                         })}
                         onClick={() => {
                           setactiveTab(3)
+                          setIsInbox(true)
+                          setIsOutbox(true)
                         }}
                       >
                         <i className="mdi mdi-file-outline me-2"></i>Done
@@ -589,7 +635,21 @@ const TicketInbox = props => {
                 </form>
               </ModalBody>
 
-              <ModalFooter>
+              <ModalFooter className="d-flex justify-content-between">
+                {isEditTicket ? (
+                  <Button
+                    type="button"
+                    color="secondary"
+                    onClick={() => {
+                      tog_backdrop();
+                    }}
+                  >
+                    Close Ticket
+                  </Button>
+                ) : (
+                  <div></div>
+                )}
+
                 {isReponse || !isEditTicket ? (
                   <div className="d-flex gap-2">
                     <Button
@@ -626,6 +686,48 @@ const TicketInbox = props => {
                   </Button>
                 )}
               </ModalFooter>
+            </div>
+          </Modal>
+
+          <Modal
+            isOpen={modal_backdrop}
+            toggle={() => {
+              tog_backdrop()
+            }}
+            backdrop={"static"}
+            id="staticBackdrop"
+          >
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Confirm ticket close
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => {
+                  setmodal_backdrop(false)
+                }}
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>
+              With this selection, you confirm that you will close the current ticket.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={() => {
+                  setmodal_backdrop(false)
+                }}
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary" onClick={handleCloseTicket}>
+                Save
+              </button>
             </div>
           </Modal>
         </Row>
