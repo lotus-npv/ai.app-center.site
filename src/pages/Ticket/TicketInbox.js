@@ -17,6 +17,7 @@ import {
 } from "reactstrap"
 import TableDatas from "./TableDatas"
 import classnames from "classnames"
+import Select from "react-select"
 import { Link } from "react-router-dom"
 // Import Editor
 import { Editor } from "react-draft-wysiwyg"
@@ -49,7 +50,18 @@ const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
 
-  const { isReponse, setIsReponse, modal, setmodal, ticketRowData, setTicketRowData, user } = useContext(DataContext)
+  const {
+    isReponse,
+    setIsReponse,
+    modal,
+    setmodal,
+    ticketRowData,
+    setTicketRowData,
+    user,
+    isEditTicket,
+    setIsEditTicket,
+    UserTypeList,
+  } = useContext(DataContext)
 
   const dispatch = useDispatch()
   const {
@@ -95,7 +107,7 @@ const TicketInbox = props => {
     }
   }, [])
 
-  const types = ["Inbox", "new", "processing", "done","Outbox"]
+  const types = ["Inbox", "new", "processing", "done", "Outbox"]
   const [counters, setCounters] = useState([])
   const [dataTable, setDataTable] = useState(ticketData)
 
@@ -104,35 +116,50 @@ const TicketInbox = props => {
   // const [modal, setmodal] = useState(false)
 
   const getListInternStatus = index => {
-    if (index == 0) {
-      const newArr = ticketData.filter(ticket => ticket.receiver_id == user.id && ticket.receiver_type == user.user_type).map(item => {
-        return {
-          ...item,
-          send_date: moment(item.send_date).format("YYYY-MM-DD"),
-        }
-      })
-      setDataTable(newArr)
-    } else if(index == 5) {
-      const newArr = ticketData.filter(ticket => ticket.sender_id == user.id && ticket.sender_type == user.user_type).map(item => {
-        return {
-          ...item,
-          send_date: moment(item.send_date).format("YYYY-MM-DD"),
-        }
-      })
-      setDataTable(newArr)
+    if (user) {
+      if (index == 0) {
+        const newArr = ticketData
+          .filter(
+            ticket =>
+              ticket.receiver_id == user.id &&
+              ticket.receiver_type == user.user_type
+          )
+          .map(item => {
+            return {
+              ...item,
+              send_date: moment(item.send_date).format("YYYY-MM-DD"),
+            }
+          })
+        setDataTable(newArr)
+      } else if (index == 4) {
+        const newArr = ticketData
+          .filter(
+            ticket =>
+              ticket.sender_id == user.id &&
+              ticket.sender_type == user.user_type
+          )
+          .map(item => {
+            return {
+              ...item,
+              send_date: moment(item.send_date).format("YYYY-MM-DD"),
+            }
+          })
+        setDataTable(newArr)
+      } else {
+        const arr = ticketData.filter(
+          item =>
+            item.ticket_status == types[index] &&
+            item.receiver_type == user.user_type
+        )
+        const newArr = arr.map(item => {
+          return {
+            ...item,
+            send_date: moment(item.send_date).format("YYYY-MM-DD"),
+          }
+        })
+        setDataTable(newArr)
+      }
     }
-    else
-    {
-      const arr = ticketData.filter(item => item.ticket_status == types[index] && item.receiver_type == user.user_type);
-      const newArr = arr.map(item => {
-        return {
-          ...item,
-          send_date: moment(item.send_date).format("YYYY-MM-DD"),
-        }
-      })
-      setDataTable(newArr)
-    }
-    // console.log('arr:', newArr)
   }
 
   useEffect(() => {
@@ -140,24 +167,33 @@ const TicketInbox = props => {
   }, [activeTab, ticketData])
 
   useEffect(() => {
-    if (ticketData) {
+    if (ticketData && user) {
       const arr = types.map((type, index) => {
         if (type === "Inbox") {
-          return ticketData.filter(ticket => ticket.receiver_id == user.id && ticket.receiver_type == user.user_type).length
-        } else if(type === "Outbox") {
-          return ticketData.filter(ticket => ticket.sender_id == user.id && ticket.sender_type == user.user_type).length
-        }
-        else
-        {
-          return ticketData.filter(item => item.ticket_status == type && item.receiver_type == user.user_type).length
+          return ticketData.filter(
+            ticket =>
+              ticket.receiver_id == user.id &&
+              ticket.receiver_type == user.user_type
+          ).length
+        } else if (type === "Outbox") {
+          return ticketData.filter(
+            ticket =>
+              ticket.sender_id == user.id &&
+              ticket.sender_type == user.user_type
+          ).length
+        } else {
+          return ticketData.filter(
+            item =>
+              item.ticket_status == type && item.receiver_type == user.user_type
+          ).length
         }
       })
       setCounters(arr)
     }
   }, [ticketData, activeTab])
 
-  console.log('ticketData', ticketData)
-  console.log('user', user)
+  // console.log('ticketData', ticketData)
+  // console.log('user', user)
 
   return (
     <React.Fragment>
@@ -165,11 +201,12 @@ const TicketInbox = props => {
         <Row>
           <Col lg="2">
             <div className="d-flex justify-content-center">
-              <Card className="w-100" style={{margin: '10px 10px 10px 10px'}}>
+              <Card className="w-100" style={{ margin: "10px 10px 10px 10px" }}>
                 <Button
                   type="button"
                   color="danger"
                   onClick={() => {
+                    setIsEditTicket(false)
                     setmodal(!modal)
                   }}
                   block
@@ -258,7 +295,10 @@ const TicketInbox = props => {
               {isLoading ? (
                 <Spinners setLoading={setLoading} />
               ) : (
-                <Card className="w-100" style={{margin: '10px 10px 10px 10px'}}>
+                <Card
+                  className="w-100"
+                  style={{ margin: "10px 10px 10px 10px" }}
+                >
                   <TableDatas dataTable={dataTable} />
                 </Card>
               )}
@@ -280,34 +320,68 @@ const TicketInbox = props => {
                   setmodal(!modal)
                 }}
               >
-                Ticket ID - {ticketRowData != null ? ticketRowData.id : '---'}
+                {isEditTicket
+                  ? `Ticket ID - ${
+                      ticketRowData != null ? ticketRowData.id : "---"
+                    }`
+                  : "Create new ticket"}
               </ModalHeader>
               <ModalBody>
                 <form>
-                  <div className="mb-3">
-                    {/* <Input
-                      type="email"
-                      className="form-control"
-                      placeholder="To"
-                    /> */}
-                    <h3>{ticketRowData != null ? ticketRowData.title : 'Title'}</h3>
-                  </div>
-
-                  <div className="mb-3">
-                    {/* <Input
-                      type="text"
-                      className="form-control"
-                      placeholder="Subject"
-                    /> */}
-                    <Card className="bg-light d-flex justify-content-center">
-                      <p className="m-2 fw-bold">{ticketRowData != null ? ticketRowData.content : 'Content'}</p>
+                  {!isEditTicket && (
+                    <Card>
+                      <CardBody className="bg-light">
+                        <div className="mb-3">
+                          <Select
+                            name=""
+                            placeholder="Select object send"
+                            options={UserTypeList}
+                            className="mb-3"
+                          />
+                          <Input
+                            type="email"
+                            className="form-control mb-3"
+                            placeholder="To"
+                          />
+                          <Input
+                            type="text"
+                            className="form-control mb-3"
+                            placeholder="Subject"
+                          />
+                          <Editor
+                            toolbarClassName="toolbarClassName"
+                            wrapperClassName="wrapperClassName"
+                            editorClassName="editorClassName"
+                          />
+                        </div>
+                      </CardBody>
                     </Card>
-                  </div>
-                  <Card>
-                    <CardBody className="bg-light">
-                      <ChatBox />
-                    </CardBody>
-                  </Card>
+                  )}
+
+                  {isEditTicket && (
+                    <>
+                      <div className="mb-3">
+                        <h3>
+                          {ticketRowData != null
+                            ? ticketRowData.title
+                            : "Title"}
+                        </h3>
+                        <Card className="bg-light d-flex justify-content-center">
+                          <p className="m-2 fw-bold">
+                            {ticketRowData != null
+                              ? ticketRowData.content
+                              : "Content"}
+                          </p>
+                        </Card>
+                      </div>
+                      <Card>
+                        <CardBody className="bg-light">
+                          <ChatBox />
+                        </CardBody>
+                      </Card>
+                    </>
+                  )}
+
                   {isReponse && (
                     <Editor
                       toolbarClassName="toolbarClassName"
@@ -325,7 +399,7 @@ const TicketInbox = props => {
                       type="button"
                       color="secondary"
                       onClick={() => {
-                        setIsReponse(!isReponse)
+                        setIsReponse(false)
                         setmodal(!modal)
                       }}
                     >

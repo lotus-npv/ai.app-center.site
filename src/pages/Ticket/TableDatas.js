@@ -36,7 +36,9 @@ const TableDatas = ({dataTable}) => {
     isEditViolate,
     setIsEditViolate,
     modal, setmodal,
-    ticketRowData, setTicketRowData
+    ticketRowData, setTicketRowData,
+    isEditTicket,
+    setIsEditTicket,
   } = useContext(DataContext)
 
 
@@ -103,7 +105,8 @@ const TableDatas = ({dataTable}) => {
           severity="success"
           aria-label="Views"
           onClick={() => {
-            setTicketRowData(rowData)
+            setTicketRowData(rowData);
+            setIsEditTicket(true)
             setmodal(!modal)
           }}
         />
@@ -133,6 +136,17 @@ const TableDatas = ({dataTable}) => {
     )
   }
 
+  const renderHeader = () => {
+    return (
+      <div className="d-flex justify-content-between">
+        <span className="p-input-icon-left">
+          <i className="pi pi-search" />
+          <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
+        </span>
+      </div>
+    );
+  };
+
   const screenAvailHeight = window.innerHeight;
   const [vh, setVh] = useState(null)
   window.addEventListener("resize", function () {
@@ -161,7 +175,7 @@ const TableDatas = ({dataTable}) => {
         onSelectionChange={e => setSelectedItems(e.value)}
         dataKey="id"
         globalFilterFields={["id", "nam_jp", "phone_number"]}
-        // header={renHeader}
+        header={renderHeader}
         emptyMessage="Không tìm thấy kết quả phù hợp."
         tableStyle={{ minWidth: "50rem"}}
         scrollable

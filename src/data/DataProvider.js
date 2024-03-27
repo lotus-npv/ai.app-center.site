@@ -149,6 +149,13 @@ const DataProvider = ({ children}) => {
   // dashboard
   const [loadData, setLoadData] = useState(true)
 
+  const UserTypeList = [
+    {label: 'Intern', value: 'intern'},
+    {label: 'Syndication', value: 'syndication'},
+    {label: 'Dispatching Company', value: 'dispatching_company'},
+    {label: 'Receiving Factory', value: 'receiving_factory'}
+  ]
+
   const NationList = [
     { label: "Vietnam", value: 1, country: "Viet Nam", data: 0, violate: 2 },
     { label: "Japan", value: 2, country: "Nhat Ban", data: 0, violate: 4 },
@@ -175,10 +182,12 @@ const DataProvider = ({ children}) => {
   const [isReponse, setIsReponse] = useState(false)
   const [modal, setmodal] = useState(false)
   const [ticketRowData, setTicketRowData] = useState(null)
+  const [isEditTicket, setIsEditTicket] = useState(false)
 
   return (
     <DataContext.Provider
       value={{
+        UserTypeList,
         addressFactory,
         addressDataFactory,
         updateAddressDataFactory,
@@ -222,7 +231,8 @@ const DataProvider = ({ children}) => {
         setmodal,
         ticketRowData,
         setTicketRowData,
-        user, setUser
+        user, setUser,
+        isEditTicket, setIsEditTicket
       }}
     >
       {children}
