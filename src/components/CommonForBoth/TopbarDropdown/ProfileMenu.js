@@ -35,7 +35,7 @@ const ProfileMenu = props => {
         process.env.REACT_APP_DEFAULTAUTH === "jwt"
       ) {
         const obj = JSON.parse(localStorage.getItem("authUser"));
-        setusername(obj[0].person_name);
+        setusername(obj[0].username);
         setUser(obj[0]);
         console.log('profile:',obj)
       }

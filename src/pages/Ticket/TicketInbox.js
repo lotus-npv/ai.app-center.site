@@ -201,9 +201,17 @@ const TicketInbox = props => {
   const [dataOptions, setDataOptions] = useState([])
   const [selectOption, setSelectOption] = useState()
 
-  // useEffect(() => {
-  //     if(userType === )
-  // }, [userType])
+  useEffect(() => {
+      if(userType.value === 'intern') {
+        setDataOptions(internData);
+      } else if(userType.value === 'syndication') {
+        setDataOptions(syndicationData);
+      } else if(userType.value === 'dispatching_company') {
+        setDataOptions(companyData);
+      } else if(userType.value === 'receiving_factory') {
+        setDataOptions(factoryData);
+      }
+  }, [userType])
 
 
   // console.log('ticketData', ticketData)
@@ -348,12 +356,23 @@ const TicketInbox = props => {
                         <div className="mb-3">
                           <Select
                             name=""
-                            placeholder="Select object send"
+                            placeholder="Select object type"
                             value={userType}
                             onChange={(item) => {
                               setUserType(item);
+                              setSelectOption('')
                             }}
                             options={UserTypeList}
+                            className="mb-3"
+                          />
+                          <Select
+                            name=""
+                            placeholder="Select object send"
+                            value={selectOption}
+                            onChange={(item) => {
+                              setSelectOption(item);
+                            }}
+                            options={dataOptions}
                             className="mb-3"
                           />
                           <Input
