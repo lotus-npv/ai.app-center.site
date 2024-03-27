@@ -14,6 +14,7 @@ import {
   NavItem,
   NavLink,
   CardBody,
+  Label,
 } from "reactstrap"
 import TableDatas from "./TableDatas"
 import classnames from "classnames"
@@ -202,24 +203,33 @@ const TicketInbox = props => {
   const [selectOption, setSelectOption] = useState()
 
   useEffect(() => {
-      if(userType.value === 'intern') {
-        setDataOptions(internData);
-      } else if(userType.value === 'syndication') {
-        setDataOptions(syndicationData);
-      } else if(userType.value === 'dispatching_company') {
-        setDataOptions(companyData);
-      } else if(userType.value === 'receiving_factory') {
-        setDataOptions(factoryData);
-      }
+    if (userType.value === "intern") {
+      setDataOptions(internData)
+    } else if (userType.value === "syndication") {
+      setDataOptions(syndicationData)
+    } else if (userType.value === "dispatching_company") {
+      setDataOptions(companyData)
+    } else if (userType.value === "receiving_factory") {
+      setDataOptions(factoryData)
+    }
   }, [userType])
 
+  // -----------------------------------------------------------------
+
+  // thu thi ghi ticket moi
+  const handCreateNewTicket = () => {}
 
   // console.log('ticketData', ticketData)
   // console.log('user', user)
 
   return (
     <React.Fragment>
-      <div className="bg-light" onClick={() => {setIsReponse(false);}}>
+      <div
+        className="bg-light"
+        onClick={() => {
+          setIsReponse(false)
+        }}
+      >
         <Row>
           <Col lg="2">
             <div className="d-flex justify-content-center">
@@ -354,23 +364,34 @@ const TicketInbox = props => {
                     <Card>
                       <CardBody className="bg-light">
                         <div className="mb-3">
-                          <Select
-                            name=""
-                            placeholder="Select object type"
-                            value={userType}
-                            onChange={(item) => {
-                              setUserType(item);
-                              setSelectOption('')
-                            }}
-                            options={UserTypeList}
-                            className="mb-3"
-                          />
+                          <div className="input-group mb-3">
+                            <Label
+                            style={{minWidth: '150px'}}
+                              className="input-group-text"
+                              htmlFor="inputGroupFile01"
+                            >
+                              Chon doi tuong: 
+                            </Label>
+                            <Select
+                             id="inputGroupFile01"
+                              name=""
+                              placeholder="Select object type"
+                              value={userType}
+                              onChange={item => {
+                                setUserType(item)
+                                setSelectOption("")
+                              }}
+                              options={UserTypeList}
+                              className="form-control"
+                            />
+                          </div>
+
                           <Select
                             name=""
                             placeholder="Select object send"
                             value={selectOption}
-                            onChange={(item) => {
-                              setSelectOption(item);
+                            onChange={item => {
+                              setSelectOption(item)
                             }}
                             options={dataOptions}
                             className="mb-3"
@@ -430,7 +451,7 @@ const TicketInbox = props => {
               </ModalBody>
 
               <ModalFooter>
-                {(isReponse || !isEditTicket) ? (
+                {isReponse || !isEditTicket ? (
                   <div className="d-flex gap-2">
                     <Button
                       type="button"
