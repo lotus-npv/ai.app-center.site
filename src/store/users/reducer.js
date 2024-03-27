@@ -15,7 +15,7 @@ import {
   UPDATE_USERS_SUCCESS,
   UPDATE_USERS_FAIL,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_FAIL
+  DELETE_USERS_FAIL,
   } from "./actionTypes";
   
   const INIT_STATE = {

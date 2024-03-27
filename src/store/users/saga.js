@@ -3,7 +3,7 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  GET_USERS_ALL,GET_USERS_ID, SET_USERS, UPDATE_USERS,DELETE_USERS,GET_USERS_LOGIN
+  GET_USERS_ALL,GET_USERS_ID, SET_USERS, UPDATE_USERS,DELETE_USERS,GET_USERS_LOGIN,LOGOUT_USER
 } from "./actionTypes"
 import {
     getUsersAllFail,
@@ -95,6 +95,20 @@ function* onDeleteUsers({ payload: id }) {
   } catch (error) {
       yield put(deleteUsersFail(error))
       toast.error("Users Delete Failed", { autoClose: 2000 });
+  }
+}
+
+function* logoutUser({ payload: { history } }) {
+  try {
+    localStorage.removeItem("authUser");
+
+    if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
+      const response = yield call(fireBaseBackend.logout);
+      yield put(logoutUserSuccess(response));
+    }
+    history('/login');
+  } catch (error) {
+    yield put(apiError(error));
   }
 }
 

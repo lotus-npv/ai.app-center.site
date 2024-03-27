@@ -16,7 +16,9 @@ import {
   UPDATE_USERS_FAIL,
   DELETE_USERS,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_FAIL
+  DELETE_USERS_FAIL,
+  LOGOUT_USER,
+  LOGOUT_USER_SUCCESS,
 } from "./actionTypes";
 
 export const getUsersAll = () => ({
@@ -37,6 +39,7 @@ export const getUsersAllFail = error => ({
 //   type: GET_USERS_LOGIN,
 //   payload: { username, password }
 // });
+
 export const getUsersLogin = (user, history) => ({
   type: GET_USERS_LOGIN,
   payload: { user, history }

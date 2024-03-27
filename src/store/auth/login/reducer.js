@@ -32,7 +32,7 @@ const login = (state = initialState, action) => {
       state = { ...state }
       break
     case LOGOUT_USER_SUCCESS:
-      state = { ...state , isUserLogout: true}
+      state = { ...state , isUserLogout: true, user: null}
       break
     case API_ERROR:
       state = { ...state, error: action.payload, loading: false,isUserLogout: false, }

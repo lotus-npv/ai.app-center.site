@@ -86,6 +86,7 @@ function* logoutUser({ payload: { history } }) {
       const response = yield call(fireBaseBackend.logout);
       yield put(logoutUserSuccess(response));
     }
+    yield put(logoutUserSuccess());
     history('/login');
   } catch (error) {
     yield put(apiError(error));

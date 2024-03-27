@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useMemo } from "react";
+import React, { useEffect, useRef, useCallback, useMemo, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -10,11 +10,15 @@ import SimpleBar from "simplebar-react";
 import MetisMenu from "metismenujs";
 import withRouter from "components/Common/withRouter";
 import { Link } from "react-router-dom";
+import DataContext from "data/DataContext";
 
 //i18n
 import { withTranslation } from "react-i18next";
 
 const SidebarContent = props => {
+
+  const {user} = useContext(DataContext);
+  
   const ref = useRef();
   const activateParentDropdown = useCallback((item) => {
     item.classList.add("active");
@@ -204,198 +208,7 @@ const SidebarContent = props => {
                   <Link to="/pages-career">{props.t("Industry")}</Link>
                 </li>
               </ul>
-            </li>
-
-            {/* <li className="menu-title">{props.t("Components")}</li> */}
-
-            {/* <li>
-              <Link to="/#" className="has-arrow">
-                <i className="bx bx-tone" />
-                <span>{props.t("UI Elements")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/ui-alerts">{props.t("Alerts")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-buttons">{props.t("Buttons")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-cards">{props.t("Cards")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-carousel">{props.t("Carousel")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-dropdowns">{props.t("Dropdowns")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-grid">{props.t("Grid")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-images">{props.t("Images")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-lightbox">{props.t("Lightbox")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-modals">{props.t("Modals")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-offcanvas">{props.t("OffCanvas")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-rangeslider">
-                    {props.t("Range Slider")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ui-session-timeout">
-                    {props.t("Session Timeout")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ui-progressbars">
-                    {props.t("Progress Bars")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ui-placeholders">{props.t("Placeholders")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-tabs-accordions">
-                    {props.t("Tabs & Accordions")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ui-typography">
-                    {props.t("Typography")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ui-toasts">{props.t("Toasts")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-video">{props.t("Video")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-general">{props.t("General")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-colors">{props.t("Colors")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-rating">{props.t("Rating")}</Link>
-                </li>
-                <li>
-                  <Link to="/ui-notifications">
-                    {props.t("Notifications")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ui-breadcrumb">
-                    {props.t("Breadcrumb")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/ui-utilities">
-                    {props.t("Utilities")}
-                    
-                  </Link>
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <Link to="/#" >
-                <i className="bx bxs-eraser"></i>
-                <span className="badge rounded-pill bg-danger float-end">
-                  10
-                </span>
-                <span>{props.t("Forms")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/form-elements">{props.t("Form Elements")}</Link>
-                </li>
-                <li>
-                  <Link to="/form-layouts">{props.t("Form Layouts")}</Link>
-                </li>
-                <li>
-                  <Link to="/form-validation">
-                    {props.t("Form Validation")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/form-advanced">{props.t("Form Advanced")}</Link>
-                </li>
-                <li>
-                  <Link to="/form-editors">{props.t("Form Editors")}</Link>
-                </li>
-                <li>
-                  <Link to="/form-uploads">{props.t("Form File Upload")} </Link>
-                </li>
-                <li>
-                  <Link to="/form-repeater">{props.t("Form Repeater")}</Link>
-                </li>
-                <li>
-                  <Link to="/form-wizard">{props.t("Form Wizard")}</Link>
-                </li>
-                <li>
-                  <Link to="/form-mask">{props.t("Form Mask")}</Link>
-                </li>
-                <li>
-                  <Link to="/dual-listbox">{props.t("Transfer List")}</Link>
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <Link to="/#" className="has-arrow ">
-                <i className="bx bx-list-ul"></i>
-                <span>{props.t("Tables")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/tables-basic">{props.t("Basic Tables")}</Link>
-                </li>
-                <li>
-                  <Link to="/tables-datatable">{props.t("Data Tables")}</Link>
-                </li>
-                <li>
-                  <Link to="/tables-responsive">
-                    {props.t("Responsive Table")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/tables-dragndrop">{props.t("Drag & Drop Table")}</Link>
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <Link to="/#" className="has-arrow ">
-                <i className="bx bx-aperture"></i>
-                <span>{props.t("Icons")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/icons-boxicons">{props.t("Boxicons")}</Link>
-                </li>
-                <li>
-                  <Link to="/icons-materialdesign">
-                    {props.t("Material Design")}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/icons-dripicons">{props.t("Dripicons")}</Link>
-                </li>
-                <li>
-                  <Link to="/icons-fontawesome">{props.t("Font awesome")}</Link>
-                </li>
-              </ul>
-            </li> */}
-        
+            </li>          
 
           </ul>
         </div>
