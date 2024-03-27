@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react"
 import DataContext from "./DataContext"
 import { dataViolate } from "common/data/violate"
+import { useAsyncDebounce } from "react-table"
 
 const DataProvider = ({ children }) => {
+  // get user info
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    const userData = localStorage.getItem("authUser")
+    if (userData) {
+      const obj = JSON.parse(userData)
+      setUser(obj[0])
+      console.log('user', user)
+    }
+  }, [])
   // Violate
   const [violateDatas, setViolateDatas] = useState(dataViolate)
 
@@ -234,9 +245,12 @@ const DataProvider = ({ children }) => {
         isRefresh,
         updateRefresh,
         tog_resresh,
-        isReponse, setIsReponse,
-        modal, setmodal,
-        ticketRowData, setTicketRowData
+        isReponse,
+        setIsReponse,
+        modal,
+        setmodal,
+        ticketRowData,
+        setTicketRowData,
       }}
     >
       {children}
