@@ -105,15 +105,25 @@ const TicketInbox = props => {
 
   const getListInternStatus = index => {
     if (index == 0) {
-      const newArr = ticketData.map(item => {
+      const newArr = ticketData.filter(ticket => ticket.receiver_id == user.id && ticket.receiver_type == user.user_type).map(item => {
         return {
           ...item,
           send_date: moment(item.send_date).format("YYYY-MM-DD"),
         }
       })
       setDataTable(newArr)
-    } else {
-      const arr = ticketData.filter(item => item.ticket_status == types[index])
+    } else if(index == 5) {
+      const newArr = ticketData.filter(ticket => ticket.sender_id == user.id && ticket.sender_type == user.user_type).map(item => {
+        return {
+          ...item,
+          send_date: moment(item.send_date).format("YYYY-MM-DD"),
+        }
+      })
+      setDataTable(newArr)
+    }
+    else
+    {
+      const arr = ticketData.filter(item => item.ticket_status == types[index] && item.receiver_type == user.user_type);
       const newArr = arr.map(item => {
         return {
           ...item,
@@ -135,19 +145,19 @@ const TicketInbox = props => {
         if (type === "Inbox") {
           return ticketData.filter(ticket => ticket.receiver_id == user.id && ticket.receiver_type == user.user_type).length
         } else if(type === "Outbox") {
-          return ticketData.length
+          return ticketData.filter(ticket => ticket.sender_id == user.id && ticket.sender_type == user.user_type).length
         }
         else
         {
-          return ticketData.filter(item => item.ticket_status === type).length
+          return ticketData.filter(item => item.ticket_status == type && item.receiver_type == user.user_type).length
         }
       })
       setCounters(arr)
     }
   }, [ticketData, activeTab])
 
-  console.log(ticketData)
-  // console.log(user)
+  console.log('ticketData', ticketData)
+  console.log('user', user)
 
   return (
     <React.Fragment>
