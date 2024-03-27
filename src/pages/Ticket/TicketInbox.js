@@ -29,8 +29,8 @@ import EmailToolbar from "./email-toolbar"
 //redux
 import Spinners from "components/Common/Spinner"
 import moment from "moment"
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from "@ckeditor/ckeditor5-react"
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import DataContext from "data/DataContext"
 
 // //redux
@@ -46,9 +46,12 @@ import {
   getTicketAllInfo,
   getTicketDetailAll,
   getUsersAll,
+  setTicket,
+  setTicketDetail,
 } from "store/actions"
 import ChatBox from "./ChatBox"
 import { EffectCards } from "swiper/modules"
+import { toast } from "react-toastify"
 
 const TicketInbox = props => {
   //meta title
@@ -67,6 +70,8 @@ const TicketInbox = props => {
     UserTypeList,
     isInbox,
     setIsInbox,
+    isOutbox,
+    setIsOutbox,
   } = useContext(DataContext)
 
   const dispatch = useDispatch()
@@ -213,10 +218,6 @@ const TicketInbox = props => {
   const [title, setTitle] = useState()
   const [content, setContent] = useState()
 
-  const onEditorStateChange = editorState => {
-    // Lưu trạng thái của trình soạn thảo vào state khi thay đổi
-    setContent(editorState.getCurrentContent())
-  }
   // loc ra cac type khac voi user
   useEffect(() => {
     if (user) {
@@ -242,23 +243,23 @@ const TicketInbox = props => {
     }
   }, [userType])
 
-  useEffect(() => {
-    if (user) {
-      if (user.user_type == "syndication") {
-      }
-    }
-  })
+  // useEffect(() => {
+  //   if (user) {
+  //     if (user.user_type == "syndication") {
+  //     }
+  //   }
+  // })
 
   // -----------------------------------------------------------------
 
   // thu thi ghi ticket moi
   const handCreateNewTicket = () => {
-    if (userType && selectOption && title) {
+    if (userType && selectOption && title && content) {
       const newTicket = {
         key_license_id: user.key_license_id,
         send_date: moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss"),
         title: title,
-        content: "",
+        content: content,
         sender_type: user.user_type,
         sender_id: user.id,
         receiver_type: userType.value,
@@ -273,19 +274,52 @@ const TicketInbox = props => {
         delete_at: null,
         flag: 1,
       }
+      console.log("content", newTicket)
+      dispatch(setTicket(newTicket))
+      setIsReponse(false)
+      setmodal(!modal)
+    } else {
+      toast.warning("Please enter complete information !", { autoClose: 2000 })
+    }
+  }
+
+  const handleResponseTicket = () => {
+    console.log("edit")
+    if (content) {
+      const newTicketDetail = {
+        key_license_id: user.key_license_id,
+        ticket_id: ticketRowData.id,
+        sender_type: user.user_type,
+        sender_id: user.id,
+        send_date: moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss"),
+        content: content,
+        description: "",
+        create_at: null,
+        create_by: user.id,
+        update_at: null,
+        update_by: user.id,
+        delete_at: null,
+        flag: 1,
+      }
+      console.log("content", newTicketDetail)
+      dispatch(setTicketDetail(newTicketDetail))
+      setIsReponse(false)
+      setmodal(!modal)
+    } else {
+      toast.warning("Please enter complete information !", { autoClose: 2000 })
     }
   }
 
   // console.log('ticketData', ticketData)
-  // console.log('user', user)
   console.log("content", content)
+  // console.log('outbox', isOutbox)
 
   return (
     <React.Fragment>
       <div
         className="bg-light"
         onClick={() => {
-          setIsReponse(false)
+          // setIsReponse(false)
         }}
       >
         <Row>
@@ -312,6 +346,8 @@ const TicketInbox = props => {
                         })}
                         onClick={() => {
                           setactiveTab(0)
+                          setIsInbox(true)
+                          setIsOutbox(false)
                         }}
                       >
                         <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
@@ -328,6 +364,8 @@ const TicketInbox = props => {
                         })}
                         onClick={() => {
                           setactiveTab(4)
+                          setIsInbox(false)
+                          setIsOutbox(true)
                         }}
                       >
                         <i className="mdi mdi-email-outline me-2"></i> Outbox{" "}
@@ -487,22 +525,16 @@ const TicketInbox = props => {
                             />
                           </div>
 
-                          <Editor
-                            toolbarClassName="toolbarClassName"
-                            wrapperClassName="wrapperClassName"
-                            editorClassName="editorClassName"
-                            editorState={content}
-                            onEditorStateChange={onEditorStateChange}
-                          />
                           <CKEditor
                             editor={ClassicEditor}
-                            data="<p>Hello from CKEditor 5!</p>"
+                            data={content}
                             onReady={editor => {
                               // You can store the "editor" and use when it is needed.
-                              console.log("Editor is ready to use!", editor)
+                              // console.log("Editor is ready to use!", editor)
                             }}
                             onChange={(event, editor) => {
                               const data = editor.getData()
+                              setContent(data)
                             }}
                           />
                         </div>
@@ -513,16 +545,22 @@ const TicketInbox = props => {
                   {isEditTicket && (
                     <>
                       <div className="mb-3">
-                        <h3>
-                          {ticketRowData != null
-                            ? ticketRowData.title
-                            : "Title"}
-                        </h3>
+                        {ticketRowData != null ? (
+                          <h2>{ticketRowData.title}</h2>
+                        ) : (
+                          "Title"
+                        )}
                         <Card className="bg-light d-flex justify-content-center">
                           <p className="m-2 fw-bold">
-                            {ticketRowData != null
-                              ? ticketRowData.content
-                              : "Content"}
+                            {ticketRowData != null ? (
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: ticketRowData.content,
+                                }}
+                              ></p>
+                            ) : (
+                              "Content"
+                            )}
                           </p>
                         </Card>
                       </div>
@@ -535,10 +573,17 @@ const TicketInbox = props => {
                   )}
 
                   {isReponse && (
-                    <Editor
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClassName"
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={content}
+                      onReady={editor => {
+                        // You can store the "editor" and use when it is needed.
+                        // console.log("Editor is ready to use!", editor)
+                      }}
+                      onChange={(event, editor) => {
+                        const data = editor.getData()
+                        setContent(data)
+                      }}
                     />
                   )}
                 </form>
@@ -561,8 +606,11 @@ const TicketInbox = props => {
                       type="button"
                       color="primary"
                       onClick={() => {
-                        setIsReponse(!isReponse)
-                        setmodal(!modal)
+                        if (isEditTicket) {
+                          handleResponseTicket()
+                        } else {
+                          handCreateNewTicket()
+                        }
                       }}
                     >
                       Send <i className="fab fa-telegram-plane ms-1"></i>

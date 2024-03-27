@@ -39,7 +39,7 @@ const TableDatas = ({dataTable}) => {
     ticketRowData, setTicketRowData,
     isEditTicket,
     setIsEditTicket,
-    isInbox, setIsInbox
+    isInbox, setIsInbox,isOutbox, setIsOutbox
   } = useContext(DataContext)
 
 
@@ -238,7 +238,7 @@ const TableDatas = ({dataTable}) => {
           // sortable
           style={{ minWidth: "12rem" }}
         ></Column>}
-       {!isInbox &&  <Column
+       {isOutbox &&  <Column
           field="receiver_name"
           header="Receiver"
           style={{ minWidth: "12rem" }}
