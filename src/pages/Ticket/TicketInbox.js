@@ -89,12 +89,12 @@ const TicketInbox = props => {
   useEffect(() => {
     dispatch(getTicketAll())
     dispatch(getTicketDetailAll())
+    dispatch(getDispatchingCompanyAll())
+    dispatch(getReceivingFactoryAll())
+    dispatch(getSyndicationAll())
+    dispatch(getInternAllInfo())
     // dispatch(getTicketAllInfo());
     // dispatch(getUsersAll())
-    // dispatch(getDispatchingCompanyAll())
-    // dispatch(getReceivingFactoryAll())
-    // dispatch(getSyndicationAll())
-    // dispatch(getInternAllInfo())
   }, [dispatch])
 
   // get lai data sau moi 10s
@@ -115,6 +115,7 @@ const TicketInbox = props => {
   const [activeTab, setactiveTab] = useState(0)
   // const [modal, setmodal] = useState(false)
 
+  // -----------------------------------------------------------------
   const getListInternStatus = index => {
     if (user) {
       if (index == 0) {
@@ -192,12 +193,25 @@ const TicketInbox = props => {
     }
   }, [ticketData, activeTab])
 
+  // -----------------------------------------------------------------
+  // -----------------------------------------------------------------
+
+  // show list data
+  const [userType, setUserType] = useState(UserTypeList[0])
+  const [dataOptions, setDataOptions] = useState([])
+  const [selectOption, setSelectOption] = useState()
+
+  // useEffect(() => {
+  //     if(userType === )
+  // }, [userType])
+
+
   // console.log('ticketData', ticketData)
   // console.log('user', user)
 
   return (
     <React.Fragment>
-      <div className="bg-light">
+      <div className="bg-light" onClick={() => {setIsReponse(false);}}>
         <Row>
           <Col lg="2">
             <div className="d-flex justify-content-center">
@@ -335,6 +349,10 @@ const TicketInbox = props => {
                           <Select
                             name=""
                             placeholder="Select object send"
+                            value={userType}
+                            onChange={(item) => {
+                              setUserType(item);
+                            }}
                             options={UserTypeList}
                             className="mb-3"
                           />
@@ -393,7 +411,7 @@ const TicketInbox = props => {
               </ModalBody>
 
               <ModalFooter>
-                {isReponse ? (
+                {(isReponse || !isEditTicket) ? (
                   <div className="d-flex gap-2">
                     <Button
                       type="button"
