@@ -22,14 +22,14 @@ import classnames from "classnames"
 import Select from "react-select"
 import { Link } from "react-router-dom"
 //Import Email Topbar
-import EmailToolbar from "./email-toolbar"
-//redux
 import Spinners from "components/Common/Spinner"
 import moment from "moment"
-import { CKEditor } from "@ckeditor/ckeditor5-react"
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import DataContext from "data/DataContext"
-import { Editor } from "primereact/editor";
+import { Editor } from "primereact/editor"
+
+import { Accordion, AccordionTab } from "primereact/accordion"
+import { Avatar } from "primereact/accordion"
+import { Badge as BadgePrime } from "primereact/accordion"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -55,14 +55,14 @@ import { toast } from "react-toastify"
 const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
-  const [modal_backdrop, setmodal_backdrop] = useState(false);
+  const [modal_backdrop, setmodal_backdrop] = useState(false)
   function tog_backdrop() {
-    setmodal_backdrop(!modal_backdrop);
-    removeBodyCss();
+    setmodal_backdrop(!modal_backdrop)
+    removeBodyCss()
   }
 
   function removeBodyCss() {
-    document.body.classList.add("no_padding");
+    document.body.classList.add("no_padding")
   }
 
   const {
@@ -227,7 +227,7 @@ const TicketInbox = props => {
   const [userType, setUserType] = useState()
   const [selectOption, setSelectOption] = useState()
   const [title, setTitle] = useState()
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState("")
 
   // loc ra cac type khac voi user
   useEffect(() => {
@@ -314,21 +314,21 @@ const TicketInbox = props => {
         delete_at: null,
         flag: 1,
       }
-      dispatch(setTicketDetail(newTicketDetail));
+      dispatch(setTicketDetail(newTicketDetail))
 
       // const count = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id && td.sender_id != user.id);
-      if(ticketRowData.sender_id != user.id) {
-        if(ticketRowData.ticket_status == 'new') {
-          const { receiver_name, sender_name, ...oldTicket } = ticketRowData;
+      if (ticketRowData.sender_id != user.id) {
+        if (ticketRowData.ticket_status == "new") {
+          const { receiver_name, sender_name, ...oldTicket } = ticketRowData
           const ticket = {
             ...oldTicket,
             ticket_status: "processing",
             update_at: time,
           }
-          dispatch(updateTicket(ticket));
+          dispatch(updateTicket(ticket))
         }
       }
-      setContent('');
+      setContent("")
       // setIsReponse(false);
       // setmodal(!modal);
     } else {
@@ -338,18 +338,18 @@ const TicketInbox = props => {
 
   // Close ticket
   const handleCloseTicket = () => {
-    let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss");
-    if(ticketRowData) {
-      const { receiver_name, sender_name, ...oldTicket } = ticketRowData;
+    let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
+    if (ticketRowData) {
+      const { receiver_name, sender_name, ...oldTicket } = ticketRowData
       const ticket = {
         ...oldTicket,
         ticket_status: "done",
         update_at: time,
       }
-      dispatch(updateTicket(ticket));
-      setIsReponse(false);
-      setmodal_backdrop(false);
-      setmodal(!modal);
+      dispatch(updateTicket(ticket))
+      setIsReponse(false)
+      setmodal_backdrop(false)
+      setmodal(!modal)
     }
   }
 
@@ -574,7 +574,11 @@ const TicketInbox = props => {
                               className="form-control"
                             />
                           </div>
-                          <Editor value={content} onTextChange={(e) => setContent(e.htmlValue)} style={{ height: '320px' }} />
+                          <Editor
+                            value={content}
+                            onTextChange={e => setContent(e.htmlValue)}
+                            style={{ height: "320px" }}
+                          />
                         </div>
                       </CardBody>
                     </Card>
@@ -589,33 +593,50 @@ const TicketInbox = props => {
                           "Title"
                         )}
                         <Card className="bg-light d-flex justify-content-center">
-                          <p className="m-2 fw-bold">
-                            {ticketRowData != null ? (
-                              <p
-                                dangerouslySetInnerHTML={{
-                                  __html: ticketRowData.content,
-                                }}
-                              ></p>
-                            ) : (
-                              "Content"
-                            )}
-                          </p>
+                          <Accordion activeIndex={0}>
+                            <AccordionTab
+                              header={
+                                <span className="flex align-items-center gap-2 w-full">
+                                  {/* <Avatar
+                                    image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
+                                    shape="circle"
+                                  /> */}
+                                  <span className="font-bold white-space-nowrap">
+                                    CONTENT
+                                  </span>
+                                  {/* <BadgePrime value="3" className="ml-auto" /> */}
+                                </span>
+                              }
+                            >
+                              <p className="m-2 fw-bold">
+                                {ticketRowData != null ? (
+                                  <p
+                                    dangerouslySetInnerHTML={{
+                                      __html: ticketRowData.content,
+                                    }}
+                                  ></p>
+                                ) : (
+                                  "Content"
+                                )}
+                              </p>
+                            </AccordionTab>
+                          </Accordion>
                         </Card>
                       </div>
                       <Card>
                         <CardBody className="bg-light">
-
-                          <ChatBox 
-                            ticketDetailData={ticketDetailData}
-                          />
-
+                          <ChatBox ticketDetailData={ticketDetailData} />
                         </CardBody>
                       </Card>
                     </>
                   )}
 
                   {isReponse && (
-                    <Editor value={content} onTextChange={(e) => setContent(e.htmlValue)} style={{ height: '320px' }} />
+                    <Editor
+                      value={content}
+                      onTextChange={e => setContent(e.htmlValue)}
+                      style={{ height: "320px" }}
+                    />
                   )}
                 </form>
               </ModalBody>
@@ -626,7 +647,7 @@ const TicketInbox = props => {
                     type="button"
                     color="secondary"
                     onClick={() => {
-                      tog_backdrop();
+                      tog_backdrop()
                     }}
                   >
                     Close Ticket
@@ -697,7 +718,8 @@ const TicketInbox = props => {
             </div>
             <div className="modal-body">
               <p>
-              With this selection, you confirm that you will close the current ticket.
+                With this selection, you confirm that you will close the current
+                ticket.
               </p>
             </div>
             <div className="modal-footer">
@@ -710,7 +732,11 @@ const TicketInbox = props => {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={handleCloseTicket}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleCloseTicket}
+              >
                 Save
               </button>
             </div>

@@ -184,7 +184,7 @@ const ChatBox = () => {
             <div className="chat-conversation p-3">
               <SimpleBar
                 ref={scroollRef}
-                style={{ height: isReponse ? "320px" : "450px" }}
+                style={{ height: isReponse ? "320px" : "550px" }}
               >
                 {isLoading ? (
                   <Spinners setLoading={setLoading} />
