@@ -15,6 +15,7 @@ import {
   NavLink,
   CardBody,
   Label,
+  Badge,
 } from "reactstrap"
 import TableDatas from "./TableDatas"
 import classnames from "classnames"
@@ -62,6 +63,8 @@ const TicketInbox = props => {
     isEditTicket,
     setIsEditTicket,
     UserTypeList,
+    isInbox,
+    setIsInbox,
   } = useContext(DataContext)
 
   const dispatch = useDispatch()
@@ -256,8 +259,14 @@ const TicketInbox = props => {
                           setactiveTab(0)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
-                        <span className="ml-1 float-end">({counters[0]})</span>
+                        <div className="d-flex justify-content-between">
+                          <p className="mb-0"><i className="mdi mdi-email-outline me-2"></i> Inbox</p>
+                          <Badge pill color="primary" className="ms-2">
+                            {counters[0]}
+                          </Badge>
+                        </div>
+
+                        {/* <span className="ml-1 float-end">({counters[0]})</span> */}
                       </NavLink>
                     </NavItem>
 
@@ -366,14 +375,14 @@ const TicketInbox = props => {
                         <div className="mb-3">
                           <div className="input-group mb-3">
                             <Label
-                            style={{minWidth: '150px'}}
+                              style={{ minWidth: "150px" }}
                               className="input-group-text"
                               htmlFor="inputGroupFile01"
                             >
-                              Chon doi tuong: 
+                              Select object:
                             </Label>
                             <Select
-                             id="inputGroupFile01"
+                              id="inputGroupFile01"
                               name=""
                               placeholder="Select object type"
                               value={userType}
@@ -386,26 +395,43 @@ const TicketInbox = props => {
                             />
                           </div>
 
-                          <Select
-                            name=""
-                            placeholder="Select object send"
-                            value={selectOption}
-                            onChange={item => {
-                              setSelectOption(item)
-                            }}
-                            options={dataOptions}
-                            className="mb-3"
-                          />
-                          <Input
-                            type="email"
-                            className="form-control mb-3"
-                            placeholder="To"
-                          />
-                          <Input
-                            type="text"
-                            className="form-control mb-3"
-                            placeholder="Subject"
-                          />
+                          <div className="input-group mb-3">
+                            <Label
+                              style={{ minWidth: "150px" }}
+                              className="input-group-text"
+                              htmlFor="inputGroup2"
+                            >
+                              Send to:
+                            </Label>
+                            <Select
+                              id="inputGroup2"
+                              name=""
+                              placeholder="Select object send"
+                              value={selectOption}
+                              onChange={item => {
+                                setSelectOption(item)
+                              }}
+                              options={dataOptions}
+                              className="form-control"
+                            />
+                          </div>
+
+                          <div className="input-group mb-3">
+                            <Label
+                              style={{ minWidth: "150px" }}
+                              className="input-group-text"
+                              htmlFor="inputGroup3"
+                            >
+                              Title:
+                            </Label>
+                            <Input
+                              id="inputGroup3"
+                              type="text"
+                              placeholder="Subject"
+                              className="form-control"
+                            />
+                          </div>
+
                           <Editor
                             toolbarClassName="toolbarClassName"
                             wrapperClassName="wrapperClassName"

@@ -39,6 +39,7 @@ const TableDatas = ({dataTable}) => {
     ticketRowData, setTicketRowData,
     isEditTicket,
     setIsEditTicket,
+    isInbox, setIsInbox
   } = useContext(DataContext)
 
 
@@ -92,8 +93,19 @@ const TableDatas = ({dataTable}) => {
     setGlobalFilterValue(value)
   }
 
+  const renderHeader = () => {
+    return (
+      <div className="d-flex justify-content-between">
+        <span className="p-input-icon-left">
+          <i className="pi pi-search" />
+          <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
+        </span>
+      </div>
+    );
+  };
 
-  const [isInbox, setIsInbox] = useState(true)
+
+  
 
   const actionBody = rowData => {
     return (
@@ -136,16 +148,25 @@ const TableDatas = ({dataTable}) => {
     )
   }
 
-  const renderHeader = () => {
-    return (
-      <div className="d-flex justify-content-between">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
-        </span>
-      </div>
-    );
+
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'new': 
+        return 'success';
+      case 'processing': 
+        return 'warning';
+      case 'done': 
+        return 'info';
+      default:
+        return 'secondary';
+    }
+  }
+
+  const statusBodyTemplate = (rowData) => {
+    return <Badge className={"p-2 font-size-12 badge-soft-"+`${getStatusColor(rowData.ticket_status)}`} style={{minWidth: '80px'}}>{rowData.ticket_status}</Badge>
   };
+
 
   const screenAvailHeight = window.innerHeight;
   const [vh, setVh] = useState(null)
@@ -170,7 +191,7 @@ const TableDatas = ({dataTable}) => {
         stripedRows
         rowsPerPageOptions={[5, 10, 15, 20, 50]}
         dragSelection
-        selectionMode={"multiple"}
+        // selectionMode={"row"}
         selection={selectedItems}
         onSelectionChange={e => setSelectedItems(e.value)}
         dataKey="id"
@@ -185,11 +206,11 @@ const TableDatas = ({dataTable}) => {
         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
-        <Column
+        {/* <Column
           selectionMode="multiple"
           exportable={false}
           headerStyle={{ width: "3rem" }}
-        ></Column>
+        ></Column> */}
         <Column
           field="send_date"
           header="Send Date"
@@ -230,6 +251,7 @@ const TableDatas = ({dataTable}) => {
         <Column
           field="ticket_status"
           header="Ticket Status"
+          body={statusBodyTemplate}
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column

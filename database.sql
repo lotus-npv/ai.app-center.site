@@ -366,7 +366,7 @@ create table if not exists users (
     key_license_id INT,
     role ENUM('admin','managers','user'),
     is_employee BOOLEAN, -- neu la employee thi truy van vao bang employee, khong thi truy van vao bang intern
-    object_id INT,  -- dua vao user_type de xac dinh id cua doi tuong 
+    object_id INT,  -- (employee, intern)
     username VARCHAR(50),
     password_hash VARCHAR(100),
     active BOOLEAN,
@@ -377,7 +377,6 @@ create table if not exists users (
     update_by INT,
     delete_at DATETIME,
     flag BOOLEAN
-    -- foreign key (key_license_id) references key_license(id)
 );
 
 -- tao bang phan quyen người dùng

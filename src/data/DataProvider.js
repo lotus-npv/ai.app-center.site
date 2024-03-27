@@ -183,6 +183,7 @@ const DataProvider = ({ children}) => {
   const [modal, setmodal] = useState(false)
   const [ticketRowData, setTicketRowData] = useState(null)
   const [isEditTicket, setIsEditTicket] = useState(false)
+  const [isInbox, setIsInbox] = useState(true)
 
   return (
     <DataContext.Provider
@@ -232,7 +233,8 @@ const DataProvider = ({ children}) => {
         ticketRowData,
         setTicketRowData,
         user, setUser,
-        isEditTicket, setIsEditTicket
+        isEditTicket, setIsEditTicket,
+        isInbox, setIsInbox
       }}
     >
       {children}

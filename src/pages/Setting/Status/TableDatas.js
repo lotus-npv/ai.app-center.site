@@ -121,7 +121,6 @@ const TableDatas = () => {
   }
 
   const statusBodyTemplate = (rowData) => {
-    // return <Tag value={item.status_type} severity={item.color}></Tag>;
     return <Badge className={"p-2 font-size-12 badge-soft-"+`${rowData.colors}`}>{rowData.status_type}</Badge>
   };
 
