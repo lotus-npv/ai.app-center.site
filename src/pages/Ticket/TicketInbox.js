@@ -492,12 +492,14 @@ const TicketInbox = props => {
             centered={true}
             toggle={() => {
               setmodal(!modal)
+              setIsReponse(false)
             }}
           >
             <div className="modal-content">
               <ModalHeader
                 toggle={() => {
                   setmodal(!modal)
+                  setIsReponse(false)
                 }}
               >
                 {isEditTicket

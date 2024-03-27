@@ -63,7 +63,6 @@ const TableDatas = props => {
 
   // data context
   const {
-    vh,
     tog_fullscreen,
     setIsEditIntern,
     rowsSelectedInternData,
@@ -449,6 +448,20 @@ const TableDatas = props => {
   // console.log(dataUser)
   // console.log('statusDetailData', statusDetailData)
   // console.log('rowsSelectedInternData', rowsSelectedInternData)
+
+  const screenAvailHeight = window.innerHeight
+  const [vh, setVh] = useState(null)
+  window.addEventListener("resize", function () {
+    var screenHeight = window.innerHeight
+    let wh = screenHeight - 365
+    setVh(`${wh}px`)
+    // setWindowHeight(screenHeight);
+  })
+
+  useEffect(() => {
+    let wh = screenAvailHeight - 365
+    setVh(`${wh}px`)
+  }, [])
 
   return (
     <div className="card">

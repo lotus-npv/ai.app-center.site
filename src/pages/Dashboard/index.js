@@ -23,6 +23,7 @@ import StackedColumnChart from "./StackedColumnChart"
 import {
   getAddressAll,
   getStatusDetailAll,
+  getTicketAll,
   getViolateAll,
   getChartsData as onGetChartsData,
 } from "../../store/actions"
@@ -47,7 +48,7 @@ const Dashboard = props => {
   const [modal, setmodal] = useState(false)
   // const [subscribemodal, setSubscribemodal] = useState(false);
 
-  const { NationList , loadData, setLoadData} = useContext(DataContext)
+  const { NationList , loadData, setLoadData, user} = useContext(DataContext)
 
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
@@ -79,8 +80,9 @@ const Dashboard = props => {
   }, [dispatch])
 
   // get intern data
-  const { dataIntern, dataStatusDetail, dataAddress, dataViolate } = useSelector(
+  const { dataIntern, dataStatusDetail, dataAddress, dataViolate, dataTicket } = useSelector(
     state => ({
+      dataTicket: state.Ticket.datas,
       dataIntern: state.Intern.datas,
       dataStatusDetail: state.StatusDetail.datas,
       dataAddress: state.Address.datas,
@@ -94,6 +96,7 @@ const Dashboard = props => {
     dispatch(getStatusDetailAll())
     dispatch(getAddressAll())
     dispatch(getViolateAll())
+    dispatch(getTicketAll())
   }, [dispatch])
 
   // get lai data sau moi 10s
@@ -102,6 +105,7 @@ const Dashboard = props => {
       dispatch(getInternAllInfo())
       dispatch(getAddressAll())
       dispatch(getStatusDetailAll())
+      dispatch(getTicketAll())
     }, 10000)
     // Hàm dọn dẹp khi unmount
     return () => {
@@ -115,6 +119,16 @@ const Dashboard = props => {
     setTimeout(() => {
       setLoadData(false)
     }, 2000)
+  }, [])
+
+  //--------------------------------------------------------------------
+
+  const [ticketItem, setTicketItem] = useState()
+  useEffect(() => {
+    if(user && dataTicket) {
+      const count = dataTicket.filter(ticket => ticket.sender_id == user.id || ticket.receiver_id == user.id).length;
+      setTicketItem(count);
+    }
   }, [])
 
   // console.log('chartsData', chartsData)
@@ -151,8 +165,10 @@ const Dashboard = props => {
   const [visaExpire, setVisaExpire] = useState(null)
   const [prepareEntry, setPrepareEntry] = useState(null)
   useEffect(() => {
-    if (dataIntern) {
-      // console.log(dataIntern)
+    if (dataIntern && user && dataTicket) {
+
+      const ticketNotSupport = dataTicket.filter(ticket => (ticket.sender_id == user.id || ticket.receiver_id == user.id) && ticket.ticket_status === 'new');
+
 
       const internPrepareEntry = dataStatusDetail.filter(st => {
         return st.status_id == 10
@@ -167,6 +183,9 @@ const Dashboard = props => {
       const arr = [...reports]
       const newArr = arr.map(report => {
         const newReport = { ...report }
+        if (newReport.value == 1) {
+          newReport.description = `${ticketNotSupport.length}`
+        }
         if (newReport.value == 2) {
           newReport.description = `${internVisaExpire.length}`
         }
