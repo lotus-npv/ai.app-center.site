@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Row, Col, Collapse } from "reactstrap";
 import { Link } from "react-router-dom";
 import withRouter from "components/Common/withRouter";
 import classname from "classnames";
-
+import DataContext from "data/DataContext"
 //i18n
 import { withTranslation } from "react-i18next";
 
@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 const Navbar = props => {
 
   const [dashboard, setdashboard] = useState(false);
-  const [ui, setui] = useState(false);
+  const [intern, setIntern] = useState(false);
   const [app, setapp] = useState(false);
   const [email, setemail] = useState(false);
   const [ecommerce, setecommerce] = useState(false);
@@ -34,6 +34,23 @@ const Navbar = props => {
   const [invoice, setinvoice] = useState(false);
   const [auth, setauth] = useState(false);
   const [utility, setutility] = useState(false);
+
+  const { user } = useContext(DataContext)
+  const [isShow, setShow] = useState([])
+  console.log("user menu", user)
+  useEffect(() => {
+    if (user) {
+      if (user.user_type == "syndication") {
+        setShow([true, true, true, true, true, true, true, true,true])
+      } else if (user.user_type == "dispatching_company") {
+        setShow([true, true, true, false, true, true, true, true, true])
+      } else if (user.user_type == "receiving_factory") {
+        setShow([true, true, false, true, true, true, true, true, true])
+      } else if(user.user_type == "intern"){
+        setShow([false, false, false, false, true, false, true, false, false])
+      }
+    }
+  },[user])
 
   useEffect(() => {
     var matchingMenuItem = null;
@@ -109,7 +126,7 @@ const Navbar = props => {
             >
               <ul className="navbar-nav">
 
-                <li className="nav-item">
+                {isShow[0] && <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
@@ -121,23 +138,23 @@ const Navbar = props => {
                     <i className="bx bxs-report me-2"></i>
                     {props.t("Report")} {props.menuOpen}
                   </Link>
-                </li>
+                </li>}
 
-                <li className="nav-item">
+                {isShow[1] && <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
                       // e.preventDefault();
-                      setdashboard(!dashboard);
+                      setIntern(!intern);
                     }}
                     to="/intern"
                   >
                     <i className="bx bx-user-circle me-2"></i>
                     {props.t("Intern")} {props.menuOpen}
                   </Link>
-                </li>
+                </li>}
 
-                <li className="nav-item">
+               {isShow[2] &&  <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
@@ -149,9 +166,9 @@ const Navbar = props => {
                     <i className="bx bx-buildings me-2"></i>
                     {props.t("Receiving Factory")} {props.menuOpen}
                   </Link>
-                </li>
+                </li>}
 
-                <li className="nav-item">
+                {isShow[3] && <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
@@ -163,9 +180,9 @@ const Navbar = props => {
                     <i className="bx bx-briefcase me-2"></i>
                     {props.t("Dispatching Company")} {props.menuOpen}
                   </Link>
-                </li>
+                </li>}
 
-                <li className="nav-item">
+                {isShow[4] && <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
@@ -177,9 +194,9 @@ const Navbar = props => {
                     <i className="bx bx-list-ol me-2"></i>
                     {props.t("Contact List")} {props.menuOpen}
                   </Link>
-                </li>
+                </li>}
 
-                <li className="nav-item">
+                {isShow[5] && <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
@@ -191,8 +208,9 @@ const Navbar = props => {
                     <i className="bx bx-support me-2"></i>
                     {props.t("Violation List")} {props.menuOpen}
                   </Link>
-                </li>
-                <li className="nav-item">
+                </li>}
+
+                {isShow[6] && <li className="nav-item">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
                     onClick={e => {
@@ -205,7 +223,7 @@ const Navbar = props => {
                     {props.t("Support")} {props.menuOpen}
                   </Link>
                 </li>
-
+}
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle arrow-none"
@@ -220,7 +238,7 @@ const Navbar = props => {
                   </Link>
                   <div className={classname("dropdown-menu", { show: extra })}>
                     <div className="dropdown">
-                      <Link
+                      {isShow[7] && <Link
                         to="/pages-status"
                         className="dropdown-item dropdown-toggle arrow-none"
                         onClick={e => {
@@ -229,8 +247,8 @@ const Navbar = props => {
                         }}
                       >
                         {props.t("Trạng thái")} 
-                      </Link>
-                      <Link
+                      </Link>}
+                      {isShow[8] && <Link
                         to="/pages-career"
                         className="dropdown-item dropdown-toggle arrow-none"
                         onClick={e => {
@@ -239,7 +257,7 @@ const Navbar = props => {
                         }}
                       >
                         {props.t("Industry")} 
-                      </Link>
+                      </Link>}
                     </div>
                   </div>
                 </li>

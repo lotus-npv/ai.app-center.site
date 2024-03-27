@@ -15,7 +15,7 @@ import {
   NavLink,
   CardBody,
   Label,
-  Badge
+  Badge,
 } from "reactstrap"
 import TableDatas from "./TableDatas"
 import classnames from "classnames"
@@ -29,7 +29,8 @@ import EmailToolbar from "./email-toolbar"
 //redux
 import Spinners from "components/Common/Spinner"
 import moment from "moment"
-
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import DataContext from "data/DataContext"
 
 // //redux
@@ -47,6 +48,7 @@ import {
   getUsersAll,
 } from "store/actions"
 import ChatBox from "./ChatBox"
+import { EffectCards } from "swiper/modules"
 
 const TicketInbox = props => {
   //meta title
@@ -63,7 +65,8 @@ const TicketInbox = props => {
     isEditTicket,
     setIsEditTicket,
     UserTypeList,
-    isInbox, setIsInbox
+    isInbox,
+    setIsInbox,
   } = useContext(DataContext)
 
   const dispatch = useDispatch()
@@ -118,12 +121,7 @@ const TicketInbox = props => {
   const [activeTab, setactiveTab] = useState(0)
   // const [modal, setmodal] = useState(false)
 
-
-
-
   //------------------------------------------------------------------
-
-
 
   // -----------------------------------------------------------------
   const getListTicketStatus = index => {
@@ -209,21 +207,30 @@ const TicketInbox = props => {
   // show list data
   const [typeOptios, setTypeOptions] = useState([])
   const [dataOptions, setDataOptions] = useState([])
-  
+
   const [userType, setUserType] = useState()
   const [selectOption, setSelectOption] = useState()
+  const [title, setTitle] = useState()
+  const [content, setContent] = useState()
 
+  const onEditorStateChange = editorState => {
+    // Lưu trạng thái của trình soạn thảo vào state khi thay đổi
+    setContent(editorState.getCurrentContent())
+  }
+  // loc ra cac type khac voi user
   useEffect(() => {
-    if(user) {
+    if (user) {
       setTypeOptions(UserTypeList.filter(type => type.value != user.user_type))
     }
-  },[modal])
+  }, [modal])
 
   useEffect(() => {
-    if(userType) {
+    if (userType) {
       if (userType.value === "intern") {
-        const arr = internData.filter(intern => intern.key_license_id == user.key_license_id);
-        setDataOptions(arr);
+        const arr = internData.filter(
+          intern => intern.key_license_id == user.key_license_id
+        )
+        setDataOptions(arr)
         console.log(arr)
       } else if (userType.value === "syndication") {
         setDataOptions(syndicationData)
@@ -235,13 +242,43 @@ const TicketInbox = props => {
     }
   }, [userType])
 
+  useEffect(() => {
+    if (user) {
+      if (user.user_type == "syndication") {
+      }
+    }
+  })
+
   // -----------------------------------------------------------------
 
   // thu thi ghi ticket moi
-  const handCreateNewTicket = () => {}
+  const handCreateNewTicket = () => {
+    if (userType && selectOption && title) {
+      const newTicket = {
+        key_license_id: user.key_license_id,
+        send_date: moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss"),
+        title: title,
+        content: "",
+        sender_type: user.user_type,
+        sender_id: user.id,
+        receiver_type: userType.value,
+        receiver_id: selectOption.id,
+        priority: "Low",
+        ticket_status: "new",
+        description: "",
+        create_at: null,
+        create_by: user.id,
+        update_at: null,
+        update_by: user.id,
+        delete_at: null,
+        flag: 1,
+      }
+    }
+  }
 
   // console.log('ticketData', ticketData)
   // console.log('user', user)
+  console.log("content", content)
 
   return (
     <React.Fragment>
@@ -268,18 +305,19 @@ const TicketInbox = props => {
                 </Button>
                 <div className="mail-list mt-4">
                   <Nav tabs className="nav-tabs-custom" vertical role="tablist">
-                    <NavItem >
-                    <NavLink
+                    <NavItem>
+                      <NavLink
                         className={classnames({
                           active: activeTab === 0,
                         })}
                         onClick={() => {
                           setactiveTab(0)
-                          
                         }}
                       >
                         <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
-                        <span className="ml-1 float-end fw-bold">({counters[0]})</span>
+                        <span className="ml-1 float-end fw-bold">
+                          ({counters[0]})
+                        </span>
                       </NavLink>
                     </NavItem>
 
@@ -290,7 +328,6 @@ const TicketInbox = props => {
                         })}
                         onClick={() => {
                           setactiveTab(4)
-                          
                         }}
                       >
                         <i className="mdi mdi-email-outline me-2"></i> Outbox{" "}
@@ -442,6 +479,10 @@ const TicketInbox = props => {
                               id="inputGroup3"
                               type="text"
                               placeholder="Subject"
+                              value={title}
+                              onChange={e => {
+                                setTitle(e.target.value)
+                              }}
                               className="form-control"
                             />
                           </div>
@@ -450,6 +491,19 @@ const TicketInbox = props => {
                             toolbarClassName="toolbarClassName"
                             wrapperClassName="wrapperClassName"
                             editorClassName="editorClassName"
+                            editorState={content}
+                            onEditorStateChange={onEditorStateChange}
+                          />
+                          <CKEditor
+                            editor={ClassicEditor}
+                            data="<p>Hello from CKEditor 5!</p>"
+                            onReady={editor => {
+                              // You can store the "editor" and use when it is needed.
+                              console.log("Editor is ready to use!", editor)
+                            }}
+                            onChange={(event, editor) => {
+                              const data = editor.getData()
+                            }}
                           />
                         </div>
                       </CardBody>
