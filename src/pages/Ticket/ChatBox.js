@@ -43,9 +43,12 @@ import { chats, messages, contacts, groups } from "../../common/data/chat"
 import DataContext from "data/DataContext"
 
 import Spinners from "components/Common/Spinner"
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+import { getTicketDetailAll } from "store/actions"
 
-const ChatBox = ({ticketDetailData}) => {
-  const { isReponse, setIsReponse, ticketRowData, setTicketRowData } =
+const ChatBox = () => {
+  const { isReponse, setIsReponse, ticketRowData, setTicketRowData, user } =
     useContext(DataContext)
 
   const [isLoading, setLoading] = useState(false)
@@ -55,18 +58,41 @@ const ChatBox = ({ticketDetailData}) => {
   const [curMessage, setcurMessage] = useState("")
   const [isdisable, setDisable] = useState(false)
 
+  const dispatch = useDispatch()
+  const { ticketDetailData } = useSelector(
+    state => ({
+      ticketDetailData: state.TicketDetail.datas,
+    }),
+    shallowEqual
+  )
+
+  // Get du lieu lan dau
+  useEffect(() => {
+    dispatch(getTicketDetailAll())
+  }, [dispatch])
+
+  // get lai data sau moi 10s
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch(getTicketDetailAll())
+    }, 10000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
   // tim ticketdetail phan hoi den ticket duoc chon
   const [ticketDetails, setTicketDetails] = useState([])
   useEffect(() => {
-    if(ticketDetailData && ticketRowData) {
-      const tds = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id);
+    if (ticketDetailData && ticketRowData) {
+      const tds = ticketDetailData.filter(
+        td => td.ticket_id == ticketRowData.id
+      )
       // console.log('ticketDetailData', ticketDetailData)
-      console.log(tds)
-      setTicketDetails(tds);
-
+      console.log(ticketRowData)
+      setTicketDetails(tds)
     }
-  }, [ticketRowData])
-
+  }, [ticketRowData, ticketDetailData])
 
   // scroll simple bar
   const scroollRef = useRef(null)
@@ -75,7 +101,7 @@ const ChatBox = ({ticketDetailData}) => {
       scroollRef.current.getScrollElement().scrollTop =
         scroollRef.current.getScrollElement().scrollHeight
     }
-  }, [messages])
+  }, [ticketDetailData])
 
   const copyMsg = ele => {
     var copyText = ele
@@ -138,9 +164,16 @@ const ChatBox = ({ticketDetailData}) => {
       setSelectedImage(null)
     }
   }
-  const [deleteMsg, setDeleteMsg] = useState("")
-  const toggle_deleMsg = id => {
-    setDeleteMsg(!deleteMsg)
+
+  const findPerson = (td_sender_id, td_sender_type) => {
+    if (
+      td_sender_id == ticketRowData.sender_id &&
+      td_sender_type == ticketRowData.sender_type
+    ) {
+      return ticketRowData.sender_name
+    } else {
+      return ticketRowData.receiver_name
+    }
   }
 
   return (
@@ -157,57 +190,65 @@ const ChatBox = ({ticketDetailData}) => {
                   <Spinners setLoading={setLoading} />
                 ) : (
                   <ul className="list-unstyled mb-0">
-                    {messages &&
-                      (messages || []).map(message => {
-                        return message.usermessages.map((userMsg, index) => {
-                          return (
-                            <li
-                              key={index}
-                              className={userMsg.to_id === 1 ? "" : "right"}
-                            >
-                              <div className="conversation-list">
-                                <UncontrolledDropdown>
-                                  <DropdownToggle
-                                    href="#!"
-                                    tag="a"
-                                    className="dropdown-toggle"
+                    {ticketDetails &&
+                      (ticketDetails || []).map((ticket, index) => {
+                        // return message.usermessages.map((userMsg, index) => {
+                        return (
+                          <li
+                            key={index}
+                            className={
+                              ticket.sender_id === user.id ? "" : "right"
+                            }
+                          >
+                            <div className="conversation-list">
+                              <UncontrolledDropdown>
+                                <DropdownToggle
+                                  href="#!"
+                                  tag="a"
+                                  className="dropdown-toggle"
+                                >
+                                  <i className="bx bx-dots-vertical-rounded" />
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                  <DropdownItem
+                                    onClick={e => copyMsg(e.target)}
+                                    href="#"
                                   >
-                                    <i className="bx bx-dots-vertical-rounded" />
-                                  </DropdownToggle>
-                                  <DropdownMenu>
-                                    <DropdownItem
-                                      onClick={e => copyMsg(e.target)}
-                                      href="#"
-                                    >
-                                      Copy
-                                    </DropdownItem>
-                                  </DropdownMenu>
-                                </UncontrolledDropdown>
-                                <div className="ctext-wrap">
-                                  <div className="conversation-name">
-                                    {userMsg.to_id === 1
-                                      ? message.sender
-                                      : "You"}
-                                  </div>
-                                  <p>{userMsg.msg}</p>
-                                  {userMsg.images && (
+                                    Copy
+                                  </DropdownItem>
+                                </DropdownMenu>
+                              </UncontrolledDropdown>
+                              <div className="ctext-wrap">
+                                <div className="conversation-name">
+                                  {ticket.sender_id === user.id
+                                    ? "You"
+                                    : findPerson(
+                                        ticket.sender_id,
+                                        ticket.sender_type
+                                      )}
+                                </div>
+                                <p
+                                  dangerouslySetInnerHTML={{
+                                    __html: ticket.content,
+                                  }}
+                                ></p>
+                                {/* {userMsg.images && (
                                     <img
                                       src={userMsg.images}
                                       alt=""
                                       width="150px"
                                     />
-                                  )}
-                                  {userMsg.time !== 0 && (
-                                    <p className="chat-time mb-0">
-                                      <i className="bx bx-time-five align-middle me-1"></i>
-                                      {userMsg.time}
-                                    </p>
-                                  )}
-                                </div>
+                                  )} */}
+                                {ticket.send_date !== 0 && (
+                                  <p className="chat-time mb-0">
+                                    <i className="bx bx-time-five align-middle me-1"></i>
+                                    {ticket.send_date}
+                                  </p>
+                                )}
                               </div>
-                            </li>
-                          )
-                        })
+                            </div>
+                          </li>
+                        )
                       })}
                   </ul>
                 )}

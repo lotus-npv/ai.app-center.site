@@ -316,7 +316,7 @@ const TicketInbox = props => {
       }
       dispatch(setTicketDetail(newTicketDetail));
 
-      const count = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id && td.sender_id != user.id);
+      // const count = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id && td.sender_id != user.id);
       if(ticketRowData.sender_id != user.id) {
         if(ticketRowData.ticket_status == 'new') {
           const { receiver_name, sender_name, ...oldTicket } = ticketRowData;
@@ -328,8 +328,9 @@ const TicketInbox = props => {
           dispatch(updateTicket(ticket));
         }
       }
-      setIsReponse(false);
-      setmodal(!modal);
+      setContent('');
+      // setIsReponse(false);
+      // setmodal(!modal);
     } else {
       toast.warning("Please enter complete information !", { autoClose: 2000 })
     }
