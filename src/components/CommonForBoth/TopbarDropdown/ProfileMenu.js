@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from 'prop-types';
 import {
   Dropdown,
@@ -13,6 +13,7 @@ import { withTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import withRouter from "components/Common/withRouter";
+import DataContext from "data/DataContext";
 
 // users
 import user1 from "../../../assets/images/users/avatar-1.jpg";
@@ -20,6 +21,7 @@ import user1 from "../../../assets/images/users/avatar-1.jpg";
 const ProfileMenu = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
+  const {user, setUser} = useContext(DataContext);
 
   const [username, setusername] = useState("Admin");
 
@@ -34,7 +36,8 @@ const ProfileMenu = props => {
       ) {
         const obj = JSON.parse(localStorage.getItem("authUser"));
         setusername(obj[0].person_name);
-        // console.log(obj)
+        setUser(obj[0]);
+        console.log('profile:',obj)
       }
     }
   }, [props.success]);

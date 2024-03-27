@@ -133,7 +133,7 @@ const TicketInbox = props => {
     if (ticketData) {
       const arr = types.map((type, index) => {
         if (type === "Inbox") {
-          return ticketData.length
+          return ticketData.filter(ticket => ticket.receiver_id == user.id && ticket.receiver_type == user.user_type).length
         } else if(type === "Outbox") {
           return ticketData.length
         }
@@ -146,8 +146,8 @@ const TicketInbox = props => {
     }
   }, [ticketData, activeTab])
 
-  // console.log(counters)
-  console.log(user)
+  console.log(ticketData)
+  // console.log(user)
 
   return (
     <React.Fragment>

@@ -11,6 +11,7 @@ import Login from "../pages/Authentication/Login";
 import Logout from "../pages/Authentication/Logout";
 import Register from "../pages/Authentication/Register";
 import ForgetPwd from "../pages/Authentication/ForgetPassword";
+import License from "pages/Authentication/License";
 
 //  // Inner Authentication
 import Login1 from "../pages/AuthenticationInner/Login";
@@ -216,6 +217,7 @@ const publicRoutes = [
   { path: "/logout", component: <Logout /> },
   { path: "/forgot-password", component: <ForgetPwd /> },
   { path: "/register", component: <Register /> },
+  { path: "/license", component: <License /> },
 
   { path: "/pages-maintenance", component: <PagesMaintenance /> },
   { path: "/pages-comingsoon", component: <PagesComingsoon /> },

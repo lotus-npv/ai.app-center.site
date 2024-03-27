@@ -81,7 +81,7 @@ const Login = props => {
                   <Col className="col-7">
                       <div className="text-primary p-4">
                         <h5 className="text-primary">Welcome Back !</h5>
-                        <p>Sign in to continue to Skote.</p>
+                        <p>Sign in to continue to Dashboard.</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -176,52 +176,19 @@ const Login = props => {
                       </div>
 
                       <div className="mt-4 text-center">
-                        <h5 className="font-size-14 mb-3">Sign in with</h5>
+                        <h5 className="font-size-14 mb-3">Login or enter license key if you have not account</h5>
 
                         <ul className="list-inline">
                           <li className="list-inline-item">
                           <Link
-                              to="#"
+                              to={{pathname: "/license"}}
                               className="social-list-item bg-primary text-white border-primary"
-                              onClick={e => {
-                                e.preventDefault();
-                                socialResponse("facebook");
-                              }}
+                              // onClick={e => {
+                              //   e.preventDefault();
+                              //   socialResponse("facebook");
+                              // }}
                             >
-                              <i className="mdi mdi-facebook" />
-                            </Link>
-                          </li>
-                          {/*<li className="list-inline-item">*/}
-                          {/*  <TwitterLogin*/}
-                          {/*    loginUrl={*/}
-                          {/*      "http://localhost:4000/api/v1/auth/twitter"*/}
-                          {/*    }*/}
-                          {/*    onSuccess={this.twitterResponse}*/}
-                          {/*    onFailure={this.onFailure}*/}
-                          {/*    requestTokenUrl={*/}
-                          {/*      "http://localhost:4000/api/v1/auth/twitter/revers"*/}
-                          {/*    }*/}
-                          {/*    showIcon={false}*/}
-                          {/*    tag={"div"}*/}
-                          {/*  >*/}
-                          {/*    <a*/}
-                          {/*      href=""*/}
-                          {/*      className="social-list-item bg-info text-white border-info"*/}
-                          {/*    >*/}
-                          {/*      <i className="mdi mdi-twitter"/>*/}
-                          {/*    </a>*/}
-                          {/*  </TwitterLogin>*/}
-                          {/*</li>*/}
-                          <li className="list-inline-item">
-                          <Link
-                              to="#"
-                              className="social-list-item bg-danger text-white border-danger"
-                              onClick={e => {
-                                e.preventDefault();
-                                socialResponse("google");
-                              }}
-                            >
-                              <i className="mdi mdi-google" />
+                              <i className="pi pi-key" />
                             </Link>
                           </li>
                         </ul>
@@ -238,16 +205,16 @@ const Login = props => {
                 </CardBody>
               </Card>
               <div className="mt-5 text-center">
-                <p>
+                {/* <p>
                   Don&#39;t have an account ?{" "}
                   <Link to="/register" className="fw-medium text-primary">
                     {" "}
                     Signup now{" "}
                   </Link>{" "}
-                </p>
+                </p> */}
                 <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()} Lotus Ocean with{" "}
+                  <i className="mdi mdi-heart text-danger" /> by Itomo
                 </p>
               </div>
             </Col>

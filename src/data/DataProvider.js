@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from "react"
 import DataContext from "./DataContext"
-import { dataViolate } from "common/data/violate"
-import { useAsyncDebounce } from "react-table"
 
-const DataProvider = ({ children }) => {
+
+const DataProvider = ({ children}) => {
   // get user info
   const [user, setUser] = useState(null)
-  useEffect(() => {
-    const userData = localStorage.getItem("authUser")
-    if (userData) {
-      const obj = JSON.parse(userData)
-      setUser(obj[0])
-      console.log('user', user)
-    }
-  }, [])
-  // Violate
-  const [violateDatas, setViolateDatas] = useState(dataViolate)
 
   const updateViolateDatas = newData => {
     setViolateDatas(newData)
@@ -104,20 +93,6 @@ const DataProvider = ({ children }) => {
     setAddressDataIntern(newData)
   }
 
-  // //Status
-  // const [statusData, setStatusData] = useState(dataStatus)
-
-  // const updateStatusData = newData => {
-  //     setStatusData(newData);
-  // };
-
-  // // Career
-  // const [careerData, setCareerData] = useState(dataCareer)
-
-  // const updateCareerData = newData => {
-  //     setCareerData(newData);
-  // };
-
   // get screen
   const screenAvailHeight = window.innerHeight
   const [vh, setVh] = useState(null)
@@ -204,8 +179,6 @@ const DataProvider = ({ children }) => {
   return (
     <DataContext.Provider
       value={{
-        violateDatas,
-        updateViolateDatas,
         addressFactory,
         addressDataFactory,
         updateAddressDataFactory,
@@ -215,8 +188,6 @@ const DataProvider = ({ children }) => {
         addressIntern,
         addressDataIntern,
         updateAddressDataIntern,
-        // statusData, updateStatusData,
-        // careerData, updateCareerData,
         vh,
         modal_standard,
         setmodal_standard,
@@ -251,7 +222,7 @@ const DataProvider = ({ children }) => {
         setmodal,
         ticketRowData,
         setTicketRowData,
-        user
+        user, setUser
       }}
     >
       {children}
