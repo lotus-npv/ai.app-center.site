@@ -224,6 +224,13 @@ const TableDatas = ({ dataTable }) => {
           headerStyle={{ width: "3rem" }}
         ></Column> */}
         <Column
+          field="id"
+          header="ID"
+          filterField="id"
+          sortable
+          style={{ minWidth: "4rem" }}
+        ></Column>
+        <Column
           field="send_date"
           header="Send Date"
           filterField="send_date"

@@ -21,9 +21,6 @@ import TableDatas from "./TableDatas"
 import classnames from "classnames"
 import Select from "react-select"
 import { Link } from "react-router-dom"
-// Import Editor
-import { Editor } from "react-draft-wysiwyg"
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 //Import Email Topbar
 import EmailToolbar from "./email-toolbar"
 //redux
@@ -32,6 +29,7 @@ import moment from "moment"
 import { CKEditor } from "@ckeditor/ckeditor5-react"
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic"
 import DataContext from "data/DataContext"
+import { Editor } from "primereact/editor";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -229,7 +227,7 @@ const TicketInbox = props => {
   const [userType, setUserType] = useState()
   const [selectOption, setSelectOption] = useState()
   const [title, setTitle] = useState()
-  const [content, setContent] = useState()
+  const [content, setContent] = useState('')
 
   // loc ra cac type khac voi user
   useEffect(() => {
@@ -318,13 +316,18 @@ const TicketInbox = props => {
       }
       dispatch(setTicketDetail(newTicketDetail));
 
-      const { receiver_name, sender_name, ...oldTicket } = ticketRowData;
-      const ticket = {
-        ...oldTicket,
-        ticket_status: "processing",
-        update_at: time,
+      const count = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id && td.sender_id != user.id);
+      if(ticketRowData.sender_id != user.id) {
+        if(ticketRowData.ticket_status == 'new') {
+          const { receiver_name, sender_name, ...oldTicket } = ticketRowData;
+          const ticket = {
+            ...oldTicket,
+            ticket_status: "processing",
+            update_at: time,
+          }
+          dispatch(updateTicket(ticket));
+        }
       }
-      dispatch(updateTicket(ticket));
       setIsReponse(false);
       setmodal(!modal);
     } else {
@@ -352,7 +355,7 @@ const TicketInbox = props => {
   //-------------------------------------------------------------------------------
 
   // console.log('ticketData', ticketData)
-  // console.log('outbox', isOutbox)
+  // console.log('content', content)
 
   return (
     <React.Fragment>
@@ -570,19 +573,7 @@ const TicketInbox = props => {
                               className="form-control"
                             />
                           </div>
-
-                          <CKEditor
-                            editor={ClassicEditor}
-                            data={content}
-                            onReady={editor => {
-                              // You can store the "editor" and use when it is needed.
-                              // console.log("Editor is ready to use!", editor)
-                            }}
-                            onChange={(event, editor) => {
-                              const data = editor.getData()
-                              setContent(data)
-                            }}
-                          />
+                          <Editor value={content} onTextChange={(e) => setContent(e.htmlValue)} style={{ height: '320px' }} />
                         </div>
                       </CardBody>
                     </Card>
@@ -612,25 +603,18 @@ const TicketInbox = props => {
                       </div>
                       <Card>
                         <CardBody className="bg-light">
-                          <ChatBox />
+
+                          <ChatBox 
+                            ticketDetailData={ticketDetailData}
+                          />
+
                         </CardBody>
                       </Card>
                     </>
                   )}
 
                   {isReponse && (
-                    <CKEditor
-                      editor={ClassicEditor}
-                      data={content}
-                      onReady={editor => {
-                        // You can store the "editor" and use when it is needed.
-                        // console.log("Editor is ready to use!", editor)
-                      }}
-                      onChange={(event, editor) => {
-                        const data = editor.getData()
-                        setContent(data)
-                      }}
-                    />
+                    <Editor value={content} onTextChange={(e) => setContent(e.htmlValue)} style={{ height: '320px' }} />
                   )}
                 </form>
               </ModalBody>

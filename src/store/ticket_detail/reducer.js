@@ -24,15 +24,22 @@ import {
   
   const TicketDetail = (state = INIT_STATE, action) => {
     switch (action.type) {
+      case GET_TICKETDETAIL_ALL:
+        return {
+          ...state,
+          loading: true
+        };
       case GET_TICKETDETAIL_ALL_SUCCESS:
         return {
           ...state,
+          loading: false,
           datas: action.payload,
         };
   
       case GET_TICKETDETAIL_ALL_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case GET_TICKETDETAIL_ID_SUCCESS:

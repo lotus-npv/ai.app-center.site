@@ -44,8 +44,9 @@ import DataContext from "data/DataContext"
 
 import Spinners from "components/Common/Spinner"
 
-const ChatBox = () => {
-    const {isReponse, setIsReponse} = useContext(DataContext)
+const ChatBox = ({ticketDetailData}) => {
+  const { isReponse, setIsReponse, ticketRowData, setTicketRowData } =
+    useContext(DataContext)
 
   const [isLoading, setLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
@@ -53,6 +54,19 @@ const ChatBox = () => {
   const [emoji, setEmoji] = useState(false)
   const [curMessage, setcurMessage] = useState("")
   const [isdisable, setDisable] = useState(false)
+
+  // tim ticketdetail phan hoi den ticket duoc chon
+  const [ticketDetails, setTicketDetails] = useState([])
+  useEffect(() => {
+    if(ticketDetailData && ticketRowData) {
+      const tds = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id);
+      // console.log('ticketDetailData', ticketDetailData)
+      console.log(tds)
+      setTicketDetails(tds);
+
+    }
+  }, [ticketRowData])
+
 
   // scroll simple bar
   const scroollRef = useRef(null)
@@ -135,7 +149,10 @@ const ChatBox = () => {
         <Card>
           <div>
             <div className="chat-conversation p-3">
-              <SimpleBar ref={scroollRef} style={{ height: isReponse ? "320px" : "450px" }}>
+              <SimpleBar
+                ref={scroollRef}
+                style={{ height: isReponse ? "320px" : "450px" }}
+              >
                 {isLoading ? (
                   <Spinners setLoading={setLoading} />
                 ) : (
@@ -239,4 +256,4 @@ const ChatBox = () => {
   )
 }
 
-export default ChatBox;
+export default ChatBox
