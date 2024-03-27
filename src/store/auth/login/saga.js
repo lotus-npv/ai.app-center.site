@@ -36,8 +36,11 @@ function* loginUser({ payload: { user, history } }) {
         email: user.email,
         password: user.password,
       });
-      localStorage.setItem("authUser", JSON.stringify(response[0]));
-      yield put(loginSuccess(response));
+      const user = response[0];
+      user.password_hash = '';
+      console.log(user)
+      localStorage.setItem("authUser", JSON.stringify(user));
+      yield put(loginSuccess(user));
     }
     history('/dashboard');
   } catch (error) {
