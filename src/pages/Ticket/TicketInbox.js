@@ -49,7 +49,7 @@ const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
 
-  const { isReponse, setIsReponse, modal, setmodal, ticketRowData, setTicketRowData } = useContext(DataContext)
+  const { isReponse, setIsReponse, modal, setmodal, ticketRowData, setTicketRowData, user } = useContext(DataContext)
 
   const dispatch = useDispatch()
   const {
@@ -147,7 +147,7 @@ const TicketInbox = props => {
   }, [ticketData, activeTab])
 
   // console.log(counters)
-  console.log(ticketData)
+  console.log(user)
 
   return (
     <React.Fragment>

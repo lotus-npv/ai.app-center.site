@@ -251,6 +251,7 @@ const DataProvider = ({ children }) => {
         setmodal,
         ticketRowData,
         setTicketRowData,
+        user
       }}
     >
       {children}
