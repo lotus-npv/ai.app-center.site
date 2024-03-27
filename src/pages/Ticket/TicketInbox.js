@@ -15,7 +15,7 @@ import {
   NavLink,
   CardBody,
   Label,
-  Badge,
+  Badge
 } from "reactstrap"
 import TableDatas from "./TableDatas"
 import classnames from "classnames"
@@ -63,8 +63,7 @@ const TicketInbox = props => {
     isEditTicket,
     setIsEditTicket,
     UserTypeList,
-    isInbox,
-    setIsInbox,
+    isInbox, setIsInbox
   } = useContext(DataContext)
 
   const dispatch = useDispatch()
@@ -119,8 +118,15 @@ const TicketInbox = props => {
   const [activeTab, setactiveTab] = useState(0)
   // const [modal, setmodal] = useState(false)
 
+
+
+
+  //------------------------------------------------------------------
+
+
+
   // -----------------------------------------------------------------
-  const getListInternStatus = index => {
+  const getListTicketStatus = index => {
     if (user) {
       if (index == 0) {
         const newArr = ticketData
@@ -168,7 +174,7 @@ const TicketInbox = props => {
   }
 
   useEffect(() => {
-    getListInternStatus(activeTab)
+    getListTicketStatus(activeTab)
   }, [activeTab, ticketData])
 
   useEffect(() => {
@@ -201,19 +207,31 @@ const TicketInbox = props => {
   // -----------------------------------------------------------------
 
   // show list data
-  const [userType, setUserType] = useState(UserTypeList[0])
+  const [typeOptios, setTypeOptions] = useState([])
   const [dataOptions, setDataOptions] = useState([])
+  
+  const [userType, setUserType] = useState()
   const [selectOption, setSelectOption] = useState()
 
   useEffect(() => {
-    if (userType.value === "intern") {
-      setDataOptions(internData)
-    } else if (userType.value === "syndication") {
-      setDataOptions(syndicationData)
-    } else if (userType.value === "dispatching_company") {
-      setDataOptions(companyData)
-    } else if (userType.value === "receiving_factory") {
-      setDataOptions(factoryData)
+    if(user) {
+      setTypeOptions(UserTypeList.filter(type => type.value != user.user_type))
+    }
+  },[modal])
+
+  useEffect(() => {
+    if(userType) {
+      if (userType.value === "intern") {
+        const arr = internData.filter(intern => intern.key_license_id == user.key_license_id);
+        setDataOptions(arr);
+        console.log(arr)
+      } else if (userType.value === "syndication") {
+        setDataOptions(syndicationData)
+      } else if (userType.value === "dispatching_company") {
+        setDataOptions(companyData)
+      } else if (userType.value === "receiving_factory") {
+        setDataOptions(factoryData)
+      }
     }
   }, [userType])
 
@@ -250,23 +268,18 @@ const TicketInbox = props => {
                 </Button>
                 <div className="mail-list mt-4">
                   <Nav tabs className="nav-tabs-custom" vertical role="tablist">
-                    <NavItem>
-                      <NavLink
+                    <NavItem >
+                    <NavLink
                         className={classnames({
                           active: activeTab === 0,
                         })}
                         onClick={() => {
                           setactiveTab(0)
+                          
                         }}
                       >
-                        <div className="d-flex justify-content-between">
-                          <p className="mb-0"><i className="mdi mdi-email-outline me-2"></i> Inbox</p>
-                          <Badge pill color="primary" className="ms-2">
-                            {counters[0]}
-                          </Badge>
-                        </div>
-
-                        {/* <span className="ml-1 float-end">({counters[0]})</span> */}
+                        <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
+                        <span className="ml-1 float-end fw-bold">({counters[0]})</span>
                       </NavLink>
                     </NavItem>
 
@@ -277,6 +290,7 @@ const TicketInbox = props => {
                         })}
                         onClick={() => {
                           setactiveTab(4)
+                          
                         }}
                       >
                         <i className="mdi mdi-email-outline me-2"></i> Outbox{" "}
@@ -390,7 +404,7 @@ const TicketInbox = props => {
                                 setUserType(item)
                                 setSelectOption("")
                               }}
-                              options={UserTypeList}
+                              options={typeOptios}
                               className="form-control"
                             />
                           </div>

@@ -1,71 +1,84 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from "prop-types"
+import React, { useEffect } from "react"
 
-import { Row, Col, CardBody, Card, Alert, Container, Form, Input, FormFeedback, Label } from "reactstrap";
+import {
+  Row,
+  Col,
+  CardBody,
+  Card,
+  Alert,
+  Container,
+  Form,
+  Input,
+  FormFeedback,
+  Label,
+} from "reactstrap"
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
-import { createSelector } from "reselect";
-import { Link } from "react-router-dom";
-import withRouter from "components/Common/withRouter";
+import { useSelector, useDispatch , shallowEqual} from "react-redux"
+import { createSelector } from "reselect"
+import { Link } from "react-router-dom"
+import withRouter from "components/Common/withRouter"
 
 // Formik validation
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import * as Yup from "yup"
+import { useFormik } from "formik"
 
 // actions
-import { loginUser, socialLogin, getUsersLogin } from "../../store/actions";
+import { loginUser, socialLogin, getUsersLogin } from "../../store/actions"
 
 // import images
-import profile from "assets/images/profile-img.png";
-import logo from "assets/images/logo.svg";
+import profile from "assets/images/profile-img.png"
+import logo from "assets/images/logo.svg"
 
 const Login = props => {
-
   //meta title
-  document.title = "Login ";
+  document.title = "Login "
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const validation = useFormik({
     // enableReinitialize : use this  flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      email: "admin@themesbrand.com" || '',
-      password: "123456" || '',
+      email: "admin@themesbrand.com" || "",
+      password: "123456" || "",
     },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
-    onSubmit: (values) => {
-      dispatch(getUsersLogin(values, props.router.navigate));
-    }
-  });
+    onSubmit: values => {
+      dispatch(getUsersLogin(values, props.router.navigate))
+    },
+  })
 
+  // const selectLoginState = (state) => state.Users;
+  //   const LoginProperties = createSelector(
+  //     selectLoginState,
+  //       (login) => ({
+  //         error: login.error
+  //       })
+  //   );
 
-  const selectLoginState = (state) => state.Users;
-    const LoginProperties = createSelector(
-      selectLoginState,
-        (login) => ({
-          error: login.error          
-        })
-    );
+  //   const {
+  //     error
+  // } = useSelector(LoginProperties);
+  const { userData , error} = useSelector(state => ({
+    userData: state.Users.user,
+    error: state.Users.error,
+  }), shallowEqual)
 
-    const {
-      error
-  } = useSelector(LoginProperties);
-
-    const signIn = type => {
-        dispatch(socialLogin(type, props.router.navigate));
-    };
+  const signIn = type => {
+    dispatch(socialLogin(type, props.router.navigate))
+  }
 
   //for facebook and google authentication
   const socialResponse = type => {
-    signIn(type);
-  };
-
+    signIn(type)
+  }
+  console.log(userData)
   //handleTwitterLoginResponse
   // const twitterResponse = e => {}
 
@@ -78,7 +91,7 @@ const Login = props => {
               <Card className="overflow-hidden">
                 <div className="bg-primary-subtle">
                   <Row>
-                  <Col className="col-7">
+                    <Col className="col-7">
                       <div className="text-primary p-4">
                         <h5 className="text-primary">Welcome Back !</h5>
                         <p>Sign in to continue to Dashboard.</p>
@@ -94,7 +107,7 @@ const Login = props => {
                     <Link to="/" className="logo-light-element">
                       <div className="avatar-md profile-user-wid mb-4">
                         <span className="avatar-title rounded-circle bg-light">
-                        <img
+                          <img
                             src={logo}
                             alt=""
                             className="rounded-circle"
@@ -107,13 +120,13 @@ const Login = props => {
                   <div className="p-2">
                     <Form
                       className="form-horizontal"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        validation.handleSubmit();
-                        return false;
+                      onSubmit={e => {
+                        e.preventDefault()
+                        validation.handleSubmit()
+                        return false
                       }}
                     >
-                      {error ? <Alert color="danger">{error}</Alert> : null}
+                      {userData ? <Alert color="danger">Thong tin dang nhap chua dung</Alert> : null}
 
                       <div className="mb-3">
                         <Label className="form-label">Email</Label>
@@ -126,11 +139,15 @@ const Login = props => {
                           onBlur={validation.handleBlur}
                           value={validation.values.email || ""}
                           invalid={
-                            validation.touched.email && validation.errors.email ? true : false
+                            validation.touched.email && validation.errors.email
+                              ? true
+                              : false
                           }
                         />
                         {validation.touched.email && validation.errors.email ? (
-                          <FormFeedback type="invalid">{validation.errors.email}</FormFeedback>
+                          <FormFeedback type="invalid">
+                            {validation.errors.email}
+                          </FormFeedback>
                         ) : null}
                       </div>
 
@@ -144,11 +161,17 @@ const Login = props => {
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
                           invalid={
-                            validation.touched.password && validation.errors.password ? true : false
+                            validation.touched.password &&
+                            validation.errors.password
+                              ? true
+                              : false
                           }
                         />
-                        {validation.touched.password && validation.errors.password ? (
-                          <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                        {validation.touched.password &&
+                        validation.errors.password ? (
+                          <FormFeedback type="invalid">
+                            {validation.errors.password}
+                          </FormFeedback>
                         ) : null}
                       </div>
 
@@ -176,12 +199,14 @@ const Login = props => {
                       </div>
 
                       <div className="mt-4 text-center">
-                        <h5 className="font-size-14 mb-3">Login or enter license key if you have not account</h5>
+                        <h5 className="font-size-14 mb-3">
+                          Login or enter license key if you have not account
+                        </h5>
 
                         <ul className="list-inline">
                           <li className="list-inline-item">
-                          <Link
-                              to={{pathname: "/license"}}
+                            <Link
+                              to={{ pathname: "/license" }}
                               className="social-list-item bg-primary text-white border-primary"
                               // onClick={e => {
                               //   e.preventDefault();
@@ -222,11 +247,11 @@ const Login = props => {
         </Container>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default withRouter(Login);
+export default withRouter(Login)
 
 Login.propTypes = {
   history: PropTypes.object,
-};
+}

@@ -23,7 +23,8 @@ import {
     dataId: [],
     data: {},
     loading: false,
-    user: null
+    user: null,
+    error: ""
   };
   
   const Users = (state = INIT_STATE, action) => {
@@ -54,8 +55,9 @@ import {
       case GET_USERS_LOGIN_SUCCESS:
         return {
           ...state,
+          loading: false,
           user: action.payload,
-          loading: false
+          isUserLogout: false,
         };
   
       case GET_USERS_LOGIN_FAIL:

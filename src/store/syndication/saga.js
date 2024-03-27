@@ -23,7 +23,7 @@ function* fetSyndicationData() {
   try {
     const response = yield call(getSyndicationDataAll);
     yield put(getSyndicationAllSuccess(response));
-    console.log('saga syndication:', response)
+    // console.log('saga syndication:', response)
   } catch (error) {
     yield put(getSyndicationAllFail(error))
   }
