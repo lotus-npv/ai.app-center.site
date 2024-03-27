@@ -170,21 +170,11 @@ const authProtectedRoutes = [
   { path: "/ui-utilities", component: <UiUtilitie /> },
   { path: "/ui-placeholders", component: <UiPlaceholders /> },
   { path: "/ui-toasts", component: <UiToasts /> },
-
   //Utility
   { path: "/pages-starter", component: <PagesStarter /> },
   { path: "/pages-timeline", component: <PagesTimeline /> },
   { path: "/pages-faqs", component: <PagesFaqs /> },
   { path: "/pages-pricing", component: <PagesPricing /> },
-
-  // this route should be at the end of all other routes
-  // eslint-disable-next-line react/display-name
-  {
-    path: "/",
-    exact: true,
-    component: <Navigate to="/dashboard" />,
-  },
-
   //Setting 
   {path: "/pages-status", component: <StatusPage />},
 
@@ -197,19 +187,23 @@ const authProtectedRoutes = [
   // Receiving Factory
   {path: "/receiving-factory", component: <ReceivingFactoryPage />},
   {path: "/input-receiving-factory", component: <InputReceivingFactory />},
-
   // Intern 
   {path: "/intern", component: <InternPage />},
-
   // Violate
   {path: "/violate", component: <ViolateListPage />},
-
   // Ticket
   {path: "/ticket", component: <TicketPage />},
-
-
   // Contacts
   {path: "/contacts", component: <Contacts />},
+
+
+  // this route should be at the end of all other routes
+  // eslint-disable-next-line react/display-name
+  {
+    path: "/",
+    exact: true,
+    component: <Navigate to="/dashboard" />,
+  },
 ];
 
 const publicRoutes = [
