@@ -42,7 +42,7 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email: "admin@themesbrand.com" || "",
+      email: "admin@itomo.vn" || "",
       password: "123456" || "",
     },
     validationSchema: Yup.object({
@@ -54,21 +54,21 @@ const Login = props => {
     },
   })
 
-  // const selectLoginState = (state) => state.Users;
-  //   const LoginProperties = createSelector(
-  //     selectLoginState,
-  //       (login) => ({
-  //         error: login.error
-  //       })
-  //   );
+  const selectLoginState = (state) => state.Users;
+    const LoginProperties = createSelector(
+      selectLoginState,
+        (login) => ({
+          error: login.error
+        })
+    );
 
-  //   const {
-  //     error
-  // } = useSelector(LoginProperties);
-  const { userData , error} = useSelector(state => ({
-    userData: state.Users.user,
-    error: state.Users.error,
-  }), shallowEqual)
+    const {
+      error
+  } = useSelector(LoginProperties);
+  // const { userData , error} = useSelector(state => ({
+  //   userData: state.Users.user,
+  //   error: state.Users.error,
+  // }), shallowEqual)
 
   const signIn = type => {
     dispatch(socialLogin(type, props.router.navigate))
@@ -78,7 +78,7 @@ const Login = props => {
   const socialResponse = type => {
     signIn(type)
   }
-  console.log(userData)
+  // console.log(userData)
   //handleTwitterLoginResponse
   // const twitterResponse = e => {}
 

@@ -108,12 +108,12 @@ const TicketInbox = props => {
   useEffect(() => {
     dispatch(getTicketAll())
     dispatch(getTicketDetailAll())
-    dispatch(getDispatchingCompanyAll())
-    dispatch(getReceivingFactoryAll())
-    dispatch(getSyndicationAll())
-    dispatch(getInternAllInfo())
+    dispatch(getUsersAll())
+    // dispatch(getDispatchingCompanyAll())
+    // dispatch(getReceivingFactoryAll())
+    // dispatch(getSyndicationAll())
+    // dispatch(getInternAllInfo())
     // dispatch(getTicketAllInfo());
-    // dispatch(getUsersAll())
   }, [dispatch])
 
   // get lai data sau moi 10s
@@ -240,8 +240,8 @@ const TicketInbox = props => {
   useEffect(() => {
     if (userType) {
       if (userType.value === "intern") {
-        const arr = internData.filter(
-          intern => intern.key_license_id == user.key_license_id
+        const arr = usersData.filter(
+          u => u.key_license_id == user.key_license_id
         )
         setDataOptions(arr)
         console.log(arr)
@@ -272,9 +272,9 @@ const TicketInbox = props => {
         send_date: moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss"),
         title: title,
         content: content,
-        sender_type: user.user_type,
+        // sender_type: user.user_type,
         sender_id: user.id,
-        receiver_type: userType.value,
+        // receiver_type: userType.value,
         receiver_id: selectOption.id,
         priority: "Low",
         ticket_status: "new",

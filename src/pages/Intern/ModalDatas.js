@@ -125,7 +125,8 @@ const ModalDatas = ({
     addressDataIntern,
     updateAddressDataIntern,
     isRefresh,
-    updateRefresh
+    updateRefresh,
+    user,
   } = useContext(DataContext)
 
   // Radio button
@@ -368,8 +369,8 @@ const ModalDatas = ({
         // neu a > b => 0 - b : se UPDATE , b -> a : se DELETE
         // neu a = b => thi tat ca deu la UPDATE
         // neu a < b => a : se UPDATE , b-a : se SET
-        console.log("numStatusDetail.length", numStatusDetail.length)
-        console.log("selectedMultiStatus.length", selectedMultiStatus.length)
+        // console.log("numStatusDetail.length", numStatusDetail.length)
+        // console.log("selectedMultiStatus.length", selectedMultiStatus.length)
 
         if (numStatusDetail.length > 0) {
           if (numStatusDetail.length > selectedMultiStatus.length) {
@@ -672,17 +673,16 @@ const ModalDatas = ({
   //---------------------------------------------------------------------------------------
 
   function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
-async function  tog_resresh() {
-  console.log('11111')
-    updateRefresh(!isRefresh);
-    await delay(2000);
-    console.log('22222')
-    updateRefresh(isRefresh);
-}
-
+  async function tog_resresh() {
+    console.log("11111")
+    updateRefresh(!isRefresh)
+    await delay(2000)
+    console.log("22222")
+    updateRefresh(isRefresh)
+  }
 
   // if (isRefresh === false) {
   //   updateRefresh(true)
@@ -690,12 +690,12 @@ async function  tog_resresh() {
 
   // console.log('formik:', formik.values)
   // console.log('alienCardData:', alienCardData)
-  // console.log('item:', item)
+  console.log('user:', user)
   // console.log('isEditIntern:', isEditIntern)
   // console.log('loadingIntern:', loadingIntern)
   // console.log("selectedMultiStatus:", selectedMultiStatus)
   // console.log("selectedFile:", selectedFile)
-  console.log("isRefresh:", isRefresh)
+  // console.log("isRefresh:", isRefresh)
 
   return (
     <>
@@ -1188,30 +1188,61 @@ async function  tog_resresh() {
                                     />
                                   </div>
                                 </Col>
-                                <Col lg={6} className="gx-1">
-                                  <div className="mb-3">
-                                    <Label className="form-label fw-bold">
-                                      {t("Receiving Company")}
-                                    </Label>
-                                    <Select
-                                      name="receiving_factory_id"
-                                      placeholder={t("Receiving Company")}
-                                      value={factoryData.find(
-                                        option =>
-                                          option.value ===
-                                          formik.values.receiving_factory_id
-                                      )}
-                                      onChange={item => {
-                                        formik.setFieldValue(
-                                          "receiving_factory_id",
-                                          item == null ? null : item.value
-                                        )
-                                      }}
-                                      options={factoryData}
-                                      // isClearable
-                                    />
-                                  </div>
-                                </Col>
+
+                                {user && user.object_type == "receiving_factory" && (
+                                  <Col lg={6} className="gx-1">
+                                    <div className="mb-3">
+                                      <Label className="form-label fw-bold">
+                                        {t("Syndication")}
+                                      </Label>
+                                      <Select
+                                        name="syndication_id"
+                                        placeholder={t("Syndication")}
+                                        value={factoryData.find(
+                                          option =>
+                                            option.value ===
+                                            formik.values.receiving_factory_id
+                                        )}
+                                        onChange={item => {
+                                          formik.setFieldValue(
+                                            "receiving_factory_id",
+                                            item == null ? null : item.value
+                                          )
+                                        }}
+                                        options={factoryData}
+                                        // isClearable
+                                      />
+                                    </div>
+                                  </Col>
+                                )}
+
+                                {user &&
+                                  user.object_type == "syndication" && (
+                                    <Col lg={6} className="gx-1">
+                                      <div className="mb-3">
+                                        <Label className="form-label fw-bold">
+                                          {t("Receiving Company")}
+                                        </Label>
+                                        <Select
+                                          name="receiving_factory_id"
+                                          placeholder={t("Receiving Company")}
+                                          value={factoryData.find(
+                                            option =>
+                                              option.value ===
+                                              formik.values.receiving_factory_id
+                                          )}
+                                          onChange={item => {
+                                            formik.setFieldValue(
+                                              "receiving_factory_id",
+                                              item == null ? null : item.value
+                                            )
+                                          }}
+                                          options={factoryData}
+                                          // isClearable
+                                        />
+                                      </div>
+                                    </Col>
+                                  )}
                               </Row>
                               <Row>
                                 <Col lg={6} className="gx-1">
@@ -1688,14 +1719,25 @@ async function  tog_resresh() {
                     <Card>
                       <CardBody>
                         {isRefresh && <AddressDatas item={item} />}
-                        {!isRefresh && <div className="d-flex gap-3 mt-1 "><h4 className="fw-bold text-success">update data</h4> <Spinner type="grow" size="sm" className="ms-2 mt-1" color="primary" /> </div>}
+                        {!isRefresh && (
+                          <div className="d-flex gap-3 mt-1 ">
+                            <h4 className="fw-bold text-success">
+                              update data
+                            </h4>{" "}
+                            <Spinner
+                              type="grow"
+                              size="sm"
+                              className="ms-2 mt-1"
+                              color="primary"
+                            />{" "}
+                          </div>
+                        )}
                       </CardBody>
                     </Card>
                   )}
 
                   {/* </CardBody> */}
                 </Card>
-                
               </Col>
             </Row>
           </div>
