@@ -2,13 +2,15 @@ import { takeEvery, put, call, all, fork, takeLatest } from "redux-saga/effects"
 
 // Login Redux States
 import {
-  DELETE_INTERN,GET_INTERN_ALL, SET_INTERN, UPDATE_INTERN,GET_INTERN_ALLINFO, OPEN_MODAL
+  DELETE_INTERN,GET_INTERN_ALL, SET_INTERN, UPDATE_INTERN,GET_INTERN_ALLINFO, OPEN_MODAL, GET_INTERN_USERID
 } from "./actionTypes"
 import {
   getInternAllFail,
   getInternAllSuccess,
   getInternAllInfoFail,
   getInternAllInfoSuccess,
+  getInternUserIdSuccess,
+  getInternUserIdFail,
   setInternSuccess,
   setInternFail,
   updateInternSuccess,
@@ -18,7 +20,7 @@ import {
   openModal
 } from "./actions"
 
-import { getInternDataAll, addNewDataIntern, updateDataIntern, deleteDataIntern, getInternDataAllInfo } from "../../helpers/fakebackend_helper";
+import { getInternDataAll, addNewDataIntern, updateDataIntern, deleteDataIntern, getInternDataAllInfo, getInternDataUserId } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* changeTogModal(action) {
@@ -34,12 +36,25 @@ function* fetInternData() {
   }
 }
 
-function* fetInternDataAllInfo({ payload: data }) {
+function* fetInternDataAllInfo({ payload: id }) {
+  // console.log('saga intern', id)
   try {
-    const response = yield call(getInternDataAllInfo, data);
+    const response = yield call(getInternDataAllInfo, id);
     yield put(getInternAllInfoSuccess(response));
+    // console.log('saga intern', response)
   } catch (error) {
     yield put(getInternAllInfoFail(error))
+  }
+}
+
+function* fetInternDataUserId({ payload: id }) {
+  // console.log('saga intern', id)
+  try {
+    const response = yield call(getInternDataUserId, id);
+    yield put(getInternUserIdSuccess(response));
+    // console.log('saga intern', response)
+  } catch (error) {
+    yield put(getInternUserIdFail(error))
   }
 }
 
@@ -87,6 +102,7 @@ function* refreshInternData() {
 function* InternSaga() {
   yield takeLatest(GET_INTERN_ALL, fetInternData)
   yield takeLatest(GET_INTERN_ALLINFO, fetInternDataAllInfo)
+  yield takeLatest(GET_INTERN_USERID, fetInternDataUserId)
   yield takeLatest(SET_INTERN, onAddNewIntern)
   yield takeLatest(UPDATE_INTERN, onUpdateIntern)
   yield takeLatest(DELETE_INTERN, onDeleteIntern)

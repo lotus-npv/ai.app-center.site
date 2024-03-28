@@ -5,6 +5,9 @@ import {
   GET_INTERN_ALLINFO,
   GET_INTERN_ALLINFO_SUCCESS,
   GET_INTERN_ALLINFO_FAIL,
+  GET_INTERN_USERID,
+  GET_INTERN_USERID_SUCCESS,
+  GET_INTERN_USERID_FAIL,
   GET_INTERN_ID,
   GET_INTERN_ID_SUCCESS,
   GET_INTERN_ID_FAIL,
@@ -33,8 +36,10 @@ export const getInternAllFail = error => ({
   type: GET_INTERN_ALL_FAIL,
   payload: error,
 });
-export const getInternAllInfo = () => ({
+
+export const getInternAllInfo = (id) => ({
   type: GET_INTERN_ALLINFO,
+  payload: id
 });
 
 export const getInternAllInfoSuccess = data => ({
@@ -44,6 +49,21 @@ export const getInternAllInfoSuccess = data => ({
 
 export const getInternAllInfoFail = error => ({
   type: GET_INTERN_ALLINFO_FAIL,
+  payload: error,
+});
+
+export const getInternUserId = (id) => ({
+  type: GET_INTERN_USERID,
+  payload: id
+});
+
+export const getInternUserIdSuccess = data => ({
+  type: GET_INTERN_USERID_SUCCESS,
+  payload: data,
+});
+
+export const getInternUserIdFail = error => ({
+  type: GET_INTERN_USERID_FAIL,
   payload: error,
 });
 

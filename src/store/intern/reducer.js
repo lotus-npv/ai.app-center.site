@@ -5,6 +5,9 @@ import {
   GET_INTERN_ALLINFO,
   GET_INTERN_ALLINFO_SUCCESS,
   GET_INTERN_ALLINFO_FAIL,
+  GET_INTERN_USERID,
+  GET_INTERN_USERID_SUCCESS,
+  GET_INTERN_USERID_FAIL,
   GET_INTERN_ID_SUCCESS,
   GET_INTERN_ID_FAIL,
   SET_INTERN,
@@ -49,7 +52,7 @@ import {
       case GET_INTERN_ALLINFO:
         return {
           ...state,
-          loading: true
+          loading: true,
         };
       case GET_INTERN_ALLINFO_SUCCESS:
         return {
@@ -64,6 +67,26 @@ import {
           loading: false,
           error: action.payload,
         };
+
+      case GET_INTERN_USERID:
+        return {
+          ...state,
+          loading: true,
+        };
+      case GET_INTERN_USERID_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          datas: action.payload,
+        };
+  
+      case GET_INTERN_USERID_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+
       case SET_INTERN:
         return {
           ...state,

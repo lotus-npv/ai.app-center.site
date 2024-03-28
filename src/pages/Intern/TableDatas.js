@@ -45,6 +45,7 @@ import {
   getStatusOfResidenceAll,
   getViolateTypeAll,
   setStatusDetail,
+  getInternUserId,
 } from "store/actions"
 
 // The rule argument should be a string in the format "custom_[field]".
@@ -67,6 +68,7 @@ const TableDatas = props => {
     setIsEditIntern,
     rowsSelectedInternData,
     setRowSelectedInternData,
+    user,
   } = useContext(DataContext)
 
   // Global filter
@@ -110,18 +112,34 @@ const TableDatas = props => {
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getInternAllInfo())
-    dispatch(getStatusAll())
-    dispatch(getStatusDetailAll())
-    dispatch(getAlienRegistrationCardAll())
-    dispatch(getStatusOfResidenceAll())
-    dispatch(getViolateTypeAll())
+    if (user) {
+      const key_license_id = user.key_license_id
+      const user_id = user.id
+      if (user.role === "admin") {
+        dispatch(getInternAllInfo(key_license_id))
+        dispatch(getStatusAll())
+        dispatch(getStatusDetailAll())
+        dispatch(getAlienRegistrationCardAll())
+        dispatch(getStatusOfResidenceAll())
+        dispatch(getViolateTypeAll())
+      } else {
+        dispatch(getInternUserId(user_id))
+      }
+    }
   }, [dispatch])
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getInternAllInfo())
+      if (user) {
+        const key_license_id = user.key_license_id
+        const user_id = user.id
+        if (user.role === "admin") {
+          dispatch(getInternAllInfo(key_license_id))
+        } else {
+          dispatch(getInternUserId(user_id))
+        }
+      }
     }, 10000)
     // Hàm dọn dẹp khi unmount
     return () => {
@@ -129,6 +147,7 @@ const TableDatas = props => {
     }
   }, [])
 
+  console.log(internDataAllInfo)
   // quan ly trang thai du lieu table
   const [dataTable, setDataTable] = useState(internDataAllInfo)
 
