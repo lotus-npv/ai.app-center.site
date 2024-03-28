@@ -34,9 +34,9 @@ function* fetInternData() {
   }
 }
 
-function* fetInternDataAllInfo() {
+function* fetInternDataAllInfo({ payload: data }) {
   try {
-    const response = yield call(getInternDataAllInfo);
+    const response = yield call(getInternDataAllInfo, data);
     yield put(getInternAllInfoSuccess(response));
   } catch (error) {
     yield put(getInternAllInfoFail(error))

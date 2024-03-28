@@ -37,7 +37,7 @@ const ProfileMenu = props => {
         const obj = JSON.parse(localStorage.getItem("authUser"));
         setusername(obj[0].username);
         setUser(obj[0]);
-        console.log('profile:',obj)
+        // console.log('profile:',obj)
       }
     }
   }, [props.success]);

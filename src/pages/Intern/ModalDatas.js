@@ -169,12 +169,14 @@ const ModalDatas = ({
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getDispatchingCompanyAll())
-    dispatch(getReceivingFactoryAll())
-    dispatch(getStatusAll())
-    dispatch(getCareerAll())
-    dispatch(getStatusOfResidenceAll())
-    dispatch(getAlienRegistrationCardAll())
+    if(user) {
+      dispatch(getDispatchingCompanyAll())
+      dispatch(getReceivingFactoryAll())
+      dispatch(getStatusAll())
+      dispatch(getCareerAll())
+      dispatch(getStatusOfResidenceAll())
+      dispatch(getAlienRegistrationCardAll())
+    }
   }, [dispatch])
 
   // xu ly form nhap anh
@@ -229,7 +231,7 @@ const ModalDatas = ({
       avata_update_at:
         item != null
           ? moment(item.date_of_joining_syndication)
-              .utcOffset("+07:00")
+              .utcOffset("+09:00")
               .format("YYYY-MM-DD")
           : null,
       first_name_jp: item != null ? item.first_name_jp : "",
@@ -242,7 +244,7 @@ const ModalDatas = ({
       dob:
         item != null
           ? moment(item.date_of_joining_syndication)
-              .utcOffset("+07:00")
+              .utcOffset("+09:00")
               .format("YYYY-MM-DD")
           : null,
       career_id: item != null ? item.career_id : "",
@@ -250,13 +252,13 @@ const ModalDatas = ({
       passport_license_date:
         item != null
           ? moment(item.date_of_joining_syndication)
-              .utcOffset("+07:00")
+              .utcOffset("+09:00")
               .format("YYYY-MM-DD")
           : null,
       passport_expiration_date:
         item != null
           ? moment(item.date_of_joining_syndication)
-              .utcOffset("+07:00")
+              .utcOffset("+09:00")
               .format("YYYY-MM-DD")
           : null,
       alert: item != null ? item.alert : 0,
@@ -269,6 +271,7 @@ const ModalDatas = ({
       create_by: item != null ? item.create_by : 1,
       update_at: item != null ? item.update_at : "",
       update_by: item != null ? item.update_by : 1,
+      entry_date: item != null ? item.entry_date : "",
 
       nation_id: 1,
       alien_registration_card_number:
@@ -290,7 +293,7 @@ const ModalDatas = ({
             ? moment(
                 alienCardData.find(i => i.intern_id == item.id).license_date
               )
-                .utcOffset("+07:00")
+                .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
             : ""
           : "",
@@ -300,7 +303,7 @@ const ModalDatas = ({
             ? moment(
                 alienCardData.find(i => i.intern_id == item.id).expiration_date
               )
-                .utcOffset("+07:00")
+                .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
             : ""
           : "",
@@ -1244,6 +1247,51 @@ const ModalDatas = ({
                                     </Col>
                                   )}
                               </Row>
+                              <Row className="">
+                                <Col lg={6} className="gx-1">
+                                  <div className="mb-3">
+                                    <Label className="form-label fw-bold">
+                                      {t("Status")}
+                                    </Label>
+                                    <Select
+                                      placeholder={t("Status")}
+                                      value={selectedMultiStatus}
+                                      isMulti={true}
+                                      onChange={value => {
+                                        // console.log(value);
+                                        handleMulti(value)
+                                      }}
+                                      options={statusData}
+                                      className="select2-selection"
+                                      isLoading={true}
+                                    />
+                                  </div>
+                                </Col>
+                                <Col lg={6} className="gx-1">
+                                  <div className="mb-3">
+                                    <Label className="form-label fw-bold">
+                                      {t("Industry")}
+                                    </Label>
+                                    <Select
+                                      name="career_id"
+                                      placeholder={t("Industry")}
+                                      value={careerData.find(
+                                        option =>
+                                          option.value ===
+                                          formik.values.career_id
+                                      )}
+                                      onChange={item => {
+                                        formik.setFieldValue(
+                                          "career_id",
+                                          item == null ? null : item.value
+                                        )
+                                      }}
+                                      options={careerData}
+                                      // isClearable
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
                               <Row>
                                 <Col lg={6} className="gx-1">
                                   <div className="mb-3">
@@ -1310,7 +1358,7 @@ const ModalDatas = ({
                                 </Col>
                               </Row>
                               <Row>
-                                <Col lg={6} className="gx-1">
+                                <Col lg={4} className="gx-1">
                                   <div className="mb-3">
                                     <Label className="form-label fw-bold">
                                       {t("Date of Issue")}
@@ -1337,7 +1385,7 @@ const ModalDatas = ({
                                     ) : null}
                                   </div>
                                 </Col>
-                                <Col lg={6} className="gx-1">
+                                <Col lg={4} className="gx-1">
                                   <div className="mb-3">
                                     <Label className="form-label fw-bold">
                                       {t("Expiry Date")}
@@ -1367,52 +1415,38 @@ const ModalDatas = ({
                                     ) : null}
                                   </div>
                                 </Col>
-                              </Row>
-                              <Row className="mb-3">
-                                <Col lg={6} className="gx-1">
+                                <Col lg={4} className="gx-1">
                                   <div className="mb-3">
                                     <Label className="form-label fw-bold">
-                                      {t("Status")}
+                                      {t("Entry date")}
                                     </Label>
-                                    <Select
-                                      placeholder={t("Status")}
-                                      value={selectedMultiStatus}
-                                      isMulti={true}
-                                      onChange={value => {
-                                        // console.log(value);
-                                        handleMulti(value)
-                                      }}
-                                      options={statusData}
-                                      className="select2-selection"
-                                      isLoading={true}
+                                    <Input
+                                      name="entry_date"
+                                      type="date"
+                                      autoComplete="off"
+                                      placeholder={t("Entry date")}
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={
+                                        formik.values.entry_date || ""
+                                      }
+                                      invalid={
+                                        formik.touched.entry_date &&
+                                        formik.errors.entry_date
+                                          ? true
+                                          : false
+                                      }
                                     />
-                                  </div>
-                                </Col>
-                                <Col lg={6} className="gx-1">
-                                  <div className="mb-3">
-                                    <Label className="form-label fw-bold">
-                                      {t("Industry")}
-                                    </Label>
-                                    <Select
-                                      name="career_id"
-                                      placeholder={t("Industry")}
-                                      value={careerData.find(
-                                        option =>
-                                          option.value ===
-                                          formik.values.career_id
-                                      )}
-                                      onChange={item => {
-                                        formik.setFieldValue(
-                                          "career_id",
-                                          item == null ? null : item.value
-                                        )
-                                      }}
-                                      options={careerData}
-                                      // isClearable
-                                    />
+                                    {formik.touched.entry_date &&
+                                    formik.errors.entry_date ? (
+                                      <FormFeedback type="invalid">
+                                        {formik.errors.entry_date}
+                                      </FormFeedback>
+                                    ) : null}
                                   </div>
                                 </Col>
                               </Row>
+                            
                               <Row>
                                 <Col lg={12} className="gx-1">
                                   <div className="mt-2">

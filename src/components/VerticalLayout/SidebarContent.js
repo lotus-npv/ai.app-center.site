@@ -25,7 +25,7 @@ const SidebarContent = props => {
   const { user } = useContext(DataContext)
   const [isShow, setShow] = useState([])
 
-  console.log("user menu", user)
+  // console.log("user menu", user)
   useEffect(() => {
     if (user) {
       if (user.object_type == "syndication") {
