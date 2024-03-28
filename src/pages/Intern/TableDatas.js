@@ -147,7 +147,7 @@ const TableDatas = props => {
     }
   }, [])
 
-  console.log(internDataAllInfo)
+  // console.log(internDataAllInfo)
   // quan ly trang thai du lieu table
   const [dataTable, setDataTable] = useState(internDataAllInfo)
 
@@ -292,18 +292,18 @@ const TableDatas = props => {
       {
         name: "All",
         data: internDataAllInfo.length,
-        template: item => itemRenderer(item, 0, internDataAllInfo.length),
+        // template: item => itemRenderer(item, 0, internDataAllInfo.length),
       },
       ...statusData.map((status, index) => {
         return {
           name: status.name,
-          data: statusDetailData.filter(e => e.status_id == status.id).length,
-          template: item =>
-            itemRenderer(
-              item,
-              index + 1,
-              statusDetailData.filter(e => e.status_id == status.id).length
-            ),
+          data: statusDetailData.filter(e => e.status_id == status.id).filter(sd => internDataAllInfo.some(intern => intern.id == sd.intern_id)).length,
+          // template: item =>
+          //   itemRenderer(
+          //     item,
+          //     index + 1,
+          //     statusDetailData.filter(e => e.status_id == status.id).length
+          //   ),
         }
       }),
     ].filter(e => e.data >= 1)
@@ -321,7 +321,9 @@ const TableDatas = props => {
   }
 
   // goi ham render mang data
-  const items = rendLabel()
+  const items = rendLabel();
+
+  console.log('items', items)
 
   const renderHeader = () => {
     return (
