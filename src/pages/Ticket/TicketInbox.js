@@ -152,6 +152,7 @@ const TicketInbox = props => {
               send_date: moment(item.send_date).format("YYYY-MM-DD"),
             }
           })
+          console.log(newArr)
         setDataTable(newArr)
       } else if (index == 4) {
         const newArr = ticketData
@@ -355,7 +356,8 @@ const TicketInbox = props => {
 
   //-------------------------------------------------------------------------------
 
-  // console.log('ticketData', ticketData)
+  console.log('ticketData', ticketData)
+  console.log('user', user)
   // console.log('content', content)
 
   return (

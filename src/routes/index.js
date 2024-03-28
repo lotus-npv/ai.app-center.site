@@ -100,15 +100,15 @@ import CareerPage from "pages/Setting/Career";
 
 // Dispatching Company page
 import DispatchingCompanyPage from "pages/DispatchingCompany";
-import InputDispatchingConpany from "pages/DispatchingCompany/input";
 
 // Receiving Factory
 import ReceivingFactoryPage from "pages/ReceivingFactory";
-import InputReceivingFactory from "pages/ReceivingFactory/input";
+
+// Syndication
+import SyndicationPage from "pages/syndication";
 
 // Intern
 import InternPage from "pages/Intern";
-
 
 // Violate page
 import ViolateListPage from "pages/Violate";
@@ -175,24 +175,31 @@ const authProtectedRoutes = [
   { path: "/pages-timeline", component: <PagesTimeline /> },
   { path: "/pages-faqs", component: <PagesFaqs /> },
   { path: "/pages-pricing", component: <PagesPricing /> },
+  
   //Setting 
   {path: "/pages-status", component: <StatusPage />},
 
+  // Careere
   {path: "/pages-career", component: <CareerPage />},
 
   // Dispatching company
   {path: "/dispatching-company", component: <DispatchingCompanyPage />},
-  {path: "/input-dispatching-company", component: <InputDispatchingConpany />},
 
   // Receiving Factory
   {path: "/receiving-factory", component: <ReceivingFactoryPage />},
-  {path: "/input-receiving-factory", component: <InputReceivingFactory />},
+
+  // Syndication
+  {path: "/syndication", component: <SyndicationPage/>},
+
   // Intern 
   {path: "/intern", component: <InternPage />},
+
   // Violate
   {path: "/violate", component: <ViolateListPage />},
+
   // Ticket
   {path: "/ticket", component: <TicketPage />},
+
   // Contacts
   {path: "/contacts", component: <Contacts />},
 

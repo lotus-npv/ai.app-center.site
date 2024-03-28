@@ -29,13 +29,13 @@ const SidebarContent = props => {
   useEffect(() => {
     if (user) {
       if (user.user_type == "syndication") {
-        setShow([true, true, true, true, true, true, true, true,true])
-      } else if (user.user_type == "dispatching_company") {
-        setShow([true, true, true, false, true, true, true, true, true])
+        setShow([true, true, false, true, true, true, true, true,true,true])
       } else if (user.user_type == "receiving_factory") {
-        setShow([true, true, false, true, true, true, true, true, true])
+        setShow([true, true, true, false,true, true, true, true, true, true])
+      } else if (user.user_type == "dispatching_company") {
+        setShow([true, true, true, true, false, true, true, true, true,false])
       } else if(user.user_type == "intern"){
-        setShow([false, false, false, false, true, false, true, false, false])
+        setShow([false, false, false, false, false, true, false, true, false])
       }
     }
   },[user])
@@ -189,13 +189,21 @@ const SidebarContent = props => {
             )}
             {isShow[2] && (
               <li>
+                <Link to="/syndication">
+                  <i className="bx bx-buildings"></i>
+                  <span>{props.t("Syndication")}</span>
+                </Link>
+              </li>
+            )}
+            {isShow[3] && (
+              <li>
                 <Link to="/receiving-factory">
                   <i className="bx bx-buildings"></i>
                   <span>{props.t("Receiving Factory")}</span>
                 </Link>
               </li>
             )}
-            {isShow[3] && (
+            {isShow[4] && (
               <li>
                 <Link to="/dispatching-company">
                   <i className="mdi mdi-google-earth"></i>
@@ -203,7 +211,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
             )}
-            {isShow[4] && (
+            {isShow[5] && (
               <li>
                 <Link to="/contacts">
                   <i className="bx bxs-contact"></i>
@@ -211,7 +219,7 @@ const SidebarContent = props => {
                 </Link>
               </li>
             )}
-            {isShow[5] && (
+            {isShow[6] && (
               <li>
                 <Link to="/violate">
                   <i className="bx bx-error"></i>
@@ -220,7 +228,7 @@ const SidebarContent = props => {
               </li>
             )}
 
-            {isShow[6] && (
+            {isShow[7] && (
               <li>
                 <Link to="/ticket">
                   <i className="bx bx-support"></i>
@@ -229,17 +237,17 @@ const SidebarContent = props => {
               </li>
             )}
             
-              <li>
+             <li>
                 <Link to="/#" className="has-arrow ">
                   <i className="bx bx-cog"></i>
                   <span>{props.t("Settings")}</span>
                 </Link>
                 <ul className="sub-menu">
-                {isShow[7] && (
+                {isShow[8] && (
                   <li>
                     <Link to="/pages-status">{props.t("Status")}</Link>
                   </li>)}
-                  {isShow[8] && (
+                  {isShow[9] && (
                   <li>
                     <Link to="/pages-career">{props.t("Industry")}</Link>
                   </li>)}

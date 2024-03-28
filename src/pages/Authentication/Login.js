@@ -126,8 +126,8 @@ const Login = props => {
                         return false
                       }}
                     >
-                      {userData ? <Alert color="danger">Thong tin dang nhap chua dung</Alert> : null}
-
+                      {error ? <Alert color="danger">Thong tin dang nhap chua dung</Alert> : null}
+                      <p>{error}</p>
                       <div className="mb-3">
                         <Label className="form-label">Email</Label>
                         <Input
