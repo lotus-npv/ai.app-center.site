@@ -88,6 +88,22 @@ create table if not exists receiving_factory (
     -- foreign key (key_license_id) references key_license(id)
 );
 
+create table if not exists connect_user (
+    id int primary key auto_increment,
+    key_license_id INT,
+    syndication_id INT,
+    object_type ENUM('receiving_factory','dispatching_company'),
+    object_id INT,
+    description VARCHAR(200),
+    create_at DATETIME,
+    create_by INT,
+    update_at DATETIME,
+    update_by INT,
+    delete_at DATETIME,
+    flag BOOLEAN
+    -- foreign key (key_license_id) references key_license(id)
+);
+
 -- tao bang danh sach cong ty phai cu
 create table if not exists dispatching_company (
     id int primary key auto_increment,
@@ -365,7 +381,8 @@ create table if not exists users (
     id int primary key auto_increment,
     key_license_id INT,
     role ENUM('admin','managers','user'),
-    is_employee BOOLEAN, -- neu la employee thi truy van vao bang employee, khong thi truy van vao bang intern
+    -- is_employee BOOLEAN, -- neu la employee thi truy van vao bang employee, khong thi truy van vao bang intern
+    object_type ENUM('syndication','receiving_factory','dispatching_company','intern'),
     object_id INT,  -- (employee, intern)
     username VARCHAR(50),
     password_hash VARCHAR(100),
