@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
-import { jsPDF } from "jspdf";
+import { jsPDF } from "jspdf"
 
 import { font } from "./Roboto-Medium-normal"
 // import './Roboto-Medium-normal';
@@ -167,8 +167,8 @@ const TableDatas = props => {
 
         doc.autoTable({
           columns: exportColumns,
-          body: dataTable
-        });
+          body: dataTable,
+        })
 
         // doc.addFileToVFS("Roboto-Medium-normal.ttf", myFont);
         // doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
@@ -181,14 +181,14 @@ const TableDatas = props => {
   }
 
   const printPdf = () => {
-    const doc = new jsPDF();
+    const doc = new jsPDF()
     doc.addFileToVFS("Roboto-Medium-normal.ttf", font)
     doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
     doc.setFont("Roboto-Medium")
     doc.autoTable({
       columns: exportColumns,
-      body: dataTable
-    });
+      body: dataTable,
+    })
     doc.save("datatable.pdf")
   }
 
@@ -464,118 +464,120 @@ const TableDatas = props => {
   }, [])
 
   return (
-    <div className="card">
-      <ModalTop
-        optionGroup={statusData}
-        statusApidata={statusData}
-        statusOfResidenceApiData={statusOfResidenceData}
-        violateTypeApiData={violateTypeData}
-        statusDetailApiData={statusDetailData}
-        alienCardApiData={alienCardData}
-        setStatusDetailApi={setStatusDetail}
-      />
-      <Tooltip target=".export-buttons>button" position="bottom" />
+    <React.Fragment>
+      <div className="card">
+        <ModalTop
+          optionGroup={statusData}
+          statusApidata={statusData}
+          statusOfResidenceApiData={statusOfResidenceData}
+          violateTypeApiData={violateTypeData}
+          statusDetailApiData={statusDetailData}
+          alienCardApiData={alienCardData}
+          setStatusDetailApi={setStatusDetail}
+        />
+        <Tooltip target=".export-buttons>button" position="bottom" />
 
-      <DataTable
-        ref={dt}
-        value={dataTable}
-        paginator
-        rows={15}
-        stripedRows
-        rowsPerPageOptions={[5, 10, 15, 20, 50]}
-        dragSelection
-        selectionMode={"multiple"}
-        selection={rowsSelectedInternData}
-        onSelectionChange={e => setRowSelectedInternData(e.value)}
-        dataKey="id"
-        filters={filters}
-        filterDisplay="row"
-        globalFilterFields={["id", "name", "description"]}
-        header={header}
-        emptyMessage="Không tìm thấy kết quả phù hợp."
-        tableStyle={{ minWidth: "50rem" }}
-        scrollable
-        scrollHeight={vh}
-        size={"small"}
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        currentPageReportTemplate={`${t("Showing")} {first} ${t(
-          "to"
-        )} {last} ${t("of")} {totalRecords} ${t("items")}`}
-      >
-        <Column
-          selectionMode="multiple"
-          exportable={false}
-          headerStyle={{ width: "3rem" }}
-        ></Column>
-        <Column
-          field="full_name_jp"
-          header={props.t("Intern name")}
-          body={nameBodyTemplate}
-          filterField="full_name_jp"
-          filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          field="factory_name_jp"
-          header={props.t("Receiving Factory")}
-          filterField="factory_name_jp"
-          filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          field="company_name_jp"
-          header={props.t("Dispatching Company")}
-          filterField="company_name_jp"
-          filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          field="sor_name"
-          header={props.t("Status of residence")}
-          filterField="sor_name"
-          filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>
-         <Column
-          header={props.t("Status")}
-          body={statusBody}
-          filterField="status"
-          filterPlaceholder="tìm kiếm bằng mô tả"
-          showFilterMenu={true}
-          filterMenuStyle={{ width: "14rem" }}
-          style={{ minWidth: "14rem" }}
-        ></Column>
-        <Column
-          field="action"
-          header={props.t("Action")}
-          style={{ minWidth: "10rem" }}
-          body={actionBody}
-        ></Column>
-      </DataTable>
+        <DataTable
+          ref={dt}
+          value={dataTable}
+          paginator
+          rows={15}
+          stripedRows
+          rowsPerPageOptions={[5, 10, 15, 20, 50]}
+          dragSelection
+          selectionMode={"multiple"}
+          selection={rowsSelectedInternData}
+          onSelectionChange={e => setRowSelectedInternData(e.value)}
+          dataKey="id"
+          filters={filters}
+          filterDisplay="row"
+          globalFilterFields={["id", "name", "description"]}
+          header={header}
+          emptyMessage="Không tìm thấy kết quả phù hợp."
+          tableStyle={{ minWidth: "50rem" }}
+          scrollable
+          scrollHeight={vh}
+          size={"small"}
+          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+          currentPageReportTemplate={`${t("Showing")} {first} ${t(
+            "to"
+          )} {last} ${t("of")} {totalRecords} ${t("items")}`}
+        >
+          <Column
+            selectionMode="multiple"
+            exportable={false}
+            headerStyle={{ width: "3rem" }}
+          ></Column>
+          <Column
+            field="full_name_jp"
+            header={props.t("Intern name")}
+            body={nameBodyTemplate}
+            filterField="full_name_jp"
+            filter
+            filterPlaceholder="Tìm kiếm bằng tên"
+            sortable
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            field="factory_name_jp"
+            header={props.t("Receiving Factory")}
+            filterField="factory_name_jp"
+            filter
+            filterPlaceholder="Tìm kiếm bằng tên"
+            sortable
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            field="company_name_jp"
+            header={props.t("Dispatching Company")}
+            filterField="company_name_jp"
+            filter
+            filterPlaceholder="Tìm kiếm bằng tên"
+            sortable
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            field="sor_name"
+            header={props.t("Status of residence")}
+            filterField="sor_name"
+            filter
+            filterPlaceholder="Tìm kiếm bằng tên"
+            sortable
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            header={props.t("Status")}
+            body={statusBody}
+            filterField="status"
+            filterPlaceholder="tìm kiếm bằng mô tả"
+            showFilterMenu={true}
+            filterMenuStyle={{ width: "14rem" }}
+            style={{ minWidth: "14rem" }}
+          ></Column>
+          <Column
+            field="action"
+            header={props.t("Action")}
+            style={{ minWidth: "10rem" }}
+            body={actionBody}
+          ></Column>
+        </DataTable>
 
-      <DeleteModal
-        show={deleteModal}
-        onDeleteClick={handleDeleteOrder}
-        onCloseClick={() => setDeleteModal(false)}
-      />
+        <DeleteModal
+          show={deleteModal}
+          onDeleteClick={handleDeleteOrder}
+          onCloseClick={() => setDeleteModal(false)}
+        />
 
-      <ModalDatas
-        item={rowSelect}
-        setApi={setIntern}
-        updateApi={updateIntern}
-        addressData={addressData}
-        alienCardData={alienCardData}
-        statusDetailData={statusDetailData}
-      />
-    </div>
+        <ModalDatas
+          item={rowSelect}
+          setApi={setIntern}
+          updateApi={updateIntern}
+          addressData={addressData}
+          alienCardData={alienCardData}
+          statusDetailData={statusDetailData}
+        />
+      </div>
+    </React.Fragment>
   )
 }
 
