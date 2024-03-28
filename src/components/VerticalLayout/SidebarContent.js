@@ -25,16 +25,16 @@ const SidebarContent = props => {
   const { user } = useContext(DataContext)
   const [isShow, setShow] = useState([])
 
-  // console.log("user menu", user)
+  console.log("user menu", user)
   useEffect(() => {
     if (user) {
-      if (user.user_type == "syndication") {
+      if (user.object_type == "syndication") {
         setShow([true, true, false, true, true, true, true, true,true,true])
-      } else if (user.user_type == "receiving_factory") {
+      } else if (user.object_type == "receiving_factory") {
         setShow([true, true, true, false,true, true, true, true, true, true])
-      } else if (user.user_type == "dispatching_company") {
+      } else if (user.object_type == "dispatching_company") {
         setShow([true, true, true, true, false, true, true, true, true,false])
-      } else if(user.user_type == "intern"){
+      } else if(user.object_type == "intern"){
         setShow([false, false, false, false, false, true, false, true, false])
       }
     }
