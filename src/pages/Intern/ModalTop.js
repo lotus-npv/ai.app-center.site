@@ -346,7 +346,7 @@ const ModalTop = ({
             <Col xl={4} md={12} className="d-flex justify-content-center">
               <Button
                 color="gray-soft"
-                style={{ minWidth: '170px', marginBottom: '5px', width: '80%'}}
+                style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -365,7 +365,7 @@ const ModalTop = ({
             <Col xl={4} md={12} className="d-flex justify-content-center">
               <Button
                 color="gray-soft"
-                style={{minWidth: '170px', marginBottom: '5px', width: '80%'}}
+                style={{minWidth: '150px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -384,7 +384,7 @@ const ModalTop = ({
             <Col xl={4} md={12} className="d-flex justify-content-center">
               <Button
                 color="gray-soft"
-                style={{ minWidth: '170px', marginBottom: '5px', width: '80%'}}
+                style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   tog_xlarge()
                 }}
@@ -411,6 +411,17 @@ const ModalTop = ({
           </Row>
         </Col>
       </Row>
+
+      {/* <div className="row">
+            <div className="col-lg-8">
+                <button type="button" className="btn btn-primary mr-2">Button Button</button>
+                <button type="button" className="btn btn-primary mr-2">Button Button</button>
+                <button type="button" className="btn btn-primary mr-2">Button Button</button>
+            </div>
+            <div className="col-lg-4 col-sm-12 text-right">
+                <button type="button" className="btn btn-primary">Button 4</button>
+            </div>
+        </div> */}
 
       {/* <div className="d-flex justify-content-between mb-3">
         <div className="d-flex gap-3">
