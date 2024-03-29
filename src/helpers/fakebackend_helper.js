@@ -43,6 +43,7 @@ export const deleteDataIntern = (id) => del(`${url.DELETE_INTERN}/${id}`, { para
 
 // syndication
 export const getSyndicationDataAll = () => get(url.GET_SYNDICATION_ALL);
+export const getSyndicationDataUserId = (id) => get(`${url.GET_SYNDICATION_USERID}/${id}`,{ params: { id } }, config);
 export const getSyndicationDataId = () => get(url.GET_SYNDICATION_ID);
 export const addNewDataSyndication = data => post(url.SET_SYNDICATION, data, config);
 export const updateDataSyndication = data => put(url.UPDATE_SYNDICATION, data, config);

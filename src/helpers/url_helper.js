@@ -28,6 +28,7 @@ export const UPDATE_INTERN = "https://api.lotusocean-jp.com/api/intern/update";
 export const DELETE_INTERN = "https://api.lotusocean-jp.com/api/intern/delete";
 // syndication
 export const GET_SYNDICATION_ALL = "https://api.lotusocean-jp.com/api/syndication/all";
+export const GET_SYNDICATION_USERID = "https://api.lotusocean-jp.com/api/syndication/userId";
 export const GET_SYNDICATION_ID = "https://api.lotusocean-jp.com/api/syndication";
 export const SET_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/insert";
 export const UPDATE_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/update";
