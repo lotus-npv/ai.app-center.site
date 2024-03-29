@@ -197,14 +197,12 @@ const TicketInbox = props => {
         if (type === "Inbox") {
           return ticketData.filter(
             ticket =>
-              ticket.receiver_id == user.id &&
-              ticket.receiver_type == user.user_type
+              ticket.receiver_id == user.id 
           ).length
         } else if (type === "Outbox") {
           return ticketData.filter(
             ticket =>
-              ticket.sender_id == user.id &&
-              ticket.sender_type == user.user_type
+              ticket.sender_id == user.id
           ).length
         } else {
           return ticketData.filter(

@@ -40,6 +40,7 @@ export const UPDATE_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/
 export const DELETE_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/delete";
 // receiving_factory
 export const GET_RECEIVINGFACTORY_ALL = "https://api.lotusocean-jp.com/api/receiving_factory/all";
+export const GET_RECEIVINGFACTORY_USERID = "https://api.lotusocean-jp.com/api/receiving_factory/userId";
 export const GET_RECEIVINGFACTORY_ID = "https://api.lotusocean-jp.com/api/receiving_factory";
 export const SET_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/insert";
 export const UPDATE_RECEIVINGFACTORY = "https://api.lotusocean-jp.com/api/receiving_factory/update";

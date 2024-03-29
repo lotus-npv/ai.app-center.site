@@ -49,7 +49,8 @@ export const updateDataSyndication = data => put(url.UPDATE_SYNDICATION, data, c
 export const deleteDataSyndication = (id) => del(`${url.DELETE_SYNDICATION}/${id}`, { params: { id } }, config);
 
 // receiving_factory
-export const getReceivingFactoryDataAll = () => get(url.GET_RECEIVINGFACTORY_ALL);
+export const getReceivingFactoryDataAll = (id) => get(`${url.GET_RECEIVINGFACTORY_ALL}/${id}`,{ params: { id } }, config);
+export const getReceivingFactoryDataUserId = (id) => get(`${url.GET_RECEIVINGFACTORY_USERID}/${id}`,{ params: { id } }, config);
 export const getReceivingFactoryDataId = () => get(url.GET_RECEIVINGFACTORY_ID);
 export const addNewDataReceivingFactory = data => post(url.SET_RECEIVINGFACTORY, data, config);
 export const updateDataReceivingFactory = data => put(url.UPDATE_RECEIVINGFACTORY, data, config);

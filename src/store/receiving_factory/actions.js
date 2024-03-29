@@ -2,6 +2,9 @@ import {
   GET_RECEIVINGFACTORY_ALL,
   GET_RECEIVINGFACTORY_ALL_SUCCESS,
   GET_RECEIVINGFACTORY_ALL_FAIL,
+  GET_RECEIVINGFACTORY_USERID,
+  GET_RECEIVINGFACTORY_USERID_SUCCESS,
+  GET_RECEIVINGFACTORY_USERID_FAIL,
   GET_RECEIVINGFACTORY_ID,
   GET_RECEIVINGFACTORY_ID_SUCCESS,
   GET_RECEIVINGFACTORY_ID_FAIL,
@@ -16,8 +19,9 @@ import {
   DELETE_RECEIVINGFACTORY_FAIL
 } from "./actionTypes";
 
-export const getReceivingFactoryAll = () => ({
+export const getReceivingFactoryAll = (id) => ({
   type: GET_RECEIVINGFACTORY_ALL,
+  payload: id
 });
 
 export const getReceivingFactoryAllSuccess = data => ({
@@ -27,6 +31,20 @@ export const getReceivingFactoryAllSuccess = data => ({
 
 export const getReceivingFactoryAllFail = error => ({
   type: GET_RECEIVINGFACTORY_ALL_FAIL,
+  payload: error,
+});
+export const getReceivingFactoryUserId = (id) => ({
+  type: GET_RECEIVINGFACTORY_USERID,
+  payload: id
+});
+
+export const getReceivingFactoryUserIdSuccess = data => ({
+  type: GET_RECEIVINGFACTORY_USERID_SUCCESS,
+  payload: data,
+});
+
+export const getReceivingFactoryUserIdFail = error => ({
+  type: GET_RECEIVINGFACTORY_USERID_FAIL,
   payload: error,
 });
 

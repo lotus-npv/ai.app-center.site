@@ -31,7 +31,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll } from "store/actions";
+import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll, getReceivingFactoryUserId } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -63,7 +63,13 @@ const TableDatas = (props) => {
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getReceivingFactoryAll());
+    if(user) {
+      if(user.role == 'admin') {
+        dispatch(getReceivingFactoryAll(user.key_license_id));
+      }else {
+        dispatch(getReceivingFactoryUserId(user.id));
+      }
+    }
     dispatch(getAddressAll(user.key_license_id));
     dispatch(getProvinceAll());
   }, [dispatch]);
@@ -71,7 +77,13 @@ const TableDatas = (props) => {
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getReceivingFactoryAll());
+      if(user) {
+        if(user.role == 'admin') {
+          dispatch(getReceivingFactoryAll(user.key_license_id));
+        }else {
+          dispatch(getReceivingFactoryUserId(user.id));
+        }
+      }
     }, 10000);
     return () => {
       clearInterval(intervalId);
@@ -109,7 +121,7 @@ const TableDatas = (props) => {
 
   const rendLabel = () => {
     // lọc ra danh sách các địa chỉ của xí nghiệp
-    const array = addressData.filter(address => address.user_type === 'receiving_factory');
+    const array = addressData.filter(address => address.user_type === 'receiving_factory' && factoryData.some(factory => factory.id == address.object_id));
 
     // tạo danh sách địa
     const number_of_factory = factoryData.length;

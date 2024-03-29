@@ -2,6 +2,9 @@ import {
   GET_RECEIVINGFACTORY_ALL,
   GET_RECEIVINGFACTORY_ALL_SUCCESS,
   GET_RECEIVINGFACTORY_ALL_FAIL,
+  GET_RECEIVINGFACTORY_USERID,
+  GET_RECEIVINGFACTORY_USERID_SUCCESS,
+  GET_RECEIVINGFACTORY_USERID_FAIL,
   GET_RECEIVINGFACTORY_ID_SUCCESS,
   GET_RECEIVINGFACTORY_ID_FAIL,
   SET_RECEIVINGFACTORY,
@@ -35,6 +38,24 @@ import {
       case GET_RECEIVINGFACTORY_ALL_FAIL:
         return {
           ...state,
+          error: action.payload,
+        };
+      case GET_RECEIVINGFACTORY_USERID:
+        return {
+          ...state,
+          loading: true,
+        };
+      case GET_RECEIVINGFACTORY_USERID_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          datas: action.payload,
+        };
+  
+      case GET_RECEIVINGFACTORY_USERID_FAIL:
+        return {
+          ...state,
+          loading: false,
           error: action.payload,
         };
       case SET_RECEIVINGFACTORY:

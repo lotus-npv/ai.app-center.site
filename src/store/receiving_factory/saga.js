@@ -3,11 +3,13 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  DELETE_RECEIVINGFACTORY,GET_RECEIVINGFACTORY_ALL, SET_RECEIVINGFACTORY, UPDATE_RECEIVINGFACTORY,
+  DELETE_RECEIVINGFACTORY,GET_RECEIVINGFACTORY_ALL, SET_RECEIVINGFACTORY, UPDATE_RECEIVINGFACTORY,GET_RECEIVINGFACTORY_USERID
 } from "./actionTypes"
 import {
     getReceivingFactoryAllFail,
     getReceivingFactoryAllSuccess,
+    getReceivingFactoryUserIdFail,
+    getReceivingFactoryUserIdSuccess,
     setReceivingFactorySuccess,
     setReceivingFactoryFail,
     updateReceivingFactorySuccess,
@@ -16,15 +18,24 @@ import {
     deleteReceivingFactoryFail
 } from "./actions"
                                       
-import { getReceivingFactoryDataAll, addNewDataReceivingFactory, updateDataReceivingFactory, deleteDataReceivingFactory } from "../../helpers/fakebackend_helper";
+import { getReceivingFactoryDataAll,getReceivingFactoryDataUserId ,addNewDataReceivingFactory, updateDataReceivingFactory, deleteDataReceivingFactory } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
-function* fetReceivingFactoryData() {
+function* fetReceivingFactoryData({ payload: id }) {
   try {
-    const response = yield call(getReceivingFactoryDataAll);
+    const response = yield call(getReceivingFactoryDataAll, id);
     yield put(getReceivingFactoryAllSuccess(response));
   } catch (error) {
     yield put(getReceivingFactoryAllFail(error))
+  }
+}
+
+function* fetReceivingFactoryDataUserId({ payload: id }) {
+  try {
+    const response = yield call(getReceivingFactoryDataUserId, id);
+    yield put(getReceivingFactoryUserIdSuccess(response));
+  } catch (error) {
+    yield put(getReceivingFactoryUserIdFail(error))
   }
 }
 
@@ -72,6 +83,7 @@ function* refreshReceivingFactoryData() {
 
 function* ReceivingFactorySaga() {
   yield takeLatest(GET_RECEIVINGFACTORY_ALL, fetReceivingFactoryData)
+  yield takeLatest(GET_RECEIVINGFACTORY_USERID, fetReceivingFactoryDataUserId)
   yield takeLatest(SET_RECEIVINGFACTORY, onAddNewReceivingFactory)
   yield takeLatest(UPDATE_RECEIVINGFACTORY, onUpdateReceivingFactory)
   yield takeLatest(DELETE_RECEIVINGFACTORY, onDeleteReceivingFactory)
