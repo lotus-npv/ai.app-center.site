@@ -3,31 +3,22 @@ import { FilterMatchMode, FilterService } from 'primereact/api';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-// import { TabMenu } from 'primereact/tabmenu';
 import { Avatar } from 'primereact/avatar';
 import { InputText } from 'primereact/inputtext';
-
 import {
   Nav,
   NavItem,
   NavLink,
   Row,
-  Col,
   Button as ButtonRS
 } from "reactstrap";
 import classnames from "classnames";
-
 import { Badge } from "reactstrap";
-import { Badge as BadgePrime } from 'primereact/badge';
-
 import DataContext from 'data/DataContext';
-
 import DeleteModal from "components/Common/DeleteModal";
 import ModalDatas from './ModalDatas'
-
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
-
 import moment from 'moment';
 
 // //redux
@@ -46,10 +37,7 @@ FilterService.register('custom_activity', (value, filters) => {
 const TableDatas = (props) => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
-  const {vh, modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditCompany, setIsEditCompany,addressCompany, addressDataCompany, updateAddressDataCompany, } = useContext(DataContext);
-
-  //table
-
+  const {vh,  tog_fullscreen, setIsEditCompany, updateAddressDataCompany, } = useContext(DataContext);
 
   // Khai bao du lieu
   const dispatch = useDispatch();
@@ -99,16 +87,6 @@ const TableDatas = (props) => {
   };
 
   // TABLE 
-  // render label tab
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const itemRenderer = (item, itemIndex, data) => (
-    <a className="p-menuitem-link flex align-items-center gap-2" onClick={() => setActiveIndex(itemIndex)}>
-      <BadgePrime value={data}></BadgePrime>
-      <span className="font-bold">{props.t(item.name)}</span>
-    </a>
-  );
-
   const rendLabel = () => {
     // lọc ra danh sách các địa chỉ của xí nghiệp
     const array = addressData.filter(address => address.user_type === 'dispatching_company');
@@ -127,7 +105,6 @@ const TableDatas = (props) => {
       }
     });
 
-    // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
     // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
       let name = 'loading ...';
@@ -234,8 +211,10 @@ const TableDatas = (props) => {
   };
 
 
+  // truyen du lieu vao bang
   const [dataTable, setDataTable] = useState(companyData)
 
+  // cap nhat data moi khi chuyen doi tab
   const getListInternStatus = (key) => {
     const arr = addressData.filter(item => item.nation_id == key);
     const newList = companyData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company')).map(company => {
@@ -310,6 +289,7 @@ const TableDatas = (props) => {
       />
 
       <ModalDatas
+        user={user}
         item={rowSelect}
         getApi={getDispatchingCompanyAll}
         setApi={setDispatchingCompany}

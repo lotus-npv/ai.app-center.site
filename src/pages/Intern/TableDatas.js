@@ -2,33 +2,20 @@ import React, { useState, useEffect, useContext, useRef } from "react"
 import { FilterMatchMode, FilterService } from "primereact/api"
 import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
-import { InputText } from "primereact/inputtext"
 import { Button } from "primereact/button"
-import { TabMenu } from "primereact/tabmenu"
 import { Avatar } from "primereact/avatar"
 import { Tooltip } from "primereact/tooltip"
-
 import { Nav, NavItem, NavLink } from "reactstrap"
 import classnames from "classnames"
-
 import { Badge } from "reactstrap"
 import { Badge as BadgePrime } from "primereact/badge"
-
 import DataContext from "data/DataContext"
-
 import DeleteModal from "components/Common/DeleteModal"
 import ModalDatas from "./ModalDatas"
 import ModalTop from "./ModalTop"
-
+import PropTypes from "prop-types"
 import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
-import PropTypes from "prop-types"
-
-import { jsPDF } from "jspdf"
-
-import { font } from "./Roboto-Medium-normal"
-// import './Roboto-Medium-normal';
-// import "./myFont"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -38,9 +25,7 @@ import {
   setIntern,
   getStatusAll,
   getStatusDetailAll,
-  getAddressAll,
   getAlienRegistrationCardAll,
-  setStatus,
   getStatusOfResidenceAll,
   getViolateTypeAll,
   setStatusDetail,
@@ -88,8 +73,6 @@ const TableDatas = props => {
     internDataAllInfo,
     statusData,
     statusDetailData,
-    loading,
-    dataUser,
     addressData,
     alienCardData,
     statusOfResidenceData,
@@ -99,12 +82,10 @@ const TableDatas = props => {
       internDataAllInfo: state.Intern.datas,
       statusData: state.Status.datas,
       statusDetailData: state.StatusDetail.datas,
-      loading: state.Intern.loading,
       addressData: state.Address.datas,
       alienCardData: state.AlienRegistrationCard.datas,
       statusOfResidenceData: state.StatusOfResidence.datas,
       violateTypeData: state.ViolateType.datas,
-      // dataUser: state.login.user
     }),
     shallowEqual
   )
@@ -164,41 +145,18 @@ const TableDatas = props => {
     import("jspdf").then(jsPDF => {
       import("jspdf-autotable").then(() => {
         const doc = new jsPDF.default(0, 0)
-
-        // doc.addFileToVFS("BeVietnamPro-Medium-normal.ttf", font2)
-        // doc.addFont('BeVietnamPro-Medium-normal.ttf', 'BeVietnamPro-Medium', 'normal');
-        // doc.setFont("BeVietnamPro-Medium-normal")
-
-        doc.addFileToVFS("Roboto-Medium-normal.ttf", font)
-        doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
-        doc.setFont("Roboto-Medium")
-
+        // doc.addFileToVFS("Roboto-Medium-normal.ttf", font)
+        // doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
+        // doc.setFont("Roboto-Medium")
         doc.autoTable({
           columns: exportColumns,
           body: dataTable,
         })
-
-        // doc.addFileToVFS("Roboto-Medium-normal.ttf", myFont);
-        // doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
-        // doc.setFont("Roboto-Medium")
-
-        // doc.autoTable(exportColumns, dataTable)
         doc.save("datatable.pdf")
       })
     })
   }
 
-  const printPdf = () => {
-    const doc = new jsPDF()
-    doc.addFileToVFS("Roboto-Medium-normal.ttf", font)
-    doc.addFont("Roboto-Medium-normal.ttf", "Roboto-Medium", "normal")
-    doc.setFont("Roboto-Medium")
-    doc.autoTable({
-      columns: exportColumns,
-      body: dataTable,
-    })
-    doc.save("datatable.pdf")
-  }
 
   const exportExcel = () => {
     import("xlsx").then(xlsx => {
@@ -367,7 +325,7 @@ const TableDatas = props => {
             icon="pi pi-file-pdf"
             severity="warning"
             rounded
-            onClick={printPdf}
+            onClick={exportPdf}
             data-pr-tooltip="PDF"
           />
         </div>

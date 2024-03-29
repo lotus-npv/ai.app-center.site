@@ -14,7 +14,7 @@ import {
   UncontrolledTooltip,
   Modal,
   CloseButton,
-  Spinner
+  Spinner,
 } from "reactstrap"
 
 import Select from "react-select"
@@ -32,7 +32,7 @@ const optionGroup = [
   { label: "Japan", value: 2 },
 ]
 
-import AddressDatas from "./AddressDatas"
+import AddressDatas from "../../components/CommonForBoth/Address/AddressDatas"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -54,6 +54,7 @@ const ModalDatas = ({
   addressData,
   factoryData,
 }) => {
+  const user = JSON.parse(localStorage.getItem("authUser"))[0];
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -333,9 +334,9 @@ const ModalDatas = ({
   // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('addressDataFactory:', addressDataFactory)
-  console.log('isEditFactory:', isEditFactory)
+  console.log("isEditFactory:", isEditFactory)
   // console.log('selectedFile:', selectedFile);
-  console.log('isRefresh:', isRefresh);
+  console.log("isRefresh:", isRefresh)
 
   return (
     <>
@@ -832,29 +833,6 @@ const ModalDatas = ({
                               )
                             })}
 
-                            {isEditFactory && (
-                              <Card>
-                                <CardBody>
-                                  {isRefresh && (
-                                    <AddressDatas item={item} user={user} />
-                                  )}
-                                  {!isRefresh && (
-                                    <div className="d-flex gap-3 mt-1 ">
-                                      <h4 className="fw-bold text-success">
-                                        update data
-                                      </h4>{" "}
-                                      <Spinner
-                                        type="grow"
-                                        size="sm"
-                                        className="ms-2 mt-1"
-                                        color="primary"
-                                      />{" "}
-                                    </div>
-                                  )}
-                                </CardBody>
-                              </Card>
-                            )}
-
                             <Row className="mb-2 mt-2">
                               <Col lg={6} className="d-flex gap-2">
                                 <Button
@@ -870,6 +848,29 @@ const ModalDatas = ({
                               </Col>
                             </Row>
                           </Row>
+                        </CardBody>
+                      </Card>
+                    )}
+
+                    {isEditFactory && (
+                      <Card>
+                        <CardBody>
+                          {isRefresh && (
+                            <AddressDatas item={item} user={user} />
+                          )}
+                          {!isRefresh && (
+                            <div className="d-flex gap-3 mt-1 ">
+                              <h4 className="fw-bold text-success">
+                                update data
+                              </h4>{" "}
+                              <Spinner
+                                type="grow"
+                                size="sm"
+                                className="ms-2 mt-1"
+                                color="primary"
+                              />{" "}
+                            </div>
+                          )}
                         </CardBody>
                       </Card>
                     )}

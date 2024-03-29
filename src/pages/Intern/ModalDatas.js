@@ -30,7 +30,8 @@ import PropTypes from "prop-types"
 import DataContext from "../../data/DataContext"
 import avata from "../../assets/images/avata/avatar-null.png"
 
-import AddressDatas from "./AddressDatas"
+// import modal address
+import AddressDatas from "../../components/CommonForBoth/Address/AddressDatas"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -40,20 +41,18 @@ import {
   getCommuneByDistrictId,
   setAddress,
   uploadImageRequest,
-  getDispatchingCompanyAll,
-  getReceivingFactoryAll,
   getStatusAll,
   getCareerAll,
   getStatusOfResidenceAll,
   setAlienRegistrationCard,
   setStatusDetail,
   getAlienRegistrationCardAll,
-  updateStatus,
   updateAlienRegistrationCard,
   updateStatusDetail,
   deleteStatusDetail,
   getDispatchingCompanyUserId,
   getReceivingFactoryUserId,
+  getSyndicationUserId,
 } from "store/actions"
 
 const optionGroup = [
@@ -89,7 +88,7 @@ const ModalDatas = ({
 
   // Tao doi tuong luu bang the ngoai kieu
   const [alienCard, setAlienCard] = useState({
-    key_license_id: 1,
+    key_license_id: user != null ? user.key_license_id : '',
     intern_id: null,
     card_number: null,
     status_of_residence_id: null,
@@ -106,7 +105,7 @@ const ModalDatas = ({
 
   // Tao doi luong luu bang chi tiet trang thai
   const statusDetailObj = {
-    key_license_id: 1,
+    key_license_id: user != null ? user.key_license_id : '',
     intern_id: null,
     status_id: null,
     description: null,
@@ -150,6 +149,7 @@ const ModalDatas = ({
     internCreate,
     companyData,
     factoryData,
+    syndicationData,
     statusData,
     careerData,
     statusOfResidenceData,
@@ -164,6 +164,7 @@ const ModalDatas = ({
       loadingIntern: state.Intern.loading,
       companyData: state.DispatchingCompany.datas,
       factoryData: state.ReceivingFactory.datas,
+      syndicationData: state.Syndication.datas,
       statusData: state.Status.datas,
       careerData: state.Career.datas,
       statusOfResidenceData: state.StatusOfResidence.datas,
@@ -177,6 +178,7 @@ const ModalDatas = ({
     if (user) {
       dispatch(getDispatchingCompanyUserId(user.id))
       dispatch(getReceivingFactoryUserId(user.id))
+      dispatch(getSyndicationUserId(user.id))
       dispatch(getStatusAll())
       dispatch(getCareerAll())
       dispatch(getStatusOfResidenceAll())
@@ -282,6 +284,7 @@ const ModalDatas = ({
       phone_abroad: item != null ? item.phone_abroad : "",
       receiving_factory_id: item != null ? item.receiving_factory_id : "",
       dispatching_company_id: item != null ? item.dispatching_company_id : "",
+      syndication_id: item != null ? item.syndication_id : "",
       description: item != null ? item.description : "",
       create_at: item != null ? item.create_at : "",
       create_by: item != null ? item.create_by : 1,
@@ -1246,10 +1249,10 @@ const ModalDatas = ({
                                       <Select
                                         name="receiving_factory_id"
                                         placeholder={t("Receiving Company")}
-                                        value={factoryData.find(
+                                        value={syndicationData.find(
                                           option =>
                                             option.value ===
-                                            formik.values.receiving_factory_id
+                                            formik.values.syndication_id
                                         )}
                                         onChange={item => {
                                           formik.setFieldValue(
@@ -1257,7 +1260,7 @@ const ModalDatas = ({
                                             item == null ? null : item.value
                                           )
                                         }}
-                                        options={factoryData}
+                                        options={syndicationData}
                                         // isClearable
                                       />
                                     </div>
