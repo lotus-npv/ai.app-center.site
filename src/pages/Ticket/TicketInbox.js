@@ -48,9 +48,7 @@ import { toast } from "react-toastify"
 const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
-
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
-
 
   const [modal_backdrop, setmodal_backdrop] = useState(false)
   function tog_backdrop() {
@@ -124,7 +122,9 @@ const TicketInbox = props => {
 
   const [isLoading, setLoading] = useState(true)
   const [activeTab, setactiveTab] = useState(0)
-  // const [modal, setmodal] = useState(false)
+
+  // dieu khien Accordion hien thi tieu de ticket
+  const [activeIndex, setActiveIndex] = useState(0)
 
   //------------------------------------------------------------------
 
@@ -344,7 +344,7 @@ const TicketInbox = props => {
 
   // console.log("ticketData", ticketData)
   // console.log("user", user)
-  // console.log("counters", counters)
+  console.log("activeIndex", activeIndex)
 
   return (
     <React.Fragment>
@@ -567,7 +567,7 @@ const TicketInbox = props => {
                           <Editor
                             value={content}
                             onTextChange={e => setContent(e.htmlValue)}
-                            style={{ height: "320px" }}
+                            style={{ height: "250px" }}
                           />
                         </div>
                       </CardBody>
@@ -583,18 +583,16 @@ const TicketInbox = props => {
                           "Title"
                         )}
                         <Card className="bg-light d-flex justify-content-center">
-                          <Accordion activeIndex={0}>
+                          <Accordion
+                            activeIndex={0}
+                            // onTabChange={e => setActiveIndex(e.index)}
+                          >
                             <AccordionTab
                               header={
                                 <span className="flex align-items-center gap-2 w-full">
-                                  {/* <Avatar
-                                    image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
-                                    shape="circle"
-                                  /> */}
                                   <span className="font-bold white-space-nowrap">
                                     CONTENT
                                   </span>
-                                  {/* <BadgePrime value="3" className="ml-auto" /> */}
                                 </span>
                               }
                             >
@@ -610,14 +608,24 @@ const TicketInbox = props => {
                                 )}
                               </div>
                             </AccordionTab>
+                            <AccordionTab
+                              header={
+                                <span className="flex align-items-center gap-2 w-full">
+                                  <span className="font-bold white-space-nowrap">
+                                    CHAT
+                                  </span>
+                                </span>
+                              }
+                            >
+                              <Card>
+                                <CardBody className="bg-light">
+                                  <ChatBox />
+                                </CardBody>
+                              </Card>
+                            </AccordionTab>
                           </Accordion>
                         </Card>
                       </div>
-                      <Card>
-                        <CardBody className="bg-light">
-                          <ChatBox  />
-                        </CardBody>
-                      </Card>
                     </>
                   )}
 
@@ -625,7 +633,7 @@ const TicketInbox = props => {
                     <Editor
                       value={content}
                       onTextChange={e => setContent(e.htmlValue)}
-                      style={{ height: "320px" }}
+                      style={{ height: "250px" }}
                     />
                   )}
                 </form>

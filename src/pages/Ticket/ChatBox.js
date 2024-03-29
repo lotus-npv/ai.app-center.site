@@ -180,8 +180,8 @@ const ChatBox = () => {
     }
   }
 
-  console.log('ticketDetailData', ticketDetailData)
-  console.log('ticketRowData', ticketRowData)
+  // console.log('ticketDetailData', ticketDetailData)
+  // console.log('ticketRowData', ticketRowData)
 
   return (
     <>
