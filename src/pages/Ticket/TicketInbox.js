@@ -43,6 +43,7 @@ import {
   getTicketAll,
   getTicketAllInfo,
   getTicketDetailAll,
+  getTicketUserId,
   getUsersAll,
   setTicket,
   setTicketDetail,
@@ -55,6 +56,10 @@ import { toast } from "react-toastify"
 const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
+
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
+
+
   const [modal_backdrop, setmodal_backdrop] = useState(false)
   function tog_backdrop() {
     setmodal_backdrop(!modal_backdrop)
@@ -72,7 +77,6 @@ const TicketInbox = props => {
     setmodal,
     ticketRowData,
     setTicketRowData,
-    user,
     isEditTicket,
     setIsEditTicket,
     UserTypeList,
@@ -106,20 +110,19 @@ const TicketInbox = props => {
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getTicketAll())
-    dispatch(getTicketDetailAll())
-    dispatch(getUsersAll())
-    // dispatch(getDispatchingCompanyAll())
-    // dispatch(getReceivingFactoryAll())
-    // dispatch(getSyndicationAll())
-    // dispatch(getInternAllInfo())
-    // dispatch(getTicketAllInfo());
+    if (user) {
+      dispatch(getTicketUserId(user.id))
+      dispatch(getTicketDetailAll())
+      dispatch(getUsersAll())
+    }
   }, [dispatch])
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getTicketAll())
+      if (user) {
+        dispatch(getTicketUserId(user.id))
+      }
     }, 10000)
     return () => {
       clearInterval(intervalId)
@@ -153,7 +156,7 @@ const TicketInbox = props => {
               send_date: moment(item.send_date).format("YYYY-MM-DD"),
             }
           })
-          console.log(newArr)
+        console.log(newArr)
         setDataTable(newArr)
       } else if (index == 4) {
         const newArr = ticketData
@@ -195,15 +198,10 @@ const TicketInbox = props => {
     if (ticketData && user) {
       const arr = types.map((type, index) => {
         if (type === "Inbox") {
-          return ticketData.filter(
-            ticket =>
-              ticket.receiver_id == user.id 
-          ).length
+          return ticketData.filter(ticket => ticket.receiver_id == user.id)
+            .length
         } else if (type === "Outbox") {
-          return ticketData.filter(
-            ticket =>
-              ticket.sender_id == user.id
-          ).length
+          return ticketData.filter(ticket => ticket.sender_id == user.id).length
         } else {
           return ticketData.filter(
             item =>
@@ -355,9 +353,9 @@ const TicketInbox = props => {
 
   //-------------------------------------------------------------------------------
 
-  console.log('ticketData', ticketData)
-  console.log('user', user)
-  console.log('counters', counters)
+  console.log("ticketData", ticketData)
+  console.log("user", user)
+  console.log("counters", counters)
 
   return (
     <React.Fragment>

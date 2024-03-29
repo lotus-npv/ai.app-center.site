@@ -3,24 +3,32 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  GET_TICKET_ALL,GET_TICKET_ID, SET_TICKET, UPDATE_TICKET,DELETE_TICKET,GET_TICKET_ALLINFO
+  GET_TICKET_ALL,GET_TICKET_ID, SET_TICKET, UPDATE_TICKET,DELETE_TICKET,GET_TICKET_ALLINFO,GET_TICKET_USERID
 } from "./actionTypes"
 import {
     getTicketAllFail,
     getTicketAllSuccess,
+
     getTicketAllInfoFail,
     getTicketAllInfoSuccess,
+
+    getTicketUserIdFail,
+    getTicketUserIdSuccess,
+
     getTicketIdSuccess,
     getTicketIdFail,
+
     setTicketSuccess,
     setTicketFail,
+
     updateTicketSuccess,
     updateTicketFail,
+
     deleteTicketSuccess,
     deleteTicketFail
 } from "./actions"
                                       
-import { getTicketDataAll,getTicketDataId ,addNewDataTicket, updateDataTicket, deleteDataTicket, getTicketDataAllInfo  } from "../../helpers/fakebackend_helper";
+import { getTicketDataAll,getTicketDataId ,addNewDataTicket, updateDataTicket, deleteDataTicket, getTicketDataAllInfo , getTicketDataUserId } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetTicketData() {
@@ -39,6 +47,15 @@ function* fetTicketDataAllInfo() {
     yield put(getTicketAllInfoSuccess(response));
   } catch (error) {
     yield put(getTicketAllInfoFail(error))
+  }
+}
+
+function* fetTicketDataUserId({payload: id}) {
+  try {
+    const response = yield call(getTicketDataUserId, id);
+    yield put(getTicketUserIdSuccess(response));
+  } catch (error) {
+    yield put(getTicketUserIdFail(error))
   }
 }
 
@@ -95,6 +112,7 @@ function* refreshTicketData() {
 function* TicketSaga() {
   yield takeEvery(GET_TICKET_ALL, fetTicketData)
   yield takeLatest(GET_TICKET_ALLINFO, fetTicketDataAllInfo)
+  yield takeLatest(GET_TICKET_USERID, fetTicketDataUserId)
   yield takeEvery(GET_TICKET_ID, fetTicketDataId)
   yield takeEvery(SET_TICKET, onAddNewTicket)
   yield takeEvery(UPDATE_TICKET, onUpdateTicket)

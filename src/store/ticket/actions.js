@@ -2,18 +2,27 @@ import {
   GET_TICKET_ALL,
   GET_TICKET_ALL_SUCCESS,
   GET_TICKET_ALL_FAIL,
+
   GET_TICKET_ALLINFO,
   GET_TICKET_ALLINFO_SUCCESS,
   GET_TICKET_ALLINFO_FAIL,
+
+  GET_TICKET_USERID,
+  GET_TICKET_USERID_SUCCESS,
+  GET_TICKET_USERID_FAIL,
+
   GET_TICKET_ID,
   GET_TICKET_ID_SUCCESS,
   GET_TICKET_ID_FAIL,
+
   SET_TICKET,
   SET_TICKET_SUCCESS,
   SET_TICKET_FAIL,
+
   UPDATE_TICKET,
   UPDATE_TICKET_SUCCESS,
   UPDATE_TICKET_FAIL,
+
   DELETE_TICKET,
   DELETE_TICKET_SUCCESS,
   DELETE_TICKET_FAIL
@@ -22,45 +31,56 @@ import {
 export const getTicketAll = () => ({
   type: GET_TICKET_ALL,
 });
-
 export const getTicketAllSuccess = data => ({
   type: GET_TICKET_ALL_SUCCESS,
   payload: data,
 });
-
 export const getTicketAllFail = error => ({
   type: GET_TICKET_ALL_FAIL,
   payload: error,
 });
 
+
 export const getTicketAllInfo = () => ({
   type: GET_TICKET_ALLINFO,
 });
-
 export const getTicketAllInfoSuccess = data => ({
   type: GET_TICKET_ALLINFO_SUCCESS,
   payload: data,
 });
-
 export const getTicketAllInfoFail = error => ({
   type: GET_TICKET_ALLINFO_FAIL,
   payload: error,
 });
 
+
+export const getTicketUserId = (id) => ({
+  type: GET_TICKET_USERID,
+  payload: id
+});
+export const getTicketUserIdSuccess = data => ({
+  type: GET_TICKET_USERID_SUCCESS,
+  payload: data,
+});
+export const getTicketUserIdFail = error => ({
+  type: GET_TICKET_USERID_FAIL,
+  payload: error,
+});
+
+
 export const getTicketId = id => ({
   type: GET_TICKET_ID,
   payload: id,
 });
-
 export const getTicketIdSuccess = data => ({
   type: GET_TICKET_ID_SUCCESS,
   payload: data,
 });
-
 export const getTicketIdFail = error => ({
   type: GET_TICKET_ID_FAIL,
   payload: error,
 });
+
 
 export const setTicket = data => ({
   type: SET_TICKET,
