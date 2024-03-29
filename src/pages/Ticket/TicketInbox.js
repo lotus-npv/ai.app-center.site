@@ -34,14 +34,6 @@ import { Badge as BadgePrime } from "primereact/accordion"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
-  deleteTicket,
-  getCareerAll,
-  getDispatchingCompanyAll,
-  getInternAllInfo,
-  getReceivingFactoryAll,
-  getSyndicationAll,
-  getTicketAll,
-  getTicketAllInfo,
   getTicketDetailAll,
   getTicketUserId,
   getUsersAll,
@@ -89,7 +81,6 @@ const TicketInbox = props => {
   const dispatch = useDispatch()
   const {
     ticketData,
-    ticketDetailData,
     usersData,
     companyData,
     factoryData,
@@ -98,7 +89,6 @@ const TicketInbox = props => {
   } = useSelector(
     state => ({
       ticketData: state.Ticket.datas,
-      ticketDetailData: state.TicketDetail.datas,
       usersData: state.Users.datas,
       companyData: state.DispatchingCompany.datas,
       factoryData: state.ReceivingFactory.datas,
@@ -112,7 +102,6 @@ const TicketInbox = props => {
   useEffect(() => {
     if (user) {
       dispatch(getTicketUserId(user.id))
-      dispatch(getTicketDetailAll())
       dispatch(getUsersAll())
     }
   }, [dispatch])
@@ -156,7 +145,7 @@ const TicketInbox = props => {
               send_date: moment(item.send_date).format("YYYY-MM-DD"),
             }
           })
-        console.log(newArr)
+        // console.log(newArr)
         setDataTable(newArr)
       } else if (index == 4) {
         const newArr = ticketData
@@ -353,9 +342,9 @@ const TicketInbox = props => {
 
   //-------------------------------------------------------------------------------
 
-  console.log("ticketData", ticketData)
-  console.log("user", user)
-  console.log("counters", counters)
+  // console.log("ticketData", ticketData)
+  // console.log("user", user)
+  // console.log("counters", counters)
 
   return (
     <React.Fragment>
@@ -609,7 +598,7 @@ const TicketInbox = props => {
                                 </span>
                               }
                             >
-                              <p className="m-2 fw-bold">
+                              <div className="m-2 fw-bold">
                                 {ticketRowData != null ? (
                                   <p
                                     dangerouslySetInnerHTML={{
@@ -619,14 +608,14 @@ const TicketInbox = props => {
                                 ) : (
                                   "Content"
                                 )}
-                              </p>
+                              </div>
                             </AccordionTab>
                           </Accordion>
                         </Card>
                       </div>
                       <Card>
                         <CardBody className="bg-light">
-                          <ChatBox ticketDetailData={ticketDetailData} />
+                          <ChatBox  />
                         </CardBody>
                       </Card>
                     </>

@@ -102,6 +102,7 @@ export const UPDATE_TICKET =     "https://api.lotusocean-jp.com/api/ticket/updat
 export const DELETE_TICKET =     "https://api.lotusocean-jp.com/api/ticket/delete";
 // ticket_detail
 export const    GET_TICKETDETAIL_ALL = "https://api.lotusocean-jp.com/api/ticket_detail/all";
+export const    GET_TICKETDETAIL_BY_TICKET_ID = "https://api.lotusocean-jp.com/api/ticket_detail/ticketId";
 export const    GET_TICKETDETAIL_ID =  "https://api.lotusocean-jp.com/api/ticket_detail";
 export const    SET_TICKETDETAIL =     "https://api.lotusocean-jp.com/api/ticket_detail/insert";
 export const UPDATE_TICKETDETAIL =     "https://api.lotusocean-jp.com/api/ticket_detail/update";

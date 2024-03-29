@@ -2,15 +2,23 @@ import {
   GET_TICKETDETAIL_ALL,
   GET_TICKETDETAIL_ALL_SUCCESS,
   GET_TICKETDETAIL_ALL_FAIL,
+
+  GET_TICKETDETAIL_BY_TICKET_ID,
+  GET_TICKETDETAIL_BY_TICKET_ID_SUCCESS,
+  GET_TICKETDETAIL_BY_TICKET_ID_FAIL,
+
   GET_TICKETDETAIL_ID,
   GET_TICKETDETAIL_ID_SUCCESS,
   GET_TICKETDETAIL_ID_FAIL,
+
   SET_TICKETDETAIL,
   SET_TICKETDETAIL_SUCCESS,
   SET_TICKETDETAIL_FAIL,
+
   UPDATE_TICKETDETAIL,
   UPDATE_TICKETDETAIL_SUCCESS,
   UPDATE_TICKETDETAIL_FAIL,
+
   DELETE_TICKETDETAIL,
   DELETE_TICKETDETAIL_SUCCESS,
   DELETE_TICKETDETAIL_FAIL
@@ -19,14 +27,25 @@ import {
 export const getTicketDetailAll = () => ({
   type: GET_TICKETDETAIL_ALL,
 });
-
 export const getTicketDetailAllSuccess = data => ({
   type: GET_TICKETDETAIL_ALL_SUCCESS,
   payload: data,
 });
-
 export const getTicketDetailAllFail = error => ({
   type: GET_TICKETDETAIL_ALL_FAIL,
+  payload: error,
+});
+
+export const getTicketDetailByTicketId = (id) => ({
+  type: GET_TICKETDETAIL_BY_TICKET_ID,
+  payload: id
+});
+export const getTicketDetailByTicketIdSuccess = data => ({
+  type: GET_TICKETDETAIL_BY_TICKET_ID_SUCCESS,
+  payload: data,
+});
+export const getTicketDetailByTicketIdFail = error => ({
+  type: GET_TICKETDETAIL_BY_TICKET_ID_FAIL,
   payload: error,
 });
 

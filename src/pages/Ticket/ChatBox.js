@@ -45,7 +45,7 @@ import DataContext from "data/DataContext"
 import Spinners from "components/Common/Spinner"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
-import { getTicketDetailAll } from "store/actions"
+import { getTicketDetailAll, getTicketDetailByTicketId } from "store/actions"
 
 const ChatBox = () => {
   const { isReponse, setIsReponse, ticketRowData, setTicketRowData, user } =
@@ -68,13 +68,17 @@ const ChatBox = () => {
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getTicketDetailAll())
+    if(ticketRowData) {
+      dispatch(getTicketDetailByTicketId(ticketRowData.id))
+    }
   }, [dispatch])
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getTicketDetailAll())
+      if(ticketRowData) {
+        dispatch(getTicketDetailByTicketId(ticketRowData.id))
+      }
     }, 10000)
     return () => {
       clearInterval(intervalId)
@@ -82,17 +86,17 @@ const ChatBox = () => {
   }, [])
 
   // tim ticketdetail phan hoi den ticket duoc chon
-  const [ticketDetails, setTicketDetails] = useState([])
-  useEffect(() => {
-    if (ticketDetailData && ticketRowData) {
-      const tds = ticketDetailData.filter(
-        td => td.ticket_id == ticketRowData.id
-      )
-      // console.log('ticketDetailData', ticketDetailData)
-      console.log(ticketRowData)
-      setTicketDetails(tds)
-    }
-  }, [ticketRowData, ticketDetailData])
+  // const [ticketDetails, setTicketDetails] = useState([])
+  // useEffect(() => {
+  //   if (ticketDetailData && ticketRowData) {
+  //     const tds = ticketDetailData.filter(
+  //       td => td.ticket_id == ticketRowData.id
+  //     )
+  //     // console.log('ticketDetailData', ticketDetailData)
+  //     console.log(ticketRowData)
+  //     setTicketDetails(tds)
+  //   }
+  // }, [ticketRowData, ticketDetailData])
 
   // scroll simple bar
   const scroollRef = useRef(null)
@@ -176,6 +180,9 @@ const ChatBox = () => {
     }
   }
 
+  console.log('ticketDetailData', ticketDetailData)
+  console.log('ticketRowData', ticketRowData)
+
   return (
     <>
       <div className="w-100 user-chat">
@@ -184,14 +191,14 @@ const ChatBox = () => {
             <div className="chat-conversation p-3">
               <SimpleBar
                 ref={scroollRef}
-                style={{ height: isReponse ? "320px" : "550px" }}
+                style={{ height: isReponse ? "200px" : "500px" }}
               >
                 {isLoading ? (
                   <Spinners setLoading={setLoading} />
                 ) : (
                   <ul className="list-unstyled mb-0">
-                    {ticketDetails &&
-                      (ticketDetails || []).map((ticket, index) => {
+                    {ticketDetailData &&
+                      (ticketDetailData || []).map((ticket, index) => {
                         // return message.usermessages.map((userMsg, index) => {
                         return (
                           <li

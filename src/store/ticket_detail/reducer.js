@@ -2,9 +2,15 @@ import {
   GET_TICKETDETAIL_ALL,
   GET_TICKETDETAIL_ALL_SUCCESS,
   GET_TICKETDETAIL_ALL_FAIL,
+
+  GET_TICKETDETAIL_BY_TICKET_ID,
+  GET_TICKETDETAIL_BY_TICKET_ID_SUCCESS,
+  GET_TICKETDETAIL_BY_TICKET_ID_FAIL,
+
   GET_TICKETDETAIL_ID,
   GET_TICKETDETAIL_ID_SUCCESS,
   GET_TICKETDETAIL_ID_FAIL,
+
   SET_TICKETDETAIL,
   SET_TICKETDETAIL_SUCCESS,
   SET_TICKETDETAIL_FAIL,
@@ -35,13 +41,31 @@ import {
           loading: false,
           datas: action.payload,
         };
-  
       case GET_TICKETDETAIL_ALL_FAIL:
         return {
           ...state,
           loading: false,
           error: action.payload,
         };
+
+      case GET_TICKETDETAIL_BY_TICKET_ID:
+        return {
+          ...state,
+          loading: true
+        };
+      case GET_TICKETDETAIL_BY_TICKET_ID_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          datas: action.payload,
+        };
+      case GET_TICKETDETAIL_BY_TICKET_ID_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+
       case GET_TICKETDETAIL_ID_SUCCESS:
         return {
           ...state,

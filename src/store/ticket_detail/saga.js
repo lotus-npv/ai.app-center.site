@@ -3,13 +3,18 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  GET_TICKETDETAIL_ALL,GET_TICKETDETAIL_ID, SET_TICKETDETAIL, UPDATE_TICKETDETAIL,DELETE_TICKETDETAIL
+  GET_TICKETDETAIL_ALL,GET_TICKETDETAIL_ID, SET_TICKETDETAIL, UPDATE_TICKETDETAIL,DELETE_TICKETDETAIL,GET_TICKETDETAIL_BY_TICKET_ID
 } from "./actionTypes"
 import {
     getTicketDetailAllFail,
     getTicketDetailAllSuccess,
+
+    getTicketDetailByTicketIdFail,
+    getTicketDetailByTicketIdSuccess,
+
     getTicketDetailIdSuccess,
     getTicketDetailIdFail,
+
     setTicketDetailSuccess,
     setTicketDetailFail,
     updateTicketDetailSuccess,
@@ -18,7 +23,7 @@ import {
     deleteTicketDetailFail
 } from "./actions"
                                       
-import { getTicketDetailDataAll,getTicketDetailDataId ,addNewDataTicketDetail, updateDataTicketDetail, deleteDataTicketDetail } from "../../helpers/fakebackend_helper";
+import { getTicketDetailDataAll,getTicketDetailDataId ,addNewDataTicketDetail, updateDataTicketDetail, deleteDataTicketDetail, getTicketDetailDataByTicketId } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetTicketDetailData() {
@@ -27,6 +32,15 @@ function* fetTicketDetailData() {
     yield put(getTicketDetailAllSuccess(response));
   } catch (error) {
     yield put(getTicketDetailAllFail(error))
+  }
+}
+
+function* fetTicketDetailDataByTicketId({payload: id}) {
+  try {
+    const response = yield call(getTicketDetailDataByTicketId, id);
+    yield put(getTicketDetailByTicketIdSuccess(response));
+  } catch (error) {
+    yield put(getTicketDetailByTicketIdFail(error))
   }
 }
 
@@ -83,6 +97,7 @@ function* refreshTicketDetailData() {
 
 function* TicketDetailSaga() {
   yield takeEvery(GET_TICKETDETAIL_ALL, fetTicketDetailData)
+  yield takeEvery(GET_TICKETDETAIL_BY_TICKET_ID, fetTicketDetailDataByTicketId)
   yield takeEvery(GET_TICKETDETAIL_ID, fetTicketDetailDataId)
   yield takeEvery(SET_TICKETDETAIL, onAddNewTicketDetail)
   yield takeEvery(UPDATE_TICKETDETAIL, onUpdateTicketDetail)

@@ -121,6 +121,7 @@ export const updateDataTicket = data =>       put(url.UPDATE_TICKET, data, confi
 export const deleteDataTicket = (id) =>    del(`${url.DELETE_TICKET}/${id}`, { params: { id } }, config);
 // ticket_detail
 export const        getTicketDetailDataAll = () =>     get(url.GET_TICKETDETAIL_ALL);
+export const        getTicketDetailDataByTicketId = (id) => get(`${url.GET_TICKETDETAIL_BY_TICKET_ID}/${id}`,{ params: { id } }, config);
 export const        getTicketDetailDataId = (id) => get(`${url.GET_TICKETDETAIL_ID}/${id}`,{ params: { id } }, config);
 export const addNewDataTicketDetail = data =>         post(url.SET_TICKETDETAIL, data, config);
 export const updateDataTicketDetail = data =>       put(url.UPDATE_TICKETDETAIL, data, config);
