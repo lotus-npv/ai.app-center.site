@@ -68,7 +68,6 @@ const TableDatas = props => {
     setIsEditIntern,
     rowsSelectedInternData,
     setRowSelectedInternData,
-    user,
   } = useContext(DataContext)
 
   // Global filter
@@ -110,6 +109,10 @@ const TableDatas = props => {
     shallowEqual
   )
 
+  const user = JSON.parse(localStorage.getItem("authUser"))[0];
+
+  // console.log('user', user)
+
   // Get du lieu lan dau
   useEffect(() => {
     if (user) {
@@ -124,6 +127,11 @@ const TableDatas = props => {
         dispatch(getViolateTypeAll())
       } else {
         dispatch(getInternUserId(user_id))
+        dispatch(getStatusAll())
+        dispatch(getStatusDetailAll())
+        dispatch(getAlienRegistrationCardAll())
+        dispatch(getStatusOfResidenceAll())
+        dispatch(getViolateTypeAll())
       }
     }
   }, [dispatch])

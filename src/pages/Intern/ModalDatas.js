@@ -73,6 +73,8 @@ const ModalDatas = ({
   alienCardData,
   statusDetailData,
 }) => {
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
+
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -126,7 +128,7 @@ const ModalDatas = ({
     updateAddressDataIntern,
     isRefresh,
     updateRefresh,
-    user,
+    // user,
   } = useContext(DataContext)
 
   // Radio button
@@ -169,7 +171,7 @@ const ModalDatas = ({
 
   // Get du lieu lan dau
   useEffect(() => {
-    if(user) {
+    if (user) {
       dispatch(getDispatchingCompanyAll())
       dispatch(getReceivingFactoryAll())
       dispatch(getStatusAll())
@@ -224,7 +226,12 @@ const ModalDatas = ({
     enableReinitialize: true,
     initialValues: {
       id: item != null ? item.id : "",
-      key_license_id: item != null ? item.key_license_id : 1,
+      key_license_id:
+        item != null
+          ? item.key_license_id
+          : user != null
+          ? user.key_license_id
+          : "",
       syndication_id: item != null ? item.syndication_id : 1,
       type: "intern",
       avata: item != null ? item.avata : "",
@@ -261,6 +268,12 @@ const ModalDatas = ({
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
           : null,
+      entry_date:
+        item != null
+          ? moment(item.entry_date)
+              .utcOffset("+09:00")
+              .format("YYYY-MM-DD")
+          : null,
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : "",
       phone_abroad: item != null ? item.phone_abroad : "",
@@ -271,7 +284,6 @@ const ModalDatas = ({
       create_by: item != null ? item.create_by : 1,
       update_at: item != null ? item.update_at : "",
       update_by: item != null ? item.update_by : 1,
-      entry_date: item != null ? item.entry_date : "",
 
       nation_id: 1,
       alien_registration_card_number:
@@ -352,6 +364,7 @@ const ModalDatas = ({
           passport_code: value.passport_code,
           passport_license_date: value.passport_license_date,
           passport_expiration_date: value.passport_expiration_date,
+          entry_date: value.entry_date,
           alert: value.alert,
           phone_domestically: value.phone_domestically,
           phone_abroad: value.phone_abroad,
@@ -464,6 +477,7 @@ const ModalDatas = ({
           passport_code: value.passport_code,
           passport_license_date: value.passport_license_date,
           passport_expiration_date: value.passport_expiration_date,
+          entry_date: value.entry_date,
           alert: value.alert,
           phone_domestically: value.phone_domestically,
           phone_abroad: value.phone_abroad,
@@ -691,9 +705,9 @@ const ModalDatas = ({
   //   updateRefresh(true)
   // }
 
-  // console.log('formik:', formik.values)
+  console.log("formik:", formik.values)
   // console.log('alienCardData:', alienCardData)
-  console.log('user:', user)
+  // console.log('user:', user)
   // console.log('isEditIntern:', isEditIntern)
   // console.log('loadingIntern:', loadingIntern)
   // console.log("selectedMultiStatus:", selectedMultiStatus)
@@ -1192,43 +1206,16 @@ const ModalDatas = ({
                                   </div>
                                 </Col>
 
-                                {user && user.object_type == "receiving_factory" && (
-                                  <Col lg={6} className="gx-1">
-                                    <div className="mb-3">
-                                      <Label className="form-label fw-bold">
-                                        {t("Syndication")}
-                                      </Label>
-                                      <Select
-                                        name="syndication_id"
-                                        placeholder={t("Syndication")}
-                                        value={factoryData.find(
-                                          option =>
-                                            option.value ===
-                                            formik.values.receiving_factory_id
-                                        )}
-                                        onChange={item => {
-                                          formik.setFieldValue(
-                                            "receiving_factory_id",
-                                            item == null ? null : item.value
-                                          )
-                                        }}
-                                        options={factoryData}
-                                        // isClearable
-                                      />
-                                    </div>
-                                  </Col>
-                                )}
-
                                 {user &&
-                                  user.object_type == "syndication" && (
+                                  user.object_type == "receiving_factory" && (
                                     <Col lg={6} className="gx-1">
                                       <div className="mb-3">
                                         <Label className="form-label fw-bold">
-                                          {t("Receiving Company")}
+                                          {t("Syndication")}
                                         </Label>
                                         <Select
-                                          name="receiving_factory_id"
-                                          placeholder={t("Receiving Company")}
+                                          name="syndication_id"
+                                          placeholder={t("Syndication")}
                                           value={factoryData.find(
                                             option =>
                                               option.value ===
@@ -1246,6 +1233,33 @@ const ModalDatas = ({
                                       </div>
                                     </Col>
                                   )}
+
+                                {user && user.object_type == "syndication" && (
+                                  <Col lg={6} className="gx-1">
+                                    <div className="mb-3">
+                                      <Label className="form-label fw-bold">
+                                        {t("Receiving Company")}
+                                      </Label>
+                                      <Select
+                                        name="receiving_factory_id"
+                                        placeholder={t("Receiving Company")}
+                                        value={factoryData.find(
+                                          option =>
+                                            option.value ===
+                                            formik.values.receiving_factory_id
+                                        )}
+                                        onChange={item => {
+                                          formik.setFieldValue(
+                                            "receiving_factory_id",
+                                            item == null ? null : item.value
+                                          )
+                                        }}
+                                        options={factoryData}
+                                        // isClearable
+                                      />
+                                    </div>
+                                  </Col>
+                                )}
                               </Row>
                               <Row className="">
                                 <Col lg={6} className="gx-1">
@@ -1427,9 +1441,7 @@ const ModalDatas = ({
                                       placeholder={t("Entry date")}
                                       onChange={formik.handleChange}
                                       onBlur={formik.handleBlur}
-                                      value={
-                                        formik.values.entry_date || ""
-                                      }
+                                      value={formik.values.entry_date || ""}
                                       invalid={
                                         formik.touched.entry_date &&
                                         formik.errors.entry_date
@@ -1446,7 +1458,7 @@ const ModalDatas = ({
                                   </div>
                                 </Col>
                               </Row>
-                            
+
                               <Row>
                                 <Col lg={12} className="gx-1">
                                   <div className="mt-2">
