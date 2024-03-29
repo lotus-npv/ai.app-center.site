@@ -3,11 +3,13 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  DELETE_SYNDICATION,GET_SYNDICATION_ALL, SET_SYNDICATION, UPDATE_SYNDICATION,
+  DELETE_SYNDICATION,GET_SYNDICATION_ALL, SET_SYNDICATION, UPDATE_SYNDICATION,GET_SYNDICATION_USERID
 } from "./actionTypes"
 import {
     getSyndicationAllFail,
     getSyndicationAllSuccess,
+    getSyndicationUserIdFail,
+    getSyndicationUserIdSuccess,
     setSyndicationSuccess,
     setSyndicationFail,
     updateSyndicationSuccess,
@@ -16,7 +18,7 @@ import {
     deleteSyndicationFail
 } from "./actions"
                                       
-import { getSyndicationDataAll, addNewDataSyndication, updateDataSyndication, deleteDataSyndication } from "../../helpers/fakebackend_helper";
+import { getSyndicationDataAll, addNewDataSyndication, updateDataSyndication, deleteDataSyndication,getSyndicationDataUserId } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetSyndicationData() {
@@ -26,6 +28,16 @@ function* fetSyndicationData() {
     // console.log('saga syndication:', response)
   } catch (error) {
     yield put(getSyndicationAllFail(error))
+  }
+}
+
+function* fetSyndicationDataUserId({ payload: id }) {
+  try {
+    const response = yield call(getSyndicationDataUserId, id);
+    yield put(getSyndicationUserIdSuccess(response));
+    // console.log('saga syndication:', response)
+  } catch (error) {
+    yield put(getSyndicationUserIdFail(error))
   }
 }
 
@@ -73,6 +85,7 @@ function* refreshSyndicationData() {
 
 function* SyndicationSaga() {
   yield takeLatest(GET_SYNDICATION_ALL, fetSyndicationData)
+  yield takeLatest(GET_SYNDICATION_USERID, fetSyndicationDataUserId)
   yield takeLatest(SET_SYNDICATION, onAddNewSyndication)
   yield takeLatest(UPDATE_SYNDICATION, onUpdateSyndication)
   yield takeLatest(DELETE_SYNDICATION, onDeleteSyndication)

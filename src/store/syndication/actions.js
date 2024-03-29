@@ -2,6 +2,9 @@ import {
   GET_SYNDICATION_ALL,
   GET_SYNDICATION_ALL_SUCCESS,
   GET_SYNDICATION_ALL_FAIL,
+  GET_SYNDICATION_USERID,
+  GET_SYNDICATION_USERID_SUCCESS,
+  GET_SYNDICATION_USERID_FAIL,
   GET_SYNDICATION_ID,
   GET_SYNDICATION_ID_SUCCESS,
   GET_SYNDICATION_ID_FAIL,
@@ -27,6 +30,21 @@ export const getSyndicationAllSuccess = data => ({
 
 export const getSyndicationAllFail = error => ({
   type: GET_SYNDICATION_ALL_FAIL,
+  payload: error,
+});
+
+export const getSyndicationUserId = (id) => ({
+  type: GET_SYNDICATION_USERID,
+  payload: id
+});
+
+export const getSyndicationUserIdSuccess = data => ({
+  type: GET_SYNDICATION_USERID_SUCCESS,
+  payload: data,
+});
+
+export const getSyndicationUserIdFail = error => ({
+  type: GET_SYNDICATION_USERID_FAIL,
   payload: error,
 });
 

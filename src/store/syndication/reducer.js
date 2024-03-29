@@ -2,6 +2,9 @@ import {
   GET_SYNDICATION_ALL,
   GET_SYNDICATION_ALL_SUCCESS,
   GET_SYNDICATION_ALL_FAIL,
+  GET_SYNDICATION_USERID,
+  GET_SYNDICATION_USERID_SUCCESS,
+  GET_SYNDICATION_USERID_FAIL,
   GET_SYNDICATION_ID_SUCCESS,
   GET_SYNDICATION_ID_FAIL,
   SET_SYNDICATION,
@@ -35,6 +38,24 @@ import {
         };
   
       case GET_SYNDICATION_ALL_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+      case GET_SYNDICATION_USERID:
+        return {
+          ...state,
+          loading: true
+        };
+      case GET_SYNDICATION_USERID_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          datas: action.payload,
+        };
+  
+      case GET_SYNDICATION_USERID_FAIL:
         return {
           ...state,
           loading: false,

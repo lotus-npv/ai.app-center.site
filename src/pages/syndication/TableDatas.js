@@ -34,6 +34,7 @@ import {
   getSyndicationAll,
   setSyndication,
   updateSyndication,
+  getSyndicationUserId,
 } from "store/actions"
 
 // The rule argument should be a string in the format "custom_[field]".
@@ -46,6 +47,8 @@ FilterService.register("custom_activity", (value, filters) => {
 })
 
 const TableDatas = props => {
+
+  const user = JSON.parse(localStorage.getItem("authUser"))[0];
   // data context
   const {
     vh,
@@ -62,7 +65,6 @@ const TableDatas = props => {
   const dispatch = useDispatch()
 
   const {
-    factoryData,
     addressData,
     provinceById,
     provinceData,
@@ -70,7 +72,6 @@ const TableDatas = props => {
     syndicationData,
   } = useSelector(
     state => ({
-      factoryData: state.ReceivingFactory.datas,
       syndicationData: state.Syndication.datas,
       addressData: state.Address.datas,
       provinceById: state.Province.dataId,
@@ -82,17 +83,20 @@ const TableDatas = props => {
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getReceivingFactoryAll())
-    dispatch(getSyndicationAll())
-    dispatch(getAddressAll())
+    if(user) {
+      console.log(user.id)
+      dispatch(getSyndicationUserId(user.id))
+      dispatch(getAddressAll(user.key_license_id));
+    }
     dispatch(getProvinceAll())
   }, [dispatch])
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getReceivingFactoryAll())
-      dispatch(getSyndicationAll())
+      if(user) {
+        dispatch(getSyndicationUserId(user.id))
+      }
     }, 10000)
     return () => {
       clearInterval(intervalId)
@@ -282,14 +286,14 @@ const TableDatas = props => {
   }
 
   // xu ly du lieu cho bang
-  const [dataTable, setDataTable] = useState(factoryData)
+  const [dataTable, setDataTable] = useState(syndicationData)
 
   const getListSyndication = key => {
     console.log("key ", key)
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.province_id == key)
     console.log("arr:", arr)
-    const newList = factoryData.filter(factory =>
+    const newList = syndicationData.filter(factory =>
       arr.some(
         item => item.object_id == factory.id && item.user_type == "syndication"
       )
