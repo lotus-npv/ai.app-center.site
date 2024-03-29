@@ -41,6 +41,17 @@ import {
   uploadFile,
 } from "store/actions"
 
+const optionGroup = [
+  { label: "Viet Nam", value: 1 },
+  { label: "Japan", value: 2 },
+]
+const optionGender = [
+  { label: "Male", value: "male" },
+  { label: "Female", value: "female" },
+]
+
+//===============================================================================================================//
+
 const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
@@ -56,6 +67,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     addressSyndication,
     addressDataSyndication,
     updateAddressDataSyndication,
+    isRefresh,
   } = useContext(DataContext)
 
   // Radio button
@@ -71,17 +83,15 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     provinceDataByNationId,
     districtDataByProvinceId,
     communeDataByDistrictId,
-    factoryCreate,
-    factoryData,
-    factoryCreateLoading,
+    syndicationCreate,
+    syndicationLoading
   } = useSelector(
     state => ({
       provinceDataByNationId: state.Province.dataByNationId,
       districtDataByProvinceId: state.District.dataByProvinceId,
       communeDataByDistrictId: state.Commune.dataByDistrictId,
-      factoryCreate: state.ReceivingFactory.data,
-      factoryData: state.ReceivingFactory.datas,
-      factoryCreateLoading: state.ReceivingFactory.loading,
+      syndicationCreate: state.Syndication.data,
+      syndicationLoading: state.Syndication.loading,
     }),
     shallowEqual
   )
@@ -195,8 +205,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   })
 
   useEffect(() => {
-    if (factoryCreate != null) {
-      const id = factoryCreate["id"]
+    if (syndicationCreate != null) {
+      const id = syndicationCreate["id"]
       addressDataSyndication.forEach((address, index) => {
         const newAddress = {
           ...address,
@@ -211,7 +221,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
         }
       })
     }
-  }, [factoryCreate])
+  }, [syndicationCreate])
 
   const handleSubmit = () => {
     console.log("submit")
@@ -245,11 +255,30 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     settextcount(event.target.value.length)
   }
 
+   //---------------------------------------------------------------------------------------
+
+  // render lua chon tinh, huyen, xa
+
+  const [selectNation, setSelectNation] = useState(null)
   const [selectProvince, setSelectProvince] = useState(null)
   const [selectDistrict, setSelectDistrict] = useState(null)
   const [selectCommune, setSelectCommune] = useState(null)
 
   const [provinceOptions, setProvinceOptions] = useState([])
+  const [districtOptions, setDistrictOptions] = useState([])
+  const [communeOptions, setCommuneOptions] = useState([])
+
+  // Tai du lieu thanh pho
+  useEffect(() => {
+    if (selectNation) {
+      dispatch(getProvinceByNationId(selectNation.value))
+      // setSelectProvince([]);
+    }
+  }, [selectNation])
+
+  //---------------------------------------------------------------------------------------
+
+  // tao danh sach lua chon tinh/thanh pho
   useEffect(() => {
     if (provinceDataByNationId) {
       const data = provinceDataByNationId.map(province => {
@@ -263,9 +292,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     }
   }, [provinceDataByNationId])
 
-  // Xu ly danh sach district
-  const [districtOptions, setDistrictOptions] = useState([])
+  //---------------------------------------------------------------------------------------
 
+  // Xu ly danh sach district
   useEffect(() => {
     if (selectProvince !== null) {
       dispatch(getDistrictByProvinceId(selectProvince.StateID))
@@ -286,8 +315,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     }
   }, [districtDataByProvinceId])
 
+  //---------------------------------------------------------------------------------------
   // xu ly tai danh sach commune
-  const [communeOptions, setCommuneOptions] = useState([])
   useEffect(() => {
     if (selectDistrict !== null) {
       dispatch(getCommuneByDistrictId(selectDistrict.DistrictID))
@@ -307,6 +336,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
       setCommuneOptions(data)
     }
   }, [communeDataByDistrictId])
+  //---------------------------------------------------------------------------------------
 
   // console.log('provinceDataByNationId:', provinceDataByNationId);
   // console.log('provinceOptions:', provinceOptions);
@@ -332,7 +362,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
         >
           <div className="modal-header">
             <h5 className="modal-title mt-0" id="exampleModalFullscreenLabel">
-              {isEditSyndication ? `Chỉnh sửa xí nghiệp` : "Thêm xí nghiệp"}
+              {isEditSyndication ? t('Edit Syndication') : t('Add Syndication')}
             </h5>
             <button
               onClick={() => {
@@ -370,7 +400,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                               }}
                             >
                               <img
-                                style={{ width: "90%", height: "90%" }}
+                                style={{ width: "100%", height: "100%" , cursor: 'pointer'}}
                                 className="rounded-circle img-thumbnail"
                                 alt="avata"
                                 src={
@@ -378,16 +408,12 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                     ? `https://api.lotusocean-jp.com/uploads/${formik.values.logo}`
                                     : showAvata
                                 }
+                                onClick={() => fileInputRef.current.click()}
                               />
                             </div>
                             <CardTitle tag="h5" className="text-center mt-2">
-                              Admin
+                              Avata
                             </CardTitle>
-                            <Button
-                              onClick={() => fileInputRef.current.click()}
-                            >
-                              {isEditSyndication ? "Change avata" : "Set avata"}
-                            </Button>{" "}
                             <input
                               onChange={handleChange}
                               multiple={false}
@@ -589,7 +615,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   nation_id: item.value,
                                                 }
-                                                updateAddressDataIntern(arr)
+                                                updateAddressDataSyndication(arr)
                                               }}
                                               options={optionGroup}
                                               className="w-100"
@@ -622,7 +648,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   province_id: item.StateID,
                                                 }
-                                                updateAddressDataIntern(arr)
+                                                updateAddressDataSyndication(arr)
                                               }}
                                               options={provinceOptions}
                                               // isClearable
@@ -654,7 +680,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   district_id: item.DistrictID,
                                                 }
-                                                updateAddressDataIntern(arr)
+                                                updateAddressDataSyndication(arr)
                                               }}
                                               options={districtOptions}
                                               className="select2-selection"
@@ -687,7 +713,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   commune_id: item.WardID,
                                                 }
-                                                updateAddressDataIntern(arr)
+                                                updateAddressDataSyndication(arr)
                                               }}
                                               options={communeOptions}
                                               className="select2-selection"
@@ -717,7 +743,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   detail: e.target.value,
                                                 }
-                                                updateAddressDataIntern(arr)
+                                                updateAddressDataSyndication(arr)
                                               }}
                                             />
                                           </div>

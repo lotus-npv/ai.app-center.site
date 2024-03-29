@@ -43,32 +43,36 @@ import {
       case SET_SYNDICATION:
         return {
           ...state,
-          data: action.payload,
+          loading: true,
         };
       case SET_SYNDICATION_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
   
       case SET_SYNDICATION_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case UPDATE_SYNDICATION:
         return {
           ...state,
-          data: action.payload,
+          loading: true,
         };
       case UPDATE_SYNDICATION_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
         };
       case UPDATE_SYNDICATION_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case DELETE_SYNDICATION_SUCCESS:
