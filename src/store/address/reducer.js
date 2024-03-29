@@ -37,6 +37,7 @@ import {
       case GET_ADDRESS_ALL_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case SET_ADDRESS:

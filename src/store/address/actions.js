@@ -16,8 +16,9 @@ import {
   DELETE_ADDRESS_FAIL
 } from "./actionTypes";
 
-export const getAddressAll = () => ({
+export const getAddressAll = (id) => ({
   type: GET_ADDRESS_ALL,
+  payload: id
 });
 
 export const getAddressAllSuccess = data => ({

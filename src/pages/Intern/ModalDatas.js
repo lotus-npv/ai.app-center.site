@@ -705,7 +705,7 @@ const ModalDatas = ({
   //   updateRefresh(true)
   // }
 
-  console.log("formik:", formik.values)
+  // console.log("formik:", formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('user:', user)
   // console.log('isEditIntern:', isEditIntern)
@@ -1764,7 +1764,7 @@ const ModalDatas = ({
                   {isEditIntern && (
                     <Card>
                       <CardBody>
-                        {isRefresh && <AddressDatas item={item} />}
+                        {isRefresh && <AddressDatas item={item} user={user}/>}
                         {!isRefresh && (
                           <div className="d-flex gap-3 mt-1 ">
                             <h4 className="fw-bold text-success">

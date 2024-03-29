@@ -331,7 +331,7 @@ const TableDatas = props => {
   // goi ham render mang data
   const items = rendLabel();
 
-  console.log('items', items)
+  // console.log('items', items)
 
   const renderHeader = () => {
     return (

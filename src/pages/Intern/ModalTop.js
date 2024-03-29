@@ -119,6 +119,7 @@ const ModalTop = ({
     setmodal_xlarge,
     rowsSelectedInternData,
     setRowSelectedInternData,
+    user
   } = useContext(DataContext)
 
   const { violateListAddDone, loading, dataInternAll } = useSelector(

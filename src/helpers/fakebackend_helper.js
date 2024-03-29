@@ -63,7 +63,7 @@ export const updateDataDispatchingCompany = data => put(url.UPDATE_DISPATCHINGCO
 export const deleteDataDispatchingCompany = (id) => del(`${url.DELETE_DISPATCHINGCOMPANY}/${id}`, { params: { id } }, config);
 
 // address
-export const getAddressDataAll = () => get(url.GET_ADDRESS_ALL);
+export const getAddressDataAll = (id) => get(`${url.GET_ADDRESS_ALL}/${id}`,{ params: { id } }, config);
 export const getAddressDataId = () => get(url.GET_ADDRESS_ID);
 export const addNewDataAddress = data => post(url.SET_ADDRESS, data, config);
 export const updateDataAddress = data => put(url.UPDATE_ADDRESS, data, config);

@@ -9,6 +9,33 @@ const DataProvider = ({ children}) => {
   const updateViolateDatas = newData => {
     setViolateDatas(newData)
   }
+    // address receiving fatory
+    const addressSyndication = {
+      key_license_id: 1,
+      user_type: "syndication",
+      object_id: null,
+      nation_id: 2,
+      province_id: null,
+      district_id: null,
+      commune_id: null,
+      detail: null,
+      phone_number: null,
+      email: null,
+      fax: null,
+      is_default: false,
+      description: null,
+      create_at: null,
+      create_by: 1,
+      update_at: null,
+      update_by: 1,
+      delete_at: null,
+      flag: 1,
+    }
+    const [addressDataSyndication, setAddressDataSyndication] = useState([addressSyndication])
+  
+    const updateAddressDataSyndication = newData => {
+      setAddressDataSyndication(newData)
+    }
 
   // address receiving fatory
   const addressFactory = {
@@ -190,6 +217,9 @@ const DataProvider = ({ children}) => {
     <DataContext.Provider
       value={{
         UserTypeList,
+        addressSyndication,
+        addressDataSyndication,
+        updateAddressDataSyndication,
         addressFactory,
         addressDataFactory,
         updateAddressDataFactory,

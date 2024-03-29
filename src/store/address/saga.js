@@ -24,9 +24,10 @@ import {
 import { getAddressDataAll, addNewDataAddress, updateDataAddress, deleteDataAddress, getInternDataAllInfo } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
-function* fetAddressData() {
+function* fetAddressData({ payload: id }) {
+  // console.log('saga', id)
   try {
-    const response = yield call(getAddressDataAll);
+    const response = yield call(getAddressDataAll, id);
     yield put(getAddressAllSuccess(response));
   } catch (error) {
     yield put(getAddressAllFail(error))

@@ -29,7 +29,7 @@ const NationList = [
   { label: "Korea", value: 3, country: "Han Quoc", data: 0, violate: 6 },
 ]
 
-const AddressDatas = ({ item }) => {
+const AddressDatas = ({ item, user }) => {
   const addObj = {
     nation: "",
     province: "",
@@ -72,15 +72,20 @@ const AddressDatas = ({ item }) => {
     shallowEqual
   )
 
+
+
   useEffect(() => {
-    dispatch(getAddressAll())
+    if(user) {
+      dispatch(getAddressAll(1))
+    }
   }, [dispatch])
 
    // get lai data sau moi 10s
    useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getAddressAll());
-
+      if(user) {
+        dispatch(getAddressAll(1))
+      }
     }, 5000)
     return () => {
       clearInterval(intervalId)
@@ -149,7 +154,7 @@ const AddressDatas = ({ item }) => {
     }
   }, [addressData, provinceDataId, isReadData, districtDataId, communeDataId, isRefresh])
 
-  // console.log('addresss', addresss)
+  console.log('user', user)
   // console.log('provinceLoading', provinceLoading)
   //   console.log("provinceDataId", provinceDataId)
   //   console.log("districtDataId", districtDataId)
