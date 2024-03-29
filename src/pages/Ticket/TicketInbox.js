@@ -137,6 +137,7 @@ const TicketInbox = props => {
   //------------------------------------------------------------------
 
   // -----------------------------------------------------------------
+  // Tai danh sach ticket khi bam chon o menu
   const getListTicketStatus = index => {
     if (user) {
       if (index == 0) {
@@ -358,7 +359,7 @@ const TicketInbox = props => {
 
   console.log('ticketData', ticketData)
   console.log('user', user)
-  // console.log('content', content)
+  console.log('counters', counters)
 
   return (
     <React.Fragment>

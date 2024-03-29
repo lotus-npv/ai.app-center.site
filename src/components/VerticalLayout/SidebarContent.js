@@ -171,7 +171,7 @@ const SidebarContent = props => {
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
             <li className="menu-title">{props.t("Menu")} </li>
-            {isShow[0] && (
+            {isShow[0]  && (
               <li>
                 <Link to="/dashboard">
                   <i className="bx bxs-report"></i>
@@ -243,11 +243,11 @@ const SidebarContent = props => {
                   <span>{props.t("Settings")}</span>
                 </Link>
                 <ul className="sub-menu">
-                {isShow[8] && (
+                {isShow[8] && (user.role == 'admin') && (
                   <li>
                     <Link to="/pages-status">{props.t("Status")}</Link>
                   </li>)}
-                  {isShow[9] && (
+                  {isShow[9] && (user.role == 'admin') && (
                   <li>
                     <Link to="/pages-career">{props.t("Industry")}</Link>
                   </li>)}
