@@ -52,6 +52,8 @@ import {
   updateAlienRegistrationCard,
   updateStatusDetail,
   deleteStatusDetail,
+  getDispatchingCompanyUserId,
+  getReceivingFactoryUserId,
 } from "store/actions"
 
 const optionGroup = [
@@ -72,8 +74,9 @@ const ModalDatas = ({
   addressData,
   alienCardData,
   statusDetailData,
+  user
 }) => {
-  const user = JSON.parse(localStorage.getItem("authUser"))[0]
+  // const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -102,7 +105,6 @@ const ModalDatas = ({
   })
 
   // Tao doi luong luu bang chi tiet trang thai
-
   const statusDetailObj = {
     key_license_id: 1,
     intern_id: null,
@@ -140,6 +142,7 @@ const ModalDatas = ({
   // kiem tra trang thai xem co duoc ghi dia chi
   const [isCreateAddress, setIsCreateAddress] = useState(false)
 
+  // Du lieu trong redux
   const {
     provinceDataByNationId,
     districtDataByProvinceId,
@@ -172,8 +175,8 @@ const ModalDatas = ({
   // Get du lieu lan dau
   useEffect(() => {
     if (user) {
-      dispatch(getDispatchingCompanyAll())
-      dispatch(getReceivingFactoryAll())
+      dispatch(getDispatchingCompanyUserId(user.id))
+      dispatch(getReceivingFactoryUserId(user.id))
       dispatch(getStatusAll())
       dispatch(getCareerAll())
       dispatch(getStatusOfResidenceAll())

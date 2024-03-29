@@ -13,7 +13,7 @@ const InternPage = () => {
   const location = useLocation()
   const receivedData = location.state
 
-  console.log(receivedData);
+  // console.log(receivedData);
 
   return (
     <>

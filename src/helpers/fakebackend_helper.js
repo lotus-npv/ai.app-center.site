@@ -34,7 +34,7 @@ export const deleteDataStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { para
 
 // intern
 export const getInternDataAll = () => get(url.GET_INTERN_ALL);
-export const getInternDataAllInfo = (id) => get(`${url.GET_INTERN_ALLINFO}/${id}`,{ params: { id } }, config);
+export const getInternDataAllInfo = () => get(url.GET_INTERN_ALLINFO);
 export const getInternDataUserId = (id) => get(`${url.GET_INTERN_USERID}/${id}`,{ params: { id } }, config);
 export const getInternDataId = () => get(url.GET_INTERN_ID);
 export const addNewDataIntern = data => post(url.SET_INTERN, data, config);
@@ -50,7 +50,7 @@ export const updateDataSyndication = data => put(url.UPDATE_SYNDICATION, data, c
 export const deleteDataSyndication = (id) => del(`${url.DELETE_SYNDICATION}/${id}`, { params: { id } }, config);
 
 // receiving_factory
-export const getReceivingFactoryDataAll = (id) => get(`${url.GET_RECEIVINGFACTORY_ALL}/${id}`,{ params: { id } }, config);
+export const getReceivingFactoryDataAll = () => get(url.GET_RECEIVINGFACTORY_ALL);
 export const getReceivingFactoryDataUserId = (id) => get(`${url.GET_RECEIVINGFACTORY_USERID}/${id}`,{ params: { id } }, config);
 export const getReceivingFactoryDataId = () => get(url.GET_RECEIVINGFACTORY_ID);
 export const addNewDataReceivingFactory = data => post(url.SET_RECEIVINGFACTORY, data, config);

@@ -33,7 +33,6 @@ import { font } from "./Roboto-Medium-normal"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
-  getInternAllInfo,
   updateIntern,
   deleteIntern,
   setIntern,
@@ -61,6 +60,7 @@ FilterService.register("custom_activity", (value, filters) => {
 
 const TableDatas = props => {
   const { t } = useTranslation()
+  const user = JSON.parse(localStorage.getItem("authUser"))[0];
 
   // data context
   const {
@@ -109,30 +109,16 @@ const TableDatas = props => {
     shallowEqual
   )
 
-  const user = JSON.parse(localStorage.getItem("authUser"))[0];
-
-  // console.log('user', user)
-
   // Get du lieu lan dau
   useEffect(() => {
     if (user) {
-      const key_license_id = user.key_license_id
       const user_id = user.id
-      if (user.role === "admin") {
-        dispatch(getInternAllInfo(key_license_id))
-        dispatch(getStatusAll())
-        dispatch(getStatusDetailAll())
-        dispatch(getAlienRegistrationCardAll())
-        dispatch(getStatusOfResidenceAll())
-        dispatch(getViolateTypeAll())
-      } else {
-        dispatch(getInternUserId(user_id))
-        dispatch(getStatusAll())
-        dispatch(getStatusDetailAll())
-        dispatch(getAlienRegistrationCardAll())
-        dispatch(getStatusOfResidenceAll())
-        dispatch(getViolateTypeAll())
-      }
+      dispatch(getInternUserId(user_id))
+      dispatch(getStatusAll())
+      dispatch(getStatusDetailAll())
+      dispatch(getAlienRegistrationCardAll())
+      dispatch(getStatusOfResidenceAll())
+      dispatch(getViolateTypeAll())
     }
   }, [dispatch])
 
@@ -140,13 +126,8 @@ const TableDatas = props => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (user) {
-        const key_license_id = user.key_license_id
         const user_id = user.id
-        if (user.role === "admin") {
-          dispatch(getInternAllInfo(key_license_id))
-        } else {
-          dispatch(getInternUserId(user_id))
-        }
+        dispatch(getInternUserId(user_id))
       }
     }, 10000)
     // Hàm dọn dẹp khi unmount
@@ -305,7 +286,11 @@ const TableDatas = props => {
       ...statusData.map((status, index) => {
         return {
           name: status.name,
-          data: statusDetailData.filter(e => e.status_id == status.id).filter(sd => internDataAllInfo.some(intern => intern.id == sd.intern_id)).length,
+          data: statusDetailData
+            .filter(e => e.status_id == status.id)
+            .filter(sd =>
+              internDataAllInfo.some(intern => intern.id == sd.intern_id)
+            ).length,
           // template: item =>
           //   itemRenderer(
           //     item,
@@ -329,7 +314,7 @@ const TableDatas = props => {
   }
 
   // goi ham render mang data
-  const items = rendLabel();
+  const items = rendLabel()
 
   // console.log('items', items)
 
@@ -503,6 +488,8 @@ const TableDatas = props => {
           statusDetailApiData={statusDetailData}
           alienCardApiData={alienCardData}
           setStatusDetailApi={setStatusDetail}
+          dataInternAll={internDataAllInfo}
+          user={user}
         />
         <Tooltip target=".export-buttons>button" position="bottom" />
 
@@ -604,6 +591,7 @@ const TableDatas = props => {
           addressData={addressData}
           alienCardData={alienCardData}
           statusDetailData={statusDetailData}
+          user={user}
         />
       </div>
     </React.Fragment>

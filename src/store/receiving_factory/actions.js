@@ -19,9 +19,8 @@ import {
   DELETE_RECEIVINGFACTORY_FAIL
 } from "./actionTypes";
 
-export const getReceivingFactoryAll = (id) => ({
+export const getReceivingFactoryAll = () => ({
   type: GET_RECEIVINGFACTORY_ALL,
-  payload: id
 });
 
 export const getReceivingFactoryAllSuccess = data => ({

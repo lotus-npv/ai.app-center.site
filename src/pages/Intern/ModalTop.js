@@ -88,6 +88,8 @@ const ModalTop = ({
   violateTypeApiData,
   statusDetailApiData,
   alienCardApiData,
+  dataInternAll,
+  user
 }) => {
   const { t } = useTranslation()
 
@@ -118,22 +120,15 @@ const ModalTop = ({
     tog_xlarge,
     setmodal_xlarge,
     rowsSelectedInternData,
-    setRowSelectedInternData,
-    user
   } = useContext(DataContext)
 
-  const { violateListAddDone, loading, dataInternAll } = useSelector(
+  const { violateListAddDone, loading } = useSelector(
     state => ({
       violateListAddDone: state.ViolateList.data,
       loading: state.ViolateList.loading,
-      dataInternAll: state.Intern.datas,
     }),
     shallowEqual
   )
-
-  useEffect(() => {
-    dispatch(getInternAllInfo())
-  }, [dispatch])
 
   const [internData, setInternData] = useState(dataInternAll)
   const [selectIntern, setSelectIntern] = useState([])

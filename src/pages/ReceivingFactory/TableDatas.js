@@ -64,11 +64,7 @@ const TableDatas = (props) => {
   // Get du lieu lan dau 
   useEffect(() => {
     if(user) {
-      if(user.role == 'admin') {
-        dispatch(getReceivingFactoryAll(user.key_license_id));
-      }else {
-        dispatch(getReceivingFactoryUserId(user.id));
-      }
+      dispatch(getReceivingFactoryUserId(user.id));
     }
     dispatch(getAddressAll(user.key_license_id));
     dispatch(getProvinceAll());
@@ -78,11 +74,7 @@ const TableDatas = (props) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if(user) {
-        if(user.role == 'admin') {
-          dispatch(getReceivingFactoryAll(user.key_license_id));
-        }else {
-          dispatch(getReceivingFactoryUserId(user.id));
-        }
+        dispatch(getReceivingFactoryUserId(user.id));
       }
     }, 10000);
     return () => {
@@ -324,6 +316,7 @@ const TableDatas = (props) => {
         setApi={setReceivingFactory}
         updateApi={updateReceivingFactory}
         addressData={addressData}
+        factoryData={factoryData}
       />
 
     </div>

@@ -36,10 +36,10 @@ function* fetInternData() {
   }
 }
 
-function* fetInternDataAllInfo({ payload: id }) {
+function* fetInternDataAllInfo() {
   // console.log('saga intern', id)
   try {
-    const response = yield call(getInternDataAllInfo, id);
+    const response = yield call(getInternDataAllInfo);
     yield put(getInternAllInfoSuccess(response));
     // console.log('saga intern', response)
   } catch (error) {

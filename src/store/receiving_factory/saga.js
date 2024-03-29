@@ -21,9 +21,9 @@ import {
 import { getReceivingFactoryDataAll,getReceivingFactoryDataUserId ,addNewDataReceivingFactory, updateDataReceivingFactory, deleteDataReceivingFactory } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
-function* fetReceivingFactoryData({ payload: id }) {
+function* fetReceivingFactoryData() {
   try {
-    const response = yield call(getReceivingFactoryDataAll, id);
+    const response = yield call(getReceivingFactoryDataAll);
     yield put(getReceivingFactoryAllSuccess(response));
   } catch (error) {
     yield put(getReceivingFactoryAllFail(error))

@@ -37,9 +37,8 @@ export const getInternAllFail = error => ({
   payload: error,
 });
 
-export const getInternAllInfo = (id) => ({
+export const getInternAllInfo = () => ({
   type: GET_INTERN_ALLINFO,
-  payload: id
 });
 
 export const getInternAllInfoSuccess = data => ({
