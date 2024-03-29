@@ -27,7 +27,7 @@ import { useTranslation } from "react-i18next"
 import DataContext from "../../data/DataContext"
 import avata from "../../assets/images/users/avatar-1.jpg"
 
-import AddressDatas from "./AddressDatas"
+import AddressDatas from "../../components/CommonForBoth/Address/AddressDatas"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -107,7 +107,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
       const arr = addressData.filter(
         address =>
           address.object_id == item.id &&
-          address.user_type == "receiving_factory"
+          address.user_type == "syndication"
       )
       console.log("arr", arr)
       updateAddressDataSyndication(arr)
@@ -224,6 +224,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
       }
     }
   }, [syndicationCreate])
+
+  //-----------------------------------------------------------------------------------------------
+
 
   const handleSubmit = () => {
     console.log("submit")
@@ -349,7 +352,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('addressDataSyndication:', addressDataSyndication)
-  console.log('isEditSyndication:', isEditSyndication)
+  // console.log('isEditSyndication:', isEditSyndication)
+  // console.log('syndicationCreate:', syndicationCreate)
   // console.log('selectedFile:', selectedFile);
   // console.log('user:', user);
 

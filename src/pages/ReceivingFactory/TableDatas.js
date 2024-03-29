@@ -16,6 +16,7 @@ import {
   Button as ButtonRS
 } from "reactstrap";
 import classnames from "classnames";
+import moment from 'moment';
 
 import { Badge } from "reactstrap";
 import { Badge as BadgePrime } from 'primereact/badge';
@@ -42,7 +43,7 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = (props) => {
-
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
   const { vh, tog_fullscreen, isEditFactory, setIsEditFactory, addressFactory, addressDataFactory, updateAddressDataFactory } = useContext(DataContext);
 
@@ -63,7 +64,7 @@ const TableDatas = (props) => {
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getReceivingFactoryAll());
-    dispatch(getAddressAll());
+    dispatch(getAddressAll(user.key_license_id));
     dispatch(getProvinceAll());
   }, [dispatch]);
 
@@ -111,9 +112,7 @@ const TableDatas = (props) => {
     const array = addressData.filter(address => address.user_type === 'receiving_factory');
 
     // tạo danh sách địa
-    // const number_of_factory = array.filter(address => address.is_default == 1).length;
     const number_of_factory = factoryData.length;
-    // console.log('number_of_factory', number_of_factory)
 
     let map = new Map();
     array.forEach(obj => {
@@ -124,7 +123,6 @@ const TableDatas = (props) => {
       }
     });
 
-    // let uniqueArray = Array.from(map.values()).map(({ data, obj }) => ({ ...obj.province_id, data }));
     // Tao mang chua du lieu 
     let uniqueArray = Array.from(map.values()).map(item => {
       let name = 'loading ...';
@@ -144,15 +142,14 @@ const TableDatas = (props) => {
   }
 
   // acctive tab
-  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All", id: 0 });
+  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All", idProvince: 0 });
   const toggleCustom = (tab, data, provinceId) => {
     if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data, id: provinceId });
+      setcustomActiveTab({ index: tab, value: data, idProvince: provinceId });
     }
   };
 
   // Global filter 
-
   const [selectedItems, setSelectedItems] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -226,23 +223,30 @@ const TableDatas = (props) => {
     );
   };
 
-
+// Du lieu dua vao bang de hien thi
   const [dataTable, setDataTable] = useState(factoryData)
 
+  // Xu ly du lieu khi nguoi dung chuyen tab
   const getListInternStatus = (key) => {
-    console.log('key ', key)
+
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.province_id == key);
     console.log('arr:', arr)
-    const newList = factoryData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory'));
+    const newList = factoryData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory')).map(factory => {
+      return {...factory, date_of_joining_syndication: moment(factory.date_of_joining_syndication).format("YYYY-MM-DD"),}
+    });
+    
     setDataTable(newList);
   }
 
   useEffect(() => {
     if (customActiveTab.value === 'All') {
-      setDataTable(factoryData);
+      const arr = factoryData.map(factory => {
+        return {...factory, date_of_joining_syndication: moment(factory.date_of_joining_syndication).format("YYYY-MM-DD"),}
+      })
+      setDataTable(arr);
     } else {
-      getListInternStatus(customActiveTab.id);
+      getListInternStatus(customActiveTab.idProvince);
     }
   }, [customActiveTab, factoryData])
 

@@ -211,14 +211,14 @@ const SidebarContent = props => {
                 </Link>
               </li>
             )}
-            {isShow[5] && (
+            {/* {isShow[5] && (
               <li>
                 <Link to="/contacts">
                   <i className="bx bxs-contact"></i>
                   <span>{props.t("Contact List")}</span>
                 </Link>
               </li>
-            )}
+            )} */}
             {isShow[6] && (
               <li>
                 <Link to="/violate">

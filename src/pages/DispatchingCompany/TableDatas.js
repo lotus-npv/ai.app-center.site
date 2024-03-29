@@ -28,6 +28,8 @@ import ModalDatas from './ModalDatas'
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
+import moment from 'moment';
+
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { getDispatchingCompanyAll, getAddressAll, getProvinceId, getProvinceAll, getNationAll, deleteDispatchingCompany, setDispatchingCompany, updateDispatchingCompany } from "store/actions";
@@ -42,7 +44,7 @@ FilterService.register('custom_activity', (value, filters) => {
 });
 
 const TableDatas = (props) => {
-
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
   const {vh, modal_fullscreen, setmodal_fullscreen, tog_fullscreen, isEditCompany, setIsEditCompany,addressCompany, addressDataCompany, updateAddressDataCompany, } = useContext(DataContext);
 
@@ -62,7 +64,7 @@ const TableDatas = (props) => {
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getDispatchingCompanyAll());
-    dispatch(getAddressAll());
+    dispatch(getAddressAll(user.key_license_id));
     dispatch(getNationAll());
   }, [dispatch]);
 
@@ -233,17 +235,19 @@ const TableDatas = (props) => {
   const [dataTable, setDataTable] = useState(companyData)
 
   const getListInternStatus = (key) => {
-    console.log('key ', key)
-    // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.nation_id == key);
-    console.log('arr:', arr)
-    const newList = companyData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company'));
+    const newList = companyData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company')).map(company => {
+      return {...company, date_of_joining_syndication: moment(company.date_of_joining_syndication).format("YYYY-MM-DD"),}
+    });
     setDataTable(newList);
   }
 
   useEffect(() => {
     if (customActiveTab.value === 'All') {
-      setDataTable(companyData);
+      const arr = companyData.map(company => {
+        return {...company, date_of_joining_syndication: moment(company.date_of_joining_syndication).format("YYYY-MM-DD"),}
+      })
+      setDataTable(arr);
     } else {
       getListInternStatus(customActiveTab.id);
     }

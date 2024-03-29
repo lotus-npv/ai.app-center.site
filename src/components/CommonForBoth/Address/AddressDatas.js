@@ -19,10 +19,10 @@ import {
 
 import ModalEditAddress from "./ModalEditAddress"
 // import context
-import DataContext from "data/DataContext"
+import DataContext from "../../../data/DataContext"
 import { useTranslation } from "react-i18next"
 
-import map from "../../assets/images/icon/map.png"
+import map from "../../../assets/images/icon/map.png"
 
 const NationList = [
   { label: "Vietnam", value: 1, country: "Viet Nam", data: 0, violate: 2 },
@@ -90,7 +90,7 @@ const AddressDatas = ({ item, user }) => {
    useEffect(() => {
     const intervalId = setInterval(() => {
       if(user) {
-        dispatch(getAddressAll(user.key_license_id))
+        dispatch(getAddressAll(1))
       }
     }, 5000)
     return () => {
@@ -167,7 +167,6 @@ const AddressDatas = ({ item, user }) => {
   // console.log("communeDataId", communeDataId)
   //   console.log("isReadData", isReadData)
     console.log("item", item)
-    console.log("addressData", addressData)
 
   const getSeverity = address => {
     switch (address.inventoryStatus) {
