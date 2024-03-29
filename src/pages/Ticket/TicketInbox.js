@@ -344,7 +344,8 @@ const TicketInbox = props => {
 
   // console.log("ticketData", ticketData)
   // console.log("user", user)
-  console.log("activeIndex", activeIndex)
+  // console.log("activeIndex", activeIndex)
+  console.table(ticketData);
 
   return (
     <React.Fragment>
