@@ -361,7 +361,7 @@ const TableDatas = props => {
           size="large"
           shape="circle"
         ></Avatar>
-        <span>{rowData.full_name_jp}</span>
+        <span>{rowData.label}</span>
       </div>
     )
   }

@@ -237,7 +237,6 @@ const ModalDatas = ({
           : user != null
           ? user.key_license_id
           : "",
-      syndication_id: item != null ? item.syndication_id : 1,
       type: "intern",
       avata: item != null ? item.avata : "",
       avata_update_at:
@@ -282,9 +281,13 @@ const ModalDatas = ({
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : "",
       phone_abroad: item != null ? item.phone_abroad : "",
-      receiving_factory_id: item != null ? item.receiving_factory_id : "",
+
+
+      syndication_id: item != null ? item.syndication_id : (user.object_type == 'syndication' ? user.object_id : ''),
+      receiving_factory_id: item != null ? item.receiving_factory_id : (user.object_type == 'receiving_factory' ? user.object_id : ''),
+
+
       dispatching_company_id: item != null ? item.dispatching_company_id : "",
-      syndication_id: item != null ? item.syndication_id : "",
       description: item != null ? item.description : "",
       create_at: item != null ? item.create_at : "",
       create_by: item != null ? item.create_by : 1,
@@ -567,6 +570,7 @@ const ModalDatas = ({
         addressDataIntern.forEach((address, index) => {
           const newAddress = {
             ...address,
+            key_license_id: user.key_license_id,
             object_id: id,
             is_default: selectAddressDefault == index ? 1 : 0,
           }
@@ -711,14 +715,15 @@ const ModalDatas = ({
   //   updateRefresh(true)
   // }
 
-  // console.log("formik:", formik.values)
+  console.log("formik:", formik.values)
   // console.log('alienCardData:', alienCardData)
-  // console.log('user:', user)
+  // console.log('user:', user.object_type)
   // console.log('isEditIntern:', isEditIntern)
   // console.log('loadingIntern:', loadingIntern)
   // console.log("selectedMultiStatus:", selectedMultiStatus)
   // console.log("selectedFile:", selectedFile)
   // console.log("isRefresh:", isRefresh)
+  // console.log("item:", item)
 
   return (
     <>
@@ -1222,18 +1227,18 @@ const ModalDatas = ({
                                         <Select
                                           name="syndication_id"
                                           placeholder={t("Syndication")}
-                                          value={factoryData.find(
+                                          value={syndicationData.find(
                                             option =>
                                               option.value ===
-                                              formik.values.receiving_factory_id
+                                              formik.values.syndication_id
                                           )}
                                           onChange={item => {
                                             formik.setFieldValue(
-                                              "receiving_factory_id",
+                                              "syndication_id",
                                               item == null ? null : item.value
                                             )
                                           }}
-                                          options={factoryData}
+                                          options={syndicationData}
                                           // isClearable
                                         />
                                       </div>
@@ -1244,15 +1249,15 @@ const ModalDatas = ({
                                   <Col lg={6} className="gx-1">
                                     <div className="mb-3">
                                       <Label className="form-label fw-bold">
-                                        {t("Receiving Company")}
+                                        {t("Receiving Factory")}
                                       </Label>
                                       <Select
                                         name="receiving_factory_id"
-                                        placeholder={t("Receiving Company")}
-                                        value={syndicationData.find(
+                                        placeholder={t("Receiving Factory")}
+                                        value={factoryData.find(
                                           option =>
                                             option.value ===
-                                            formik.values.syndication_id
+                                            formik.values.receiving_factory_id
                                         )}
                                         onChange={item => {
                                           formik.setFieldValue(
@@ -1260,7 +1265,7 @@ const ModalDatas = ({
                                             item == null ? null : item.value
                                           )
                                         }}
-                                        options={syndicationData}
+                                        options={factoryData}
                                         // isClearable
                                       />
                                     </div>
