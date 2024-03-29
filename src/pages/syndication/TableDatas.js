@@ -30,7 +30,7 @@ import PropTypes from "prop-types";
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll } from "store/actions";
+import { getReceivingFactoryAll, updateReceivingFactory, deleteReceivingFactory, setReceivingFactory, getAddressAll, getProvinceId, getProvinceAll, getSyndicationAll, setSyndication, updateSyndication } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -52,8 +52,9 @@ const TableDatas = (props) => {
   // Khai bao du lieu
   const dispatch = useDispatch();
 
-  const { factoryData, addressData, provinceById, provinceData, loading } = useSelector(state => ({
+  const { factoryData, addressData, provinceById, provinceData, loading, syndicationData } = useSelector(state => ({
     factoryData: state.ReceivingFactory.datas,
+    syndicationData: state.Syndication.datas,
     addressData: state.Address.datas,
     provinceById: state.Province.dataId,
     provinceData: state.Province.datas,
@@ -63,6 +64,7 @@ const TableDatas = (props) => {
   // Get du lieu lan dau 
   useEffect(() => {
     dispatch(getReceivingFactoryAll());
+    dispatch(getSyndicationAll());
     dispatch(getAddressAll());
     dispatch(getProvinceAll());
   }, [dispatch]);
@@ -71,6 +73,7 @@ const TableDatas = (props) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getReceivingFactoryAll());
+      dispatch(getSyndicationAll());
     }, 10000);
     return () => {
       clearInterval(intervalId);
@@ -108,11 +111,11 @@ const TableDatas = (props) => {
 
   const rendLabel = () => {
     // lọc ra danh sách các địa chỉ của xí nghiệp
-    const array = addressData.filter(address => address.user_type === 'receiving_factory');
+    const array = addressData.filter(address => address.user_type === 'syndication');
 
     // tạo danh sách địa
     // const number_of_factory = array.filter(address => address.is_default == 1).length;
-    const number_of_factory = factoryData.length;
+    const number_of_syndication = syndicationData.length;
     // console.log('number_of_factory', number_of_factory)
 
     let map = new Map();
@@ -138,7 +141,7 @@ const TableDatas = (props) => {
       return { name: name, data: item.data, provinceId: item.obj.province_id }
     });
 
-    return [{ name: 'All', data: number_of_factory, provinceById: 0 }, ...uniqueArray.map((address) => {
+    return [{ name: 'All', data: number_of_syndication, provinceById: 0 }, ...uniqueArray.map((address) => {
       return { name: address.name, data: address.data, provinceId: address.provinceId }
     })].filter(e => e.data >= 1);
   }
@@ -226,25 +229,25 @@ const TableDatas = (props) => {
     );
   };
 
-
+  // xu ly du lieu cho bang
   const [dataTable, setDataTable] = useState(factoryData)
 
-  const getListInternStatus = (key) => {
+  const getListSyndication = (key) => {
     console.log('key ', key)
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.province_id == key);
     console.log('arr:', arr)
-    const newList = factoryData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'receiving_factory'));
+    const newList = factoryData.filter(factory => arr.some(item => item.object_id == factory.id && item.user_type == 'syndication'));
     setDataTable(newList);
   }
 
   useEffect(() => {
     if (customActiveTab.value === 'All') {
-      setDataTable(factoryData);
+      setDataTable(syndicationData);
     } else {
-      getListInternStatus(customActiveTab.id);
+      getListSyndication(customActiveTab.id);
     }
-  }, [customActiveTab, factoryData])
+  }, [customActiveTab, syndicationData])
 
   // console.log('customActiveTab:', customActiveTab)
 
@@ -304,9 +307,9 @@ const TableDatas = (props) => {
       <ModalDatas
         item={rowSelect}
         dispatch={dispatch}
-        getApi={getReceivingFactoryAll}
-        setApi={setReceivingFactory}
-        updateApi={updateReceivingFactory}
+        getApi={getSyndicationAll}
+        setApi={setSyndication}
+        updateApi={updateSyndication}
         addressData={addressData}
       />
 

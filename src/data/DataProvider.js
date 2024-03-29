@@ -159,6 +159,8 @@ const DataProvider = ({ children}) => {
     document.body.classList.add("no_padding")
   }
 
+  // edit Syndication
+  const [isEditSyndication, setIsEditSyndication] = useState(false)
   // edit factory
   const [isEditFactory, setIsEditFactory] = useState(false)
   // edit company
@@ -239,6 +241,7 @@ const DataProvider = ({ children}) => {
         modal_fullscreen,
         setmodal_fullscreen,
         tog_fullscreen,
+        isEditSyndication, setIsEditSyndication,
         isEditIntern,
         setIsEditIntern,
         isEditFactory,

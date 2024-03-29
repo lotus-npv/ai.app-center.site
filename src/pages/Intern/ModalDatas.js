@@ -1761,6 +1761,8 @@ const ModalDatas = ({
                       </CardBody>
                     </Card>
                   )}
+
+                  
                   {isEditIntern && (
                     <Card>
                       <CardBody>
