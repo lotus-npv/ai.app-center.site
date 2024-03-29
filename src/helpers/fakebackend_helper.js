@@ -100,6 +100,7 @@ export const updateDataViolateList = data =>       put(url.UPDATE_VIOLATELIST, d
 export const deleteDataViolateList = (id) =>    del(`${url.DELETE_VIOLATELIST}/${id}`, { params: { id } }, config);
 // violate
 export const        getViolateDataAll = () =>     get(url.GET_VIOLATE_ALL);
+export const        getViolateDataUserId = (id) =>     get(`${url.GET_VIOLATE_USERID}/${id}`,{ params: { id } }, config);
 export const        getViolateDataId = (id) => get(`${url.GET_VIOLATE_ID}/${id}`,{ params: { id } }, config);
 export const addNewDataViolate = data =>         post(url.SET_VIOLATE, data, config);
 export const updateDataViolate = data =>       put(url.UPDATE_VIOLATE, data, config);

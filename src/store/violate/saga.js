@@ -3,11 +3,13 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  GET_VIOLATE_ALL,GET_VIOLATE_ID, SET_VIOLATE, UPDATE_VIOLATE,DELETE_VIOLATE
+  GET_VIOLATE_ALL,GET_VIOLATE_ID, SET_VIOLATE, UPDATE_VIOLATE,DELETE_VIOLATE,GET_VIOLATE_USERID
 } from "./actionTypes"
 import {
     getViolateAllFail,
     getViolateAllSuccess,
+    getViolateUserIdFail,
+    getViolateUserIdSuccess,
     getViolateIdSuccess,
     getViolateIdFail,
     setViolateSuccess,
@@ -20,7 +22,7 @@ import {
 
 import { getViolateListAllSuccess } from "store/actions";
                                       
-import { getViolateDataAll,getViolateDataId ,addNewDataViolate, updateDataViolate, deleteDataViolate, getViolateListDataAll } from "../../helpers/fakebackend_helper";
+import { getViolateDataAll,getViolateDataId ,addNewDataViolate, updateDataViolate, deleteDataViolate, getViolateListDataAll, getViolateDataUserId } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetViolateData() {
@@ -29,6 +31,15 @@ function* fetViolateData() {
     yield put(getViolateAllSuccess(response));
   } catch (error) {
     yield put(getViolateAllFail(error))
+  }
+}
+
+function* fetViolateDataUserId({payload: id}) {
+  try {
+    const response = yield call(getViolateDataUserId, id);
+    yield put(getViolateUserIdSuccess(response));
+  } catch (error) {
+    yield put(getViolateUserIdFail(error))
   }
 }
 
@@ -91,6 +102,7 @@ function* refreshViolateListData() {
 
 function* ViolateSaga() {
   yield takeEvery(GET_VIOLATE_ALL, fetViolateData)
+  yield takeEvery(GET_VIOLATE_USERID, fetViolateDataUserId)
   yield takeEvery(GET_VIOLATE_ID, fetViolateDataId)
   yield takeEvery(SET_VIOLATE, onAddNewViolate)
   yield takeEvery(UPDATE_VIOLATE, onUpdateViolate)

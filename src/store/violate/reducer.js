@@ -2,6 +2,9 @@ import {
   GET_VIOLATE_ALL,
   GET_VIOLATE_ALL_SUCCESS,
   GET_VIOLATE_ALL_FAIL,
+  GET_VIOLATE_USERID,
+  GET_VIOLATE_USERID_SUCCESS,
+  GET_VIOLATE_USERID_FAIL,
   GET_VIOLATE_ID,
   GET_VIOLATE_ID_SUCCESS,
   GET_VIOLATE_ID_FAIL,
@@ -30,6 +33,17 @@ import {
         };
   
       case GET_VIOLATE_ALL_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+      case GET_VIOLATE_USERID_SUCCESS:
+        return {
+          ...state,
+          datas: action.payload,
+        };
+  
+      case GET_VIOLATE_USERID_FAIL:
         return {
           ...state,
           error: action.payload,

@@ -20,6 +20,7 @@ import DeleteModal from "components/Common/DeleteModal"
 // import ModalDatas from './ModalDatas'
 import ModalTop from "./ModalTop"
 
+import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
 
@@ -32,6 +33,7 @@ import {
   getViolateTypeAll,
   deleteViolateList,
   deleteViolate,
+  getViolateUserId,
 } from "store/actions"
 
 // The rule argument should be a string in the format "custom_[field]".
@@ -44,6 +46,8 @@ FilterService.register("custom_activity", (value, filters) => {
 })
 
 const TableDatas = props => {
+  const { t } = useTranslation()
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
   const {
     vh,
@@ -59,35 +63,34 @@ const TableDatas = props => {
   // Khai bao du lieu
   const dispatch = useDispatch()
 
-  const {
-    violateListData,
-    violateData,
-    violateTypeData,
-    loading,
-    user,
-  } = useSelector(
-    state => ({
-      violateListData: state.ViolateList.datas,
-      violateData: state.Violate.datas,
-      violateTypeData: state.ViolateType.datas,
-      loading: state.Province.loading,
-      user: state.Users.user,
-    }),
-    shallowEqual
-  )
+  const { violateListData, violateData, violateTypeData, loading } =
+    useSelector(
+      state => ({
+        violateListData: state.ViolateList.datas,
+        violateData: state.Violate.datas,
+        violateTypeData: state.ViolateType.datas,
+        loading: state.Province.loading,
+      }),
+      shallowEqual
+    )
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getViolateListAll())
-    dispatch(getViolateAll())
-    dispatch(getProvinceAll())
-    dispatch(getViolateTypeAll())
+    if (user) {
+      dispatch(getViolateListAll())
+      // dispatch(getViolateAll())
+      dispatch(getProvinceAll())
+      dispatch(getViolateTypeAll())
+      dispatch(getViolateUserId(user.id))
+    }
   }, [dispatch])
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getViolateListAll())
+      if (user) {
+        dispatch(getViolateUserId(user.id))
+      }
     }, 10000)
     return () => {
       clearInterval(intervalId)
@@ -174,10 +177,8 @@ const TableDatas = props => {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nam_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
     phone_number: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    date_of_joining_syndication: {
-      value: null,
-      matchMode: FilterMatchMode.CONTAINS,
-    },
+    factory_work_name: {value: null,matchMode: FilterMatchMode.CONTAINS,},
+    company_work_name: {value: null,matchMode: FilterMatchMode.CONTAINS,},
   })
 
   // Row selected edit
@@ -224,9 +225,8 @@ const TableDatas = props => {
             </ButtonRS>
           </div>
         </Row>
-        <Row>
+        {/* <Row>
           <div className="d-flex justify-content-between">
-            {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
             <Nav tabs className="nav-tabs-custom">
               {items.map((item, index) => (
                 <NavItem key={index} style={{ minWidth: "100px" }}>
@@ -253,7 +253,7 @@ const TableDatas = props => {
               ))}
             </Nav>
           </div>
-        </Row>
+        </Row> */}
       </>
     )
   }
@@ -344,12 +344,61 @@ const TableDatas = props => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log('violatelist:', violateListData);
-  // console.log('violate:', violateData);
+  console.log("violate:", violateData)
   // console.log('user:', user);
+
+  const calculateCustomerTotal = id => {
+    let total = 0
+
+    if (violateData) {
+      for (let violate of violateData) {
+        if (violate.id === id) {
+          total++
+        }
+      }
+    }
+    return total
+  }
+
+  const headerTemplate = data => {
+    return (
+      <div className="flex align-items-center gap-2">
+        {/* <img alt={data.representative.name} src={`https://primefaces.org/cdn/primereact/images/avatar/${data.representative.image}`} width="32" /> */}
+        <span className="font-bold">assa</span>
+      </div>
+    )
+  }
+
+  const footerTemplate = data => {
+    console.log("data", data)
+    return (
+      <React.Fragment>
+        <td colSpan="5">
+          <div className="flex justify-content-end font-bold w-full">
+            Total Intern Violate: {calculateCustomerTotal(data.id)}
+          </div>
+        </td>
+      </React.Fragment>
+    )
+  }
+
+  const nameBodyTemplate = rowData => {
+    return (
+      <div className="flex align-items-center gap-2">
+        <Avatar
+          className="p-overlay-badge"
+          image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`}
+          size="large"
+          shape="circle"
+        ></Avatar>
+        <span>{rowData.full_name_jp}</span>
+      </div>
+    )
+  }
 
   return (
     <div className="card">
-      <DataTable
+      {/* <DataTable
         value={dataTable}
         paginator
         rows={15}
@@ -414,6 +463,63 @@ const TableDatas = props => {
           header="Thao tác"
           style={{ minWidth: "10rem" }}
           body={actionBody}
+        ></Column>
+      </DataTable> */}
+
+      <DataTable
+        header={header}
+        value={violateData}
+        rowGroupMode="subheader"
+        groupRowsBy="id"
+        sortMode="single"
+        sortField="id"
+        sortOrder={1}
+        scrollable
+        scrollHeight={vh}
+        rowGroupHeaderTemplate={headerTemplate}
+        rowGroupFooterTemplate={footerTemplate}
+        tableStyle={{ minWidth: "50rem" }}
+        filters={filters}
+        filterDisplay="row"
+        globalFilterFields={[
+          "id",
+          "full_name_jp",
+          "violate_date", "factory_work_name", "company_work_name",
+        ]}
+        selectionMode={"multiple"}
+        selection={selectedItems}
+        onSelectionChange={e => setSelectedItems(e.value)}
+      >
+         <Column
+          selectionMode="multiple"
+          exportable={false}
+          headerStyle={{ width: "3rem" }}
+        ></Column>
+        <Column
+          field="full_name_jp"
+          header="Name"
+          body={nameBodyTemplate}
+          style={{ minWidth: "200px" }}
+        ></Column>
+        <Column
+          field="violate_type_name"
+          header="Country"
+          style={{ minWidth: "200px" }}
+        ></Column>
+        <Column
+          field="factory_work_name"
+          header="Company"
+          style={{ minWidth: "200px" }}
+        ></Column>
+        <Column
+          field="company_work_name"
+          header="Status"
+          style={{ minWidth: "200px" }}
+        ></Column>
+        <Column
+          field="violate_date"
+          header="Date"
+          style={{ minWidth: "200px" }}
         ></Column>
       </DataTable>
 

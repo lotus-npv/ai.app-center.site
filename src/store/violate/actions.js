@@ -2,6 +2,9 @@ import {
   GET_VIOLATE_ALL,
   GET_VIOLATE_ALL_SUCCESS,
   GET_VIOLATE_ALL_FAIL,
+  GET_VIOLATE_USERID,
+  GET_VIOLATE_USERID_SUCCESS,
+  GET_VIOLATE_USERID_FAIL,
   GET_VIOLATE_ID,
   GET_VIOLATE_ID_SUCCESS,
   GET_VIOLATE_ID_FAIL,
@@ -27,6 +30,20 @@ export const getViolateAllSuccess = data => ({
 
 export const getViolateAllFail = error => ({
   type: GET_VIOLATE_ALL_FAIL,
+  payload: error,
+});
+export const getViolateUserId = (id) => ({
+  type: GET_VIOLATE_USERID,
+  payload: id
+});
+
+export const getViolateUserIdSuccess = data => ({
+  type: GET_VIOLATE_USERID_SUCCESS,
+  payload: data,
+});
+
+export const getViolateUserIdFail = error => ({
+  type: GET_VIOLATE_USERID_FAIL,
   payload: error,
 });
 

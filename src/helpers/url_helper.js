@@ -81,6 +81,7 @@ export const UPDATE_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate
 export const DELETE_VIOLATELIST =     "https://api.lotusocean-jp.com/api/violate_list/delete";
 // violate
 export const GET_VIOLATE_ALL = "https://api.lotusocean-jp.com/api/violate/all";
+export const GET_VIOLATE_USERID = "https://api.lotusocean-jp.com/api/violate/userId";
 export const GET_VIOLATE_ID = "https://api.lotusocean-jp.com/api/violate";
 export const SET_VIOLATE = "https://api.lotusocean-jp.com/api/violate/insert";
 export const UPDATE_VIOLATE = "https://api.lotusocean-jp.com/api/violate/update";
