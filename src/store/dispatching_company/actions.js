@@ -2,6 +2,9 @@ import {
   GET_DISPATCHINGCOMPANY_ALL,
   GET_DISPATCHINGCOMPANY_ALL_SUCCESS,
   GET_DISPATCHINGCOMPANY_ALL_FAIL,
+  GET_DISPATCHINGCOMPANY_USERID,
+  GET_DISPATCHINGCOMPANY_USERID_SUCCESS,
+  GET_DISPATCHINGCOMPANY_USERID_FAIL,
   GET_DISPATCHINGCOMPANY_ID,
   GET_DISPATCHINGCOMPANY_ID_SUCCESS,
   GET_DISPATCHINGCOMPANY_ID_FAIL,
@@ -27,6 +30,21 @@ export const getDispatchingCompanyAllSuccess = data => ({
 
 export const getDispatchingCompanyAllFail = error => ({
   type: GET_DISPATCHINGCOMPANY_ALL_FAIL,
+  payload: error,
+});
+
+export const getDispatchingCompanyUserId = (id) => ({
+  type: GET_DISPATCHINGCOMPANY_USERID,
+  payload: id
+});
+
+export const getDispatchingCompanyUserIdSuccess = data => ({
+  type: GET_DISPATCHINGCOMPANY_USERID_SUCCESS,
+  payload: data,
+});
+
+export const getDispatchingCompanyUserIdFail = error => ({
+  type: GET_DISPATCHINGCOMPANY_USERID_FAIL,
   payload: error,
 });
 

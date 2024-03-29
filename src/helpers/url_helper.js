@@ -34,6 +34,7 @@ export const UPDATE_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication
 export const DELETE_SYNDICATION = "https://api.lotusocean-jp.com/api/syndication/delete";
 // dispatching_company
 export const    GET_DISPATCHINGCOMPANY_ALL = "https://api.lotusocean-jp.com/api/dispatching_company/all";
+export const    GET_DISPATCHINGCOMPANY_USERID = "https://api.lotusocean-jp.com/api/dispatching_company/userId";
 export const    GET_DISPATCHINGCOMPANY_ID =  "https://api.lotusocean-jp.com/api/dispatching_company";
 export const    SET_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/insert";
 export const UPDATE_DISPATCHINGCOMPANY =     "https://api.lotusocean-jp.com/api/dispatching_company/update";

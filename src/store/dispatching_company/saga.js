@@ -3,11 +3,13 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  DELETE_DISPATCHINGCOMPANY,GET_DISPATCHINGCOMPANY_ALL, SET_DISPATCHINGCOMPANY, UPDATE_DISPATCHINGCOMPANY,
+  DELETE_DISPATCHINGCOMPANY,GET_DISPATCHINGCOMPANY_USERID, SET_DISPATCHINGCOMPANY, UPDATE_DISPATCHINGCOMPANY,GET_DISPATCHINGCOMPANY_ALL
 } from "./actionTypes"
 import {
     getDispatchingCompanyAllFail,
     getDispatchingCompanyAllSuccess,
+    getDispatchingCompanyUserIdFail,
+    getDispatchingCompanyUserIdSuccess,
     setDispatchingCompanySuccess,
     setDispatchingCompanyFail,
     updateDispatchingCompanySuccess,
@@ -16,7 +18,7 @@ import {
     deleteDispatchingCompanyFail
 } from "./actions"
                                       
-import { getDispatchingCompanyDataAll, addNewDataDispatchingCompany, updateDataDispatchingCompany, deleteDataDispatchingCompany } from "../../helpers/fakebackend_helper";
+import { getDispatchingCompanyDataAll, addNewDataDispatchingCompany, updateDataDispatchingCompany, deleteDataDispatchingCompany, getDispatchingCompanyDataUserId } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetDispatchingCompanyData() {
@@ -25,6 +27,15 @@ function* fetDispatchingCompanyData() {
     yield put(getDispatchingCompanyAllSuccess(response));
   } catch (error) {
     yield put(getDispatchingCompanyAllFail(error))
+  }
+}
+
+function* fetDispatchingCompanyDataUserId({ payload: id }) {
+  try {
+    const response = yield call(getDispatchingCompanyDataUserId, id);
+    yield put(getDispatchingCompanyUserIdSuccess(response));
+  } catch (error) {
+    yield put(getDispatchingCompanyUserIdFail(error))
   }
 }
 
@@ -72,6 +83,7 @@ function* refreshDispatchingCompanyData() {
 
 function* DispatchingCompanySaga() {
   yield takeLatest(GET_DISPATCHINGCOMPANY_ALL, fetDispatchingCompanyData)
+  yield takeLatest(GET_DISPATCHINGCOMPANY_USERID, fetDispatchingCompanyDataUserId)
   yield takeLatest(SET_DISPATCHINGCOMPANY, onAddNewDispatchingCompany)
   yield takeLatest(UPDATE_DISPATCHINGCOMPANY, onUpdateDispatchingCompany)
   yield takeLatest(DELETE_DISPATCHINGCOMPANY, onDeleteDispatchingCompany)

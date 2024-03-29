@@ -2,6 +2,9 @@ import {
   GET_DISPATCHINGCOMPANY_ALL,
   GET_DISPATCHINGCOMPANY_ALL_SUCCESS,
   GET_DISPATCHINGCOMPANY_ALL_FAIL,
+  GET_DISPATCHINGCOMPANY_USERID,
+  GET_DISPATCHINGCOMPANY_USERID_SUCCESS,
+  GET_DISPATCHINGCOMPANY_USERID_FAIL,
   GET_DISPATCHINGCOMPANY_ID_SUCCESS,
   GET_DISPATCHINGCOMPANY_ID_FAIL,
   SET_DISPATCHINGCOMPANY,
@@ -32,6 +35,21 @@ import {
         };
   
       case GET_DISPATCHINGCOMPANY_ALL_FAIL:
+        return {
+          ...state,
+          error: action.payload,
+        };
+      case GET_DISPATCHINGCOMPANY_USERID:
+        return {
+          ...state,
+        };
+      case GET_DISPATCHINGCOMPANY_USERID_SUCCESS:
+        return {
+          ...state,
+          datas: action.payload,
+        };
+  
+      case GET_DISPATCHINGCOMPANY_USERID_FAIL:
         return {
           ...state,
           error: action.payload,

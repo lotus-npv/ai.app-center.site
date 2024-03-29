@@ -58,6 +58,7 @@ export const deleteDataReceivingFactory = (id) => del(`${url.DELETE_RECEIVINGFAC
 
 // dispatching_company
 export const getDispatchingCompanyDataAll = () => get(url.GET_DISPATCHINGCOMPANY_ALL);
+export const getDispatchingCompanyDataUserId = (id) => get(`${url.GET_DISPATCHINGCOMPANY_USERID}/${id}`,{ params: { id } }, config);
 export const getDispatchingCompanyDataId = () => get(url.GET_DISPATCHINGCOMPANY_ID);
 export const addNewDataDispatchingCompany = data => post(url.SET_DISPATCHINGCOMPANY, data, config);
 export const updateDataDispatchingCompany = data => put(url.UPDATE_DISPATCHINGCOMPANY, data, config);

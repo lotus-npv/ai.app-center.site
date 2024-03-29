@@ -32,7 +32,7 @@ import moment from 'moment';
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getDispatchingCompanyAll, getAddressAll, getProvinceId, getProvinceAll, getNationAll, deleteDispatchingCompany, setDispatchingCompany, updateDispatchingCompany } from "store/actions";
+import { getDispatchingCompanyAll, getAddressAll, getProvinceId, getProvinceAll, getNationAll, deleteDispatchingCompany, setDispatchingCompany, updateDispatchingCompany, getDispatchingCompanyUserId } from "store/actions";
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register('custom_activity', (value, filters) => {
@@ -63,15 +63,17 @@ const TableDatas = (props) => {
 
   // Get du lieu lan dau 
   useEffect(() => {
-    dispatch(getDispatchingCompanyAll());
-    dispatch(getAddressAll(user.key_license_id));
-    dispatch(getNationAll());
+    if(user) {
+      dispatch(getDispatchingCompanyUserId(user.id));
+      dispatch(getAddressAll(user.key_license_id));
+      dispatch(getNationAll());
+    }
   }, [dispatch]);
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getDispatchingCompanyAll());
+      dispatch(getDispatchingCompanyUserId(user.id));
     }, 10000);
     return () => {
       clearInterval(intervalId);
