@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useDebugValue } from "react"
 import { FilterMatchMode, FilterService } from "primereact/api"
 import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
@@ -258,7 +258,7 @@ const TableDatas = props => {
     )
   }
 
-  const [dataTable, setDataTable] = useState(violateListData)
+  const [dataTable, setDataTable] = useState(violateData)
 
   const getListInternStatus = key => {
     if (key == "0") {
@@ -347,6 +347,16 @@ const TableDatas = props => {
   console.log("violate:", violateData)
   // console.log('user:', user);
 
+
+  useEffect(() => {
+    if(violateData) {
+      const arr = violateData.map(violate => {
+        return {...violate, violate_date: moment(violate.violate_date).utc("+09:00").format("YYYY-MM-DD")}
+      })
+      setDataTable(arr);
+    }
+  },[violateData])
+
   const calculateCustomerTotal = id => {
     let total = 0
 
@@ -364,7 +374,7 @@ const TableDatas = props => {
     return (
       <div className="flex align-items-center gap-2">
         {/* <img alt={data.representative.name} src={`https://primefaces.org/cdn/primereact/images/avatar/${data.representative.image}`} width="32" /> */}
-        <span className="font-bold">assa</span>
+        <span className="font-bold">{data.violate_date} - {data.vl_description}</span>
       </div>
     )
   }
@@ -468,7 +478,7 @@ const TableDatas = props => {
 
       <DataTable
         header={header}
-        value={violateData}
+        value={dataTable}
         rowGroupMode="subheader"
         groupRowsBy="id"
         sortMode="single"
@@ -480,7 +490,7 @@ const TableDatas = props => {
         rowGroupFooterTemplate={footerTemplate}
         tableStyle={{ minWidth: "50rem" }}
         filters={filters}
-        filterDisplay="row"
+        stripedRows
         globalFilterFields={[
           "id",
           "full_name_jp",
@@ -503,17 +513,17 @@ const TableDatas = props => {
         ></Column>
         <Column
           field="violate_type_name"
-          header="Country"
+          header="Violate Type"
           style={{ minWidth: "200px" }}
         ></Column>
         <Column
           field="factory_work_name"
-          header="Company"
+          header="Receiving Factory"
           style={{ minWidth: "200px" }}
         ></Column>
         <Column
           field="company_work_name"
-          header="Status"
+          header="Dispatching Company"
           style={{ minWidth: "200px" }}
         ></Column>
         <Column
