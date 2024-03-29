@@ -29,7 +29,6 @@ import avata from "../../assets/images/users/avatar-1.jpg"
 
 import AddressDatas from "./AddressDatas"
 
-
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -84,7 +83,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     districtDataByProvinceId,
     communeDataByDistrictId,
     syndicationCreate,
-    syndicationLoading
+    syndicationLoading,
   } = useSelector(
     state => ({
       provinceDataByNationId: state.Province.dataByNationId,
@@ -204,22 +203,25 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     },
   })
 
+  //-----------------------------------------------------------------------------------------------
+  // ghi address  vao database
   useEffect(() => {
-    if (syndicationCreate != null) {
-      const id = syndicationCreate["id"]
-      addressDataSyndication.forEach((address, index) => {
-        const newAddress = {
-          ...address,
-          object_id: id,
-          is_default: selectAddressDefault == index ? 1 : 0,
-        }
-        if (id != null || id != undefined) {
-          if (isCreateAddress) {
-            dispatch(setAddress(newAddress))
+    if (syndicationCreate) {
+      if (isCreateAddress && !syndicationLoading) {
+        const id = syndicationCreate["id"]
+        addressDataSyndication.forEach((address, index) => {
+          const newAddress = {
+            ...address,
+            object_id: id,
+            key_license_id: user.key_license_id,
+            is_default: selectAddressDefault == index ? 1 : 0,
           }
-          setIsCreateAddress(false)
-        }
-      })
+          dispatch(setAddress(newAddress))
+        })
+
+        setIsCreateAddress(false)
+        setSelectedFile(null)
+      }
     }
   }, [syndicationCreate])
 
@@ -227,6 +229,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     console.log("submit")
     formik.handleSubmit()
   }
+
+  //-----------------------------------------------------------------------------------------------
 
   // xu ly them form address
   const handleAddForm = () => {
@@ -255,7 +259,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
     settextcount(event.target.value.length)
   }
 
-   //---------------------------------------------------------------------------------------
+  //---------------------------------------------------------------------------------------
 
   // render lua chon tinh, huyen, xa
 
@@ -345,7 +349,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('addressDataSyndication:', addressDataSyndication)
-  // console.log('isEditSyndication:', isEditSyndication)
+  console.log('isEditSyndication:', isEditSyndication)
   // console.log('selectedFile:', selectedFile);
   // console.log('user:', user);
 
@@ -362,7 +366,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
         >
           <div className="modal-header">
             <h5 className="modal-title mt-0" id="exampleModalFullscreenLabel">
-              {isEditSyndication ? t('Edit Syndication') : t('Add Syndication')}
+              {isEditSyndication ? t("Edit Syndication") : t("Add Syndication")}
             </h5>
             <button
               onClick={() => {
@@ -400,7 +404,11 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                               }}
                             >
                               <img
-                                style={{ width: "100%", height: "100%" , cursor: 'pointer'}}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  cursor: "pointer",
+                                }}
                                 className="rounded-circle img-thumbnail"
                                 alt="avata"
                                 src={
@@ -615,7 +623,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   nation_id: item.value,
                                                 }
-                                                updateAddressDataSyndication(arr)
+                                                updateAddressDataSyndication(
+                                                  arr
+                                                )
                                               }}
                                               options={optionGroup}
                                               className="w-100"
@@ -648,7 +658,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   province_id: item.StateID,
                                                 }
-                                                updateAddressDataSyndication(arr)
+                                                updateAddressDataSyndication(
+                                                  arr
+                                                )
                                               }}
                                               options={provinceOptions}
                                               // isClearable
@@ -680,7 +692,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   district_id: item.DistrictID,
                                                 }
-                                                updateAddressDataSyndication(arr)
+                                                updateAddressDataSyndication(
+                                                  arr
+                                                )
                                               }}
                                               options={districtOptions}
                                               className="select2-selection"
@@ -713,7 +727,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   commune_id: item.WardID,
                                                 }
-                                                updateAddressDataSyndication(arr)
+                                                updateAddressDataSyndication(
+                                                  arr
+                                                )
                                               }}
                                               options={communeOptions}
                                               className="select2-selection"
@@ -743,7 +759,9 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                                                   ...arr[index],
                                                   detail: e.target.value,
                                                 }
-                                                updateAddressDataSyndication(arr)
+                                                updateAddressDataSyndication(
+                                                  arr
+                                                )
                                               }}
                                             />
                                           </div>
@@ -819,8 +837,6 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
                         </CardBody>
                       </Card>
                     )}
-
-
                   </CardBody>
                 </Card>
               </Col>

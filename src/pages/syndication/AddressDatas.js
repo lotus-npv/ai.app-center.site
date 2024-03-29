@@ -20,6 +20,7 @@ import {
 import ModalEditAddress from "./ModalEditAddress"
 // import context
 import DataContext from "data/DataContext"
+import { useTranslation } from "react-i18next"
 
 import map from "../../assets/images/icon/map.png"
 
@@ -29,7 +30,12 @@ const NationList = [
   { label: "Korea", value: 3, country: "Han Quoc", data: 0, violate: 6 },
 ]
 
+//====================================================================================================//
+
 const AddressDatas = ({ item, user }) => {
+  const { t } = useTranslation()
+
+
   const addObj = {
     nation: "",
     province: "",
@@ -154,7 +160,7 @@ const AddressDatas = ({ item, user }) => {
     }
   }, [addressData, provinceDataId, isReadData, districtDataId, communeDataId, isRefresh])
 
-  console.log('user', user)
+  // console.log('user', user)
   // console.log('provinceLoading', provinceLoading)
   //   console.log("provinceDataId", provinceDataId)
   //   console.log("districtDataId", districtDataId)
@@ -247,6 +253,7 @@ const AddressDatas = ({ item, user }) => {
 
   return (
     <div className="card">
+      <h3>{t('Address Info')}</h3>
       <DataView value={addresss} listTemplate={listTemplate} />
       {isEditDetail &&  (
         <ModalEditAddress address={selectAddress} isEditDetail={isEditDetail}  setIsEditDetail={setIsEditDetail}/>

@@ -39,7 +39,7 @@ const DataProvider = ({ children}) => {
 
   // address receiving fatory
   const addressFactory = {
-    key_license_id: 1,
+    key_license_id: null,
     user_type: "receiving_factory",
     object_id: null,
     nation_id: 2,
@@ -66,7 +66,7 @@ const DataProvider = ({ children}) => {
   }
   // address dispatching company
   const addressCompany = {
-    key_license_id: 1,
+    key_license_id: null,
     user_type: "dispatching_company",
     object_id: null,
     nation_id: 1,
@@ -94,7 +94,7 @@ const DataProvider = ({ children}) => {
 
   // address intern
   const addressIntern = {
-    key_license_id: 1,
+    key_license_id: null,
     user_type: "intern",
     object_id: null,
     nation_id: null,
