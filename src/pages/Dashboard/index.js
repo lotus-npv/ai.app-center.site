@@ -22,6 +22,7 @@ import StackedColumnChart from "./StackedColumnChart"
 //import action
 import {
   getAddressAll,
+  getDispatchingCompanyAll,
   getStatusDetailAll,
   getTicketAll,
   getViolateAll,
@@ -80,7 +81,7 @@ const Dashboard = props => {
   }, [dispatch])
 
   // get intern data
-  const { dataIntern, dataStatusDetail, dataAddress, dataViolate, dataTicket } =
+  const { dataIntern, dataStatusDetail, dataAddress, dataViolate, dataTicket, dataCompany } =
     useSelector(
       state => ({
         dataTicket: state.Ticket.datas,
@@ -88,6 +89,7 @@ const Dashboard = props => {
         dataStatusDetail: state.StatusDetail.datas,
         dataAddress: state.Address.datas,
         dataViolate: state.Violate.datas,
+        dataCompany: state.DispatchingCompany.datas,
       }),
       shallowEqual
     )
@@ -99,6 +101,7 @@ const Dashboard = props => {
       dispatch(getAddressAll(user.id))
       dispatch(getViolateAll())
       dispatch(getTicketAll())
+      dispatch(getDispatchingCompanyAll())
     }
   }, [dispatch])
 
@@ -111,8 +114,9 @@ const Dashboard = props => {
         dispatch(getAddressAll(user.id))
         dispatch(getViolateAll())
         dispatch(getTicketAll())
+        dispatch(getDispatchingCompanyAll())
       }
-    }, 10000)
+    }, 15000)
     // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId)
@@ -216,6 +220,8 @@ const Dashboard = props => {
   const iconColors = ["primary", "primary-2", "info", "secondary"]
 
   const [dataCharst, setDataCharst] = useState([])
+  const [charstByCompany, setCharstByCompany] = useState();
+
 
   // danh sach intern => link bảng address
   useEffect(() => {
@@ -228,8 +234,6 @@ const Dashboard = props => {
             address.is_default == 1
         )
       )
-
-      // console.log("arr", arr)
       const newarr = NationList.map(nation => {
         const newData = { ...nation }
         const idIntern = []
@@ -243,12 +247,12 @@ const Dashboard = props => {
           idIntern.some(id => id == violate.intern_id)
         )
         newData.violate = numberViolate.length
-        // console.log('numberViolate', numberViolate)
-
         // lay danh sach violate
         // tao danh sach
         return newData
       })
+
+
       // console.log("newarr", newarr)
       setDataCharst(newarr)
       setPeriodData(chartsData)
@@ -272,6 +276,7 @@ const Dashboard = props => {
   }
   //=====================================================================
 
+  console.table(dataCompany);
   //meta title
   document.title = "Dashboard"
   const date = new Date()
