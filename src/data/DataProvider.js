@@ -179,10 +179,10 @@ const DataProvider = ({ children}) => {
   const [loadData, setLoadData] = useState(true)
 
   const UserTypeList = [
-    {label: 'Intern', value: 'intern'},
-    {label: 'Syndication', value: 'syndication'},
-    {label: 'Dispatching Company', value: 'dispatching_company'},
-    {label: 'Receiving Factory', value: 'receiving_factory'}
+    {label: 'Thực tập sinh', value: 'intern'},
+    {label: 'Nghiệp đoàn', value: 'syndication'},
+    {label: 'Công ty phái cử', value: 'dispatching_company'},
+    {label: 'Xí nghiệp tiếp nhận', value: 'receiving_factory'}
   ]
 
   const NationList = [

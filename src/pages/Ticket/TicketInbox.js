@@ -41,6 +41,7 @@ import {
   getTicketDetailAll,
   getTicketUserId,
   getUsersAll,
+  getUsersUserIdAndType,
   setTicket,
   setTicketDetail,
   updateTicket,
@@ -107,6 +108,7 @@ const TicketInbox = props => {
   // Get du lieu lan dau
   useEffect(() => {
     if (user) {
+      console.log('id, type', user.id, user.object_type);
       dispatch(getTicketUserId(user.id))
       dispatch(getDispatchingCompanyUserId(user.id))
       dispatch(getReceivingFactoryUserId(user.id))
@@ -407,12 +409,12 @@ const TicketInbox = props => {
   //-------------------------------------------------------------------------------
 
   // console.log("ticketData", ticketData)
-  // console.log("user", user)
+  // console.log("usersData", usersData)
   // console.log("activeIndex", activeIndex)
   // console.table(ticketData);
   
-  console.log('setTicketLoading', setTicketLoading);
-  console.log('isSetTicketDone', isSetTicketDone);
+  // console.log('setTicketLoading', setTicketLoading);
+  // console.log('isSetTicketDone', isSetTicketDone);
 
   return (
     <React.Fragment>
@@ -435,7 +437,7 @@ const TicketInbox = props => {
                   }}
                   block
                 >
-                  New Ticket
+                  Tạo Ticket Mới
                 </Button>
                 <div className="mail-list mt-4">
                   <Nav tabs className="nav-tabs-custom" vertical role="tablist">
@@ -450,7 +452,7 @@ const TicketInbox = props => {
                           setIsOutbox(false)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Inbox{" "}
+                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư đến{" "}
                         <span className="ml-1 float-end fw-bold">
                           ({counters[0]})
                         </span>
@@ -468,7 +470,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Outbox{" "}
+                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư đi{" "}
                         <span className="ml-1 float-end">({counters[4]})</span>
                       </NavLink>
                     </NavItem>
@@ -484,7 +486,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-star-outline me-2"></i>New
+                        <i className="mdi mdi-star-outline me-2"></i>Mới
                         <span className="ml-1 float-end">({counters[1]})</span>
                       </NavLink>
                     </NavItem>
@@ -500,7 +502,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-diamond-stone me-2"></i>Processing
+                        <i className="mdi mdi-diamond-stone me-2"></i>Đang xử lý
                         <span className="ml-1 float-end">({counters[2]})</span>
                       </NavLink>
                     </NavItem>
@@ -516,7 +518,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-file-outline me-2"></i>Done
+                        <i className="mdi mdi-file-outline me-2"></i>Đã hoàn thành
                         <span className="ml-1 float-end">({counters[3]})</span>
                       </NavLink>
                     </NavItem>
@@ -572,11 +574,11 @@ const TicketInbox = props => {
                         <div className="mb-3">
                           <div className="input-group mb-3">
                             <Label
-                              style={{ minWidth: "150px" }}
+                              style={{ minWidth: "170px" }}
                               className="input-group-text"
                               htmlFor="inputGroupFile01"
                             >
-                              Select object:
+                              Lựa chọn đối tượng:
                             </Label>
                             <Select
                               id="inputGroupFile01"
@@ -594,11 +596,11 @@ const TicketInbox = props => {
 
                           <div className="input-group mb-3">
                             <Label
-                              style={{ minWidth: "150px" }}
+                              style={{ minWidth: "170px" }}
                               className="input-group-text"
                               htmlFor="inputGroup2"
                             >
-                              Send to:
+                              Gửi tới:
                             </Label>
                             <Select
                               id="inputGroup2"
@@ -615,11 +617,11 @@ const TicketInbox = props => {
 
                           <div className="input-group mb-3">
                             <Label
-                              style={{ minWidth: "150px" }}
+                              style={{ minWidth: "170px" }}
                               className="input-group-text"
                               htmlFor="inputGroup3"
                             >
-                              Title:
+                              Tiêu đề:
                             </Label>
                             <Input
                               id="inputGroup3"

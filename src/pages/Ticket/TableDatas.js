@@ -26,7 +26,11 @@ FilterService.register("custom_activity", (value, filters) => {
   return from <= value && value <= to
 })
 
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+
 const TableDatas = ({ dataTable }) => {
+  const dispatch = useDispatch()
+
   // data context
   const {
     modal_xlarge,
@@ -60,7 +64,7 @@ const TableDatas = ({ dataTable }) => {
       console.log("delete id :" + item.id)
       dispatch(deleteTicket(item.id))
 
-      // // tim nhung tts co gan voi id cua vi pham moi xoa de xoa tiep
+      // tim nhung tts co gan voi id cua vi pham moi xoa de xoa tiep
       // if (ticketData) {
       //   const arr = ticketData.filter(vio => vio.violate_list_id == item.id)
       //   if (arr) {
@@ -138,7 +142,7 @@ const TableDatas = ({ dataTable }) => {
             setIsEditViolate(true)
           }}
         /> */}
-        <Button
+        {/* <Button
           icon="pi pi-trash"
           rounded
           text
@@ -147,7 +151,7 @@ const TableDatas = ({ dataTable }) => {
           onClick={() => {
             onClickDelete(rowData)
           }}
-        />
+        /> */}
       </div>
     )
   }
@@ -193,16 +197,28 @@ const TableDatas = ({ dataTable }) => {
     setVh(`${wh}px`)
   }, [])
 
+  const onRowSelect = event => {
+    setTicketRowData(event.data)
+    setIsEditTicket(true)
+    setmodal(!modal)
+  }
+
+  // const onRowUnselect = event => {
+  //   console.log("select row")
+  // }
+
   return (
     <div className="">
       <DataTable
+        onRowSelect={onRowSelect}
+        // onRowUnselect={onRowUnselect}
         value={dataTable}
         paginator
         rows={15}
         stripedRows
         rowsPerPageOptions={[5, 10, 15, 20, 50]}
         dragSelection
-        // selectionMode={"row"}
+        selectionMode="single"
         filters={filters}
         selection={selectedItems}
         onSelectionChange={e => setSelectedItems(e.value)}
