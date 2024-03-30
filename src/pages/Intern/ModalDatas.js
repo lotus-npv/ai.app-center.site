@@ -348,8 +348,8 @@ const ModalDatas = ({
       passport_expiration_date: Yup.date().required("Please select date"),
       receiving_factory_id: Yup.string().required("This value is required"),
       dispatching_company_id: Yup.string().required("This value is required"),
-      license_date: Yup.date().required("Please select date"),
-      expiration_date: Yup.date().required("Please select date"),
+      // license_date: Yup.date().required("Please select date"),
+      // expiration_date: Yup.date().required("Please select date"),
     }),
 
     onSubmit: async value => {

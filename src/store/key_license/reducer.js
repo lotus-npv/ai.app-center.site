@@ -16,9 +16,9 @@ import {
   } from "./actionTypes";
   
   const INIT_STATE = {
-    datas: [],
-    dataId: [],
-    data: {},
+    datas: null,
+    dataId: null,
+    data: null,
     loading: false
   };
   

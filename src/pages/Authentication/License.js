@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import img from "../../assets/images/login/header-img.png"
 import { InputText } from "primereact/inputtext"
 import { Button } from "primereact/button"
@@ -15,6 +15,7 @@ function License() {
   const stepperRef = useRef(null)
   const [key, setKey] = useState('')
   const dispatch = useDispatch();
+  const [label, setLabel] = useState('')
 
   const dataKey = useSelector(state => state.KeyLicense.data);
 
@@ -22,15 +23,33 @@ function License() {
   //   keyData: state.KeyLicense.data
   // }))
   const handleCheckKey = () => {
-    dispatch(getKeyLicenseId(key));
-
+    stepperRef.current.nextCallback();
+    setTimeout(function() {
+      dispatch(getKeyLicenseId(key));
+  }, 2000);
   }
+
+  useEffect(() => {
+    if(dataKey != null) {
+      if(dataKey.length == 1 && dataKey[0].active != 1) {
+        stepperRef.current.nextCallback()
+      } else if(dataKey.length == 1 && dataKey[0].active == 1) {
+        stepperRef.current.prevCallback()
+        setLabel('Key da kich hoat')
+      }
+      else
+      {
+        stepperRef.current.prevCallback()
+        setLabel('Key khong chinh xac')
+      }
+     }
+  }, [dataKey])
 
   console.log(dataKey);
 
   return (
     <div className="flex align-items-center justify-content-center">
-      <div className="w-12 md:w-6 lg:w-5 xl:w-4 mt-8">
+      <div className="w-12 md:w-8 lg:w-8 xl:w-6 mt-8">
         <div className="shadow-1 surface-50 border-round-sm">
           <div className="flex justify-content-between bg-primary-subtle border-round-top-sm">
             <div className="align-content-center ml-5">
@@ -44,10 +63,10 @@ function License() {
 
           <div className="p-5">
             <div className="card flex justify-content-center">
-              <Stepper linear ref={stepperRef} style={{ flexBasis: "10rem" }}>
+              <Stepper linear ref={stepperRef} style={{ flexBasis: "12rem" }}>
                 <StepperPanel header="Enter Key">
                   <div className="flex flex-column h-12rem">
-                    <div className="surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+                    <div className="surface-border border-round  flex-column flex justify-content-center align-items-center font-medium">
                       <div className="card flex justify-content-center">
                         <span className="p-float-label">
                           <InputText
@@ -56,13 +75,15 @@ function License() {
                             onChange={(e) => {
                               setKey(e.target.value);
                             }}
-                            style={{ minWidth: "400px" }}
+                            style={{ minWidth: "300px" }}
                           />
                           <label htmlFor="key">Enter key here</label>
                         </span>
                       </div>
+                      <p>{label}</p>
                     </div>
                   </div>
+                 
 
                   <div className="flex pt-4 justify-content-center">
                     <Button
@@ -99,7 +120,7 @@ function License() {
                 <StepperPanel header="Done">
                   <div className="flex flex-column h-12rem">
                     <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                      Content III
+                      Bạn sẽ được chuyển tới trang đăng ký
                     </div>
                   </div>
                   <div className="flex pt-4 justify-content-start">

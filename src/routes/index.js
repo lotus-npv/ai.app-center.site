@@ -203,6 +203,8 @@ const authProtectedRoutes = [
   // Contacts
   {path: "/contacts", component: <Contacts />},
 
+  { path: "/register", component: <Register /> },
+
 
   // this route should be at the end of all other routes
   // eslint-disable-next-line react/display-name
@@ -217,7 +219,7 @@ const publicRoutes = [
   { path: "/login", component: <Login /> },
   { path: "/logout", component: <Logout /> },
   { path: "/forgot-password", component: <ForgetPwd /> },
-  { path: "/register", component: <Register /> },
+  // { path: "/register", component: <Register /> },
   { path: "/license", component: <License /> },
 
   { path: "/pages-maintenance", component: <PagesMaintenance /> },
