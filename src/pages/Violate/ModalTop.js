@@ -74,7 +74,7 @@ const ModalTop = ({
   violateData,
 }) => {
   const { t } = useTranslation()
-
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   const dispatch = useDispatch()
 
   // --------------------------------------------------
@@ -167,6 +167,7 @@ const ModalTop = ({
     if(!isEditViolate) {
       const newViolate = {
         ...violateList,
+        key_license_id: user.key_license_id,
         violate_type_id: violateType.id,
         violate_date: moment(dateViolate[0])
           .utcOffset("+07:00")
@@ -190,6 +191,7 @@ const ModalTop = ({
             ...violate,
             intern_id: intern.id,
             violate_list_id: violate_type_id,
+            key_license_id: user.key_license_id,
           }
           dispatch(setViolate(vio))
         })

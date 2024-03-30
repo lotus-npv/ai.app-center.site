@@ -561,7 +561,7 @@ const ModalDatas = ({
         dispatch(setAlienRegistrationCard(newCard))
 
         const multiStatus = selectedMultiStatus.map(status => {
-          return { ...statusDetailObj, status_id: status.id, intern_id: id }
+          return { ...statusDetailObj, status_id: status.id, intern_id: id ,key_license_id: user.key_license_id}
         })
         multiStatus.forEach(st => {
           dispatch(setStatusDetail(st))

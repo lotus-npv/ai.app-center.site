@@ -137,7 +137,7 @@ const ModalDatas = ({
     enableReinitialize: true,
     initialValues: {
       id: item != null ? item.id : "",
-      key_license_id: item != null ? item.key_license_id : 1,
+      key_license_id: item != null ? item.key_license_id : user.key_license_id,
       syndication_id: item != null ? item.syndication_id : 1,
       logo: item != null ? item.logo : "avatar-null.png",
       name_jp: item != null ? item.name_jp : "",
@@ -223,6 +223,7 @@ const ModalDatas = ({
         const newAddress = {
           ...address,
           object_id: id,
+          key_license_id: user.key_license_id,
           is_default: selectAddressDefault == index ? 1 : 0,
         }
         if (id != null || id != undefined) {
