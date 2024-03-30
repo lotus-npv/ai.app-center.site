@@ -6,9 +6,22 @@ import { Stepper } from "primereact/stepper"
 import { StepperPanel } from "primereact/stepperpanel"
 import { ProgressSpinner } from "primereact/progressspinner"
 
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+
+
 function License() {
   const stepperRef = useRef(null)
   const [value, setValue] = useState("")
+
+  const dispatch = useDispatch();
+
+  // const {keyData} = useSelector(state => ({
+  //   keyData: state.KeyLicense.data
+  // }))
+  const handleCheckKey = () => {
+
+  }
 
   return (
     <div className="flex align-items-center justify-content-center">
@@ -29,7 +42,7 @@ function License() {
               <Stepper linear ref={stepperRef} style={{ flexBasis: "10rem" }}>
                 <StepperPanel header="Enter Key">
                   <div className="flex flex-column h-12rem">
-                    <div className=" flex-auto flex justify-content-center align-items-center font-medium">
+                    <div className="surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
                       <div className="card flex justify-content-center">
                         <span className="p-float-label">
                           <InputText
@@ -56,7 +69,7 @@ function License() {
 
                 <StepperPanel header="Check">
                   <div className="flex flex-column h-12rem">
-                    <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+                    <div className="surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
                       <ProgressSpinner
                         style={{ width: "50px", height: "50px" }}
                         strokeWidth="8"
@@ -75,7 +88,7 @@ function License() {
                   </div>
                 </StepperPanel>
 
-                <StepperPanel header="Header III">
+                <StepperPanel header="Done">
                   <div className="flex flex-column h-12rem">
                     <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
                       Content III

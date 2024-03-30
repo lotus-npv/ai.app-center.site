@@ -404,8 +404,9 @@ create table if not exists users (
 
 CREATE TABLE if not exists key_license (
     id int primary key auto_increment,
-    name VARCHAR(50) UNIQUE,
+    key_license VARCHAR(50) UNIQUE,
     key_type VARCHAR(50),
+    object_id INT,
     active BOOLEAN,
     description VARCHAR(200),
     create_at DATETIME,
