@@ -702,7 +702,7 @@ const TicketInbox = props => {
                       <Editor
                         value={content}
                         onTextChange={e => setContent(e.htmlValue)}
-                        style={{ height: "250px" }}
+                        style={{ height: "180px" }}
                       />
                     </>
                   )}
