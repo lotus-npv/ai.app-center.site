@@ -9,7 +9,7 @@ import {
   UncontrolledTooltip,
   Spinner,
 } from "reactstrap"
-import { Link } from "react-router-dom"
+import { Link, json } from "react-router-dom"
 
 import ReactApexChart from "react-apexcharts"
 import getChartColorsArray from "../../components/Common/ChartsDynamicColor"
@@ -44,11 +44,12 @@ import { createSelector } from "reselect"
 import DataContext from "data/DataContext"
 
 const Dashboard = props => {
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   const navigate = useNavigate()
   const [modal, setmodal] = useState(false)
   // const [subscribemodal, setSubscribemodal] = useState(false);
 
-  const { NationList , loadData, setLoadData, user} = useContext(DataContext)
+  const { NationList, loadData, setLoadData } = useContext(DataContext)
 
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
@@ -62,7 +63,6 @@ const Dashboard = props => {
 
   const [periodData, setPeriodData] = useState([])
   const [periodType, setPeriodType] = useState("yearly")
-
 
   const [isMonth, setIsMonth] = useState(
     "btn-group btn-group-sm  d-flex justify-center  d-none"
@@ -80,40 +80,44 @@ const Dashboard = props => {
   }, [dispatch])
 
   // get intern data
-  const { dataIntern, dataStatusDetail, dataAddress, dataViolate, dataTicket } = useSelector(
-    state => ({
-      dataTicket: state.Ticket.datas,
-      dataIntern: state.Intern.datas,
-      dataStatusDetail: state.StatusDetail.datas,
-      dataAddress: state.Address.datas,
-      dataViolate: state.Violate.datas,
-    }),
-    shallowEqual
-  )
+  const { dataIntern, dataStatusDetail, dataAddress, dataViolate, dataTicket } =
+    useSelector(
+      state => ({
+        dataTicket: state.Ticket.datas,
+        dataIntern: state.Intern.datas,
+        dataStatusDetail: state.StatusDetail.datas,
+        dataAddress: state.Address.datas,
+        dataViolate: state.Violate.datas,
+      }),
+      shallowEqual
+    )
 
   useEffect(() => {
-    dispatch(getInternAllInfo())
-    dispatch(getStatusDetailAll())
-    dispatch(getAddressAll())
-    dispatch(getViolateAll())
-    dispatch(getTicketAll())
+    if (user) {
+      dispatch(getInternAllInfo())
+      dispatch(getStatusDetailAll())
+      dispatch(getAddressAll(user.id))
+      dispatch(getViolateAll())
+      dispatch(getTicketAll())
+    }
   }, [dispatch])
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getInternAllInfo())
-      dispatch(getAddressAll())
-      dispatch(getStatusDetailAll())
-      dispatch(getTicketAll())
+      if (user) {
+        dispatch(getInternAllInfo())
+        dispatch(getStatusDetailAll())
+        dispatch(getAddressAll(user.id))
+        dispatch(getViolateAll())
+        dispatch(getTicketAll())
+      }
     }, 10000)
     // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId)
     }
   }, [])
-
-  
 
   useEffect(() => {
     setTimeout(() => {
@@ -125,9 +129,11 @@ const Dashboard = props => {
 
   const [ticketItem, setTicketItem] = useState()
   useEffect(() => {
-    if(user && dataTicket) {
-      const count = dataTicket.filter(ticket => ticket.sender_id == user.id || ticket.receiver_id == user.id).length;
-      setTicketItem(count);
+    if (user && dataTicket) {
+      const count = dataTicket.filter(
+        ticket => ticket.sender_id == user.id || ticket.receiver_id == user.id
+      ).length
+      setTicketItem(count)
     }
   }, [])
 
@@ -166,9 +172,11 @@ const Dashboard = props => {
   const [prepareEntry, setPrepareEntry] = useState(null)
   useEffect(() => {
     if (dataIntern && user && dataTicket) {
-
-      const ticketNotSupport = dataTicket.filter(ticket => (ticket.sender_id == user.id || ticket.receiver_id == user.id) && ticket.ticket_status === 'new');
-
+      const ticketNotSupport = dataTicket.filter(
+        ticket =>
+          (ticket.sender_id == user.id || ticket.receiver_id == user.id) &&
+          ticket.ticket_status === "new"
+      )
 
       const internPrepareEntry = dataStatusDetail.filter(st => {
         return st.status_id == 10
@@ -195,7 +203,7 @@ const Dashboard = props => {
 
         return newReport
       })
-     
+
       setReportss(newArr)
     }
   }, [dataIntern, dataStatusDetail])
@@ -215,7 +223,9 @@ const Dashboard = props => {
       const arr = dataAddress.filter(address =>
         dataIntern.some(
           intern =>
-            address.object_id == intern.id && address.user_type == "intern" && address.is_default == 1
+            address.object_id == intern.id &&
+            address.user_type == "intern" &&
+            address.is_default == 1
         )
       )
 
@@ -225,12 +235,14 @@ const Dashboard = props => {
         const idIntern = []
         arr.forEach(address => {
           if (address.nation_id == newData.value) {
-            newData.data++;
-            idIntern.push(address.object_id);
+            newData.data++
+            idIntern.push(address.object_id)
           }
         })
-        const numberViolate = dataViolate.filter(violate => idIntern.some(id => id == violate.intern_id));
-        newData.violate = numberViolate.length;
+        const numberViolate = dataViolate.filter(violate =>
+          idIntern.some(id => id == violate.intern_id)
+        )
+        newData.violate = numberViolate.length
         // console.log('numberViolate', numberViolate)
 
         // lay danh sach violate
@@ -269,8 +281,20 @@ const Dashboard = props => {
       <div className="page-content">
         <Container fluid>
           <div>
-            {loadData && <div className="d-flex gap-3 mt-1 "><h4 className="fw-bold text-success">analyzing data</h4> <Spinner type="grow" size="sm" className="ms-2" color="primary" /> </div>}
-            {!loadData && <h4 className="fw-bold mt-1">{props.t("Need attention")}</h4>}
+            {loadData && (
+              <div className="d-flex gap-3 mt-1 ">
+                <h4 className="fw-bold text-success">analyzing data</h4>{" "}
+                <Spinner
+                  type="grow"
+                  size="sm"
+                  className="ms-2"
+                  color="primary"
+                />{" "}
+              </div>
+            )}
+            {!loadData && (
+              <h4 className="fw-bold mt-1">{props.t("Need attention")}</h4>
+            )}
           </div>
           <Row>
             <Col xl="12">
