@@ -45,6 +45,7 @@ import {
   setTicket,
   setTicketDetail,
   updateTicket,
+  getTicketDetailByTicketId
 } from "store/actions"
 import ChatBox from "./ChatBox"
 import { EffectCards } from "swiper/modules"
@@ -79,6 +80,7 @@ const TicketInbox = props => {
     setIsInbox,
     isOutbox,
     setIsOutbox,
+   
   } = useContext(DataContext)
 
   const dispatch = useDispatch()
@@ -91,6 +93,7 @@ const TicketInbox = props => {
     internData,
     setTicketLoading,
     setTicketData,
+    ticketDetailData
   } = useSelector(
     state => ({
       ticketData: state.Ticket.datas,
@@ -101,6 +104,7 @@ const TicketInbox = props => {
       internData: state.Intern.datas,
       setTicketLoading: state.Ticket.loading,
       setTicketData: state.Ticket.data,
+      ticketDetailData: state.TicketDetail.datas,
     }),
     shallowEqual
   )
@@ -129,6 +133,10 @@ const TicketInbox = props => {
       clearInterval(intervalId)
     }
   }, [])
+
+  useEffect(() => {
+    dispatch(getTicketDetailByTicketId(ticketRowData.id))
+  }, [ticketRowData])
 
   const types = ["Inbox", "new", "processing", "done", "Outbox"]
   const [counters, setCounters] = useState([])
@@ -409,11 +417,12 @@ const TicketInbox = props => {
         }
       }
       setContent("")
-      dispatch(getTicketUserId(user.id))
+      dispatch(getTicketDetailByTicketId(ticketRowData.id))
+      toast.success("Bạn đã phản hồi thành công!", { autoClose: 2000 })
       // setIsReponse(false);
       // setmodal(!modal);
     } else {
-      toast.warning("Please enter complete information !", { autoClose: 2000 })
+      toast.warning("Vui lòng nhập đầy đủ thông tin !", { autoClose: 2000 })
     }
   }
 
@@ -743,7 +752,7 @@ const TicketInbox = props => {
                           </Accordion>
                         </Card> */}
                       </div>
-                      <ChatBox />
+                      <ChatBox ticketDetailData={ticketDetailData}/>
                       <Editor
                         value={content}
                         onTextChange={e => setContent(e.htmlValue)}
