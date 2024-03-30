@@ -1,57 +1,17 @@
 import React, { useState, useRef } from "react"
-import { Steps } from "primereact/steps"
 import img from "../../assets/images/login/header-img.png"
 import { InputText } from "primereact/inputtext"
 import { Button } from "primereact/button"
-import { Stepper } from 'primereact/stepper';
-import { StepperPanel } from 'primereact/stepperpanel';
+import { Stepper } from "primereact/stepper"
+import { StepperPanel } from "primereact/stepperpanel"
+import { ProgressSpinner } from "primereact/progressspinner"
 
 function License() {
-    const stepperRef = useRef(null);
-
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const itemRenderer = (item, itemIndex) => {
-    const isActiveItem = activeIndex === itemIndex
-    const backgroundColor = isActiveItem
-      ? "var(--primary-color)"
-      : "var(--surface-b)"
-    const textColor = isActiveItem
-      ? "var(--surface-b)"
-      : "var(--text-color-secondary)"
-
-    return (
-      <span
-        className="inline-flex align-items-center justify-content-center align-items-center border-circle border-primary border-1 h-3rem w-3rem z-1 cursor-pointer"
-        style={{
-          backgroundColor: backgroundColor,
-          color: textColor,
-          marginTop: "-25px",
-        }}
-        onClick={() => setActiveIndex(itemIndex)}
-      >
-        <i className={`${item.icon} text-xl`} />
-      </span>
-    )
-  }
-
-  const items = [
-    {
-      icon: "pi pi-pencil",
-      template: item => itemRenderer(item, 0),
-    },
-    {
-      icon: "pi pi-info",
-      template: item => itemRenderer(item, 1),
-    },
-    {
-      icon: "pi pi-check",
-      template: item => itemRenderer(item, 2),
-    },
-  ]
+  const stepperRef = useRef(null)
+  const [value, setValue] = useState("")
 
   return (
-    <div className="flex align-items-center justify-content-center" >
+    <div className="flex align-items-center justify-content-center">
       <div className="w-12 md:w-6 lg:w-5 xl:w-4 mt-8">
         <div className="shadow-1 surface-50 border-round-sm">
           <div className="flex justify-content-between bg-primary-subtle border-round-top-sm">
@@ -66,26 +26,43 @@ function License() {
 
           <div className="p-5">
             <div className="card flex justify-content-center">
-              <Stepper ref={stepperRef} style={{ flexBasis: "10rem" }}>
-                <StepperPanel header="Header I">
+              <Stepper linear ref={stepperRef} style={{ flexBasis: "10rem" }}>
+                <StepperPanel header="Enter Key">
                   <div className="flex flex-column h-12rem">
-                    <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                      Content I
+                    <div className=" flex-auto flex justify-content-center align-items-center font-medium">
+                      <div className="card flex justify-content-center">
+                        <span className="p-float-label">
+                          <InputText
+                            id="key"
+                            value={value}
+                            onChange={e => setValue(e.target.value)}
+                            style={{ minWidth: "400px" }}
+                          />
+                          <label htmlFor="key">Enter key here</label>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex pt-4 justify-content-end">
+
+                  <div className="flex pt-4 justify-content-center">
                     <Button
-                      label="Next"
+                      label="Check"
                       icon="pi pi-arrow-right"
                       iconPos="right"
                       onClick={() => stepperRef.current.nextCallback()}
                     />
                   </div>
                 </StepperPanel>
-                <StepperPanel header="Header II">
+
+                <StepperPanel header="Check">
                   <div className="flex flex-column h-12rem">
                     <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                      Content II
+                      <ProgressSpinner
+                        style={{ width: "50px", height: "50px" }}
+                        strokeWidth="8"
+                        fill="var(--surface-ground)"
+                        animationDuration=".5s"
+                      />
                     </div>
                   </div>
                   <div className="flex pt-4 justify-content-between">
@@ -95,14 +72,9 @@ function License() {
                       icon="pi pi-arrow-left"
                       onClick={() => stepperRef.current.prevCallback()}
                     />
-                    <Button
-                      label="Next"
-                      icon="pi pi-arrow-right"
-                      iconPos="right"
-                      onClick={() => stepperRef.current.nextCallback()}
-                    />
                   </div>
                 </StepperPanel>
+
                 <StepperPanel header="Header III">
                   <div className="flex flex-column h-12rem">
                     <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
