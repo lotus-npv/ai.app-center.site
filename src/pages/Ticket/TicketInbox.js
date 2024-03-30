@@ -88,6 +88,8 @@ const TicketInbox = props => {
     factoryData,
     syndicationData,
     internData,
+    setTicketLoading,
+    setTicketData
   } = useSelector(
     state => ({
       ticketData: state.Ticket.datas,
@@ -96,6 +98,8 @@ const TicketInbox = props => {
       factoryData: state.ReceivingFactory.datas,
       syndicationData: state.Syndication.datas,
       internData: state.Intern.datas,
+      setTicketLoading: state.Ticket.loading,
+      setTicketData: state.Ticket.data,
     }),
     shallowEqual
   )
@@ -240,8 +244,9 @@ const TicketInbox = props => {
       if (userType.value === "intern") {
         const arr = usersData.filter(u => u.object_type == "intern")
         const newArr = arr.map(u => {
-          // const name = internData.find(intern => intern.id = u.object_id)
-          return { ...u, label: "Intern", value: u.id }
+          const name = internData.find(intern => intern.id = u.object_id)
+          console.log('name', name);
+          return { ...u, label: '---', value: u.id }
         })
         setDataOptions(newArr)
       } else if (userType.value === "syndication") {
@@ -279,37 +284,63 @@ const TicketInbox = props => {
   // })
 
   // -----------------------------------------------------------------
+  //cho phep duoc ghi ticket detail
+  const [isSetTicketDone, setIsSetTicketDone] = useState(false);
 
-  // thu thi ghi ticket moi
+  // thuc thi ghi ticket moi
   const handCreateNewTicket = () => {
     if (userType && selectOption && title && content) {
+      let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
       const newTicket = {
         key_license_id: user.key_license_id,
-        send_date: moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss"),
+        send_date: time,
         title: title,
         content: content,
-        // sender_type: user.user_type,
         sender_id: user.id,
-        // receiver_type: userType.value,
         receiver_id: selectOption.id,
         priority: "Low",
         ticket_status: "new",
         description: "",
-        create_at: null,
+        create_at: time,
         create_by: user.id,
-        update_at: null,
+        update_at: time,
         update_by: user.id,
         delete_at: null,
         flag: 1,
       }
       console.log("content", newTicket)
       dispatch(setTicket(newTicket))
+      setIsSetTicketDone(true);
+    
       setIsReponse(false)
       setmodal(!modal)
     } else {
       toast.warning("Please enter complete information !", { autoClose: 2000 })
     }
   }
+
+  useEffect(() => {
+    if(setTicketData) {
+      if(isSetTicketDone && !setTicketLoading) {
+        const ticket_id = setTicketData[0].id;
+        const newTicketDetail = {
+          key_license_id: user.key_license_id,
+          ticket_id: ticket_id,
+          sender_id: user.id,
+          send_date: time,
+          content: content,
+          description: "",
+          create_at: time,
+          create_by: user.id,
+          update_at: time,
+          update_by: user.id,
+          delete_at: null,
+          flag: 1,
+        }
+        dispatch(setTicketDetail(newTicketDetail))
+      }
+    }
+  }, [setTicketData])
 
   // add ticket detail
   const handleResponseTicket = () => {
@@ -319,14 +350,13 @@ const TicketInbox = props => {
       const newTicketDetail = {
         key_license_id: user.key_license_id,
         ticket_id: ticketRowData.id,
-        sender_type: user.user_type,
         sender_id: user.id,
         send_date: time,
         content: content,
         description: "",
-        create_at: null,
+        create_at: time,
         create_by: user.id,
-        update_at: null,
+        update_at: time,
         update_by: user.id,
         delete_at: null,
         flag: 1,
