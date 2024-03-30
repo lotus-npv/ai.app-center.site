@@ -189,7 +189,7 @@ const ChatBox = () => {
       <div className="w-100 user-chat">
         <Card>
           <div>
-            <div className="chat-conversation p-3">
+            <div className="chat-conversation p-3 bg-light border border-radius">
               <SimpleBar
                 ref={scroollRef}
                 style={{ height: isReponse ? "200px" : "380px" }}

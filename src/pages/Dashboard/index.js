@@ -276,7 +276,7 @@ const Dashboard = props => {
   }
   //=====================================================================
 
-  console.table(dataCompany);
+  // console.table(dataCompany);
   //meta title
   document.title = "Dashboard"
   const date = new Date()

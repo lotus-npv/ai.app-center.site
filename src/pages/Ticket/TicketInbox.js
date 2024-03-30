@@ -242,36 +242,37 @@ const TicketInbox = props => {
   useEffect(() => {
     if (userType) {
       if (userType.value === "intern") {
-        const arr = usersData.filter(u => u.object_type == "intern")
+        const arr = usersData.filter(u => u.object_type == "intern" && u.key_license_id == user.key_license_id)
         const newArr = arr.map(u => {
           const name = internData.find(intern => intern.id = u.object_id)
-          console.log('name', name);
-          return { ...u, label: '---', value: u.id }
+          
+          return { ...u, label: name.laber, value: u.id }
         })
-        setDataOptions(newArr)
+        console.log('newArr', newArr);
+        setDataOptions(arr)
       } else if (userType.value === "syndication") {
-        const arr = usersData.filter(u => u.object_type == "syndication")
+        const arr = usersData.filter(u => u.object_type == "syndication" && u.key_license_id == user.key_license_id)
         const newArr = arr.map(u => {
           // const name = internData.find(intern => intern.id = u.object_id)
           return { ...u, label: "Insyndicationtern", value: u.id }
         })
-        setDataOptions(newArr)
+        setDataOptions(arr)
       } else if (userType.value === "dispatching_company") {
         const arr = usersData.filter(
-          u => u.object_type == "dispatching_company"
+          u => u.object_type == "dispatching_company" && u.key_license_id == user.key_license_id
         )
         const newArr = arr.map(u => {
           // const name = internData.find(intern => intern.id = u.object_id)
           return { ...u, label: "dispatching_company", value: u.id }
         })
-        setDataOptions(newArr)
+        setDataOptions(arr)
       } else if (userType.value === "receiving_factory") {
-        const arr = usersData.filter(u => u.object_type == "receiving_factory")
+        const arr = usersData.filter(u => u.object_type == "receiving_factory" && u.key_license_id == user.key_license_id)
         const newArr = arr.map(u => {
           // const name = internData.find(intern => intern.id = u.object_id)
           return { ...u, label: "receiving_factory", value: u.id }
         })
-        setDataOptions(newArr)
+        setDataOptions(arr)
       }
     }
   }, [userType])
@@ -321,8 +322,10 @@ const TicketInbox = props => {
 
   useEffect(() => {
     if(setTicketData) {
+      console.log('setTicketData', setTicketData);
       if(isSetTicketDone && !setTicketLoading) {
-        const ticket_id = setTicketData[0].id;
+        const ticket_id = setTicketData.id;
+        let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
         const newTicketDetail = {
           key_license_id: user.key_license_id,
           ticket_id: ticket_id,
@@ -338,9 +341,10 @@ const TicketInbox = props => {
           flag: 1,
         }
         dispatch(setTicketDetail(newTicketDetail))
+        setIsSetTicketDone(false);
       }
     }
-  }, [setTicketData])
+  }, [setTicketData, isSetTicketDone])
 
   // add ticket detail
   const handleResponseTicket = () => {
@@ -406,6 +410,9 @@ const TicketInbox = props => {
   // console.log("user", user)
   // console.log("activeIndex", activeIndex)
   // console.table(ticketData);
+  
+  console.log('setTicketLoading', setTicketLoading);
+  console.log('isSetTicketDone', isSetTicketDone);
 
   return (
     <React.Fragment>
