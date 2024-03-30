@@ -16,10 +16,7 @@ import {
   Spinner,
 } from "reactstrap"
 
-import { Divider } from 'primereact/divider';
-
 import Select from "react-select"
-import Switch from "react-switch"
 
 import * as Yup from "yup"
 import { useFormik } from "formik"
@@ -67,44 +64,6 @@ const optionGender = [
   { label: "Female", value: "female" },
 ]
 
-const Offsymbol = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        fontSize: 12,
-        color: "#fff",
-        paddingRight: 2,
-      }}
-    >
-      {" "}
-      No
-    </div>
-  )
-}
-
-const OnSymbol = () => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        fontSize: 12,
-        color: "#fff",
-        paddingRight: 2,
-      }}
-    >
-      {" "}
-      Yes
-    </div>
-  )
-}
-
 //---------------------------------------------------------------------------------------------------------------------------------------------------//
 
 const ModalDatas = ({
@@ -114,15 +73,12 @@ const ModalDatas = ({
   addressData,
   alienCardData,
   statusDetailData,
-  user,
+  user
 }) => {
   // const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
-
-  // cho phép truy cap he thong
-  const [isLogin, setIsLogin] = useState(false)
 
   // theo doi lua chon status
   const [selectedMultiStatus, setselectedMultiStatus] = useState([])
@@ -132,7 +88,7 @@ const ModalDatas = ({
 
   // Tao doi tuong luu bang the ngoai kieu
   const [alienCard, setAlienCard] = useState({
-    key_license_id: user != null ? user.key_license_id : "",
+    key_license_id: user != null ? user.key_license_id : '',
     intern_id: null,
     card_number: null,
     status_of_residence_id: null,
@@ -149,7 +105,7 @@ const ModalDatas = ({
 
   // Tao doi luong luu bang chi tiet trang thai
   const statusDetailObj = {
-    key_license_id: user != null ? user.key_license_id : "",
+    key_license_id: user != null ? user.key_license_id : '',
     intern_id: null,
     status_id: null,
     description: null,
@@ -318,24 +274,18 @@ const ModalDatas = ({
           : null,
       entry_date:
         item != null
-          ? moment(item.entry_date).utcOffset("+09:00").format("YYYY-MM-DD")
+          ? moment(item.entry_date)
+              .utcOffset("+09:00")
+              .format("YYYY-MM-DD")
           : null,
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : "",
       phone_abroad: item != null ? item.phone_abroad : "",
 
-      syndication_id:
-        item != null
-          ? item.syndication_id
-          : user.object_type == "syndication"
-          ? user.object_id
-          : "",
-      receiving_factory_id:
-        item != null
-          ? item.receiving_factory_id
-          : user.object_type == "receiving_factory"
-          ? user.object_id
-          : "",
+
+      syndication_id: item != null ? item.syndication_id : (user.object_type == 'syndication' ? user.object_id : ''),
+      receiving_factory_id: item != null ? item.receiving_factory_id : (user.object_type == 'receiving_factory' ? user.object_id : ''),
+
 
       dispatching_company_id: item != null ? item.dispatching_company_id : "",
       description: item != null ? item.description : "",
@@ -611,12 +561,7 @@ const ModalDatas = ({
         dispatch(setAlienRegistrationCard(newCard))
 
         const multiStatus = selectedMultiStatus.map(status => {
-          return {
-            ...statusDetailObj,
-            status_id: status.id,
-            intern_id: id,
-            key_license_id: user.key_license_id,
-          }
+          return { ...statusDetailObj, status_id: status.id, intern_id: id ,key_license_id: user.key_license_id}
         })
         multiStatus.forEach(st => {
           dispatch(setStatusDetail(st))
@@ -821,86 +766,39 @@ const ModalDatas = ({
                   <Card>
                     <CardBody className="bg-light">
                       <Row>
-                        <Col lg={2} xl={2} sm={3}>
-                          <div className="d-flex justify-content-center">
-                            <Card style={{ width: "70%" }}>
-                              <CardBody className="d-flex flex-column">
-                                <div style={{ aspectRatio: 1 }}>
-                                  <img
-                                    style={{ width: "100%", height: "100%" }}
-                                    className="rounded-circle img-thumbnail"
-                                    alt="avata"
-                                    src={showAvata}
-                                  />
-                                </div>
-                                <CardTitle
-                                  tag="h5"
-                                  className="text-center mt-2"
-                                >
-                                  Admin
-                                </CardTitle>
-                                <Button
-                                  onClick={() => fileInputRef.current.click()}
-                                >
-                                  {t("Upload Avata")}
-                                </Button>{" "}
-                                <input
-                                  onChange={handleChange}
-                                  multiple={false}
-                                  ref={fileInputRef}
-                                  type="file"
-                                  hidden
+                        <Col lg={2} xl={1} sm={3}>
+                          <Card
+                          // style={{ width: '90%' }}
+                          >
+                            <CardBody className="d-flex flex-column">
+                              <div style={{ aspectRatio: 1 }}>
+                                <img
+                                  style={{ width: "100%", height: "100%" }}
+                                  className="rounded-circle img-thumbnail"
+                                  alt="avata"
+                                  src={showAvata}
                                 />
-                              </CardBody>
-                            </Card>
-                          </div>
-                          <Divider />
-                          <div>
-                            <div className="mb-3">
-                              <Switch
-                                name="status_type"
-                                uncheckedIcon={<Offsymbol />}
-                                checkedIcon={<OnSymbol />}
-                                className="me-3 mb-sm-8"
-                                onColor="#626ed4"
-                                onChange={value => {
-                                  setIsLogin(value)
-                                }}
-                                checked={isLogin}
+                              </div>
+                              <CardTitle tag="h5" className="text-center mt-2">
+                                Admin
+                              </CardTitle>
+                              <Button
+                                onClick={() => fileInputRef.current.click()}
+                              >
+                                {t("Upload Avata")}
+                              </Button>{" "}
+                              <input
+                                onChange={handleChange}
+                                multiple={false}
+                                ref={fileInputRef}
+                                type="file"
+                                hidden
                               />
-                              <Label>
-                                Cho phep truy cap he thong
-                              </Label>
-                            </div>
-                            <div className="mb-3">
-                                    <Label className="form-label fw-bold">
-                                      {t("Last Name")}
-                                    </Label>
-                                    <Input
-                                      name="first_name_jp"
-                                      placeholder={t("Last Name")}
-                                      type="text"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.first_name_jp || ""}
-                                      invalid={
-                                        formik.touched.first_name_jp &&
-                                        formik.errors.first_name_jp
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    {formik.touched.first_name_jp &&
-                                    formik.errors.first_name_jp ? (
-                                      <FormFeedback type="invalid">
-                                        {formik.errors.first_name_jp}
-                                      </FormFeedback>
-                                    ) : null}
-                                  </div>
-                          </div>
+                            </CardBody>
+                          </Card>
                         </Col>
 
-                        <Col lg={5} xl={5}>
+                        <Col lg={5} xl={6}>
                           <Card className="h-100">
                             <CardBody>
                               <Row>
@@ -1875,10 +1773,11 @@ const ModalDatas = ({
                     </Card>
                   )}
 
+                  
                   {isEditIntern && (
                     <Card>
                       <CardBody>
-                        {isRefresh && <AddressDatas item={item} user={user} />}
+                        {isRefresh && <AddressDatas item={item} user={user}/>}
                         {!isRefresh && (
                           <div className="d-flex gap-3 mt-1 ">
                             <h4 className="fw-bold text-success">
