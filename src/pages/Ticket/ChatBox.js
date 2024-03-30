@@ -168,7 +168,7 @@ const ChatBox = () => {
       setSelectedImage(null)
     }
   }
-
+ 
   const findPerson = (td_sender_id, td_sender_type) => {
     if (
       td_sender_id == ticketRowData.sender_id &&

@@ -34,6 +34,10 @@ import { Badge as BadgePrime } from "primereact/accordion"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
+  getDispatchingCompanyUserId,
+  getInternUserId,
+  getReceivingFactoryUserId,
+  getSyndicationUserId,
   getTicketDetailAll,
   getTicketUserId,
   getUsersAll,
@@ -100,6 +104,10 @@ const TicketInbox = props => {
   useEffect(() => {
     if (user) {
       dispatch(getTicketUserId(user.id))
+      dispatch(getDispatchingCompanyUserId(user.id))
+      dispatch(getReceivingFactoryUserId(user.id))
+      dispatch(getSyndicationUserId(user.id))
+      dispatch(getInternUserId(user.id))
       dispatch(getUsersAll())
     }
   }, [dispatch])
@@ -219,16 +227,19 @@ const TicketInbox = props => {
   // loc ra cac type khac voi user
   useEffect(() => {
     if (user) {
-      setTypeOptions(UserTypeList.filter(type => type.value != user.user_type))
+      setTypeOptions(UserTypeList.filter(type => type.value != user.object_type))
     }
   }, [modal])
+
+  console.log(typeOptios);
 
   useEffect(() => {
     if (userType) {
       if (userType.value === "intern") {
         const arr = usersData.filter(
-          u => u.key_license_id == user.key_license_id
+          u => u.object_type == 'intern'
         )
+
         setDataOptions(arr)
         console.log(arr)
       } else if (userType.value === "syndication") {
@@ -345,7 +356,7 @@ const TicketInbox = props => {
   // console.log("ticketData", ticketData)
   // console.log("user", user)
   // console.log("activeIndex", activeIndex)
-  console.table(ticketData);
+  // console.table(ticketData);
 
   return (
     <React.Fragment>
