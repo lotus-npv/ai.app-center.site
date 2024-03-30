@@ -1,5 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 // const Authmiddleware = (props) => {
 
@@ -14,12 +16,17 @@ import { Navigate } from "react-router-dom";
 //   </React.Fragment>);
 // };
 
+
 const Loginmiddleware = (props) => {
-  if (!localStorage.getItem("authUser")) {
+  const dispatch = useDispatch();
+  const userRole = JSON.parse(localStorage.getItem("authUser"))[0];
+
+  if (! userRole) {
     return (
       <Navigate to={{ pathname: "/login", state: { from: props.location } }} />
     );
   }
+
   return (<React.Fragment>
     {props.children}
   </React.Fragment>);

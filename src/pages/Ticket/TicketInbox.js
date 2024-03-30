@@ -227,27 +227,46 @@ const TicketInbox = props => {
   // loc ra cac type khac voi user
   useEffect(() => {
     if (user) {
-      setTypeOptions(UserTypeList.filter(type => type.value != user.object_type))
+      setTypeOptions(
+        UserTypeList.filter(type => type.value != user.object_type)
+      )
     }
   }, [modal])
 
-  console.log(typeOptios);
+  console.log(typeOptios)
 
   useEffect(() => {
     if (userType) {
       if (userType.value === "intern") {
-        const arr = usersData.filter(
-          u => u.object_type == 'intern'
-        )
-
-        setDataOptions(arr)
-        console.log(arr)
+        const arr = usersData.filter(u => u.object_type == "intern")
+        const newArr = arr.map(u => {
+          // const name = internData.find(intern => intern.id = u.object_id)
+          return { ...u, label: "Intern", value: u.id }
+        })
+        setDataOptions(newArr)
       } else if (userType.value === "syndication") {
-        setDataOptions(syndicationData)
+        const arr = usersData.filter(u => u.object_type == "syndication")
+        const newArr = arr.map(u => {
+          // const name = internData.find(intern => intern.id = u.object_id)
+          return { ...u, label: "Insyndicationtern", value: u.id }
+        })
+        setDataOptions(newArr)
       } else if (userType.value === "dispatching_company") {
-        setDataOptions(companyData)
+        const arr = usersData.filter(
+          u => u.object_type == "dispatching_company"
+        )
+        const newArr = arr.map(u => {
+          // const name = internData.find(intern => intern.id = u.object_id)
+          return { ...u, label: "dispatching_company", value: u.id }
+        })
+        setDataOptions(newArr)
       } else if (userType.value === "receiving_factory") {
-        setDataOptions(factoryData)
+        const arr = usersData.filter(u => u.object_type == "receiving_factory")
+        const newArr = arr.map(u => {
+          // const name = internData.find(intern => intern.id = u.object_id)
+          return { ...u, label: "receiving_factory", value: u.id }
+        })
+        setDataOptions(newArr)
       }
     }
   }, [userType])
@@ -588,13 +607,14 @@ const TicketInbox = props => {
 
                   {isEditTicket && (
                     <>
-                      <div className="mb-3">
+                      <div className="mb-3 d-flex gap-2">
+                        <icon className={'bx bx-purchase-tag-alt'}></icon>
                         {ticketRowData != null ? (
                           <h2>{ticketRowData.title}</h2>
                         ) : (
                           "Title"
                         )}
-                        <Card className="bg-light d-flex justify-content-center">
+                        {/* <Card className="bg-light d-flex justify-content-center">
                           <Accordion
                             activeIndex={0}
                             // onTabChange={e => setActiveIndex(e.index)}
@@ -636,17 +656,15 @@ const TicketInbox = props => {
                               </Card>
                             </AccordionTab>
                           </Accordion>
-                        </Card>
+                        </Card> */}
                       </div>
+                      <ChatBox />
+                      <Editor
+                        value={content}
+                        onTextChange={e => setContent(e.htmlValue)}
+                        style={{ height: "250px" }}
+                      />
                     </>
-                  )}
-
-                  {isReponse && (
-                    <Editor
-                      value={content}
-                      onTextChange={e => setContent(e.htmlValue)}
-                      style={{ height: "250px" }}
-                    />
                   )}
                 </form>
               </ModalBody>
