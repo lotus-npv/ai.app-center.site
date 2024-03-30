@@ -289,10 +289,10 @@ const ModalDatas = ({
 
       dispatching_company_id: item != null ? item.dispatching_company_id : "",
       description: item != null ? item.description : "",
-      create_at: item != null ? item.create_at : "",
-      create_by: item != null ? item.create_by : 1,
-      update_at: item != null ? item.update_at : "",
-      update_by: item != null ? item.update_by : 1,
+      create_at: item != null ? item.create_at : null,
+      create_by: item != null ? item.create_by : user.id,
+      update_at: item != null ? item.update_at : null,
+      update_by: item != null ? item.update_by : user.id,
 
       nation_id: 1,
       alien_registration_card_number:

@@ -11,7 +11,7 @@ const DataProvider = ({ children}) => {
   }
     // address receiving fatory
     const addressSyndication = {
-      key_license_id: 1,
+      key_license_id: null,
       user_type: "syndication",
       object_id: null,
       nation_id: 2,

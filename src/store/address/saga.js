@@ -40,7 +40,7 @@ function* onAddNewAddress({ payload: data }) {
       yield put(setAddressSuccess(response));
       toast.success("Address Added Successfully", { autoClose: 2000 });
       yield call(refreshAddressData);
-      yield call(refreshInternData);
+      // yield call(refreshInternData);
   } catch (error) {
       yield put(setAddressFail(error));
       toast.error("Address Added Failed", { autoClose: 2000 });

@@ -32,7 +32,6 @@ import {
   setViolate,
   setViolateList,
   updateAlienRegistrationCard,
-  getInternAllInfo,
 } from "store/actions"
 
 import moment from "moment"

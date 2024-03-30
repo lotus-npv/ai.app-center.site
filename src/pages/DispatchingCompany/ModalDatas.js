@@ -168,8 +168,8 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData, user }) => {
         }
       } else {
         let obj = {
-          key_license_id: 1,
-          syndication_id: 1,
+          key_license_id: value.key_license_id,
+          syndication_id: value.syndication_id,
           logo: value.logo,
           name_jp: value.name_jp,
           name_en: value.name_en,
@@ -273,6 +273,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData, user }) => {
   }
 
   // render lua chon tinh, huyen, xa
+  const [selectNation, setSelectNation] = useState(null)
   const [selectProvince, setSelectProvince] = useState(null)
   const [selectDistrict, setSelectDistrict] = useState(null)
   const [selectCommune, setSelectCommune] = useState(null)
@@ -341,7 +342,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData, user }) => {
   // console.log('provinceOptions:', provinceOptions);
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  // console.log('formik:', formik.values)
+  console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('addressDataCompany:', addressDataCompany)
   // console.log('isEditCompany:', isEditCompany)

@@ -134,17 +134,17 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData }) => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      id: item != null ? item.id : "",
+      id: item != null ? item.id : user.id,
       key_license_id: item != null ? item.key_license_id : user.key_license_id,
       receiving_factory_id: item != null ? item.receiving_factory_id : user.id,
       logo: item != null ? item.logo : "avatar-null.png",
       name_jp: item != null ? item.name_jp : "",
       name_en: item != null ? item.name_en : "",
       description: item !== null ? item.description : "",
-      create_at: item !== null ? item.create_at : "",
-      create_by: item !== null ? item.create_by : 1,
-      update_at: item !== null ? item.update_at : "",
-      update_by: item !== null ? item.update_by : 1,
+      create_at: item !== null ? item.create_at : null,
+      create_by: item !== null ? item.create_by : user.id,
+      update_at: item !== null ? item.update_at : null,
+      update_by: item !== null ? item.update_by : user.id,
 
       // description_address: "",
     },

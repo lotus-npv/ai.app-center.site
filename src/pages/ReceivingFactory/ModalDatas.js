@@ -151,9 +151,9 @@ const ModalDatas = ({
           : "",
       description: item !== null ? item.description : "",
       create_at: item !== null ? item.create_at : "",
-      create_by: item !== null ? item.create_by : 1,
+      create_by: item !== null ? item.create_by : user.id,
       update_at: item !== null ? item.update_at : "",
-      update_by: item !== null ? item.update_by : 1,
+      update_by: item !== null ? item.update_by : user.id,
     },
     validationSchema: Yup.object().shape({
       name_jp: Yup.string().required("This value is required"),
@@ -176,15 +176,15 @@ const ModalDatas = ({
           create_at: value.create_at,
           create_by: value.create_by,
           update_at: null,
-          update_by: 1,
+          update_by: value.update_by,
           delete_at: null,
           flag: 1,
         }
         dispatch(updateApi(obj))
       } else {
         let obj = {
-          key_license_id: 1,
-          syndication_id: 1,
+          key_license_id: value.key_license_id,
+          syndication_id: value.syndication_id,
           logo: value.logo,
           name_jp: value.name_jp,
           name_en: value.name_en,
@@ -265,6 +265,7 @@ const ModalDatas = ({
     settextcount(event.target.value.length)
   }
 
+  const [selectNation, setSelectNation] = useState(null)
   const [selectProvince, setSelectProvince] = useState(null)
   const [selectDistrict, setSelectDistrict] = useState(null)
   const [selectCommune, setSelectCommune] = useState(null)
