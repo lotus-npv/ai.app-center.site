@@ -16,7 +16,7 @@ import {
   Spinner,
 } from "reactstrap"
 
-import { Divider } from 'primereact/divider';
+import { Divider } from "primereact/divider"
 
 import Select from "react-select"
 import Switch from "react-switch"
@@ -157,6 +157,24 @@ const ModalDatas = ({
     create_by: 1,
     update_at: null,
     update_by: 1,
+    delete_at: null,
+    flag: 1,
+  }
+
+  // Tao doi luong luu tai khoan
+  const userObj = {
+    key_license_id: user != null ? user.key_license_id : "",
+    role: null,
+    object_type: null,
+    object_id: null,
+    username: null,
+    password_hash: null,
+    active: true,
+    description: null,
+    create_at: null,
+    create_by: user.id,
+    update_at: null,
+    update_by: user.id,
     delete_at: null,
     flag: 1,
   }
@@ -384,6 +402,10 @@ const ModalDatas = ({
             ? statusDetailData.filter(i => i.intern_id == item.id)
             : ""
           : "", // trạng thái
+
+      username: "",
+      password: "",
+      repassword: "",
     },
     validationSchema: Yup.object().shape({
       first_name_jp: Yup.string().required("This value is required"),
@@ -398,6 +420,12 @@ const ModalDatas = ({
       passport_expiration_date: Yup.date().required("Please select date"),
       receiving_factory_id: Yup.string().required("This value is required"),
       dispatching_company_id: Yup.string().required("This value is required"),
+      password: Yup.string().min(6, "Mật khẩu phải dài ít nhất 6 ký tự"),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Mật khẩu không khớp"
+      ),
+
       // license_date: Yup.date().required("Please select date"),
       // expiration_date: Yup.date().required("Please select date"),
     }),
@@ -601,15 +629,25 @@ const ModalDatas = ({
   }, [isEditIntern])
 
   //---------------------------------------------------------------------------------------------------------------
-  // GHi du lieu dia chi vao database
+
+  function hashPassword(password) {
+    const hash = crypto.createHash("sha256")
+    hash.update(password)
+    return hash.digest("hex")
+  }
+
+  // GHi du lieu dia chi,status, user vao database
   useEffect(() => {
     if (internCreate) {
       if (isCreateAddress && !loadingIntern) {
         const id = internCreate["id"]
         // console.log('id:', id);
+
+        // ghi alien card
         const newCard = { ...alienCard, intern_id: id }
         dispatch(setAlienRegistrationCard(newCard))
 
+        // ghi status
         const multiStatus = selectedMultiStatus.map(status => {
           return {
             ...statusDetailObj,
@@ -622,6 +660,7 @@ const ModalDatas = ({
           dispatch(setStatusDetail(st))
         })
 
+        // ghi address
         addressDataIntern.forEach((address, index) => {
           const newAddress = {
             ...address,
@@ -631,6 +670,18 @@ const ModalDatas = ({
           }
           dispatch(setAddress(newAddress))
         })
+
+        // ghi user
+        const password = formik.values.password
+        const hashedPassword = hashPassword(password)
+        const newUser = {
+          ...userObj,
+          key_license_id: user.key_license_id,
+          object_type: "intern",
+          object_id: id,
+          username: formik.values.username,
+          password_hash: hashedPassword,
+        }
 
         setIsCreateAddress(false)
         setselectedMultiStatus([])
@@ -868,35 +919,73 @@ const ModalDatas = ({
                                 }}
                                 checked={isLogin}
                               />
-                              <Label>
-                                Cho phep truy cap he thong
-                              </Label>
+                              <Label>Cho phep truy cap he thong</Label>
                             </div>
-                            <div className="mb-3">
-                                    <Label className="form-label fw-bold">
-                                      {t("Last Name")}
-                                    </Label>
+                            {isLogin && (
+                              <div className="mb-3">
+                                <div>
+                                  <div className="mt-3">
                                     <Input
-                                      name="first_name_jp"
-                                      placeholder={t("Last Name")}
+                                      name="username"
+                                      placeholder={t("Username")}
                                       type="text"
                                       onChange={formik.handleChange}
                                       onBlur={formik.handleBlur}
-                                      value={formik.values.first_name_jp || ""}
+                                      value={formik.values.username}
+                                      className="mt-2"
+                                      disabled={false}
+                                    />
+                                  </div>
+
+                                  <div className="mt-3">
+                                    <Input
+                                      name="password"
+                                      placeholder={t("Password")}
+                                      type="password"
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={formik.values.password}
+                                      className="mt-2"
                                       invalid={
-                                        formik.touched.first_name_jp &&
-                                        formik.errors.first_name_jp
+                                        formik.touched.password &&
+                                        formik.errors.password
                                           ? true
                                           : false
                                       }
                                     />
-                                    {formik.touched.first_name_jp &&
-                                    formik.errors.first_name_jp ? (
+                                    {formik.touched.password &&
+                                    formik.errors.password ? (
                                       <FormFeedback type="invalid">
-                                        {formik.errors.first_name_jp}
+                                        {formik.errors.password}
                                       </FormFeedback>
                                     ) : null}
                                   </div>
+
+                                  <div className="mt-3">
+                                    <Input
+                                      name="confirmPassword"
+                                      placeholder={t("Confirm Password")}
+                                      type="password"
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={formik.values.confirmPassword}
+                                      invalid={
+                                        formik.touched.confirmPassword &&
+                                        formik.errors.confirmPassword
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                    {formik.touched.confirmPassword &&
+                                    formik.errors.confirmPassword ? (
+                                      <FormFeedback type="invalid">
+                                        {formik.errors.confirmPassword}
+                                      </FormFeedback>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </Col>
 
