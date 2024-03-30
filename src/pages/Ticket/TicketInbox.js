@@ -128,6 +128,9 @@ const TicketInbox = props => {
       if (user) {
         dispatch(getTicketUserId(user.id))
       }
+      if(ticketRowData) {
+        dispatch(getTicketDetailByTicketId(ticketRowData.id))
+      }
     }, 10000)
     return () => {
       clearInterval(intervalId)
@@ -135,7 +138,9 @@ const TicketInbox = props => {
   }, [])
 
   useEffect(() => {
-    dispatch(getTicketDetailByTicketId(ticketRowData.id))
+    if(ticketRowData) {
+      dispatch(getTicketDetailByTicketId(ticketRowData.id))
+    }
   }, [ticketRowData])
 
   const types = ["Inbox", "new", "processing", "done", "Outbox"]
