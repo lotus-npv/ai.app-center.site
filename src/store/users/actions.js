@@ -1,4 +1,7 @@
 import {
+  GET_USERS_USER_ID_AND_TYPE,
+  GET_USERS_USER_ID_AND_TYPE_SUCCESS,
+  GET_USERS_USER_ID_AND_TYPE_FAIL,
   GET_USERS_ALL,
   GET_USERS_ALL_SUCCESS,
   GET_USERS_ALL_FAIL,
@@ -21,15 +24,26 @@ import {
   LOGOUT_USER_SUCCESS,
 } from "./actionTypes";
 
+export const getUsersUserIdAndType = ({id, type}) => ({
+  type: GET_USERS_USER_ID_AND_TYPE,
+  payload: {id, type}
+});
+export const getUsersUserIdAndTypeSuccess = (data) => ({
+  type: GET_USERS_USER_ID_AND_TYPE_SUCCESS,
+  payload: data,
+});
+export const getUsersUserIdAndTypeFail = error => ({
+  type: GET_USERS_USER_ID_AND_TYPE_FAIL,
+  payload: error,
+});
+
 export const getUsersAll = () => ({
   type: GET_USERS_ALL,
 });
-
 export const getUsersAllSuccess = (data) => ({
   type: GET_USERS_ALL_SUCCESS,
   payload: data,
 });
-
 export const getUsersAllFail = error => ({
   type: GET_USERS_ALL_FAIL,
   payload: error,

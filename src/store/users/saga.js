@@ -3,11 +3,15 @@ import { takeEvery, put, call,all,fork, takeLatest  } from "redux-saga/effects";
 
 // Login Redux States
 import {
-  GET_USERS_ALL,GET_USERS_ID, SET_USERS, UPDATE_USERS,DELETE_USERS,GET_USERS_LOGIN,LOGOUT_USER
+  GET_USERS_ALL,GET_USERS_ID, SET_USERS, UPDATE_USERS,DELETE_USERS,GET_USERS_LOGIN,LOGOUT_USER,GET_USERS_USER_ID_AND_TYPE
 } from "./actionTypes"
 import {
+    getUsersUserIdAndTypeFail,
+    getUsersUserIdAndTypeSuccess,
+
     getUsersAllFail,
     getUsersAllSuccess,
+
     getUsersLoginFail,
     getUsersLoginSuccess,
     getUsersIdSuccess,
@@ -20,7 +24,7 @@ import {
     deleteUsersFail
 } from "./actions"
                                       
-import { getUsersDataAll,getUsersDataId ,addNewDataUsers, updateDataUsers, deleteDataUsers, getUsersDataLogin } from "../../helpers/fakebackend_helper";
+import { getUsersDataAll,getUsersDataId ,addNewDataUsers, updateDataUsers, deleteDataUsers, getUsersDataLogin,getUsersDataUserIdAndType } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
 
 function* fetUsersData() {
@@ -29,6 +33,15 @@ function* fetUsersData() {
     yield put(getUsersAllSuccess(response));
   } catch (error) {
     yield put(getUsersAllFail(error))
+  }
+}
+
+function* fetUsersDataUserIdAndType({ payload: { id, type } }) {
+  try {
+    const response = yield call(getUsersDataUserIdAndType, id,type);
+    yield put(getUsersUserIdAndTypeSuccess(response));
+  } catch (error) {
+    yield put(getUsersUserIdAndTypeFail(error))
   }
 }
 
@@ -44,15 +57,6 @@ function* fetUsersDataLogin({ payload: { user, history } }) {
     yield put(getUsersLoginFail(error))
   }
 }
-// function* fetUsersDataLogin(action) {
-//   try {
-//     const {username, password} = action.payload;
-//     const response = yield call(getUsersDataLogin, username, password);
-//     yield put(getUsersLoginSuccess(response));
-//   } catch (error) {
-//     yield put(getUsersLoginFail(error))
-//   }
-// }
 
 function* fetUsersDataId({payload: id}) {
   try {
@@ -119,6 +123,7 @@ function* refreshUsersData() {
                                       
 
 function* UsersSaga() {
+  yield takeEvery(GET_USERS_USER_ID_AND_TYPE, fetUsersDataUserIdAndType)
   yield takeEvery(GET_USERS_ALL, fetUsersData)
   yield takeEvery(GET_USERS_LOGIN, fetUsersDataLogin)
   yield takeEvery(GET_USERS_ID, fetUsersDataId)

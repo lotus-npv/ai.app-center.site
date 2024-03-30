@@ -1,7 +1,12 @@
 import {
+  GET_USERS_USER_ID_AND_TYPE,
+  GET_USERS_USER_ID_AND_TYPE_SUCCESS,
+  GET_USERS_USER_ID_AND_TYPE_FAIL,
+
   GET_USERS_ALL,
   GET_USERS_ALL_SUCCESS,
   GET_USERS_ALL_FAIL,
+
   GET_USERS_LOGIN,
   GET_USERS_LOGIN_SUCCESS,
   GET_USERS_LOGIN_FAIL,
@@ -29,6 +34,24 @@ import {
   
   const Users = (state = INIT_STATE, action) => {
     switch (action.type) {
+      case GET_USERS_USER_ID_AND_TYPE:
+        return {
+          ...state,
+          loading: true
+        };
+      case GET_USERS_USER_ID_AND_TYPE_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          datas: action.payload,
+        };
+      case GET_USERS_USER_ID_AND_TYPE_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+
       case GET_USERS_ALL:
         return {
           ...state,
@@ -40,13 +63,13 @@ import {
           loading: false,
           datas: action.payload,
         };
-  
       case GET_USERS_ALL_FAIL:
         return {
           ...state,
           loading: false,
           error: action.payload,
         };
+        
       case GET_USERS_LOGIN:
         return {
           ...state,

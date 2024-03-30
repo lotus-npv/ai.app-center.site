@@ -148,6 +148,7 @@ export const deleteDataPermission = (id) =>    del(`${url.DELETE_PERMISSION}/${i
 export const        getUsersDataAll = () =>     get(url.GET_USERS_ALL);
 export const        getUsersDataId = (id) => get(`${url.GET_USERS_ID}/${id}`,{ params: { id } }, config);
 export const     getUsersDataLogin = (username, password) => get(`${url.GET_USERS_LOGIN}?username=${username}&password=${password}` ,config);
+export const     getUsersDataUserIdAndType = (id, type) => get(`${url.GET_USERS_USER_ID_AND_TYPE}?id=${id}&type=${type}` ,config);
 export const addNewDataUsers = data =>         post(url.SET_USERS, data, config);
 export const updateDataUsers = data =>       put(url.UPDATE_USERS, data, config);
 export const deleteDataUsers = (id) =>    del(`${url.DELETE_USERS}/${id}`, { params: { id } }, config);
