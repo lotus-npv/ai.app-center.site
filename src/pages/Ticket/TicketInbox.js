@@ -564,7 +564,7 @@ const TicketInbox = props => {
                   ? `Ticket ID - ${
                       ticketRowData != null ? ticketRowData.id : "---"
                     }`
-                  : "Create new ticket"}
+                  : "Tạo Ticket Mới"}
               </ModalHeader>
               <ModalBody>
                 <form>

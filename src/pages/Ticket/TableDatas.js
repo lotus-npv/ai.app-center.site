@@ -248,7 +248,7 @@ const TableDatas = ({ dataTable }) => {
         ></Column>
         <Column
           field="send_date"
-          header="Send Date"
+          header="Ngày gửi"
           filterField="send_date"
           // filter
           filterPlaceholder="Tìm kiếm bằng tên"
@@ -257,14 +257,14 @@ const TableDatas = ({ dataTable }) => {
         ></Column>
         <Column
           field="title"
-          header="Title"
+          header="Tiêu đề"
           filterField="title"
           style={{ minWidth: "15rem" }}
         ></Column>
         {isInbox && (
           <Column
             field="sender_name"
-            header="Sender"
+            header="Người gửi"
             filterField="date_of_joining_syndication"
             // filter
             filterPlaceholder="Tìm kiếm bằng tên"
@@ -275,27 +275,27 @@ const TableDatas = ({ dataTable }) => {
         {isOutbox && (
           <Column
             field="receiver_name"
-            header="Receiver"
+            header="Người nhận"
             style={{ minWidth: "12rem" }}
           ></Column>
         )}
-        <Column
+        {/* <Column
           field="priority"
-          header="Priority"
+          header="Mức độ"
           style={{ minWidth: "8rem" }}
-        ></Column>
+        ></Column> */}
         <Column
           field="ticket_status"
-          header="Ticket Status"
+          header="Trạng thái"
           body={statusBodyTemplate}
           style={{ minWidth: "8rem" }}
         ></Column>
-        <Column
+        {/* <Column
           field="action"
           header="Thao tác"
           style={{ minWidth: "10rem" }}
           body={actionBody}
-        ></Column>
+        ></Column> */}
       </DataTable>
 
       <DeleteModal
