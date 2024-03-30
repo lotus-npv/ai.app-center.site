@@ -191,7 +191,7 @@ const ChatBox = () => {
           <div>
             <div className="chat-conversation p-3  border rounded border-success">
               <SimpleBar
-                ref={scroollRef}
+                // ref={scroollRef}
                 style={{ height: isReponse ? "200px" : "380px" }}
               >
                 {isLoading ? (

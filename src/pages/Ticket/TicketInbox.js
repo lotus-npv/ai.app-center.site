@@ -90,7 +90,7 @@ const TicketInbox = props => {
     syndicationData,
     internData,
     setTicketLoading,
-    setTicketData
+    setTicketData,
   } = useSelector(
     state => ({
       ticketData: state.Ticket.datas,
@@ -108,7 +108,7 @@ const TicketInbox = props => {
   // Get du lieu lan dau
   useEffect(() => {
     if (user) {
-      console.log('id, type', user.id, user.object_type);
+      console.log("id, type", user.id, user.object_type)
       dispatch(getTicketUserId(user.id))
       dispatch(getDispatchingCompanyUserId(user.id))
       dispatch(getReceivingFactoryUserId(user.id))
@@ -244,16 +244,23 @@ const TicketInbox = props => {
   useEffect(() => {
     if (userType) {
       if (userType.value === "intern") {
-        const arr = usersData.filter(u => u.object_type == "intern" && u.key_license_id == user.key_license_id)
+        const arr = usersData.filter(
+          u =>
+            u.object_type == "intern" && u.key_license_id == user.key_license_id
+        )
         const newArr = arr.map(u => {
-          const name = internData.find(intern => intern.id = u.object_id)
-          
+          const name = internData.find(intern => (intern.id = u.object_id))
+
           return { ...u, label: name.laber, value: u.id }
         })
-        console.log('newArr', newArr);
+        console.log("newArr", newArr)
         setDataOptions(arr)
       } else if (userType.value === "syndication") {
-        const arr = usersData.filter(u => u.object_type == "syndication" && u.key_license_id == user.key_license_id)
+        const arr = usersData.filter(
+          u =>
+            u.object_type == "syndication" &&
+            u.key_license_id == user.key_license_id
+        )
         const newArr = arr.map(u => {
           // const name = internData.find(intern => intern.id = u.object_id)
           return { ...u, label: "Insyndicationtern", value: u.id }
@@ -261,7 +268,9 @@ const TicketInbox = props => {
         setDataOptions(arr)
       } else if (userType.value === "dispatching_company") {
         const arr = usersData.filter(
-          u => u.object_type == "dispatching_company" && u.key_license_id == user.key_license_id
+          u =>
+            u.object_type == "dispatching_company" &&
+            u.key_license_id == user.key_license_id
         )
         const newArr = arr.map(u => {
           // const name = internData.find(intern => intern.id = u.object_id)
@@ -269,7 +278,11 @@ const TicketInbox = props => {
         })
         setDataOptions(arr)
       } else if (userType.value === "receiving_factory") {
-        const arr = usersData.filter(u => u.object_type == "receiving_factory" && u.key_license_id == user.key_license_id)
+        const arr = usersData.filter(
+          u =>
+            u.object_type == "receiving_factory" &&
+            u.key_license_id == user.key_license_id
+        )
         const newArr = arr.map(u => {
           // const name = internData.find(intern => intern.id = u.object_id)
           return { ...u, label: "receiving_factory", value: u.id }
@@ -288,7 +301,7 @@ const TicketInbox = props => {
 
   // -----------------------------------------------------------------
   //cho phep duoc ghi ticket detail
-  const [isSetTicketDone, setIsSetTicketDone] = useState(false);
+  const [isSetTicketDone, setIsSetTicketDone] = useState(false)
 
   // thuc thi ghi ticket moi
   const handCreateNewTicket = () => {
@@ -313,8 +326,8 @@ const TicketInbox = props => {
       }
       console.log("content", newTicket)
       dispatch(setTicket(newTicket))
-      setIsSetTicketDone(true);
-    
+      setIsSetTicketDone(true)
+
       setIsReponse(false)
       setmodal(!modal)
     } else {
@@ -322,11 +335,12 @@ const TicketInbox = props => {
     }
   }
 
+  // ghi du lieu noi dung vao ticket detail
   useEffect(() => {
-    if(setTicketData) {
-      console.log('setTicketData', setTicketData);
-      if(isSetTicketDone && !setTicketLoading) {
-        const ticket_id = setTicketData.id;
+    if (setTicketData) {
+      console.log("setTicketData", setTicketData)
+      if (isSetTicketDone && !setTicketLoading) {
+        const ticket_id = setTicketData.id
         let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
         const newTicketDetail = {
           key_license_id: user.key_license_id,
@@ -343,7 +357,12 @@ const TicketInbox = props => {
           flag: 1,
         }
         dispatch(setTicketDetail(newTicketDetail))
-        setIsSetTicketDone(false);
+        setIsSetTicketDone(false)
+
+        setUserType("")
+        setContent("")
+        setSelectOption("")
+        setTitle("")
       }
     }
   }, [setTicketData, isSetTicketDone])
@@ -372,7 +391,15 @@ const TicketInbox = props => {
       // const count = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id && td.sender_id != user.id);
       if (ticketRowData.sender_id != user.id) {
         if (ticketRowData.ticket_status == "new") {
-          const { receiver_name, sender_name, ...oldTicket } = ticketRowData
+          const {
+            receiver_name,
+            sender_name,
+            receiver_object_type,
+            sender_object_type,
+            receiver_object_id,
+            sender_object_id,
+            ...oldTicket
+          } = ticketRowData
           const ticket = {
             ...oldTicket,
             ticket_status: "processing",
@@ -393,7 +420,15 @@ const TicketInbox = props => {
   const handleCloseTicket = () => {
     let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
     if (ticketRowData) {
-      const { receiver_name, sender_name, ...oldTicket } = ticketRowData
+      const {
+        receiver_name,
+        sender_name,
+        receiver_object_type,
+        sender_object_type,
+        receiver_object_id,
+        sender_object_id,
+        ...oldTicket
+      } = ticketRowData
       const ticket = {
         ...oldTicket,
         ticket_status: "done",
@@ -408,11 +443,11 @@ const TicketInbox = props => {
 
   //-------------------------------------------------------------------------------
 
-  // console.log("ticketData", ticketData)
+  // console.log("ticketRowData", ticketRowData)
   // console.log("usersData", usersData)
   // console.log("activeIndex", activeIndex)
   // console.table(ticketData);
-  
+
   // console.log('setTicketLoading', setTicketLoading);
   // console.log('isSetTicketDone', isSetTicketDone);
 
@@ -452,7 +487,8 @@ const TicketInbox = props => {
                           setIsOutbox(false)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư đến{" "}
+                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư
+                        đến{" "}
                         <span className="ml-1 float-end fw-bold">
                           ({counters[0]})
                         </span>
@@ -470,7 +506,8 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư đi{" "}
+                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư
+                        đi{" "}
                         <span className="ml-1 float-end">({counters[4]})</span>
                       </NavLink>
                     </NavItem>
@@ -518,7 +555,8 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-file-outline me-2"></i>Đã hoàn thành
+                        <i className="mdi mdi-file-outline me-2"></i>Đã hoàn
+                        thành
                         <span className="ml-1 float-end">({counters[3]})</span>
                       </NavLink>
                     </NavItem>
@@ -558,6 +596,10 @@ const TicketInbox = props => {
                 toggle={() => {
                   setmodal(!modal)
                   setIsReponse(false)
+                  setUserType("")
+                  setContent("")
+                  setSelectOption("")
+                  setTitle("")
                 }}
               >
                 {isEditTicket

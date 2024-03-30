@@ -57,12 +57,11 @@ function* onAddNewTicketDetail({ payload: data }) {
   try {
       const response = yield call(addNewDataTicketDetail, data);
       yield put(setTicketDetailSuccess(response));
-      toast.success("TicketDetail Added Successfully", { autoClose: 2000 });
-      console.log(response);
-      yield call(refreshTicketDetailData);
+      // toast.success("TicketDetail Added Successfully", { autoClose: 2000 });
+      // yield call(refreshTicketDetailData);
   } catch (error) {
       yield put(setTicketDetailFail(error));
-      toast.error("TicketDetail Added Failed", { autoClose: 2000 });
+      toast.error("Phản hồi ticket không thành công", { autoClose: 2000 });
   }
 }
 
@@ -70,11 +69,11 @@ function* onUpdateTicketDetail({ payload: data }) {
   try {
       const response = yield call(updateDataTicketDetail, data)
       yield put(updateTicketDetailSuccess(response));
-      toast.success("TicketDetail Updated Successfully", { autoClose: 2000 });
-      yield call(refreshTicketDetailData);
+      // toast.success("TicketDetail Updated Successfully", { autoClose: 2000 });
+      // yield call(refreshTicketDetailData);
   } catch (error) {
       yield put(updateTicketDetailFail(error))
-      toast.error("TicketDetail Updated Failed", { autoClose: 2000 });
+      // toast.error("Phản hồi ticket không thành công", { autoClose: 2000 });
   }
 }
 
@@ -82,10 +81,10 @@ function* onDeleteTicketDetail({ payload: id }) {
   try {
       const response = yield call(deleteDataTicketDetail, id)
       yield put(deleteTicketDetailSuccess(response));
-      toast.success("TicketDetail Delete Successfully", { autoClose: 2000 });
+      // toast.success("TicketDetail Delete Successfully", { autoClose: 2000 });
   } catch (error) {
       yield put(deleteTicketDetailFail(error))
-      toast.error("TicketDetail Delete Failed", { autoClose: 2000 });
+      // toast.error("TicketDetail Delete Failed", { autoClose: 2000 });
   }
 }
 
