@@ -5,47 +5,49 @@ import { Button } from "primereact/button"
 import { Stepper } from "primereact/stepper"
 import { StepperPanel } from "primereact/stepperpanel"
 import { ProgressSpinner } from "primereact/progressspinner"
+import { useNavigate } from "react-router-dom"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { getKeyLicenseId } from "store/actions"
 
-
 function License() {
   const stepperRef = useRef(null)
-  const [key, setKey] = useState('')
-  const dispatch = useDispatch();
-  const [label, setLabel] = useState('')
+  const navigate = useNavigate()
+  const [key, setKey] = useState("")
+  const dispatch = useDispatch()
+  const [label, setLabel] = useState("")
 
-  const dataKey = useSelector(state => state.KeyLicense.data);
+  const dataKey = useSelector(state => state.KeyLicense.data)
 
   // const {keyData} = useSelector(state => ({
   //   keyData: state.KeyLicense.data
   // }))
   const handleCheckKey = () => {
-    stepperRef.current.nextCallback();
-    setTimeout(function() {
-      dispatch(getKeyLicenseId(key));
-  }, 2000);
+    stepperRef.current.nextCallback()
+    setTimeout(function () {
+      dispatch(getKeyLicenseId(key))
+    }, 2000)
   }
 
   useEffect(() => {
-    if(dataKey != null) {
-      if(dataKey.length == 1 && dataKey[0].active != 1) {
+    if (dataKey != null) {
+      if (dataKey.length == 1 && dataKey[0].active != 1) {
         stepperRef.current.nextCallback()
-      } else if(dataKey.length == 1 && dataKey[0].active == 1) {
+        setTimeout(function () {
+          navigate("/register", { state: { key: 123 } })
+        }, 2000)
+      } else if (dataKey.length == 1 && dataKey[0].active == 1) {
         stepperRef.current.prevCallback()
-        setLabel('Key da kich hoat')
-      }
-      else
-      {
+        setLabel("Key da kich hoat")
+      } else {
         stepperRef.current.prevCallback()
-        setLabel('Key khong chinh xac')
+        setLabel("Key khong chinh xac")
       }
-     }
+    }
   }, [dataKey])
 
-  console.log(dataKey);
+  console.log(dataKey)
 
   return (
     <div className="flex align-items-center justify-content-center">
@@ -72,8 +74,8 @@ function License() {
                           <InputText
                             id="key"
                             value={key}
-                            onChange={(e) => {
-                              setKey(e.target.value);
+                            onChange={e => {
+                              setKey(e.target.value)
                             }}
                             style={{ minWidth: "300px" }}
                           />
@@ -83,7 +85,6 @@ function License() {
                       <p>{label}</p>
                     </div>
                   </div>
-                 
 
                   <div className="flex pt-4 justify-content-center">
                     <Button

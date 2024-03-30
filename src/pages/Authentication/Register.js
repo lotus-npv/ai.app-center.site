@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Row, Col, CardBody, Card, Alert, Container, Input, Label, Form, FormFeedback } from "reactstrap";
-
+import { useLocation } from 'react-router-dom';
 // Formik Validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -22,6 +22,12 @@ const Register = props => {
 
   //meta title
   document.title = "Register | Skote - React Admin & Dashboard Template";
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const paramValue = params.get('key');
+
+  console.log('key', paramValue);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
