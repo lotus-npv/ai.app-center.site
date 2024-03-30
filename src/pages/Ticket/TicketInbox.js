@@ -388,7 +388,7 @@ const TicketInbox = props => {
       }
       dispatch(setTicketDetail(newTicketDetail))
 
-      // const count = ticketDetailData.filter(td => td.ticket_id == ticketRowData.id && td.sender_id != user.id);
+      // update trang thai ticket
       if (ticketRowData.sender_id != user.id) {
         if (ticketRowData.ticket_status == "new") {
           const {
@@ -409,6 +409,7 @@ const TicketInbox = props => {
         }
       }
       setContent("")
+      dispatch(getTicketUserId(user.id))
       // setIsReponse(false);
       // setmodal(!modal);
     } else {
