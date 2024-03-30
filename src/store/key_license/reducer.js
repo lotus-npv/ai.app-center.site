@@ -1,18 +1,18 @@
 import {
-  GET_CAREER_ALL,
-  GET_CAREER_ALL_SUCCESS,
-  GET_CAREER_ALL_FAIL,
-  GET_CAREER_ID,
-  GET_CAREER_ID_SUCCESS,
-  GET_CAREER_ID_FAIL,
-  SET_CAREER,
-  SET_CAREER_SUCCESS,
-  SET_CAREER_FAIL,
-  UPDATE_CAREER,
-  UPDATE_CAREER_SUCCESS,
-  UPDATE_CAREER_FAIL,
-  DELETE_CAREER_SUCCESS,
-  DELETE_CAREER_FAIL
+  GET_KEYLICENSE_ALL,
+  GET_KEYLICENSE_ALL_SUCCESS,
+  GET_KEYLICENSE_ALL_FAIL,
+  GET_KEYLICENSE_ID,
+  GET_KEYLICENSE_ID_SUCCESS,
+  GET_KEYLICENSE_ID_FAIL,
+  SET_KEYLICENSE,
+  SET_KEYLICENSE_SUCCESS,
+  SET_KEYLICENSE_FAIL,
+  UPDATE_KEYLICENSE,
+  UPDATE_KEYLICENSE_SUCCESS,
+  UPDATE_KEYLICENSE_FAIL,
+  DELETE_KEYLICENSE_SUCCESS,
+  DELETE_KEYLICENSE_FAIL
   } from "./actionTypes";
   
   const INIT_STATE = {
@@ -22,76 +22,83 @@ import {
     loading: false
   };
   
-  const Career = (state = INIT_STATE, action) => {
+  const KeyLicense = (state = INIT_STATE, action) => {
     switch (action.type) {
-      case GET_CAREER_ALL:
+      case GET_KEYLICENSE_ALL:
         return {
           ...state,
-          // loading: true
+          loading: true
         };
-      case GET_CAREER_ALL_SUCCESS:
+      case GET_KEYLICENSE_ALL_SUCCESS:
         return {
           ...state,
-          
+          loading: false,
           datas: action.payload,
         };
   
-      case GET_CAREER_ALL_FAIL:
+      case GET_KEYLICENSE_ALL_FAIL:
         return {
           ...state,
-          
+          loading: false,
           error: action.payload,
         };
-      case GET_CAREER_ID_SUCCESS:
+      case GET_KEYLICENSE_ID:
         return {
           ...state,
-          dataId: action.payload,
+          loading: true,
         };
-      case GET_CAREER_ID_FAIL:
+      case GET_KEYLICENSE_ID_SUCCESS:
         return {
           ...state,
+          loading: false,
+          data: action.payload,
+        };
+      case GET_KEYLICENSE_ID_FAIL:
+        return {
+          ...state,
+          loading: false,
           error: action.payload,
         };
-      case SET_CAREER:
+      case SET_KEYLICENSE:
         return {
           ...state,
           data: action.payload,
         };
-      case SET_CAREER_SUCCESS:
+      case SET_KEYLICENSE_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
   
-      case SET_CAREER_FAIL:
+      case SET_KEYLICENSE_FAIL:
         return {
           ...state,
           error: action.payload,
         };
-      case UPDATE_CAREER:
+      case UPDATE_KEYLICENSE:
         return {
           ...state,
           loading: true,
           data: action.payload,
         };
-      case UPDATE_CAREER_SUCCESS:
+      case UPDATE_KEYLICENSE_SUCCESS:
         return {
           ...state,
           loading: false,
           data: action.payload,
         };
-      case UPDATE_CAREER_FAIL:
+      case UPDATE_KEYLICENSE_FAIL:
         return {
           ...state,
           loading: false,
           error: action.payload,
         };
-      case DELETE_CAREER_SUCCESS:
+      case DELETE_KEYLICENSE_SUCCESS:
         return {
           ...state,
           data: action.payload,
         };
-      case DELETE_CAREER_FAIL:
+      case DELETE_KEYLICENSE_FAIL:
         return {
           ...state,
           error: action.payload,
@@ -102,4 +109,4 @@ import {
     }
   };
   
-  export default Career;
+  export default KeyLicense;

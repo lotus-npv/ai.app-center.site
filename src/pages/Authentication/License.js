@@ -8,20 +8,25 @@ import { ProgressSpinner } from "primereact/progressspinner"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
+import { getKeyLicenseId } from "store/actions"
 
 
 function License() {
   const stepperRef = useRef(null)
-  const [value, setValue] = useState("")
-
+  const [key, setKey] = useState('')
   const dispatch = useDispatch();
+
+  const dataKey = useSelector(state => state.KeyLicense.data);
 
   // const {keyData} = useSelector(state => ({
   //   keyData: state.KeyLicense.data
   // }))
   const handleCheckKey = () => {
+    dispatch(getKeyLicenseId(key));
 
   }
+
+  console.log(dataKey);
 
   return (
     <div className="flex align-items-center justify-content-center">
@@ -47,8 +52,10 @@ function License() {
                         <span className="p-float-label">
                           <InputText
                             id="key"
-                            value={value}
-                            onChange={e => setValue(e.target.value)}
+                            value={key}
+                            onChange={(e) => {
+                              setKey(e.target.value);
+                            }}
                             style={{ minWidth: "400px" }}
                           />
                           <label htmlFor="key">Enter key here</label>
@@ -62,7 +69,8 @@ function License() {
                       label="Check"
                       icon="pi pi-arrow-right"
                       iconPos="right"
-                      onClick={() => stepperRef.current.nextCallback()}
+                      // onClick={() => stepperRef.current.nextCallback()}
+                      onClick={handleCheckKey}
                     />
                   </div>
                 </StepperPanel>

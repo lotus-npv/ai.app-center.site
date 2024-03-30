@@ -34,6 +34,7 @@ import TicketSaga from "./ticket/saga";
 import TicketDetailSaga from "./ticket_detail/saga";
 import SyndicationSaga from "./syndication/saga";
 import mailsSaga from "./mails/saga";
+import KeyLicenseSaga from "./key_license/saga";
 
 export default function* rootSaga() {
   yield all([
@@ -71,5 +72,6 @@ export default function* rootSaga() {
     fork(TicketDetailSaga),
     fork(SyndicationSaga),
     fork(mailsSaga),
+    fork(KeyLicenseSaga),
   ]);
 }
