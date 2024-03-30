@@ -46,6 +46,7 @@ import Spinners from "components/Common/Spinner"
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { getTicketDetailAll, getTicketDetailByTicketId } from "store/actions"
+import moment from "moment"
 
 const ChatBox = () => {
   const { isReponse, setIsReponse, ticketRowData, setTicketRowData, user } =
@@ -180,7 +181,7 @@ const ChatBox = () => {
     }
   }
 
-  // console.log('ticketDetailData', ticketDetailData)
+  console.log('ticketDetailData', ticketDetailData)
   // console.log('ticketRowData', ticketRowData)
 
   return (
@@ -191,7 +192,7 @@ const ChatBox = () => {
             <div className="chat-conversation p-3">
               <SimpleBar
                 ref={scroollRef}
-                style={{ height: isReponse ? "200px" : "400px" }}
+                style={{ height: isReponse ? "200px" : "380px" }}
               >
                 {isLoading ? (
                   <Spinners setLoading={setLoading} />
@@ -204,7 +205,7 @@ const ChatBox = () => {
                           <li
                             key={index}
                             className={
-                              ticket.sender_id === user.id ? "" : "right"
+                              ticket.sender_id !== user.id ? "" : "right"
                             }
                           >
                             <div className="conversation-list">
@@ -229,10 +230,7 @@ const ChatBox = () => {
                                 <div className="conversation-name">
                                   {ticket.sender_id === user.id
                                     ? "You"
-                                    : findPerson(
-                                        ticket.sender_id,
-                                        ticket.sender_type
-                                      )}
+                                    : ticket.reply_name}
                                 </div>
                                 <p
                                   dangerouslySetInnerHTML={{
@@ -249,7 +247,7 @@ const ChatBox = () => {
                                 {ticket.send_date !== 0 && (
                                   <p className="chat-time mb-0">
                                     <i className="bx bx-time-five align-middle me-1"></i>
-                                    {ticket.send_date}
+                                    {moment(ticket.send_date).utc('+09:00').format('YYYY-MM-DD HH:MM:SS')}
                                   </p>
                                 )}
                               </div>

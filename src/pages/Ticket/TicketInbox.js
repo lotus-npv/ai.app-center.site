@@ -233,7 +233,7 @@ const TicketInbox = props => {
     }
   }, [modal])
 
-  console.log(typeOptios)
+  // console.log(typeOptios)
 
   useEffect(() => {
     if (userType) {
@@ -608,7 +608,10 @@ const TicketInbox = props => {
                   {isEditTicket && (
                     <>
                       <div className="mb-3 d-flex gap-2">
-                        <icon className={'bx bx-purchase-tag-alt'}></icon>
+                        <i
+                          className="pi pi-tags mt-2"
+                          style={{ fontSize: "1.5rem" }}
+                        ></i>
                         {ticketRowData != null ? (
                           <h2>{ticketRowData.title}</h2>
                         ) : (
@@ -684,41 +687,31 @@ const TicketInbox = props => {
                   <div></div>
                 )}
 
-                {isReponse || !isEditTicket ? (
-                  <div className="d-flex gap-2">
-                    <Button
-                      type="button"
-                      color="secondary"
-                      onClick={() => {
-                        setIsReponse(false)
-                        setmodal(!modal)
-                      }}
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      type="button"
-                      color="primary"
-                      onClick={() => {
-                        if (isEditTicket) {
-                          handleResponseTicket()
-                        } else {
-                          handCreateNewTicket()
-                        }
-                      }}
-                    >
-                      Send <i className="fab fa-telegram-plane ms-1"></i>
-                    </Button>
-                  </div>
-                ) : (
+                <div className="d-flex gap-2">
+                  {/* <Button
+                    type="button"
+                    color="secondary"
+                    onClick={() => {
+                      setIsReponse(false)
+                      setmodal(!modal)
+                    }}
+                  >
+                    Close
+                  </Button> */}
                   <Button
                     type="button"
                     color="primary"
-                    onClick={() => setIsReponse(!isReponse)}
+                    onClick={() => {
+                      if (isEditTicket) {
+                        handleResponseTicket()
+                      } else {
+                        handCreateNewTicket()
+                      }
+                    }}
                   >
-                    Repply <i className="fab fa-telegram-plane ms-1"></i>
+                    Send <i className="fab fa-telegram-plane ms-1"></i>
                   </Button>
-                )}
+                </div>
               </ModalFooter>
             </div>
           </Modal>
