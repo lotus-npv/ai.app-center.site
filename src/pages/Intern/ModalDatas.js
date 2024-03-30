@@ -317,7 +317,7 @@ const ModalDatas = ({
                 .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
             : ""
-          : "",
+          : null,
       expiration_date:
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
@@ -326,7 +326,7 @@ const ModalDatas = ({
               )
                 .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
-            : ""
+            : null
           : "",
       status_id:
         item != null

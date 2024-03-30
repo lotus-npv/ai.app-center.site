@@ -17,7 +17,8 @@ function License() {
   const [key, setKey] = useState("")
   const dispatch = useDispatch()
   const [label, setLabel] = useState("")
-
+  const [timeLeft, setTimeLeft] = useState(3)
+  const [start, setStart] = useState(false)
   const dataKey = useSelector(state => state.KeyLicense.data)
 
   // const {keyData} = useSelector(state => ({
@@ -31,12 +32,41 @@ function License() {
   }
 
   useEffect(() => {
+    if (start) {
+      if (timeLeft > 0) {
+        const timerId = setTimeout(() => {
+          setTimeLeft(timeLeft - 1)
+        }, 1000)
+        return () => clearTimeout(timerId)
+      }
+      navigate("/register", { state: { key: 123 } })
+      console.log('done')
+    }
+  }, [timeLeft,start])
+
+  console.log(start);
+
+  useEffect(() => {
     if (dataKey != null) {
       if (dataKey.length == 1 && dataKey[0].active != 1) {
+        setStart(true)
         stepperRef.current.nextCallback()
-        setTimeout(function () {
-          navigate("/register", { state: { key: 123 } })
-        }, 2000)
+        // setTimeout(function () {
+        //   navigate("/register", { state: { key: 123 } })
+        // }, 2000)
+        
+        // const intervalId = setInterval(() => {
+        //   setTimeLeft(prevTime => prevTime - 1); // Giảm thời gian còn lại đi 1 giây sau mỗi khoảng thời gian
+        //   // Kiểm tra nếu thời gian còn lại đã đạt đến 0
+        //   if (timeLeft === 0) {
+        //     console.log('object');
+        //     clearInterval(intervalId); // Dừng đếm ngược
+        //     navigate("/register", { state: { key: 123 } })
+        //   }
+        // }, 1000); // 1000 mili giây = 1 giây
+
+        // Xóa interval khi component unmount
+        // return () => clearInterval(intervalId);
       } else if (dataKey.length == 1 && dataKey[0].active == 1) {
         stepperRef.current.prevCallback()
         setLabel("Key da kich hoat")
@@ -121,7 +151,7 @@ function License() {
                 <StepperPanel header="Done">
                   <div className="flex flex-column h-12rem">
                     <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                      Bạn sẽ được chuyển tới trang đăng ký
+                      Bạn sẽ được chuyển tới trang đăng ký sau {timeLeft}
                     </div>
                   </div>
                   <div className="flex pt-4 justify-content-start">
