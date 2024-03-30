@@ -26,6 +26,12 @@ import {
                                       
 import { getUsersDataAll,getUsersDataId ,addNewDataUsers, updateDataUsers, deleteDataUsers, getUsersDataLogin,getUsersDataUserIdAndType } from "../../helpers/fakebackend_helper";
 import { toast } from "react-toastify";
+const CryptoJS = require("crypto-js");
+
+function hashPassword(password) {
+  const hashedPassword = CryptoJS.SHA256(password).toString()
+  return hashedPassword
+}
 
 function* fetUsersData() {
   try {
@@ -46,8 +52,10 @@ function* fetUsersDataUserIdAndType({ payload: { id, type } }) {
 }
 
 function* fetUsersDataLogin({ payload: { user, history } }) {
+  const password = user.password;
+  const hashedPassword = hashPassword(password);
   try {
-    const response = yield call(getUsersDataLogin, user.email,user.password);
+    const response = yield call(getUsersDataLogin, user.email,hashedPassword);
     yield put(getUsersLoginSuccess(response));
     if(response.length == 1) {
       localStorage.setItem("authUser", JSON.stringify(response));

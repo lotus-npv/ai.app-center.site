@@ -271,6 +271,9 @@ const ModalDatas = ({
   const [selectCommune, setSelectCommune] = useState(null)
 
   const [provinceOptions, setProvinceOptions] = useState([])
+
+
+
   useEffect(() => {
     if (provinceDataByNationId) {
       const data = provinceDataByNationId.map(province => {
@@ -283,6 +286,14 @@ const ModalDatas = ({
       setProvinceOptions(data)
     }
   }, [provinceDataByNationId])
+
+    // Tai du lieu thanh pho
+    useEffect(() => {
+      if (selectNation) {
+        dispatch(getProvinceByNationId(selectNation.value))
+        // setSelectProvince([]);
+      }
+    }, [selectNation])
 
   // Xu ly danh sach district
   const [districtOptions, setDistrictOptions] = useState([])
@@ -577,7 +588,7 @@ const ModalDatas = ({
                     </Row>
 
                     {!isEditFactory && (
-                      <Card style={{ minWidth: "1100px" }}>
+                      <Card style={{ minWidth: "1100px" , marginTop: '20px'}}>
                         <CardBody className="bg-light">
                           <h4 className="fw-bold">
                             {t("Contact Information")}

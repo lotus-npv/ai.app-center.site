@@ -36,6 +36,7 @@ import avata from "../../assets/images/avata/avatar-null.png"
 // import modal address
 import AddressDatas from "../../components/CommonForBoth/Address/AddressDatas"
 
+const CryptoJS = require("crypto-js");
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -56,6 +57,7 @@ import {
   getDispatchingCompanyUserId,
   getReceivingFactoryUserId,
   getSyndicationUserId,
+  setUsers,
 } from "store/actions"
 
 const optionGroup = [
@@ -164,7 +166,7 @@ const ModalDatas = ({
   // Tao doi luong luu tai khoan
   const userObj = {
     key_license_id: user != null ? user.key_license_id : "",
-    role: null,
+    role: 'user',
     object_type: null,
     object_id: null,
     username: null,
@@ -320,7 +322,7 @@ const ModalDatas = ({
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
           : null,
-      career_id: item != null ? item.career_id : "",
+      career_id: item != null ? item.career_id : null,
       passport_code: item != null ? item.passport_code : "",
       passport_license_date:
         item != null
@@ -431,6 +433,8 @@ const ModalDatas = ({
     }),
 
     onSubmit: async value => {
+
+
       if (isEditIntern) {
         let obj = {
           id: value.id,
@@ -631,9 +635,8 @@ const ModalDatas = ({
   //---------------------------------------------------------------------------------------------------------------
 
   function hashPassword(password) {
-    const hash = crypto.createHash("sha256")
-    hash.update(password)
-    return hash.digest("hex")
+    const hashedPassword = CryptoJS.SHA256(password).toString()
+    return hashedPassword
   }
 
   // GHi du lieu dia chi,status, user vao database
@@ -672,8 +675,9 @@ const ModalDatas = ({
         })
 
         // ghi user
-        const password = formik.values.password
-        const hashedPassword = hashPassword(password)
+       if(isLogin) {
+        const password = formik.values.password;
+        const hashedPassword = hashPassword(password);
         const newUser = {
           ...userObj,
           key_license_id: user.key_license_id,
@@ -682,6 +686,8 @@ const ModalDatas = ({
           username: formik.values.username,
           password_hash: hashedPassword,
         }
+        dispatch(setUsers(newUser));
+       }
 
         setIsCreateAddress(false)
         setselectedMultiStatus([])
@@ -922,7 +928,7 @@ const ModalDatas = ({
                               <Label>Cho phep truy cap he thong</Label>
                             </div>
                             {isLogin && (
-                              <div className="mb-3">
+                              <div className="">
                                 <div>
                                   <div className="mt-3">
                                     <Input
@@ -1700,7 +1706,7 @@ const ModalDatas = ({
                   </Card>
 
                   {!isEditIntern && (
-                    <Card style={{ minWidth: "1100px" }}>
+                    <Card style={{ minWidth: "1100px" , marginTop: '30px'}}>
                       <CardBody className="bg-light">
                         <h4 className="fw-bold">{t("Contact Information")}</h4>
                         <Row className="border border-secondary mt-3">
