@@ -58,20 +58,31 @@ const TicketInbox = props => {
       rejectUnauthorized: false, // Chỉ cần đặt rejectUnauthorized là false nếu bạn sử dụng chứng chỉ tự ký
       path: "/socket.io",
     });
+
     setSocket(newSocket);
     newSocket.on("message", (mes) => {
       setMessage(mes);
     });
 
+    newSocket.on("new ticket", (mes) => {
+      setSkTicket(mes);
+    });
+
     return () => {
       newSocket.disconnect();
     };
-  }, [message]);
+  }, [message, skTicket]);
 
   const sendMessage = (mes) => {
     socket.emit("message", mes);
     setMessage("");
   };
+
+  const sendTicket = (mes) => {
+    socket.emit("new ticket", mes);
+    setSkTicket("");
+  };
+
 
 
 
@@ -150,16 +161,16 @@ const TicketInbox = props => {
   }, [dispatch])
 
   // get lai data sau moi 10s
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (user) {
-        dispatch(getTicketUserId(user.id))
-      }
-    }, 30000)
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (user) {
+  //       dispatch(getTicketUserId(user.id))
+  //     }
+  //   }, 30000)
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [])
 
   // useEffect(() => {
   //   if(ticketRowData) {
@@ -259,11 +270,18 @@ const TicketInbox = props => {
   // lam moi du lieu
   useEffect(() => {
     if(ticketRowData) {
-      console.log('f5 data');
+      console.log('f5 data ticket detail');
       dispatch(getTicketDetailByTicketId(ticketRowData.id))
     }
   }, [message])
 
+    // lam moi du lieu
+    useEffect(() => {
+      if(user) {
+        console.log('f5 data ticket');
+        dispatch(getTicketUserId(user.id))
+      }
+    }, [skTicket])
 
   // show list data
   const [typeOptios, setTypeOptions] = useState([])
@@ -271,7 +289,7 @@ const TicketInbox = props => {
 
   const [userType, setUserType] = useState()
   const [selectOption, setSelectOption] = useState()
-  const [title, setTitle] = useState()
+  const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
 
   // loc ra cac type khac voi user
@@ -345,7 +363,7 @@ const TicketInbox = props => {
       }
       console.log("content", newTicket)
       dispatch(setTicket(newTicket))
-
+      sendTicket(content)
       // set true de bat dau ghi vao ticketdetail
       setIsSetTicketDone(true)
 
@@ -359,7 +377,6 @@ const TicketInbox = props => {
   useEffect(() => {
     if (setTicketData) {
       if (isSetTicketDone && !setTicketLoading) {
-        console.log("setTicketData", setTicketData)
         const ticket_id = setTicketData.id
         let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
         const newTicketDetail = {
@@ -392,7 +409,6 @@ const TicketInbox = props => {
 
   // them ticket detail khi nguoi dung phan hoi 
   const handleResponseTicket = () => {
-    console.log('Add new ticket');
     let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
     if (content) {
       const newTicketDetail = {
@@ -412,7 +428,6 @@ const TicketInbox = props => {
       dispatch(setTicketDetail(newTicketDetail))
       const mse = `${content}-${time}`
       sendMessage(mse)
-      setF5Data(true)
       // update trang thai ticket
       if (ticketRowData.sender_id != user.id) {
         if (ticketRowData.ticket_status == "new") {
@@ -463,7 +478,6 @@ const TicketInbox = props => {
         update_at: time,
       }
       dispatch(updateTicket(ticket))
-      // setIsReponse(false)
       setmodal_backdrop(false)
       setmodal(!modal)
     }
@@ -477,7 +491,8 @@ const TicketInbox = props => {
   // console.table(ticketData);
   // console.log('setTicketLoading', setTicketLoading);
   // console.log('isSetTicketDone', isSetTicketDone);
-  console.log('message:', message);
+  // console.log('message:', message);
+  // console.log('skTicket:', skTicket);
 
   return (
     <React.Fragment>

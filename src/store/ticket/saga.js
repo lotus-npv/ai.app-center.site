@@ -73,7 +73,7 @@ function* onAddNewTicket({ payload: data }) {
       const response = yield call(addNewDataTicket, data);
       yield put(setTicketSuccess(response));
       toast.success("Ticket Added Successfully", { autoClose: 2000 });
-      yield call(refreshTicketData);
+      // yield call(refreshTicketData);
   } catch (error) {
       yield put(setTicketFail(error));
       toast.error("Ticket Added Failed", { autoClose: 2000 });
@@ -84,8 +84,8 @@ function* onUpdateTicket({ payload: data }) {
   try {
       const response = yield call(updateDataTicket, data)
       yield put(updateTicketSuccess(response));
-      toast.success("Ticket Updated Successfully", { autoClose: 2000 });
-      yield call(refreshTicketData);
+      // toast.success("Ticket Updated Successfully", { autoClose: 2000 });
+      // yield call(refreshTicketData);
   } catch (error) {
       yield put(updateTicketFail(error))
       toast.error("Ticket Updated Failed", { autoClose: 2000 });

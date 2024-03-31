@@ -247,7 +247,7 @@ const ChatBox = () => {
                                 {ticket.send_date !== 0 && (
                                   <p className="chat-time mb-0">
                                     <i className="bx bx-time-five align-middle me-1"></i>
-                                    {moment(ticket.send_date).utc('+09:00').format('YYYY-MM-DD HH:MM:SS')}
+                                    {moment(ticket.send_date).format('YYYY-MM-DD HH:mm:ss')}
                                   </p>
                                 )}
                               </div>
