@@ -24,6 +24,7 @@ import Spinners from "components/Common/Spinner"
 import moment from "moment"
 import DataContext from "data/DataContext"
 import { Editor } from "primereact/editor"
+import _ from 'lodash';
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -119,9 +120,6 @@ const TicketInbox = props => {
       if (user) {
         dispatch(getTicketUserId(user.id))
       }
-      // if(ticketRowData) {
-      //   dispatch(getTicketDetailByTicketId(ticketRowData.id))
-      // }
     }, 10000)
     return () => {
       clearInterval(intervalId)
@@ -165,7 +163,7 @@ const TicketInbox = props => {
             }
           })
         // console.log(newArr)
-        setDataTable(newArr)
+        setDataTable(_.sortBy(newArr, (tk) => -tk.id))
       } else if (index == 4) {
         const newArr = ticketData
           .filter(
@@ -179,7 +177,7 @@ const TicketInbox = props => {
               send_date: moment(item.send_date).format("YYYY-MM-DD"),
             }
           })
-        setDataTable(newArr)
+        setDataTable(_.sortBy(newArr, (tk) => -tk.id))
       } else {
         const arr = ticketData.filter(
           item =>
@@ -193,7 +191,7 @@ const TicketInbox = props => {
             send_date: moment(item.send_date).format("YYYY-MM-DD"),
           }
         })
-        setDataTable(newArr)
+        setDataTable(_.sortBy(newArr, (tk) => -tk.id))
       }
     }
   }
@@ -310,14 +308,13 @@ const TicketInbox = props => {
       // set true de bat dau ghi vao ticketdetail
       setIsSetTicketDone(true)
 
-      // setIsReponse(false)
       setmodal(!modal)
     } else {
       toast.warning("Please enter complete information !", { autoClose: 2000 })
     }
   }
 
-  // ghi du lieu noi dung vao ticket detail khi tao ticket moi
+  // ghi noi dung ticket vua tao vao ticket detail khi tao ticket moi
   useEffect(() => {
     if (setTicketData) {
       if (isSetTicketDone && !setTicketLoading) {
@@ -339,8 +336,11 @@ const TicketInbox = props => {
           flag: 1,
         }
         dispatch(setTicketDetail(newTicketDetail))
+
+        // chuyen trang thai ve false de khong tu dong ghi vao ticketdetail nua
         setIsSetTicketDone(false)
 
+        // xoa het du lieu o cac o nhap lieu
         setUserType("")
         setContent("")
         setSelectOption("")
@@ -349,7 +349,7 @@ const TicketInbox = props => {
     }
   }, [setTicketData, isSetTicketDone])
 
-  // add ticket detail
+  // them ticket detail khi nguoi dung phan hoi 
   const handleResponseTicket = () => {
     console.log('Add new ticket');
     let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
@@ -369,6 +369,7 @@ const TicketInbox = props => {
         flag: 1,
       }
       dispatch(setTicketDetail(newTicketDetail))
+
       // update trang thai ticket
       if (ticketRowData.sender_id != user.id) {
         if (ticketRowData.ticket_status == "new") {
