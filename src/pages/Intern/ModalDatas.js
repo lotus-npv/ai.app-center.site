@@ -20,6 +20,11 @@ import { Divider } from "primereact/divider"
 
 import Select from "react-select"
 import Switch from "react-switch"
+//Import Flatepicker
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/material_blue.css"
+import { Calendar } from "primereact/calendar"
+import { classNames } from 'primereact/utils';
 
 import * as Yup from "yup"
 import { useFormik } from "formik"
@@ -36,7 +41,7 @@ import avata from "../../assets/images/avata/avatar-null.png"
 // import modal address
 import AddressDatas from "../../components/CommonForBoth/Address/AddressDatas"
 
-const CryptoJS = require("crypto-js");
+const CryptoJS = require("crypto-js")
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -166,7 +171,7 @@ const ModalDatas = ({
   // Tao doi luong luu tai khoan
   const userObj = {
     key_license_id: user != null ? user.key_license_id : "",
-    role: 'user',
+    role: "user",
     object_type: null,
     object_id: null,
     username: null,
@@ -433,8 +438,6 @@ const ModalDatas = ({
     }),
 
     onSubmit: async value => {
-
-
       if (isEditIntern) {
         let obj = {
           id: value.id,
@@ -675,19 +678,19 @@ const ModalDatas = ({
         })
 
         // ghi user
-       if(isLogin) {
-        const password = formik.values.password;
-        const hashedPassword = hashPassword(password);
-        const newUser = {
-          ...userObj,
-          key_license_id: user.key_license_id,
-          object_type: "intern",
-          object_id: id,
-          username: formik.values.username,
-          password_hash: hashedPassword,
+        if (isLogin) {
+          const password = formik.values.password
+          const hashedPassword = hashPassword(password)
+          const newUser = {
+            ...userObj,
+            key_license_id: user.key_license_id,
+            object_type: "intern",
+            object_id: id,
+            username: formik.values.username,
+            password_hash: hashedPassword,
+          }
+          dispatch(setUsers(newUser))
         }
-        dispatch(setUsers(newUser));
-       }
 
         setIsCreateAddress(false)
         setselectedMultiStatus([])
@@ -836,6 +839,12 @@ const ModalDatas = ({
   // console.log("selectedFile:", selectedFile)
   // console.log("isRefresh:", isRefresh)
   // console.log("item:", item)
+
+  const isFormFieldInvalid = (name) => !!(formik.touched[name] && formik.errors[name]);
+
+  const getFormErrorMessage = (name) => {
+      return isFormFieldInvalid(name) ? <small className="p-error">{formik.errors[name]}</small> : <small className="p-error">&nbsp;</small>;
+  };
 
   return (
     <>
@@ -1203,7 +1212,7 @@ const ModalDatas = ({
                                   </div>
                                 </Col>
                                 <Col lg={4} className="gx-1">
-                                  <div className="mb-3">
+                                  {/* <div className="mb-3">
                                     <Label className="form-label fw-bold">
                                       {t("Date of Birth")}
                                     </Label>
@@ -1213,7 +1222,7 @@ const ModalDatas = ({
                                       type="date"
                                       onChange={formik.handleChange}
                                       onBlur={formik.handleBlur}
-                                      value={formik.values.dob || ""}
+                                      value={formik.values.dob || null}
                                       invalid={
                                         formik.touched.dob && formik.errors.dob
                                           ? true
@@ -1225,6 +1234,46 @@ const ModalDatas = ({
                                         {formik.errors.dob}
                                       </FormFeedback>
                                     ) : null}
+                                  </div> */}
+
+                                  {/* <div className="mb-3">
+                                    <Label>{t("Date of Birth")}</Label>
+                                    <Flatpickr
+                                      className="form-control d-block"
+                                      placeholder="yyyy-MM-dd"
+                                      options={{
+                                        altInput: true,
+                                        altFormat: "Y-m-d",
+                                        dateFormat: "Y-m-d",
+                                      }}
+                                      value={formik.values.dob}
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      invalid={
+                                        formik.touched.dob && formik.errors.dob
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                  </div> */}
+
+                                  <div className="mb-3">
+                                    <label htmlFor="cal_date">{t("Date of Birth")}</label>
+                                    <Calendar
+                                      inputId="cal_date"
+                                      name="dob"
+                                      value={formik.values.dob}
+                                      className={classNames({
+                                        "p-invalid": isFormFieldInvalid("dob"),
+                                      })}
+                                      onChange={e => {
+                                        formik.setFieldValue(
+                                          "dob",
+                                          e.target.value
+                                        )
+                                      }}
+                                    />
+                                     {/* {getFormErrorMessage('dob')} */}
                                   </div>
                                 </Col>
                               </Row>
@@ -1706,7 +1755,7 @@ const ModalDatas = ({
                   </Card>
 
                   {!isEditIntern && (
-                    <Card style={{ minWidth: "1100px" , marginTop: '30px'}}>
+                    <Card style={{ minWidth: "1100px", marginTop: "30px" }}>
                       <CardBody className="bg-light">
                         <h4 className="fw-bold">{t("Contact Information")}</h4>
                         <Row className="border border-secondary mt-3">

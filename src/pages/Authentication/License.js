@@ -52,22 +52,6 @@ function License() {
       if (dataKey.length == 1 && dataKey[0].active != 1) {
         setStart(true)
         stepperRef.current.nextCallback()
-        // setTimeout(function () {
-        //   navigate("/register", { state: { key: 123 } })
-        // }, 2000)
-        
-        // const intervalId = setInterval(() => {
-        //   setTimeLeft(prevTime => prevTime - 1); // Giảm thời gian còn lại đi 1 giây sau mỗi khoảng thời gian
-        //   // Kiểm tra nếu thời gian còn lại đã đạt đến 0
-        //   if (timeLeft === 0) {
-        //     console.log('object');
-        //     clearInterval(intervalId); // Dừng đếm ngược
-        //     navigate("/register", { state: { key: 123 } })
-        //   }
-        // }, 1000); // 1000 mili giây = 1 giây
-
-        // Xóa interval khi component unmount
-        // return () => clearInterval(intervalId);
       } else if (dataKey.length == 1 && dataKey[0].active == 1) {
         stepperRef.current.prevCallback()
         setLabel("Key da kich hoat")
@@ -167,6 +151,7 @@ function License() {
               </Stepper>
             </div>
           </div>
+
         </div>
       </div>
     </div>

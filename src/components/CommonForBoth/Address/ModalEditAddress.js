@@ -106,7 +106,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   const [selectProvince, setSelectProvince] = useState(provinceDataId[0])
   const [selectDistrict, setSelectDistrict] = useState(districtDataId[0])
   const [selectCommune, setSelectCommune] = useState(communeDataId[0])
-  const [detail, setDetail] = useState(address.detail)
+  const [detail, setDetail] = useState(address.detail??'')
 
   const [provinceOptions, setProvinceOptions] = useState(provinceDataByNationId)
   const [districtOptions, setDistrictOptions] = useState(
@@ -183,7 +183,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   }
 
   // console.log('address', address)
-  console.log("communeDataId", communeDataId)
+  // console.log("communeDataId", communeDataId)
   // console.log('address', address)
 
   return (

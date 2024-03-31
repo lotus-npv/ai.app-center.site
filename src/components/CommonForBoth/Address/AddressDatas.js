@@ -89,16 +89,16 @@ const AddressDatas = ({ item, user }) => {
   }, [dispatch])
 
   // get lai data sau moi 10s
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (user) {
-        dispatch(getAddressAll(user.key_license_id))
-      }
-    }, 5000)
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (user) {
+  //       dispatch(getAddressAll(user.key_license_id))
+  //     }
+  //   }, 10000)
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [])
 
   const [addressOriginal, setAddressOriginal] = useState([])
 
@@ -114,7 +114,7 @@ const AddressDatas = ({ item, user }) => {
       )
 
       if (arr && isDispath && index < arr.length) {
-        // console.log("arr", arr)
+        console.log("arr", arr)
         // console.log("index", index)
         setAddressOriginal(arr)
 
@@ -129,27 +129,34 @@ const AddressDatas = ({ item, user }) => {
         // them 1 dia chi mac dinh moi
         array.push(addObj)
 
-        console.log('array', array);
+        console.log("array", array)
 
         // nap gia tri country
-        if(array[index].nation) {
+        if (array[index].nation) {
           array[index].nation = NationList.find(
             nation => nation.value == arr[index].nation_id
           )["country"]
         }
-        
+
+        // nap gia tri detail
         array[index].detail = arr[index].detail
 
+        // nap lai mang dia chi vao state
         setAddresss(array)
         setIsDitpath(false)
+
+        // cho phep doc cac du lieu con lai cua dia chi
         setIsReadData(true)
       }
 
-      if (provinceDataId && districtDataId && communeDataId && isReadData) {
+      if (provinceDataId && districtDataId && communeDataId && isReadData && index < arr.length) {
         if (!provinceLoading && !districtLoading && !CommuneLoading) {
           console.log("check done")
 
+          // lay mang dia chi hien tai gan cho bien moi
           const arr = [...addresss]
+
+          // nap cac gia tri moi nhan duoc tu dispath o tren vao dia chi moi nhat trong mang
           arr[index].province = provinceDataId[0].StateName_ja
           arr[index].district = districtDataId[0].DistrictName_ja
           arr[index].commune = communeDataId[0].WardName_ja
@@ -158,13 +165,14 @@ const AddressDatas = ({ item, user }) => {
         }
 
         if (
+          // neu dia chi moi nhat da nap day du gia tri
           addresss[index].province != "" &&
           addresss[index].district != "" &&
           addresss[index].commune != "" &&
           addresss[index].nation != "" &&
           addresss[index].detail != ""
         ) {
-          //   console.log("addresss", addresss)
+          // tat doc data, cho phep dispath du lieu moi va tang index cua mang
           setIsReadData(false)
           setIsDitpath(true)
           setIndex(index + 1)
@@ -182,10 +190,10 @@ const AddressDatas = ({ item, user }) => {
 
   // console.log('user', user)
   // console.log('provinceLoading', provinceLoading)
-  //   console.log("provinceDataId", provinceDataId)
-  //   console.log("districtDataId", districtDataId)
+  // console.log("provinceDataId", provinceDataId)
+  // console.log("districtDataId", districtDataId)
   // console.log("communeDataId", communeDataId)
-  //   console.log("isReadData", isReadData)
+  // console.log("isReadData", isReadData)
   // console.log("item", item)
 
   const getSeverity = address => {
