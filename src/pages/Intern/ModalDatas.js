@@ -59,6 +59,7 @@ import {
   getSyndicationUserId,
   setUsers,
   getUsersAll,
+  getInternUserId
 } from "store/actions"
 
 const optionGroup = [
@@ -279,11 +280,13 @@ const ModalDatas = ({
       const selectedStatus = arr.map((statusDetail, index) => {
         return statusData.find(sd => sd.id == statusDetail.status_id)
       })
-      setselectedMultiStatus(selectedStatus)
 
-      const card = alienCardDatas.find(item => item.intern_id == item.id)
-      // console.log("card:", card)
-      setAlienCard(card)
+      // nap gia tri status cho state
+      setselectedMultiStatus(selectedStatus)
+      const cardData = alienCardDatas.find(card => card.intern_id == item.id)
+      if(cardData) {
+        setAlienCard(cardData)
+      }
 
       setOn(true)
     }
@@ -536,6 +539,7 @@ const ModalDatas = ({
 
         const newCrad = {
           ...alienCard,
+
           key_license_id: user.key_license_id,
           card_number: value.alien_registration_card_number,
           status_of_residence_id: value.status_of_residence_id,
@@ -550,7 +554,7 @@ const ModalDatas = ({
         formik.resetForm()
         item = null
         setSelectedFile(null)
-        dispatch(getInternUserId(user_id))
+        dispatch(getInternUserId(user.id))
       } else {
         // truong hop them du lieu moi
         let obj = {
@@ -858,6 +862,7 @@ const ModalDatas = ({
   // console.log("selectedFile:", selectedFile)
   // console.log("isRefresh:", isRefresh)
   // console.log("item:", item)
+  console.log("alienCard:", alienCard)
 
   const isFormFieldInvalid = name =>
     !!(formik.touched[name] && formik.errors[name])
