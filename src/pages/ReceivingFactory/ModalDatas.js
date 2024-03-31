@@ -347,9 +347,9 @@ const ModalDatas = ({
   // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('addressDataFactory:', addressDataFactory)
-  console.log("isEditFactory:", isEditFactory)
+  // console.log("isEditFactory:", isEditFactory)
   // console.log('selectedFile:', selectedFile);
-  console.log("isRefresh:", isRefresh)
+  // console.log("isRefresh:", isRefresh)
 
   return (
     <>

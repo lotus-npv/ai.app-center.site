@@ -268,7 +268,7 @@ const ModalDatas = ({
     }
   }
 
-  // xu ly alien card
+  // doc du lieu status va alien card sau do nap vao state
   const [numStatusDetail, setNumTicketStatus] = useState([])
   const [on, setOn] = useState(false)
   useEffect(() => {
@@ -433,6 +433,7 @@ const ModalDatas = ({
     }),
 
     onSubmit: async value => {
+      // truong hop update du lieu
       if (isEditIntern) {
         let obj = {
           id: value.id,
@@ -522,6 +523,7 @@ const ModalDatas = ({
             }
           }
         } else {
+          // neu ban dau chua co du lieu thi ghi toan bo vao db
           for (let i = 0; i < selectedMultiStatus.length; i++) {
             const newStatusDetail = {
               ...statusDetailObj,
@@ -534,6 +536,7 @@ const ModalDatas = ({
 
         const newCrad = {
           ...alienCard,
+          key_license_id: user.key_license_id,
           card_number: value.alien_registration_card_number,
           status_of_residence_id: value.status_of_residence_id,
           license_date: value.license_date,
@@ -547,7 +550,9 @@ const ModalDatas = ({
         formik.resetForm()
         item = null
         setSelectedFile(null)
+        dispatch(getInternUserId(user_id))
       } else {
+        // truong hop them du lieu moi
         let obj = {
           key_license_id: value.key_license_id,
           syndication_id: value.syndication_id,
@@ -616,6 +621,7 @@ const ModalDatas = ({
 
   //--------------------------------------------------------------------------------//
   // cho phép truy cap he thong
+  const [isHasAccount, setIsHasAccount] = useState(false)
   const [isLogin, setIsLogin] = useState(false)
   useEffect(() => {
     if (item && usersData) {
@@ -625,7 +631,8 @@ const ModalDatas = ({
       // console.log(arr);
       if (arr) {
         setIsLogin(true)
-        formik.setFieldValue('username', arr.username)
+        formik.setFieldValue("username", arr.username)
+        setIsHasAccount(true)
       }
     }
   }, [item])
@@ -647,7 +654,7 @@ const ModalDatas = ({
   }, [isEditIntern])
 
   //---------------------------------------------------------------------------------------------------------------
-
+  // ma hoa password 
   function hashPassword(password) {
     const hashedPassword = CryptoJS.SHA256(password).toString()
     return hashedPassword
@@ -661,7 +668,7 @@ const ModalDatas = ({
         // console.log('id:', id);
 
         // ghi alien card
-        const newCard = { ...alienCard, intern_id: id }
+        const newCard = { ...alienCard, intern_id: id , key_license_id: user.key_license_id}
         dispatch(setAlienRegistrationCard(newCard))
 
         // ghi status
@@ -710,6 +717,7 @@ const ModalDatas = ({
         formik.resetForm()
         item = null
         setSelectedFile(null)
+        dispatch(getInternUserId(user_id))
       }
     }
   }, [internCreate, isCreateAddress])
@@ -964,56 +972,60 @@ const ModalDatas = ({
                                       onBlur={formik.handleBlur}
                                       value={formik.values.username}
                                       className="mt-2"
-                                      disabled={false}
+                                      disabled={isHasAccount ? true : false}
                                     />
                                   </div>
 
-                                  <div className="mt-3">
-                                    <Input
-                                      name="password"
-                                      placeholder={t("Password")}
-                                      type="password"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.password}
-                                      className="mt-2"
-                                      invalid={
-                                        formik.touched.password &&
-                                        formik.errors.password
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    {formik.touched.password &&
-                                    formik.errors.password ? (
-                                      <FormFeedback type="invalid">
-                                        {formik.errors.password}
-                                      </FormFeedback>
-                                    ) : null}
-                                  </div>
+                                  {!isHasAccount && (
+                                    <>
+                                      <div className="mt-3">
+                                        <Input
+                                          name="password"
+                                          placeholder={t("Password")}
+                                          type="password"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.password}
+                                          className="mt-2"
+                                          invalid={
+                                            formik.touched.password &&
+                                            formik.errors.password
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        {formik.touched.password &&
+                                        formik.errors.password ? (
+                                          <FormFeedback type="invalid">
+                                            {formik.errors.password}
+                                          </FormFeedback>
+                                        ) : null}
+                                      </div>
 
-                                  <div className="mt-3">
-                                    <Input
-                                      name="confirmPassword"
-                                      placeholder={t("Confirm Password")}
-                                      type="password"
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      value={formik.values.confirmPassword}
-                                      invalid={
-                                        formik.touched.confirmPassword &&
-                                        formik.errors.confirmPassword
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                    {formik.touched.confirmPassword &&
-                                    formik.errors.confirmPassword ? (
-                                      <FormFeedback type="invalid">
-                                        {formik.errors.confirmPassword}
-                                      </FormFeedback>
-                                    ) : null}
-                                  </div>
+                                      <div className="mt-3">
+                                        <Input
+                                          name="confirmPassword"
+                                          placeholder={t("Confirm Password")}
+                                          type="password"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.confirmPassword}
+                                          invalid={
+                                            formik.touched.confirmPassword &&
+                                            formik.errors.confirmPassword
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        {formik.touched.confirmPassword &&
+                                        formik.errors.confirmPassword ? (
+                                          <FormFeedback type="invalid">
+                                            {formik.errors.confirmPassword}
+                                          </FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             )}
@@ -2034,6 +2046,8 @@ const ModalDatas = ({
                 setOn(false)
                 setSelectedFile(null)
                 tog_fullscreen()
+                setIsLogin(false)
+                setIsHasAccount(false)
               }}
               className="btn btn-secondary "
               style={{ minWidth: "80px" }}
