@@ -15,21 +15,15 @@ import {
   NavLink,
   CardBody,
   Label,
-  Badge,
 } from "reactstrap"
 import TableDatas from "./TableDatas"
 import classnames from "classnames"
 import Select from "react-select"
-import { Link } from "react-router-dom"
 //Import Email Topbar
 import Spinners from "components/Common/Spinner"
 import moment from "moment"
 import DataContext from "data/DataContext"
 import { Editor } from "primereact/editor"
-
-import { Accordion, AccordionTab } from "primereact/accordion"
-import { Avatar } from "primereact/accordion"
-import { Badge as BadgePrime } from "primereact/accordion"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -38,17 +32,14 @@ import {
   getInternUserId,
   getReceivingFactoryUserId,
   getSyndicationUserId,
-  getTicketDetailAll,
   getTicketUserId,
   getUsersAll,
-  getUsersUserIdAndType,
   setTicket,
   setTicketDetail,
   updateTicket,
   getTicketDetailByTicketId
 } from "store/actions"
 import ChatBox from "./ChatBox"
-import { EffectCards } from "swiper/modules"
 import { toast } from "react-toastify"
 
 const TicketInbox = props => {
@@ -315,9 +306,11 @@ const TicketInbox = props => {
       }
       console.log("content", newTicket)
       dispatch(setTicket(newTicket))
+
+      // set true de bat dau ghi vao ticketdetail
       setIsSetTicketDone(true)
 
-      setIsReponse(false)
+      // setIsReponse(false)
       setmodal(!modal)
     } else {
       toast.warning("Please enter complete information !", { autoClose: 2000 })
@@ -425,7 +418,7 @@ const TicketInbox = props => {
         update_at: time,
       }
       dispatch(updateTicket(ticket))
-      setIsReponse(false)
+      // setIsReponse(false)
       setmodal_backdrop(false)
       setmodal(!modal)
     }
@@ -577,14 +570,14 @@ const TicketInbox = props => {
             centered={true}
             toggle={() => {
               setmodal(!modal)
-              setIsReponse(false)
+              // setIsReponse(false)
             }}
           >
             <div className="modal-content">
               <ModalHeader
                 toggle={() => {
                   setmodal(!modal)
-                  setIsReponse(false)
+                  // setIsReponse(false)
                   setUserType("")
                   setContent("")
                   setSelectOption("")

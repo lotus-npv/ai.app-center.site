@@ -187,7 +187,7 @@ const ChatBox = () => {
   return (
     <>
       <div className="w-100 user-chat">
-        <Card>
+        <Card className="">
           <div>
             <div className="chat-conversation p-3  border rounded border-success">
               <SimpleBar
