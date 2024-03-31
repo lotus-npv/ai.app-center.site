@@ -75,16 +75,16 @@ const ChatBox = () => {
   }, [dispatch])
 
   // get lai data sau moi 10s
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if(ticketRowData) {
-        dispatch(getTicketDetailByTicketId(ticketRowData.id))
-      }
-    }, 15000)
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if(ticketRowData) {
+  //       dispatch(getTicketDetailByTicketId(ticketRowData.id))
+  //     }
+  //   }, 15000)
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [])
 
   // tim ticketdetail phan hoi den ticket duoc chon
   // const [ticketDetails, setTicketDetails] = useState([])

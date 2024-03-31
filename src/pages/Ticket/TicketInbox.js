@@ -26,6 +26,9 @@ import DataContext from "data/DataContext"
 import { Editor } from "primereact/editor"
 import _ from 'lodash';
 
+import io from 'socket.io-client';
+const ENDPOINT = 'https://45.252.251.108:3010';
+
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import {
@@ -44,6 +47,35 @@ import ChatBox from "./ChatBox"
 import { toast } from "react-toastify"
 
 const TicketInbox = props => {
+  // "https://api.lotusocean-jp.com"
+  // socket 
+  const [message, setMessage] = useState("");
+  const [skTicket, setSkTicket] = useState("");
+  const [socket, setSocket] = useState();
+  useEffect(() => {
+    const newSocket = io("https://api.lotusocean-jp.com", {
+      secure: true,
+      rejectUnauthorized: false, // Chỉ cần đặt rejectUnauthorized là false nếu bạn sử dụng chứng chỉ tự ký
+      path: "/socket.io",
+    });
+    setSocket(newSocket);
+    newSocket.on("message", (mes) => {
+      setMessage(mes);
+    });
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [message]);
+
+  const sendMessage = (mes) => {
+    socket.emit("message", mes);
+    setMessage("");
+  };
+
+
+
+
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
@@ -226,12 +258,11 @@ const TicketInbox = props => {
   // -----------------------------------------------------------------
   // lam moi du lieu
   useEffect(() => {
-    if(f5Data && ticketRowData) {
+    if(ticketRowData) {
       console.log('f5 data');
       dispatch(getTicketDetailByTicketId(ticketRowData.id))
-      setF5Data(false)
     }
-  }, [f5Data])
+  }, [message])
 
 
   // show list data
@@ -379,6 +410,8 @@ const TicketInbox = props => {
         flag: 1,
       }
       dispatch(setTicketDetail(newTicketDetail))
+      const mse = `${content}-${time}`
+      sendMessage(mse)
       setF5Data(true)
       // update trang thai ticket
       if (ticketRowData.sender_id != user.id) {
@@ -444,6 +477,7 @@ const TicketInbox = props => {
   // console.table(ticketData);
   // console.log('setTicketLoading', setTicketLoading);
   // console.log('isSetTicketDone', isSetTicketDone);
+  console.log('message:', message);
 
   return (
     <React.Fragment>
@@ -454,7 +488,7 @@ const TicketInbox = props => {
         }}
       >
         <Row>
-          <Col lg="2">
+          <Col xl="3" lg="12">
             <div className="d-flex justify-content-center">
               <Card className="w-100" style={{ margin: "10px 10px 10px 10px" }}>
                 <Button
@@ -560,7 +594,7 @@ const TicketInbox = props => {
             </div>
           </Col>
 
-          <Col lg="10">
+          <Col xl="9" lg="12">
             <div className="d-flex justify-content-center">
               {isLoading ? (
                 <Spinners setLoading={setLoading} />
