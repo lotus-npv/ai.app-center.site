@@ -28,6 +28,7 @@ import moment from "moment"
 import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
+import _ from "lodash"
 
 // import context
 import DataContext from "../../data/DataContext"
@@ -59,8 +60,9 @@ import {
   getSyndicationUserId,
   setUsers,
   getUsersAll,
-  getInternUserId
+  getInternUserId,
 } from "store/actions"
+import { toast } from "react-toastify"
 
 const optionGroup = [
   { label: "Viet Nam", value: 1 },
@@ -132,7 +134,8 @@ const ModalDatas = ({
   }
 
   // Tao doi tuong luu bang the ngoai kieu
-  const [alienCard, setAlienCard] = useState({
+  const [alienCard, setAlienCard] = useState(null)
+  const cardObj = {
     key_license_id: user != null ? user.key_license_id : "",
     intern_id: null,
     card_number: null,
@@ -146,7 +149,7 @@ const ModalDatas = ({
     update_by: 1,
     delete_at: null,
     flag: 1,
-  })
+  }
 
   // Tao doi luong luu bang chi tiet trang thai
   const statusDetailObj = {
@@ -284,7 +287,7 @@ const ModalDatas = ({
       // nap gia tri status cho state
       setselectedMultiStatus(selectedStatus)
       const cardData = alienCardDatas.find(card => card.intern_id == item.id)
-      if(cardData) {
+      if (cardData) {
         setAlienCard(cardData)
       }
 
@@ -435,173 +438,183 @@ const ModalDatas = ({
       // expiration_date: Yup.date().required("Please select date"),
     }),
 
-    onSubmit: async value => {
-      // truong hop update du lieu
-      if (isEditIntern) {
-        let obj = {
-          id: value.id,
-          key_license_id: value.key_license_id,
-          syndication_id: value.syndication_id,
-          type: "intern",
-          avata: value.avata,
-          avata_update_at: value.avata_update_at,
-          first_name_jp: value.first_name_jp,
-          middle_name_jp: value.middle_name_jp,
-          last_name_jp: value.last_name_jp,
-          first_name_en: value.first_name_en,
-          middle_name_en: value.middle_name_en,
-          last_name_en: value.last_name_en,
-          gender: value.gender,
-          dob: value.dob,
-          career_id: value.career_id,
-          passport_code: value.passport_code,
-          passport_license_date: value.passport_license_date,
-          passport_expiration_date: value.passport_expiration_date,
-          entry_date: value.entry_date,
-          alert: value.alert,
-          phone_domestically: value.phone_domestically,
-          phone_abroad: value.phone_abroad,
-          receiving_factory_id: value.receiving_factory_id,
-          dispatching_company_id: value.dispatching_company_id,
-          description: value.description,
-          create_at: value.create_at,
-          create_by: value.create_by,
-          update_at: null,
-          update_by: value.update_by,
-          delete_at: null,
-          flag: 1,
-        }
-        dispatch(updateApi(obj))
+    onSubmit: async (value) => {
+      if (_.isEqual(value, formik.initialValues)) {
+        toast.warning("No changes were made", { autoClose: 2000 });
+      } else {
+        // truong hop update du lieu
+        if (isEditIntern) {
+          let obj = {
+            id: value.id,
+            key_license_id: value.key_license_id,
+            syndication_id: value.syndication_id,
+            type: "intern",
+            avata: value.avata,
+            avata_update_at: value.avata_update_at,
+            first_name_jp: value.first_name_jp,
+            middle_name_jp: value.middle_name_jp,
+            last_name_jp: value.last_name_jp,
+            first_name_en: value.first_name_en,
+            middle_name_en: value.middle_name_en,
+            last_name_en: value.last_name_en,
+            gender: value.gender,
+            dob: value.dob,
+            career_id: value.career_id,
+            passport_code: value.passport_code,
+            passport_license_date: value.passport_license_date,
+            passport_expiration_date: value.passport_expiration_date,
+            entry_date: value.entry_date,
+            alert: value.alert,
+            phone_domestically: value.phone_domestically,
+            phone_abroad: value.phone_abroad,
+            receiving_factory_id: value.receiving_factory_id,
+            dispatching_company_id: value.dispatching_company_id,
+            description: value.description,
+            create_at: value.create_at,
+            create_by: value.create_by,
+            update_at: null,
+            update_by: value.update_by,
+            delete_at: null,
+            flag: 1,
+          }
+          dispatch(updateApi(obj))
 
-        // Xac dinh so luong numStatusDetail ban dau : a
-        // xem so luong selectedMultiStatus moi cap nhat : b
-        // neu a > b => 0 - b : se UPDATE , b -> a : se DELETE
-        // neu a = b => thi tat ca deu la UPDATE
-        // neu a < b => a : se UPDATE , b-a : se SET
-        // console.log("numStatusDetail.length", numStatusDetail.length)
-        // console.log("selectedMultiStatus.length", selectedMultiStatus.length)
+          // Xac dinh so luong numStatusDetail ban dau : a
+          // xem so luong selectedMultiStatus moi cap nhat : b
+          // neu a > b => 0 - b : se UPDATE , b -> a : se DELETE
+          // neu a = b => thi tat ca deu la UPDATE
+          // neu a < b => a : se UPDATE , b-a : se SET
+          // console.log("numStatusDetail.length", numStatusDetail.length)
+          // console.log("selectedMultiStatus.length", selectedMultiStatus.length)
 
-        if (numStatusDetail.length > 0) {
-          if (numStatusDetail.length > selectedMultiStatus.length) {
-            for (let i = 0; i < numStatusDetail.length; i++) {
-              let ticketStatusId = numStatusDetail[i].id
-              if (i < selectedMultiStatus.length) {
+          if (numStatusDetail.length > 0) {
+            if (numStatusDetail.length > selectedMultiStatus.length) {
+              for (let i = 0; i < numStatusDetail.length; i++) {
+                let ticketStatusId = numStatusDetail[i].id
+                if (i < selectedMultiStatus.length) {
+                  const newStatusDetail = {
+                    ...numStatusDetail[i],
+                    status_id: selectedMultiStatus[i].id,
+                  }
+                  const { name, colors, ...ns } = newStatusDetail
+                  dispatch(updateStatusDetail(ns))
+                } else {
+                  dispatch(deleteStatusDetail(ticketStatusId))
+                }
+              }
+            } else if (numStatusDetail.length == selectedMultiStatus.length) {
+              for (let i = 0; i < numStatusDetail.length; i++) {
                 const newStatusDetail = {
                   ...numStatusDetail[i],
                   status_id: selectedMultiStatus[i].id,
                 }
                 const { name, colors, ...ns } = newStatusDetail
                 dispatch(updateStatusDetail(ns))
-              } else {
-                dispatch(deleteStatusDetail(ticketStatusId))
               }
-            }
-          } else if (numStatusDetail.length == selectedMultiStatus.length) {
-            for (let i = 0; i < numStatusDetail.length; i++) {
-              const newStatusDetail = {
-                ...numStatusDetail[i],
-                status_id: selectedMultiStatus[i].id,
+            } else {
+              for (let i = 0; i < selectedMultiStatus.length; i++) {
+                if (i < numStatusDetail.length) {
+                  const newStatusDetail = {
+                    ...numStatusDetail[i],
+                    status_id: selectedMultiStatus[i].id,
+                  }
+                  const { name, colors, ...ns } = newStatusDetail
+                  // console.log('ns', ns)
+                  dispatch(updateStatusDetail(ns))
+                } else {
+                  const newStatusDetail = {
+                    ...statusDetailObj,
+                    intern_id: value.id,
+                    status_id: selectedMultiStatus[i].id,
+                  }
+                  dispatch(setStatusDetail(newStatusDetail))
+                }
               }
-              const { name, colors, ...ns } = newStatusDetail
-              dispatch(updateStatusDetail(ns))
             }
           } else {
+            // neu ban dau chua co du lieu thi ghi toan bo vao db
             for (let i = 0; i < selectedMultiStatus.length; i++) {
-              if (i < numStatusDetail.length) {
-                const newStatusDetail = {
-                  ...numStatusDetail[i],
-                  status_id: selectedMultiStatus[i].id,
-                }
-                const { name, colors, ...ns } = newStatusDetail
-                // console.log('ns', ns)
-                dispatch(updateStatusDetail(ns))
-              } else {
-                const newStatusDetail = {
-                  ...statusDetailObj,
-                  intern_id: value.id,
-                  status_id: selectedMultiStatus[i].id,
-                }
-                dispatch(setStatusDetail(newStatusDetail))
+              const newStatusDetail = {
+                ...statusDetailObj,
+                intern_id: value.id,
+                status_id: selectedMultiStatus[i].id,
               }
+              dispatch(setStatusDetail(newStatusDetail))
             }
           }
+
+          // check alien card
+          // neu card chua co thi ghi moi
+          // neu card da ton tai thi update
+          if(alienCard != null) {
+            const newCrad = {
+              ...alienCard,
+              intern_id: internId,
+              key_license_id: user.key_license_id,
+              card_number: value.alien_registration_card_number,
+              status_of_residence_id: value.status_of_residence_id,
+              license_date: value.license_date,
+              expiration_date: value.expiration_date,
+            }
+            dispatch(updateAlienRegistrationCard(newCrad))
+          } else {
+            const newCrad = {
+              ...alienCard,
+              intern_id: internId,
+              key_license_id: user.key_license_id,
+              card_number: value.alien_registration_card_number,
+              status_of_residence_id: value.status_of_residence_id,
+              license_date: value.license_date,
+              expiration_date: value.expiration_date,
+            }
+            dispatch(setAlienRegistrationCard(newCrad))
+          }
+
+          setselectedMultiStatus([])
+          setOn(false)
+          tog_fullscreen()
+          formik.resetForm()
+          item = null
+          setSelectedFile(null)
+          dispatch(getInternUserId(user.id))
         } else {
-          // neu ban dau chua co du lieu thi ghi toan bo vao db
-          for (let i = 0; i < selectedMultiStatus.length; i++) {
-            const newStatusDetail = {
-              ...statusDetailObj,
-              intern_id: value.id,
-              status_id: selectedMultiStatus[i].id,
-            }
-            dispatch(setStatusDetail(newStatusDetail))
+          // truong hop them du lieu moi
+          let obj = {
+            key_license_id: value.key_license_id,
+            syndication_id: value.syndication_id,
+            type: "intern",
+            avata: value.avata,
+            avata_update_at: value.avata_update_at,
+            first_name_jp: value.first_name_jp,
+            middle_name_jp: value.middle_name_jp,
+            last_name_jp: value.last_name_jp,
+            first_name_en: value.first_name_en,
+            middle_name_en: value.middle_name_en,
+            last_name_en: value.last_name_en,
+            gender: value.gender,
+            dob: value.dob,
+            career_id: value.career_id,
+            passport_code: value.passport_code,
+            passport_license_date: value.passport_license_date,
+            passport_expiration_date: value.passport_expiration_date,
+            entry_date: value.entry_date,
+            alert: value.alert,
+            phone_domestically: value.phone_domestically,
+            phone_abroad: value.phone_abroad,
+            receiving_factory_id: value.receiving_factory_id,
+            dispatching_company_id: value.dispatching_company_id,
+            description: value.description,
+            create_at: null,
+            create_by: value.create_by,
+            update_at: null,
+            update_by: value.update_by,
+            delete_at: null,
+            flag: 1,
           }
-        }
+          dispatch(setApi(obj))
 
-        const newCrad = {
-          ...alienCard,
-
-          key_license_id: user.key_license_id,
-          card_number: value.alien_registration_card_number,
-          status_of_residence_id: value.status_of_residence_id,
-          license_date: value.license_date,
-          expiration_date: value.expiration_date,
+          setIsCreateAddress(true)
         }
-        dispatch(updateAlienRegistrationCard(newCrad))
-
-        setselectedMultiStatus([])
-        setOn(false)
-        tog_fullscreen()
-        formik.resetForm()
-        item = null
-        setSelectedFile(null)
-        dispatch(getInternUserId(user.id))
-      } else {
-        // truong hop them du lieu moi
-        let obj = {
-          key_license_id: value.key_license_id,
-          syndication_id: value.syndication_id,
-          type: "intern",
-          avata: value.avata,
-          avata_update_at: value.avata_update_at,
-          first_name_jp: value.first_name_jp,
-          middle_name_jp: value.middle_name_jp,
-          last_name_jp: value.last_name_jp,
-          first_name_en: value.first_name_en,
-          middle_name_en: value.middle_name_en,
-          last_name_en: value.last_name_en,
-          gender: value.gender,
-          dob: value.dob,
-          career_id: value.career_id,
-          passport_code: value.passport_code,
-          passport_license_date: value.passport_license_date,
-          passport_expiration_date: value.passport_expiration_date,
-          entry_date: value.entry_date,
-          alert: value.alert,
-          phone_domestically: value.phone_domestically,
-          phone_abroad: value.phone_abroad,
-          receiving_factory_id: value.receiving_factory_id,
-          dispatching_company_id: value.dispatching_company_id,
-          description: value.description,
-          create_at: null,
-          create_by: value.create_by,
-          update_at: null,
-          update_by: value.update_by,
-          delete_at: null,
-          flag: 1,
-        }
-        dispatch(setApi(obj))
-
-        const card = {
-          ...alienCard,
-          card_number: value.alien_registration_card_number,
-          status_of_residence_id: value.status_of_residence_id,
-          license_date: value.license_date,
-          expiration_date: value.expiration_date,
-        }
-        // bo id trong card de insert
-        const { id, ...newCard } = card
-        setAlienCard(newCard)
-        setIsCreateAddress(true)
       }
 
       // upload anh len server
@@ -658,7 +671,7 @@ const ModalDatas = ({
   }, [isEditIntern])
 
   //---------------------------------------------------------------------------------------------------------------
-  // ma hoa password 
+  // ma hoa password
   function hashPassword(password) {
     const hashedPassword = CryptoJS.SHA256(password).toString()
     return hashedPassword
@@ -668,20 +681,35 @@ const ModalDatas = ({
   useEffect(() => {
     if (internCreate) {
       if (isCreateAddress && !loadingIntern) {
-        const id = internCreate["id"]
+        const internId = internCreate["id"]
         // console.log('id:', id);
 
         // ghi alien card
-        const newCard = { ...alienCard, intern_id: id , key_license_id: user.key_license_id}
-        dispatch(setAlienRegistrationCard(newCard))
+        if (
+          formik.values.alien_registration_card_number != "" &&
+          formik.values.status_of_residence_id != "" &&
+          formik.values.license_date != null &&
+          formik.values.expiration_date != null
+        ) {
+          const card = {
+            ...cardObj,
+            card_number: formik.values.alien_registration_card_number,
+            status_of_residence_id: formik.values.status_of_residence_id,
+            license_date: formik.values.license_date,
+            expiration_date: formik.values.expiration_date,
+            key_license_id: formik.values.key_license_id,
+            intern_id: internId,
+          }
+          dispatch(setAlienRegistrationCard(card))
+        }
 
         // ghi status
         const multiStatus = selectedMultiStatus.map(status => {
           return {
             ...statusDetailObj,
             status_id: status.id,
-            intern_id: id,
-            key_license_id: user.key_license_id,
+            intern_id: internId,
+            key_license_id: formik.values.key_license_id,
           }
         })
         multiStatus.forEach(st => {
@@ -689,15 +717,17 @@ const ModalDatas = ({
         })
 
         // ghi address
-        addressDataIntern.forEach((address, index) => {
-          const newAddress = {
-            ...address,
-            key_license_id: user.key_license_id,
-            object_id: id,
-            is_default: selectAddressDefault == index ? 1 : 0,
-          }
-          dispatch(setAddress(newAddress))
-        })
+        if (addressDataIntern.length > 0) {
+          addressDataIntern.forEach((address, index) => {
+            const newAddress = {
+              ...address,
+              key_license_id: formik.values.key_license_id,
+              object_id: internId,
+              is_default: selectAddressDefault == index ? 1 : 0,
+            }
+            dispatch(setAddress(newAddress))
+          })
+        }
 
         // ghi user
         if (isLogin) {
@@ -707,7 +737,7 @@ const ModalDatas = ({
             ...userObj,
             key_license_id: user.key_license_id,
             object_type: "intern",
-            object_id: id,
+            object_id: internId,
             username: formik.values.username,
             password_hash: hashedPassword,
           }
@@ -721,7 +751,7 @@ const ModalDatas = ({
         formik.resetForm()
         item = null
         setSelectedFile(null)
-        dispatch(getInternUserId(user_id))
+        dispatch(getInternUserId(user.id))
       }
     }
   }, [internCreate, isCreateAddress])
@@ -2044,7 +2074,7 @@ const ModalDatas = ({
               type="button"
               onClick={() => {
                 item = null
-                formik.resetForm({ values: formik.initialValues })
+                formik.resetForm()
                 setIsEditIntern(false)
                 updateAddressDataIntern([])
                 setselectedMultiStatus([])
