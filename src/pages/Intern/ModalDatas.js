@@ -549,7 +549,6 @@ const ModalDatas = ({
           if(alienCard != null) {
             const newCrad = {
               ...alienCard,
-              intern_id: internId,
               key_license_id: user.key_license_id,
               card_number: value.alien_registration_card_number,
               status_of_residence_id: value.status_of_residence_id,
@@ -560,7 +559,7 @@ const ModalDatas = ({
           } else {
             const newCrad = {
               ...alienCard,
-              intern_id: internId,
+              intern_id: item.id,
               key_license_id: user.key_license_id,
               card_number: value.alien_registration_card_number,
               status_of_residence_id: value.status_of_residence_id,
@@ -572,10 +571,10 @@ const ModalDatas = ({
 
           setselectedMultiStatus([])
           setOn(false)
-          tog_fullscreen()
           formik.resetForm()
           item = null
           setSelectedFile(null)
+          tog_fullscreen()
           dispatch(getInternUserId(user.id))
         } else {
           // truong hop them du lieu moi
