@@ -35,7 +35,6 @@ const NationList = [
 const AddressDatas = ({ item, user }) => {
   const { t } = useTranslation()
 
-
   const addObj = {
     nation: "",
     province: "",
@@ -44,8 +43,13 @@ const AddressDatas = ({ item, user }) => {
     detail: "",
   }
 
-  const { tog_standard, modal_standard, setmodal_standard,isRefresh, updateRefresh, } =
-    useContext(DataContext)
+  const {
+    tog_standard,
+    modal_standard,
+    setmodal_standard,
+    isRefresh,
+    updateRefresh,
+  } = useContext(DataContext)
 
   const [isEditDetail, setIsEditDetail] = useState(false)
 
@@ -63,7 +67,7 @@ const AddressDatas = ({ item, user }) => {
     districtLoading,
     CommuneLoading,
     provinceDataAll,
-    updateAddressLoading
+    updateAddressLoading,
   } = useSelector(
     state => ({
       addressData: state.Address.datas,
@@ -73,31 +77,28 @@ const AddressDatas = ({ item, user }) => {
       provinceLoading: state.Province.loading,
       districtLoading: state.District.loading,
       CommuneLoading: state.Commune.loading,
-      updateAddressLoading: state.Address.loading
+      updateAddressLoading: state.Address.loading,
     }),
     shallowEqual
   )
 
-
-
   useEffect(() => {
-    if(user) {
+    if (user) {
       dispatch(getAddressAll(user.key_license_id))
     }
   }, [dispatch])
 
-   // get lai data sau moi 10s
-   useEffect(() => {
+  // get lai data sau moi 10s
+  useEffect(() => {
     const intervalId = setInterval(() => {
-      if(user) {
-        dispatch(getAddressAll(1))
+      if (user) {
+        dispatch(getAddressAll(user.key_license_id))
       }
     }, 5000)
     return () => {
       clearInterval(intervalId)
     }
   }, [])
-
 
   const [addressOriginal, setAddressOriginal] = useState([])
 
@@ -107,26 +108,38 @@ const AddressDatas = ({ item, user }) => {
 
   useEffect(() => {
     if (addressData) {
+      // tim nhung dia chi cua user
       const arr = addressData.filter(
         add => add.object_id == item.id && add.user_type == item.type
       )
 
       if (arr && isDispath && index < arr.length) {
-        console.log("arr", arr)
-        console.log("index", index)
+        // console.log("arr", arr)
+        // console.log("index", index)
         setAddressOriginal(arr)
 
+        // lay thong tin dia chi cua mang dia chi user
         dispatch(getProvinceId(arr[index].province_id))
         dispatch(getDistrictId(arr[index].district_id))
         dispatch(getCommuneId(arr[index].commune_id))
 
+        // ghi các dia chi trong mang ra bien khac
         const array = [...addresss]
+
+        // them 1 dia chi mac dinh moi
         array.push(addObj)
 
-        ;(array[index].nation = NationList.find(
-          nation => nation.value == arr[index].nation_id
-        )["country"]),
-          (array[index].detail = arr[index].detail)
+        console.log('array', array);
+
+        // nap gia tri country
+        if(array[index].nation) {
+          array[index].nation = NationList.find(
+            nation => nation.value == arr[index].nation_id
+          )["country"]
+        }
+        
+        array[index].detail = arr[index].detail
+
         setAddresss(array)
         setIsDitpath(false)
         setIsReadData(true)
@@ -158,7 +171,14 @@ const AddressDatas = ({ item, user }) => {
         }
       }
     }
-  }, [addressData, provinceDataId, isReadData, districtDataId, communeDataId, isRefresh])
+  }, [
+    addressData,
+    provinceDataId,
+    isReadData,
+    districtDataId,
+    communeDataId,
+    isRefresh,
+  ])
 
   // console.log('user', user)
   // console.log('provinceLoading', provinceLoading)
@@ -166,7 +186,7 @@ const AddressDatas = ({ item, user }) => {
   //   console.log("districtDataId", districtDataId)
   // console.log("communeDataId", communeDataId)
   //   console.log("isReadData", isReadData)
-    console.log("item", item)
+  // console.log("item", item)
 
   const getSeverity = address => {
     switch (address.inventoryStatus) {
@@ -254,10 +274,14 @@ const AddressDatas = ({ item, user }) => {
 
   return (
     <div className="card">
-      <h3>{t('Address Info')}</h3>
+      <h3>{t("Address Info")}</h3>
       <DataView value={addresss} listTemplate={listTemplate} />
-      {isEditDetail &&  (
-        <ModalEditAddress address={selectAddress} isEditDetail={isEditDetail}  setIsEditDetail={setIsEditDetail}/>
+      {isEditDetail && (
+        <ModalEditAddress
+          address={selectAddress}
+          isEditDetail={isEditDetail}
+          setIsEditDetail={setIsEditDetail}
+        />
       )}
     </div>
   )
