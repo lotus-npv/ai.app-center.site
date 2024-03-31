@@ -143,8 +143,6 @@ const TicketInbox = props => {
   const [isLoading, setLoading] = useState(true)
   const [activeTab, setactiveTab] = useState(0)
 
-  // dieu khien Accordion hien thi tieu de ticket
-  const [activeIndex, setActiveIndex] = useState(0)
 
   //------------------------------------------------------------------
 
@@ -229,6 +227,7 @@ const TicketInbox = props => {
   // lam moi du lieu
   useEffect(() => {
     if(f5Data && ticketRowData) {
+      console.log('f5 data');
       dispatch(getTicketDetailByTicketId(ticketRowData.id))
       setF5Data(false)
     }
@@ -844,4 +843,4 @@ const TicketInbox = props => {
   )
 }
 
-export default withRouter(TicketInbox)
+export default TicketInbox
