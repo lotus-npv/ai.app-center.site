@@ -110,7 +110,7 @@ const TableDatas = props => {
         const user_id = user.id
         dispatch(getInternUserId(user_id))
       }
-    }, 10000)
+    }, 30000)
     // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId)

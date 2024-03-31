@@ -80,7 +80,7 @@ const ChatBox = () => {
       if(ticketRowData) {
         dispatch(getTicketDetailByTicketId(ticketRowData.id))
       }
-    }, 5000)
+    }, 15000)
     return () => {
       clearInterval(intervalId)
     }

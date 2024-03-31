@@ -127,6 +127,8 @@ const ModalDatas = ({
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  // lam moi du lieu intern
+  const [f5Data, setF5Data] = useState(false);
   // theo doi lua chon status
   const [selectedMultiStatus, setselectedMultiStatus] = useState([])
   function handleMulti(selectedMultiStatus) {
@@ -574,8 +576,10 @@ const ModalDatas = ({
           formik.resetForm()
           item = null
           setSelectedFile(null)
+          setF5Data(true)
           tog_fullscreen()
-          dispatch(getInternUserId(user.id))
+          // dispatch(getAlienRegistrationCardAll())
+          
         } else {
           // truong hop them du lieu moi
           let obj = {
@@ -623,7 +627,6 @@ const ModalDatas = ({
         dispatch(uploadImageRequest(formData))
         // dispatch(uploadFile(formData));
       }
-
       console.log("submit done")
     },
   })
@@ -634,6 +637,13 @@ const ModalDatas = ({
     formik.handleSubmit()
     // console.log(multiStatus)
   }
+
+  useEffect(() => {
+    if(f5Data) {
+      dispatch(getInternUserId(user.id))
+      setF5Data(false)
+    }
+  }, [f5Data])
 
   //--------------------------------------------------------------------------------//
   // cho phép truy cap he thong
@@ -891,7 +901,7 @@ const ModalDatas = ({
   // console.log("selectedFile:", selectedFile)
   // console.log("isRefresh:", isRefresh)
   // console.log("item:", item)
-  console.log("alienCard:", alienCard)
+  // console.log("alienCard:", alienCard)
 
   const isFormFieldInvalid = name =>
     !!(formik.touched[name] && formik.errors[name])

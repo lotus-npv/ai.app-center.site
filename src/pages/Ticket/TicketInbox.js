@@ -48,6 +48,9 @@ const TicketInbox = props => {
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
+    // lam moi du lieu 
+    const [f5Data, setF5Data] = useState(false);
+
   const [modal_backdrop, setmodal_backdrop] = useState(false)
   function tog_backdrop() {
     setmodal_backdrop(!modal_backdrop)
@@ -120,7 +123,7 @@ const TicketInbox = props => {
       if (user) {
         dispatch(getTicketUserId(user.id))
       }
-    }, 10000)
+    }, 30000)
     return () => {
       clearInterval(intervalId)
     }
@@ -223,6 +226,14 @@ const TicketInbox = props => {
 
   // -----------------------------------------------------------------
   // -----------------------------------------------------------------
+  // lam moi du lieu
+  useEffect(() => {
+    if(f5Data && ticketRowData) {
+      dispatch(getTicketDetailByTicketId(ticketRowData.id))
+      setF5Data(false)
+    }
+  }, [f5Data])
+
 
   // show list data
   const [typeOptios, setTypeOptions] = useState([])
@@ -369,7 +380,7 @@ const TicketInbox = props => {
         flag: 1,
       }
       dispatch(setTicketDetail(newTicketDetail))
-
+      setF5Data(true)
       // update trang thai ticket
       if (ticketRowData.sender_id != user.id) {
         if (ticketRowData.ticket_status == "new") {
@@ -392,7 +403,8 @@ const TicketInbox = props => {
       }
       setContent("")
       toast.success("Bạn đã phản hồi thành công!", { autoClose: 2000 })
-      dispatch(getTicketDetailByTicketId(ticketRowData.id))
+      
+      // dispatch(getTicketDetailByTicketId(ticketRowData.id))
       // setIsReponse(false);
       // setmodal(!modal);
     } else {
