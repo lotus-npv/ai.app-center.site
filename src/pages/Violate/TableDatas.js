@@ -344,7 +344,7 @@ const TableDatas = props => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log('violatelist:', violateListData);
-  console.log("violate:", violateData)
+  // console.log("violate:", violateData)
   // console.log('user:', user);
 
 

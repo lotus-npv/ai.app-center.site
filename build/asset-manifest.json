@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.3a43fd87.css",
-    "main.js": "/static/js/main.025314a4.js",
+    "main.js": "/static/js/main.44f7fbc3.js",
     "static/js/904.d0b26fcf.chunk.js": "/static/js/904.d0b26fcf.chunk.js",
     "static/js/557.fd203c17.chunk.js": "/static/js/557.fd203c17.chunk.js",
     "static/js/238.0949ab69.chunk.js": "/static/js/238.0949ab69.chunk.js",
@@ -106,7 +106,7 @@
     "static/media/airbnb.svg": "/static/media/airbnb.c9f6f43d5cd777ae2a2ab458fc9309de.svg",
     "static/media/adobe.svg": "/static/media/adobe.18e56447696e4920ce55f2008547dba4.svg",
     "main.3a43fd87.css.map": "/static/css/main.3a43fd87.css.map",
-    "main.025314a4.js.map": "/static/js/main.025314a4.js.map",
+    "main.44f7fbc3.js.map": "/static/js/main.44f7fbc3.js.map",
     "904.d0b26fcf.chunk.js.map": "/static/js/904.d0b26fcf.chunk.js.map",
     "557.fd203c17.chunk.js.map": "/static/js/557.fd203c17.chunk.js.map",
     "238.0949ab69.chunk.js.map": "/static/js/238.0949ab69.chunk.js.map",
@@ -118,6 +118,6 @@
   },
   "entrypoints": [
     "static/css/main.3a43fd87.css",
-    "static/js/main.025314a4.js"
+    "static/js/main.44f7fbc3.js"
   ]
 }

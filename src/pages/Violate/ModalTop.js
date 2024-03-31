@@ -270,7 +270,7 @@ const ModalTop = ({
 
   // console.log(internApiData)
   // console.log('isEditViolate', isEditViolate)
-  console.log("selectIntern", selectIntern)
+  // console.log("selectIntern", selectIntern)
   // console.log("loading", loading)
   // console.log("rowsSelectedInternData", rowsSelectedInternData)
 

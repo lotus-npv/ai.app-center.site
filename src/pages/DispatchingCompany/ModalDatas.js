@@ -342,7 +342,7 @@ const ModalDatas = ({ item, setApi, updateApi, getApi, addressData, user }) => {
   // console.log('provinceOptions:', provinceOptions);
   // console.log('districtOptions:', districtOptions)
   // console.log('selectAddressDefault:', selectAddressDefault)
-  console.log('formik:', formik.values)
+  // console.log('formik:', formik.values)
   // console.log('selectAddressDefault:', selectAddressDefault)
   // console.log('addressDataCompany:', addressDataCompany)
   // console.log('isEditCompany:', isEditCompany)

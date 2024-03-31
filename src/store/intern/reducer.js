@@ -25,6 +25,7 @@ import {
   const INIT_STATE = {
     datas: [],
     data: {},
+    dataAll: [],
     isOpen: 'init text',
     loading: false
   };
@@ -40,7 +41,7 @@ import {
         return {
           ...state,
           loading: false,
-          datas: action.payload,
+          dataAll: action.payload,
         };
   
       case GET_INTERN_ALL_FAIL:
@@ -58,7 +59,7 @@ import {
         return {
           ...state,
           loading: false,
-          datas: action.payload,
+          dataAll: action.payload,
         };
   
       case GET_INTERN_ALLINFO_FAIL:

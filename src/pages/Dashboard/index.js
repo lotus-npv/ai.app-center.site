@@ -85,7 +85,7 @@ const Dashboard = props => {
     useSelector(
       state => ({
         dataTicket: state.Ticket.datas,
-        dataIntern: state.Intern.datas,
+        dataIntern: state.Intern.dataAll,
         dataStatusDetail: state.StatusDetail.datas,
         dataAddress: state.Address.datas,
         dataViolate: state.Violate.datas,

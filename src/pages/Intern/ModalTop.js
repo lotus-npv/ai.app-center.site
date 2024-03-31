@@ -331,7 +331,7 @@ const ModalTop = ({
     selectIntern ? selectIntern.length : 0
   } Intern.`
 
-  console.log('alienCardApiData', alienCardApiData)
+  // console.log('alienCardApiData', alienCardApiData)
 
   return (
     <>

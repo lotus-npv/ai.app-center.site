@@ -84,7 +84,7 @@ const TableDatas = props => {
   // Get du lieu lan dau
   useEffect(() => {
     if(user) {
-      console.log(user.id)
+      // console.log(user.id)
       dispatch(getSyndicationUserId(user.id))
       dispatch(getAddressAll(user.key_license_id));
     }
