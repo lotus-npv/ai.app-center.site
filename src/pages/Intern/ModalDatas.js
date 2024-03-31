@@ -20,11 +20,6 @@ import { Divider } from "primereact/divider"
 
 import Select from "react-select"
 import Switch from "react-switch"
-//Import Flatepicker
-import Flatpickr from "react-flatpickr"
-import "flatpickr/dist/themes/material_blue.css"
-import { Calendar } from "primereact/calendar"
-import { classNames } from 'primereact/utils';
 
 import * as Yup from "yup"
 import { useFormik } from "formik"
@@ -63,6 +58,7 @@ import {
   getReceivingFactoryUserId,
   getSyndicationUserId,
   setUsers,
+  getUsersAll,
 } from "store/actions"
 
 const optionGroup = [
@@ -127,9 +123,6 @@ const ModalDatas = ({
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
-
-  // cho phép truy cap he thong
-  const [isLogin, setIsLogin] = useState(false)
 
   // theo doi lua chon status
   const [selectedMultiStatus, setselectedMultiStatus] = useState([])
@@ -224,6 +217,7 @@ const ModalDatas = ({
     statusOfResidenceData,
     loadingIntern,
     alienCardDatas,
+    usersData,
   } = useSelector(
     state => ({
       provinceDataByNationId: state.Province.dataByNationId,
@@ -238,6 +232,7 @@ const ModalDatas = ({
       careerData: state.Career.datas,
       statusOfResidenceData: state.StatusOfResidence.datas,
       alienCardDatas: state.AlienRegistrationCard.datas,
+      usersData: state.Users.datas,
     }),
     shallowEqual
   )
@@ -252,6 +247,7 @@ const ModalDatas = ({
       dispatch(getCareerAll())
       dispatch(getStatusOfResidenceAll())
       dispatch(getAlienRegistrationCardAll())
+      dispatch(getUsersAll())
     }
   }, [dispatch])
 
@@ -272,12 +268,11 @@ const ModalDatas = ({
     }
   }
 
+  // xu ly alien card
   const [numStatusDetail, setNumTicketStatus] = useState([])
   const [on, setOn] = useState(false)
   useEffect(() => {
-    // console.log('chay ------------------------------------------------------------------------', on)
     if (item != null && on == false) {
-      // console.log('chay ------------------------------------------------------------------------')
       const arr = statusDetailData.filter(sdd => sdd.intern_id == item.id)
       setNumTicketStatus(arr)
 
@@ -618,8 +613,24 @@ const ModalDatas = ({
     formik.handleSubmit()
     // console.log(multiStatus)
   }
-  //---------------------------------------------------------------------------------------
 
+  //--------------------------------------------------------------------------------//
+  // cho phép truy cap he thong
+  const [isLogin, setIsLogin] = useState(false)
+  useEffect(() => {
+    if (item && usersData) {
+      const arr = usersData.find(
+        u => u.object_id == item.id && u.object_type == item.type
+      )
+      // console.log(arr);
+      if (arr) {
+        setIsLogin(true)
+        formik.setFieldValue('username', arr.username)
+      }
+    }
+  }, [item])
+
+  //--------------------------------------------------------------------------------//
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
     // console.log('check');
@@ -840,11 +851,16 @@ const ModalDatas = ({
   // console.log("isRefresh:", isRefresh)
   // console.log("item:", item)
 
-  const isFormFieldInvalid = (name) => !!(formik.touched[name] && formik.errors[name]);
+  const isFormFieldInvalid = name =>
+    !!(formik.touched[name] && formik.errors[name])
 
-  const getFormErrorMessage = (name) => {
-      return isFormFieldInvalid(name) ? <small className="p-error">{formik.errors[name]}</small> : <small className="p-error">&nbsp;</small>;
-  };
+  const getFormErrorMessage = name => {
+    return isFormFieldInvalid(name) ? (
+      <small className="p-error">{formik.errors[name]}</small>
+    ) : (
+      <small className="p-error">&nbsp;</small>
+    )
+  }
 
   return (
     <>
@@ -934,7 +950,7 @@ const ModalDatas = ({
                                 }}
                                 checked={isLogin}
                               />
-                              <Label>Cho phep truy cap he thong</Label>
+                              <Label>{t("Login System")}</Label>
                             </div>
                             {isLogin && (
                               <div className="">
@@ -1212,7 +1228,7 @@ const ModalDatas = ({
                                   </div>
                                 </Col>
                                 <Col lg={4} className="gx-1">
-                                  {/* <div className="mb-3">
+                                  <div className="mb-3">
                                     <Label className="form-label fw-bold">
                                       {t("Date of Birth")}
                                     </Label>
@@ -1234,46 +1250,6 @@ const ModalDatas = ({
                                         {formik.errors.dob}
                                       </FormFeedback>
                                     ) : null}
-                                  </div> */}
-
-                                  {/* <div className="mb-3">
-                                    <Label>{t("Date of Birth")}</Label>
-                                    <Flatpickr
-                                      className="form-control d-block"
-                                      placeholder="yyyy-MM-dd"
-                                      options={{
-                                        altInput: true,
-                                        altFormat: "Y-m-d",
-                                        dateFormat: "Y-m-d",
-                                      }}
-                                      value={formik.values.dob}
-                                      onChange={formik.handleChange}
-                                      onBlur={formik.handleBlur}
-                                      invalid={
-                                        formik.touched.dob && formik.errors.dob
-                                          ? true
-                                          : false
-                                      }
-                                    />
-                                  </div> */}
-
-                                  <div className="mb-3">
-                                    <label htmlFor="cal_date">{t("Date of Birth")}</label>
-                                    <Calendar
-                                      inputId="cal_date"
-                                      name="dob"
-                                      value={formik.values.dob}
-                                      className={classNames({
-                                        "p-invalid": isFormFieldInvalid("dob"),
-                                      })}
-                                      onChange={e => {
-                                        formik.setFieldValue(
-                                          "dob",
-                                          e.target.value
-                                        )
-                                      }}
-                                    />
-                                     {/* {getFormErrorMessage('dob')} */}
                                   </div>
                                 </Col>
                               </Row>

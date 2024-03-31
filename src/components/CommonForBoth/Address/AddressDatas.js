@@ -114,7 +114,7 @@ const AddressDatas = ({ item, user }) => {
       )
 
       if (arr && isDispath && index < arr.length) {
-        console.log("arr", arr)
+        // console.log("arr", arr)
         // console.log("index", index)
         setAddressOriginal(arr)
 
@@ -129,7 +129,7 @@ const AddressDatas = ({ item, user }) => {
         // them 1 dia chi mac dinh moi
         array.push(addObj)
 
-        console.log("array", array)
+        // console.log("array", array)
 
         // nap gia tri country
         if (array[index].nation) {
@@ -151,7 +151,7 @@ const AddressDatas = ({ item, user }) => {
 
       if (provinceDataId && districtDataId && communeDataId && isReadData && index < arr.length) {
         if (!provinceLoading && !districtLoading && !CommuneLoading) {
-          console.log("check done")
+          // console.log("check done")
 
           // lay mang dia chi hien tai gan cho bien moi
           const arr = [...addresss]
