@@ -331,7 +331,7 @@ const ModalTop = ({
     selectIntern ? selectIntern.length : 0
   } Intern.`
 
-  // console.log(internApiData)
+  console.log('alienCardApiData', alienCardApiData)
 
   return (
     <>
@@ -607,7 +607,7 @@ const ModalTop = ({
                       <Select
                         id="edit-status"
                         name="status"
-                        placeholder="Chọn tư cách lưu trú"
+                        placeholder="Loại vi phạm"
                         value={violateType}
                         onChange={item => {
                           setViolateType(item)

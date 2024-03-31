@@ -335,7 +335,7 @@ const ModalTop = ({
                       <Select
                         id="edit-status"
                         name="status"
-                        placeholder="Chọn tư cách lưu trú"
+                        placeholder="Loại vi phạm"
                         value={violateType}
                         onChange={item => {
                           setViolateType(item)

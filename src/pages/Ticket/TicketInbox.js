@@ -112,7 +112,7 @@ const TicketInbox = props => {
   // Get du lieu lan dau
   useEffect(() => {
     if (user) {
-      console.log("id, type", user.id, user.object_type)
+      // console.log("id, type", user.id, user.object_type)
       dispatch(getTicketUserId(user.id))
       dispatch(getDispatchingCompanyUserId(user.id))
       dispatch(getReceivingFactoryUserId(user.id))
@@ -128,20 +128,21 @@ const TicketInbox = props => {
       if (user) {
         dispatch(getTicketUserId(user.id))
       }
-      if(ticketRowData) {
-        dispatch(getTicketDetailByTicketId(ticketRowData.id))
-      }
+      // if(ticketRowData) {
+      //   dispatch(getTicketDetailByTicketId(ticketRowData.id))
+      // }
     }, 10000)
     return () => {
       clearInterval(intervalId)
     }
   }, [])
 
-  useEffect(() => {
-    if(ticketRowData) {
-      dispatch(getTicketDetailByTicketId(ticketRowData.id))
-    }
-  }, [ticketRowData])
+  // useEffect(() => {
+  //   if(ticketRowData) {
+  //     console.log('rơ id', ticketRowData.id);
+  //     dispatch(getTicketDetailByTicketId(ticketRowData.id))
+  //   }
+  // }, [ticketRowData])
 
   const types = ["Inbox", "new", "processing", "done", "Outbox"]
   const [counters, setCounters] = useState([])
@@ -261,12 +262,6 @@ const TicketInbox = props => {
           u =>
             u.object_type == "intern" && u.key_license_id == user.key_license_id
         )
-        const newArr = arr.map(u => {
-          const name = internData.find(intern => (intern.id = u.object_id))
-
-          return { ...u, label: name.laber, value: u.id }
-        })
-        console.log("newArr", newArr)
         setDataOptions(arr)
       } else if (userType.value === "syndication") {
         const arr = usersData.filter(
@@ -274,10 +269,6 @@ const TicketInbox = props => {
             u.object_type == "syndication" &&
             u.key_license_id == user.key_license_id
         )
-        const newArr = arr.map(u => {
-          // const name = internData.find(intern => intern.id = u.object_id)
-          return { ...u, label: "Insyndicationtern", value: u.id }
-        })
         setDataOptions(arr)
       } else if (userType.value === "dispatching_company") {
         const arr = usersData.filter(
@@ -285,10 +276,6 @@ const TicketInbox = props => {
             u.object_type == "dispatching_company" &&
             u.key_license_id == user.key_license_id
         )
-        const newArr = arr.map(u => {
-          // const name = internData.find(intern => intern.id = u.object_id)
-          return { ...u, label: "dispatching_company", value: u.id }
-        })
         setDataOptions(arr)
       } else if (userType.value === "receiving_factory") {
         const arr = usersData.filter(
@@ -296,21 +283,10 @@ const TicketInbox = props => {
             u.object_type == "receiving_factory" &&
             u.key_license_id == user.key_license_id
         )
-        const newArr = arr.map(u => {
-          // const name = internData.find(intern => intern.id = u.object_id)
-          return { ...u, label: "receiving_factory", value: u.id }
-        })
         setDataOptions(arr)
       }
     }
   }, [userType])
-
-  // useEffect(() => {
-  //   if (user) {
-  //     if (user.user_type == "syndication") {
-  //     }
-  //   }
-  // })
 
   // -----------------------------------------------------------------
   //cho phep duoc ghi ticket detail
@@ -348,11 +324,11 @@ const TicketInbox = props => {
     }
   }
 
-  // ghi du lieu noi dung vao ticket detail
+  // ghi du lieu noi dung vao ticket detail khi tao ticket moi
   useEffect(() => {
     if (setTicketData) {
-      console.log("setTicketData", setTicketData)
       if (isSetTicketDone && !setTicketLoading) {
+        console.log("setTicketData", setTicketData)
         const ticket_id = setTicketData.id
         let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
         const newTicketDetail = {
@@ -382,8 +358,8 @@ const TicketInbox = props => {
 
   // add ticket detail
   const handleResponseTicket = () => {
+    console.log('Add new ticket');
     let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
-    console.log("edit")
     if (content) {
       const newTicketDetail = {
         key_license_id: user.key_license_id,
@@ -400,7 +376,6 @@ const TicketInbox = props => {
         flag: 1,
       }
       dispatch(setTicketDetail(newTicketDetail))
-
       // update trang thai ticket
       if (ticketRowData.sender_id != user.id) {
         if (ticketRowData.ticket_status == "new") {
@@ -422,8 +397,8 @@ const TicketInbox = props => {
         }
       }
       setContent("")
-      dispatch(getTicketDetailByTicketId(ticketRowData.id))
       toast.success("Bạn đã phản hồi thành công!", { autoClose: 2000 })
+      dispatch(getTicketDetailByTicketId(ticketRowData.id))
       // setIsReponse(false);
       // setmodal(!modal);
     } else {
@@ -462,7 +437,6 @@ const TicketInbox = props => {
   // console.log("usersData", usersData)
   // console.log("activeIndex", activeIndex)
   // console.table(ticketData);
-
   // console.log('setTicketLoading', setTicketLoading);
   // console.log('isSetTicketDone', isSetTicketDone);
 

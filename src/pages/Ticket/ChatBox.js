@@ -48,7 +48,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { getTicketDetailAll, getTicketDetailByTicketId } from "store/actions"
 import moment from "moment"
 
-const ChatBox = ({ticketDetailData}) => {
+const ChatBox = () => {
   const { isReponse, setIsReponse, ticketRowData, setTicketRowData, user } =
     useContext(DataContext)
 
@@ -59,32 +59,32 @@ const ChatBox = ({ticketDetailData}) => {
   const [curMessage, setcurMessage] = useState("")
   const [isdisable, setDisable] = useState(false)
 
-  // const dispatch = useDispatch()
-  // const { ticketDetailData } = useSelector(
-  //   state => ({
-  //     ticketDetailData: state.TicketDetail.datas,
-  //   }),
-  //   shallowEqual
-  // )
+  const dispatch = useDispatch()
+  const { ticketDetailData } = useSelector(
+    state => ({
+      ticketDetailData: state.TicketDetail.datas,
+    }),
+    shallowEqual
+  )
 
   // Get du lieu lan dau
-  // useEffect(() => {
-  //   if(ticketRowData) {
-  //     dispatch(getTicketDetailByTicketId(ticketRowData.id))
-  //   }
-  // }, [dispatch])
+  useEffect(() => {
+    if(ticketRowData) {
+      dispatch(getTicketDetailByTicketId(ticketRowData.id))
+    }
+  }, [dispatch])
 
   // get lai data sau moi 10s
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if(ticketRowData) {
-  //       dispatch(getTicketDetailByTicketId(ticketRowData.id))
-  //     }
-  //   }, 10000)
-  //   return () => {
-  //     clearInterval(intervalId)
-  //   }
-  // }, [])
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if(ticketRowData) {
+        dispatch(getTicketDetailByTicketId(ticketRowData.id))
+      }
+    }, 5000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
 
   // tim ticketdetail phan hoi den ticket duoc chon
   // const [ticketDetails, setTicketDetails] = useState([])
@@ -181,7 +181,7 @@ const ChatBox = ({ticketDetailData}) => {
     }
   }
 
-  console.log('ticketDetailData', ticketDetailData)
+  // console.log('ticketDetailData', ticketDetailData)
   // console.log('ticketRowData', ticketRowData)
 
   return (
