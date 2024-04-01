@@ -202,7 +202,8 @@ const ModalTop = ({
       setNote("")
       setSelectIntern("")
       setInternData(dataInternAll)
-      tog_xlarge()
+      setIsDone(false)
+      setmodal_xlarge(false)
     }
   }, [violateListAddDone])
 
@@ -271,8 +272,8 @@ const ModalTop = ({
   // console.log(internApiData)
   // console.log('isEditViolate', isEditViolate)
   // console.log("selectIntern", selectIntern)
-  // console.log("loading", loading)
-  // console.log("rowsSelectedInternData", rowsSelectedInternData)
+  // console.log("isDone", isDone)
+  // console.log("modal_xlarge", modal_xlarge)
 
   return (
     <>
@@ -292,13 +293,13 @@ const ModalTop = ({
           </h4>
           <button
             onClick={() => {
-              setmodal_xlarge(false)
               setIsEditViolate(false)
               setDateViolate("")
               setViolateType("")
               setNote("")
               setSelectIntern("")
               setInternData(dataInternAll)
+              setmodal_xlarge(false)
             }}
             type="button"
             className="close"
@@ -431,13 +432,13 @@ const ModalTop = ({
           <button
             type="button"
             onClick={() => {
-              tog_xlarge()
               setIsEditViolate(false)
               setDateViolate("")
               setViolateType("")
               setNote("")
               setSelectIntern("")
               setInternData(dataInternAll)
+              tog_xlarge()
             }}
             className="btn btn-secondary "
             data-dismiss="modal"

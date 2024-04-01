@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"
 import img from "../../assets/images/login/header-img.png"
+import actived from '../../assets/images/active/check.png'
 import { InputText } from "primereact/inputtext"
 import { Button } from "primereact/button"
 import { Stepper } from "primereact/stepper"
@@ -14,8 +15,9 @@ import { getKeyLicenseId } from "store/actions"
 function License() {
   const stepperRef = useRef(null)
   const navigate = useNavigate()
-  const [key, setKey] = useState("")
   const dispatch = useDispatch()
+
+  const [key, setKey] = useState("")
   const [label, setLabel] = useState("")
   const [timeLeft, setTimeLeft] = useState(3)
   const [start, setStart] = useState(false)
@@ -26,10 +28,18 @@ function License() {
   //   keyData: state.KeyLicense.data
   // }))
   const handleCheckKey = () => {
-    stepperRef.current.nextCallback()
-    setTimeout(function () {
-      dispatch(getKeyLicenseId(key))
-    }, 2000)
+    if(key != "") {
+      stepperRef.current.nextCallback()
+      setTimeout(function () {
+        try{
+          dispatch(getKeyLicenseId(key))
+        } catch(e) {
+          setLabel('Error ', e)
+        }
+      }, 2000)
+    } else {
+      setLabel('Please enter key')
+    }
   }
 
   useEffect(() => {
@@ -62,7 +72,7 @@ function License() {
     }
   }, [dataKey])
 
-  // console.log(dataKey)
+  // console.log(stepperRef.current.getElement())
 
   return (
     <div className="flex align-items-center justify-content-center">
@@ -135,8 +145,10 @@ function License() {
 
                 <StepperPanel header="Done">
                   <div className="flex flex-column h-12rem">
-                    <div className="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
-                      Bạn sẽ được chuyển tới trang đăng ký sau {timeLeft}
+                    <div className="surface-border border-round surface-ground flex-column flex justify-content-center align-items-center font-medium">
+                      <img src={actived} height={60} />
+                      <h3>Check done</h3>
+                      <p>You will be redirected to the following registration page {timeLeft}</p>
                     </div>
                   </div>
                   <div className="flex pt-4 justify-content-start">

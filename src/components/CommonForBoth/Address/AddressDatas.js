@@ -297,6 +297,7 @@ const AddressDatas = ({ item, user }) => {
       <DataView value={addresss} listTemplate={listTemplate} />
       {isEditDetail && (
         <ModalEditAddress
+          item={item}
           address={selectAddress}
           isEditDetail={isEditDetail}
           setIsEditDetail={setIsEditDetail}

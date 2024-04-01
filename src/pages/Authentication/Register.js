@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import {
   Row,
   Col,
@@ -18,13 +18,22 @@ import { useFormik } from "formik"
 import { useTranslation } from "react-i18next"
 
 // action
-import { registerUser, apiError } from "../../store/actions"
+import {
+  registerUser,
+  apiError,
+  getUsersAll,
+  setReceivingFactory,
+  setSyndication,
+  setUsers,
+  updateKeyLicense,
+} from "../../store/actions"
 
 //redux
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { createSelector } from "reselect"
 
 import { Link, useNavigate } from "react-router-dom"
+const CryptoJS = require("crypto-js")
 
 // import images
 import profileImg from "../../assets/images/profile-img.png"
@@ -44,28 +53,179 @@ const Register = props => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const {
+    datasKey,
+    usersData,
+    factoryCreateData,
+    syndicationCreateData,
+    factoryLoading,
+    syndicationLoading,
+    keySuccess,
+  } = useSelector(
+    state => ({
+      datasKey: state.KeyLicense.data,
+      usersData: state.Users.datas,
+      factoryCreateData: state.ReceivingFactory.data,
+      syndicationCreateData: state.Syndication.data,
+      factoryLoading: state.ReceivingFactory.loading,
+      syndicationLoading: state.Syndication.loading,
+      keySuccess: state.KeyLicense.success,
+    }),
+    shallowEqual
+  )
+
+  const [dataKey, setDataKey] = useState(null)
+
+  useEffect(() => {
+    dispatch(getUsersAll())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (datasKey == null) {
+      navigate("/login")
+    } else {
+      setDataKey(datasKey[0])
+    }
+  }, [])
+
+  // console.log("usersData", usersData)
+  console.log("dataKey", dataKey)
+
+  // ma hoa password
+  function hashPassword(password) {
+    const hashedPassword = CryptoJS.SHA256(password).toString()
+    return hashedPassword
+  }
+
+  const [isWriteDone, setIsWriteDone] = useState(false)
+
   const formik = useFormik({
-    // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
       display_name: "",
       email: "",
-      username: "",
       password: "",
       confirm_password: "",
-      name_jp: ""
+      name_jp: "",
     },
-    formikSchema: Yup.object({
-      display_name: Yup.string().required("Please Enter Display Name"),
-      email: Yup.string().required("Please Enter Your Email"),
-      username: Yup.string().required("Please Enter Your Username"),
-      password: Yup.string().required("Please Enter Your Password"),
+    validationSchema: Yup.object().shape({
+      // display_name: Yup.string().required("Please Enter Display Name"),
+      // email: Yup.string()
+      //   .email("Must be a valid Email")
+      //   .max(255)
+      //   .required("Email is required")
+      //   .test(
+      //     "done",
+      //     "Email already exists",
+      //     value => usersData.find(u => u.username == value) == undefined
+      //   ),
+      // username: Yup.string().required("Please Enter Your Username"),
+      password: Yup.string().min(
+        6,
+        "Password must be at least 6 characters long"
+      ),
+      confirm_password: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Password incorrect"
+      ),
+      // name_jp: Yup.string().required("Please Enter Enterprise Name"),
     }),
-    onSubmit: values => {
-      dispatch(registerUser(values))
+    onSubmit: value => {
+      console.log("submit")
+
+      if (dataKey.key_type == "receiving_factory") {
+        const enterprise = {
+          key_license_id: dataKey.id,
+          syndication_id: null,
+          logo: "",
+          name_jp: value.name_jp,
+          name_en: "",
+          tax_code: "",
+          date_of_joining_syndication: null,
+          description: "",
+          create_at: null,
+          create_by: 10000,
+          update_at: null,
+          update_by: 10000,
+          delete_at: null,
+          flag: 1,
+        }
+
+        dispatch(setReceivingFactory(enterprise))
+      } else {
+        const enterprise = {
+          key_license_id: dataKey.id,
+          receiving_factory_id: null,
+          logo: "",
+          name_jp: value.name_jp,
+          name_en: "",
+          description: "",
+          create_at: null,
+          create_by: 10000,
+          update_at: null,
+          update_by: 10000,
+          delete_at: null,
+          flag: 1,
+        }
+        dispatch(setSyndication(enterprise))
+      }
+
+      setIsWriteDone(true)
     },
   })
+
+  useEffect(() => {
+    const hashedPassword = hashPassword(formik.values.password)
+
+    if (factoryCreateData !== null || syndicationCreateData !== null) {
+      if (isWriteDone && !factoryLoading && !syndicationLoading) {
+        const userObj = {
+          key_license_id: dataKey.id,
+          role: "admin",
+          object_type: dataKey.key_type,
+          object_id: null,
+          username: formik.values.email,
+          password_hash: hashedPassword,
+          active: 1,
+          display_name: formik.values.display_name,
+          description: null,
+          create_at: null,
+          create_by: 10000,
+          update_at: null,
+          update_by: 10000,
+          delete_at: null,
+          flag: 1,
+        }
+        if (dataKey.key_type == "receiving_factory") {
+          userObj.object_id = factoryCreateData.id
+          dispatch(registerUser(userObj))
+
+          const keyUpdate = {
+            ...dataKey,
+            object_id: factoryCreateData.id,
+            active: 1,
+            flag: 1,
+          }
+          dispatch(updateKeyLicense(keyUpdate))
+          console.log('keyUpdate', keyUpdate);
+        } else {
+          userObj.object_id = syndicationCreateData.id
+          dispatch(registerUser(userObj))
+
+          const keyUpdate = {
+            ...dataKey,
+            object_id: syndicationCreateData.id,
+            active: 1,
+            flag: 1,
+          }
+          dispatch(updateKeyLicense(keyUpdate))
+        }
+
+        setIsWriteDone(false)
+      }
+    }
+  }, [isWriteDone, factoryCreateData, syndicationCreateData])
 
   const selectAccountState = state => state.Account
   const AccountProperties = createSelector(selectAccountState, account => ({
@@ -82,19 +242,10 @@ const Register = props => {
     // loading
   } = useSelector(AccountProperties)
 
-  const dataKey = useSelector(state => state.KeyLicense.data)
-  console.log("datakey", dataKey)
-
-  useEffect(() => {
-    if (dataKey == null) {
-      navigate("/login")
-    }
-  }, [])
-
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if (dataKey == null) {
+      if (datasKey == null) {
         navigate("/login")
       }
     }, 5000)
@@ -109,8 +260,10 @@ const Register = props => {
   }, [])
 
   useEffect(() => {
-    success && setTimeout(() => navigate("/login"), 2000)
-  }, [success])
+    success && keySuccess && setTimeout(() => navigate("/login"), 2000)
+  }, [success, keySuccess])
+
+  console.log("keySuccess", keySuccess)
 
   return (
     <React.Fragment>
@@ -222,30 +375,6 @@ const Register = props => {
                       </div>
 
                       <div className="mb-3">
-                        <Label className="form-label">Username</Label>
-                        <Input
-                          name="username"
-                          type="text"
-                          placeholder="Enter username"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.username || ""}
-                          invalid={
-                            formik.touched.username &&
-                            formik.errors.username
-                              ? true
-                              : false
-                          }
-                        />
-                        {formik.touched.username &&
-                        formik.errors.username ? (
-                          <FormFeedback type="invalid">
-                            {formik.errors.username}
-                          </FormFeedback>
-                        ) : null}
-                      </div>
-
-                      <div className="mb-3">
                         <Label className="form-label">Password</Label>
                         <Input
                           name="password"
@@ -255,14 +384,12 @@ const Register = props => {
                           onBlur={formik.handleBlur}
                           value={formik.values.password || ""}
                           invalid={
-                            formik.touched.password &&
-                            formik.errors.password
+                            formik.touched.password && formik.errors.password
                               ? true
                               : false
                           }
                         />
-                        {formik.touched.password &&
-                        formik.errors.password ? (
+                        {formik.touched.password && formik.errors.password ? (
                           <FormFeedback type="invalid">
                             {formik.errors.password}
                           </FormFeedback>
@@ -277,27 +404,25 @@ const Register = props => {
                           type="password"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.confirmPassword}
+                          value={formik.values.confirm_password}
                           invalid={
-                            formik.touched.confirmPassword &&
-                            formik.errors.confirmPassword
+                            formik.touched.confirm_password &&
+                            formik.errors.confirm_password
                               ? true
                               : false
                           }
                         />
-                        {formik.touched.confirmPassword &&
-                        formik.errors.confirmPassword ? (
+                        {formik.touched.confirm_password &&
+                        formik.errors.confirm_password ? (
                           <FormFeedback type="invalid">
-                            {formik.errors.confirmPassword}
+                            {formik.errors.confirm_password}
                           </FormFeedback>
                         ) : null}
                       </div>
 
                       <div className="mb-3">
                         <Label className="form-label">
-                          {dataKey[0].key_type == "receiving_factory"
-                            ? "Factory Name"
-                            : "Syndication Name"}
+                          {t("Enterprise Name")}
                         </Label>
                         <Input
                           name="name_jp"
@@ -305,26 +430,25 @@ const Register = props => {
                           placeholder="Enter name"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.username || ""}
+                          value={formik.values.name_jp || ""}
                           invalid={
-                            formik.touched.username &&
-                            formik.errors.username
+                            formik.touched.name_jp && formik.errors.name_jp
                               ? true
                               : false
                           }
                         />
-                        {formik.touched.username &&
-                        formik.errors.username ? (
+                        {formik.touched.name_jp && formik.errors.name_jp ? (
                           <FormFeedback type="invalid">
-                            {formik.errors.username}
+                            {formik.errors.name_jp}
                           </FormFeedback>
                         ) : null}
                       </div>
 
-                      <div className="mt-4">
+                      <div className="mt-4 d-flex justify-content-end">
                         <button
                           className="btn btn-primary btn-block "
                           type="submit"
+                          // onClick={formik.handleSubmit}
                         >
                           Register
                         </button>
@@ -332,7 +456,7 @@ const Register = props => {
 
                       <div className="mt-4 text-center">
                         <p className="mb-0">
-                          By registering you agree to the Skote{" "}
+                          By registering you agree to the Lotus Ocean{" "}
                           <Link to="#" className="text-primary">
                             Terms of Use
                           </Link>
@@ -351,8 +475,8 @@ const Register = props => {
                   </Link>{" "}
                 </p>
                 <p>
-                  © {new Date().getFullYear()} Skote. Crafted with{" "}
-                  <i className="mdi mdi-heart text-danger" /> by Themesbrand
+                  © {new Date().getFullYear()} with{" "}
+                  <i className="mdi mdi-heart text-danger" /> by Itomo
                 </p>
               </div>
             </Col>

@@ -19,7 +19,8 @@ import {
     datas: null,
     dataId: null,
     data: null,
-    loading: false
+    loading: false,
+    success: false
   };
   
   const KeyLicense = (state = INIT_STATE, action) => {
@@ -62,12 +63,12 @@ import {
       case SET_KEYLICENSE:
         return {
           ...state,
-          data: action.payload,
+          dataId: action.payload,
         };
       case SET_KEYLICENSE_SUCCESS:
         return {
           ...state,
-          data: action.payload,
+          dataId: action.payload,
         };
   
       case SET_KEYLICENSE_FAIL:
@@ -79,24 +80,27 @@ import {
         return {
           ...state,
           loading: true,
-          data: action.payload,
+          success: false,
+          dataId: action.payload,
         };
       case UPDATE_KEYLICENSE_SUCCESS:
         return {
           ...state,
           loading: false,
-          data: action.payload,
+          success: true,
+          dataId: action.payload,
         };
       case UPDATE_KEYLICENSE_FAIL:
         return {
           ...state,
           loading: false,
+          success: false,
           error: action.payload,
         };
       case DELETE_KEYLICENSE_SUCCESS:
         return {
           ...state,
-          data: action.payload,
+          dataId: action.payload,
         };
       case DELETE_KEYLICENSE_FAIL:
         return {

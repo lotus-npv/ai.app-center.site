@@ -29,7 +29,7 @@ const optionGroup = [
 
 import moment from "moment"
 
-const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
+const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
   // data context
   const {
     tog_standard,
@@ -290,7 +290,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
                   }}
                 />
               </div>
-              <div className="mb-3">
+              {item && item.type != 'intern' && <div className="mb-3">
                 <Label className="form-label fw-bold">
                   {t("Fax")}
                 </Label>
@@ -303,7 +303,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
                     setFax(e.target.value)
                   }}
                 />
-              </div>
+              </div>}
             </CardBody>
           </Card>
           <div className="modal-footer">

@@ -318,7 +318,7 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
                   }}
                 />
               </div>
-              <div className="mb-3">
+              {item && item.type != 'intern' && <div className="mb-3">
                 <Label className="form-label fw-bold">
                   {t("Fax")}
                 </Label>
@@ -331,7 +331,7 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
                     setFax(e.target.value)
                   }}
                 />
-              </div>
+              </div>}
             </CardBody>
           </Card>
           <div className="modal-footer">

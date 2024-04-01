@@ -51,10 +51,7 @@ const TableDatas = props => {
   // data context
   const {
     vh,
-    modal_xlarge,
     setmodal_xlarge,
-    tog_xlarge,
-    isEditViolate,
     setIsEditViolate,
   } = useContext(DataContext)
 
@@ -127,19 +124,6 @@ const TableDatas = props => {
   }
 
   // TABLE
-  // render label tab
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const itemRenderer = (item, itemIndex, data) => (
-    <a
-      className="p-menuitem-link flex align-items-center gap-2"
-      onClick={() => setActiveIndex(itemIndex)}
-    >
-      <BadgePrime value={data}></BadgePrime>
-      <span className="font-bold">{props.t(item.name)}</span>
-    </a>
-  )
-
   const rendLabel = () => {
     // tạo danh sách địa
     const number_of_violate_list = violateListData.length
@@ -164,11 +148,6 @@ const TableDatas = props => {
     value: "All",
     id: 0,
   })
-  const toggleCustom = (tab, data, provinceId) => {
-    if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data, id: provinceId })
-    }
-  }
 
   // Global filter
 
@@ -218,42 +197,13 @@ const TableDatas = props => {
               color="primary"
               onClick={() => {
                 setIsEditViolate(false)
-                tog_xlarge()
+                setmodal_xlarge(true)
               }}
             >
               Thêm mới
             </ButtonRS>
           </div>
         </Row>
-        {/* <Row>
-          <div className="d-flex justify-content-between">
-            <Nav tabs className="nav-tabs-custom">
-              {items.map((item, index) => (
-                <NavItem key={index} style={{ minWidth: "100px" }}>
-                  <NavLink
-                    style={{ cursor: "pointer" }}
-                    className={classnames({
-                      active: customActiveTab.index === `${index}`,
-                    })}
-                    onClick={() => {
-                      toggleCustom(`${index}`, item.name, item.type_id)
-                    }}
-                  >
-                    <div className="d-flex gap-2 justify-content-center">
-                      <span className="d-none d-sm-block">{item.name}</span>
-                      <Badge
-                        pill
-                        className={"p-2 font-size-12 badge-soft-primary"}
-                      >
-                        {item.data}
-                      </Badge>
-                    </div>
-                  </NavLink>
-                </NavItem>
-              ))}
-            </Nav>
-          </div>
-        </Row> */}
       </>
     )
   }
@@ -292,7 +242,6 @@ const TableDatas = props => {
     getListInternStatus(customActiveTab.id)
   }, [customActiveTab, violateListData])
 
-  // console.log('customActiveTab:', customActiveTab)
 
   // render col name
   const dateBodyTemplate = rowData => {
@@ -320,7 +269,7 @@ const TableDatas = props => {
           aria-label="Cancel"
           onClick={() => {
             setRowSelect(rowData)
-            tog_xlarge()
+            setmodal_xlarge(true)
             setIsEditViolate(true)
           }}
         />
@@ -380,7 +329,7 @@ const TableDatas = props => {
   }
 
   const footerTemplate = data => {
-    console.log("data", data)
+    // console.log("data", data)
     return (
       <React.Fragment>
         <td colSpan="5">
@@ -408,74 +357,6 @@ const TableDatas = props => {
 
   return (
     <div className="card">
-      {/* <DataTable
-        value={dataTable}
-        paginator
-        rows={15}
-        stripedRows
-        rowsPerPageOptions={[5, 10, 15, 20, 50]}
-        dragSelection
-        selectionMode={"multiple"}
-        selection={selectedItems}
-        onSelectionChange={e => setSelectedItems(e.value)}
-        dataKey="id"
-        filters={filters}
-        filterDisplay="row"
-        globalFilterFields={["id", "nam_jp", "phone_number"]}
-        header={header}
-        emptyMessage="Không tìm thấy kết quả phù hợp."
-        tableStyle={{ minWidth: "50rem" }}
-        scrollable
-        scrollHeight={vh}
-        size={"small"}
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
-      >
-        <Column
-          selectionMode="multiple"
-          exportable={false}
-          headerStyle={{ width: "3rem" }}
-        ></Column>
-        <Column
-          field="violate_date"
-          header="Ngày vi phạm"
-          filterField="nam_jp"
-          filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          field="violate_name"
-          header="Loại vi phạm"
-          filterField="factory_name_jp"
-          filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          field="number_of_violate"
-          header="Số người vi phạm"
-          filterField="date_of_joining_syndication"
-          filter
-          filterPlaceholder="Tìm kiếm bằng tên"
-          sortable
-          style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          field="description"
-          header="Diễn giải"
-          style={{ minWidth: "12rem" }}
-        ></Column>
-        <Column
-          field="action"
-          header="Thao tác"
-          style={{ minWidth: "10rem" }}
-          body={actionBody}
-        ></Column>
-      </DataTable> */}
-
       <DataTable
         header={header}
         value={dataTable}

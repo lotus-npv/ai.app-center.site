@@ -44,7 +44,7 @@ function* onAddNewKeyLicense({ payload: data }) {
       const response = yield call(addNewDataKeyLicense, data);
       yield put(setKeyLicenseSuccess(response));
       toast.success("KeyLicense Added Successfully", { autoClose: 2000 });
-      yield call(refreshKeyLicenseData);
+      // yield call(refreshKeyLicenseData);
   } catch (error) {
       yield put(setKeyLicenseFail(error));
       toast.error("KeyLicense Added Failed", { autoClose: 2000 });
@@ -57,7 +57,6 @@ function* onUpdateKeyLicense({ payload: data }) {
       yield put(updateKeyLicenseSuccess(response));
       console.log(response);
       toast.success("KeyLicense Updated Successfully", { autoClose: 2000 });
-      yield call(refreshKeyLicenseData);
   } catch (error) {
       yield put(updateKeyLicenseFail(error))
       toast.error("KeyLicense Updated Failed", { autoClose: 2000 });

@@ -9,7 +9,9 @@ import { getFirebaseBackend } from "../../../helpers/firebase_helper"
 import {
   postFakeRegister,
   postJwtRegister,
+  addNewDataUsers
 } from "../../../helpers/fakebackend_helper"
+import { setUsers } from "store/actions"
 
 // initialize relavant method of both Auth
 const fireBaseBackend = getFirebaseBackend()
@@ -30,7 +32,7 @@ function* registerUser({ payload: { user } }) {
       const response = yield call(postJwtRegister, "/post-jwt-register", user)
       yield put(registerUserSuccessful(response))
     } else if (process.env.REACT_APP_DEFAULTAUTH === "fake") {
-      const response = yield call(postFakeRegister, user)
+      const response = yield call(addNewDataUsers, user)
       yield put(registerUserSuccessful(response))
     }
   } catch (error) {

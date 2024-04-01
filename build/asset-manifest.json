@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.b7501f60.css",
-    "main.js": "/static/js/main.26a40106.js",
+    "main.js": "/static/js/main.b56b801a.js",
     "static/js/904.d0b26fcf.chunk.js": "/static/js/904.d0b26fcf.chunk.js",
     "static/js/557.fd203c17.chunk.js": "/static/js/557.fd203c17.chunk.js",
     "static/js/238.0949ab69.chunk.js": "/static/js/238.0949ab69.chunk.js",
@@ -79,6 +79,7 @@
     "static/media/dripicons-v2.woff": "/static/media/dripicons-v2.f19dcc0358afed69d277.woff",
     "static/media/lotusOcean-logo.png": "/static/media/lotusOcean-logo.ff8611ca3a99ef491318.png",
     "static/media/map.png": "/static/media/map.82056140ce3605dfbf34.png",
+    "static/media/check.png": "/static/media/check.0e163e83492acb677d72.png",
     "static/media/avatar-6.jpg": "/static/media/avatar-6.dc44eabff29dbd9780cb.jpg",
     "static/media/avatar-3.jpg": "/static/media/avatar-3.2cfd5ba6f0dee8d1d076.jpg",
     "static/media/fa-regular-400.woff": "/static/media/fa-regular-400.8b892b7904a39e37c53d.woff",
@@ -106,7 +107,7 @@
     "static/media/airbnb.svg": "/static/media/airbnb.c9f6f43d5cd777ae2a2ab458fc9309de.svg",
     "static/media/adobe.svg": "/static/media/adobe.18e56447696e4920ce55f2008547dba4.svg",
     "main.b7501f60.css.map": "/static/css/main.b7501f60.css.map",
-    "main.26a40106.js.map": "/static/js/main.26a40106.js.map",
+    "main.b56b801a.js.map": "/static/js/main.b56b801a.js.map",
     "904.d0b26fcf.chunk.js.map": "/static/js/904.d0b26fcf.chunk.js.map",
     "557.fd203c17.chunk.js.map": "/static/js/557.fd203c17.chunk.js.map",
     "238.0949ab69.chunk.js.map": "/static/js/238.0949ab69.chunk.js.map",
@@ -118,6 +119,6 @@
   },
   "entrypoints": [
     "static/css/main.b7501f60.css",
-    "static/js/main.26a40106.js"
+    "static/js/main.b56b801a.js"
   ]
 }

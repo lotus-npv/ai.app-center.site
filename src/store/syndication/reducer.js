@@ -19,7 +19,7 @@ import {
   
   const INIT_STATE = {
     datas: [],
-    data: {},
+    data: null,
     loading: false
   };
   
