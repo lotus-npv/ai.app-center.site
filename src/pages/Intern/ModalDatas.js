@@ -296,7 +296,7 @@ const ModalDatas = ({
       if (arr) {
         setAccount(arr)
         setIsHasAccount(true)
-        if(arr.active == 1) {
+        if (arr.active == 1) {
           setIsLogin(true)
         }
       }
@@ -707,12 +707,26 @@ const ModalDatas = ({
     // console.log(multiStatus)
   }
 
+  //--------------------------------------------------------------------------------//
+
   useEffect(() => {
     if (f5Data) {
       dispatch(getInternUserId(user.id))
       setF5Data(false)
     }
   }, [f5Data])
+
+  //--------------------------------------------------------------------------------//
+
+  useEffect(() => {
+    const f = usersData.find(u => u.username == formik.values.username)
+    console.log(f);
+    if(f != undefined) {
+      formik.errors.username = 'Ten dang nhap da ton tai'
+    } else {
+      formik.errors.username = null
+    }
+  }, [formik.values.username])
 
   //--------------------------------------------------------------------------------//
   // nap du lieu cho dia chi neu la chinh sua
@@ -924,22 +938,6 @@ const ModalDatas = ({
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
-  function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-
-  async function tog_resresh() {
-    console.log("11111")
-    updateRefresh(!isRefresh)
-    await delay(2000)
-    console.log("22222")
-    updateRefresh(isRefresh)
-  }
-
-  // if (isRefresh === false) {
-  //   updateRefresh(true)
-  // }
-
   // console.log("formik:", formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('user:', user.object_type)
@@ -1069,7 +1067,19 @@ const ModalDatas = ({
                                       value={formik.values.username}
                                       className="mt-2"
                                       disabled={isHasAccount ? true : false}
+                                      invalid={
+                                        formik.touched.username &&
+                                        formik.errors.username
+                                          ? true
+                                          : false
+                                      }
                                     />
+                                    {formik.touched.username &&
+                                    formik.errors.username ? (
+                                      <FormFeedback type="invalid">
+                                        {formik.errors.username}
+                                      </FormFeedback>
+                                    ) : null}
                                   </div>
 
                                   {!isHasAccount && (
