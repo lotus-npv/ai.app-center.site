@@ -77,9 +77,9 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
   const [selectNation, setSelectNation] = useState(
     optionGroup.find(item => item.value == address.nation_id)
   )
-  const [selectProvince, setSelectProvince] = useState(provinceDataId ? provinceDataId[0] : '')
-  const [selectDistrict, setSelectDistrict] = useState(districtDataId ? districtDataId[0] : '')
-  const [selectCommune, setSelectCommune] = useState(communeDataId ? communeDataId[0] : '')
+  const [selectProvince, setSelectProvince] = useState(provinceDataId[0])
+  const [selectDistrict, setSelectDistrict] = useState(districtDataId[0])
+  const [selectCommune, setSelectCommune] = useState(communeDataId[0])
   const [detail, setDetail] = useState(address.detail ?? "")
   const [phoneNumber, setPhoneNumber] = useState("")
   const [email, setEmail] = useState("")

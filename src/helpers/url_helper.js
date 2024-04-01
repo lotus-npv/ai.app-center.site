@@ -3,8 +3,9 @@ export const POST_FAKE_REGISTER = `/post-fake-register`;
 
 // demo
 export const GET_DEMO_DATA = `https://jsonplaceholder.typicode.com/posts`;
-// const site = 'https://api.lotusocean-jp.com'
-const site = 'http://localhost:3010'
+const site = 'https://api.lotusocean-jp.com'
+// const site = 'http://localhost:3010'
+const api_address = 'https://ai.app-center.site'
 // career
 export const GET_CAREER_ALL = `${site}/api/career/all`;
 export const GET_CAREER_ID = `${site}/api/career`;
@@ -150,32 +151,32 @@ export const DELETE_AVATA =     `${site}/api/avata/delete`;
 export const UPLOAD_AVATA =     `${site}/upload`;
 
 // nation
-export const    GET_NATION_ALL = `https://address.itomo.vn/v1/country/all`;
-export const    GET_NATION_ID =  `https://address.itomo.vn/v1/country`;
-export const    SET_NATION =     `https://address.itomo.vn/v1/country/insert`;
-export const UPDATE_NATION =     `https://address.itomo.vn/v1/country/update`;
-export const DELETE_NATION =     `https://address.itomo.vn/v1/country/delete`;
+export const    GET_NATION_ALL = `${api_address}/v1/country/all`;
+export const    GET_NATION_ID =  `${api_address}/v1/country`;
+export const    SET_NATION =     `${api_address}/v1/country/insert`;
+export const UPDATE_NATION =     `${api_address}/v1/country/update`;
+export const DELETE_NATION =     `${api_address}/v1/country/delete`;
 // province
-export const    GET_PROVINCE_ALL = `https://address.itomo.vn/v1/state/all`;
-export const    GET_PROVINCE_ID =  `https://address.itomo.vn/v1/state/id`;
-export const    GET_PROVINCE_BY_NATION_ID =  `https://address.itomo.vn/v1/state/countryid`;
-export const    SET_PROVINCE =     `https://address.itomo.vn/v1/state/insert`;
-export const UPDATE_PROVINCE =     `https://address.itomo.vn/v1/state/update`;
-export const DELETE_PROVINCE =     `https://address.itomo.vn/v1/state/delete`;
+export const    GET_PROVINCE_ALL = `${api_address}/v1/state/all`;
+export const    GET_PROVINCE_ID =  `${api_address}/v1/state/id`;
+export const    GET_PROVINCE_BY_NATION_ID =  `${api_address}/v1/state/countryid`;
+export const    SET_PROVINCE =     `${api_address}/v1/state/insert`;
+export const UPDATE_PROVINCE =     `${api_address}/v1/state/update`;
+export const DELETE_PROVINCE =     `${api_address}/v1/state/delete`;
 // district
-export const    GET_DISTRICT_ALL = `https://address.itomo.vn/v1/district/all`;
-export const    GET_DISTRICT_ID =  `https://address.itomo.vn/v1/district/id`;
-export const    GET_DISTRICT_BY_PROVINCE_ID =  `https://address.itomo.vn/v1/district/stateid`;
-export const    SET_DISTRICT =     `https://address.itomo.vn/v1/district/insert`;
-export const UPDATE_DISTRICT =     `https://address.itomo.vn/v1/district/update`;
-export const DELETE_DISTRICT =     `https://address.itomo.vn/v1/district/delete`;
+export const    GET_DISTRICT_ALL = `${api_address}/v1/district/all`;
+export const    GET_DISTRICT_ID =  `${api_address}/v1/district/id`;
+export const    GET_DISTRICT_BY_PROVINCE_ID =  `${api_address}/v1/district/stateid`;
+export const    SET_DISTRICT =     `${api_address}/v1/district/insert`;
+export const UPDATE_DISTRICT =     `${api_address}/v1/district/update`;
+export const DELETE_DISTRICT =     `${api_address}/v1/district/delete`;
 // commune
-export const    GET_COMMUNE_ALL = `https://address.itomo.vn/v1/ward/all`;
-export const    GET_COMMUNE_ID =  `https://address.itomo.vn/v1/ward/id`;
-export const    GET_COMMUNE_BY_DISTRICT_ID =  `https://address.itomo.vn/v1/ward/districtid`;
-export const    SET_COMMUNE =     `https://address.itomo.vn/v1/ward/insert`;
-export const UPDATE_COMMUNE =     `https://address.itomo.vn/v1/ward/update`;
-export const DELETE_COMMUNE =     `https://address.itomo.vn/v1/ward/delete`;
+export const    GET_COMMUNE_ALL = `${api_address}/v1/ward/all`;
+export const    GET_COMMUNE_ID =  `${api_address}/v1/ward/id`;
+export const    GET_COMMUNE_BY_DISTRICT_ID =  `${api_address}/v1/ward/districtid`;
+export const    SET_COMMUNE =     `${api_address}/v1/ward/insert`;
+export const UPDATE_COMMUNE =     `${api_address}/v1/ward/update`;
+export const DELETE_COMMUNE =     `${api_address}/v1/ward/delete`;
 
 //LOGIN
 export const POST_FAKE_LOGIN = `/post-fake-login`;

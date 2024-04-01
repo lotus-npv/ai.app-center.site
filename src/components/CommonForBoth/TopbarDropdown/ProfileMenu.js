@@ -35,7 +35,7 @@ const ProfileMenu = props => {
         process.env.REACT_APP_DEFAULTAUTH === "jwt"
       ) {
         const obj = JSON.parse(localStorage.getItem("authUser"));
-        setusername(obj[0].username);
+        setusername(obj[0].display_name);
         setUser(obj[0]);
         // console.log('profile:',obj)
       }
@@ -68,7 +68,7 @@ const ProfileMenu = props => {
             <i className="bx bx-user font-size-16 align-middle me-1" />
             {props.t("Profile")}{" "}
           </DropdownItem>
-          <DropdownItem tag="a" href="/crypto-wallet">
+          {/* <DropdownItem tag="a" href="/crypto-wallet">
             <i className="bx bx-wallet font-size-16 align-middle me-1" />
             {props.t("My Wallet")}
           </DropdownItem>
@@ -80,7 +80,7 @@ const ProfileMenu = props => {
           <DropdownItem tag="a" href="auth-lock-screen">
             <i className="bx bx-lock-open font-size-16 align-middle me-1" />
             {props.t("Lock screen")}
-          </DropdownItem>
+          </DropdownItem> */}
           <div className="dropdown-divider" />
           <Link to="/logout" className="dropdown-item">
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
