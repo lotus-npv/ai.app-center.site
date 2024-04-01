@@ -49,7 +49,10 @@ const AddressDatas = ({ item, user }) => {
     modal_standard,
     setmodal_standard,
     isRefresh,
-    updateRefresh,modal_add_address,tog_add_address,setmodal_add_address,
+    updateRefresh,
+    modal_add_address,
+    tog_add_address,
+    setmodal_add_address,
   } = useContext(DataContext)
 
   const [isEditDetail, setIsEditDetail] = useState(false)
@@ -91,16 +94,16 @@ const AddressDatas = ({ item, user }) => {
   }, [dispatch])
 
   // get lai data sau moi 10s
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (user) {
-  //       dispatch(getAddressAll(user.key_license_id))
-  //     }
-  //   }, 10000)
-  //   return () => {
-  //     clearInterval(intervalId)
-  //   }
-  // }, [])
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (user) {
+        dispatch(getAddressAll(user.key_license_id))
+      }
+    }, 10000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
 
   const [addressOriginal, setAddressOriginal] = useState([])
 
@@ -114,9 +117,9 @@ const AddressDatas = ({ item, user }) => {
       const arr = addressData.filter(
         add => add.object_id == item.id && add.user_type == item.type
       )
+      console.log("arr", arr)
 
       if (arr && isDispath && index < arr.length) {
-        // console.log("arr", arr)
         // console.log("index", index)
         setAddressOriginal(arr)
 
@@ -131,12 +134,12 @@ const AddressDatas = ({ item, user }) => {
         // them 1 dia chi mac dinh moi
         array.push(addObj)
 
-        // console.log("array", array)
+        console.log("index", index)
 
         // nap gia tri country
         if (array[index].nation) {
           array[index].nation = NationList.find(
-            nation => nation.value == arr[index].nation_id
+            nt => nt.value == arr[index].nation_id
           )["country"]
         }
 
@@ -151,13 +154,7 @@ const AddressDatas = ({ item, user }) => {
         setIsReadData(true)
       }
 
-      if (
-        provinceDataId &&
-        districtDataId &&
-        communeDataId &&
-        isReadData &&
-        index < arr.length
-      ) {
+      if (provinceDataId && districtDataId && communeDataId && isReadData) {
         if (!provinceLoading && !districtLoading && !CommuneLoading) {
           // console.log("check done")
 
@@ -170,6 +167,8 @@ const AddressDatas = ({ item, user }) => {
           arr[index].commune = communeDataId[0].WardName_ja
 
           setAddresss(arr)
+
+          console.log("addresss", addresss)
         }
 
         if (

@@ -19,6 +19,7 @@ import {
   getDistrictId,
   getCommuneId,
   updateAddress,
+  setAddress,
 } from "store/actions"
 
 const optionGroup = [
@@ -32,11 +33,6 @@ import moment from "moment"
 const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
   // data context
   const {
-    tog_standard,
-    modal_standard,
-    setmodal_standard,
-    isRefresh,
-    updateRefresh,
     tog_resresh,
     modal_add_address,
     tog_add_address,
@@ -46,6 +42,28 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
+
+  const address = {
+    key_license_id: null,
+    user_type: null,
+    object_id: null,
+    nation_id: null,
+    province_id: null,
+    district_id: null,
+    commune_id: null,
+    detail: null,
+    phone_number: null,
+    email: null,
+    fax: null,
+    is_default: false,
+    description: null,
+    create_at: null,
+    create_by: 1,
+    update_at: null,
+    update_by: 1,
+    delete_at: null,
+    flag: 1,
+  }
 
   const {
     provinceDataByNationId,
@@ -77,11 +95,14 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
   }, [dispatch, isAddDetail])
 
   // render lua chon tinh, huyen, xa
-  const [selectNation, setSelectNation] = useState("")
+  const [selectNation, setSelectNation] = useState(null)
   const [selectProvince, setSelectProvince] = useState("")
   const [selectDistrict, setSelectDistrict] = useState("")
   const [selectCommune, setSelectCommune] = useState("")
   const [detail, setDetail] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [email, setEmail] = useState("")
+  const [fax, setFax] = useState("")
 
   const [provinceOptions, setProvinceOptions] = useState("")
   const [districtOptions, setDistrictOptions] = useState("")
@@ -89,7 +110,7 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
 
   // Tai du lieu thanh pho
   useEffect(() => {
-    if (selectNation) {
+    if (selectNation != null) {
       dispatch(getProvinceByNationId(selectNation.value))
       // setSelectProvince([]);
     }
@@ -139,33 +160,40 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
   //   Xac dinh ham thuc thi
   const handleSave = () => {
     address.nation_id = selectNation.value
-    address.province_id = selectProvince.ProviceID
+    address.province_id = selectProvince.StateID
     address.district_id = selectDistrict.DistrictID
     address.commune_id = selectCommune.WardID
     address.detail = detail
+    address.email = email
+    address.phone_number = phoneNumber
+    address.fax = fax
+    address.object_id = item.id
+    address.user_type = item.type
+    address.key_license_id = item.key_license_id
+    console.log('address', address)
 
-    dispatch(updateAddress(address))
+    dispatch(setAddress(address))
     setSelectNation(null)
     setSelectProvince(null)
     setSelectDistrict(null)
     setSelectCommune(null)
     setIsAddDetail(false)
     tog_resresh()
-    tog_standard()
+    tog_add_address()
   }
 
   // console.log('address', address)
   // console.log("communeDataId", communeDataId)
-  // console.log('address', address)
   console.log("item", item)
+  // console.log("selectProvince", selectProvince)
 
   return (
     <>
       {isAddDetail && (
         <Modal
-          isOpen={modal_standard}
+          isOpen={modal_add_address}
           toggle={() => {
-            tog_standard()
+            tog_add_address()
           }}
         >
           <div className="modal-header bg-primary">
@@ -175,7 +203,7 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
             <button
               type="button"
               onClick={() => {
-                setmodal_standard(false)
+                setmodal_add_address(false)
               }}
               className="close"
               data-dismiss="modal"
@@ -262,13 +290,55 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
                   }}
                 />
               </div>
+              <div className="mb-3">
+                <Label className="form-label fw-bold">
+                  {t("Email")}
+                </Label>
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder={t("Email")}
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value)
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <Label className="form-label fw-bold">
+                  {t("Phone number")}
+                </Label>
+                <Input
+                  name="phone_number"
+                  type="text"
+                  placeholder={t("Phone number")}
+                  value={phoneNumber}
+                  onChange={e => {
+                    setPhoneNumber(e.target.value)
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <Label className="form-label fw-bold">
+                  {t("Fax")}
+                </Label>
+                <Input
+                  name="fax"
+                  type="text"
+                  placeholder={t("Fax")}
+                  value={fax}
+                  onChange={e => {
+                    setFax(e.target.value)
+                  }}
+                />
+              </div>
             </CardBody>
           </Card>
           <div className="modal-footer">
             <button
               type="button"
               onClick={() => {
-                tog_standard()
+                tog_add_address()
                 setSelectNation(null)
                 setSelectProvince(null)
                 setSelectDistrict(null)

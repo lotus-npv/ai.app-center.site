@@ -81,6 +81,9 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   const [selectDistrict, setSelectDistrict] = useState(districtDataId[0])
   const [selectCommune, setSelectCommune] = useState(communeDataId[0])
   const [detail, setDetail] = useState(address.detail ?? "")
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [email, setEmail] = useState("")
+  const [fax, setFax] = useState("")
 
   const [provinceOptions, setProvinceOptions] = useState(provinceDataByNationId)
   const [districtOptions, setDistrictOptions] = useState(
@@ -140,10 +143,13 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   //   Xac dinh ham thuc thi
   const handleSave = () => {
     address.nation_id = selectNation.value
-    address.province_id = selectProvince.ProviceID
+    address.province_id = selectProvince.StateID
     address.district_id = selectDistrict.DistrictID
     address.commune_id = selectCommune.WardID
     address.detail = detail
+    address.email = email
+    address.phone_number = phoneNumber
+    address.fax = fax
 
     dispatch(updateAddress(address))
     setSelectNation(null)
@@ -253,6 +259,48 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
                   value={detail}
                   onChange={e => {
                     setDetail(e.target.value)
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <Label className="form-label fw-bold">
+                  {t("Email")}
+                </Label>
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder={t("Email")}
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value)
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <Label className="form-label fw-bold">
+                  {t("Phone number")}
+                </Label>
+                <Input
+                  name="phone_number"
+                  type="text"
+                  placeholder={t("Phone number")}
+                  value={phoneNumber}
+                  onChange={e => {
+                    setPhoneNumber(e.target.value)
+                  }}
+                />
+              </div>
+              <div className="mb-3">
+                <Label className="form-label fw-bold">
+                  {t("Fax")}
+                </Label>
+                <Input
+                  name="fax"
+                  type="text"
+                  placeholder={t("Fax")}
+                  value={fax}
+                  onChange={e => {
+                    setFax(e.target.value)
                   }}
                 />
               </div>
