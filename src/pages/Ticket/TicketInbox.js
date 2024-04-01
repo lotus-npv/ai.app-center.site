@@ -24,10 +24,7 @@ import Spinners from "components/Common/Spinner"
 import moment from "moment"
 import DataContext from "data/DataContext"
 import { Editor } from "primereact/editor"
-import _ from 'lodash';
-
-import io from 'socket.io-client';
-const ENDPOINT = 'https://45.252.251.108:3010';
+import _ from "lodash"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -41,58 +38,19 @@ import {
   setTicket,
   setTicketDetail,
   updateTicket,
-  getTicketDetailByTicketId
+  getTicketDetailByTicketId,
 } from "store/actions"
 import ChatBox from "./ChatBox"
 import { toast } from "react-toastify"
 
 const TicketInbox = props => {
-  // "https://api.lotusocean-jp.com"
-  // socket 
-  const [message, setMessage] = useState("");
-  const [skTicket, setSkTicket] = useState("");
-  const [socket, setSocket] = useState();
-  useEffect(() => {
-    const newSocket = io("https://api.lotusocean-jp.com", {
-      secure: true,
-      rejectUnauthorized: false, // Chỉ cần đặt rejectUnauthorized là false nếu bạn sử dụng chứng chỉ tự ký
-      path: "/socket.io",
-    });
-
-    setSocket(newSocket);
-    newSocket.on("message", (mes) => {
-      setMessage(mes);
-    });
-
-    newSocket.on("new ticket", (mes) => {
-      setSkTicket(mes);
-    });
-
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [message, skTicket]);
-
-  const sendMessage = (mes) => {
-    socket.emit("message", mes);
-    setMessage("");
-  };
-
-  const sendTicket = (mes) => {
-    socket.emit("new ticket", mes);
-    setSkTicket("");
-  };
-
-
-
-
-
+  //=====================================================================================================//
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
-    // lam moi du lieu 
-    const [f5Data, setF5Data] = useState(false);
+  // lam moi du lieu
+  const [f5Data, setF5Data] = useState(false)
 
   const [modal_backdrop, setmodal_backdrop] = useState(false)
   function tog_backdrop() {
@@ -105,41 +63,44 @@ const TicketInbox = props => {
   }
 
   const {
-    isReponse,
-    setIsReponse,
     modal,
     setmodal,
     ticketRowData,
-    setTicketRowData,
     isEditTicket,
     setIsEditTicket,
     UserTypeList,
-    isInbox,
     setIsInbox,
-    isOutbox,
     setIsOutbox,
-   
+    setMessage,
+    setSkTicket,
+    message,
+    skTicket
   } = useContext(DataContext)
+
+  //=====================================================================================================//
+  const sendMessage = mes => {
+    socket.emit("message", mes)
+    setMessage("")
+  }
+
+  const sendTicket = mes => {
+    socket.emit("new ticket", mes)
+    setSkTicket("")
+  }
+  //=====================================================================================================//
+
 
   const dispatch = useDispatch()
   const {
     ticketData,
     usersData,
-    companyData,
-    factoryData,
-    syndicationData,
-    internData,
     setTicketLoading,
     setTicketData,
-    ticketDetailData
+    ticketDetailData,
   } = useSelector(
     state => ({
       ticketData: state.Ticket.datas,
       usersData: state.Users.datas,
-      companyData: state.DispatchingCompany.datas,
-      factoryData: state.ReceivingFactory.datas,
-      syndicationData: state.Syndication.datas,
-      internData: state.Intern.datas,
       setTicketLoading: state.Ticket.loading,
       setTicketData: state.Ticket.data,
       ticketDetailData: state.TicketDetail.datas,
@@ -186,7 +147,6 @@ const TicketInbox = props => {
   const [isLoading, setLoading] = useState(true)
   const [activeTab, setactiveTab] = useState(0)
 
-
   //------------------------------------------------------------------
 
   // -----------------------------------------------------------------
@@ -207,7 +167,7 @@ const TicketInbox = props => {
             }
           })
         // console.log(newArr)
-        setDataTable(_.sortBy(newArr, (tk) => -tk.id))
+        setDataTable(_.sortBy(newArr, tk => -tk.id))
       } else if (index == 4) {
         const newArr = ticketData
           .filter(
@@ -221,7 +181,7 @@ const TicketInbox = props => {
               send_date: moment(item.send_date).format("YYYY-MM-DD"),
             }
           })
-        setDataTable(_.sortBy(newArr, (tk) => -tk.id))
+        setDataTable(_.sortBy(newArr, tk => -tk.id))
       } else {
         const arr = ticketData.filter(
           item =>
@@ -235,7 +195,7 @@ const TicketInbox = props => {
             send_date: moment(item.send_date).format("YYYY-MM-DD"),
           }
         })
-        setDataTable(_.sortBy(newArr, (tk) => -tk.id))
+        setDataTable(_.sortBy(newArr, tk => -tk.id))
       }
     }
   }
@@ -269,19 +229,19 @@ const TicketInbox = props => {
   // -----------------------------------------------------------------
   // lam moi du lieu
   useEffect(() => {
-    if(ticketRowData) {
-      console.log('f5 data ticket detail');
+    if (ticketRowData) {
+      console.log("f5 data ticket detail")
       dispatch(getTicketDetailByTicketId(ticketRowData.id))
     }
   }, [message])
 
-    // lam moi du lieu
-    useEffect(() => {
-      if(user) {
-        console.log('f5 data ticket');
-        dispatch(getTicketUserId(user.id))
-      }
-    }, [skTicket])
+  // lam moi du lieu
+  useEffect(() => {
+    if (user) {
+      console.log("f5 data ticket")
+      dispatch(getTicketUserId(user.id))
+    }
+  }, [skTicket])
 
   // show list data
   const [typeOptios, setTypeOptions] = useState([])
@@ -407,7 +367,7 @@ const TicketInbox = props => {
     }
   }, [setTicketData, isSetTicketDone])
 
-  // them ticket detail khi nguoi dung phan hoi 
+  // them ticket detail khi nguoi dung phan hoi
   const handleResponseTicket = () => {
     let time = moment().utcOffset("+09:00").format("YYYY-MM-DD HH:mm:ss")
     if (content) {
@@ -450,7 +410,7 @@ const TicketInbox = props => {
       }
       setContent("")
       toast.success("Bạn đã phản hồi thành công!", { autoClose: 2000 })
-      
+
       // dispatch(getTicketDetailByTicketId(ticketRowData.id))
       // setIsReponse(false);
       // setmodal(!modal);
@@ -785,7 +745,7 @@ const TicketInbox = props => {
                           </Accordion>
                         </Card> */}
                       </div>
-                      <ChatBox ticketDetailData={ticketDetailData}/>
+                      <ChatBox ticketDetailData={ticketDetailData} />
                       <Editor
                         value={content}
                         onTextChange={e => setContent(e.htmlValue)}

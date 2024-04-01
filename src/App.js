@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React from "react"
+import React, {useState, useEffect, useContext} from "react"
 import { useSelector } from "react-redux"
 import { createSelector } from "reselect"
 import { Routes, Route } from "react-router-dom"
@@ -10,54 +10,20 @@ import { authProtectedRoutes, publicRoutes } from "./routes"
 // Import all middleware
 import Authmiddleware from "./routes/route"
 
+import io from 'socket.io-client';
+import DataContext from "data/DataContext"
+
 // layouts Format
 import VerticalLayout from "./components/VerticalLayout/"
 import HorizontalLayout from "./components/HorizontalLayout/"
 import NonAuthLayout from "./components/NonAuthLayout"
 
-// Import scss
 import "./assets/scss/theme.scss"
 
-// import 'primereact/resources/themes/bootstrap4-light-blue/theme.css'
-// import 'primereact/resources/themes/bootstrap4-light-purple/theme.css'
-// import 'primereact/resources/themes/md-light-indigo/theme.css'
-// import 'primereact/resources/themes/md-light-deeppurple/theme.css'
-// import 'primereact/resources/themes/mdc-light-indigo/theme.css'
-// import 'primereact/resources/themes/mdc-light-deeppurple/theme.css'
-// import 'primereact/resources/themes/tailwind-light/theme.css'
-// import 'primereact/resources/themes/lara-light-blue/theme.css'
-// import 'primereact/resources/themes/lara-light-indigo/theme.css'
-// import 'primereact/resources/themes/lara-light-purple/theme.css'
-// import 'primereact/resources/themes/soho-light/theme.css'
-// import 'primereact/resources/themes/viva-light/theme.css'
-// import 'primereact/resources/themes/mira/theme.css'
-// import 'primereact/resources/themes/nano/theme.css'
-// import 'primereact/resources/themes/saga-blue/theme.css'
-import "primereact/resources/themes/saga-green/theme.css"
-// import 'primereact/resources/themes/saga-orange/theme.css'
-// import 'primereact/resources/themes/saga-purple/theme.css'
-
-// Import Firebase Configuration file
-// import { initFirebaseBackend } from "./helpers/firebase_helper";
 
 import fakeBackend from "./helpers/AuthType/fakeBackend"
-
 // Activating fake backend
 fakeBackend()
-
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_APIKEY,
-//   authDomain: process.env.REACT_APP_AUTHDOMAIN,
-//   databaseURL: process.env.REACT_APP_DATABASEURL,
-//   projectId: process.env.REACT_APP_PROJECTID,
-//   storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-//   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-//   appId: process.env.REACT_APP_APPID,
-//   measurementId: process.env.REACT_APP_MEASUREMENTID,
-// };
-
-// init firebase backend
-// initFirebaseBackend(firebaseConfig);
 
 const getLayout = layoutType => {
   let Layout = VerticalLayout
@@ -75,6 +41,38 @@ const getLayout = layoutType => {
 }
 
 const App = () => {
+  //=====================================================================================================//
+  // const [message, setMessage] = useState("")
+  // const [updateUserCount, setUpdateUserCount] = useState()
+
+  const {message, setMessage,skTicket, setSkTicket, setSocket, setUpdateUserCount} = useContext(DataContext);
+  useEffect(() => {
+    const newSocket = io("https://api.lotusocean-jp.com", {
+      secure: true,
+      rejectUnauthorized: false, // Chỉ cần đặt rejectUnauthorized là false nếu bạn sử dụng chứng chỉ tự ký
+      path: "/socket.io",
+    })
+
+    setSocket(newSocket)
+    newSocket.on("updateUserCount", mes => {
+      setUpdateUserCount(mes)
+    })
+
+    setSocket(newSocket);
+    newSocket.on("message", (mes) => {
+      setMessage(mes);
+    });
+
+    newSocket.on("new ticket", (mes) => {
+      setSkTicket(mes);
+    });
+
+    return () => {
+      newSocket.disconnect()
+    }
+  }, [message, skTicket])
+
+  //=====================================================================================================//
   const selectLayoutState = state => state.Layout
   const LayoutProperties = createSelector(selectLayoutState, layout => ({
     layoutType: layout.layoutType,

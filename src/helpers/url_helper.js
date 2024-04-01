@@ -3,8 +3,8 @@ export const POST_FAKE_REGISTER = `/post-fake-register`;
 
 // demo
 export const GET_DEMO_DATA = `https://jsonplaceholder.typicode.com/posts`;
-const site = 'https://api.lotusocean-jp.com'
-// const site = 'http://localhost:3010'
+// const site = 'https://api.lotusocean-jp.com'
+const site = 'http://localhost:3010'
 // career
 export const GET_CAREER_ALL = `${site}/api/career/all`;
 export const GET_CAREER_ID = `${site}/api/career`;

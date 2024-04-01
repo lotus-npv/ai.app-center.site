@@ -6,6 +6,14 @@ const DataProvider = ({ children}) => {
   // get user info
   const [user, setUser] = useState(null)
 
+  // socket io
+  const [message, setMessage] = useState("");
+  const [socket, setSocket] = useState();
+  const [skTicket, setSkTicket] = useState("");
+  const [updateUserCount, setUpdateUserCount] = useState()
+
+
+
   const updateViolateDatas = newData => {
     setViolateDatas(newData)
   }
@@ -224,6 +232,14 @@ const DataProvider = ({ children}) => {
   return (
     <DataContext.Provider
       value={{
+        socket, setSocket,
+        message, setMessage,
+        skTicket, setSkTicket,
+        updateUserCount, setUpdateUserCount,
+
+
+        
+        //----------//
         UserTypeList,
         addressSyndication,
         addressDataSyndication,
