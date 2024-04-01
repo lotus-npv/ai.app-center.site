@@ -1,81 +1,116 @@
-import React, { useEffect } from "react";
-import { Row, Col, CardBody, Card, Alert, Container, Input, Label, Form, FormFeedback } from "reactstrap";
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useRef } from "react"
+import {
+  Row,
+  Col,
+  CardBody,
+  Card,
+  Alert,
+  Container,
+  Input,
+  Label,
+  Form,
+  FormFeedback,
+} from "reactstrap"
+import { useLocation } from "react-router-dom"
 // Formik Validation
-import * as Yup from "yup";
-import { useFormik } from "formik";
+import * as Yup from "yup"
+import { useFormik } from "formik"
+import { useTranslation } from "react-i18next"
 
 // action
-import { registerUser, apiError } from "../../store/actions";
+import { registerUser, apiError } from "../../store/actions"
 
 //redux
-import { useSelector, useDispatch } from "react-redux";
-import { createSelector } from "reselect";
+import { useSelector, useDispatch } from "react-redux"
+import { createSelector } from "reselect"
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 
 // import images
-import profileImg from "../../assets/images/profile-img.png";
-import logoImg from "../../assets/images/logo.svg";
+import profileImg from "../../assets/images/profile-img.png"
+import logoImg from "../../assets/images/logo.svg"
 
 const Register = props => {
-
   //meta title
-  document.title = "Register | Skote - React Admin & Dashboard Template";
+  document.title = "Register | Skote - React Admin & Dashboard Template"
 
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const paramValue = params.get('key');
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const paramValue = params.get("key")
 
-  console.log('key', paramValue);
+  // console.log("key", paramValue)
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const validation = useFormik({
+  const formik = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      email: '',
-      username: '',
-      password: '',
+      display_name: "",
+      email: "",
+      username: "",
+      password: "",
+      confirm_password: "",
+      name_jp: ""
     },
-    validationSchema: Yup.object({
+    formikSchema: Yup.object({
+      display_name: Yup.string().required("Please Enter Display Name"),
       email: Yup.string().required("Please Enter Your Email"),
       username: Yup.string().required("Please Enter Your Username"),
       password: Yup.string().required("Please Enter Your Password"),
     }),
-    onSubmit: (values) => {
-      dispatch(registerUser(values));
-    }
-  });
+    onSubmit: values => {
+      dispatch(registerUser(values))
+    },
+  })
 
-
-  const selectAccountState = (state) => state.Account;
-  const AccountProperties = createSelector(
-    selectAccountState,
-    (account) => ({
-      user: account.user,
-      registrationError: account.registrationError,
-      success: account.success
-      // loading: account.loading,
-    })
-  );
+  const selectAccountState = state => state.Account
+  const AccountProperties = createSelector(selectAccountState, account => ({
+    user: account.user,
+    registrationError: account.registrationError,
+    success: account.success,
+    // loading: account.loading,
+  }))
 
   const {
     user,
-    registrationError, success
+    registrationError,
+    success,
     // loading
-  } = useSelector(AccountProperties);
+  } = useSelector(AccountProperties)
+
+  const dataKey = useSelector(state => state.KeyLicense.data)
+  console.log("datakey", dataKey)
 
   useEffect(() => {
-    dispatch(apiError(""));
-  }, []);
+    if (dataKey == null) {
+      navigate("/login")
+    }
+  }, [])
 
-useEffect(() => {
-  success && setTimeout(() => navigate("/login"), 2000)
-}, [success])
+  // get lai data sau moi 10s
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (dataKey == null) {
+        navigate("/login")
+      }
+    }, 5000)
+    // Hàm dọn dẹp khi unmount
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
+  useEffect(() => {
+    dispatch(apiError(""))
+  }, [])
+
+  useEffect(() => {
+    success && setTimeout(() => navigate("/login"), 2000)
+  }, [success])
 
   return (
     <React.Fragment>
@@ -93,8 +128,8 @@ useEffect(() => {
                   <Row>
                     <Col className="col-7">
                       <div className="text-primary p-4">
-                        <h5 className="text-primary">Free Register</h5>
-                        <p>Get your free Skote account now.</p>
+                        <h5 className="text-primary">Register</h5>
+                        <p>Get your account now.</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -120,10 +155,10 @@ useEffect(() => {
                   <div className="p-2">
                     <Form
                       className="form-horizontal"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        validation.handleSubmit();
-                        return false;
+                      onSubmit={e => {
+                        e.preventDefault()
+                        formik.handleSubmit()
+                        return false
                       }}
                     >
                       {user && user ? (
@@ -137,6 +172,32 @@ useEffect(() => {
                       ) : null}
 
                       <div className="mb-3">
+                        <Label className="form-label">Display Name</Label>
+                        <Input
+                          id="display_name"
+                          name="display_name"
+                          className="form-control"
+                          placeholder="Display name"
+                          type="text"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.display_name || ""}
+                          invalid={
+                            formik.touched.display_name &&
+                            formik.errors.display_name
+                              ? true
+                              : false
+                          }
+                        />
+                        {formik.touched.display_name &&
+                        formik.errors.display_name ? (
+                          <FormFeedback type="invalid">
+                            {formik.errors.display_name}
+                          </FormFeedback>
+                        ) : null}
+                      </div>
+
+                      <div className="mb-3">
                         <Label className="form-label">Email</Label>
                         <Input
                           id="email"
@@ -144,15 +205,19 @@ useEffect(() => {
                           className="form-control"
                           placeholder="Enter email"
                           type="email"
-                          onChange={validation.handleChange}
-                          onBlur={validation.handleBlur}
-                          value={validation.values.email || ""}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.email || ""}
                           invalid={
-                            validation.touched.email && validation.errors.email ? true : false
+                            formik.touched.email && formik.errors.email
+                              ? true
+                              : false
                           }
                         />
-                        {validation.touched.email && validation.errors.email ? (
-                          <FormFeedback type="invalid">{validation.errors.email}</FormFeedback>
+                        {formik.touched.email && formik.errors.email ? (
+                          <FormFeedback type="invalid">
+                            {formik.errors.email}
+                          </FormFeedback>
                         ) : null}
                       </div>
 
@@ -162,32 +227,97 @@ useEffect(() => {
                           name="username"
                           type="text"
                           placeholder="Enter username"
-                          onChange={validation.handleChange}
-                          onBlur={validation.handleBlur}
-                          value={validation.values.username || ""}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.username || ""}
                           invalid={
-                            validation.touched.username && validation.errors.username ? true : false
+                            formik.touched.username &&
+                            formik.errors.username
+                              ? true
+                              : false
                           }
                         />
-                        {validation.touched.username && validation.errors.username ? (
-                          <FormFeedback type="invalid">{validation.errors.username}</FormFeedback>
+                        {formik.touched.username &&
+                        formik.errors.username ? (
+                          <FormFeedback type="invalid">
+                            {formik.errors.username}
+                          </FormFeedback>
                         ) : null}
                       </div>
+
                       <div className="mb-3">
                         <Label className="form-label">Password</Label>
                         <Input
                           name="password"
                           type="password"
                           placeholder="Enter Password"
-                          onChange={validation.handleChange}
-                          onBlur={validation.handleBlur}
-                          value={validation.values.password || ""}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.password || ""}
                           invalid={
-                            validation.touched.password && validation.errors.password ? true : false
+                            formik.touched.password &&
+                            formik.errors.password
+                              ? true
+                              : false
                           }
                         />
-                        {validation.touched.password && validation.errors.password ? (
-                          <FormFeedback type="invalid">{validation.errors.password}</FormFeedback>
+                        {formik.touched.password &&
+                        formik.errors.password ? (
+                          <FormFeedback type="invalid">
+                            {formik.errors.password}
+                          </FormFeedback>
+                        ) : null}
+                      </div>
+
+                      <div className="mb-3">
+                        <Label className="form-label">Confirm Password</Label>
+                        <Input
+                          name="confirm_password"
+                          placeholder={t("Confirm Password")}
+                          type="password"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.confirmPassword}
+                          invalid={
+                            formik.touched.confirmPassword &&
+                            formik.errors.confirmPassword
+                              ? true
+                              : false
+                          }
+                        />
+                        {formik.touched.confirmPassword &&
+                        formik.errors.confirmPassword ? (
+                          <FormFeedback type="invalid">
+                            {formik.errors.confirmPassword}
+                          </FormFeedback>
+                        ) : null}
+                      </div>
+
+                      <div className="mb-3">
+                        <Label className="form-label">
+                          {dataKey[0].key_type == "receiving_factory"
+                            ? "Factory Name"
+                            : "Syndication Name"}
+                        </Label>
+                        <Input
+                          name="name_jp"
+                          type="text"
+                          placeholder="Enter name"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.username || ""}
+                          invalid={
+                            formik.touched.username &&
+                            formik.errors.username
+                              ? true
+                              : false
+                          }
+                        />
+                        {formik.touched.username &&
+                        formik.errors.username ? (
+                          <FormFeedback type="invalid">
+                            {formik.errors.username}
+                          </FormFeedback>
                         ) : null}
                       </div>
 
@@ -230,7 +360,7 @@ useEffect(() => {
         </Container>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

@@ -45,7 +45,7 @@ function License() {
     }
   }, [timeLeft,start])
 
-  console.log(start);
+  // console.log(start);
 
   useEffect(() => {
     if (dataKey != null) {
@@ -54,15 +54,15 @@ function License() {
         stepperRef.current.nextCallback()
       } else if (dataKey.length == 1 && dataKey[0].active == 1) {
         stepperRef.current.prevCallback()
-        setLabel("Key da kich hoat")
+        setLabel("Key has been activated")
       } else {
         stepperRef.current.prevCallback()
-        setLabel("Key khong chinh xac")
+        setLabel("Key is incorrect")
       }
     }
   }, [dataKey])
 
-  console.log(dataKey)
+  // console.log(dataKey)
 
   return (
     <div className="flex align-items-center justify-content-center">
@@ -97,7 +97,7 @@ function License() {
                           <label htmlFor="key">Enter key here</label>
                         </span>
                       </div>
-                      <p>{label}</p>
+                      <p className="fw-bold" style={{color: 'red'}}>{label}</p>
                     </div>
                   </div>
 
