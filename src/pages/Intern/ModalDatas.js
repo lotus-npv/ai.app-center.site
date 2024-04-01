@@ -274,6 +274,26 @@ const ModalDatas = ({
     }
   }
 
+    //--------------------------------------------------------------------------------//
+  // cho phép truy cap he thong
+  const [isHasAccount, setIsHasAccount] = useState(false)
+  const [isLogin, setIsLogin] = useState(false)
+  const [uname, setUname] = useState('')
+
+  useEffect(() => {
+    if (item && usersData) {
+      const arr = usersData.find(
+        u => u.object_id == item.id && u.object_type == item.type
+      )
+      // console.log(arr);
+      if (arr) {
+        setIsLogin(true)
+        setUname(arr.username)
+        setIsHasAccount(true)
+      }
+    }
+  }, [item])
+
   // doc du lieu status va alien card sau do nap vao state
   const [numStatusDetail, setNumTicketStatus] = useState([])
   const [on, setOn] = useState(false)
@@ -413,7 +433,7 @@ const ModalDatas = ({
             : ""
           : "", // trạng thái
 
-      username: "",
+      username: uname != ''? uname:"",
       password: "",
       repassword: "",
     },
@@ -645,23 +665,7 @@ const ModalDatas = ({
     }
   }, [f5Data])
 
-  //--------------------------------------------------------------------------------//
-  // cho phép truy cap he thong
-  const [isHasAccount, setIsHasAccount] = useState(false)
-  const [isLogin, setIsLogin] = useState(false)
-  useEffect(() => {
-    if (item && usersData) {
-      const arr = usersData.find(
-        u => u.object_id == item.id && u.object_type == item.type
-      )
-      // console.log(arr);
-      if (arr) {
-        setIsLogin(true)
-        formik.setFieldValue("username", arr.username)
-        setIsHasAccount(true)
-      }
-    }
-  }, [item])
+
 
   //--------------------------------------------------------------------------------//
   // nap du lieu cho dia chi neu la chinh sua
