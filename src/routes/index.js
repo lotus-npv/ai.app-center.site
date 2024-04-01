@@ -57,29 +57,29 @@ import FormUpload from "../pages/Forms/FormUpload";
 import FormWizard from "../pages/Forms/FormWizard";
 
 //Ui
-import UiAlert from "../pages/Ui/UiAlert";
-import UiButtons from "../pages/Ui/UiButtons";
-import UiCards from "../pages/Ui/UiCards";
-import UiCarousel from "../pages/Ui/UiCarousel";
-import UiColors from "../pages/Ui/UiColors";
-import UiDropdown from "../pages/Ui/UiDropdown";
-import UiGeneral from "../pages/Ui/UiGeneral";
-import UiGrid from "../pages/Ui/UiGrid";
-import UiImages from "../pages/Ui/UiImages";
-import UiLightbox from "../pages/Ui/UiLightbox";
-import UiModal from "../pages/Ui/UiModal";
-import UiProgressbar from "../pages/Ui/UiProgressbar";
-import UiTabsAccordions from "../pages/Ui/UiTabsAccordions";
-import UiTypography from "../pages/Ui/UiTypography";
-import UiVideo from "../pages/Ui/UiVideo";
-import UiSessionTimeout from "../pages/Ui/UiSessionTimeout";
-import UiRating from "../pages/Ui/UiRating";
-import UiRangeSlider from "../pages/Ui/UiRangeSlider";
-import UiNotifications from "../pages/Ui/ui-notifications";
-import UiOffCanvas from "pages/Ui/UiOffCanvas";
-import UiUtilitie from "../pages/Ui/UiUtilitie";
-import UiPlaceholders from "../pages/Ui/UiPlaceholders";
-import UiToasts from "../pages/Ui/UiToast";
+// import UiAlert from "../pages/Ui/UiAlert";
+// import UiButtons from "../pages/Ui/UiButtons";
+// import UiCards from "../pages/Ui/UiCards";
+// import UiCarousel from "../pages/Ui/UiCarousel";
+// import UiColors from "../pages/Ui/UiColors";
+// import UiDropdown from "../pages/Ui/UiDropdown";
+// import UiGeneral from "../pages/Ui/UiGeneral";
+// import UiGrid from "../pages/Ui/UiGrid";
+// import UiImages from "../pages/Ui/UiImages";
+// import UiLightbox from "../pages/Ui/UiLightbox";
+// import UiModal from "../pages/Ui/UiModal";
+// import UiProgressbar from "../pages/Ui/UiProgressbar";
+// import UiTabsAccordions from "../pages/Ui/UiTabsAccordions";
+// import UiTypography from "../pages/Ui/UiTypography";
+// import UiVideo from "../pages/Ui/UiVideo";
+// import UiSessionTimeout from "../pages/Ui/UiSessionTimeout";
+// import UiRating from "../pages/Ui/UiRating";
+// import UiRangeSlider from "../pages/Ui/UiRangeSlider";
+// import UiNotifications from "../pages/Ui/ui-notifications";
+// import UiOffCanvas from "pages/Ui/UiOffCanvas";
+// import UiUtilitie from "../pages/Ui/UiUtilitie";
+// import UiPlaceholders from "../pages/Ui/UiPlaceholders";
+// import UiToasts from "../pages/Ui/UiToast";
 
 //Pages
 import PagesStarter from "../pages/Utility/pages-starter";
@@ -147,29 +147,29 @@ const authProtectedRoutes = [
   { path: "/form-validation", component: <FormValidations /> },
 
   // Ui
-  { path: "/ui-alerts", component: <UiAlert /> },
-  { path: "/ui-buttons", component: <UiButtons /> },
-  { path: "/ui-cards", component: <UiCards /> },
-  { path: "/ui-carousel", component: <UiCarousel /> },
-  { path: "/ui-colors", component: <UiColors /> },
-  { path: "/ui-dropdowns", component: <UiDropdown /> },
-  { path: "/ui-general", component: <UiGeneral /> },
-  { path: "/ui-grid", component: <UiGrid /> },
-  { path: "/ui-images", component: <UiImages /> },
-  { path: "/ui-lightbox", component: <UiLightbox /> },
-  { path: "/ui-modals", component: <UiModal /> },
-  { path: "/ui-progressbars", component: <UiProgressbar /> },
-  { path: "/ui-tabs-accordions", component: <UiTabsAccordions /> },
-  { path: "/ui-typography", component: <UiTypography /> },
-  { path: "/ui-video", component: <UiVideo /> },
-  { path: "/ui-session-timeout", component: <UiSessionTimeout /> },
-  { path: "/ui-rating", component: <UiRating /> },
-  { path: "/ui-rangeslider", component: <UiRangeSlider /> },
-  { path: "/ui-notifications", component: <UiNotifications /> },
-  { path: "/ui-offcanvas", component: <UiOffCanvas /> },
-  { path: "/ui-utilities", component: <UiUtilitie /> },
-  { path: "/ui-placeholders", component: <UiPlaceholders /> },
-  { path: "/ui-toasts", component: <UiToasts /> },
+  // { path: "/ui-alerts", component: <UiAlert /> },
+  // { path: "/ui-buttons", component: <UiButtons /> },
+  // { path: "/ui-cards", component: <UiCards /> },
+  // { path: "/ui-carousel", component: <UiCarousel /> },
+  // { path: "/ui-colors", component: <UiColors /> },
+  // { path: "/ui-dropdowns", component: <UiDropdown /> },
+  // { path: "/ui-general", component: <UiGeneral /> },
+  // { path: "/ui-grid", component: <UiGrid /> },
+  // { path: "/ui-images", component: <UiImages /> },
+  // { path: "/ui-lightbox", component: <UiLightbox /> },
+  // { path: "/ui-modals", component: <UiModal /> },
+  // { path: "/ui-progressbars", component: <UiProgressbar /> },
+  // { path: "/ui-tabs-accordions", component: <UiTabsAccordions /> },
+  // { path: "/ui-typography", component: <UiTypography /> },
+  // { path: "/ui-video", component: <UiVideo /> },
+  // { path: "/ui-session-timeout", component: <UiSessionTimeout /> },
+  // { path: "/ui-rating", component: <UiRating /> },
+  // { path: "/ui-rangeslider", component: <UiRangeSlider /> },
+  // { path: "/ui-notifications", component: <UiNotifications /> },
+  // { path: "/ui-offcanvas", component: <UiOffCanvas /> },
+  // { path: "/ui-utilities", component: <UiUtilitie /> },
+  // { path: "/ui-placeholders", component: <UiPlaceholders /> },
+  // { path: "/ui-toasts", component: <UiToasts /> },
   //Utility
   { path: "/pages-starter", component: <PagesStarter /> },
   { path: "/pages-timeline", component: <PagesTimeline /> },
