@@ -459,11 +459,20 @@ const ModalDatas = ({
       passport_expiration_date: Yup.date().required("Please select date"),
       receiving_factory_id: Yup.string().required("This value is required"),
       dispatching_company_id: Yup.string().required("This value is required"),
-      password: Yup.string().min(6, "Mật khẩu phải dài ít nhất 6 ký tự"),
+      password: Yup.string().min(6, "Password must be at least 6 characters long"),
       confirmPassword: Yup.string().oneOf(
         [Yup.ref("password"), null],
-        "Mật khẩu không khớp"
+        "Password incorrect"
       ),
+      username: Yup.string()
+        .email("Must be a valid Email")
+        .max(255)
+        .required("Email is required")
+        .test(
+          "done",
+          "Username already exists",
+          value => usersData.find(u => u.username == value) == undefined
+        ),
 
       // license_date: Yup.date().required("Please select date"),
       // expiration_date: Yup.date().required("Please select date"),
@@ -718,15 +727,15 @@ const ModalDatas = ({
 
   //--------------------------------------------------------------------------------//
 
-  useEffect(() => {
-    const f = usersData.find(u => u.username == formik.values.username)
-    console.log(f);
-    if(f != undefined) {
-      formik.errors.username = 'Ten dang nhap da ton tai'
-    } else {
-      formik.errors.username = null
-    }
-  }, [formik.values.username])
+  // useEffect(() => {
+  //   const f = usersData.find(u => u.username == formik.values.username)
+  //   console.log(f);
+  //   if(f != undefined) {
+  //     formik.errors.username = 'Ten dang nhap da ton tai'
+  //   } else {
+  //     formik.errors.username = null
+  //   }
+  // }, [formik.values.username])
 
   //--------------------------------------------------------------------------------//
   // nap du lieu cho dia chi neu la chinh sua

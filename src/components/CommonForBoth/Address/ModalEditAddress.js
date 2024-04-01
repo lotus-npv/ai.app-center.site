@@ -1,24 +1,13 @@
-import React, { useMemo, useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import {
   Card,
   CardBody,
-  Row,
-  Col,
   Modal,
   Label,
   Input,
-  Button,
 } from "reactstrap"
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import { Avatar } from "primereact/avatar"
-import { Button as ButtonPrime } from "primereact/button"
-
 import Select from "react-select"
-//Import Flatepicker
-import Flatpickr from "react-flatpickr"
-import "flatpickr/dist/themes/material_blue.css"
 
 import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
@@ -32,20 +21,6 @@ import {
   getProvinceByNationId,
   getDistrictByProvinceId,
   getCommuneByDistrictId,
-  setAddress,
-  uploadImageRequest,
-  getDispatchingCompanyAll,
-  getReceivingFactoryAll,
-  getStatusAll,
-  getCareerAll,
-  getStatusOfResidenceAll,
-  setAlienRegistrationCard,
-  setStatusDetail,
-  getAlienRegistrationCardAll,
-  updateStatus,
-  updateAlienRegistrationCard,
-  updateStatusDetail,
-  deleteStatusDetail,
   getProvinceId,
   getDistrictId,
   getCommuneId,
@@ -55,6 +30,7 @@ import {
 const optionGroup = [
   { label: "Viet Nam", value: 1 },
   { label: "Japan", value: 2 },
+  { label: "Korea", value: 3 },
 ]
 
 import moment from "moment"
