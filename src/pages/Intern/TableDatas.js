@@ -30,6 +30,8 @@ import {
   getViolateTypeAll,
   setStatusDetail,
   getInternUserId,
+  getUsersAll,
+  deleteUsers,
 } from "store/actions"
 
 // The rule argument should be a string in the format "custom_[field]".
@@ -77,6 +79,7 @@ const TableDatas = props => {
     alienCardData,
     statusOfResidenceData,
     violateTypeData,
+    usersData
   } = useSelector(
     state => ({
       internDataAllInfo: state.Intern.datas,
@@ -86,6 +89,7 @@ const TableDatas = props => {
       alienCardData: state.AlienRegistrationCard.datas,
       statusOfResidenceData: state.StatusOfResidence.datas,
       violateTypeData: state.ViolateType.datas,
+      usersData: state.Users.datas
     }),
     shallowEqual
   )
@@ -100,6 +104,7 @@ const TableDatas = props => {
       dispatch(getAlienRegistrationCardAll())
       dispatch(getStatusOfResidenceAll())
       dispatch(getViolateTypeAll())
+      dispatch(getUsersAll())
     }
   }, [dispatch])
 
@@ -203,6 +208,11 @@ const TableDatas = props => {
       console.log("delete id :" + item.id)
       dispatch(deleteIntern(item.id))
 
+      // tim xem intern co tk trong he thong hay khong, neu co thi xoa 
+      const acc = usersData.find(u => u.object_id = item.id && u.object_type == 'intern')
+      if(acc) {
+        dispatch(deleteUsers(acc.id))
+      }
       setDeleteModal(false)
     }
   }

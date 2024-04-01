@@ -60,7 +60,12 @@ function* fetUsersDataLogin({ payload: { user, history } }) {
     if(response.length == 1) {
       localStorage.setItem("authUser", JSON.stringify(response));
     }
-    history('/dashboard');
+    if(response[0].object_type == 'intern') {
+      history('/ticket');
+    } else {
+      history('/dashboard');
+
+    }
   } catch (error) {
     yield put(getUsersLoginFail(error))
   }
