@@ -173,10 +173,10 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
     console.log('address', address)
 
     dispatch(setAddress(address))
-    setSelectNation(null)
-    setSelectProvince(null)
-    setSelectDistrict(null)
-    setSelectCommune(null)
+    setSelectNation('')
+    setSelectProvince('')
+    setSelectDistrict('')
+    setSelectCommune('')
     setIsAddDetail(false)
     tog_resresh()
     tog_add_address()
@@ -184,7 +184,7 @@ const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
 
   // console.log('address', address)
   // console.log("communeDataId", communeDataId)
-  console.log("item", item)
+  // console.log("item", item)
   // console.log("selectProvince", selectProvince)
 
   return (

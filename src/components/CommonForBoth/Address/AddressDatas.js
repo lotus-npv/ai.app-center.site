@@ -137,7 +137,7 @@ const AddressDatas = ({ item, user }) => {
         console.log("index", index)
 
         // nap gia tri country
-        if (array[index].nation) {
+        if (array[index]) {
           array[index].nation = NationList.find(
             nt => nt.value == arr[index].nation_id
           )["country"]
@@ -177,7 +177,7 @@ const AddressDatas = ({ item, user }) => {
           addresss[index].district != "" &&
           addresss[index].commune != "" &&
           addresss[index].nation != "" &&
-          addresss[index].detail != ""
+          index < arr.length
         ) {
           // tat doc data, cho phep dispath du lieu moi va tang index cua mang
           setIsReadData(false)
@@ -193,6 +193,7 @@ const AddressDatas = ({ item, user }) => {
     districtDataId,
     communeDataId,
     isRefresh,
+    index
   ])
 
   // console.log('user', user)
@@ -224,12 +225,12 @@ const AddressDatas = ({ item, user }) => {
   const itemTemplate = (address, index) => {
     return (
       <div
-        className="col-12 d-flex justify-content-center bg-light"
+        className="col-12 d-flex justify-content-between bg-light"
         key={index}
       >
         <div
           className={classNames(
-            "flex flex-column xl:flex-row xl:align-items-center p-21 gap-4 col-10",
+            "flex flex-column xl:flex-row xl:align-items-center p-21 gap-4 col-12",
             { "border-top-1 surface-border": index !== 0 }
           )}
         >
