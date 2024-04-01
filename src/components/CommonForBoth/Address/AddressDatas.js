@@ -18,6 +18,7 @@ import {
 } from "store/actions"
 
 import ModalEditAddress from "./ModalEditAddress"
+import ModalAddAddress from "./ModalAddAddress"
 // import context
 import DataContext from "../../../data/DataContext"
 import { useTranslation } from "react-i18next"
@@ -48,10 +49,11 @@ const AddressDatas = ({ item, user }) => {
     modal_standard,
     setmodal_standard,
     isRefresh,
-    updateRefresh,
+    updateRefresh,modal_add_address,tog_add_address,setmodal_add_address,
   } = useContext(DataContext)
 
   const [isEditDetail, setIsEditDetail] = useState(false)
+  const [isAddDetail, setIsAddDetail] = useState(false)
 
   const [selectAddress, setSelectAddress] = useState(null)
   const [addresss, setAddresss] = useState([])
@@ -149,7 +151,13 @@ const AddressDatas = ({ item, user }) => {
         setIsReadData(true)
       }
 
-      if (provinceDataId && districtDataId && communeDataId && isReadData && index < arr.length) {
+      if (
+        provinceDataId &&
+        districtDataId &&
+        communeDataId &&
+        isReadData &&
+        index < arr.length
+      ) {
         if (!provinceLoading && !districtLoading && !CommuneLoading) {
           // console.log("check done")
 
@@ -282,7 +290,10 @@ const AddressDatas = ({ item, user }) => {
 
   return (
     <div className="card">
-      <h3>{t("Address Info")}</h3>
+      <div className="d-flex gap-2 mb-1 ">
+        <h3 className="fw-bold">{t("Address Infomation")}</h3>
+        {/* <Button icon="pi pi-plus" rounded severity="secondary" aria-label="Bookmark" /> */}
+      </div>
       <DataView value={addresss} listTemplate={listTemplate} />
       {isEditDetail && (
         <ModalEditAddress
@@ -291,6 +302,24 @@ const AddressDatas = ({ item, user }) => {
           setIsEditDetail={setIsEditDetail}
         />
       )}
+      {isAddDetail && (
+        <ModalAddAddress
+          item={item}
+          isAddDetail={isAddDetail}
+          setIsAddDetail={setIsAddDetail}
+        />
+      )}
+      <Button
+        icon="pi pi-plus"
+        rounded
+        severity="secondary"
+        aria-label="Bookmark"
+        className="mt-3"
+        onClick={() => {
+          setIsAddDetail(true)
+          tog_add_address()
+        }}
+      />
     </div>
   )
 }

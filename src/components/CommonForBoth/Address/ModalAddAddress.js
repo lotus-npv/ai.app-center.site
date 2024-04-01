@@ -29,7 +29,7 @@ const optionGroup = [
 
 import moment from "moment"
 
-const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
+const ModalAddAddress = ({ item, isAddDetail, setIsAddDetail }) => {
   // data context
   const {
     tog_standard,
@@ -38,6 +38,9 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
     isRefresh,
     updateRefresh,
     tog_resresh,
+    modal_add_address,
+    tog_add_address,
+    setmodal_add_address,
   } = useContext(DataContext)
 
   const { t } = useTranslation()
@@ -65,28 +68,24 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
 
   // Get du lieu lan dau
   useEffect(() => {
-    dispatch(getProvinceByNationId(address.nation_id))
-    dispatch(getDistrictByProvinceId(address.province_id))
-    dispatch(getCommuneByDistrictId(address.district_id))
-    dispatch(getProvinceId(address.province_id))
-    dispatch(getDistrictId(address.district_id))
-    dispatch(getCommuneId(address.commune_id))
-  }, [dispatch, isEditDetail])
+    // dispatch(getProvinceByNationId(address.nation_id))
+    // dispatch(getDistrictByProvinceId(address.province_id))
+    // dispatch(getCommuneByDistrictId(address.district_id))
+    // dispatch(getProvinceId(address.province_id))
+    // dispatch(getDistrictId(address.district_id))
+    // dispatch(getCommuneId(address.commune_id))
+  }, [dispatch, isAddDetail])
 
   // render lua chon tinh, huyen, xa
-  const [selectNation, setSelectNation] = useState(
-    optionGroup.find(item => item.value == address.nation_id)
-  )
-  const [selectProvince, setSelectProvince] = useState(provinceDataId[0])
-  const [selectDistrict, setSelectDistrict] = useState(districtDataId[0])
-  const [selectCommune, setSelectCommune] = useState(communeDataId[0])
-  const [detail, setDetail] = useState(address.detail ?? "")
+  const [selectNation, setSelectNation] = useState("")
+  const [selectProvince, setSelectProvince] = useState("")
+  const [selectDistrict, setSelectDistrict] = useState("")
+  const [selectCommune, setSelectCommune] = useState("")
+  const [detail, setDetail] = useState("")
 
-  const [provinceOptions, setProvinceOptions] = useState(provinceDataByNationId)
-  const [districtOptions, setDistrictOptions] = useState(
-    districtDataByProvinceId
-  )
-  const [communeOptions, setCommuneOptions] = useState(communeDataByDistrictId)
+  const [provinceOptions, setProvinceOptions] = useState("")
+  const [districtOptions, setDistrictOptions] = useState("")
+  const [communeOptions, setCommuneOptions] = useState("")
 
   // Tai du lieu thanh pho
   useEffect(() => {
@@ -109,14 +108,14 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
 
   // Xu ly danh sach district
   useEffect(() => {
-    if (selectProvince !== null) {
+    if (selectProvince !== "") {
       dispatch(getDistrictByProvinceId(selectProvince.StateID))
       // setSelectDistrict("")
     }
   }, [selectProvince])
 
   useEffect(() => {
-    if (districtDataByProvinceId !== null) {
+    if (districtDataByProvinceId !== "") {
       setDistrictOptions(districtDataByProvinceId)
     }
   }, [districtDataByProvinceId])
@@ -124,14 +123,14 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   //---------------------------------------------------------------------------------------
   // xu ly tai danh sach commune
   useEffect(() => {
-    if (selectDistrict !== null) {
+    if (selectDistrict !== "") {
       dispatch(getCommuneByDistrictId(selectDistrict.DistrictID))
       // setSelectCommune("")
     }
   }, [selectDistrict])
 
   useEffect(() => {
-    if (communeDataByDistrictId !== null) {
+    if (communeDataByDistrictId !== "") {
       setCommuneOptions(communeDataByDistrictId)
     }
   }, [communeDataByDistrictId])
@@ -150,7 +149,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
     setSelectProvince(null)
     setSelectDistrict(null)
     setSelectCommune(null)
-    setIsEditDetail(false)
+    setIsAddDetail(false)
     tog_resresh()
     tog_standard()
   }
@@ -158,10 +157,11 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   // console.log('address', address)
   // console.log("communeDataId", communeDataId)
   // console.log('address', address)
+  console.log("item", item)
 
   return (
     <>
-      {isEditDetail && (
+      {isAddDetail && (
         <Modal
           isOpen={modal_standard}
           toggle={() => {
@@ -170,7 +170,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
         >
           <div className="modal-header bg-primary">
             <h4 className="modal-title mt-0 text-light" id="myModalLabel">
-              {t("Edit Address Information")}
+              {t("Add Address Information")}
             </h4>
             <button
               type="button"
@@ -187,8 +187,11 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
           <Card>
             <CardBody>
               <div className="mb-3 w-100">
-                <Label className="form-label fw-bold">{t("Country")}</Label>
+                <Label htmlFor="nation_id" className="form-label fw-bold">
+                  {t("Country")}
+                </Label>
                 <Select
+                  id="nation_id"
                   name="nation_id"
                   placeholder={t("Country")}
                   value={selectNation}
@@ -201,8 +204,11 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
               </div>
 
               <div className="mb-3 w-100">
-                <Label className="form-label fw-bold">{t("Province")}</Label>
+                <Label htmlFor="province_id" className="form-label fw-bold">
+                  {t("Province")}
+                </Label>
                 <Select
+                  id="province_id"
                   name="province_id"
                   placeholder={t("Province")}
                   value={selectProvince}
@@ -267,7 +273,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
                 setSelectProvince(null)
                 setSelectDistrict(null)
                 setSelectCommune(null)
-                setIsEditDetail(false)
+                setIsAddDetail(false)
               }}
               className="btn btn-secondary "
               data-dismiss="modal"
@@ -289,4 +295,4 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail }) => {
   )
 }
 
-export default ModalEditAddress
+export default ModalAddAddress

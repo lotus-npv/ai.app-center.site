@@ -139,6 +139,7 @@ const DataProvider = ({ children}) => {
   const [modal_standard, setmodal_standard] = useState(false)
   const [modal_xlarge, setmodal_xlarge] = useState(false)
   const [modal_fullscreen, setmodal_fullscreen] = useState(false)
+  const [modal_add_address, setmodal_add_address] = useState(false)
 
   function tog_standard() {
     setmodal_standard(!modal_standard)
@@ -152,6 +153,11 @@ const DataProvider = ({ children}) => {
 
   function tog_fullscreen() {
     setmodal_fullscreen(!modal_fullscreen)
+    removeBodyCss()
+  }
+
+  function tog_add_address() {
+    setmodal_add_address(!modal_add_address)
     removeBodyCss()
   }
 
@@ -241,6 +247,7 @@ const DataProvider = ({ children}) => {
         modal_fullscreen,
         setmodal_fullscreen,
         tog_fullscreen,
+        modal_add_address,tog_add_address,setmodal_add_address,
         isEditSyndication, setIsEditSyndication,
         isEditIntern,
         setIsEditIntern,
