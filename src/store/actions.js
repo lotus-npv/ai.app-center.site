@@ -68,3 +68,5 @@ export * from "./syndication/actions"
 export * from "./mails/actions";
 // key_license
 export * from "./key_license/actions";
+// noti
+export * from "./notification/actions";

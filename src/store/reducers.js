@@ -54,6 +54,7 @@ import Ticket from "./ticket/reducer";
 import TicketDetail from "./ticket_detail/reducer";
 import Syndication from "./syndication/reducer";
 import KeyLicense from "./key_license/reducer";
+import Noti from "./notification/reducer";
 
 //mails
 import mails from "./mails/reducer";
@@ -94,7 +95,8 @@ const rootReducer = combineReducers({
   TicketDetail,
   Syndication,
   mails,
-  KeyLicense
+  KeyLicense,
+  Noti
 });
 
 export default rootReducer;

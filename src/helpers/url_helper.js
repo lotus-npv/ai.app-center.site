@@ -151,6 +151,12 @@ export const DELETE_AVATA =     `${site}/api/avata/delete`;
 // upload avata
 export const UPLOAD_AVATA =     `${site}/upload`;
 
+// notification
+export const    GET_NOTI_ALL =        `${site}/api/noti/all`;
+export const    GET_NOTI_BY_USER_ID = `${site}/api/noti/byUserId`;
+export const    SET_NOTI =            `${site}/api/noti/schedule`;
+export const    UPDATE_NOTI =            `${site}/api/noti/update`;
+
 // nation
 export const    GET_NATION_ALL = `${api_address}/v1/country/all`;
 export const    GET_NATION_ID =  `${api_address}/v1/country`;

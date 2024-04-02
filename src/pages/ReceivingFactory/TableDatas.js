@@ -140,7 +140,7 @@ const TableDatas = props => {
 
     // Tao mang chua du lieu
     let uniqueArray = Array.from(map.values()).map(item => {
-      console.log('item', item);
+      // console.log('item', item);
       let name = ""
       if (!loading && provinceData) {
         let nation = provinceData.find(
