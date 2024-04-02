@@ -421,7 +421,7 @@ const TableDatas = props => {
           header="Số điện thoại"
           filterField="factory_name_jp"
           filter
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder={t('Search By Name')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
@@ -430,7 +430,7 @@ const TableDatas = props => {
           header="Ngày gia nhập"
           filterField="date_of_joining_syndication"
           filter
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder={t('Search By Date')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
