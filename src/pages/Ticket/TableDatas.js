@@ -216,7 +216,7 @@ const TableDatas = ({ dataTable }) => {
         paginator
         rows={15}
         stripedRows
-        rowsPerPageOptions={[5, 10, 15, 20, 50]}
+        // rowsPerPageOptions={[5, 10, 15, 20, 50]}
         dragSelection
         selectionMode="single"
         filters={filters}
@@ -231,8 +231,8 @@ const TableDatas = ({ dataTable }) => {
         scrollHeight={vh}
         style={{ minHeight: vh }}
         size={"small"}
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         {/* <Column
           selectionMode="multiple"

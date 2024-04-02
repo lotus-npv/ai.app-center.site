@@ -177,7 +177,7 @@ const TableDatas = () => {
         value={datas}
         paginator
         rows={10}
-        rowsPerPageOptions={[5, 10, 15, 20, 50]}
+        // rowsPerPageOptions={[5, 10, 15, 20, 50]}
         dragSelection
         selectionMode={"multiple"}
         selection={selectedItems}
@@ -192,8 +192,8 @@ const TableDatas = () => {
         scrollable
         scrollHeight={vh}
         size={"small"}
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column
           selectionMode="multiple"

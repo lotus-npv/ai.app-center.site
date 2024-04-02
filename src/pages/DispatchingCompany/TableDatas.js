@@ -1,204 +1,244 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { FilterMatchMode, FilterService } from 'primereact/api';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Button } from 'primereact/button';
-import { Avatar } from 'primereact/avatar';
-import { InputText } from 'primereact/inputtext';
-import {
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  Button as ButtonRS
-} from "reactstrap";
-import classnames from "classnames";
-import { Badge } from "reactstrap";
-import DataContext from 'data/DataContext';
-import DeleteModal from "components/Common/DeleteModal";
-import ModalDatas from './ModalDatas'
-import { withTranslation } from "react-i18next";
-import PropTypes from "prop-types";
-import moment from 'moment';
+import React, { useState, useEffect, useContext } from "react"
+import { FilterMatchMode, FilterService } from "primereact/api"
+import { DataTable } from "primereact/datatable"
+import { Column } from "primereact/column"
+import { Button } from "primereact/button"
+import { Avatar } from "primereact/avatar"
+import { InputText } from "primereact/inputtext"
+import { Nav, NavItem, NavLink, Row, Button as ButtonRS } from "reactstrap"
+import classnames from "classnames"
+import { Badge } from "reactstrap"
+import DataContext from "data/DataContext"
+import DeleteModal from "components/Common/DeleteModal"
+import ModalDatas from "./ModalDatas"
+import { withTranslation } from "react-i18next"
+import PropTypes from "prop-types"
+import moment from "moment"
 
 // //redux
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { getDispatchingCompanyAll, getAddressAll, getProvinceId, getProvinceAll, getNationAll, deleteDispatchingCompany, setDispatchingCompany, updateDispatchingCompany, getDispatchingCompanyUserId } from "store/actions";
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+import {
+  getDispatchingCompanyAll,
+  getAddressAll,
+  getProvinceId,
+  getProvinceAll,
+  getNationAll,
+  deleteDispatchingCompany,
+  setDispatchingCompany,
+  updateDispatchingCompany,
+  getDispatchingCompanyUserId,
+} from "store/actions"
 
 // The rule argument should be a string in the format "custom_[field]".
-FilterService.register('custom_activity', (value, filters) => {
-  const [from, to] = filters ?? [null, null];
-  if (from === null && to === null) return true;
-  if (from !== null && to === null) return from <= value;
-  if (from === null && to !== null) return value <= to;
-  return from <= value && value <= to;
-});
+FilterService.register("custom_activity", (value, filters) => {
+  const [from, to] = filters ?? [null, null]
+  if (from === null && to === null) return true
+  if (from !== null && to === null) return from <= value
+  if (from === null && to !== null) return value <= to
+  return from <= value && value <= to
+})
 
-const TableDatas = (props) => {
+const TableDatas = props => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
-  const {vh,  tog_fullscreen, setIsEditCompany, updateAddressDataCompany, } = useContext(DataContext);
+  const { vh, tog_fullscreen, setIsEditCompany, updateAddressDataCompany } =
+    useContext(DataContext)
 
   // Khai bao du lieu
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { companyData, addressData, loading, nationData } = useSelector(state => ({
-    companyData: state.DispatchingCompany.datas,
-    addressData: state.Address.datas,
-    nationData: state.Nation.datas,
-    loading: state.Nation.loading
-  }), shallowEqual);
+  const { companyData, addressData, loading, nationData } = useSelector(
+    state => ({
+      companyData: state.DispatchingCompany.datas,
+      addressData: state.Address.datas,
+      nationData: state.Nation.datas,
+      loading: state.Nation.loading,
+    }),
+    shallowEqual
+  )
 
-  // Get du lieu lan dau 
+  // Get du lieu lan dau
   useEffect(() => {
-    if(user) {
-      dispatch(getDispatchingCompanyUserId(user.id));
-      dispatch(getAddressAll(user.key_license_id));
-      dispatch(getNationAll());
+    if (user) {
+      dispatch(getDispatchingCompanyUserId(user.id))
+      dispatch(getAddressAll(user.key_license_id))
+      dispatch(getNationAll())
     }
-  }, [dispatch]);
+  }, [dispatch])
 
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(getDispatchingCompanyUserId(user.id));
-    }, 10000);
+      dispatch(getDispatchingCompanyUserId(user.id))
+    }, 10000)
     return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+      clearInterval(intervalId)
+    }
+  }, [])
 
   // //delete modal
-  const [item, setItem] = useState(null);
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [item, setItem] = useState(null)
+  const [deleteModal, setDeleteModal] = useState(false)
 
-  const onClickDelete = (data) => {
-    setItem(data);
-    setDeleteModal(true);
-  };
+  const onClickDelete = data => {
+    setItem(data)
+    setDeleteModal(true)
+  }
 
   const handleDeleteOrder = () => {
     if (item && item.id) {
-      console.log('delete id :' + item.id);
-      dispatch(deleteDispatchingCompany(item.id));
+      console.log("delete id :" + item.id)
+      dispatch(deleteDispatchingCompany(item.id))
 
-      setDeleteModal(false);
+      setDeleteModal(false)
     }
-  };
+  }
 
-  // TABLE 
+  // TABLE
   const rendLabel = () => {
     // lọc ra danh sách các địa chỉ của xí nghiệp
-    const array = addressData.filter(address => address.user_type === 'dispatching_company');
+    const array = addressData.filter(
+      address => address.user_type === "dispatching_company"
+    )
     // console.log('array:', array)
 
     // tạo danh sách địa
-    const number_of_company = array.filter(address => address.is_default == 1).length;
+    const number_of_company = array.filter(
+      address => address.is_default == 1
+    ).length
     // console.log('number_of_factory', number_of_factory)
 
-    let map = new Map();
+    let map = new Map()
     array.forEach(obj => {
       if (!map.has(obj.nation_id)) {
-        map.set(obj.nation_id, { data: 1, obj });
+        map.set(obj.nation_id, { data: 1, obj })
       } else {
-        map.get(obj.nation_id).data += 1;
+        map.get(obj.nation_id).data += 1
       }
-    });
+    })
 
-    // Tao mang chua du lieu 
+    // Tao mang chua du lieu
     let uniqueArray = Array.from(map.values()).map(item => {
-      let name = 'loading ...';
+      let name = "loading ..."
       if (!loading) {
-        let nation = nationData.find(nation => nation.CountryID == item.obj.nation_id);
+        let nation = nationData.find(
+          nation => nation.CountryID == item.obj.nation_id
+        )
         if (nation !== undefined) {
-          name = nation.CountryName_ja;
+          name = nation.CountryName_ja
         }
       }
       return { name: name, data: item.data, nationId: item.obj.nation_id }
-    });
+    })
 
     // console.log('uniqueArray', uniqueArray)
 
-    return [{ name: 'All', data: number_of_company, nationId: 0 }, ...uniqueArray.map((address) => {
-      return { name: address.name, data: address.data, nationId: address.nationId }
-    })].filter(e => e.data >= 1);
+    return [
+      { name: "All", data: number_of_company, nationId: 0 },
+      ...uniqueArray.map(address => {
+        return {
+          name: address.name,
+          data: address.data,
+          nationId: address.nationId,
+        }
+      }),
+    ].filter(e => e.data >= 1)
   }
 
   // acctive tab
-  const [customActiveTab, setcustomActiveTab] = useState({ index: "0", value: "All", id: 0 });
+  const [customActiveTab, setcustomActiveTab] = useState({
+    index: "0",
+    value: "All",
+    id: 0,
+  })
   const toggleCustom = (tab, data, id) => {
     if (customActiveTab.index !== tab) {
-      setcustomActiveTab({ index: tab, value: data, id: id });
+      setcustomActiveTab({ index: tab, value: data, id: id })
     }
-  };
+  }
 
-  // Global filter 
+  // Global filter
 
-  const [selectedItems, setSelectedItems] = useState(null);
+  const [selectedItems, setSelectedItems] = useState(null)
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nam_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
     phone_number: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    date_of_joining_syndication: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  });
+    date_of_joining_syndication: {
+      value: null,
+      matchMode: FilterMatchMode.CONTAINS,
+    },
+  })
 
   // Row selected edit
   const [rowSelect, setRowSelect] = useState(null)
 
   // Global search
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
-  const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
-    let _filters = { ...filters };
+  const [globalFilterValue, setGlobalFilterValue] = useState("")
+  const onGlobalFilterChange = e => {
+    const value = e.target.value
+    let _filters = { ...filters }
 
-    _filters['global'].value = value;
+    _filters["global"].value = value
 
-    setFilters(_filters);
-    setGlobalFilterValue(value);
-  };
+    setFilters(_filters)
+    setGlobalFilterValue(value)
+  }
 
   // goi ham render mang data
-  const items = rendLabel();
+  const items = rendLabel()
 
   // console.log('items', items)
 
   const renderHeader = () => {
     return (
       <>
-        <Row className='mb-2'>
-          <div className='d-flex justify-content-between'>
+        <Row className="mb-2">
+          <div className="d-flex justify-content-between">
             <span className="p-input-icon-left">
               <i className="pi pi-search" />
-              <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Nhập từ khoá tìm kiếm ..." />
+              <InputText
+                value={globalFilterValue}
+                onChange={onGlobalFilterChange}
+                placeholder="Nhập từ khoá tìm kiếm ..."
+              />
             </span>
-            <ButtonRS color="primary" onClick={() => {
-              setIsEditCompany(false);
-              setRowSelect(null);
-              updateAddressDataCompany([]);
-              tog_fullscreen();
-            }}>
+            <ButtonRS
+              color="primary"
+              onClick={() => {
+                setIsEditCompany(false)
+                setRowSelect(null)
+                updateAddressDataCompany([])
+                tog_fullscreen()
+              }}
+            >
               Thêm mới
             </ButtonRS>
           </div>
         </Row>
         <Row>
-          <div className='d-flex justify-content-between'>
+          <div className="d-flex justify-content-between">
             {/* <TabMenu model={items} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} /> */}
             <Nav tabs className="nav-tabs-custom">
               {items.map((item, index) => (
-                <NavItem key={index} style={{ minWidth: '100px' }}>
+                <NavItem key={index} style={{ minWidth: "100px" }}>
                   <NavLink
                     style={{ cursor: "pointer" }}
                     className={classnames({
-                      active: customActiveTab.index === (`${index}`),
+                      active: customActiveTab.index === `${index}`,
                     })}
                     onClick={() => {
-                      toggleCustom(`${index}`, item.name, item.nationId);
+                      toggleCustom(`${index}`, item.name, item.nationId)
                     }}
                   >
-                    <div className='d-flex gap-2 justify-content-center'>
+                    <div className="d-flex gap-2 justify-content-center">
                       <span className="d-none d-sm-block">{item.name}</span>
-                      <Badge pill className={"p-2 font-size-12 badge-soft-primary"}>{item.data}</Badge>
+                      <Badge
+                        pill
+                        className={"p-2 font-size-12 badge-soft-primary"}
+                      >
+                        {item.data}
+                      </Badge>
                     </div>
                   </NavLink>
                 </NavItem>
@@ -207,57 +247,95 @@ const TableDatas = (props) => {
           </div>
         </Row>
       </>
-    );
-  };
-
+    )
+  }
 
   // truyen du lieu vao bang
   const [dataTable, setDataTable] = useState(companyData)
 
   // cap nhat data moi khi chuyen doi tab
-  const getListInternStatus = (key) => {
-    const arr = addressData.filter(item => item.nation_id == key);
-    const newList = companyData.filter(company => arr.some(item => item.object_id == company.id && item.user_type == 'dispatching_company')).map(company => {
-      return {...company, date_of_joining_syndication: moment(company.date_of_joining_syndication).format("YYYY-MM-DD"),}
-    });
-    setDataTable(newList);
+  const getListInternStatus = key => {
+    const arr = addressData.filter(item => item.nation_id == key)
+    const newList = companyData
+      .filter(company =>
+        arr.some(
+          item =>
+            item.object_id == company.id &&
+            item.user_type == "dispatching_company"
+        )
+      )
+      .map(company => {
+        return {
+          ...company,
+          date_of_joining_syndication: moment(
+            company.date_of_joining_syndication
+          ).format("YYYY-MM-DD"),
+        }
+      })
+    setDataTable(newList)
   }
 
   useEffect(() => {
-    if (customActiveTab.value === 'All') {
+    if (customActiveTab.value === "All") {
       const arr = companyData.map(company => {
-        return {...company, date_of_joining_syndication: moment(company.date_of_joining_syndication).format("YYYY-MM-DD"),}
+        return {
+          ...company,
+          date_of_joining_syndication: moment(
+            company.date_of_joining_syndication
+          ).format("YYYY-MM-DD"),
+        }
       })
-      setDataTable(arr);
+      setDataTable(arr)
     } else {
-      getListInternStatus(customActiveTab.id);
+      getListInternStatus(customActiveTab.id)
     }
   }, [customActiveTab, companyData])
 
-
   // render col name
-  const nameBodyTemplate = (rowData) => {
+  const nameBodyTemplate = rowData => {
     return (
       <div className="flex align-items-center gap-2">
-        <Avatar className="p-overlay-badge" image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`} size="large" shape="circle">
-        </Avatar>
+        <Avatar
+          className="p-overlay-badge"
+          image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`}
+          size="large"
+          shape="circle"
+        ></Avatar>
         <span>{rowData.name_jp}</span>
-      </div>
-    );
-  };
-
-
-  const actionBody = (rowData) => {
-    return (
-      <div className="d-flex gap-3">
-        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Cancel" onClick={() => { setRowSelect(rowData);setIsEditCompany(true); tog_fullscreen();  }} />
-        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Cancel" onClick={() => { onClickDelete(rowData); }} />
       </div>
     )
   }
 
-  const header = renderHeader();
+  const actionBody = rowData => {
+    return (
+      <div className="d-flex gap-3">
+        <Button
+          icon="pi pi-pencil"
+          rounded
+          text
+          severity="success"
+          aria-label="Cancel"
+          onClick={() => {
+            setRowSelect(rowData)
+            setIsEditCompany(true)
+            tog_fullscreen()
+          }}
+        />
+        <Button
+          icon="pi pi-trash"
+          rounded
+          text
+          severity="danger"
+          aria-label="Cancel"
+          onClick={() => {
+            onClickDelete(rowData)
+          }}
+        />
+      </div>
+    )
+  }
 
+  const header = renderHeader()
 
   // console.log('customActiveTab:', customActiveTab)
   // console.log('loading:', loading)
@@ -268,18 +346,74 @@ const TableDatas = (props) => {
   // console.log('companyData:', companyData);
 
   return (
-    <div className="card" >
-      <DataTable value={dataTable} paginator rows={15} stripedRows rowsPerPageOptions={[5, 10, 15, 20, 50]} dragSelection selectionMode={'multiple'} selection={selectedItems} onSelectionChange={(e) => setSelectedItems(e.value)} dataKey="id" filters={filters}
-        filterDisplay="row" globalFilterFields={['id', 'nam_jp', 'phone_number']} header={header} emptyMessage="Không tìm thấy kết quả phù hợp." tableStyle={{ minWidth: '50rem' }} scrollable scrollHeight={vh} size={'small'}
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+    <div className="card">
+      <DataTable
+        value={dataTable}
+        paginator
+        rows={15}
+        stripedRows
+        // rowsPerPageOptions={[5, 10, 15, 20, 50]}
+        dragSelection
+        selectionMode={"multiple"}
+        selection={selectedItems}
+        onSelectionChange={e => setSelectedItems(e.value)}
+        dataKey="id"
+        filters={filters}
+        filterDisplay="row"
+        globalFilterFields={["id", "nam_jp", "phone_number"]}
+        header={header}
+        emptyMessage="No data in the table"
+        tableStyle={{ minWidth: "50rem" }}
+        scrollable
+        scrollHeight={vh}
+        size={"small"}
+        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
-        <Column selectionMode="multiple" exportable={false} headerStyle={{ width: '3rem' }} ></Column>
-        <Column field="nam_jp" header="Tên xí nghiệp" body={nameBodyTemplate} filterField="nam_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="phone_number" header="Số điện thoại" filterField="factory_name_jp" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="date_of_joining_syndication" header="Ngày gia nhập" filterField="date_of_joining_syndication" filter filterPlaceholder="Tìm kiếm bằng tên" sortable style={{ minWidth: '12rem' }} ></Column>
-        <Column field="description" header="Ghi chú" style={{ minWidth: '12rem' }} ></Column>
-        <Column field="action" header="Action" style={{ minWidth: '10rem' }} body={actionBody} ></Column>
+        <Column
+          selectionMode="multiple"
+          exportable={false}
+          headerStyle={{ width: "3rem" }}
+        ></Column>
+        <Column
+          field="nam_jp"
+          header="Tên xí nghiệp"
+          body={nameBodyTemplate}
+          filterField="nam_jp"
+          filter
+          filterPlaceholder="Tìm kiếm bằng tên"
+          sortable
+          style={{ minWidth: "12rem" }}
+        ></Column>
+        <Column
+          field="phone_number"
+          header="Số điện thoại"
+          filterField="factory_name_jp"
+          filter
+          filterPlaceholder="Tìm kiếm bằng tên"
+          sortable
+          style={{ minWidth: "12rem" }}
+        ></Column>
+        <Column
+          field="date_of_joining_syndication"
+          header="Ngày gia nhập"
+          filterField="date_of_joining_syndication"
+          filter
+          filterPlaceholder="Tìm kiếm bằng tên"
+          sortable
+          style={{ minWidth: "12rem" }}
+        ></Column>
+        <Column
+          field="description"
+          header="Ghi chú"
+          style={{ minWidth: "12rem" }}
+        ></Column>
+        <Column
+          field="action"
+          header="Action"
+          style={{ minWidth: "10rem" }}
+          body={actionBody}
+        ></Column>
       </DataTable>
 
       <DeleteModal
@@ -296,13 +430,12 @@ const TableDatas = (props) => {
         updateApi={updateDispatchingCompany}
         addressData={addressData}
       />
-
     </div>
-  );
+  )
 }
 
 TableDatas.propTypes = {
   t: PropTypes.any,
-};
+}
 
-export default withTranslation()(TableDatas);
+export default withTranslation()(TableDatas)

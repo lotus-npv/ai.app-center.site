@@ -1,11 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, Col } from 'reactstrap';
 
+// //redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+
 //import images
 import wechat from "../../assets/images/icon/office.png";
+import { getUsersId } from 'store/actions';
 
 const DetailsSection = () => {
+
+    const user = JSON.parse(localStorage.getItem("authUser"))[0];
+
+    const dispatch = useDispatch()
+    const {
+      userInfo,
+      factoryData,
+      companyData,
+      syndicationData,
+      internData
+    } = useSelector(
+      state => ({
+        userInfo: state.Users.dataId,
+      }),
+      shallowEqual
+    )
+
+    useEffect(() => {
+        dispatch(getUsersId(user.id));
+    }, [])
+
+    console.log(userInfo);
     return (
         <React.Fragment>
             <Col xl={9}>
@@ -14,13 +40,13 @@ const DetailsSection = () => {
                         <div className="d-flex">
                             <img src={wechat} alt="" height="50" />
                             <div className="flex-grow-1 ms-3">
-                                <h5 className="fw-semibold">Magento Developer</h5>
+                                <h5 className="fw-semibold">{userInfo[0].label}</h5>
                                 <ul className="list-unstyled hstack gap-2 mb-0">
                                     <li>
                                         <i className="bx bx-building-house"></i> <span className="text-muted">Themesbrand</span>
                                     </li>
                                     <li>
-                                        <i className="bx bx-map"></i> <span className="text-muted">California</span>
+                                        <i className="bx bx-map"></i> <span className="text-muted">Japan</span>
                                     </li>
                                 </ul>
                             </div>
@@ -31,6 +57,7 @@ const DetailsSection = () => {
                         <p className="text-muted">We are looking to hire a skilled Magento developer to build and maintain eCommerce websites for our clients. As a Magento developer, you will be responsible for liaising with the design team, setting up Magento 1x and 2x sites, building modules and customizing extensions, testing the performance of each site, and maintaining security and feature updates after the installation is complete.</p>
                         
                         <h5 className="fw-semibold mb-3">Responsibilities:</h5>
+
 
                         <div className="mt-4">
                             <span className="badge badge-soft-warning me-1">PHP</span>

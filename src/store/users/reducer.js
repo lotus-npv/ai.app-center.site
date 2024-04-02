@@ -10,9 +10,11 @@ import {
   GET_USERS_LOGIN,
   GET_USERS_LOGIN_SUCCESS,
   GET_USERS_LOGIN_FAIL,
+
   GET_USERS_ID,
   GET_USERS_ID_SUCCESS,
   GET_USERS_ID_FAIL,
+
   SET_USERS,
   SET_USERS_SUCCESS,
   SET_USERS_FAIL,
@@ -89,16 +91,25 @@ import {
           error: action.payload,
           user: null
         };
+
+      case GET_USERS_ID:
+        return {
+          ...state,
+          loading: true,
+        };
       case GET_USERS_ID_SUCCESS:
         return {
           ...state,
+          loading: false,
           dataId: action.payload,
         };
       case GET_USERS_ID_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
+
       case SET_USERS:
         return {
           ...state,
