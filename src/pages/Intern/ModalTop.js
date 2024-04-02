@@ -88,10 +88,9 @@ const ModalTop = ({
   statusDetailApiData,
   alienCardApiData,
   dataInternAll,
-  user
 }) => {
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   const { t } = useTranslation()
-
   const dispatch = useDispatch()
 
   // --------------------------------------------------
@@ -148,9 +147,6 @@ const ModalTop = ({
   // => lay danh sach intern vi pham
   // => tao vong lap va ghi vao bang violate
 
-  // console.log("loading", loading)
-  // console.log("rowsSelectedInternData", rowsSelectedInternData)
-
   useEffect(() => {
     setSelectIntern(rowsSelectedInternData)
     let arr = dataInternAll.filter(
@@ -162,7 +158,7 @@ const ModalTop = ({
   const [isDone, setIsDone] = useState(false)
 
   const violateList = {
-    key_license_id: 1,
+    key_license_id: '',
     violate_type_id: "",
     violate_date: "",
     description: "",
@@ -175,7 +171,7 @@ const ModalTop = ({
   }
 
   const violate = {
-    key_license_id: 1,
+    key_license_id: '',
     intern_id: "",
     violate_list_id: "",
     description: "",
@@ -336,9 +332,9 @@ const ModalTop = ({
   return (
     <>
       <Row>
-        <Col xl={5} md={12}>
+        <Col xl={6} md={12}>
           <Row>
-            <Col xl={4} md={12} className="d-flex justify-content-center">
+            <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
                 style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
@@ -357,7 +353,7 @@ const ModalTop = ({
                 {t("Update Status")}
               </Button>
             </Col>
-            <Col xl={4} md={12} className="d-flex justify-content-center">
+            <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
                 style={{minWidth: '150px', marginBottom: '5px', width: '80%'}}
@@ -376,7 +372,7 @@ const ModalTop = ({
                 {t("Residence update")}
               </Button>
             </Col>
-            <Col xl={4} md={12} className="d-flex justify-content-center">
+            <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
                 style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
@@ -390,7 +386,7 @@ const ModalTop = ({
             </Col>
           </Row>
         </Col>
-        <Col xl={7} md={12}>
+        <Col xl={6} md={12}>
           <Row>
             <Col className="d-flex justify-content-end">
               <Button

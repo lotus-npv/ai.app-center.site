@@ -19,12 +19,8 @@ const InternPage = () => {
     <>
       <div className="page-content">
         <Container fluid={true}>
-          {/* <Card> */}
-            <ToastContainer />
-            {/* <CardBody> */}
-              <TableDatas />
-            {/* </CardBody> */}
-          {/* </Card> */}
+          <ToastContainer />
+          <TableDatas />
         </Container>
       </div>
     </>
