@@ -74,7 +74,8 @@ const TicketInbox = props => {
     setMessage,
     setSkTicket,
     message,
-    skTicket
+    skTicket,
+    socket
   } = useContext(DataContext)
 
   //=====================================================================================================//
@@ -230,7 +231,7 @@ const TicketInbox = props => {
   // lam moi du lieu
   useEffect(() => {
     if (ticketRowData) {
-      console.log("f5 data ticket detail")
+      // console.log("f5 data ticket detail")
       dispatch(getTicketDetailByTicketId(ticketRowData.id))
     }
   }, [message])

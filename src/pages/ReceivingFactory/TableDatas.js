@@ -117,18 +117,6 @@ const TableDatas = props => {
   }
 
   // TABLE
-  // render label tab
-  const [activeIndex, setActiveIndex] = useState(0)
-
-  const itemRenderer = (item, itemIndex, data) => (
-    <a
-      className="p-menuitem-link flex align-items-center gap-2"
-      onClick={() => setActiveIndex(itemIndex)}
-    >
-      <BadgePrime value={data}></BadgePrime>
-      <span className="font-bold">{props.t(item.name)}</span>
-    </a>
-  )
 
   const rendLabel = () => {
     // lọc ra danh sách các địa chỉ của xí nghiệp
@@ -152,8 +140,9 @@ const TableDatas = props => {
 
     // Tao mang chua du lieu
     let uniqueArray = Array.from(map.values()).map(item => {
-      let name = "loading ..."
-      if (!loading) {
+      console.log('item', item);
+      let name = ""
+      if (!loading && provinceData) {
         let nation = provinceData.find(
           province => province.StateID == item.obj.province_id
         )
@@ -285,7 +274,7 @@ const TableDatas = props => {
   const getListInternStatus = key => {
     // const idStatus = statusData.find(item => item.name == key).id;
     const arr = addressData.filter(item => item.province_id == key)
-    console.log("arr:", arr)
+    // console.log("arr:", arr)
     const newList = factoryData
       .filter(factory =>
         arr.some(

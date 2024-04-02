@@ -27,7 +27,7 @@ import {
   
   const INIT_STATE = {
     datas: [],
-    dataId: [],
+    dataId: null,
     data: {},
     loading: false,
     user: null,

@@ -38,6 +38,7 @@ const INIT_STATE = {
   showSidebar: true,
   leftMenu: true,
 }
+
 const Layout = (state = INIT_STATE, action) => {
   switch (action.type) {
     case CHANGE_LAYOUT:

@@ -62,10 +62,10 @@ const TableDatas = props => {
 
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    full_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    label: { value: null, matchMode: FilterMatchMode.CONTAINS },
     factory_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
     company_name_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    residence: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    sor_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
     status: { value: null, matchMode: FilterMatchMode.CONTAINS },
   })
 
@@ -467,7 +467,6 @@ const TableDatas = props => {
           paginator
           rows={15}
           stripedRows
-          // rowsPerPageOptions={[5, 10, 15, 20, 50]}
           dragSelection
           selectionMode={"multiple"}
           selection={rowsSelectedInternData}
@@ -475,13 +474,14 @@ const TableDatas = props => {
           dataKey="id"
           filters={filters}
           filterDisplay="row"
-          globalFilterFields={["id", "name", "description"]}
+          globalFilterFields={["label", "factory_name_jp", "company_name_jp", "sor_name"]}
           header={header}
           emptyMessage="Không tìm thấy kết quả phù hợp."
           tableStyle={{ minWidth: "50rem" }}
           scrollable
           scrollHeight={vh}
           size={"small"}
+          // rowsPerPageOptions={[5, 10, 15, 20, 50]}
           // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           // currentPageReportTemplate={`${t("Showing")} {first} ${t(
           //   "to"
@@ -496,10 +496,10 @@ const TableDatas = props => {
             field="full_name_jp"
             header={props.t("Intern name")}
             body={nameBodyTemplate}
-            filterField="full_name_jp"
+            filterField="label"
             filter
             filterPlaceholder="Tìm kiếm bằng tên"
-            sortable
+            // sortable
             style={{ minWidth: "12rem" }}
           ></Column>
           <Column
@@ -507,7 +507,7 @@ const TableDatas = props => {
             header={props.t("Receiving Factory")}
             filterField="factory_name_jp"
             filter
-            filterPlaceholder="Tìm kiếm bằng tên"
+            filterPlaceholder="Tìm kiếm"
             sortable
             style={{ minWidth: "12rem" }}
           ></Column>

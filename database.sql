@@ -434,7 +434,24 @@ CREATE TABLE IF NOT EXISTS avata (
     delete_at DATETIME,
     flag BOOLEAN
 );
-                        
+
+CREATE TABLE if not exists notification (
+    id int primary key auto_increment,
+    key_license_id INT,
+    to_id VARCHAR(50),  -- id user nguoi nhan thong bao
+    date_noti DATETIME, -- ngay se gui thong bao
+    content VARCHAR(500), -- noi dung tong bao
+    watched BOOLEAN,  -- kiem tra trang thai da xem
+    description VARCHAR(200),
+    create_at DATETIME,
+    create_by INT,
+    update_at DATETIME,
+    update_by INT,
+    delete_at DATETIME,
+    flag BOOLEAN
+);
+
+
 
 
 

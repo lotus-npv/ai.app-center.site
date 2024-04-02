@@ -1,35 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, Col } from 'reactstrap';
 
-// //redux
-import { useSelector, useDispatch, shallowEqual } from "react-redux"
-
 //import images
 import wechat from "../../assets/images/icon/office.png";
-import { getUsersId } from 'store/actions';
 
-const DetailsSection = () => {
 
-    const user = JSON.parse(localStorage.getItem("authUser"))[0];
+const DetailsSection = ({userInfo}) => {
 
-    const dispatch = useDispatch()
-    const {
-      userInfo,
-      factoryData,
-      companyData,
-      syndicationData,
-      internData
-    } = useSelector(
-      state => ({
-        userInfo: state.Users.dataId,
-      }),
-      shallowEqual
-    )
-
-    useEffect(() => {
-        dispatch(getUsersId(user.id));
-    }, [])
 
     console.log(userInfo);
     return (
@@ -40,7 +18,7 @@ const DetailsSection = () => {
                         <div className="d-flex">
                             <img src={wechat} alt="" height="50" />
                             <div className="flex-grow-1 ms-3">
-                                <h5 className="fw-semibold">{userInfo[0].label}</h5>
+                                <h5 className="fw-semibold">{userInfo ? userInfo[0].label : 'Name'}</h5>
                                 <ul className="list-unstyled hstack gap-2 mb-0">
                                     <li>
                                         <i className="bx bx-building-house"></i> <span className="text-muted">Themesbrand</span>
