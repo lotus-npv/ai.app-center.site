@@ -15,6 +15,10 @@
 // @import "./rtl/structure-rtl";
 // @import "./rtl/text-rtl";
 
+html {
+  font-size: 14px;
+}
+
 body {
   * {
     outline: none;

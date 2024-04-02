@@ -67,6 +67,9 @@ import TicketPage from "pages/Ticket";
 // Contacts
 import Contacts from "pages/Contacts";
 
+// Profile
+import Profile from 'pages/Profile'
+
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
   
@@ -102,6 +105,9 @@ const authProtectedRoutes = [
 
   // Contacts
   {path: "/contacts", component: <Contacts />},
+
+  // Contacts
+  {path: "/profile", component: <Profile />},
 
  
   // this route should be at the end of all other routes

@@ -467,7 +467,7 @@ const TableDatas = props => {
           paginator
           rows={15}
           stripedRows
-          rowsPerPageOptions={[5, 10, 15, 20, 50]}
+          // rowsPerPageOptions={[5, 10, 15, 20, 50]}
           dragSelection
           selectionMode={"multiple"}
           selection={rowsSelectedInternData}
@@ -482,10 +482,10 @@ const TableDatas = props => {
           scrollable
           scrollHeight={vh}
           size={"small"}
-          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-          currentPageReportTemplate={`${t("Showing")} {first} ${t(
-            "to"
-          )} {last} ${t("of")} {totalRecords} ${t("items")}`}
+          // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+          // currentPageReportTemplate={`${t("Showing")} {first} ${t(
+          //   "to"
+          // )} {last} ${t("of")} {totalRecords} ${t("items")}`}
         >
           <Column
             selectionMode="multiple"
