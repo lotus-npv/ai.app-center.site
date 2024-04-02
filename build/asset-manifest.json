@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.14585190.css",
-    "main.js": "/static/js/main.6d9d5822.js",
+    "main.css": "/static/css/main.441b08bb.css",
+    "main.js": "/static/js/main.c86d2992.js",
     "static/js/904.f5474d82.chunk.js": "/static/js/904.f5474d82.chunk.js",
     "static/js/557.8d7a36c1.chunk.js": "/static/js/557.8d7a36c1.chunk.js",
     "static/js/238.02c4ca7d.chunk.js": "/static/js/238.02c4ca7d.chunk.js",
@@ -24,8 +24,6 @@
     "static/media/img-6.jpg": "/static/media/img-6.22e5e101c600a7c016a1.jpg",
     "static/media/img-5.jpg": "/static/media/img-5.feb6e033b5d8dabf2c71.jpg",
     "static/media/primeicons.svg": "/static/media/primeicons.e1441b135b3ca9ad643c.svg",
-    "static/media/Inter-italic.var.woff2?v=3.19": "/static/media/Inter-italic.var.30807be7abc48ba8c73c.woff2",
-    "static/media/Inter-roman.var.woff2?v=3.19": "/static/media/Inter-roman.var.ba4caefcdf5b36b438db.woff2",
     "static/media/boxicons.eot": "/static/media/boxicons.6829ebb16362074c0c30.eot",
     "static/media/boxicons.woff": "/static/media/boxicons.dcaf6a260cca4a061aff.woff",
     "static/media/boxicons.ttf": "/static/media/boxicons.e2ffa5b9254ec286b380.ttf",
@@ -77,8 +75,14 @@
     "static/media/axios.cjs": "/static/media/axios.22fc11ea5e9ce56fa9da.cjs",
     "static/media/fa-regular-400.eot": "/static/media/fa-regular-400.0747be4cba2f8600544f.eot",
     "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.c3146b3524e97475c094.ttf",
+    "static/media/lato-v17-latin-ext_latin-300.woff": "/static/media/lato-v17-latin-ext_latin-300.d627195ef5d923aca703.woff",
+    "static/media/lato-v17-latin-ext_latin-regular.woff": "/static/media/lato-v17-latin-ext_latin-regular.10ba787081e3803ee682.woff",
+    "static/media/lato-v17-latin-ext_latin-700.woff": "/static/media/lato-v17-latin-ext_latin-700.0421cae97d663331048e.woff",
     "static/media/primeicons.woff2": "/static/media/primeicons.78172950b335ccdb94e2.woff2",
     "static/media/dripicons-v2.woff": "/static/media/dripicons-v2.f19dcc0358afed69d277.woff",
+    "static/media/lato-v17-latin-ext_latin-regular.woff2": "/static/media/lato-v17-latin-ext_latin-regular.01a9f39134a05dc8eff9.woff2",
+    "static/media/lato-v17-latin-ext_latin-300.woff2": "/static/media/lato-v17-latin-ext_latin-300.df0b586402822891d90b.woff2",
+    "static/media/lato-v17-latin-ext_latin-700.woff2": "/static/media/lato-v17-latin-ext_latin-700.506aaf7f49928f0a3798.woff2",
     "static/media/lotusOcean-logo.png": "/static/media/lotusOcean-logo.ff8611ca3a99ef491318.png",
     "static/media/map.png": "/static/media/map.82056140ce3605dfbf34.png",
     "static/media/check.png": "/static/media/check.0e163e83492acb677d72.png",
@@ -108,8 +112,8 @@
     "static/media/spotify.svg": "/static/media/spotify.eefab5a9268d3721c294c608709c049e.svg",
     "static/media/airbnb.svg": "/static/media/airbnb.c9f6f43d5cd777ae2a2ab458fc9309de.svg",
     "static/media/adobe.svg": "/static/media/adobe.18e56447696e4920ce55f2008547dba4.svg",
-    "main.14585190.css.map": "/static/css/main.14585190.css.map",
-    "main.6d9d5822.js.map": "/static/js/main.6d9d5822.js.map",
+    "main.441b08bb.css.map": "/static/css/main.441b08bb.css.map",
+    "main.c86d2992.js.map": "/static/js/main.c86d2992.js.map",
     "904.f5474d82.chunk.js.map": "/static/js/904.f5474d82.chunk.js.map",
     "557.8d7a36c1.chunk.js.map": "/static/js/557.8d7a36c1.chunk.js.map",
     "238.02c4ca7d.chunk.js.map": "/static/js/238.02c4ca7d.chunk.js.map",
@@ -120,7 +124,7 @@
     "455.e35ed66e.chunk.js.map": "/static/js/455.e35ed66e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.14585190.css",
-    "static/js/main.6d9d5822.js"
+    "static/css/main.441b08bb.css",
+    "static/js/main.c86d2992.js"
   ]
 }

@@ -1,34 +1,28 @@
-import React from "react";
-import { CardBody, Container, Card } from "reactstrap";
-import PropTypes from 'prop-types';
+import React from "react"
+import { CardBody, Container, Card } from "reactstrap"
+import PropTypes from "prop-types"
 
-import TableDatas from "./TableDatas";
-import TicketInbox from "./TicketInbox";
-import { ToastContainer } from 'react-toastify';
+import TableDatas from "./TableDatas"
+import TicketInbox from "./TicketInbox"
+import { ToastContainer } from "react-toastify"
 
-const TicketPage = (props) => {
-    document.title = "Support Page";
-    return (
-        <>
-            <div className="page-content">
-
-                <Container fluid={true}>
-                    <Card>
-                        <CardBody>
-                            {/* <TableDatas /> */}
-                            <TicketInbox/>
-                        </CardBody>
-                    </Card>
-                    <ToastContainer />
-                </Container>
-            </div>
-        </>
-    );
+const TicketPage = props => {
+  document.title = "Support Page"
+  return (
+    <>
+      <div className="page-content">
+        <Container fluid={true}>
+          <TicketInbox />
+          <ToastContainer />
+        </Container>
+      </div>
+    </>
+  )
 }
 
 TicketPage.propTypes = {
-    preGlobalFilteredRows: PropTypes.any,
-};
+  preGlobalFilteredRows: PropTypes.any,
+}
 
 // export default withRouter(withTranslation()(StatusPage));
-export default TicketPage;
+export default TicketPage
