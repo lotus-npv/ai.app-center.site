@@ -10,8 +10,8 @@ const TicketPage = props => {
   document.title = "Support Page"
   return (
     <>
-      <div className="page-content">
-        <Container fluid={true}>
+      <div className="page-content bg-secondary">
+        <Container fluid={true} className="">
           <TicketInbox />
           <ToastContainer />
         </Container>

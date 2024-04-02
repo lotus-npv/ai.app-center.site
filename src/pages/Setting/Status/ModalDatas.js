@@ -106,11 +106,11 @@ const optionConditionMilestone = [
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { updateStatus,  setStatus, getCareerAll } from "store/actions";
+import { updateStatus,  setStatus, getStatusAll } from "store/actions";
 
 
 const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
-
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   const dispatch = useDispatch();
 
@@ -120,9 +120,9 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
     loadingUpload : state.Status.loading,
   }), shallowEqual);
 
-  useEffect(() => {
-    dispatch(getCareerAll());
-  },[dispatch]);
+  // useEffect(() => {
+  //   dispatch(getCareerAll());
+  // },[dispatch]);
 
   const [isWork, setIsWork] = useState(false);
   const { isEditStatus, setIsEditStatus } = useContext(DataContext);
@@ -131,7 +131,8 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
     enableReinitialize: true,
     initialValues: {
       id: item != null ? item.id : null,
-      name: item !== null ? item.name : null,
+      key_license_id: item != null ? item.key_license_id : user.key_license_id,
+      name: item !== null ? item.name : '',
       status_type: item !== null ? item.status_type : 'manual',
       colors: item !== null ? item.colors : null,
       condition_date: item !== null ? item.condition_date : null,
@@ -150,16 +151,13 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
       colors: Yup.string().required(
         "This value is required"
       ),
-      description: Yup.string().required(
-        "This value is required"
-      ),
     }),
     onSubmit: async (value) => {
 
       if (isEditStatus) {
         let obj = {
           id: value.id,
-          key_license_id: 1,
+          key_license_id: value.key_license_id,
           colors: value.colors,
           status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
@@ -168,16 +166,16 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
           condition_value: value.condition_value,
           description: value.description,
           create_at: value.create_at,
-          create_by: 1,
+          create_by: user.id,
           update_at: null,
-          update_by: 1,
+          update_by: user.id,
           delete_at: null,
           flag: 1
         }
         dispatch(updateStatus(obj));
       } else {
         let obj = {
-          key_license_id: 1,
+          key_license_id: value.key_license_id,
           colors: value.colors,
           status_type: value.status_type, // Có thể chỉ nhận giá trị 'manual' hoặc 'automatic'
           name: value.name,
@@ -186,9 +184,9 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
           condition_value: value.condition_value,
           description: value.description,
           create_at: value.create_at,
-          create_by: 1,
+          create_by: user.id,
           update_at: null,
-          update_by: 1,
+          update_by: user.id,
           delete_at: null,
           flag: 1,
         }
@@ -197,6 +195,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
       formik.resetForm();
       setIsWork(true);
       setIsEditStatus(false);
+      dispatch(getStatusAll());
       tog_xlarge();
     }
   });
@@ -212,33 +211,31 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
     if(isEditStatus) {
       const sw = item.status_type;
       const s = sw == 'manual' ? false : true;
-      console.log('s', s);
+      // console.log('s', s);
       setIsAuto(s);
     }
   },[isEditStatus])
 
 
-  useEffect(() => {
-    if(dataUpdateReponse) {
-      console.log('dataUpdateReponse', dataUpdateReponse);
-      if(isWork && !loadingUpload) {
-        console.log('thuc thi cac viec co id:', dataUpdateReponse);
-        setIsWork(false);
-      }
-      console.log('ko lam gi !!!!');
-    }
-  }, [ dataUpdateReponse, isWork ])
+  // useEffect(() => {
+  //   dispatch(getStatusAll());
+  //   if(dataUpdateReponse) {
+  //     if(isWork && !loadingUpload) {
+  //       setIsWork(false);
+  //     }
+  //   }
+  // }, [isWork ])
 
 
   // console.log(isEditStatus)
-  // console.log(formik.values)
+  console.log('formik',formik.values)
   // console.log('datas', datas)
   // console.log('loading', loadingCareer)
   // console.log('dataCareer', dataCareer)
 
   return (
     <>
-      <Form>
+      <form onSubmit={formik.handleSubmit}>
         <Modal className="needs-validation"
           size="xl"
           isOpen={modal_xlarge}
@@ -255,8 +252,10 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
             </h5>
             <button
               onClick={() => {
-                setmodal_xlarge(false);
                 setIsEditStatus(false);
+                formik.resetForm();
+                setIsAuto(false);
+                setmodal_xlarge(false);
               }}
               type="button"
               className="close"
@@ -401,20 +400,25 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
             <button
               type="button"
               onClick={() => {
-                tog_xlarge();
                 setIsEditStatus(false);
+                formik.resetForm();
+                setIsAuto(false);
+                tog_xlarge();
               }}
               className="btn btn-secondary "
               data-dismiss="modal"
             >
               Close
             </button>
-            <Button color="primary" onClick={handleSubmit}>
+            <Button color="primary" onClick={(e) => {
+              e.preventDefault();
+              formik.handleSubmit();
+            }}>
               Save changes
             </Button>
           </div>
         </Modal>
-      </Form>
+      </form>
     </>
   )
 }

@@ -11,9 +11,21 @@ import avatar4 from "../../../assets/images/users/avatar-4.jpg";
 //i18n
 import { withTranslation } from "react-i18next";
 
+//redux
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+
 const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false);
+
+  const dispatch = useDispatch()
+
+  const { notiData } = useSelector(
+    state => ({
+      notiData: state.Status.datas,
+    }),
+    shallowEqual
+  )
 
   return (
     <React.Fragment>

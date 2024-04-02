@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react"
-import withRouter from "components/Common/withRouter"
 import {
   Button,
   Card,
@@ -75,7 +74,7 @@ const TicketInbox = props => {
     setSkTicket,
     message,
     skTicket,
-    socket
+    socket,
   } = useContext(DataContext)
 
   //=====================================================================================================//
@@ -89,7 +88,6 @@ const TicketInbox = props => {
     setSkTicket("")
   }
   //=====================================================================================================//
-
 
   const dispatch = useDispatch()
   const {
@@ -231,7 +229,6 @@ const TicketInbox = props => {
   // lam moi du lieu
   useEffect(() => {
     if (ticketRowData) {
-      // console.log("f5 data ticket detail")
       dispatch(getTicketDetailByTicketId(ticketRowData.id))
     }
   }, [message])
@@ -239,7 +236,6 @@ const TicketInbox = props => {
   // lam moi du lieu
   useEffect(() => {
     if (user) {
-      console.log("f5 data ticket")
       dispatch(getTicketUserId(user.id))
     }
   }, [skTicket])
@@ -322,7 +318,6 @@ const TicketInbox = props => {
         delete_at: null,
         flag: 1,
       }
-      console.log("content", newTicket)
       dispatch(setTicket(newTicket))
       sendTicket(content)
       // set true de bat dau ghi vao ticketdetail
@@ -412,9 +407,6 @@ const TicketInbox = props => {
       setContent("")
       toast.success("Bạn đã phản hồi thành công!", { autoClose: 2000 })
 
-      // dispatch(getTicketDetailByTicketId(ticketRowData.id))
-      // setIsReponse(false);
-      // setmodal(!modal);
     } else {
       toast.warning("Vui lòng nhập đầy đủ thông tin !", { autoClose: 2000 })
     }
@@ -457,16 +449,11 @@ const TicketInbox = props => {
 
   return (
     <React.Fragment>
-      <div
-        className="bg-light"
-        onClick={() => {
-          // setIsReponse(false)
-        }}
-      >
+      <div>
         <Row>
           <Col xl="3" lg="12">
             <div className="d-flex justify-content-center">
-              <Card className="w-100" style={{ margin: "10px 10px 10px 10px" }}>
+              <Card className="w-100">
                 <Button
                   type="button"
                   color="danger"
@@ -575,10 +562,7 @@ const TicketInbox = props => {
               {isLoading ? (
                 <Spinners setLoading={setLoading} />
               ) : (
-                <Card
-                  className="w-100"
-                  style={{ margin: "10px 10px 10px 10px" }}
-                >
+                <Card className="w-100">
                   <TableDatas dataTable={dataTable} />
                 </Card>
               )}
@@ -702,49 +686,6 @@ const TicketInbox = props => {
                         ) : (
                           "Title"
                         )}
-                        {/* <Card className="bg-light d-flex justify-content-center">
-                          <Accordion
-                            activeIndex={0}
-                            // onTabChange={e => setActiveIndex(e.index)}
-                          >
-                            <AccordionTab
-                              header={
-                                <span className="flex align-items-center gap-2 w-full">
-                                  <span className="font-bold white-space-nowrap">
-                                    CONTENT
-                                  </span>
-                                </span>
-                              }
-                            >
-                              <div className="m-2 fw-bold">
-                                {ticketRowData != null ? (
-                                  <p
-                                    dangerouslySetInnerHTML={{
-                                      __html: ticketRowData.content,
-                                    }}
-                                  ></p>
-                                ) : (
-                                  "Content"
-                                )}
-                              </div>
-                            </AccordionTab>
-                            <AccordionTab
-                              header={
-                                <span className="flex align-items-center gap-2 w-full">
-                                  <span className="font-bold white-space-nowrap">
-                                    CHAT
-                                  </span>
-                                </span>
-                              }
-                            >
-                              <Card>
-                                <CardBody className="bg-light">
-                                  <ChatBox />
-                                </CardBody>
-                              </Card>
-                            </AccordionTab>
-                          </Accordion>
-                        </Card> */}
                       </div>
                       <ChatBox ticketDetailData={ticketDetailData} />
                       <Editor
@@ -773,16 +714,6 @@ const TicketInbox = props => {
                 )}
 
                 <div className="d-flex gap-2">
-                  {/* <Button
-                    type="button"
-                    color="secondary"
-                    onClick={() => {
-                      setIsReponse(false)
-                      setmodal(!modal)
-                    }}
-                  >
-                    Close
-                  </Button> */}
                   <Button
                     type="button"
                     color="primary"

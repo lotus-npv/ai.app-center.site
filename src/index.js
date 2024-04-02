@@ -19,9 +19,9 @@ import store from "./store"
 // import 'primereact/resources/themes/lara-light-blue/theme.css'
 // import 'primereact/resources/themes/lara-light-indigo/theme.css'
 // import 'primereact/resources/themes/lara-light-purple/theme.css'
-import 'primereact/resources/themes/soho-light/theme.css'
+// import 'primereact/resources/themes/soho-light/theme.css'
 // import 'primereact/resources/themes/viva-light/theme.css'
-// import 'primereact/resources/themes/mira/theme.css'
+import 'primereact/resources/themes/mira/theme.css'
 // import 'primereact/resources/themes/nano/theme.css'
 // import 'primereact/resources/themes/saga-blue/theme.css'
 // import "primereact/resources/themes/saga-green/theme.css"

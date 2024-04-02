@@ -187,13 +187,13 @@ const TableDatas = ({ dataTable }) => {
   const [vh, setVh] = useState(null)
   window.addEventListener("resize", function () {
     var screenHeight = window.innerHeight
-    let wh = screenHeight - 190
+    let wh = screenHeight - 125
     setVh(`${wh}px`)
     // setWindowHeight(screenHeight);
   })
 
   useEffect(() => {
-    let wh = screenAvailHeight - 190
+    let wh = screenAvailHeight - 125
     setVh(`${wh}px`)
   }, [])
 

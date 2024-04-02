@@ -58,12 +58,12 @@ const Status = (state = INIT_STATE, action) => {
         ...state,
         data: action.payload,
       };
-
     case SET_STATUS_FAIL:
       return {
         ...state,
         error: action.payload,
       };
+
     case UPDATE_STATUS:
       return {
         ...state,
@@ -81,6 +81,7 @@ const Status = (state = INIT_STATE, action) => {
         loading: false,
         error: action.payload,
       };
+      
     case DELETE_STATUS_SUCCESS:
       return {
         ...state,

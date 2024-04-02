@@ -19,12 +19,12 @@ const InternPage = () => {
     <>
       <div className="page-content">
         <Container fluid={true}>
-          <Card>
+          {/* <Card> */}
             <ToastContainer />
-            <CardBody>
+            {/* <CardBody> */}
               <TableDatas />
-            </CardBody>
-          </Card>
+            {/* </CardBody> */}
+          {/* </Card> */}
         </Container>
       </div>
     </>

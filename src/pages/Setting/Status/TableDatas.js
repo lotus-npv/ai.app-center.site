@@ -55,12 +55,10 @@ const TableDatas = () => {
     dispatch(getStatusAll())
   }, [dispatch])
 
-  // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(getStatusAll())
     }, 10000)
-    // Hàm dọn dẹp khi unmount
     return () => {
       clearInterval(intervalId)
     }

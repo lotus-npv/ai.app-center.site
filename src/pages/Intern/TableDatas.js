@@ -47,7 +47,7 @@ FilterService.register("custom_activity", (value, filters) => {
 
 const TableDatas = props => {
   const { t } = useTranslation()
-  const user = JSON.parse(localStorage.getItem("authUser"))[0];
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   // data context
   const {
@@ -79,7 +79,7 @@ const TableDatas = props => {
     alienCardData,
     statusOfResidenceData,
     violateTypeData,
-    usersData
+    usersData,
   } = useSelector(
     state => ({
       internDataAllInfo: state.Intern.datas,
@@ -89,7 +89,7 @@ const TableDatas = props => {
       alienCardData: state.AlienRegistrationCard.datas,
       statusOfResidenceData: state.StatusOfResidence.datas,
       violateTypeData: state.ViolateType.datas,
-      usersData: state.Users.datas
+      usersData: state.Users.datas,
     }),
     shallowEqual
   )
@@ -162,7 +162,6 @@ const TableDatas = props => {
     })
   }
 
-
   const exportExcel = () => {
     import("xlsx").then(xlsx => {
       const worksheet = xlsx.utils.json_to_sheet(dataTable)
@@ -208,9 +207,11 @@ const TableDatas = props => {
       console.log("delete id :" + item.id)
       dispatch(deleteIntern(item.id))
 
-      // tim xem intern co tk trong he thong hay khong, neu co thi xoa 
-      const acc = usersData.find(u => u.object_id = item.id && u.object_type == 'intern')
-      if(acc) {
+      // tim xem intern co tk trong he thong hay khong, neu co thi xoa
+      const acc = usersData.find(
+        u => (u.object_id = item.id && u.object_type == "intern")
+      )
+      if (acc) {
         dispatch(deleteUsers(acc.id))
       }
       setDeleteModal(false)
@@ -474,7 +475,12 @@ const TableDatas = props => {
           dataKey="id"
           filters={filters}
           filterDisplay="row"
-          globalFilterFields={["label", "factory_name_jp", "company_name_jp", "sor_name"]}
+          globalFilterFields={[
+            "label",
+            "factory_name_jp",
+            "company_name_jp",
+            "sor_name",
+          ]}
           header={header}
           emptyMessage="Không tìm thấy kết quả phù hợp."
           tableStyle={{ minWidth: "50rem" }}
