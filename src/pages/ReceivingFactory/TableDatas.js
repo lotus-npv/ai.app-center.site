@@ -47,7 +47,7 @@ FilterService.register("custom_activity", (value, filters) => {
 
 const TableDatas = props => {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
   const {
@@ -398,8 +398,8 @@ const TableDatas = props => {
         scrollable
         scrollHeight={vh}
         size={"small"}
-        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+      // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+      // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column
           selectionMode="multiple"
@@ -412,7 +412,7 @@ const TableDatas = props => {
           body={nameBodyTemplate}
           filterField="nam_jp"
           filter
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder={t('Receiving Factory Name (English)')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
