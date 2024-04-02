@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap"
@@ -7,17 +7,24 @@ import SimpleBar from "simplebar-react"
 //Import images
 import avatar3 from "../../../assets/images/users/avatar-3.jpg"
 import avatar4 from "../../../assets/images/users/avatar-4.jpg"
-
+import DataContext from "data/DataContext"
 //i18n
 import { withTranslation } from "react-i18next"
+import ModalNoti from "./ModalNoti"
+
+import moment from "moment"
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
-import { getNotiUserId } from "store/actions"
+import { getNotiUserId, updateNoti } from "store/actions"
 
 const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"
   const [menu, setMenu] = useState(false)
+
+  // data context
+  const { modal_noti, setmodal_noti,tog_modal_noti, } =
+    useContext(DataContext)
 
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
@@ -45,8 +52,16 @@ const NotificationDropdown = props => {
     }
   }, [])
 
-  const handleWatchNoti = () => {
-
+  const [selectNoti, setSelectNoti] = useState()
+  const handleWatchNoti = noti => {
+    const newNoti = {
+      ...noti,
+      watched: 1,
+    }
+    dispatch(updateNoti(newNoti))
+    setSelectNoti(newNoti)
+    tog_modal_noti();
+    dispatch(getNotiUserId(user.id))
   }
 
   console.log("notidata:", notiData)
@@ -65,7 +80,11 @@ const NotificationDropdown = props => {
           id="page-header-notifications-dropdown"
         >
           <i className="bx bx-bell bx-tada" />
-          <span className="badge bg-danger rounded-pill">{notiData.length}</span>
+          {notiData.length > 0 && (
+            <span className="badge bg-danger rounded-pill">
+              {notiData.length}
+            </span>
+          )}
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0">
@@ -85,9 +104,14 @@ const NotificationDropdown = props => {
 
           <SimpleBar style={{ height: "230px" }}>
             {notiData.map(noti => (
-              <Link to="" className="text-reset notification-item" key={noti.id} onClick={() => {
-                handleWatchNoti(noti);
-              }}>
+              <Link
+                to=""
+                className="text-reset notification-item"
+                key={noti.id}
+                onClick={() => {
+                  handleWatchNoti(noti)
+                }}
+              >
                 <div className="d-flex">
                   <div className="avatar-xs me-3">
                     <span className="avatar-title bg-primary rounded-circle font-size-16">
@@ -95,16 +119,14 @@ const NotificationDropdown = props => {
                     </span>
                   </div>
                   <div className="flex-grow-1">
-                    <h6 className="mt-0 mb-1">
-                      {props.t(noti.title)}
-                    </h6>
+                    <h6 className="mt-0 mb-1">{props.t(noti.title)}</h6>
                     <div className="font-size-12 text-muted">
-                      <p className="mb-1">
-                        {props.t(noti.content)}
-                      </p>
+                      <p className="mb-1">{props.t(noti.content)}</p>
                       <p className="mb-0">
                         <i className="mdi mdi-clock-outline" />{" "}
-                        {props.t("3 min ago")}{" "}
+                        {moment(noti.date_noti)
+                          .utc("+09:00")
+                          .format("HH:mm MM/DD/YYYY")}
                       </p>
                     </div>
                   </div>
@@ -123,6 +145,7 @@ const NotificationDropdown = props => {
           </div>
         </DropdownMenu>
       </Dropdown>
+      <ModalNoti noti={selectNoti}/>
     </React.Fragment>
   )
 }

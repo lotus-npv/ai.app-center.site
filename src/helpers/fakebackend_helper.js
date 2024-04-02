@@ -201,7 +201,8 @@ export const deleteDataCommune = (id) =>    del(`${url.DELETE_COMMUNE}/${id}`, {
 // notification
 export const getNotiDataAll = (id) =>      get(`${url.GET_NOTI_ALL}/${id}`,{ params: { id } }, config);
 export const getNotiDataByUserId = (id) => get(`${url.GET_NOTI_BY_USER_ID}/${id}`,{ params: { id } }, config);
-export const addNewNoti = (data) =>       post(url.SET_NOTI, data, config);
+export const addNewDataNoti = (data) =>       post(url.SET_NOTI, data, config);
+export const updateDataNoti = (data) =>       put(url.UPDATE_NOTI, data, config);
 
 
 // Gets the logged in user data from local session
