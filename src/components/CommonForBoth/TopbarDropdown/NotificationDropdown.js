@@ -59,12 +59,12 @@ const NotificationDropdown = props => {
       watched: 1,
     }
     dispatch(updateNoti(newNoti))
+    dispatch(getNotiUserId(user.id))
     setSelectNoti(newNoti)
     tog_modal_noti();
-    dispatch(getNotiUserId(user.id))
   }
 
-  console.log("notidata:", notiData)
+  // console.log("notidata:", notiData)
 
   return (
     <React.Fragment>
@@ -145,7 +145,7 @@ const NotificationDropdown = props => {
           </div>
         </DropdownMenu>
       </Dropdown>
-      <ModalNoti noti={selectNoti}/>
+      <ModalNoti noti={selectNoti} user={user}/>
     </React.Fragment>
   )
 }

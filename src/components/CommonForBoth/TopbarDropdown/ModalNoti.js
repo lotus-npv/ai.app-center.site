@@ -9,18 +9,19 @@ import {
   Input,
   Button,
 } from "reactstrap"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import moment from "moment"
 // import context
 import DataContext from "data/DataContext"
 import { useTranslation } from "react-i18next"
-import avata2 from '../../../assets/images/icon/text.png'
+import avata2 from "../../../assets/images/icon/text.png"
 
-const ModalNoti = ({noti}) => {
+const ModalNoti = ({ noti, user }) => {
   const { t } = useTranslation()
 
   // data context
   const { modal_noti, setmodal_noti, tog_modal_noti } = useContext(DataContext)
-  console.log(noti);
+//   console.log(noti)
 
   return (
     <>
@@ -56,30 +57,32 @@ const ModalNoti = ({noti}) => {
                   alt="skote"
                 />
                 <div className="flex-grow-1">
-                  <h5 className="font-size-14 mt-1">{noti != null ? noti.title : ''}</h5>
-                  <small className="text-muted">support@domain.com</small>
+                  <h5 className="font-size-14 mt-1">
+                    {noti != null ? noti.title : ""}
+                  </h5>
+                  <small className="text-muted">
+                    {user != null ? user.username : ""}
+                  </small>
                 </div>
               </div>
-
-              <h4 className="mt-0 font-size-16">
-                This Week&apos;s Top Stories
-              </h4>
-
-              <p>Dear Lorem Ipsum,</p>
-              <p>
-                Praesent dui ex, dapibus eget mauris ut, finibus vestibulum
-                enim. Quisque arcu leo, facilisis in fringilla id, luctus in
-                tortor. Nunc vestibulum est quis orci varius viverra. Curabitur
-                dictum volutpat massa vulputate molestie. In at felis ac velit
-                maximus convallis.
-              </p>
-              <p>Sincerly,</p>
               <hr />
+              <p>{noti != null ? noti.content : ""}</p>
+              <p>
+                <i className="mdi mdi-clock-outline" />{" "}
+                {noti != null ? moment(noti.date_noti)
+                  .utc("+09:00")
+                  .format("HH:mm MM/DD/YYYY") : '00-00-00'}
+              </p>
+
             </CardBody>
           </Card>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-primary ">
+          <button
+            type="button"
+            className="btn btn-primary "
+            onClick={tog_modal_noti}
+          >
             {t("Close")}
           </button>
         </div>
