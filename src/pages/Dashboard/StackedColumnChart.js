@@ -5,7 +5,7 @@ import getChartColorsArray from "../../components/Common/ChartsDynamicColor";
 
 const StackedColumnChart = ({ dataColors, periodData }) => {
 
-  console.log(periodData);
+  // console.log(periodData);
   const stackedColumnChartColors = getChartColorsArray(dataColors);
   const options = {
     chart: {

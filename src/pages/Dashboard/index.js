@@ -277,7 +277,7 @@ const Dashboard = props => {
       return cp;
     })
 
-    console.log(newarr);
+    // console.log(newarr);
 
     setCharstByCompany(newarr)
   }, [dataCompany, dataIntern])
@@ -297,10 +297,29 @@ const Dashboard = props => {
       }
     }
   }
-  //=====================================================================
+  //=====================================================================//
+
+  // Lay data so luong tts theo quoc gia theo thang
+  // map theo danh sach quoc gia
+  // tao vong lap tu thang 1 den 12
+  // tim trong moi thang co bao nhieu tts nhap canh
+  const months = [1,2,3,4,5,6,7,8,9,10,11,12];
+  useEffect(() => {
+    const arr = NationList.map(nation => {
+      const arrData = {name: nation.country, data: []};
+      months.forEach(month => {
+        dataIntern.forEach(intern => {
+          // if(intern)
+        })
+      })
+
+
+    })
+  }, [])
+
 
   // console.log(dataCompany);
-  // console.log("dataIntern", dataIntern)
+  console.log("dataIntern", dataIntern)
   // console.log('user', user);
 
   //meta title
