@@ -48,7 +48,7 @@ const Dashboard = props => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   const { NationList, loadData, setLoadData } = useContext(DataContext)
-
+  const navigator = useNavigate();
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
     selectDashboardState,
@@ -265,8 +265,8 @@ const Dashboard = props => {
       })
 
     
-      console.log("newarr", newarr)
-      
+      // console.log("newarr", newarr)
+
       setDataCharst(newarr)
       setPeriodData(chartsData)
     }
@@ -290,8 +290,8 @@ const Dashboard = props => {
   //=====================================================================
 
   // console.table(dataCompany);
-  console.log("dataIntern", dataIntern)
-  console.log('user', user);
+  // console.log("dataIntern", dataIntern)
+  // console.log('user', user);
 
   //meta title
   document.title = "Dashboard"
@@ -322,8 +322,8 @@ const Dashboard = props => {
               <Row>
                 {/* Reports Render */}
                 {reportss.map((report, key) => (
-                  <Col md="4" key={"_col_" + key} className="mb-2">
-                    <Card className="mini-stats-wid h-100">
+                  <Col md="4" key={"_col_" + key} className="mb-2 cursor">
+                    <Card className="mini-stats-wid h-100" style={{cursor: 'pointer'}} onClick={() => navigator('/intern')}>
                       <CardBody className="d-flex justify-content-between">
                         <div className="d-flex gap-4 justify-content-start ">
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">

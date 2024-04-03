@@ -167,8 +167,10 @@ const SidebarContent = props => {
 
   function tToggle() {
     var body = document.body;
-    console.log('toggle');
-    if (window.screen.width <= 998) {
+    console.log(window.innerWidth);
+    if (window.innerWidth <= 998) {
+      console.log('toggle');
+      // body.classList.remove('sidebar-enable')
       body.classList.toggle("sidebar-enable");
       body.classList.toggle("vertical-collpsed");
     } else {

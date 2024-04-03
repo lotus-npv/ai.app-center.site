@@ -951,7 +951,7 @@ const ModalDatas = ({
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
-  console.log("formik:", formik.values)
+  // console.log("formik:", formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('user:', user.object_type)
   // console.log('isEditIntern:', isEditIntern)
