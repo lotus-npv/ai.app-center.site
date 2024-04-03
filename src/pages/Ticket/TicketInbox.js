@@ -452,7 +452,7 @@ const TicketInbox = props => {
       <div>
         <Row>
           <Col xl="3" lg="12">
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center h-100">
               <Card className="w-100">
                 <Button
                   type="button"

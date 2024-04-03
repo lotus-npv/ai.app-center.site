@@ -165,6 +165,18 @@ const SidebarContent = props => {
     }
   }
 
+  function tToggle() {
+    var body = document.body;
+    console.log('toggle');
+    if (window.screen.width <= 998) {
+      body.classList.toggle("sidebar-enable");
+      body.classList.toggle("vertical-collpsed");
+    } else {
+      // body.classList.toggle("sidebar-enable");
+    }
+
+  }
+
   return (
     <React.Fragment>
       <SimpleBar className="h-100" ref={ref}>
@@ -173,7 +185,9 @@ const SidebarContent = props => {
             <li className="menu-title">{props.t("Menu")} </li>
             {isShow[0]  && (
               <li>
-                <Link to="/dashboard">
+                <Link to="/dashboard" onClick={() => {
+                tToggle();
+              }}>
                   <i className="bx bxs-report"></i>
                   <span>{props.t("Report")}</span>
                 </Link>
@@ -181,7 +195,9 @@ const SidebarContent = props => {
             )}
             {isShow[1] && (
               <li>
-                <Link to="/intern">
+                <Link to="/intern" onClick={() => {
+                tToggle();
+              }}>
                   <i className="mdi mdi-account-group"></i>
                   <span>{props.t("Intern")}</span>
                 </Link>
@@ -189,7 +205,9 @@ const SidebarContent = props => {
             )}
             {isShow[2] && (
               <li>
-                <Link to="/syndication">
+                <Link to="/syndication" onClick={() => {
+                tToggle();
+              }}> 
                   <i className="bx bx-buildings"></i>
                   <span>{props.t("Syndication")}</span>
                 </Link>
@@ -197,7 +215,9 @@ const SidebarContent = props => {
             )}
             {isShow[3] && (
               <li>
-                <Link to="/receiving-factory">
+                <Link to="/receiving-factory" onClick={() => {
+                tToggle();
+              }}>
                   <i className="bx bx-buildings"></i>
                   <span>{props.t("Receiving Factory")}</span>
                 </Link>
@@ -205,7 +225,7 @@ const SidebarContent = props => {
             )}
             {isShow[4] && (
               <li>
-                <Link to="/dispatching-company">
+                <Link to="/dispatching-company" onClick={tToggle}>
                   <i className="mdi mdi-google-earth"></i>
                   <span>{props.t("Dispatching Company")}</span>
                 </Link>
@@ -221,7 +241,7 @@ const SidebarContent = props => {
             )} */}
             {isShow[6] && (
               <li>
-                <Link to="/violate">
+                <Link to="/violate" onClick={tToggle}>
                   <i className="bx bx-error"></i>
                   <span>{props.t("Violation List")}</span>
                 </Link>
@@ -230,7 +250,7 @@ const SidebarContent = props => {
 
             {isShow[7] && (
               <li>
-                <Link to="/ticket">
+                <Link to="/ticket" onClick={tToggle}>
                   <i className="bx bx-support"></i>
                   <span>{props.t("Support")}</span>
                 </Link>
@@ -245,11 +265,11 @@ const SidebarContent = props => {
                 <ul className="sub-menu">
                 {isShow[8] && (user.role == 'admin') && (
                   <li>
-                    <Link to="/pages-status">{props.t("Status")}</Link>
+                    <Link to="/pages-status" onClick={tToggle}>{props.t("Status")}</Link>
                   </li>)}
                   {isShow[9] && (user.role == 'admin') && (
                   <li>
-                    <Link to="/pages-career">{props.t("Industry")}</Link>
+                    <Link to="/pages-career" onClick={tToggle}>{props.t("Industry")}</Link>
                   </li>)}
                 </ul>
               </li>

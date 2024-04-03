@@ -150,20 +150,20 @@ const Dashboard = props => {
 
   const reports = [
     {
-      title: "The item needing support has not been processed yet",
-      iconClass: "bx bx-support",
+      title: "The item needing support",
+      iconClass: "bx-support",
       description: "0",
       value: 1,
     },
     {
       title: "The intern's visa is about to expire",
-      iconClass: "bx bx-user",
+      iconClass: "bx-user",
       description: "0",
       value: 2,
     },
     {
       title: "Interns are about to enter the country",
-      iconClass: "bx bx-user",
+      iconClass: "bx-user",
       description: "0",
       value: 3,
     },
@@ -314,7 +314,7 @@ const Dashboard = props => {
                             <span className="avatar-title rounded-circle bg-primary">
                               <i
                                 className={
-                                  "bx " + report.iconClass + " font-size-24"
+                                  "bx " + report.iconClass + " font-size-20"
                                 }
                               ></i>
                             </span>
