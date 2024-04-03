@@ -255,24 +255,27 @@ const TableDatas = props => {
 
   // cap nhat data moi khi chuyen doi tab
   const getListInternStatus = key => {
-    const arr = addressData.filter(item => item.nation_id == key)
-    const newList = companyData
-      .filter(company =>
-        arr.some(
-          item =>
-            item.object_id == company.id &&
-            item.user_type == "dispatching_company"
-        )
-      )
-      .map(company => {
-        return {
-          ...company,
-          date_of_joining_syndication: moment(
-            company.date_of_joining_syndication
-          ).format("YYYY-MM-DD"),
+    // lay ra duoc cac dia theo quoc gia
+    const arr = addressData.filter(item => item.nation_id == key && item.user_type == 'dispatching_company')
+    console.log('arr', arr);
+    if(arr) {
+      const newarr = arr.map(dc => {
+        const dcInfo = companyData.find(company => company.id == dc.object_id && dc.user_type == 'dispatching_company')
+        if(dcInfo) {
+          return {
+            ...dc,
+            name_jp: dcInfo.name_jp,
+            date_of_joining_syndication: moment(
+              dcInfo.date_of_joining_syndication
+            ).format("YYYY-MM-DD"),
+          }
+        } else {
+          return dc;
         }
       })
-    setDataTable(newList)
+      setDataTable(newarr)
+    }
+    
   }
 
   useEffect(() => {

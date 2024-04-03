@@ -272,37 +272,39 @@ const TableDatas = props => {
 
   // Xu ly du lieu khi nguoi dung chuyen tab
   const getListInternStatus = key => {
-    // const idStatus = statusData.find(item => item.name == key).id;
-    const arr = addressData.filter(item => item.province_id == key)
-    // console.log("arr:", arr)
-    const newList = factoryData
-      .filter(factory =>
-        arr.some(
-          item =>
-            item.object_id == factory.id &&
-            item.user_type == "receiving_factory"
-        )
-      )
-      .map(factory => {
-        return {
-          ...factory,
-          date_of_joining_syndication: moment(
-            factory.date_of_joining_syndication
-          ).format("YYYY-MM-DD"),
+    // lay ra duoc cac dia theo quoc gia
+    const arr = addressData.filter(item => item.nation_id == key && item.user_type == 'receiving_factory')
+    console.log('arr', arr);
+    if(arr) {
+      const newarr = arr.map(dc => {
+        const dcInfo = factoryData.find(company => company.id == dc.object_id && dc.user_type == 'receiving_factory')
+        if(dcInfo) {
+          return {
+            ...dc,
+            name_jp: dcInfo.name_jp,
+            date_of_joining_syndication: moment(
+              dcInfo.date_of_joining_syndication
+            ).format("YYYY-MM-DD"),
+          }
+        } else {
+          return dc;
         }
       })
-
-    setDataTable(newList)
+      setDataTable(newarr)
+    }
   }
 
   useEffect(() => {
     if (customActiveTab.value === "All") {
       const arr = factoryData.map(factory => {
+        const addressDefault = addressData.find(add => add.object_id == factory.id && add.user_type == 'receiving_factory' && add.is_default == 1)
         return {
           ...factory,
           date_of_joining_syndication: moment(
             factory.date_of_joining_syndication
           ).format("YYYY-MM-DD"),
+          phone_number: addressDefault.phone_number,
+          email: addressDefault.email,
         }
       })
       setDataTable(arr)
@@ -363,7 +365,8 @@ const TableDatas = props => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  // console.log('dataTable:', dataTable);
+  console.log('addressData:', addressData);
+  console.log('factoryData:', factoryData);
 
   return (
     <div className="card">
@@ -411,6 +414,15 @@ const TableDatas = props => {
           filterField="factory_name_jp"
           filter
           filterPlaceholder={t('Search By Name')}
+          sortable
+          style={{ minWidth: "12rem" }}
+        ></Column>
+         <Column
+          field="email"
+          header="Email"
+          filterField="email"
+          filter
+          filterPlaceholder="Tìm kiếm"
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>

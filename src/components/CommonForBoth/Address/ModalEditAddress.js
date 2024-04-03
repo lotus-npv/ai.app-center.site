@@ -44,13 +44,16 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
 
   const dispatch = useDispatch()
 
-  const {
+  let {
     provinceDataByNationId,
     districtDataByProvinceId,
     communeDataByDistrictId,
     provinceDataId,
     districtDataId,
     communeDataId,
+    provinceLoading,
+    districtLoading,
+    communeLoading
   } = useSelector(
     state => ({
       provinceDataByNationId: state.Province.dataByNationId,
@@ -59,6 +62,9 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
       provinceDataId: state.Province.dataId,
       districtDataId: state.District.dataId,
       communeDataId: state.Commune.dataId,
+      provinceLoading: state.Commune.loading,
+      districtLoading: state.Commune.loading,
+      communeLoading: state.Commune.loading,
     }),
     shallowEqual
   )
@@ -95,7 +101,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
   const [communeOptions, setCommuneOptions] = useState(communeDataByDistrictId)
 
   useEffect(() => {
-    if(provinceDataId && districtDataId && communeDataId && loadDone ) {
+    if(provinceDataId && districtDataId && communeDataId && loadDone && !communeLoading && !provinceLoading && !districtLoading) {
       setSelectProvince(provinceDataId[0]);
       setSelectDistrict(districtDataId[0]);
       setSelectCommune(communeDataId[0]);
@@ -174,7 +180,8 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
   }
 
   // console.log('address', address)
-  // console.log("communeDataId", communeDataId)
+  console.log("provinceDataId", provinceDataId)
+  console.log("communeLoading", communeLoading)
   // console.log('address', address)
 
   return (
