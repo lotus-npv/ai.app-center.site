@@ -167,7 +167,7 @@ const SidebarContent = props => {
 
   function tToggle() {
     var body = document.body;
-    console.log(window.innerWidth);
+    // console.log(window.innerWidth);
     if (window.innerWidth <= 998) {
       console.log('toggle');
       // body.classList.remove('sidebar-enable')

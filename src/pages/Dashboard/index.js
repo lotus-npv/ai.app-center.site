@@ -48,7 +48,7 @@ const Dashboard = props => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   const { NationList, loadData, setLoadData } = useContext(DataContext)
-  const navigator = useNavigate();
+  const navigator = useNavigate()
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
     selectDashboardState,
@@ -261,10 +261,15 @@ const Dashboard = props => {
             idIntern.push(intern.id)
           }
         })
-        return newData;
+
+        const numberViolate = dataViolate.filter(violate =>
+          idIntern.some(id => id == violate.intern_id)
+        )
+        newData.violate = numberViolate.length
+
+        return newData
       })
 
-    
       // console.log("newarr", newarr)
 
       setDataCharst(newarr)
@@ -323,7 +328,11 @@ const Dashboard = props => {
                 {/* Reports Render */}
                 {reportss.map((report, key) => (
                   <Col md="4" key={"_col_" + key} className="mb-2 cursor">
-                    <Card className="mini-stats-wid h-100" style={{cursor: 'pointer'}} onClick={() => navigator('/intern')}>
+                    <Card
+                      className="mini-stats-wid h-100"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => navigator("/intern")}
+                    >
                       <CardBody className="d-flex justify-content-between">
                         <div className="d-flex gap-4 justify-content-start ">
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -397,7 +406,9 @@ const Dashboard = props => {
                         <div id="donut-chart">
                           <ReactApexChart
                             options={{
-                              labels: dataCharst ? dataCharst.map(item => item.country) : null,
+                              labels: dataCharst
+                                ? dataCharst.map(item => item.country)
+                                : null,
                               colors: apexsalesAnalyticsChartColors,
                               legend: { show: !1 },
                               plotOptions: {
