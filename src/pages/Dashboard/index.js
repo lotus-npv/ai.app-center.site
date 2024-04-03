@@ -44,6 +44,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { createSelector } from "reselect"
 
 import DataContext from "data/DataContext"
+import moment from "moment"
 
 const Dashboard = props => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
@@ -60,7 +61,7 @@ const Dashboard = props => {
 
   const { chartsData } = useSelector(DashboardProperties)
   const [periodData, setPeriodData] = useState([])
-  const [periodType, setPeriodType] = useState("yearly")
+  const [periodType, setPeriodType] = useState("monthly")
 
   const [isMonth, setIsMonth] = useState(
     "btn-group btn-group-sm  d-flex justify-center  d-none"
@@ -74,7 +75,7 @@ const Dashboard = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(onGetChartsData("yearly"))
+    dispatch(onGetChartsData("monthly"))
   }, [dispatch])
 
   // get intern data
@@ -218,12 +219,11 @@ const Dashboard = props => {
 
   // Charst
   const dataColors =
-    '["--bs-primary", "--bs-primary-2", "--bs-info", "--bs-secondary"]'
+    '["--bs-primary", "--bs-primary-2", "--bs-secondary", "--bs-secondary"]'
   const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors)
   const iconColors = ["primary", "primary-2", "info", "secondary"]
 
   const [dataCharst, setDataCharst] = useState([])
- 
 
   // danh sach intern => link bảng address
   useEffect(() => {
@@ -249,23 +249,27 @@ const Dashboard = props => {
       // console.log("newarr", newarr)
 
       setDataCharst(newarr)
-      setPeriodData(chartsData)
     }
   }, [dataIntern, dataAddress])
-
 
   // lay danh sach tts theo phai cu
   const [charstByCompany, setCharstByCompany] = useState()
   useEffect(() => {
     // lay danh sach phai cu
-    const arr = dataCompany.filter(company => company.key_license_id == user.key_license_id);
+    const arr = dataCompany.filter(
+      company => company.key_license_id == user.key_license_id
+    )
     // console.log(arr);
     const newarr = arr.map(company => {
-      const cp = {name: company.name_jp, numberOfIntern: 0, numberOfViolate: 0};
+      const cp = {
+        name: company.name_jp,
+        numberOfIntern: 0,
+        numberOfViolate: 0,
+      }
       const idIntern = []
       dataIntern.forEach(intern => {
-        if(intern.dispatching_company_id == company.id) {
-          cp.numberOfIntern++;
+        if (intern.dispatching_company_id == company.id) {
+          cp.numberOfIntern++
           idIntern.push(intern.id)
         }
       })
@@ -274,7 +278,7 @@ const Dashboard = props => {
         idIntern.some(id => id == violate.intern_id)
       ).length
 
-      return cp;
+      return cp
     })
 
     // console.log(newarr);
@@ -284,7 +288,10 @@ const Dashboard = props => {
 
   const handleLink = value => {
     if (value == 1) {
-      return "/ticket"
+      return {
+        pathname: "/ticket",
+        state: { tab: "ticket new" },
+      }
     } else if (value == 2) {
       return {
         pathname: "/intern",
@@ -303,23 +310,31 @@ const Dashboard = props => {
   // map theo danh sach quoc gia
   // tao vong lap tu thang 1 den 12
   // tim trong moi thang co bao nhieu tts nhap canh
-  const months = [1,2,3,4,5,6,7,8,9,10,11,12];
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   useEffect(() => {
     const arr = NationList.map(nation => {
-      const arrData = {name: nation.country, data: []};
+      const arrData = { name: nation.country, data: [] }
       months.forEach(month => {
+        let quantity = 0
         dataIntern.forEach(intern => {
-          // if(intern)
+          if (
+            moment(intern.entry_date).format("MM") == month &&
+            intern.country == nation.country
+          ) {
+            quantity++
+          }
         })
+        arrData.data.push(quantity)
       })
 
-
+      return arrData
     })
-  }, [])
-
+    // console.log(arr);
+    setPeriodData(arr)
+  }, [dataIntern])
 
   // console.log(dataCompany);
-  console.log("dataIntern", dataIntern)
+  // console.log("dataIntern", dataIntern)
   // console.log('user', user);
 
   //meta title
@@ -355,7 +370,7 @@ const Dashboard = props => {
                     <Card
                       className="mini-stats-wid h-100"
                       style={{ cursor: "pointer" }}
-                      onClick={() => navigator("/intern")}
+                      onClick={() => navigator(handleLink(report.value).pathname)}
                     >
                       <CardBody className="d-flex justify-content-between">
                         <div className="d-flex gap-4 justify-content-start ">
@@ -552,7 +567,7 @@ const Dashboard = props => {
                       {/* <div className="clearfix"></div> */}
                       <StackedColumnChart
                         periodData={periodData}
-                        dataColors='["--bs-primary", "--bs-warning", "--bs-success"]'
+                        dataColors='["--bs-primary", "--bs-warning", "--bs-info"]'
                       />
                     </CardBody>
                   </Card>

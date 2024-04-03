@@ -11,6 +11,7 @@ import DataContext from "data/DataContext"
 //i18n
 import { withTranslation } from "react-i18next"
 import ModalNoti from "./ModalNoti"
+import _ from 'lodash'
 
 import moment from "moment"
 
@@ -52,6 +53,13 @@ const NotificationDropdown = props => {
     }
   }, [])
 
+  const [dataShow, setDataShow] = useState()
+  useEffect(() => {
+    if(notiData) {
+      setDataShow(_.sortBy(notiData, noti => -noti.date_noti))
+    }
+  }, [notiData])
+
   const [selectNoti, setSelectNoti] = useState()
   const handleWatchNoti = noti => {
     const newNoti = {
@@ -64,7 +72,7 @@ const NotificationDropdown = props => {
     tog_modal_noti();
   }
 
-  // console.log("notidata:", notiData)
+  console.log("notidata:", notiData)
 
   return (
     <React.Fragment>
@@ -103,7 +111,7 @@ const NotificationDropdown = props => {
           </div>
 
           <SimpleBar style={{ height: "230px" }}>
-            {notiData.map(noti => (
+            {dataShow.map(noti => (
               <Link
                 to=""
                 className="text-reset notification-item"
@@ -115,11 +123,11 @@ const NotificationDropdown = props => {
                 <div className="d-flex">
                   <div className="avatar-xs me-3">
                     <span className="avatar-title bg-primary rounded-circle font-size-16">
-                      <i className="mdi mdi-email-outline" />
+                      {noti.watched == 1 ?  <i className="mdi mdi-email-newsletter" /> : <i className="mdi mdi-email-check" />}
                     </span>
                   </div>
                   <div className="flex-grow-1">
-                    <h6 className="mt-0 mb-1">{props.t(noti.title)}</h6>
+                    <h6 className={`mt-0 mb-1 ${noti.watched == 1 ? 'fw-bold' : ''}`}>{props.t(noti.title)}</h6>
                     <div className="font-size-12 text-muted">
                       <p className="mb-1">{props.t(noti.content)}</p>
                       <p className="mb-0">

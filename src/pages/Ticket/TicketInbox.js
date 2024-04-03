@@ -459,7 +459,7 @@ const TicketInbox = props => {
                           setIsOutbox(false)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư
+                        <i className="mdi mdi-email-receive-outline me-2"></i> Hộp thư
                         đến{" "}
                         <span className="ml-1 float-end fw-bold">
                           ({counters[0]})
@@ -478,7 +478,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư
+                        <i className="mdi mdi-email-send-outline me-2"></i> Hộp thư
                         đi{" "}
                         <span className="ml-1 float-end">({counters[4]})</span>
                       </NavLink>
@@ -495,7 +495,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-star-outline me-2"></i>Mới
+                        <i className="mdi mdi-email-newsletter me-2"></i>Mới
                         <span className="ml-1 float-end">({counters[1]})</span>
                       </NavLink>
                     </NavItem>
@@ -511,7 +511,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-diamond-stone me-2"></i>Đang xử lý
+                        <i className="mdi mdi-email-sync me-2"></i>Đang xử lý
                         <span className="ml-1 float-end">({counters[2]})</span>
                       </NavLink>
                     </NavItem>
@@ -527,7 +527,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-file-outline me-2"></i>Đã hoàn
+                        <i className="mdi mdi-email-check-outline me-2"></i>Đã hoàn
                         thành
                         <span className="ml-1 float-end">({counters[3]})</span>
                       </NavLink>

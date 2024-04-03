@@ -3,16 +3,8 @@ import { FilterMatchMode, FilterService } from "primereact/api"
 import { DataTable } from "primereact/datatable"
 import { Column } from "primereact/column"
 import { Button } from "primereact/button"
-// import { TabMenu } from 'primereact/tabmenu';
-import { Avatar } from "primereact/avatar"
 import { InputText } from "primereact/inputtext"
-import { TabView, TabPanel } from "primereact/tabview"
-import moment from "moment"
-
-import { Nav, NavItem, NavLink, Row, Col, Button as ButtonRS } from "reactstrap"
-import classnames from "classnames"
 import { Badge } from "reactstrap"
-import { Badge as BadgePrime } from "primereact/badge"
 import DataContext from "data/DataContext"
 import DeleteModal from "components/Common/DeleteModal"
 import { withTranslation } from "react-i18next"
@@ -33,11 +25,6 @@ const TableDatas = ({ dataTable }) => {
 
   // data context
   const {
-    modal_xlarge,
-    setmodal_xlarge,
-    tog_xlarge,
-    isEditViolate,
-    setIsEditViolate,
     modal,
     setmodal,
     ticketRowData,

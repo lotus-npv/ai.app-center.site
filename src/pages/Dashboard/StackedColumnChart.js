@@ -11,7 +11,7 @@ const StackedColumnChart = ({ dataColors, periodData }) => {
     chart: {
       stacked: !0,
       toolbar: {
-        show: false,
+        show: true,
       },
       zoom: {
         enabled: !0
@@ -20,8 +20,8 @@ const StackedColumnChart = ({ dataColors, periodData }) => {
     plotOptions: {
       bar: {
         horizontal: !1,
-        columnWidth: "15%"
-        // endingShape: "rounded"
+        columnWidth: "15%",
+        endingShape: "rounded"
       }
     },
     dataLabels: {
