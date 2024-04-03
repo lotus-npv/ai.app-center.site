@@ -63,6 +63,8 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
     shallowEqual
   )
 
+  const [loadDone, setLoadDone] = useState(false)
+
   // Get du lieu lan dau
   useEffect(() => {
     dispatch(getProvinceByNationId(address.nation_id))
@@ -71,6 +73,7 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
     dispatch(getProvinceId(address.province_id))
     dispatch(getDistrictId(address.district_id))
     dispatch(getCommuneId(address.commune_id))
+    setLoadDone(true);
   }, [dispatch, isEditDetail])
 
   // render lua chon tinh, huyen, xa
@@ -81,15 +84,24 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
   const [selectDistrict, setSelectDistrict] = useState(districtDataId[0])
   const [selectCommune, setSelectCommune] = useState(communeDataId[0])
   const [detail, setDetail] = useState(address.detail ?? "")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [email, setEmail] = useState("")
-  const [fax, setFax] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState(address.phone_number ?? "")
+  const [email, setEmail] = useState(address.email ?? "")
+  const [fax, setFax] = useState(address.fax ?? "")
 
   const [provinceOptions, setProvinceOptions] = useState(provinceDataByNationId)
   const [districtOptions, setDistrictOptions] = useState(
     districtDataByProvinceId
   )
   const [communeOptions, setCommuneOptions] = useState(communeDataByDistrictId)
+
+  useEffect(() => {
+    if(provinceDataId && districtDataId && communeDataId && loadDone ) {
+      setSelectProvince(provinceDataId[0]);
+      setSelectDistrict(districtDataId[0]);
+      setSelectCommune(communeDataId[0]);
+      setLoadDone(false)
+    }
+  }, [loadDone])
 
   // Tai du lieu thanh pho
   useEffect(() => {
@@ -182,6 +194,11 @@ const ModalEditAddress = ({ address, isEditDetail, setIsEditDetail , item}) => {
               type="button"
               onClick={() => {
                 setmodal_standard(false)
+                setSelectNation(null)
+                setSelectProvince(null)
+                setSelectDistrict(null)
+                setSelectCommune(null)
+                setIsEditDetail(false)
               }}
               className="close"
               data-dismiss="modal"

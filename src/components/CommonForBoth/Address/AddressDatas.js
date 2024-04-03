@@ -42,6 +42,9 @@ const AddressDatas = ({ item, user }) => {
     district: "",
     commune: "",
     detail: "",
+    email: "",
+    phone_number: "",
+    fax: ""
   }
 
   const {
@@ -145,6 +148,9 @@ const AddressDatas = ({ item, user }) => {
 
         // nap gia tri detail
         array[index].detail = arr[index].detail
+        array[index].email = arr[index].email
+        array[index].phone_number = arr[index].phone_number
+        array[index].fax = arr[index].fax
 
         // nap lai mang dia chi vao state
         setAddresss(array)

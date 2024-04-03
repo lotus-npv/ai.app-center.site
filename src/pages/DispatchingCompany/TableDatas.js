@@ -102,7 +102,7 @@ const TableDatas = props => {
     )
     // console.log('array:', array)
 
-    // tạo danh sách địa
+    // tạo danh sách địa chi
     const number_of_company = array.filter(
       address => address.is_default == 1
     ).length
@@ -278,11 +278,15 @@ const TableDatas = props => {
   useEffect(() => {
     if (customActiveTab.value === "All") {
       const arr = companyData.map(company => {
+        const addressDefault = addressData.find(add => add.object_id == company.id && add.user_type == 'dispatching_company' && add.is_default == 1)
+        // console.log('addressDefault', addressDefault);
         return {
           ...company,
           date_of_joining_syndication: moment(
             company.date_of_joining_syndication
           ).format("YYYY-MM-DD"),
+          phone_number: addressDefault.phone_number,
+          email: addressDefault.email,
         }
       })
       setDataTable(arr)
@@ -337,13 +341,13 @@ const TableDatas = props => {
 
   const header = renderHeader()
 
-  // console.log('customActiveTab:', customActiveTab)
+  // console.log("addressData:", addressData)
   // console.log('loading:', loading)
   // console.log('nation:', nationData)
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  // console.log('companyData:', companyData);
+  // console.log("dataTable:", dataTable)
 
   return (
     <div className="card">
@@ -381,7 +385,7 @@ const TableDatas = props => {
           body={nameBodyTemplate}
           filterField="nam_jp"
           filter
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder="Tìm kiếm"
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
@@ -390,7 +394,16 @@ const TableDatas = props => {
           header="Số điện thoại"
           filterField="factory_name_jp"
           filter
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder="Tìm kiếm"
+          sortable
+          style={{ minWidth: "12rem" }}
+        ></Column>
+        <Column
+          field="email"
+          header="Email"
+          filterField="email"
+          filter
+          filterPlaceholder="Tìm kiếm"
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
@@ -399,7 +412,7 @@ const TableDatas = props => {
           header="Ngày gia nhập"
           filterField="date_of_joining_syndication"
           filter
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder="Tìm kiếm"
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
