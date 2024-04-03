@@ -438,6 +438,7 @@ CREATE TABLE IF NOT EXISTS avata (
 CREATE TABLE if not exists notification (
     id int primary key auto_increment,
     key_license_id INT,
+    type_noti VARCHAR(50), -- kieu thong bao
     user_id VARCHAR(50),  -- id user nguoi nhan thong bao
     date_noti DATETIME, -- ngay se gui thong bao
     title VARCHAR(100), -- tieu de thong bao

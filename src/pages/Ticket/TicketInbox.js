@@ -604,11 +604,11 @@ const TicketInbox = props => {
                         <div className="mb-3">
                           <div className="input-group mb-3">
                             <Label
-                              style={{ minWidth: "170px" }}
+                              style={{ minWidth: "110px" }}
                               className="input-group-text"
                               htmlFor="inputGroupFile01"
                             >
-                              Lựa chọn đối tượng:
+                              Đối tượng gửi:
                             </Label>
                             <Select
                               id="inputGroupFile01"
@@ -626,7 +626,7 @@ const TicketInbox = props => {
 
                           <div className="input-group mb-3">
                             <Label
-                              style={{ minWidth: "170px" }}
+                              style={{ minWidth: "110px" }}
                               className="input-group-text"
                               htmlFor="inputGroup2"
                             >
@@ -647,7 +647,7 @@ const TicketInbox = props => {
 
                           <div className="input-group mb-3">
                             <Label
-                              style={{ minWidth: "170px" }}
+                              style={{ minWidth: "110px" }}
                               className="input-group-text"
                               htmlFor="inputGroup3"
                             >

@@ -183,6 +183,12 @@ const TableDatas = ({ dataTable }) => {
     )
   }
 
+  const idBody = (rowData) => {
+    return (
+      `# ${rowData.id}`
+    )
+  }
+
   const screenAvailHeight = window.innerHeight
   const [vh, setVh] = useState(null)
   window.addEventListener("resize", function () {
@@ -243,6 +249,7 @@ const TableDatas = ({ dataTable }) => {
           field="id"
           header="ID"
           filterField="id"
+          body={idBody}
           sortable
           style={{ minWidth: "4rem" }}
         ></Column>

@@ -46,8 +46,7 @@ FilterService.register("custom_activity", (value, filters) => {
 })
 
 const TableDatas = props => {
-
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
   const {
@@ -273,21 +272,28 @@ const TableDatas = props => {
   // Xu ly du lieu khi nguoi dung chuyen tab
   const getListInternStatus = key => {
     // lay ra duoc cac dia theo quoc gia
-    const arr = addressData.filter(item => item.nation_id == key && item.user_type == 'receiving_factory')
-    console.log('arr', arr);
-    if(arr) {
+    const arr = addressData.filter(
+      item => item.province_id == key && item.user_type == "receiving_factory"
+    )
+    // console.log("arr", arr)
+    if (arr) {
       const newarr = arr.map(dc => {
-        const dcInfo = factoryData.find(company => company.id == dc.object_id && dc.user_type == 'receiving_factory')
-        if(dcInfo) {
+        const dcInfo = factoryData.find(
+          company =>
+            company.id == dc.object_id && dc.user_type == "receiving_factory"
+        )
+        // console.log(dcInfo);
+        if (dcInfo) {
           return {
             ...dc,
             name_jp: dcInfo.name_jp,
             date_of_joining_syndication: moment(
               dcInfo.date_of_joining_syndication
             ).format("YYYY-MM-DD"),
+            logo: dcInfo.logo
           }
         } else {
-          return dc;
+          return dc
         }
       })
       setDataTable(newarr)
@@ -297,15 +303,25 @@ const TableDatas = props => {
   useEffect(() => {
     if (customActiveTab.value === "All") {
       const arr = factoryData.map(factory => {
-        const addressDefault = addressData.find(add => add.object_id == factory.id && add.user_type == 'receiving_factory' && add.is_default == 1)
-        return {
-          ...factory,
-          date_of_joining_syndication: moment(
-            factory.date_of_joining_syndication
-          ).format("YYYY-MM-DD"),
-          phone_number: addressDefault.phone_number,
-          email: addressDefault.email,
+        const addressDefault = addressData.find(
+          add =>
+            add.object_id == factory.id &&
+            add.user_type == "receiving_factory" &&
+            add.is_default == 1
+        )
+        if(addressDefault) {
+          return {
+            ...factory,
+            date_of_joining_syndication: moment(
+              factory.date_of_joining_syndication
+            ).format("YYYY-MM-DD"),
+            phone_number: addressDefault.phone_number,
+            email: addressDefault.email,
+          }
+        } else {
+          return factory
         }
+        
       })
       setDataTable(arr)
     } else {
@@ -365,8 +381,8 @@ const TableDatas = props => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  console.log('addressData:', addressData);
-  console.log('factoryData:', factoryData);
+  // console.log("addressData:", addressData)
+  // console.log("factoryData:", factoryData)
 
   return (
     <div className="card">
@@ -390,8 +406,8 @@ const TableDatas = props => {
         scrollable
         scrollHeight={vh}
         size={"small"}
-      // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-      // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column
           selectionMode="multiple"
@@ -404,7 +420,7 @@ const TableDatas = props => {
           body={nameBodyTemplate}
           filterField="nam_jp"
           filter
-          filterPlaceholder={t('Receiving Factory Name (English)')}
+          filterPlaceholder={t("Receiving Factory Name (English)")}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
@@ -413,11 +429,11 @@ const TableDatas = props => {
           header="Số điện thoại"
           filterField="factory_name_jp"
           filter
-          filterPlaceholder={t('Search By Name')}
+          filterPlaceholder={t("Search By Name")}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
-         <Column
+        <Column
           field="email"
           header="Email"
           filterField="email"
@@ -431,7 +447,7 @@ const TableDatas = props => {
           header="Ngày gia nhập"
           filterField="date_of_joining_syndication"
           filter
-          filterPlaceholder={t('Search By Date')}
+          filterPlaceholder={t("Search By Date")}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
@@ -440,12 +456,14 @@ const TableDatas = props => {
           header="Ghi chú"
           style={{ minWidth: "12rem" }}
         ></Column>
-        <Column
-          field="action"
-          header="Action"
-          style={{ minWidth: "10rem" }}
-          body={actionBody}
-        ></Column>
+        {customActiveTab.value === "All" && (
+          <Column
+            field="action"
+            header="Action"
+            style={{ minWidth: "10rem" }}
+            body={actionBody}
+          ></Column>
+        )}
       </DataTable>
 
       <DeleteModal

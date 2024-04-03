@@ -268,6 +268,7 @@ const TableDatas = props => {
             date_of_joining_syndication: moment(
               dcInfo.date_of_joining_syndication
             ).format("YYYY-MM-DD"),
+            logo: dcInfo.logo
           }
         } else {
           return dc;
@@ -283,13 +284,17 @@ const TableDatas = props => {
       const arr = companyData.map(company => {
         const addressDefault = addressData.find(add => add.object_id == company.id && add.user_type == 'dispatching_company' && add.is_default == 1)
         // console.log('addressDefault', addressDefault);
-        return {
-          ...company,
-          date_of_joining_syndication: moment(
-            company.date_of_joining_syndication
-          ).format("YYYY-MM-DD"),
-          phone_number: addressDefault.phone_number,
-          email: addressDefault.email,
+        if(addressDefault) {
+          return {
+            ...company,
+            date_of_joining_syndication: moment(
+              company.date_of_joining_syndication
+            ).format("YYYY-MM-DD"),
+            phone_number: addressDefault.phone_number,
+            email: addressDefault.email,
+          }
+        } else {
+          return company;
         }
       })
       setDataTable(arr)
@@ -424,12 +429,14 @@ const TableDatas = props => {
           header="Ghi chú"
           style={{ minWidth: "12rem" }}
         ></Column>
-        <Column
-          field="action"
-          header="Action"
-          style={{ minWidth: "10rem" }}
-          body={actionBody}
-        ></Column>
+       {customActiveTab.value === "All" && (
+          <Column
+            field="action"
+            header="Action"
+            style={{ minWidth: "10rem" }}
+            body={actionBody}
+          ></Column>
+        )}
       </DataTable>
 
       <DeleteModal
