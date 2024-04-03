@@ -68,7 +68,7 @@ const NotificationDropdown = props => {
   const [dataShow, setDataShow] = useState()
   useEffect(() => {
     if (notiData) {
-      setDataShow(_.sortBy(notiData, noti => -noti.date_noti))
+      setDataShow(_.orderBy(notiData, noti => noti.create_at, 'desc'))
     }
   }, [notiData])
 
@@ -97,7 +97,7 @@ const NotificationDropdown = props => {
     e.preventDefault()
     console.log("object")
     const arr = notiData.filter(noti => noti.watched == 0)
-    setDataShow(arr)
+    setDataShow(_.orderBy(arr, noti => noti.create_at, 'desc'))
   }
   const handleAllWatch = e => {
     e.preventDefault()

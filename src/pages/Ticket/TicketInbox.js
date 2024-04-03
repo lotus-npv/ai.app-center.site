@@ -540,13 +540,9 @@ const TicketInbox = props => {
 
           <Col xl="9" lg="12">
             <div className="d-flex justify-content-center">
-              {isLoading ? (
-                <Spinners setLoading={setLoading} />
-              ) : (
                 <Card className="w-100">
                   <TableDatas dataTable={dataTable} />
                 </Card>
-              )}
             </div>
           </Col>
 
