@@ -51,6 +51,7 @@ const App = () => {
     setSkTicket,
     setSocket,
     setUpdateUserCount,
+    notification,
     setNotification,
   } = useContext(DataContext)
   useEffect(() => {
@@ -74,13 +75,14 @@ const App = () => {
     })
 
     newSocket.on("notification", mes => {
+      console.log('App receive mes:', mes)
       setNotification(mes)
     })
 
     return () => {
       newSocket.disconnect()
     }
-  }, [message, skTicket])
+  }, [message, skTicket, notification])
 
   //=====================================================================================================//
   const selectLayoutState = state => state.Layout

@@ -24,7 +24,14 @@ const NotificationDropdown = props => {
   const [menu, setMenu] = useState(false)
 
   // data context
-  const { modal_noti, setmodal_noti, tog_modal_noti, notification, setNotification, socket } = useContext(DataContext)
+  const {
+    modal_noti,
+    setmodal_noti,
+    tog_modal_noti,
+    notification,
+    setNotification,
+    socket,
+  } = useContext(DataContext)
 
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
@@ -43,14 +50,14 @@ const NotificationDropdown = props => {
     }
   }, [dispatch])
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch(getNotiUserId(user.id))
-    }, 10000)
-    return () => {
-      clearInterval(intervalId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     dispatch(getNotiUserId(user.id))
+  //   }, 10000)
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (user) {
@@ -65,6 +72,14 @@ const NotificationDropdown = props => {
     }
   }, [notiData])
 
+  //=====================================================================================================//
+  // send noti socket
+  const sendNoti = mes => {
+    socket.emit("notification", mes)
+    setNotification("")
+  }
+  //=====================================================================================================//
+
   const [selectNoti, setSelectNoti] = useState()
   const handleWatchNoti = noti => {
     const newNoti = {
@@ -73,33 +88,25 @@ const NotificationDropdown = props => {
     }
     dispatch(updateNoti(newNoti))
     // dispatch(getNotiUserId(user.id))
-    sendNoti('update noti')
+    sendNoti("update noti")
     setSelectNoti(newNoti)
     tog_modal_noti()
   }
 
-    //=====================================================================================================//
-    // send noti socket
-    const sendNoti = mes => {
-      socket.emit("notification", mes)
-      setNotification("")
-    }
-    //=====================================================================================================//
-
-  const handleNoWatch = (e) => {
-    e.preventDefault();
-    console.log('object');
-    const arr = notiData.filter(noti => noti.watched == 0);
+  const handleNoWatch = e => {
+    e.preventDefault()
+    console.log("object")
+    const arr = notiData.filter(noti => noti.watched == 0)
     setDataShow(arr)
   }
-  const handleAllWatch = (e) => {
-    e.preventDefault();
-    console.log('object');
+  const handleAllWatch = e => {
+    e.preventDefault()
+    console.log("object")
     setDataShow(notiData)
   }
 
-
   console.log("notidata:", notiData)
+  console.log("user:", user)
 
   return (
     <React.Fragment>
@@ -134,64 +141,77 @@ const NotificationDropdown = props => {
                   View New
                 </a>
               </div>
-              {'/'}
+              {"/"}
               <div className="col-auto">
                 <a href="#" className="small" onClick={handleAllWatch}>
                   {" "}
                   View All
                 </a>
               </div>
-             
             </Row>
           </div>
 
           <SimpleBar style={{ height: "230px" }}>
-            {dataShow && dataShow.map(noti => (
-              <Link
-                to=""
-                className="text-reset notification-item"
-                key={noti.id}
-                onClick={() => {
-                  handleWatchNoti(noti)
-                }}
-              >
-                <div className="d-flex">
-                  <div className="avatar-xs me-3">
-                    <span className="avatar-title bg-primary rounded-circle font-size-16">
-                      {noti.watched == 0 ? (
-                        <i className="mdi mdi-email-newsletter" />
-                      ) : (
-                        <i className="mdi mdi-email-check" />
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex-grow-1">
-                    <h6
-                      className={`mt-0 mb-1 ${
-                        noti.watched == 0 ? "fw-bold font-size-15" : ""
-                      }`}
-                    >
-                      {props.t(noti.title)}
-                    </h6>
-                    <div className="font-size-12 text-muted">
-                      <p
-                        className={`mb-1 ${noti.watched == 0 ? "fw-bold font-size-13" : ""}`}
-                        style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '200px'}}
+            {dataShow &&
+              dataShow.map(noti => (
+                <Link
+                  to=""
+                  className="text-reset notification-item"
+                  key={noti.id}
+                  onClick={() => {
+                    handleWatchNoti(noti)
+                  }}
+                >
+                  <div className="d-flex">
+                    <div className="avatar-xs me-3">
+                      <span className="avatar-title bg-primary rounded-circle font-size-16">
+                        {noti.watched == 0 ? (
+                          <i className="mdi mdi-email-newsletter" />
+                        ) : (
+                          <i className="mdi mdi-email-check" />
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex-grow-1">
+                      <h6
+                        className={`mt-0 mb-1 ${
+                          noti.watched == 0 ? "fw-bold font-size-15" : ""
+                        }`}
                       >
-                        {props.t(noti.content)}
-                      </p>
-                      <p className="mb-0">
-                        <i className="mdi mdi-clock-outline" />{" "}
-                        {moment(noti.date_noti)
-                          .utc("+09:00")
-                          .format("HH:mm MM/DD/YYYY")}
-                      </p>
+                        {props.t(noti.title)}
+                      </h6>
+                      <div className="font-size-12 text-muted">
+                        <p
+                          className={`mb-1 ${
+                            noti.watched == 0 ? "fw-bold font-size-13" : ""
+                          }`}
+                          style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            width: "200px",
+                          }}
+                        >
+                          {props.t(noti.content)}
+                        </p>
+                        <p className="mb-0">
+                          <i className="mdi mdi-clock-outline" />{" "}
+                          {moment(noti.date_noti)
+                            .utc("+09:00")
+                            .format("HH:mm MM/DD/YYYY")}
+                        </p>
+                      </div>
+                    </div>
+                    <div>
+                      {noti.watched == 0 ? (
+                        <i className="bx bx-bell bx-tada" />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
-                  <div>{noti.watched == 0 ? <i className="bx bx-bell bx-tada" /> : ''}</div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </SimpleBar>
           <div className="p-2 border-top d-grid">
             <Link
@@ -202,7 +222,6 @@ const NotificationDropdown = props => {
               <span key="t-view-more">{props.t("View More..")}</span>
             </Link>
           </div>
-
         </DropdownMenu>
       </Dropdown>
       <ModalNoti noti={selectNoti} user={user} />
