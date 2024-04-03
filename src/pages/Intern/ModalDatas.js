@@ -205,6 +205,7 @@ const ModalDatas = ({
     updateAddressDataIntern,
     isRefresh,
     updateRefresh,
+    NationList
     // user,
   } = useContext(DataContext)
 
@@ -490,6 +491,7 @@ const ModalDatas = ({
           key_license_id: value.key_license_id,
           syndication_id: value.syndication_id,
           type: "intern",
+          country: value.country,
           avata: value.avata,
           avata_update_at: value.avata_update_at,
           first_name_jp: value.first_name_jp,
@@ -665,6 +667,7 @@ const ModalDatas = ({
           key_license_id: value.key_license_id,
           syndication_id: value.syndication_id,
           type: "intern",
+          country: value.country,
           avata: value.avata,
           avata_update_at: value.avata_update_at,
           first_name_jp: value.first_name_jp,
@@ -948,7 +951,7 @@ const ModalDatas = ({
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
-  // console.log("formik:", formik.values.country)
+  console.log("formik:", formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('user:', user.object_type)
   // console.log('isEditIntern:', isEditIntern)
@@ -1951,7 +1954,7 @@ const ModalDatas = ({
                                               }
                                               updateAddressDataIntern(arr)
                                             }}
-                                            options={optionGroup}
+                                            options={NationList}
                                             className="w-100"
                                           />
                                         </div>
