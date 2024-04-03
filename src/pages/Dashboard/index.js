@@ -77,18 +77,24 @@ const Dashboard = props => {
   }, [dispatch])
 
   // get intern data
-  const { dataIntern, dataStatusDetail, dataAddress, dataViolate, dataTicket, dataCompany } =
-    useSelector(
-      state => ({
-        dataTicket: state.Ticket.datas,
-        dataIntern: state.Intern.dataKeyId,
-        dataStatusDetail: state.StatusDetail.datas,
-        dataAddress: state.Address.datas,
-        dataViolate: state.Violate.datas,
-        dataCompany: state.DispatchingCompany.datas,
-      }),
-      shallowEqual
-    )
+  const {
+    dataIntern,
+    dataStatusDetail,
+    dataAddress,
+    dataViolate,
+    dataTicket,
+    dataCompany,
+  } = useSelector(
+    state => ({
+      dataTicket: state.Ticket.datas,
+      dataIntern: state.Intern.dataKeyId,
+      dataStatusDetail: state.StatusDetail.datas,
+      dataAddress: state.Address.datas,
+      dataViolate: state.Violate.datas,
+      dataCompany: state.DispatchingCompany.datas,
+    }),
+    shallowEqual
+  )
 
   useEffect(() => {
     if (user) {
@@ -216,40 +222,51 @@ const Dashboard = props => {
   const iconColors = ["primary", "primary-2", "info", "secondary"]
 
   const [dataCharst, setDataCharst] = useState([])
-  const [charstByCompany, setCharstByCompany] = useState();
-
+  const [charstByCompany, setCharstByCompany] = useState()
 
   // danh sach intern => link bảng address
   useEffect(() => {
     if (dataIntern) {
-      const arr = dataAddress.filter(address =>
-        dataIntern.some(
-          intern =>
-            address.object_id == intern.id &&
-            address.user_type == "intern" &&
-            address.is_default == 1
-        )
-      )
+      // const arr = dataAddress.filter(address =>
+      //   dataIntern.some(
+      //     intern =>
+      //       address.object_id == intern.id &&
+      //       address.user_type == "intern" &&
+      //       address.is_default == 1
+      //   )
+      // )
+      // const newarr = NationList.map(nation => {
+      //   const newData = { ...nation }
+      //   const idIntern = []
+      //   arr.forEach(address => {
+      //     if (address.nation_id == newData.value) {
+      //       newData.data++
+      //       idIntern.push(address.object_id)
+      //     }
+      //   })
+      //   const numberViolate = dataViolate.filter(violate =>
+      //     idIntern.some(id => id == violate.intern_id)
+      //   )
+      //   newData.violate = numberViolate.length
+      //   // lay danh sach violate
+      //   // tao danh sach
+      //   return newData
+      // })
       const newarr = NationList.map(nation => {
         const newData = { ...nation }
         const idIntern = []
-        arr.forEach(address => {
-          if (address.nation_id == newData.value) {
+        dataIntern.forEach(intern => {
+          if (intern.country == newData.country) {
             newData.data++
-            idIntern.push(address.object_id)
+            idIntern.push(intern.id)
           }
         })
-        const numberViolate = dataViolate.filter(violate =>
-          idIntern.some(id => id == violate.intern_id)
-        )
-        newData.violate = numberViolate.length
-        // lay danh sach violate
-        // tao danh sach
-        return newData
+        return newData;
       })
 
-
-      // console.log("newarr", newarr)
+    
+      console.log("newarr", newarr)
+      
       setDataCharst(newarr)
       setPeriodData(chartsData)
     }
@@ -273,7 +290,8 @@ const Dashboard = props => {
   //=====================================================================
 
   // console.table(dataCompany);
-console.log('dataIntern', dataIntern);
+  console.log("dataIntern", dataIntern)
+  console.log('user', user);
 
   //meta title
   document.title = "Dashboard"
@@ -379,7 +397,7 @@ console.log('dataIntern', dataIntern);
                         <div id="donut-chart">
                           <ReactApexChart
                             options={{
-                              labels: dataCharst.map(item => item.country),
+                              labels: dataCharst ? dataCharst.map(item => item.country) : null,
                               colors: apexsalesAnalyticsChartColors,
                               legend: { show: !1 },
                               plotOptions: {

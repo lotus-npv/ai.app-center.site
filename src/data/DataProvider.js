@@ -206,9 +206,9 @@ const DataProvider = ({ children}) => {
   ]
 
   const NationList = [
-    { label: "Vietnam", value: 1, country: "Viet Nam", data: 0, violate: 2 },
-    { label: "Japan", value: 2, country: "Nhat Ban", data: 0, violate: 4 },
-    { label: "Korea", value: 3, country: "Han Quoc", data: 0, violate: 6 },
+    { label: "Vietnam", value: 1, country: "Vietnam", data: 0, violate: 2 },
+    { label: "Japan", value: 2, country: "Japan", data: 0, violate: 4 },
+    { label: "Korea", value: 3, country: "Korea", data: 0, violate: 6 },
   ]
 
   // edit address
