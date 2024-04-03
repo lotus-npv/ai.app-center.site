@@ -227,31 +227,6 @@ const Dashboard = props => {
   // danh sach intern => link bảng address
   useEffect(() => {
     if (dataIntern) {
-      // const arr = dataAddress.filter(address =>
-      //   dataIntern.some(
-      //     intern =>
-      //       address.object_id == intern.id &&
-      //       address.user_type == "intern" &&
-      //       address.is_default == 1
-      //   )
-      // )
-      // const newarr = NationList.map(nation => {
-      //   const newData = { ...nation }
-      //   const idIntern = []
-      //   arr.forEach(address => {
-      //     if (address.nation_id == newData.value) {
-      //       newData.data++
-      //       idIntern.push(address.object_id)
-      //     }
-      //   })
-      //   const numberViolate = dataViolate.filter(violate =>
-      //     idIntern.some(id => id == violate.intern_id)
-      //   )
-      //   newData.violate = numberViolate.length
-      //   // lay danh sach violate
-      //   // tao danh sach
-      //   return newData
-      // })
       const newarr = NationList.map(nation => {
         const newData = { ...nation }
         const idIntern = []
@@ -277,6 +252,13 @@ const Dashboard = props => {
     }
   }, [dataIntern, dataAddress])
 
+  // lay danh sach tts theo phai cu
+  useEffect(() => {
+    // lay danh sach phai cu
+    const arr = dataCompany.filter(company => company.key_license_id == user.key_license_id);
+    console.log(arr);
+  }, [dataCompany])
+
   const handleLink = value => {
     if (value == 1) {
       return "/ticket"
@@ -294,7 +276,7 @@ const Dashboard = props => {
   }
   //=====================================================================
 
-  // console.table(dataCompany);
+  // console.log(dataCompany);
   // console.log("dataIntern", dataIntern)
   // console.log('user', user);
 
