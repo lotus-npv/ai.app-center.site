@@ -36,6 +36,7 @@ export const deleteDataStatus = (id) => del(`${url.DELETE_STATUS}/${id}`, { para
 export const getInternDataAll = () => get(url.GET_INTERN_ALL);
 export const getInternDataAllInfo = () => get(url.GET_INTERN_ALLINFO);
 export const getInternDataUserId = (id) => get(`${url.GET_INTERN_USERID}/${id}`,{ params: { id } }, config);
+export const getInternDataKeyId = (id) => get(`${url.GET_INTERN_KEYID}/${id}`,{ params: { id } }, config);
 export const getInternDataId = () => get(url.GET_INTERN_ID);
 export const addNewDataIntern = data => post(url.SET_INTERN, data, config);
 export const updateDataIntern = data => put(url.UPDATE_INTERN, data, config);

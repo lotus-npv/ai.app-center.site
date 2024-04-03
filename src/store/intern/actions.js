@@ -8,6 +8,11 @@ import {
   GET_INTERN_USERID,
   GET_INTERN_USERID_SUCCESS,
   GET_INTERN_USERID_FAIL,
+
+  GET_INTERN_KEYID,
+  GET_INTERN_KEYID_SUCCESS,
+  GET_INTERN_KEYID_FAIL,
+
   GET_INTERN_ID,
   GET_INTERN_ID_SUCCESS,
   GET_INTERN_ID_FAIL,
@@ -63,6 +68,21 @@ export const getInternUserIdSuccess = data => ({
 
 export const getInternUserIdFail = error => ({
   type: GET_INTERN_USERID_FAIL,
+  payload: error,
+});
+
+export const getInternKeyId = (id) => ({
+  type: GET_INTERN_KEYID,
+  payload: id
+});
+
+export const getInternKeyIdSuccess = data => ({
+  type: GET_INTERN_KEYID_SUCCESS,
+  payload: data,
+});
+
+export const getInternKeyIdFail = error => ({
+  type: GET_INTERN_KEYID_FAIL,
   payload: error,
 });
 

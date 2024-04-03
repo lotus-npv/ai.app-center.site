@@ -25,6 +25,7 @@ export const DELETE_STATUS = `${site}/api/status/delete`;
 export const GET_INTERN_ALL = `${site}/api/intern/all`;
 export const GET_INTERN_ALLINFO = `${site}/api/intern/allInfo`;
 export const GET_INTERN_USERID = `${site}/api/intern/userId`;
+export const GET_INTERN_KEYID = `${site}/api/intern/keyId`;
 export const GET_INTERN_ID = `${site}/api/intern`;
 export const SET_INTERN = `${site}/api/intern/insert`;
 export const UPDATE_INTERN = `${site}/api/intern/update`;

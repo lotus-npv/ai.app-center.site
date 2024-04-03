@@ -8,6 +8,11 @@ import {
   GET_INTERN_USERID,
   GET_INTERN_USERID_SUCCESS,
   GET_INTERN_USERID_FAIL,
+
+  GET_INTERN_KEYID,
+  GET_INTERN_KEYID_SUCCESS,
+  GET_INTERN_KEYID_FAIL,
+
   GET_INTERN_ID_SUCCESS,
   GET_INTERN_ID_FAIL,
   SET_INTERN,
@@ -50,6 +55,7 @@ import {
           loading: false,
           error: action.payload,
         };
+        
       case GET_INTERN_ALLINFO:
         return {
           ...state,
@@ -61,7 +67,6 @@ import {
           loading: false,
           dataAll: action.payload,
         };
-  
       case GET_INTERN_ALLINFO_FAIL:
         return {
           ...state,
@@ -80,8 +85,25 @@ import {
           loading: false,
           datas: action.payload,
         };
-  
       case GET_INTERN_USERID_FAIL:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload,
+        };
+
+      case GET_INTERN_KEYID:
+        return {
+          ...state,
+          loading: true,
+        };
+      case GET_INTERN_KEYID_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          datas: action.payload,
+        };
+      case GET_INTERN_KEYID_FAIL:
         return {
           ...state,
           loading: false,
