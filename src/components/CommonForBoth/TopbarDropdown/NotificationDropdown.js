@@ -105,8 +105,8 @@ const NotificationDropdown = props => {
     setDataShow(notiData)
   }
 
-  console.log("notidata:", notiData)
-  console.log("user:", user)
+  // console.log("notidata:", notiData)
+  // console.log("user:", user)
 
   return (
     <React.Fragment>

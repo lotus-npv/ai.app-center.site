@@ -54,6 +54,7 @@ const App = () => {
     notification,
     setNotification,
   } = useContext(DataContext)
+  
   useEffect(() => {
     const newSocket = io("https://api.lotusocean-jp.com", {
       secure: true,
