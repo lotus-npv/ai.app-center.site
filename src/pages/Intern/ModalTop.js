@@ -334,10 +334,10 @@ const ModalTop = ({
       <Row>
         <Col xl={6} md={12}>
           <Row>
-            <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
+            <Col xl={4} md={4} sm={4} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
-                style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
+                style={{ minWidth: '150px',maxWidth: '170px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -353,10 +353,10 @@ const ModalTop = ({
                 {t("Update Status")}
               </Button>
             </Col>
-            <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
+            <Col xl={4} md={4} sm={4} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
-                style={{minWidth: '150px', marginBottom: '5px', width: '80%'}}
+                style={{minWidth: '150px', maxWidth: '170px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -372,10 +372,10 @@ const ModalTop = ({
                 {t("Residence update")}
               </Button>
             </Col>
-            <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
+            <Col xl={4} md={4} sm={4} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
-                style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
+                style={{ minWidth: '150px', maxWidth: '170px', marginBottom: '5px', width: '80%'}}
                 onClick={() => {
                   tog_xlarge()
                 }}
@@ -402,73 +402,6 @@ const ModalTop = ({
           </Row>
         </Col>
       </Row>
-
-      {/* <div className="row">
-            <div className="col-lg-8">
-                <button type="button" className="btn btn-primary mr-2">Button Button</button>
-                <button type="button" className="btn btn-primary mr-2">Button Button</button>
-                <button type="button" className="btn btn-primary mr-2">Button Button</button>
-            </div>
-            <div className="col-lg-4 col-sm-12 text-right">
-                <button type="button" className="btn btn-primary">Button 4</button>
-            </div>
-        </div> */}
-
-      {/* <div className="d-flex justify-content-between mb-3">
-        <div className="d-flex gap-3">
-          <Button
-            color="gray-soft"
-            onClick={() => {
-              if (rowsSelectedInternData.length == 0) {
-                toast.warn("Please select intern before edit !", {
-                  autoClose: 2000,
-                })
-              } else {
-                tog_standard()
-                setIsUpdateStatus(true)
-              }
-            }}
-          >
-            <i className="fas fa-info-circle text-secondary"></i>{" "}
-            {t("Update Status")}
-          </Button>
-          <Button
-            color="gray-soft"
-            onClick={() => {
-              if (rowsSelectedInternData.length == 0) {
-                toast.warn("Please select intern before edit !", {
-                  autoClose: 2000,
-                })
-              } else {
-                tog_standard()
-                setIsUpdateStatus(false)
-              }
-            }}
-          >
-            <i className="fas fa-user-shield text-secondary"></i>{" "}
-            {t("Residence update")}
-          </Button>
-          <Button
-            color="gray-soft"
-            onClick={() => {
-              tog_xlarge()
-            }}
-          >
-            <i className="fas fa-ban text-secondary"></i> {t("Add violations")}
-          </Button>
-        </div>
-        <div>
-          <Button
-            color="primary"
-            onClick={() => {
-              setIsEditIntern(false)
-              tog_fullscreen()
-            }}
-          >
-            {t("Add Intern")}
-          </Button>
-        </div>
-      </div> */}
 
       <Modal
         isOpen={modal_standard}

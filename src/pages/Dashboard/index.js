@@ -31,7 +31,8 @@ import {
 } from "../../store/actions"
 
 // Pages Components
-import Transactions from "./transactions"
+import TransactionsByCountry from "./transactionsByCountry"
+import TransactionsByCompany from "./transactionsByCompany"
 import Notifications from "./notifications"
 
 //i18n
@@ -222,7 +223,7 @@ const Dashboard = props => {
   const iconColors = ["primary", "primary-2", "info", "secondary"]
 
   const [dataCharst, setDataCharst] = useState([])
-  const [charstByCompany, setCharstByCompany] = useState()
+ 
 
   // danh sach intern => link bảng address
   useEffect(() => {
@@ -252,12 +253,34 @@ const Dashboard = props => {
     }
   }, [dataIntern, dataAddress])
 
+
   // lay danh sach tts theo phai cu
+  const [charstByCompany, setCharstByCompany] = useState()
   useEffect(() => {
     // lay danh sach phai cu
     const arr = dataCompany.filter(company => company.key_license_id == user.key_license_id);
-    console.log(arr);
-  }, [dataCompany])
+    // console.log(arr);
+    const newarr = arr.map(company => {
+      const cp = {name: company.name_jp, numberOfIntern: 0, numberOfViolate: 0};
+      const idIntern = []
+      dataIntern.forEach(intern => {
+        if(intern.dispatching_company_id == company.id) {
+          cp.numberOfIntern++;
+          idIntern.push(intern.id)
+        }
+      })
+
+      cp.numberOfViolate = dataViolate.filter(violate =>
+        idIntern.some(id => id == violate.intern_id)
+      ).length
+
+      return cp;
+    })
+
+    console.log(newarr);
+
+    setCharstByCompany(newarr)
+  }, [dataCompany, dataIntern])
 
   const handleLink = value => {
     if (value == 1) {
@@ -521,15 +544,17 @@ const Dashboard = props => {
 
           <Row>
             <Col xl="4">
-              <Transactions
+              <TransactionsByCountry
                 title={props.t("Top 5 countries by number of interns")}
                 dataIntern={dataIntern}
                 dataCharst={dataCharst}
               />
             </Col>
             <Col xl="4">
-              <Transactions
+              <TransactionsByCompany
                 title={props.t("Top 5 nominated by number of interns")}
+                dataIntern={dataIntern}
+                dataCharst={charstByCompany}
               />
             </Col>
 

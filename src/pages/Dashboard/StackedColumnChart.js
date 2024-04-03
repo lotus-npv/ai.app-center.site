@@ -4,6 +4,8 @@ import ReactApexChart from "react-apexcharts"
 import getChartColorsArray from "../../components/Common/ChartsDynamicColor";
 
 const StackedColumnChart = ({ dataColors, periodData }) => {
+
+  console.log(periodData);
   const stackedColumnChartColors = getChartColorsArray(dataColors);
   const options = {
     chart: {
