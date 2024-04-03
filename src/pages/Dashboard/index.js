@@ -23,6 +23,7 @@ import StackedColumnChart from "./StackedColumnChart"
 import {
   getAddressAll,
   getDispatchingCompanyAll,
+  getInternKeyId,
   getStatusDetailAll,
   getTicketAll,
   getViolateAll,
@@ -39,16 +40,12 @@ import { useNavigate } from "react-router-dom"
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
-import { getInternAllInfo } from "../../store/actions"
 import { createSelector } from "reselect"
 
 import DataContext from "data/DataContext"
 
 const Dashboard = props => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
-  const navigate = useNavigate()
-  const [modal, setmodal] = useState(false)
-  // const [subscribemodal, setSubscribemodal] = useState(false);
 
   const { NationList, loadData, setLoadData } = useContext(DataContext)
 
@@ -61,7 +58,6 @@ const Dashboard = props => {
   )
 
   const { chartsData } = useSelector(DashboardProperties)
-
   const [periodData, setPeriodData] = useState([])
   const [periodType, setPeriodType] = useState("yearly")
 
@@ -85,7 +81,7 @@ const Dashboard = props => {
     useSelector(
       state => ({
         dataTicket: state.Ticket.datas,
-        dataIntern: state.Intern.dataAll,
+        dataIntern: state.Intern.dataKeyId,
         dataStatusDetail: state.StatusDetail.datas,
         dataAddress: state.Address.datas,
         dataViolate: state.Violate.datas,
@@ -96,9 +92,9 @@ const Dashboard = props => {
 
   useEffect(() => {
     if (user) {
-      dispatch(getInternAllInfo())
+      dispatch(getInternKeyId(user.key_license_id))
       dispatch(getStatusDetailAll())
-      dispatch(getAddressAll(user.id))
+      dispatch(getAddressAll(user.key_license_id))
       dispatch(getViolateAll())
       dispatch(getTicketAll())
       dispatch(getDispatchingCompanyAll())
@@ -109,9 +105,9 @@ const Dashboard = props => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (user) {
-        dispatch(getInternAllInfo())
+        dispatch(getInternKeyId(user.key_license_id))
         dispatch(getStatusDetailAll())
-        dispatch(getAddressAll(user.id))
+        dispatch(getAddressAll(user.key_license_id))
         dispatch(getViolateAll())
         dispatch(getTicketAll())
         dispatch(getDispatchingCompanyAll())
@@ -277,6 +273,8 @@ const Dashboard = props => {
   //=====================================================================
 
   // console.table(dataCompany);
+console.log('dataIntern', dataIntern);
+
   //meta title
   document.title = "Dashboard"
   const date = new Date()

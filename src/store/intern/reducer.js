@@ -29,6 +29,7 @@ import {
   
   const INIT_STATE = {
     datas: [],
+    dataKeyId: [],
     data: {},
     dataAll: [],
     isOpen: 'init text',
@@ -101,7 +102,7 @@ import {
         return {
           ...state,
           loading: false,
-          datas: action.payload,
+          dataKeyId: action.payload,
         };
       case GET_INTERN_KEYID_FAIL:
         return {

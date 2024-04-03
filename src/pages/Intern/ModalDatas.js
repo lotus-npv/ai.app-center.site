@@ -66,8 +66,9 @@ import {
 import { toast } from "react-toastify"
 
 const optionGroup = [
-  { label: "Viet Nam", value: 1 },
-  { label: "Japan", value: 2 },
+  { label: "Viet Nam", value: 'Vietnam' },
+  { label: "Japan", value: 'Japan' },
+  { label: "Korea", value: 'Korea' },
 ]
 const optionGender = [
   { label: "Male", value: "male" },
@@ -401,7 +402,7 @@ const ModalDatas = ({
       update_at: item != null ? item.update_at : "",
       update_by: item != null ? item.update_by : user.id,
 
-      nation_id: 1,
+      country: item != null ? item.country :'Vietnam',
       alien_registration_card_number:
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
@@ -947,7 +948,7 @@ const ModalDatas = ({
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
-  // console.log("formik:", formik.values)
+  // console.log("formik:", formik.values.country)
   // console.log('alienCardData:', alienCardData)
   // console.log('user:', user.object_type)
   // console.log('isEditIntern:', isEditIntern)
@@ -1312,16 +1313,16 @@ const ModalDatas = ({
                                       {t("Country")}
                                     </Label>
                                     <Select
-                                      name="nation_id"
+                                      name="country"
                                       placeholder={t("Country")}
                                       value={optionGroup.find(
                                         option =>
                                           option.value ===
-                                          formik.values.nation_id
+                                          formik.values.country
                                       )}
                                       onChange={item => {
                                         formik.setFieldValue(
-                                          "nation_id",
+                                          "country",
                                           item.value
                                         )
                                       }}
