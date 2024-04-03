@@ -120,25 +120,6 @@ const TicketInbox = props => {
     }
   }, [dispatch])
 
-  // get lai data sau moi 10s
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (user) {
-  //       dispatch(getTicketUserId(user.id))
-  //     }
-  //   }, 30000)
-  //   return () => {
-  //     clearInterval(intervalId)
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   if(ticketRowData) {
-  //     console.log('rơ id', ticketRowData.id);
-  //     dispatch(getTicketDetailByTicketId(ticketRowData.id))
-  //   }
-  // }, [ticketRowData])
-
   const types = ["Inbox", "new", "processing", "done", "Outbox"]
   const [counters, setCounters] = useState([])
   const [dataTable, setDataTable] = useState(ticketData)
