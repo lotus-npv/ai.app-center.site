@@ -22,6 +22,7 @@ import ModalDatas from "./ModalDatas"
 import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
+import { t } from 'i18next';
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -216,7 +217,7 @@ const TableDatas = props => {
               <InputText
                 value={globalFilterValue}
                 onChange={onGlobalFilterChange}
-                placeholder="Nhập từ khoá tìm kiếm ..."
+                placeholder={t('Search')}
               />
             </span>
             <ButtonRS
@@ -228,7 +229,7 @@ const TableDatas = props => {
                 tog_fullscreen()
               }}
             >
-              Thêm mới
+              {t('Add')}
             </ButtonRS>
           </div>
         </Row>
@@ -309,7 +310,7 @@ const TableDatas = props => {
             add.user_type == "receiving_factory" &&
             add.is_default == 1
         )
-        if(addressDefault) {
+        if (addressDefault) {
           return {
             ...factory,
             date_of_joining_syndication: moment(
@@ -321,7 +322,7 @@ const TableDatas = props => {
         } else {
           return factory
         }
-        
+
       })
       setDataTable(arr)
     } else {
@@ -406,8 +407,8 @@ const TableDatas = props => {
         scrollable
         scrollHeight={vh}
         size={"small"}
-        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+      // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+      // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column
           selectionMode="multiple"
@@ -416,50 +417,50 @@ const TableDatas = props => {
         ></Column>
         <Column
           field="nam_jp"
-          header="Tên xí nghiệp"
+          header={t('Receiving Factory Name')}
           body={nameBodyTemplate}
           filterField="nam_jp"
           filter
-          filterPlaceholder={t("Receiving Factory Name (English)")}
+          filterPlaceholder={t('Search')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="phone_number"
-          header="Số điện thoại"
+          header={t('Phone number')}
           filterField="factory_name_jp"
           filter
-          filterPlaceholder={t("Search By Name")}
+          filterPlaceholder={t('Search')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="email"
-          header="Email"
+          header={t('Email')}
           filterField="email"
           filter
-          filterPlaceholder="Tìm kiếm"
+          filterPlaceholder={t('Search')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="date_of_joining_syndication"
-          header="Ngày gia nhập"
+          header={t('Registration date')}
           filterField="date_of_joining_syndication"
           filter
-          filterPlaceholder={t("Search By Date")}
+          filterPlaceholder={t('Search')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="description"
-          header="Ghi chú"
+          header={t('Description')}
           style={{ minWidth: "12rem" }}
         ></Column>
         {customActiveTab.value === "All" && (
           <Column
             field="action"
-            header="Action"
+            header={t('Action')}
             style={{ minWidth: "10rem" }}
             body={actionBody}
           ></Column>

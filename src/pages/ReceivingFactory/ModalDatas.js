@@ -26,6 +26,8 @@ import { useTranslation } from "react-i18next"
 // import context
 import DataContext from "../../data/DataContext"
 import avata from "../../assets/images/users/avatar-1.jpg"
+import { t } from 'i18next';
+
 
 const optionGroup = [
   { label: "Viet Nam", value: 1 },
@@ -146,8 +148,8 @@ const ModalDatas = ({
       date_of_joining_syndication:
         item != null
           ? moment(item.date_of_joining_syndication)
-              .utcOffset("+07:00")
-              .format("YYYY-MM-DD")
+            .utcOffset("+07:00")
+            .format("YYYY-MM-DD")
           : "",
       description: item !== null ? item.description : "",
       create_at: item !== null ? item.create_at : "",
@@ -287,13 +289,13 @@ const ModalDatas = ({
     }
   }, [provinceDataByNationId])
 
-    // Tai du lieu thanh pho
-    useEffect(() => {
-      if (selectNation) {
-        dispatch(getProvinceByNationId(selectNation.value))
-        // setSelectProvince([]);
-      }
-    }, [selectNation])
+  // Tai du lieu thanh pho
+  useEffect(() => {
+    if (selectNation) {
+      dispatch(getProvinceByNationId(selectNation.value))
+      // setSelectProvince([]);
+    }
+  }, [selectNation])
 
   // Xu ly danh sach district
   const [districtOptions, setDistrictOptions] = useState([])
@@ -418,7 +420,7 @@ const ModalDatas = ({
                             <Button
                               onClick={() => fileInputRef.current.click()}
                             >
-                              {isEditFactory ? "Change avata" : "Set avata"}
+                              {isEditFactory ? t('Change photo') : t('Upload photo')}
                             </Button>{" "}
                             <input
                               onChange={handleChange}
@@ -437,24 +439,24 @@ const ModalDatas = ({
                               <Col lg={6}>
                                 <div className="mb-3">
                                   <Label className="form-label fw-bold">
-                                    Tên xí nghiệp (Tiếng Nhật)
+                                    {t('Receiving Factory (Japanese)')}
                                   </Label>
                                   <Input
                                     name="name_jp"
-                                    placeholder="Nhập tên xí nghiệp (Tiếng Nhật)"
+                                    placeholder={t('Enter Receiving Factory (Japanese)')}
                                     type="text"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.name_jp || ""}
                                     invalid={
                                       formik.touched.name_jp &&
-                                      formik.errors.name_jp
+                                        formik.errors.name_jp
                                         ? true
                                         : false
                                     }
                                   />
                                   {formik.touched.name_jp &&
-                                  formik.errors.name_jp ? (
+                                    formik.errors.name_jp ? (
                                     <FormFeedback type="invalid">
                                       {formik.errors.name_jp}
                                     </FormFeedback>
@@ -464,24 +466,24 @@ const ModalDatas = ({
                               <Col lg={6}>
                                 <div className="mb-3">
                                   <Label className="form-label fw-bold">
-                                    Tên xí nghiệp (Tiếng Anh)
+                                    {t('Receiving Factory (English)')}
                                   </Label>
                                   <Input
                                     name="name_en"
                                     type="text"
-                                    placeholder="Nhập tên xí nghiệp (Tiếng Anh)"
+                                    placeholder={t('Enter Receiving Factory (English)')}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.name_en || ""}
                                     invalid={
                                       formik.touched.name_en &&
-                                      formik.errors.name_en
+                                        formik.errors.name_en
                                         ? true
                                         : false
                                     }
                                   />
                                   {formik.touched.name_en &&
-                                  formik.errors.name_en ? (
+                                    formik.errors.name_en ? (
                                     <FormFeedback type="invalid">
                                       {formik.errors.name_en}
                                     </FormFeedback>
@@ -493,12 +495,12 @@ const ModalDatas = ({
                               <Col lg={6}>
                                 <div className="mb-3">
                                   <Label className="form-label fw-bold">
-                                    Ngày gia nhập
+                                    {t('Registration date')}
                                   </Label>
                                   <Input
                                     name="date_of_joining_syndication"
                                     type="date"
-                                    placeholder="Chọn ngày"
+                                    placeholder={t('Registration date')}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={
@@ -508,13 +510,13 @@ const ModalDatas = ({
                                     invalid={
                                       formik.touched
                                         .date_of_joining_syndication &&
-                                      formik.errors.date_of_joining_syndication
+                                        formik.errors.date_of_joining_syndication
                                         ? true
                                         : false
                                     }
                                   />
                                   {formik.touched.date_of_joining_syndication &&
-                                  formik.errors.date_of_joining_syndication ? (
+                                    formik.errors.date_of_joining_syndication ? (
                                     <FormFeedback type="invalid">
                                       {
                                         formik.errors
@@ -527,24 +529,24 @@ const ModalDatas = ({
                               <Col lg={6}>
                                 <div className="mb-3">
                                   <Label className="form-label fw-bold">
-                                    Mã số thuế
+                                    {t('Tax code')}
                                   </Label>
                                   <Input
                                     name="tax_code"
-                                    placeholder="Nhập mã số thuế"
+                                    placeholder={t('Tax code')}
                                     type="text"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.tax_code || ""}
                                     invalid={
                                       formik.touched.tax_code &&
-                                      formik.errors.tax_code
+                                        formik.errors.tax_code
                                         ? true
                                         : false
                                     }
                                   />
                                   {formik.touched.tax_code &&
-                                  formik.errors.tax_code ? (
+                                    formik.errors.tax_code ? (
                                     <FormFeedback type="invalid">
                                       {formik.errors.tax_code}
                                     </FormFeedback>
@@ -554,7 +556,7 @@ const ModalDatas = ({
                               <Col>
                                 <div className="mt-2">
                                   <Label className="form-label fw-bold">
-                                    Ghi chú
+                                    {t('Description')}
                                   </Label>
                                   <Input
                                     name="description"
@@ -568,13 +570,13 @@ const ModalDatas = ({
                                     placeholder="Nhập nội dung"
                                     invalid={
                                       formik.touched.description &&
-                                      formik.errors.description
+                                        formik.errors.description
                                         ? true
                                         : false
                                     }
                                   />
                                   {formik.touched.description &&
-                                  formik.errors.description ? (
+                                    formik.errors.description ? (
                                     <FormFeedback type="invalid">
                                       {formik.errors.description}
                                     </FormFeedback>
@@ -588,7 +590,7 @@ const ModalDatas = ({
                     </Row>
 
                     {!isEditFactory && (
-                      <Card style={{ minWidth: "1100px" , marginTop: '20px'}}>
+                      <Card style={{ minWidth: "1100px", marginTop: '20px' }}>
                         <CardBody className="bg-light">
                           <h4 className="fw-bold">
                             {t("Contact Information")}
@@ -699,10 +701,10 @@ const ModalDatas = ({
                                               defaultValue={
                                                 isEditFactory
                                                   ? provinceOptions.find(
-                                                      item =>
-                                                        item.StateID ==
-                                                        address.province_id
-                                                    )
+                                                    item =>
+                                                      item.StateID ==
+                                                      address.province_id
+                                                  )
                                                   : ""
                                               }
                                               // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
@@ -718,7 +720,7 @@ const ModalDatas = ({
                                                 updateAddressDataFactory(arr)
                                               }}
                                               options={provinceOptions}
-                                              // isClearable
+                                            // isClearable
                                             />
                                           </div>
                                         </Col>
@@ -732,10 +734,10 @@ const ModalDatas = ({
                                               defaultValue={
                                                 isEditFactory
                                                   ? districtOptions.find(
-                                                      item =>
-                                                        item.DistrictID ==
-                                                        address.district_id
-                                                    )
+                                                    item =>
+                                                      item.DistrictID ==
+                                                      address.district_id
+                                                  )
                                                   : ""
                                               }
                                               onChange={item => {
@@ -751,7 +753,7 @@ const ModalDatas = ({
                                               }}
                                               options={districtOptions}
                                               className="select2-selection"
-                                              // isClearable
+                                            // isClearable
                                             />
                                           </div>
                                         </Col>
@@ -765,10 +767,10 @@ const ModalDatas = ({
                                               defaultValue={
                                                 isEditFactory
                                                   ? communeOptions.find(
-                                                      item =>
-                                                        item.WardID ==
-                                                        address.commune_id
-                                                    )
+                                                    item =>
+                                                      item.WardID ==
+                                                      address.commune_id
+                                                  )
                                                   : ""
                                               }
                                               onChange={item => {
@@ -784,7 +786,7 @@ const ModalDatas = ({
                                               }}
                                               options={communeOptions}
                                               className="select2-selection"
-                                              // isClearable
+                                            // isClearable
                                             />
                                           </div>
                                         </Col>

@@ -9,6 +9,9 @@ import DataContext from "data/DataContext"
 
 import DeleteModal from "components/Common/DeleteModal"
 import ModalDatas from "./ModalDatas"
+import { useTranslation } from "react-i18next"
+
+
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -30,6 +33,7 @@ FilterService.register("custom_activity", (value, filters) => {
 })
 
 const TableDatas = () => {
+  const { t } = useTranslation()
   const { vh } = useContext(DataContext)
 
   const [selectedItems, setSelectedItems] = useState(null)
@@ -121,12 +125,12 @@ const TableDatas = () => {
           <InputText
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
-            placeholder="Nhập từ khoá tìm kiếm ..."
+            placeholder={t('Search')}
           />
         </span>
 
         <Button className="btn btn-primary" onClick={addForm}>
-          Thêm mới
+          {t('Add Career')}
         </Button>
       </div>
     )
@@ -172,6 +176,8 @@ const TableDatas = () => {
   // console.log('loadingIntern', loadingIntern)
   // console.log('dataUpdateReponse', dataUpdateReponse)
 
+
+
   return (
     <div className="card">
       <DataTable
@@ -194,8 +200,8 @@ const TableDatas = () => {
         scrollable
         scrollHeight={vh}
         size={"small"}
-        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+      // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+      // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column
           selectionMode="multiple"
@@ -210,19 +216,19 @@ const TableDatas = () => {
         ></Column>
         <Column
           field="name"
-          header="Name"
+          header={t('Occupation  Name')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="description"
-          header="Description"
+          header={t("Description")}
           showFilterMenu={true}
           style={{ minWidth: "14rem" }}
         ></Column>
         <Column
           field="action"
-          header="Action"
+          header={t('Action')}
           style={{ minWidth: "14rem" }}
           body={actionBody}
         ></Column>

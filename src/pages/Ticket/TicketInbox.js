@@ -24,6 +24,7 @@ import moment from "moment"
 import DataContext from "data/DataContext"
 import { Editor } from "primereact/editor"
 import _ from "lodash"
+import { t } from 'i18next';
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -444,7 +445,7 @@ const TicketInbox = props => {
                   }}
                   block
                 >
-                  Tạo Ticket Mới
+                  {t('Create New Ticket')}
                 </Button>
                 <div className="mail-list mt-4">
                   <Nav tabs className="nav-tabs-custom" vertical role="tablist">
@@ -459,8 +460,7 @@ const TicketInbox = props => {
                           setIsOutbox(false)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư
-                        đến{" "}
+                        <i className="mdi mdi-email-outline me-2"></i> {t('Inbox')}{" "}
                         <span className="ml-1 float-end fw-bold">
                           ({counters[0]})
                         </span>
@@ -478,8 +478,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> Hộp thư
-                        đi{" "}
+                        <i className="mdi mdi-email-outline me-2"></i> {t('Sent Items')}{" "}
                         <span className="ml-1 float-end">({counters[4]})</span>
                       </NavLink>
                     </NavItem>
@@ -495,7 +494,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-star-outline me-2"></i>Mới
+                        <i className="mdi mdi-star-outline me-2"></i>{t('New Email')}
                         <span className="ml-1 float-end">({counters[1]})</span>
                       </NavLink>
                     </NavItem>
@@ -511,7 +510,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-diamond-stone me-2"></i>Đang xử lý
+                        <i className="mdi mdi-diamond-stone me-2"></i>{t('In Progress')}
                         <span className="ml-1 float-end">({counters[2]})</span>
                       </NavLink>
                     </NavItem>
@@ -527,8 +526,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-file-outline me-2"></i>Đã hoàn
-                        thành
+                        <i className="mdi mdi-file-outline me-2"></i>{t('Completed')}
                         <span className="ml-1 float-end">({counters[3]})</span>
                       </NavLink>
                     </NavItem>
@@ -572,9 +570,8 @@ const TicketInbox = props => {
                 }}
               >
                 {isEditTicket
-                  ? `Ticket ID - ${
-                      ticketRowData != null ? ticketRowData.id : "---"
-                    }`
+                  ? `Ticket ID - ${ticketRowData != null ? ticketRowData.id : "---"
+                  }`
                   : "Tạo Ticket Mới"}
               </ModalHeader>
               <ModalBody>
@@ -589,12 +586,12 @@ const TicketInbox = props => {
                               className="input-group-text"
                               htmlFor="inputGroupFile01"
                             >
-                              Đối tượng gửi:
+                              {t('Object')}:
                             </Label>
                             <Select
                               id="inputGroupFile01"
                               name=""
-                              placeholder="Select object type"
+                              placeholder={t('Object')}
                               value={userType}
                               onChange={item => {
                                 setUserType(item)
@@ -611,12 +608,12 @@ const TicketInbox = props => {
                               className="input-group-text"
                               htmlFor="inputGroup2"
                             >
-                              Gửi tới:
+                              {t('Recipient')}:
                             </Label>
                             <Select
                               id="inputGroup2"
                               name=""
-                              placeholder="Select object send"
+                              placeholder={t('Recipient')}
                               value={selectOption}
                               onChange={item => {
                                 setSelectOption(item)
@@ -632,12 +629,12 @@ const TicketInbox = props => {
                               className="input-group-text"
                               htmlFor="inputGroup3"
                             >
-                              Tiêu đề:
+                              {t('Subject')}:
                             </Label>
                             <Input
                               id="inputGroup3"
                               type="text"
-                              placeholder="Subject"
+                              placeholder={t('Subject')}
                               value={title}
                               onChange={e => {
                                 setTitle(e.target.value)
@@ -706,7 +703,7 @@ const TicketInbox = props => {
                       }
                     }}
                   >
-                    Send <i className="fab fa-telegram-plane ms-1"></i>
+                    {t('Send')} <i className="fab fa-telegram-plane ms-1"></i>
                   </Button>
                 </div>
               </ModalFooter>

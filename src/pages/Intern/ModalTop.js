@@ -58,8 +58,8 @@ const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
       backgroundColor: isFocused
         ? "lightgray"
         : isSelected
-        ? "lightgray"
-        : null,
+          ? "lightgray"
+          : null,
       fontWeight: isSelected ? "bold" : "normal",
       height: "40px",
       padding: "4px",
@@ -323,9 +323,8 @@ const ModalTop = ({
     )
   }
 
-  const footer = `In total there are ${
-    selectIntern ? selectIntern.length : 0
-  } Intern.`
+  const footer = `In total there are ${selectIntern ? selectIntern.length : 0
+    } Intern.`
 
   // console.log('alienCardApiData', alienCardApiData)
 
@@ -337,7 +336,7 @@ const ModalTop = ({
             <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
-                style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
+                style={{ minWidth: '150px', marginBottom: '5px', width: '80%' }}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -356,7 +355,7 @@ const ModalTop = ({
             <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
-                style={{minWidth: '150px', marginBottom: '5px', width: '80%'}}
+                style={{ minWidth: '150px', marginBottom: '5px', width: '80%' }}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -375,7 +374,7 @@ const ModalTop = ({
             <Col xl={4} md={12} className="d-flex justify-content-center mt-2">
               <Button
                 color="gray-soft"
-                style={{ minWidth: '150px', marginBottom: '5px', width: '80%'}}
+                style={{ minWidth: '150px', marginBottom: '5px', width: '80%' }}
                 onClick={() => {
                   tog_xlarge()
                 }}
@@ -396,7 +395,7 @@ const ModalTop = ({
                   tog_fullscreen()
                 }}
               >
-                {t("Add Intern")}
+                {t("Add")}
               </Button>
             </Col>
           </Row>
@@ -657,7 +656,7 @@ const ModalTop = ({
                       }}
                       options={internData}
                       components={{ Option: CustomOption }}
-                      // className="select2-selection"
+                    // className="select2-selection"
                     />
                   </div>
                 </Col>
