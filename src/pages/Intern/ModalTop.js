@@ -58,8 +58,8 @@ const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
       backgroundColor: isFocused
         ? "lightgray"
         : isSelected
-        ? "lightgray"
-        : null,
+          ? "lightgray"
+          : null,
       fontWeight: isSelected ? "bold" : "normal",
       height: "40px",
       padding: "4px",
@@ -323,9 +323,8 @@ const ModalTop = ({
     )
   }
 
-  const footer = `In total there are ${
-    selectIntern ? selectIntern.length : 0
-  } Intern.`
+  const footer = `In total there are ${selectIntern ? selectIntern.length : 0
+    } Intern.`
 
   // console.log('alienCardApiData', alienCardApiData)
 
@@ -396,7 +395,7 @@ const ModalTop = ({
                   tog_fullscreen()
                 }}
               >
-                {t("Add Intern")}
+                {t("Add")}
               </Button>
             </Col>
           </Row>
@@ -590,7 +589,7 @@ const ModalTop = ({
                       }}
                       options={internData}
                       components={{ Option: CustomOption }}
-                      // className="select2-selection"
+                    // className="select2-selection"
                     />
                   </div>
                 </Col>

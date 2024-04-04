@@ -9,6 +9,7 @@ import DataContext from "data/DataContext"
 import DeleteModal from "components/Common/DeleteModal"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
+import { t } from 'i18next';
 
 FilterService.register("custom_activity", (value, filters) => {
   const [from, to] = filters ?? [null, null]
@@ -95,7 +96,7 @@ const TableDatas = ({ dataTable }) => {
           <InputText
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
-            placeholder="Nhập từ khoá tìm kiếm ..."
+            placeholder={t('Search')}
           />
         </span>
       </div>
@@ -224,8 +225,8 @@ const TableDatas = ({ dataTable }) => {
         scrollHeight={vh}
         style={{ minHeight: vh }}
         size={"small"}
-        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+      // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+      // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         {/* <Column
           selectionMode="multiple"
@@ -242,23 +243,23 @@ const TableDatas = ({ dataTable }) => {
         ></Column>
         <Column
           field="send_date"
-          header="Ngày gửi"
+          header={t('Date Sent')}
           filterField="send_date"
           // filter
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder={t('Search')}
           sortable
           style={{ minWidth: "10rem" }}
         ></Column>
         <Column
           field="title"
-          header="Tiêu đề"
+          header={t('Subject')}
           filterField="title"
           style={{ minWidth: "15rem" }}
         ></Column>
         {isInbox && (
           <Column
             field="sender_name"
-            header="Người gửi"
+            header={t('Sender')}
             filterField="date_of_joining_syndication"
             // filter
             filterPlaceholder="Tìm kiếm bằng tên"
@@ -269,7 +270,7 @@ const TableDatas = ({ dataTable }) => {
         {isOutbox && (
           <Column
             field="receiver_name"
-            header="Người nhận"
+            header={t('Recipient')}
             style={{ minWidth: "12rem" }}
           ></Column>
         )}
@@ -280,7 +281,7 @@ const TableDatas = ({ dataTable }) => {
         ></Column> */}
         <Column
           field="ticket_status"
-          header="Trạng thái"
+          header={t('Status')}
           body={statusBodyTemplate}
           style={{ minWidth: "8rem" }}
         ></Column>
