@@ -88,9 +88,6 @@ const Register = props => {
     }
   }, [])
 
-  // console.log("usersData", usersData)
-  console.log("dataKey", dataKey)
-
   // ma hoa password
   function hashPassword(password) {
     const hashedPassword = CryptoJS.SHA256(password).toString()
@@ -110,17 +107,17 @@ const Register = props => {
       name_jp: "",
     },
     validationSchema: Yup.object().shape({
-      // display_name: Yup.string().required("Please Enter Display Name"),
-      // email: Yup.string()
-      //   .email("Must be a valid Email")
-      //   .max(255)
-      //   .required("Email is required")
-      //   .test(
-      //     "done",
-      //     "Email already exists",
-      //     value => usersData.find(u => u.username == value) == undefined
-      //   ),
-      // username: Yup.string().required("Please Enter Your Username"),
+      display_name: Yup.string().required("Please Enter Display Name"),
+      email: Yup.string()
+        .email("Must be a valid Email")
+        .max(255)
+        .required("Email is required")
+        .test(
+          "done",
+          "Email already exists",
+          value => usersData.find(u => u.username == value) == undefined
+        ),
+      username: Yup.string().required("Please Enter Your Username"),
       password: Yup.string().min(
         6,
         "Password must be at least 6 characters long"
@@ -129,7 +126,7 @@ const Register = props => {
         [Yup.ref("password"), null],
         "Password incorrect"
       ),
-      // name_jp: Yup.string().required("Please Enter Enterprise Name"),
+      name_jp: Yup.string().required("Please Enter Enterprise Name"),
     }),
     onSubmit: value => {
       console.log("submit")
@@ -208,7 +205,7 @@ const Register = props => {
             flag: 1,
           }
           dispatch(updateKeyLicense(keyUpdate))
-          console.log('keyUpdate', keyUpdate);
+          console.log("keyUpdate", keyUpdate)
         } else {
           userObj.object_id = syndicationCreateData.id
           dispatch(registerUser(userObj))
@@ -263,7 +260,9 @@ const Register = props => {
     success && keySuccess && setTimeout(() => navigate("/login"), 2000)
   }, [success, keySuccess])
 
-  console.log("keySuccess", keySuccess)
+  // console.log("keySuccess", keySuccess)
+  // console.log("usersData", usersData)
+  // console.log("dataKey", dataKey)
 
   return (
     <React.Fragment>

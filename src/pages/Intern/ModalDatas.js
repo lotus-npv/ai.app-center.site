@@ -1120,17 +1120,6 @@ const ModalDatas = ({
   // console.log("isHasAccount:", isHasAccount)
   // console.log("dataStatus:", statusData)
 
-  const isFormFieldInvalid = name =>
-    !!(formik.touched[name] && formik.errors[name])
-
-  const getFormErrorMessage = name => {
-    return isFormFieldInvalid(name) ? (
-      <small className="p-error">{formik.errors[name]}</small>
-    ) : (
-      <small className="p-error">&nbsp;</small>
-    )
-  }
-
   return (
     <>
       <Form>
@@ -1171,8 +1160,8 @@ const ModalDatas = ({
                 {/* <Card> */}
                 {/* <CardBody> */}
 
-                <Card>
-                  <CardBody className="bg-light">
+                {/* <Card>
+                  <CardBody className="bg-light"> */}
                     <Row>
                       <Col lg={2} xl={2} sm={4}>
                         <div className="d-flex justify-content-center">
@@ -1206,6 +1195,10 @@ const ModalDatas = ({
                         </div>
                         <Divider />
                         <div>
+                          <Card>
+                            <CardBody>
+
+                          
                           <div className="mb-3">
                             <Switch
                               name="status_type"
@@ -1301,6 +1294,8 @@ const ModalDatas = ({
                               </div>
                             </div>
                           )}
+                            </CardBody>
+                          </Card>
                         </div>
                       </Col>
 
@@ -2007,8 +2002,8 @@ const ModalDatas = ({
                         </Card>
                       </Col>
                     </Row>
-                  </CardBody>
-                </Card>
+                  {/* </CardBody>
+                </Card> */}
 
                 {!isEditIntern && (
                   <Card style={{ minWidth: "1100px", marginTop: "30px" }}>

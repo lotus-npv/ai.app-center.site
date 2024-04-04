@@ -17,7 +17,10 @@ import {
   Spinner,
 } from "reactstrap"
 
+import { Divider } from "primereact/divider"
+
 import Select from "react-select"
+import Switch from "react-switch"
 import moment from "moment"
 
 import * as Yup from "yup"
@@ -26,8 +29,7 @@ import { useTranslation } from "react-i18next"
 // import context
 import DataContext from "../../data/DataContext"
 import avata from "../../assets/images/users/avatar-1.jpg"
-import { t } from 'i18next';
-
+import { t } from "i18next"
 
 const optionGroup = [
   { label: "Viet Nam", value: 1 },
@@ -47,6 +49,50 @@ import {
   uploadFile,
 } from "store/actions"
 
+const Offsymbol = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        fontSize: 12,
+        color: "#fff",
+        paddingRight: 2,
+      }}
+    >
+      {" "}
+      No
+    </div>
+  )
+}
+
+const OnSymbol = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        fontSize: 12,
+        color: "#fff",
+        paddingRight: 2,
+      }}
+    >
+      {" "}
+      Yes
+    </div>
+  )
+}
+
+// ma hoa password
+function hashPassword(password) {
+  const hashedPassword = CryptoJS.SHA256(password).toString()
+  return hashedPassword
+}
+
 //===============================================================================================================//
 const ModalDatas = ({
   item,
@@ -56,7 +102,7 @@ const ModalDatas = ({
   addressData,
   factoryData,
 }) => {
-  const user = JSON.parse(localStorage.getItem("authUser"))[0];
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -135,6 +181,28 @@ const ModalDatas = ({
     }
   }
 
+  //--------------------------------------------------------------------------------//
+  // cho phép truy cap he thong
+  const [isHasAccount, setIsHasAccount] = useState(false)
+  const [isLogin, setIsLogin] = useState(false)
+  const [account, setAccount] = useState(null)
+
+  useEffect(() => {
+    if (item && usersData) {
+      const arr = usersData.find(
+        u => u.object_id == item.id && u.object_type == item.type
+      )
+      // console.log(arr);
+      if (arr) {
+        setAccount(arr)
+        setIsHasAccount(true)
+        if (arr.active == 1) {
+          setIsLogin(true)
+        }
+      }
+    }
+  }, [item])
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -148,14 +216,18 @@ const ModalDatas = ({
       date_of_joining_syndication:
         item != null
           ? moment(item.date_of_joining_syndication)
-            .utcOffset("+07:00")
-            .format("YYYY-MM-DD")
+              .utcOffset("+07:00")
+              .format("YYYY-MM-DD")
           : "",
       description: item !== null ? item.description : "",
       create_at: item !== null ? item.create_at : "",
       create_by: item !== null ? item.create_by : user.id,
       update_at: item !== null ? item.update_at : "",
       update_by: item !== null ? item.update_by : user.id,
+
+      username: account != null ? account.username : "",
+      password: "",
+      repassword: "",
     },
     validationSchema: Yup.object().shape({
       name_jp: Yup.string().required("This value is required"),
@@ -274,8 +346,6 @@ const ModalDatas = ({
 
   const [provinceOptions, setProvinceOptions] = useState([])
 
-
-
   useEffect(() => {
     if (provinceDataByNationId) {
       const data = provinceDataByNationId.map(province => {
@@ -383,16 +453,17 @@ const ModalDatas = ({
           </div>
 
           <div className="modal-body">
-            {/* <Form> */}
             <Row>
               <Col lg={12}>
-                <Card>
-                  <CardBody>
-                    <Row>
-                      <Col lg={1} xl={1} sm={3}>
+                {/* <Card>
+                  <CardBody> */}
+                <Row>
+                  <Col lg={2} xl={2} sm={4}>
+                    <Card style={{height: '100%'}}>
+                      <div className="d-flex justify-content-center">
                         <Card
                           style={{
-                            width: "100%",
+                            width: "70%",
                           }}
                         >
                           <CardBody className="d-flex flex-column bg-light">
@@ -420,7 +491,9 @@ const ModalDatas = ({
                             <Button
                               onClick={() => fileInputRef.current.click()}
                             >
-                              {isEditFactory ? t('Change photo') : t('Upload photo')}
+                              {isEditFactory
+                                ? t("Change photo")
+                                : t("Upload photo")}
                             </Button>{" "}
                             <input
                               onChange={handleChange}
@@ -431,466 +504,552 @@ const ModalDatas = ({
                             />
                           </CardBody>
                         </Card>
-                      </Col>
-                      <Col lg={11} xl={11} sm={12}>
-                        <Card className="bg-light h-100">
-                          <CardBody>
-                            <Row>
-                              <Col lg={6}>
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t('Receiving Factory (Japanese)')}
-                                  </Label>
-                                  <Input
-                                    name="name_jp"
-                                    placeholder={t('Enter Receiving Factory (Japanese)')}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.name_jp || ""}
-                                    invalid={
-                                      formik.touched.name_jp &&
-                                        formik.errors.name_jp
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.name_jp &&
-                                    formik.errors.name_jp ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.name_jp}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={6}>
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t('Receiving Factory (English)')}
-                                  </Label>
-                                  <Input
-                                    name="name_en"
-                                    type="text"
-                                    placeholder={t('Enter Receiving Factory (English)')}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.name_en || ""}
-                                    invalid={
-                                      formik.touched.name_en &&
-                                        formik.errors.name_en
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.name_en &&
-                                    formik.errors.name_en ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.name_en}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col lg={6}>
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t('Registration date')}
-                                  </Label>
-                                  <Input
-                                    name="date_of_joining_syndication"
-                                    type="date"
-                                    placeholder={t('Registration date')}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={
-                                      formik.values
-                                        .date_of_joining_syndication || ""
-                                    }
-                                    invalid={
-                                      formik.touched
-                                        .date_of_joining_syndication &&
-                                        formik.errors.date_of_joining_syndication
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.date_of_joining_syndication &&
-                                    formik.errors.date_of_joining_syndication ? (
-                                    <FormFeedback type="invalid">
-                                      {
-                                        formik.errors
-                                          .date_of_joining_syndication
+                      </div>
+                      <Divider />
+                      <div>
+                        {/* <Card>
+                          <CardBody> */}
+                            <div className="mb-3">
+                              <Switch
+                                name="status_type"
+                                uncheckedIcon={<Offsymbol />}
+                                checkedIcon={<OnSymbol />}
+                                className="me-3 mb-sm-8"
+                                onColor="#626ed4"
+                                onChange={value => {
+                                  setIsLogin(value)
+                                }}
+                                checked={isLogin}
+                              />
+                              <Label>{t("Login System")}</Label>
+                            </div>
+                            {isLogin && (
+                              <div className="">
+                                <div>
+                                  <div className="mb-3">
+                                    <Input
+                                      name="username"
+                                      placeholder={t("Username")}
+                                      type="text"
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={formik.values.username}
+                                      className="mt-2"
+                                      disabled={isHasAccount ? true : false}
+                                      invalid={
+                                        formik.touched.username &&
+                                        formik.errors.username
+                                          ? true
+                                          : false
                                       }
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={6}>
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t('Tax code')}
-                                  </Label>
-                                  <Input
-                                    name="tax_code"
-                                    placeholder={t('Tax code')}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.tax_code || ""}
-                                    invalid={
-                                      formik.touched.tax_code &&
-                                        formik.errors.tax_code
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.tax_code &&
-                                    formik.errors.tax_code ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.tax_code}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col>
-                                <div className="mt-2">
-                                  <Label className="form-label fw-bold">
-                                    {t('Description')}
-                                  </Label>
-                                  <Input
-                                    name="description"
-                                    type="textarea"
-                                    id="textarea"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.description || ""}
-                                    maxLength="225"
-                                    rows="3"
-                                    placeholder="Nhập nội dung"
-                                    invalid={
-                                      formik.touched.description &&
-                                        formik.errors.description
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.description &&
-                                    formik.errors.description ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.description}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
+                                    />
+                                    {formik.touched.username &&
+                                    formik.errors.username ? (
+                                      <FormFeedback type="invalid">
+                                        {formik.errors.username}
+                                      </FormFeedback>
+                                    ) : null}
+                                  </div>
 
-                    {!isEditFactory && (
-                      <Card style={{ minWidth: "1100px", marginTop: '20px' }}>
-                        <CardBody className="bg-light">
-                          <h4 className="fw-bold">
-                            {t("Contact Information")}
-                          </h4>
-                          <Row className="border border-secondary mt-3">
-                            <div>
-                              <Row className="bg-secondary text-light">
-                                <Col lg={12} sm={12}>
+                                  {!isHasAccount && (
+                                    <>
+                                      <div className="mb-3">
+                                        <Input
+                                          name="password"
+                                          placeholder={t("Password")}
+                                          type="password"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.password}
+                                          className="mt-2"
+                                          invalid={
+                                            formik.touched.password &&
+                                            formik.errors.password
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        {formik.touched.password &&
+                                        formik.errors.password ? (
+                                          <FormFeedback type="invalid">
+                                            {formik.errors.password}
+                                          </FormFeedback>
+                                        ) : null}
+                                      </div>
+
+                                      <div className="mb-3">
+                                        <Input
+                                          name="confirmPassword"
+                                          placeholder={t("Confirm Password")}
+                                          type="password"
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          value={formik.values.confirmPassword}
+                                          invalid={
+                                            formik.touched.confirmPassword &&
+                                            formik.errors.confirmPassword
+                                              ? true
+                                              : false
+                                          }
+                                        />
+                                        {formik.touched.confirmPassword &&
+                                        formik.errors.confirmPassword ? (
+                                          <FormFeedback type="invalid">
+                                            {formik.errors.confirmPassword}
+                                          </FormFeedback>
+                                        ) : null}
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          {/* </CardBody>
+                        </Card> */}
+                      </div>
+                    </Card>
+                  </Col>
+                  <Col lg={10} xl={10} sm={8}>
+                    <Card className="bg-light h-100">
+                      <CardBody>
+                        <Row>
+                          <Col lg={6}>
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Receiving Factory (Japanese)")}
+                              </Label>
+                              <Input
+                                name="name_jp"
+                                placeholder={t(
+                                  "Enter Receiving Factory (Japanese)"
+                                )}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.name_jp || ""}
+                                invalid={
+                                  formik.touched.name_jp &&
+                                  formik.errors.name_jp
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.name_jp &&
+                              formik.errors.name_jp ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.name_jp}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={6}>
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Receiving Factory (English)")}
+                              </Label>
+                              <Input
+                                name="name_en"
+                                type="text"
+                                placeholder={t(
+                                  "Enter Receiving Factory (English)"
+                                )}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.name_en || ""}
+                                invalid={
+                                  formik.touched.name_en &&
+                                  formik.errors.name_en
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.name_en &&
+                              formik.errors.name_en ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.name_en}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg={6}>
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Registration date")}
+                              </Label>
+                              <Input
+                                name="date_of_joining_syndication"
+                                type="date"
+                                placeholder={t("Registration date")}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={
+                                  formik.values.date_of_joining_syndication ||
+                                  ""
+                                }
+                                invalid={
+                                  formik.touched.date_of_joining_syndication &&
+                                  formik.errors.date_of_joining_syndication
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.date_of_joining_syndication &&
+                              formik.errors.date_of_joining_syndication ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.date_of_joining_syndication}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={6}>
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Tax code")}
+                              </Label>
+                              <Input
+                                name="tax_code"
+                                placeholder={t("Tax code")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.tax_code || ""}
+                                invalid={
+                                  formik.touched.tax_code &&
+                                  formik.errors.tax_code
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.tax_code &&
+                              formik.errors.tax_code ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.tax_code}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col>
+                            <div className="mt-2">
+                              <Label className="form-label fw-bold">
+                                {t("Description")}
+                              </Label>
+                              <Input
+                                name="description"
+                                type="textarea"
+                                id="textarea"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.description || ""}
+                                maxLength="225"
+                                rows="3"
+                                placeholder="Nhập nội dung"
+                                invalid={
+                                  formik.touched.description &&
+                                  formik.errors.description
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.description &&
+                              formik.errors.description ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.description}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+
+                {!isEditFactory && (
+                  <Card style={{ minWidth: "1100px", marginTop: "20px" }}>
+                    <CardBody className="bg-light">
+                      <h4 className="fw-bold">{t("Contact Information")}</h4>
+                      <Row className="border border-secondary mt-3">
+                        <div>
+                          <Row className="bg-secondary text-light">
+                            <Col lg={12} sm={12}>
+                              <Row>
+                                <Col
+                                  lg={2}
+                                  sm={2}
+                                  className="text-center mt-2 fw-bold"
+                                >
+                                  <p>{t("Country")}</p>
+                                </Col>
+                                <Col
+                                  lg={2}
+                                  sm={2}
+                                  className="text-center mt-2 fw-bold"
+                                >
+                                  <p>{t("Province")}</p>
+                                </Col>
+                                <Col
+                                  lg={2}
+                                  sm={2}
+                                  className="text-center mt-2 fw-bold"
+                                >
+                                  <p>{t("District")}</p>
+                                </Col>
+                                <Col
+                                  lg={2}
+                                  sm={2}
+                                  className="text-center mt-2 fw-bold"
+                                >
+                                  <p>{t("Ward")}</p>
+                                </Col>
+                                <Col
+                                  lg={3}
+                                  sm={3}
+                                  className="text-center mt-2 fw-bold"
+                                >
+                                  <p>{t("House Number, Street, etc.")}</p>
+                                </Col>
+                                <Col
+                                  lg={1}
+                                  sm={1}
+                                  className="text-center mt-2 fw-bold"
+                                >
+                                  <p>{t("Default address")}</p>
+                                </Col>
+                              </Row>
+                            </Col>
+                          </Row>
+                        </div>
+
+                        {addressDataFactory.map((address, index) => {
+                          return (
+                            <Row
+                              className="mt-2"
+                              key={index}
+                              id={"nested" + index}
+                            >
+                              <Col lg={12}>
+                                <div>
                                   <Row>
                                     <Col
                                       lg={2}
                                       sm={2}
-                                      className="text-center mt-2 fw-bold"
+                                      className="d-flex justify-content-between gap-2 mt-2"
                                     >
-                                      <p>{t("Country")}</p>
+                                      <div className="mb-3">
+                                        <CloseButton
+                                          className="mt-2"
+                                          onClick={() => {
+                                            handleDeleteColumn(index)
+                                          }}
+                                        />
+                                      </div>
+                                      <div className="mb-3 w-100">
+                                        <Select
+                                          name="nation_id"
+                                          placeholder={t("Country")}
+                                          // value={selectNation}
+                                          onChange={item => {
+                                            setSelectNation(item)
+                                            const arr = [...addressDataFactory]
+                                            arr[index] = {
+                                              ...arr[index],
+                                              nation_id: item.value,
+                                            }
+                                            updateAddressDataFactory(arr)
+                                          }}
+                                          options={optionGroup}
+                                          className="w-100"
+                                        />
+                                      </div>
                                     </Col>
-                                    <Col
-                                      lg={2}
-                                      sm={2}
-                                      className="text-center mt-2 fw-bold"
-                                    >
-                                      <p>{t("Province")}</p>
+
+                                    <Col lg={2} sm={2} className="mt-2">
+                                      <div className="mb-3">
+                                        <Select
+                                          name="province_id"
+                                          placeholder={t("Province")}
+                                          // value={selectProvince || ""}
+                                          defaultValue={
+                                            isEditFactory
+                                              ? provinceOptions.find(
+                                                  item =>
+                                                    item.StateID ==
+                                                    address.province_id
+                                                )
+                                              : ""
+                                          }
+                                          // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
+                                          onChange={item => {
+                                            setSelectProvince(item)
+                                            const arr = [...addressDataFactory]
+                                            arr[index] = {
+                                              ...arr[index],
+                                              province_id: item.StateID,
+                                            }
+                                            updateAddressDataFactory(arr)
+                                          }}
+                                          options={provinceOptions}
+                                          // isClearable
+                                        />
+                                      </div>
                                     </Col>
-                                    <Col
-                                      lg={2}
-                                      sm={2}
-                                      className="text-center mt-2 fw-bold"
-                                    >
-                                      <p>{t("District")}</p>
+
+                                    <Col lg={2} sm={2} className="mt-2 ">
+                                      <div className="mb-3">
+                                        <Select
+                                          name="district"
+                                          placeholder={t("District")}
+                                          // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
+                                          defaultValue={
+                                            isEditFactory
+                                              ? districtOptions.find(
+                                                  item =>
+                                                    item.DistrictID ==
+                                                    address.district_id
+                                                )
+                                              : ""
+                                          }
+                                          onChange={item => {
+                                            setSelectDistrict(item)
+                                            const arr = [...addressDataFactory]
+                                            arr[index] = {
+                                              ...arr[index],
+                                              district_id: item.DistrictID,
+                                            }
+                                            updateAddressDataFactory(arr)
+                                          }}
+                                          options={districtOptions}
+                                          className="select2-selection"
+                                          // isClearable
+                                        />
+                                      </div>
                                     </Col>
-                                    <Col
-                                      lg={2}
-                                      sm={2}
-                                      className="text-center mt-2 fw-bold"
-                                    >
-                                      <p>{t("Ward")}</p>
+
+                                    <Col lg={2} sm={2} className="mt-2">
+                                      <div className="mb-3">
+                                        <Select
+                                          name="commune"
+                                          placeholder={t("Ward")}
+                                          // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
+                                          defaultValue={
+                                            isEditFactory
+                                              ? communeOptions.find(
+                                                  item =>
+                                                    item.WardID ==
+                                                    address.commune_id
+                                                )
+                                              : ""
+                                          }
+                                          onChange={item => {
+                                            setSelectCommune(item)
+                                            const arr = [...addressDataFactory]
+                                            arr[index] = {
+                                              ...arr[index],
+                                              commune_id: item.WardID,
+                                            }
+                                            updateAddressDataFactory(arr)
+                                          }}
+                                          options={communeOptions}
+                                          className="select2-selection"
+                                          // isClearable
+                                        />
+                                      </div>
                                     </Col>
-                                    <Col
-                                      lg={3}
-                                      sm={3}
-                                      className="text-center mt-2 fw-bold"
-                                    >
-                                      <p>{t("House Number, Street, etc.")}</p>
+
+                                    <Col lg={3} sm={3} className="mt-2 fw-bold">
+                                      <div className="mb-3">
+                                        <Input
+                                          name="detail"
+                                          type="text"
+                                          placeholder={t(
+                                            "House Number, Street, etc."
+                                          )}
+                                          value={address.detail || ""}
+                                          onChange={e => {
+                                            const arr = [...addressDataFactory]
+                                            arr[index] = {
+                                              ...arr[index],
+                                              detail: e.target.value,
+                                            }
+                                            updateAddressDataFactory(arr)
+                                          }}
+                                        />
+                                      </div>
                                     </Col>
+
                                     <Col
                                       lg={1}
                                       sm={1}
-                                      className="text-center mt-2 fw-bold"
+                                      className="d-flex justify-content-center"
                                     >
-                                      <p>{t("Default address")}</p>
+                                      <div className="ms-2">
+                                        <input
+                                          className="form-check-input"
+                                          type="radio"
+                                          name="exampleRadios"
+                                          id={`radio-${index}`}
+                                          value={index}
+                                          style={{ marginTop: "12px" }}
+                                          onChange={handleChangeDefault}
+                                        />
+                                        <UncontrolledTooltip
+                                          placement="top"
+                                          target={`radio-${index}`}
+                                        >
+                                          {t("Default address")}
+                                        </UncontrolledTooltip>
+                                      </div>
                                     </Col>
                                   </Row>
-                                </Col>
-                              </Row>
-                            </div>
-
-                            {addressDataFactory.map((address, index) => {
-                              return (
-                                <Row
-                                  className="mt-2"
-                                  key={index}
-                                  id={"nested" + index}
-                                >
-                                  <Col lg={12}>
-                                    <div>
-                                      <Row>
-                                        <Col
-                                          lg={2}
-                                          sm={2}
-                                          className="d-flex justify-content-between gap-2 mt-2"
-                                        >
-                                          <div className="mb-3">
-                                            <CloseButton
-                                              className="mt-2"
-                                              onClick={() => {
-                                                handleDeleteColumn(index)
-                                              }}
-                                            />
-                                          </div>
-                                          <div className="mb-3 w-100">
-                                            <Select
-                                              name="nation_id"
-                                              placeholder={t("Country")}
-                                              // value={selectNation}
-                                              onChange={item => {
-                                                setSelectNation(item)
-                                                const arr = [
-                                                  ...addressDataFactory,
-                                                ]
-                                                arr[index] = {
-                                                  ...arr[index],
-                                                  nation_id: item.value,
-                                                }
-                                                updateAddressDataFactory(arr)
-                                              }}
-                                              options={optionGroup}
-                                              className="w-100"
-                                            />
-                                          </div>
-                                        </Col>
-
-                                        <Col lg={2} sm={2} className="mt-2">
-                                          <div className="mb-3">
-                                            <Select
-                                              name="province_id"
-                                              placeholder={t("Province")}
-                                              // value={selectProvince || ""}
-                                              defaultValue={
-                                                isEditFactory
-                                                  ? provinceOptions.find(
-                                                    item =>
-                                                      item.StateID ==
-                                                      address.province_id
-                                                  )
-                                                  : ""
-                                              }
-                                              // value={provinceOptions.find(item => item.StateID == address.province_id) || ''}
-                                              onChange={item => {
-                                                setSelectProvince(item)
-                                                const arr = [
-                                                  ...addressDataFactory,
-                                                ]
-                                                arr[index] = {
-                                                  ...arr[index],
-                                                  province_id: item.StateID,
-                                                }
-                                                updateAddressDataFactory(arr)
-                                              }}
-                                              options={provinceOptions}
-                                            // isClearable
-                                            />
-                                          </div>
-                                        </Col>
-
-                                        <Col lg={2} sm={2} className="mt-2 ">
-                                          <div className="mb-3">
-                                            <Select
-                                              name="district"
-                                              placeholder={t("District")}
-                                              // value={districtOptions.find(item => item.DistrictID == address.district_id) || ''}
-                                              defaultValue={
-                                                isEditFactory
-                                                  ? districtOptions.find(
-                                                    item =>
-                                                      item.DistrictID ==
-                                                      address.district_id
-                                                  )
-                                                  : ""
-                                              }
-                                              onChange={item => {
-                                                setSelectDistrict(item)
-                                                const arr = [
-                                                  ...addressDataFactory,
-                                                ]
-                                                arr[index] = {
-                                                  ...arr[index],
-                                                  district_id: item.DistrictID,
-                                                }
-                                                updateAddressDataFactory(arr)
-                                              }}
-                                              options={districtOptions}
-                                              className="select2-selection"
-                                            // isClearable
-                                            />
-                                          </div>
-                                        </Col>
-
-                                        <Col lg={2} sm={2} className="mt-2">
-                                          <div className="mb-3">
-                                            <Select
-                                              name="commune"
-                                              placeholder={t("Ward")}
-                                              // value={communeOptions.find(item => item.WardID == address.commune_id) || ''}
-                                              defaultValue={
-                                                isEditFactory
-                                                  ? communeOptions.find(
-                                                    item =>
-                                                      item.WardID ==
-                                                      address.commune_id
-                                                  )
-                                                  : ""
-                                              }
-                                              onChange={item => {
-                                                setSelectCommune(item)
-                                                const arr = [
-                                                  ...addressDataFactory,
-                                                ]
-                                                arr[index] = {
-                                                  ...arr[index],
-                                                  commune_id: item.WardID,
-                                                }
-                                                updateAddressDataFactory(arr)
-                                              }}
-                                              options={communeOptions}
-                                              className="select2-selection"
-                                            // isClearable
-                                            />
-                                          </div>
-                                        </Col>
-
-                                        <Col
-                                          lg={3}
-                                          sm={3}
-                                          className="mt-2 fw-bold"
-                                        >
-                                          <div className="mb-3">
-                                            <Input
-                                              name="detail"
-                                              type="text"
-                                              placeholder={t(
-                                                "House Number, Street, etc."
-                                              )}
-                                              value={address.detail || ""}
-                                              onChange={e => {
-                                                const arr = [
-                                                  ...addressDataFactory,
-                                                ]
-                                                arr[index] = {
-                                                  ...arr[index],
-                                                  detail: e.target.value,
-                                                }
-                                                updateAddressDataFactory(arr)
-                                              }}
-                                            />
-                                          </div>
-                                        </Col>
-
-                                        <Col
-                                          lg={1}
-                                          sm={1}
-                                          className="d-flex justify-content-center"
-                                        >
-                                          <div className="ms-2">
-                                            <input
-                                              className="form-check-input"
-                                              type="radio"
-                                              name="exampleRadios"
-                                              id={`radio-${index}`}
-                                              value={index}
-                                              style={{ marginTop: "12px" }}
-                                              onChange={handleChangeDefault}
-                                            />
-                                            <UncontrolledTooltip
-                                              placement="top"
-                                              target={`radio-${index}`}
-                                            >
-                                              {t("Default address")}
-                                            </UncontrolledTooltip>
-                                          </div>
-                                        </Col>
-                                      </Row>
-                                    </div>
-                                  </Col>
-                                </Row>
-                              )
-                            })}
-
-                            <Row className="mb-2 mt-2">
-                              <Col lg={6} className="d-flex gap-2">
-                                <Button
-                                  onClick={handleAddForm}
-                                  color="secondary"
-                                  className="ms-4"
-                                >
-                                  <i
-                                    className="mdi mdi-plus font-size-18"
-                                    id="deletetooltip"
-                                  />
-                                </Button>
+                                </div>
                               </Col>
                             </Row>
-                          </Row>
-                        </CardBody>
-                      </Card>
-                    )}
+                          )
+                        })}
 
-                    {isEditFactory && (
-                      <Card>
-                        <CardBody>
-                          {isRefresh && (
-                            <AddressDatas item={item} user={user} />
-                          )}
-                          {!isRefresh && (
-                            <div className="d-flex gap-3 mt-1 ">
-                              <h4 className="fw-bold text-success">
-                                update data
-                              </h4>{" "}
-                              <Spinner
-                                type="grow"
-                                size="sm"
-                                className="ms-2 mt-1"
-                                color="primary"
-                              />{" "}
-                            </div>
-                          )}
-                        </CardBody>
-                      </Card>
+                        <Row className="mb-2 mt-2">
+                          <Col lg={6} className="d-flex gap-2">
+                            <Button
+                              onClick={handleAddForm}
+                              color="secondary"
+                              className="ms-4"
+                            >
+                              <i
+                                className="mdi mdi-plus font-size-18"
+                                id="deletetooltip"
+                              />
+                            </Button>
+                          </Col>
+                        </Row>
+                      </Row>
+                    </CardBody>
+                  </Card>
+                )}
+
+                {isEditFactory && (
+                  // <Card>
+                  //   <CardBody>
+                  <>
+                    {isRefresh && <AddressDatas item={item} user={user} />}
+                    {!isRefresh && (
+                      <div className="d-flex gap-3 mt-1 ">
+                        <h4 className="fw-bold text-success">update data</h4>{" "}
+                        <Spinner
+                          type="grow"
+                          size="sm"
+                          className="ms-2 mt-1"
+                          color="primary"
+                        />{" "}
+                      </div>
                     )}
-                  </CardBody>
-                </Card>
+                  </>
+                  //   </CardBody>
+                  // </Card>
+                )}
+                {/* </CardBody>
+                </Card> */}
               </Col>
             </Row>
           </div>

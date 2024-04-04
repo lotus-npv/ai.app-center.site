@@ -273,7 +273,7 @@ const Header = props => {
           
           <div className="d-flex">
 
-            <div className="dropdown d-inline-block d-lg-none ms-2">
+            {/* <div className="dropdown d-inline-block d-lg-none ms-2">
               <button
                 onClick={() => {
                   setsearch(!search);
@@ -310,7 +310,7 @@ const Header = props => {
                   </div>
                 </form>
               </div>
-            </div>
+            </div> */}
 
             <LanguageDropdown />
 
@@ -390,7 +390,7 @@ const Header = props => {
             <NotificationDropdown />
             <ProfileMenu />
 
-            <div
+            {/* <div
                onClick={() => {
                 props.showRightSidebarAction(!props.showRightSidebar);
               }}
@@ -402,7 +402,7 @@ const Header = props => {
               >
                 <i className="bx bx-cog bx-spin" />
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
