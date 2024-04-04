@@ -66,9 +66,9 @@ import {
 import { toast } from "react-toastify"
 
 const optionGroup = [
-  { label: "Viet Nam", value: 'Vietnam' },
-  { label: "Japan", value: 'Japan' },
-  { label: "Korea", value: 'Korea' },
+  { label: "Viet Nam", value: "Vietnam" },
+  { label: "Japan", value: "Japan" },
+  { label: "Korea", value: "Korea" },
 ]
 const optionGender = [
   { label: "Male", value: "male" },
@@ -205,7 +205,7 @@ const ModalDatas = ({
     updateAddressDataIntern,
     isRefresh,
     updateRefresh,
-    NationList
+    NationList,
     // user,
   } = useContext(DataContext)
 
@@ -330,6 +330,59 @@ const ModalDatas = ({
 
   // console.log(numStatusDetail)
 
+  // tao schema khi khong tao tk
+  const withoutAccountSchema = Yup.object().shape({
+    first_name_jp: Yup.string().required("This value is required"),
+    last_name_jp: Yup.string().required("This value is required"),
+    first_name_en: Yup.string().required("This value is required"),
+    last_name_en: Yup.string().required("This value is required"),
+    gender: Yup.string().required("This value is required"),
+    dob: Yup.date().required("Please select date"),
+    career_id: Yup.string().required("This value is required"),
+    passport_code: Yup.string().required("This value is required"),
+    passport_license_date: Yup.date().required("Please select date"),
+    passport_expiration_date: Yup.date().required("Please select date"),
+    receiving_factory_id: Yup.string().required("This value is required"),
+    dispatching_company_id: Yup.string().required("This value is required"),
+  })
+
+  const withAccountSchema = Yup.object().shape({
+    first_name_jp: Yup.string().required("This value is required"),
+    last_name_jp: Yup.string().required("This value is required"),
+    first_name_en: Yup.string().required("This value is required"),
+    last_name_en: Yup.string().required("This value is required"),
+    gender: Yup.string().required("This value is required"),
+    dob: Yup.date().required("Please select date"),
+    career_id: Yup.string().required("This value is required"),
+    passport_code: Yup.string().required("This value is required"),
+    passport_license_date: Yup.date().required("Please select date"),
+    passport_expiration_date: Yup.date().required("Please select date"),
+    receiving_factory_id: Yup.string().required("This value is required"),
+    dispatching_company_id: Yup.string().required("This value is required"),
+
+    password: Yup.string().min(
+      6,
+      "Password must be at least 6 characters long"
+    ),
+    confirmPassword: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Password incorrect"
+    ),
+    username: Yup.string()
+      .email("Must be a valid Email")
+      .max(255)
+      .required("Email is required")
+      .test(
+        "done",
+        "Username already exists",
+        value => usersData.find(u => u.username == value) == undefined
+      ),
+  })
+
+  const getValidationSchema = () => {
+    return isLogin ? withAccountSchema : withoutAccountSchema;
+  };
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -347,7 +400,7 @@ const ModalDatas = ({
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       first_name_jp: item != null ? item.first_name_jp : "",
       middle_name_jp: item != null ? item.middle_name_jp : "",
       last_name_jp: item != null ? item.last_name_jp : "",
@@ -360,7 +413,7 @@ const ModalDatas = ({
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       career_id: item != null ? item.career_id : "",
       passport_code: item != null ? item.passport_code : "",
       passport_license_date:
@@ -368,17 +421,17 @@ const ModalDatas = ({
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       passport_expiration_date:
         item != null
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       entry_date:
         item != null
           ? moment(item.entry_date).utcOffset("+09:00").format("YYYY-MM-DD")
-          : "",
+          : null,
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : "",
       phone_abroad: item != null ? item.phone_abroad : "",
@@ -398,12 +451,12 @@ const ModalDatas = ({
 
       dispatching_company_id: item != null ? item.dispatching_company_id : "",
       description: item != null ? item.description : "",
-      create_at: item != null ? item.create_at : "",
+      create_at: item != null ? item.create_at : null,
       create_by: item != null ? item.create_by : user.id,
-      update_at: item != null ? item.update_at : "",
+      update_at: item != null ? item.update_at : null,
       update_by: item != null ? item.update_by : user.id,
 
-      country: item != null ? item.country :'Vietnam',
+      country: item != null ? item.country : "Vietnam",
       alien_registration_card_number:
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
@@ -426,7 +479,7 @@ const ModalDatas = ({
                 .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
             : ""
-          : "",
+          : null,
       expiration_date:
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
@@ -436,7 +489,7 @@ const ModalDatas = ({
                 .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
             : ""
-          : "",
+          : null,
       status_id:
         item != null
           ? statusDetailData.filter(i => i.intern_id == item.id) != null
@@ -448,38 +501,7 @@ const ModalDatas = ({
       password: "",
       repassword: "",
     },
-    validationSchema: Yup.object().shape({
-      first_name_jp: Yup.string().required("This value is required"),
-      last_name_jp: Yup.string().required("This value is required"),
-      first_name_en: Yup.string().required("This value is required"),
-      last_name_en: Yup.string().required("This value is required"),
-      gender: Yup.string().required("This value is required"),
-      dob: Yup.date().required("Please select date"),
-      career_id: Yup.string().required("This value is required"),
-      passport_code: Yup.string().required("This value is required"),
-      passport_license_date: Yup.date().required("Please select date"),
-      passport_expiration_date: Yup.date().required("Please select date"),
-      receiving_factory_id: Yup.string().required("This value is required"),
-      dispatching_company_id: Yup.string().required("This value is required"),
-      password: Yup.string().min(6, "Password must be at least 6 characters long"),
-      confirmPassword: Yup.string().oneOf(
-        [Yup.ref("password"), null],
-        "Password incorrect"
-      ),
-      username: Yup.string()
-        .email("Must be a valid Email")
-        .max(255)
-        .required("Email is required")
-        .test(
-          "done",
-          "Username already exists",
-          value => usersData.find(u => u.username == value) == undefined
-        ),
-
-      // license_date: Yup.date().required("Please select date"),
-      // expiration_date: Yup.date().required("Please select date"),
-    }),
-
+    validationSchema: getValidationSchema(),
     onSubmit: async value => {
       // if (_.isEqual(value, formik.initialValues)) {
       //   toast.warning("No changes were made", { autoClose: 2000 });
@@ -951,7 +973,7 @@ const ModalDatas = ({
   }, [communeDataByDistrictId])
   //---------------------------------------------------------------------------------------
 
-  console.log("formik:", formik.values)
+  // console.log("formik:", formik.values)
   // console.log('alienCardData:', alienCardData)
   // console.log('user:', user.object_type)
   // console.log('isEditIntern:', isEditIntern)
@@ -1320,8 +1342,7 @@ const ModalDatas = ({
                                       placeholder={t("Country")}
                                       value={optionGroup.find(
                                         option =>
-                                          option.value ===
-                                          formik.values.country
+                                          option.value === formik.values.country
                                       )}
                                       onChange={item => {
                                         formik.setFieldValue(

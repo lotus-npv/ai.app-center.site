@@ -10,7 +10,8 @@ const DataProvider = ({ children}) => {
   const [message, setMessage] = useState("");
   const [socket, setSocket] = useState();
   const [skTicket, setSkTicket] = useState("");
-  const [updateUserCount, setUpdateUserCount] = useState()
+  const [updateUserCount, setUpdateUserCount] = useState();
+  const [notification, setNotification] = useState()
 
 
 
@@ -242,6 +243,7 @@ const DataProvider = ({ children}) => {
         message, setMessage,
         skTicket, setSkTicket,
         updateUserCount, setUpdateUserCount,
+        notification, setNotification,
 
 
         

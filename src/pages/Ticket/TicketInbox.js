@@ -460,7 +460,7 @@ const TicketInbox = props => {
                           setIsOutbox(false)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> {t('Inbox')}{" "}
+                        <i className="mdi mdi-email-receive-outline me-2"></i> {t('Inbox')}{" "}
                         <span className="ml-1 float-end fw-bold">
                           ({counters[0]})
                         </span>
@@ -478,7 +478,8 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-email-outline me-2"></i> {t('Sent Items')}{" "}
+
+                        <i className="mdi mdi-email-send-outline me-2"></i> {t('Sent Items')}{" "}
                         <span className="ml-1 float-end">({counters[4]})</span>
                       </NavLink>
                     </NavItem>
@@ -494,7 +495,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-star-outline me-2"></i>{t('New Email')}
+                        <i className="mdi mdi-email-newsletter me-2"></i>{t('New Email')}
                         <span className="ml-1 float-end">({counters[1]})</span>
                       </NavLink>
                     </NavItem>
@@ -510,7 +511,8 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-diamond-stone me-2"></i>{t('In Progress')}
+
+                        <i className="mdi mdi-email-sync me-2"></i>{t('In Progress')}
                         <span className="ml-1 float-end">({counters[2]})</span>
                       </NavLink>
                     </NavItem>
@@ -526,7 +528,7 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-file-outline me-2"></i>{t('Completed')}
+                        <i className="mdi mdi-email-check-outline me-2"></i>{t('Completed')}
                         <span className="ml-1 float-end">({counters[3]})</span>
                       </NavLink>
                     </NavItem>
@@ -538,13 +540,9 @@ const TicketInbox = props => {
 
           <Col xl="9" lg="12">
             <div className="d-flex justify-content-center">
-              {isLoading ? (
-                <Spinners setLoading={setLoading} />
-              ) : (
                 <Card className="w-100">
                   <TableDatas dataTable={dataTable} />
                 </Card>
-              )}
             </div>
           </Col>
 

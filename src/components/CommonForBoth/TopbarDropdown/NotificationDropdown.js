@@ -11,6 +11,7 @@ import DataContext from "data/DataContext"
 //i18n
 import { withTranslation } from "react-i18next"
 import ModalNoti from "./ModalNoti"
+import _ from "lodash"
 
 import moment from "moment"
 
@@ -23,8 +24,14 @@ const NotificationDropdown = props => {
   const [menu, setMenu] = useState(false)
 
   // data context
-  const { modal_noti, setmodal_noti,tog_modal_noti, } =
-    useContext(DataContext)
+  const {
+    modal_noti,
+    setmodal_noti,
+    tog_modal_noti,
+    notification,
+    setNotification,
+    socket,
+  } = useContext(DataContext)
 
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
@@ -43,14 +50,35 @@ const NotificationDropdown = props => {
     }
   }, [dispatch])
 
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     dispatch(getNotiUserId(user.id))
+  //   }, 10000)
+  //   return () => {
+  //     clearInterval(intervalId)
+  //   }
+  // }, [])
+
   useEffect(() => {
-    const intervalId = setInterval(() => {
+    if (user) {
       dispatch(getNotiUserId(user.id))
-    }, 10000)
-    return () => {
-      clearInterval(intervalId)
     }
-  }, [])
+  }, [notification])
+
+  const [dataShow, setDataShow] = useState()
+  useEffect(() => {
+    if (notiData) {
+      setDataShow(_.orderBy(notiData, noti => noti.create_at, 'desc'))
+    }
+  }, [notiData])
+
+  //=====================================================================================================//
+  // send noti socket
+  const sendNoti = mes => {
+    socket.emit("notification", mes)
+    setNotification("")
+  }
+  //=====================================================================================================//
 
   const [selectNoti, setSelectNoti] = useState()
   const handleWatchNoti = noti => {
@@ -59,12 +87,26 @@ const NotificationDropdown = props => {
       watched: 1,
     }
     dispatch(updateNoti(newNoti))
-    dispatch(getNotiUserId(user.id))
+    // dispatch(getNotiUserId(user.id))
+    sendNoti("update noti")
     setSelectNoti(newNoti)
-    tog_modal_noti();
+    tog_modal_noti()
+  }
+
+  const handleNoWatch = e => {
+    e.preventDefault()
+    console.log("object")
+    const arr = notiData.filter(noti => noti.watched == 0)
+    setDataShow(_.orderBy(arr, noti => noti.create_at, 'desc'))
+  }
+  const handleAllWatch = e => {
+    e.preventDefault()
+    console.log("object")
+    setDataShow(notiData)
   }
 
   // console.log("notidata:", notiData)
+  // console.log("user:", user)
 
   return (
     <React.Fragment>
@@ -80,9 +122,9 @@ const NotificationDropdown = props => {
           id="page-header-notifications-dropdown"
         >
           <i className="bx bx-bell bx-tada" />
-          {notiData.length > 0 && (
+          {notiData.filter(noti => noti.watched == 0).length > 0 && (
             <span className="badge bg-danger rounded-pill">
-              {notiData.length}
+              {notiData.filter(noti => noti.watched == 0).length}
             </span>
           )}
         </DropdownToggle>
@@ -94,7 +136,14 @@ const NotificationDropdown = props => {
                 <h6 className="m-0"> {props.t("Notifications")} </h6>
               </Col>
               <div className="col-auto">
-                <a href="#" className="small">
+                <a href="#" className="small" onClick={handleNoWatch}>
+                  {" "}
+                  View New
+                </a>
+              </div>
+              {"/"}
+              <div className="col-auto">
+                <a href="#" className="small" onClick={handleAllWatch}>
                   {" "}
                   View All
                 </a>
@@ -103,36 +152,66 @@ const NotificationDropdown = props => {
           </div>
 
           <SimpleBar style={{ height: "230px" }}>
-            {notiData.map(noti => (
-              <Link
-                to=""
-                className="text-reset notification-item"
-                key={noti.id}
-                onClick={() => {
-                  handleWatchNoti(noti)
-                }}
-              >
-                <div className="d-flex">
-                  <div className="avatar-xs me-3">
-                    <span className="avatar-title bg-primary rounded-circle font-size-16">
-                      <i className="mdi mdi-email-outline" />
-                    </span>
-                  </div>
-                  <div className="flex-grow-1">
-                    <h6 className="mt-0 mb-1">{props.t(noti.title)}</h6>
-                    <div className="font-size-12 text-muted">
-                      <p className="mb-1">{props.t(noti.content)}</p>
-                      <p className="mb-0">
-                        <i className="mdi mdi-clock-outline" />{" "}
-                        {moment(noti.date_noti)
-                          .utc("+09:00")
-                          .format("HH:mm MM/DD/YYYY")}
-                      </p>
+            {dataShow &&
+              dataShow.map(noti => (
+                <Link
+                  to=""
+                  className="text-reset notification-item"
+                  key={noti.id}
+                  onClick={() => {
+                    handleWatchNoti(noti)
+                  }}
+                >
+                  <div className="d-flex">
+                    <div className="avatar-xs me-3">
+                      <span className="avatar-title bg-primary rounded-circle font-size-16">
+                        {noti.watched == 0 ? (
+                          <i className="mdi mdi-email-newsletter" />
+                        ) : (
+                          <i className="mdi mdi-email-check" />
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex-grow-1">
+                      <h6
+                        className={`mt-0 mb-1 ${
+                          noti.watched == 0 ? "fw-bold font-size-15" : ""
+                        }`}
+                      >
+                        {props.t(noti.title)}
+                      </h6>
+                      <div className="font-size-12 text-muted">
+                        <p
+                          className={`mb-1 ${
+                            noti.watched == 0 ? "fw-bold font-size-13" : ""
+                          }`}
+                          style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            width: "200px",
+                          }}
+                        >
+                          {props.t(noti.content)}
+                        </p>
+                        <p className="mb-0">
+                          <i className="mdi mdi-clock-outline" />{" "}
+                          {moment(noti.date_noti)
+                            .utc("+09:00")
+                            .format("HH:mm MM/DD/YYYY")}
+                        </p>
+                      </div>
+                    </div>
+                    <div>
+                      {noti.watched == 0 ? (
+                        <i className="bx bx-bell bx-tada" />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </SimpleBar>
           <div className="p-2 border-top d-grid">
             <Link
@@ -145,7 +224,7 @@ const NotificationDropdown = props => {
           </div>
         </DropdownMenu>
       </Dropdown>
-      <ModalNoti noti={selectNoti} user={user}/>
+      <ModalNoti noti={selectNoti} user={user} />
     </React.Fragment>
   )
 }

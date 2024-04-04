@@ -31,7 +31,8 @@ import {
 } from "../../store/actions"
 
 // Pages Components
-import Transactions from "./transactions"
+import TransactionsByCountry from "./transactionsByCountry"
+import TransactionsByCompany from "./transactionsByCompany"
 import Notifications from "./notifications"
 
 //i18n
@@ -43,12 +44,13 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { createSelector } from "reselect"
 
 import DataContext from "data/DataContext"
+import moment from "moment"
 
 const Dashboard = props => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   const { NationList, loadData, setLoadData } = useContext(DataContext)
-
+  const navigator = useNavigate()
   const selectDashboardState = state => state.Dashboard
   const DashboardProperties = createSelector(
     selectDashboardState,
@@ -59,7 +61,7 @@ const Dashboard = props => {
 
   const { chartsData } = useSelector(DashboardProperties)
   const [periodData, setPeriodData] = useState([])
-  const [periodType, setPeriodType] = useState("yearly")
+  const [periodType, setPeriodType] = useState("monthly")
 
   const [isMonth, setIsMonth] = useState(
     "btn-group btn-group-sm  d-flex justify-center  d-none"
@@ -73,7 +75,7 @@ const Dashboard = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(onGetChartsData("yearly"))
+    dispatch(onGetChartsData("monthly"))
   }, [dispatch])
 
   // get intern data
@@ -217,41 +219,15 @@ const Dashboard = props => {
 
   // Charst
   const dataColors =
-    '["--bs-primary", "--bs-primary-2", "--bs-info", "--bs-secondary"]'
+    '["--bs-primary", "--bs-primary-2", "--bs-secondary", "--bs-secondary"]'
   const apexsalesAnalyticsChartColors = getChartColorsArray(dataColors)
   const iconColors = ["primary", "primary-2", "info", "secondary"]
 
   const [dataCharst, setDataCharst] = useState([])
-  const [charstByCompany, setCharstByCompany] = useState()
 
   // danh sach intern => link bảng address
   useEffect(() => {
     if (dataIntern) {
-      // const arr = dataAddress.filter(address =>
-      //   dataIntern.some(
-      //     intern =>
-      //       address.object_id == intern.id &&
-      //       address.user_type == "intern" &&
-      //       address.is_default == 1
-      //   )
-      // )
-      // const newarr = NationList.map(nation => {
-      //   const newData = { ...nation }
-      //   const idIntern = []
-      //   arr.forEach(address => {
-      //     if (address.nation_id == newData.value) {
-      //       newData.data++
-      //       idIntern.push(address.object_id)
-      //     }
-      //   })
-      //   const numberViolate = dataViolate.filter(violate =>
-      //     idIntern.some(id => id == violate.intern_id)
-      //   )
-      //   newData.violate = numberViolate.length
-      //   // lay danh sach violate
-      //   // tao danh sach
-      //   return newData
-      // })
       const newarr = NationList.map(nation => {
         const newData = { ...nation }
         const idIntern = []
@@ -261,20 +237,61 @@ const Dashboard = props => {
             idIntern.push(intern.id)
           }
         })
-        return newData;
+
+        const numberViolate = dataViolate.filter(violate =>
+          idIntern.some(id => id == violate.intern_id)
+        )
+        newData.violate = numberViolate.length
+
+        return newData
       })
 
-    
-      console.log("newarr", newarr)
-      
+      // console.log("newarr", newarr)
+
       setDataCharst(newarr)
-      setPeriodData(chartsData)
     }
   }, [dataIntern, dataAddress])
 
+  // lay danh sach tts theo phai cu
+  const [charstByCompany, setCharstByCompany] = useState()
+  useEffect(() => {
+    // lay danh sach phai cu
+    const arr = dataCompany.filter(
+      company => company.key_license_id == user.key_license_id
+    )
+    // console.log(arr);
+    const newarr = arr.map(company => {
+      const cp = {
+        name: company.name_jp,
+        numberOfIntern: 0,
+        numberOfViolate: 0,
+      }
+      const idIntern = []
+      dataIntern.forEach(intern => {
+        if (intern.dispatching_company_id == company.id) {
+          cp.numberOfIntern++
+          idIntern.push(intern.id)
+        }
+      })
+
+      cp.numberOfViolate = dataViolate.filter(violate =>
+        idIntern.some(id => id == violate.intern_id)
+      ).length
+
+      return cp
+    })
+
+    // console.log(newarr);
+
+    setCharstByCompany(newarr)
+  }, [dataCompany, dataIntern])
+
   const handleLink = value => {
     if (value == 1) {
-      return "/ticket"
+      return {
+        pathname: "/ticket",
+        state: { tab: "ticket new" },
+      }
     } else if (value == 2) {
       return {
         pathname: "/intern",
@@ -287,11 +304,38 @@ const Dashboard = props => {
       }
     }
   }
-  //=====================================================================
+  //=====================================================================//
 
-  // console.table(dataCompany);
-  console.log("dataIntern", dataIntern)
-  console.log('user', user);
+  // Lay data so luong tts theo quoc gia theo thang
+  // map theo danh sach quoc gia
+  // tao vong lap tu thang 1 den 12
+  // tim trong moi thang co bao nhieu tts nhap canh
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  useEffect(() => {
+    const arr = NationList.map(nation => {
+      const arrData = { name: nation.country, data: [] }
+      months.forEach(month => {
+        let quantity = 0
+        dataIntern.forEach(intern => {
+          if (
+            moment(intern.entry_date).format("MM") == month &&
+            intern.country == nation.country
+          ) {
+            quantity++
+          }
+        })
+        arrData.data.push(quantity)
+      })
+
+      return arrData
+    })
+    // console.log(arr);
+    setPeriodData(arr)
+  }, [dataIntern])
+
+  // console.log(dataCompany);
+  // console.log("dataIntern", dataIntern)
+  // console.log('user', user);
 
   //meta title
   document.title = "Dashboard"
@@ -322,8 +366,12 @@ const Dashboard = props => {
               <Row>
                 {/* Reports Render */}
                 {reportss.map((report, key) => (
-                  <Col md="4" key={"_col_" + key} className="mb-2">
-                    <Card className="mini-stats-wid h-100">
+                  <Col md="4" key={"_col_" + key} className="mb-2 cursor">
+                    <Card
+                      className="mini-stats-wid h-100"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => navigator(handleLink(report.value).pathname)}
+                    >
                       <CardBody className="d-flex justify-content-between">
                         <div className="d-flex gap-4 justify-content-start ">
                           <div className="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -397,7 +445,9 @@ const Dashboard = props => {
                         <div id="donut-chart">
                           <ReactApexChart
                             options={{
-                              labels: dataCharst ? dataCharst.map(item => item.country) : null,
+                              labels: dataCharst
+                                ? dataCharst.map(item => item.country)
+                                : null,
                               colors: apexsalesAnalyticsChartColors,
                               legend: { show: !1 },
                               plotOptions: {
@@ -517,7 +567,7 @@ const Dashboard = props => {
                       {/* <div className="clearfix"></div> */}
                       <StackedColumnChart
                         periodData={periodData}
-                        dataColors='["--bs-primary", "--bs-warning", "--bs-success"]'
+                        dataColors='["--bs-primary", "--bs-warning", "--bs-info"]'
                       />
                     </CardBody>
                   </Card>
@@ -528,15 +578,17 @@ const Dashboard = props => {
 
           <Row>
             <Col xl="4">
-              <Transactions
+              <TransactionsByCountry
                 title={props.t("Top 5 countries by number of interns")}
                 dataIntern={dataIntern}
                 dataCharst={dataCharst}
               />
             </Col>
             <Col xl="4">
-              <Transactions
+              <TransactionsByCompany
                 title={props.t("Top 5 nominated by number of interns")}
+                dataIntern={dataIntern}
+                dataCharst={charstByCompany}
               />
             </Col>
 

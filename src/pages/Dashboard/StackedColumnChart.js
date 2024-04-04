@@ -4,12 +4,14 @@ import ReactApexChart from "react-apexcharts"
 import getChartColorsArray from "../../components/Common/ChartsDynamicColor";
 
 const StackedColumnChart = ({ dataColors, periodData }) => {
+
+  // console.log(periodData);
   const stackedColumnChartColors = getChartColorsArray(dataColors);
   const options = {
     chart: {
       stacked: !0,
       toolbar: {
-        show: false,
+        show: true,
       },
       zoom: {
         enabled: !0
@@ -18,8 +20,8 @@ const StackedColumnChart = ({ dataColors, periodData }) => {
     plotOptions: {
       bar: {
         horizontal: !1,
-        columnWidth: "15%"
-        // endingShape: "rounded"
+        columnWidth: "15%",
+        endingShape: "rounded"
       }
     },
     dataLabels: {

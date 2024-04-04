@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React, {useState, useEffect, useContext} from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useSelector } from "react-redux"
 import { createSelector } from "reselect"
 import { Routes, Route } from "react-router-dom"
@@ -10,7 +10,7 @@ import { authProtectedRoutes, publicRoutes } from "./routes"
 // Import all middleware
 import Authmiddleware from "./routes/route"
 
-import io from 'socket.io-client';
+import io from "socket.io-client"
 import DataContext from "data/DataContext"
 
 // layouts Format
@@ -19,7 +19,6 @@ import HorizontalLayout from "./components/HorizontalLayout/"
 import NonAuthLayout from "./components/NonAuthLayout"
 
 import "./assets/scss/theme.scss"
-
 
 import fakeBackend from "./helpers/AuthType/fakeBackend"
 // Activating fake backend
@@ -45,7 +44,17 @@ const App = () => {
   // const [message, setMessage] = useState("")
   // const [updateUserCount, setUpdateUserCount] = useState()
 
-  const {message, setMessage,skTicket, setSkTicket, setSocket, setUpdateUserCount} = useContext(DataContext);
+  const {
+    message,
+    setMessage,
+    skTicket,
+    setSkTicket,
+    setSocket,
+    setUpdateUserCount,
+    notification,
+    setNotification,
+  } = useContext(DataContext)
+  
   useEffect(() => {
     const newSocket = io("https://api.lotusocean-jp.com", {
       secure: true,
@@ -58,19 +67,23 @@ const App = () => {
       setUpdateUserCount(mes)
     })
 
-    setSocket(newSocket);
-    newSocket.on("message", (mes) => {
-      setMessage(mes);
-    });
+    newSocket.on("message", mes => {
+      setMessage(mes)
+    })
 
-    newSocket.on("new ticket", (mes) => {
-      setSkTicket(mes);
-    });
+    newSocket.on("new ticket", mes => {
+      setSkTicket(mes)
+    })
+
+    newSocket.on("notification", mes => {
+      console.log('App receive mes:', mes)
+      setNotification(mes)
+    })
 
     return () => {
       newSocket.disconnect()
     }
-  }, [message, skTicket])
+  }, [message, skTicket, notification])
 
   //=====================================================================================================//
   const selectLayoutState = state => state.Layout
