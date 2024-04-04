@@ -19,6 +19,7 @@ import Select from "react-select";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import DataContext from 'data/DataContext';
+import { t } from 'i18next';
 
 
 const Offsymbol = () => {
@@ -106,18 +107,18 @@ const optionConditionMilestone = [
 
 //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { updateStatus,  setStatus, getStatusAll } from "store/actions";
+import { updateStatus, setStatus, getStatusAll } from "store/actions";
 
 
-const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
+const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge }) => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
 
   const dispatch = useDispatch();
 
-  let { dataUpdateReponse, datas , loadingUpload} = useSelector(state => ({
-    dataUpdateReponse : state.Status.dataUpdateReponse,
-    datas : state.Status.datas,
-    loadingUpload : state.Status.loading,
+  let { dataUpdateReponse, datas, loadingUpload } = useSelector(state => ({
+    dataUpdateReponse: state.Status.dataUpdateReponse,
+    datas: state.Status.datas,
+    loadingUpload: state.Status.loading,
   }), shallowEqual);
 
   // useEffect(() => {
@@ -143,13 +144,13 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
-        "This value is required"
+        t('This field is required')
       ),
       status_type: Yup.string().required(
-        "This value is required"
+        t('This field is required')
       ),
       colors: Yup.string().required(
-        "This value is required"
+        t('This field is required')
       ),
     }),
     onSubmit: async (value) => {
@@ -208,13 +209,13 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
   const [isAuto, setIsAuto] = useState(false)
 
   useEffect(() => {
-    if(isEditStatus) {
+    if (isEditStatus) {
       const sw = item.status_type;
       const s = sw == 'manual' ? false : true;
       // console.log('s', s);
       setIsAuto(s);
     }
-  },[isEditStatus])
+  }, [isEditStatus])
 
 
   // useEffect(() => {
@@ -228,7 +229,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
 
 
   // console.log(isEditStatus)
-  console.log('formik',formik.values)
+  console.log('formik', formik.values)
   // console.log('datas', datas)
   // console.log('loading', loadingCareer)
   // console.log('dataCareer', dataCareer)
@@ -270,10 +271,10 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
             <Card>
               <CardBody>
                 <div className="mb-3">
-                  <Label className="form-label">Tên trạng thái</Label>
+                  <Label className="form-label">{t('Status Name')}</Label>
                   <Input
                     name="name"
-                    placeholder="Nhập tên trạng thái"
+                    placeholder={t('Enter Status Name')}
                     type="text"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -287,10 +288,10 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
                   ) : null}
                 </div>
                 <div className="mb-3">
-                  <Label>Màu sắc</Label>
+                  <Label>{t('Color')}</Label>
                   <Select
                     name='colors'
-                    placeholder='Chọn màu sắc'
+                    placeholder={t('Color')}
                     value={optionColor.find((item) => item.value === formik.values.colors)}
                     onChange={(item) => {
                       console.log(item.value)
@@ -305,12 +306,12 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
                   ) : null}
                 </div>
                 <div className="mb-3">
-                  <Label>Ghi chú</Label>
+                  <Label>{t('Description')}</Label>
                   <Input
                     name="description"
                     type="text"
                     autoComplete="off"
-                    placeholder="Nhập ghi chú"
+                    placeholder={t('Enter Description')}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.description || ""}
@@ -345,7 +346,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge  }) => {
                         placeholder='Chọn điều kiện'
                         value={optionConditionDate.find((item) => item.value === formik.values.condition_date)}
                         onChange={(item) => {
-                          
+
                           formik.setFieldValue('condition_date', item.value);
                         }}
                         options={optionConditionDate}

@@ -18,6 +18,7 @@ import {
   setStatus,
   getStatusId,
 } from "store/actions"
+import { t } from "i18next"
 
 // The rule argument should be a string in the format "custom_[field]".
 FilterService.register("custom_activity", (value, filters) => {
@@ -111,12 +112,12 @@ const TableDatas = () => {
           <InputText
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
-            placeholder="Nhập từ khoá tìm kiếm ..."
+            placeholder={t('Search')}
           />
         </span>
 
         <Button className="btn btn-primary" onClick={addForm}>
-          Thêm mới
+          {t('Add Status')}
         </Button>
       </div>
     )
@@ -190,8 +191,8 @@ const TableDatas = () => {
         scrollable
         scrollHeight={vh}
         size={"small"}
-        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+      // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+      // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column
           selectionMode="multiple"
@@ -201,38 +202,36 @@ const TableDatas = () => {
           field="id"
           header="ID"
           filter
-          filterPlaceholder="Tìm kiếm bằng id"
+          filterPlaceholder={t('Search')}
           sortable
           style={{ width: "15rem" }}
         ></Column>
         <Column
           field="name"
-          header="Tên trạng thái"
+          header={t('Status Name')}
           filterField="name"
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder={t('Search')}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="status_type"
-          header="Loại"
+          header={t('Type')}
           body={statusBodyTemplate}
           filterField="status_type"
-          filterPlaceholder="Tìm kiếm bằng tên"
+          filterPlaceholder={t('Search')}
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="description"
-          header="Ghi chú"
-          filterField="description"
-          filterPlaceholder="tìm kiếm bằng mô tả"
+          header={t('Description')}
           showFilterMenu={true}
           filterMenuStyle={{ width: "14rem" }}
           style={{ minWidth: "14rem" }}
         ></Column>
         <Column
           field="action"
-          header="Action"
+          header={t('Action')}
           style={{ minWidth: "14rem" }}
           body={actionBody}
         ></Column>

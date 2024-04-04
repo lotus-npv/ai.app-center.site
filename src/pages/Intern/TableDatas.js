@@ -487,11 +487,11 @@ const TableDatas = props => {
           scrollable
           scrollHeight={vh}
           size={"small"}
-          // rowsPerPageOptions={[5, 10, 15, 20, 50]}
-          // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-          // currentPageReportTemplate={`${t("Showing")} {first} ${t(
-          //   "to"
-          // )} {last} ${t("of")} {totalRecords} ${t("items")}`}
+        // rowsPerPageOptions={[5, 10, 15, 20, 50]}
+        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        // currentPageReportTemplate={`${t("Showing")} {first} ${t(
+        //   "to"
+        // )} {last} ${t("of")} {totalRecords} ${t("items")}`}
         >
           <Column
             selectionMode="multiple"
@@ -504,7 +504,7 @@ const TableDatas = props => {
             body={nameBodyTemplate}
             filterField="label"
             filter
-            filterPlaceholder="Tìm kiếm bằng tên"
+            filterPlaceholder={t('Search')}
             // sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -513,7 +513,7 @@ const TableDatas = props => {
             header={props.t("Receiving Factory")}
             filterField="factory_name_jp"
             filter
-            filterPlaceholder="Tìm kiếm"
+            filterPlaceholder={t('Search')}
             sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -522,7 +522,7 @@ const TableDatas = props => {
             header={props.t("Dispatching Company")}
             filterField="company_name_jp"
             filter
-            filterPlaceholder="Tìm kiếm bằng tên"
+            filterPlaceholder={t('Search')}
             sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -531,7 +531,7 @@ const TableDatas = props => {
             header={props.t("Status of residence")}
             filterField="sor_name"
             filter
-            filterPlaceholder="Tìm kiếm bằng tên"
+            filterPlaceholder={t('Search')}
             sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -539,7 +539,7 @@ const TableDatas = props => {
             header={props.t("Status")}
             body={statusBody}
             filterField="status"
-            filterPlaceholder="tìm kiếm bằng mô tả"
+            filterPlaceholder={t('Search')}
             showFilterMenu={true}
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "14rem" }}

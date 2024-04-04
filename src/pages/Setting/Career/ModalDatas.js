@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Label, Input, FormFeedback, Form, Button } from "reactstrap";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { t } from 'i18next';
 
-const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch,setApi, updateApi }) => {
+const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, dispatch, setApi, updateApi }) => {
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -15,15 +16,15 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
-        "Please Enter Content"
+        t('This field is required')
       ),
       description: Yup.string().required(
-        "Please Enter Content"
+        t('This field is required')
       ),
     }),
     onSubmit: async (value) => {
 
-      if(isEdit) {
+      if (isEdit) {
         let obj = {
           id: value.id,
           key_license_id: 1,
@@ -96,10 +97,10 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
           </div>
           <div className="modal-body">
             <div className="mb-4">
-              <Label className="form-label">Tên ngành nghề</Label>
+              <Label className="form-label">{t('Career Name')}</Label>
               <Input
                 name="name"
-                placeholder="Nhập tên ngành nghề"
+                placeholder={t('Enter Career Name')}
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -114,10 +115,10 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
             </div>
 
             <div className="mb-4">
-              <Label className="form-label">Ghi chú</Label>
+              <Label className="form-label">{t('Description')}</Label>
               <Input
                 name="description"
-                placeholder="Nhập ghi chú"
+                placeholder={t('Enter Description')}
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -140,10 +141,10 @@ const ModalDatas = ({ item, isEdit, modal_xlarge, setmodal_xlarge, tog_xlarge, d
               className="btn btn-secondary "
               data-dismiss="modal"
             >
-              Close
+              {t('Cancel')}
             </button>
-            <Button  color="primary" onClick={handleSubmit}>
-              Save changes
+            <Button color="primary" onClick={handleSubmit}>
+              {t('Save')}
             </Button>
           </div>
         </Modal>
