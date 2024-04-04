@@ -316,13 +316,13 @@ const TableDatas = props => {
           ))}
         </Nav>
         <div className="flex align-items-center justify-content-end gap-2">
-          <Button
+          {/* <Button
             type="button"
             icon="pi pi-file"
             rounded
             onClick={() => exportCSV(false)}
             data-pr-tooltip="CSV"
-          />
+          /> */}
           <Button
             type="button"
             icon="pi pi-file-excel"
@@ -331,14 +331,14 @@ const TableDatas = props => {
             onClick={exportExcel}
             data-pr-tooltip="XLS"
           />
-          <Button
+          {/* <Button
             type="button"
             icon="pi pi-file-pdf"
             severity="warning"
             rounded
             onClick={exportPdf}
             data-pr-tooltip="PDF"
-          />
+          /> */}
         </div>
       </div>
     )
@@ -368,8 +368,9 @@ const TableDatas = props => {
       <div className="flex align-items-center gap-2">
         <Avatar
           className="p-overlay-badge"
+          style={{minWidth: '25px'}}
           image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`}
-          size="large"
+          // size="large"
           shape="circle"
         ></Avatar>
         <span>{rowData.label}</span>

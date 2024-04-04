@@ -58,8 +58,8 @@ const CustomOption = ({ innerProps, isFocused, isSelected, data }) => (
       backgroundColor: isFocused
         ? "lightgray"
         : isSelected
-          ? "lightgray"
-          : null,
+        ? "lightgray"
+        : null,
       fontWeight: isSelected ? "bold" : "normal",
       height: "40px",
       padding: "4px",
@@ -158,7 +158,7 @@ const ModalTop = ({
   const [isDone, setIsDone] = useState(false)
 
   const violateList = {
-    key_license_id: '',
+    key_license_id: "",
     violate_type_id: "",
     violate_date: "",
     description: "",
@@ -171,7 +171,7 @@ const ModalTop = ({
   }
 
   const violate = {
-    key_license_id: '',
+    key_license_id: "",
     intern_id: "",
     violate_list_id: "",
     description: "",
@@ -323,20 +323,27 @@ const ModalTop = ({
     )
   }
 
-  const footer = `In total there are ${selectIntern ? selectIntern.length : 0
-    } Intern.`
+  const footer = `In total there are ${
+    selectIntern ? selectIntern.length : 0
+  } Intern.`
 
   // console.log('alienCardApiData', alienCardApiData)
 
   return (
     <>
       <Row>
-        <Col xl={6} md={12}>
+        <Col xl={5} md={6} sm={12}>
           <Row>
-            <Col xl={4} md={4} sm={4} className="d-flex justify-content-center mt-2">
-              <Button
-                color="gray-soft"
-                style={{ minWidth: '150px',maxWidth: '170px', marginBottom: '5px', width: '80%'}}
+            <Col
+              xl={4}
+              md={4}
+              sm={4}
+              xs={4}
+              className="d-flex justify-content-center mt-2"
+            >
+              {/* <Button
+                color="secondary"
+                style={{ maxWidth: "170px", marginBottom: "5px" }}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -348,14 +355,35 @@ const ModalTop = ({
                   }
                 }}
               >
-                <i className="fas fa-info-circle text-secondary"></i>{" "}
+                <i className="fas fa-info-circle text-while"></i>{" "}
                 {t("Update Status")}
-              </Button>
+              </Button> */}
+              <ButtonPrime
+                type="button"
+                label={t("Update Status")}
+                icon="fas fa-info-circle"
+                onClick={() => {
+                  if (rowsSelectedInternData.length == 0) {
+                    toast.warn("Please select intern before edit !", {
+                      autoClose: 2000,
+                    })
+                  } else {
+                    tog_standard()
+                    setIsUpdateStatus(true)
+                  }
+                }}
+              />
             </Col>
-            <Col xl={4} md={4} sm={4} className="d-flex justify-content-center mt-2">
-              <Button
-                color="gray-soft"
-                style={{minWidth: '150px', maxWidth: '170px', marginBottom: '5px', width: '80%'}}
+            <Col
+              xl={4}
+              md={4}
+              sm={4}
+              xs={4}
+              className="d-flex justify-content-center mt-2"
+            >
+              {/* <Button
+                color="secondary"
+                style={{ maxWidth: "170px", marginBottom: "5px" }}
                 onClick={() => {
                   if (rowsSelectedInternData.length == 0) {
                     toast.warn("Please select intern before edit !", {
@@ -367,25 +395,55 @@ const ModalTop = ({
                   }
                 }}
               >
-                <i className="fas fa-user-shield text-secondary"></i>{" "}
+                <i className="fas fa-user-shield text-light"></i>{" "}
                 {t("Residence update")}
-              </Button>
+              </Button> */}
+
+              <ButtonPrime
+                type="button"
+                label={t("Residence update")}
+                icon="fas fa-user-shield"
+                onClick={() => {
+                  if (rowsSelectedInternData.length == 0) {
+                    toast.warn("Please select intern before edit !", {
+                      autoClose: 2000,
+                    })
+                  } else {
+                    tog_standard()
+                    setIsUpdateStatus(false)
+                  }
+                }}
+              />
             </Col>
-            <Col xl={4} md={4} sm={4} className="d-flex justify-content-center mt-2">
-              <Button
-                color="gray-soft"
-                style={{ minWidth: '150px', maxWidth: '170px', marginBottom: '5px', width: '80%'}}
+            <Col
+              xl={4}
+              md={4}
+              sm={4}
+              xs={4}
+              className="d-flex justify-content-center mt-2"
+            >
+              {/* <Button
+                color="secondary"
+                style={{ maxWidth: "170px", marginBottom: "5px" }}
                 onClick={() => {
                   tog_xlarge()
                 }}
               >
-                <i className="fas fa-ban text-secondary"></i>{" "}
+                <i className="fas fa-ban text-light"></i>{" "}
                 {t("Add violations")}
-              </Button>
+              </Button> */}
+              <ButtonPrime
+                type="button"
+                label={t("Add violations")}
+                icon="fas fa-ban"
+                onClick={() => {
+                  tog_xlarge()
+                }}
+              />
             </Col>
           </Row>
         </Col>
-        <Col xl={6} md={12}>
+        <Col xl={7} md={6} sm={12}>
           <Row>
             <Col className="d-flex justify-content-end">
               <Button
@@ -589,7 +647,7 @@ const ModalTop = ({
                       }}
                       options={internData}
                       components={{ Option: CustomOption }}
-                    // className="select2-selection"
+                      // className="select2-selection"
                     />
                   </div>
                 </Col>

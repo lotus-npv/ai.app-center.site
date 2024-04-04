@@ -309,8 +309,9 @@ const TableDatas = props => {
       <div className="flex align-items-center gap-2">
         <Avatar
           className="p-overlay-badge"
+          style={{minWidth: '25px'}}
           image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`}
-          size="large"
+          // size="large"
           shape="circle"
         ></Avatar>
         <span>{rowData.name_jp}</span>

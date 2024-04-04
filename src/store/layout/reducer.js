@@ -33,8 +33,8 @@ const INIT_STATE = {
   leftSideBarType: leftSidebarTypes.DEFAULT,
   topbarTheme: topBarThemeTypes.LIGHT,
   isPreloader: false,
-  showRightSidebar: true,
-  isMobile: true,
+  showRightSidebar: false,
+  isMobile: false,
   showSidebar: true,
   leftMenu: true,
 }
