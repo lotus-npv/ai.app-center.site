@@ -44,7 +44,7 @@ const AddressDatas = ({ item, user }) => {
     detail: "",
     email: "",
     phone_number: "",
-    fax: ""
+    fax: "",
   }
 
   const {
@@ -199,7 +199,7 @@ const AddressDatas = ({ item, user }) => {
     districtDataId,
     communeDataId,
     isRefresh,
-    index
+    index,
   ])
 
   // console.log('user', user)
@@ -245,23 +245,28 @@ const AddressDatas = ({ item, user }) => {
             src={map}
             alt={address.name}
           />
-          <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-1">
+          <div className="d-flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-1">
             <div className="flex flex-column align-items-center sm:align-items-start gap-1">
               <div className="text-2xl font-bold text-700">
                 {address.nation}
               </div>
-              <div className="flex align-items-center gap-3">
+              <div className="flex align-items-center gap-3 ">
                 <span className="flex align-items-center gap-2">
-                  <i className="pi pi-tag"></i>
-                  <span className="font-semibold">{address.detail} -</span>
-                  <span className="font-semibold">{address.commune} -</span>
-                  <span className="font-semibold">{address.district} -</span>
-                  <span className="font-semibold">{address.province} </span>
+                  <i className="bx bx-map"></i>
+                  <span className="font-semibold">
+                    {address.detail}, {address.commune}, {address.district},{" "}
+                    {address.province}{" "}
+                    <Tag
+                      className="ms-2"
+                      value={address.province}
+                      severity={getSeverity(address)}
+                    ></Tag>
+                  </span>
                 </span>
-                <Tag
+                {/* <Tag
                   value={address.province}
                   severity={getSeverity(address)}
-                ></Tag>
+                ></Tag> */}
               </div>
             </div>
             <div className="flex sm:flex-row align-items-center align-self-center sm:align-items-center gap-3 sm:gap-2">
@@ -295,10 +300,9 @@ const AddressDatas = ({ item, user }) => {
   }
 
   return (
-    <div className="card">
+    <div>
       <div className="d-flex gap-2 mb-1 ">
         <h3 className="fw-bold">{t("Address Infomation")}</h3>
-        {/* <Button icon="pi pi-plus" rounded severity="secondary" aria-label="Bookmark" /> */}
       </div>
       <DataView value={addresss} listTemplate={listTemplate} />
       {isEditDetail && (

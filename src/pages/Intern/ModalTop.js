@@ -332,7 +332,7 @@ const ModalTop = ({
   return (
     <>
       <Row>
-        <Col xl={5} md={6} sm={12}>
+        <Col xxl={4} xl={5} md={6} sm={12}>
           <Row>
             <Col
               xl={4}
@@ -372,6 +372,7 @@ const ModalTop = ({
                     setIsUpdateStatus(true)
                   }
                 }}
+                raised 
               />
             </Col>
             <Col
@@ -413,6 +414,7 @@ const ModalTop = ({
                     setIsUpdateStatus(false)
                   }
                 }}
+                raised
               />
             </Col>
             <Col
@@ -439,6 +441,7 @@ const ModalTop = ({
                 onClick={() => {
                   tog_xlarge()
                 }}
+                raised
               />
             </Col>
           </Row>
