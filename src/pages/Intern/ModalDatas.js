@@ -400,7 +400,7 @@ const ModalDatas = ({
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       first_name_jp: item != null ? item.first_name_jp : "",
       middle_name_jp: item != null ? item.middle_name_jp : "",
       last_name_jp: item != null ? item.last_name_jp : "",
@@ -413,7 +413,7 @@ const ModalDatas = ({
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       career_id: item != null ? item.career_id : "",
       passport_code: item != null ? item.passport_code : "",
       passport_license_date:
@@ -421,17 +421,17 @@ const ModalDatas = ({
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       passport_expiration_date:
         item != null
           ? moment(item.date_of_joining_syndication)
               .utcOffset("+09:00")
               .format("YYYY-MM-DD")
-          : "",
+          : null,
       entry_date:
         item != null
           ? moment(item.entry_date).utcOffset("+09:00").format("YYYY-MM-DD")
-          : "",
+          : null,
       alert: item != null ? item.alert : 0,
       phone_domestically: item != null ? item.phone_domestically : "",
       phone_abroad: item != null ? item.phone_abroad : "",
@@ -451,9 +451,9 @@ const ModalDatas = ({
 
       dispatching_company_id: item != null ? item.dispatching_company_id : "",
       description: item != null ? item.description : "",
-      create_at: item != null ? item.create_at : "",
+      create_at: item != null ? item.create_at : null,
       create_by: item != null ? item.create_by : user.id,
-      update_at: item != null ? item.update_at : "",
+      update_at: item != null ? item.update_at : null,
       update_by: item != null ? item.update_by : user.id,
 
       country: item != null ? item.country : "Vietnam",
@@ -479,7 +479,7 @@ const ModalDatas = ({
                 .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
             : ""
-          : "",
+          : null,
       expiration_date:
         item != null
           ? alienCardData.find(i => i.intern_id == item.id) != null
@@ -489,7 +489,7 @@ const ModalDatas = ({
                 .utcOffset("+09:00")
                 .format("YYYY-MM-DD")
             : ""
-          : "",
+          : null,
       status_id:
         item != null
           ? statusDetailData.filter(i => i.intern_id == item.id) != null
