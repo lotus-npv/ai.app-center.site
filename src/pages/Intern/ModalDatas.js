@@ -524,9 +524,6 @@ const ModalDatas = ({
     },
     validationSchema: getValidationSchema(),
     onSubmit: async value => {
-      // if (_.isEqual(value, formik.initialValues)) {
-      //   toast.warning("No changes were made", { autoClose: 2000 });
-      // } else {
       // truong hop update du lieu
       if (isEditIntern) {
         let obj = {
@@ -703,7 +700,6 @@ const ModalDatas = ({
         setIsLogin(false)
         setAccount(null)
         tog_fullscreen()
-        // dispatch(getAlienRegistrationCardAll())
       } else {
         // truong hop them du lieu moi
         let obj = {
@@ -743,14 +739,11 @@ const ModalDatas = ({
 
         setIsCreateAddress(true)
       }
-      // }
-
       // upload anh len server
       if (selectedFile) {
         const formData = new FormData()
         formData.append("image", selectedFile)
         dispatch(uploadImageRequest(formData))
-        // dispatch(uploadFile(formData));
       }
       console.log("submit done")
     },
@@ -760,7 +753,6 @@ const ModalDatas = ({
   const handleSubmit = () => {
     console.log("submit")
     formik.handleSubmit()
-    // console.log(multiStatus)
   }
 
   //--------------------------------------------------------------------------------//
@@ -794,7 +786,6 @@ const ModalDatas = ({
           address =>
             address.object_id == item.id && address.user_type == "intern"
         )
-        // console.log('arr', arr)
         updateAddressDataIntern(arr)
       }
     }
@@ -845,7 +836,9 @@ const ModalDatas = ({
           }
         })
 
-        console.log("newStatusArray", newStatusArray)
+        // console.log("newStatusArray", newStatusArray)
+
+        // ghi du lieu status detail vao db
         multiStatus.forEach(st => {
           dispatch(setStatusDetail(st))
         })
@@ -857,7 +850,7 @@ const ModalDatas = ({
         // lap cac status tu dong de tim ra ngay can gui thong bao
         // kiem tra dieu kien
         arr1.forEach(status => {
-          console.log("Start write schedulate notification")
+          // console.log("Start write schedulate notification")
           let dateAlert
           if (status.condition_date == "before") {
             switch (status.condition_milestone) {
@@ -994,7 +987,7 @@ const ModalDatas = ({
       }
     }
   }, [internCreate, isCreateAddress])
-  //----------------------------------------------------------------------------------------------------------------
+  //----------------------------------------------------------------------------------------------------------------//
 
   // xu ly khi them form nhap dia chi
   const handleAddForm = () => {
@@ -1162,43 +1155,39 @@ const ModalDatas = ({
 
                 {/* <Card>
                   <CardBody className="bg-light"> */}
-                    <Row>
-                      <Col lg={2} xl={2} sm={4}>
-                        <div className="d-flex justify-content-center">
-                          <Card style={{ width: "70%" }}>
-                            <CardBody className="d-flex flex-column">
-                              <div style={{ aspectRatio: 1 }}>
-                                <img
-                                  style={{ width: "100%", height: "100%" }}
-                                  className="rounded-circle img-thumbnail"
-                                  alt="avata"
-                                  src={showAvata}
-                                />
-                              </div>
-                              <CardTitle tag="h5" className="text-center mt-2">
-                                Admin
-                              </CardTitle>
-                              <Button
-                                onClick={() => fileInputRef.current.click()}
-                              >
-                                {t("Upload Avata")}
-                              </Button>{" "}
-                              <input
-                                onChange={handleChange}
-                                multiple={false}
-                                ref={fileInputRef}
-                                type="file"
-                                hidden
-                              />
-                            </CardBody>
-                          </Card>
-                        </div>
-                        <Divider />
-                        <div>
-                          <Card>
-                            <CardBody>
-
-                          
+                <Row>
+                  <Col lg={2} xl={2} sm={4}>
+                    <div className="d-flex justify-content-center">
+                      <Card style={{ width: "70%" }}>
+                        <CardBody className="d-flex flex-column">
+                          <div style={{ aspectRatio: 1 }}>
+                            <img
+                              style={{ width: "100%", height: "100%" }}
+                              className="rounded-circle img-thumbnail"
+                              alt="avata"
+                              src={showAvata}
+                            />
+                          </div>
+                          <CardTitle tag="h5" className="text-center mt-2">
+                            Admin
+                          </CardTitle>
+                          <Button onClick={() => fileInputRef.current.click()}>
+                            {t("Upload Avata")}
+                          </Button>{" "}
+                          <input
+                            onChange={handleChange}
+                            multiple={false}
+                            ref={fileInputRef}
+                            type="file"
+                            hidden
+                          />
+                        </CardBody>
+                      </Card>
+                    </div>
+                    <Divider />
+                    <div>
+                      <Card>
+                        <CardBody>
                           <div className="mb-3">
                             <Switch
                               name="status_type"
@@ -1294,715 +1283,700 @@ const ModalDatas = ({
                               </div>
                             </div>
                           )}
-                            </CardBody>
-                          </Card>
-                        </div>
-                      </Col>
+                        </CardBody>
+                      </Card>
+                    </div>
+                  </Col>
 
-                      <Col lg={5} xl={5}>
-                        <Card className="h-100">
-                          <CardBody>
-                            <Row>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Last Name")}
-                                  </Label>
-                                  <Input
-                                    name="first_name_jp"
-                                    placeholder={t("Last Name")}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.first_name_jp || ""}
-                                    invalid={
-                                      formik.touched.first_name_jp &&
-                                      formik.errors.first_name_jp
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.first_name_jp &&
-                                  formik.errors.first_name_jp ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.first_name_jp}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
+                  <Col lg={5} xl={5}>
+                    <Card className="h-100">
+                      <CardBody>
+                        <Row>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Last Name")}
+                              </Label>
+                              <Input
+                                name="first_name_jp"
+                                placeholder={t("Last Name")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.first_name_jp || ""}
+                                invalid={
+                                  formik.touched.first_name_jp &&
+                                  formik.errors.first_name_jp
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.first_name_jp &&
+                              formik.errors.first_name_jp ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.first_name_jp}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
 
-                                <div className="mb-3">
-                                  <Input
-                                    name="first_name_en"
-                                    type="text"
-                                    autoComplete="off"
-                                    placeholder={t("Last Name (English)")}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.first_name_en || ""}
-                                    invalid={
-                                      formik.touched.first_name_en &&
-                                      formik.errors.first_name_en
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.first_name_en &&
-                                  formik.errors.first_name_en ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.first_name_en}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Middle Name")}
-                                  </Label>
-                                  <Input
-                                    name="middle_name_jp"
-                                    type="text"
-                                    autoComplete="off"
-                                    placeholder={t("Middle Name")}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.middle_name_jp || ""}
-                                    invalid={
-                                      formik.touched.middle_name_jp &&
-                                      formik.errors.middle_name_jp
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.middle_name_jp &&
-                                  formik.errors.middle_name_jp ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.middle_name_jp}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
+                            <div className="mb-3">
+                              <Input
+                                name="first_name_en"
+                                type="text"
+                                autoComplete="off"
+                                placeholder={t("Last Name (English)")}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.first_name_en || ""}
+                                invalid={
+                                  formik.touched.first_name_en &&
+                                  formik.errors.first_name_en
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.first_name_en &&
+                              formik.errors.first_name_en ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.first_name_en}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Middle Name")}
+                              </Label>
+                              <Input
+                                name="middle_name_jp"
+                                type="text"
+                                autoComplete="off"
+                                placeholder={t("Middle Name")}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.middle_name_jp || ""}
+                                invalid={
+                                  formik.touched.middle_name_jp &&
+                                  formik.errors.middle_name_jp
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.middle_name_jp &&
+                              formik.errors.middle_name_jp ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.middle_name_jp}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
 
-                                <div className="mb-3">
-                                  <Input
-                                    name="middle_name_en"
-                                    placeholder={t("Middle Name (English)")}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.middle_name_en || ""}
-                                    invalid={
-                                      formik.touched.middle_name_en &&
-                                      formik.errors.middle_name_en
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.middle_name_en &&
-                                  formik.errors.middle_name_en ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.middle_name_en}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("First Name")}
-                                  </Label>
-                                  <Input
-                                    name="last_name_jp"
-                                    type="text"
-                                    autoComplete="off"
-                                    placeholder={t("First Name")}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.last_name_jp || ""}
-                                    invalid={
-                                      formik.touched.last_name_jp &&
-                                      formik.errors.last_name_jp
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.last_name_jp &&
-                                  formik.errors.last_name_jp ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.last_name_jp}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
+                            <div className="mb-3">
+                              <Input
+                                name="middle_name_en"
+                                placeholder={t("Middle Name (English)")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.middle_name_en || ""}
+                                invalid={
+                                  formik.touched.middle_name_en &&
+                                  formik.errors.middle_name_en
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.middle_name_en &&
+                              formik.errors.middle_name_en ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.middle_name_en}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("First Name")}
+                              </Label>
+                              <Input
+                                name="last_name_jp"
+                                type="text"
+                                autoComplete="off"
+                                placeholder={t("First Name")}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.last_name_jp || ""}
+                                invalid={
+                                  formik.touched.last_name_jp &&
+                                  formik.errors.last_name_jp
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.last_name_jp &&
+                              formik.errors.last_name_jp ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.last_name_jp}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
 
-                                <div className="mb-3">
-                                  <Input
-                                    name="last_name_en"
-                                    placeholder={t("First Name (English)")}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.last_name_en || ""}
-                                    invalid={
-                                      formik.touched.last_name_en &&
-                                      formik.errors.last_name_en
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.last_name_en &&
-                                  formik.errors.last_name_en ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.last_name_en}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Country")}
-                                  </Label>
-                                  <Select
-                                    name="country"
-                                    placeholder={t("Country")}
-                                    value={optionGroup.find(
-                                      option =>
-                                        option.value === formik.values.country
-                                    )}
-                                    onChange={item => {
-                                      formik.setFieldValue(
-                                        "country",
-                                        item.value
-                                      )
-                                    }}
-                                    options={optionGroup}
-                                    // components={{ Option: CustomOption }}
-                                    // isClearable
-                                  />
-                                </div>
-                              </Col>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Gender")}
-                                  </Label>
-                                  <Select
-                                    name="gender"
-                                    placeholder={t("Gender")}
-                                    value={optionGender.find(
-                                      option =>
-                                        option.value === formik.values.gender
-                                    )}
-                                    onChange={item => {
-                                      formik.setFieldValue(
-                                        "gender",
-                                        item == null ? null : item.value
-                                      )
-                                    }}
-                                    options={optionGender}
-                                    // isClearable
-                                  />
-                                </div>
-                              </Col>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Date of Birth")}
-                                  </Label>
-                                  <Input
-                                    name="dob"
-                                    placeholder={t("Date of Birth")}
-                                    type="date"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.dob || null}
-                                    invalid={
-                                      formik.touched.dob && formik.errors.dob
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.dob && formik.errors.dob ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.dob}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-
-                            <Row>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Domestic Phone Number")}
-                                  </Label>
-                                  <Input
-                                    name="phone_domestically"
-                                    placeholder={t("Domestic Phone Number")}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={
-                                      formik.values.phone_domestically || ""
-                                    }
-                                    invalid={
-                                      formik.touched.phone_domestically &&
-                                      formik.errors.phone_domestically
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.phone_domestically &&
-                                  formik.errors.phone_domestically ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.phone_domestically}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Phone Number")}
-                                  </Label>
-                                  <Input
-                                    name="phone_abroad"
-                                    placeholder={t("Phone Number")}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.phone_abroad || ""}
-                                    invalid={
-                                      formik.touched.phone_abroad &&
-                                      formik.errors.phone_abroad
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.phone_abroad &&
-                                  formik.errors.phone_abroad ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.phone_abroad}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-
-                            <Row>
-                              <Col lg={12} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Passport Number")}
-                                  </Label>
-                                  <Input
-                                    name="passport_code"
-                                    placeholder={t("Passport Number")}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.passport_code || ""}
-                                    invalid={
-                                      formik.touched.passport_code &&
-                                      formik.errors.passport_code
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.passport_code &&
-                                  formik.errors.passport_code ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.passport_code}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-
-                            <Row>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Date of Issue")}
-                                  </Label>
-                                  <Input
-                                    name="passport_license_date"
-                                    placeholder={t("Date of Issue")}
-                                    type="date"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={
-                                      formik.values.passport_license_date || ""
-                                    }
-                                    invalid={
-                                      formik.touched.passport_license_date &&
-                                      formik.errors.passport_license_date
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.passport_license_date &&
-                                  formik.errors.passport_license_date ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.passport_license_date}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Expiry Date")}
-                                  </Label>
-                                  <Input
-                                    name="passport_expiration_date"
-                                    placeholder={t("Expiry Date")}
-                                    type="date"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={
-                                      formik.values.passport_expiration_date ||
-                                      ""
-                                    }
-                                    invalid={
-                                      formik.touched.passport_expiration_date &&
-                                      formik.errors.passport_expiration_date
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.passport_expiration_date &&
-                                  formik.errors.passport_expiration_date ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.passport_expiration_date}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-                          </CardBody>
-                        </Card>
-                      </Col>
-
-                      <Col lg={5} xl={5}>
-                        <Card className="h-100">
-                          <CardBody>
-                            <Row>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Dispatching Company")}
-                                  </Label>
-                                  <Select
-                                    name="dispatching_company_id"
-                                    placeholder={t("Dispatching Company")}
-                                    value={companyData.find(
-                                      option =>
-                                        option.value ===
-                                        formik.values.dispatching_company_id
-                                    )}
-                                    onChange={item => {
-                                      formik.setFieldValue(
-                                        "dispatching_company_id",
-                                        item.value
-                                      )
-                                    }}
-                                    options={companyData}
-                                    // isClearable
-                                  />
-                                </div>
-                              </Col>
-
-                              {user &&
-                                user.object_type == "receiving_factory" && (
-                                  <Col lg={6} className="gx-1">
-                                    <div className="mb-3">
-                                      <Label className="form-label fw-bold">
-                                        {t("Syndication")}
-                                      </Label>
-                                      <Select
-                                        name="syndication_id"
-                                        placeholder={t("Syndication")}
-                                        value={syndicationData.find(
-                                          option =>
-                                            option.value ===
-                                            formik.values.syndication_id
-                                        )}
-                                        onChange={item => {
-                                          formik.setFieldValue(
-                                            "syndication_id",
-                                            item == null ? null : item.value
-                                          )
-                                        }}
-                                        options={syndicationData}
-                                        // isClearable
-                                      />
-                                    </div>
-                                  </Col>
+                            <div className="mb-3">
+                              <Input
+                                name="last_name_en"
+                                placeholder={t("First Name (English)")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.last_name_en || ""}
+                                invalid={
+                                  formik.touched.last_name_en &&
+                                  formik.errors.last_name_en
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.last_name_en &&
+                              formik.errors.last_name_en ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.last_name_en}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Country")}
+                              </Label>
+                              <Select
+                                name="country"
+                                placeholder={t("Country")}
+                                value={optionGroup.find(
+                                  option =>
+                                    option.value === formik.values.country
                                 )}
+                                onChange={item => {
+                                  formik.setFieldValue("country", item.value)
+                                }}
+                                options={optionGroup}
+                                // components={{ Option: CustomOption }}
+                                // isClearable
+                              />
+                            </div>
+                          </Col>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Gender")}
+                              </Label>
+                              <Select
+                                name="gender"
+                                placeholder={t("Gender")}
+                                value={optionGender.find(
+                                  option =>
+                                    option.value === formik.values.gender
+                                )}
+                                onChange={item => {
+                                  formik.setFieldValue(
+                                    "gender",
+                                    item == null ? null : item.value
+                                  )
+                                }}
+                                options={optionGender}
+                                // isClearable
+                              />
+                            </div>
+                          </Col>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Date of Birth")}
+                              </Label>
+                              <Input
+                                name="dob"
+                                placeholder={t("Date of Birth")}
+                                type="date"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.dob || null}
+                                invalid={
+                                  formik.touched.dob && formik.errors.dob
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.dob && formik.errors.dob ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.dob}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
 
-                              {user && user.object_type == "syndication" && (
-                                <Col lg={6} className="gx-1">
-                                  <div className="mb-3">
-                                    <Label className="form-label fw-bold">
-                                      {t("Receiving Factory")}
-                                    </Label>
-                                    <Select
-                                      name="receiving_factory_id"
-                                      placeholder={t("Receiving Factory")}
-                                      value={factoryData.find(
-                                        option =>
-                                          option.value ===
-                                          formik.values.receiving_factory_id
-                                      )}
-                                      onChange={item => {
-                                        formik.setFieldValue(
-                                          "receiving_factory_id",
-                                          item == null ? null : item.value
-                                        )
-                                      }}
-                                      options={factoryData}
-                                      // isClearable
-                                    />
-                                  </div>
-                                </Col>
-                              )}
-                            </Row>
-                            <Row className="">
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Status")}
-                                  </Label>
-                                  <Select
-                                    placeholder={t("Status")}
-                                    value={selectedMultiStatus}
-                                    isMulti={true}
-                                    onChange={value => {
-                                      // console.log(value);
-                                      handleMulti(value)
-                                    }}
-                                    options={statusData.filter(
-                                      status => status.status_type == "manual"
-                                    )}
-                                    className="select2-selection"
-                                    isLoading={true}
-                                  />
-                                </div>
-                              </Col>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Industry")}
-                                  </Label>
-                                  <Select
-                                    name="career_id"
-                                    placeholder={t("Industry")}
-                                    value={careerData.find(
-                                      option =>
-                                        option.value === formik.values.career_id
-                                    )}
-                                    onChange={item => {
-                                      formik.setFieldValue(
-                                        "career_id",
-                                        item == null ? null : item.value
-                                      )
-                                    }}
-                                    options={careerData}
-                                    // isClearable
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Foreigner Registration No.")}
-                                  </Label>
-                                  <Input
-                                    name="alien_registration_card_number"
-                                    placeholder={t(
-                                      "Foreigner Registration No."
-                                    )}
-                                    type="text"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={
-                                      formik.values
-                                        .alien_registration_card_number || ""
-                                    }
-                                    invalid={
-                                      formik.touched
-                                        .alien_registration_card_number &&
-                                      formik.errors
-                                        .alien_registration_card_number
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched
+                        <Row>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Domestic Phone Number")}
+                              </Label>
+                              <Input
+                                name="phone_domestically"
+                                placeholder={t("Domestic Phone Number")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.phone_domestically || ""}
+                                invalid={
+                                  formik.touched.phone_domestically &&
+                                  formik.errors.phone_domestically
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.phone_domestically &&
+                              formik.errors.phone_domestically ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.phone_domestically}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Phone Number")}
+                              </Label>
+                              <Input
+                                name="phone_abroad"
+                                placeholder={t("Phone Number")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.phone_abroad || ""}
+                                invalid={
+                                  formik.touched.phone_abroad &&
+                                  formik.errors.phone_abroad
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.phone_abroad &&
+                              formik.errors.phone_abroad ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.phone_abroad}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+
+                        <Row>
+                          <Col lg={12} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Passport Number")}
+                              </Label>
+                              <Input
+                                name="passport_code"
+                                placeholder={t("Passport Number")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.passport_code || ""}
+                                invalid={
+                                  formik.touched.passport_code &&
+                                  formik.errors.passport_code
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.passport_code &&
+                              formik.errors.passport_code ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.passport_code}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+
+                        <Row>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Date of Issue")}
+                              </Label>
+                              <Input
+                                name="passport_license_date"
+                                placeholder={t("Date of Issue")}
+                                type="date"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={
+                                  formik.values.passport_license_date || ""
+                                }
+                                invalid={
+                                  formik.touched.passport_license_date &&
+                                  formik.errors.passport_license_date
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.passport_license_date &&
+                              formik.errors.passport_license_date ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.passport_license_date}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Expiry Date")}
+                              </Label>
+                              <Input
+                                name="passport_expiration_date"
+                                placeholder={t("Expiry Date")}
+                                type="date"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={
+                                  formik.values.passport_expiration_date || ""
+                                }
+                                invalid={
+                                  formik.touched.passport_expiration_date &&
+                                  formik.errors.passport_expiration_date
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.passport_expiration_date &&
+                              formik.errors.passport_expiration_date ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.passport_expiration_date}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </Col>
+
+                  <Col lg={5} xl={5}>
+                    <Card className="h-100">
+                      <CardBody>
+                        <Row>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Dispatching Company")}
+                              </Label>
+                              <Select
+                                name="dispatching_company_id"
+                                placeholder={t("Dispatching Company")}
+                                value={companyData.find(
+                                  option =>
+                                    option.value ===
+                                    formik.values.dispatching_company_id
+                                )}
+                                onChange={item => {
+                                  formik.setFieldValue(
+                                    "dispatching_company_id",
+                                    item.value
+                                  )
+                                }}
+                                options={companyData}
+                                // isClearable
+                              />
+                            </div>
+                          </Col>
+
+                          {user && user.object_type == "receiving_factory" && (
+                            <Col lg={6} className="gx-1">
+                              <div className="mb-3">
+                                <Label className="form-label fw-bold">
+                                  {t("Syndication")}
+                                </Label>
+                                <Select
+                                  name="syndication_id"
+                                  placeholder={t("Syndication")}
+                                  value={syndicationData.find(
+                                    option =>
+                                      option.value ===
+                                      formik.values.syndication_id
+                                  )}
+                                  onChange={item => {
+                                    formik.setFieldValue(
+                                      "syndication_id",
+                                      item == null ? null : item.value
+                                    )
+                                  }}
+                                  options={syndicationData}
+                                  // isClearable
+                                />
+                              </div>
+                            </Col>
+                          )}
+
+                          {user && user.object_type == "syndication" && (
+                            <Col lg={6} className="gx-1">
+                              <div className="mb-3">
+                                <Label className="form-label fw-bold">
+                                  {t("Receiving Factory")}
+                                </Label>
+                                <Select
+                                  name="receiving_factory_id"
+                                  placeholder={t("Receiving Factory")}
+                                  value={factoryData.find(
+                                    option =>
+                                      option.value ===
+                                      formik.values.receiving_factory_id
+                                  )}
+                                  onChange={item => {
+                                    formik.setFieldValue(
+                                      "receiving_factory_id",
+                                      item == null ? null : item.value
+                                    )
+                                  }}
+                                  options={factoryData}
+                                  // isClearable
+                                />
+                              </div>
+                            </Col>
+                          )}
+                        </Row>
+                        <Row className="">
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Status")}
+                              </Label>
+                              <Select
+                                placeholder={t("Status")}
+                                value={selectedMultiStatus}
+                                isMulti={true}
+                                onChange={value => {
+                                  // console.log(value);
+                                  handleMulti(value)
+                                }}
+                                options={statusData.filter(
+                                  status => status.status_type == "manual"
+                                )}
+                                className="select2-selection"
+                                isLoading={true}
+                              />
+                            </div>
+                          </Col>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Industry")}
+                              </Label>
+                              <Select
+                                name="career_id"
+                                placeholder={t("Industry")}
+                                value={careerData.find(
+                                  option =>
+                                    option.value === formik.values.career_id
+                                )}
+                                onChange={item => {
+                                  formik.setFieldValue(
+                                    "career_id",
+                                    item == null ? null : item.value
+                                  )
+                                }}
+                                options={careerData}
+                                // isClearable
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Foreigner Registration No.")}
+                              </Label>
+                              <Input
+                                name="alien_registration_card_number"
+                                placeholder={t("Foreigner Registration No.")}
+                                type="text"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={
+                                  formik.values
+                                    .alien_registration_card_number || ""
+                                }
+                                invalid={
+                                  formik.touched
                                     .alien_registration_card_number &&
-                                  formik.errors
-                                    .alien_registration_card_number ? (
-                                    <FormFeedback type="invalid">
-                                      {
-                                        formik.errors
-                                          .alien_registration_card_number
-                                      }
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={6} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Residence Status")}
-                                  </Label>
-                                  <Select
-                                    name="status_of_residence_id"
-                                    placeholder={t("Residence Status")}
-                                    value={statusOfResidenceData.find(
-                                      option =>
-                                        option.value ===
-                                        formik.values.status_of_residence_id
-                                    )}
-                                    onChange={item => {
-                                      formik.setFieldValue(
-                                        "status_of_residence_id",
-                                        item == null ? null : item.value
-                                      )
-                                    }}
-                                    options={statusOfResidenceData}
-                                    // isClearable
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Date of Issue")}
-                                  </Label>
-                                  <Input
-                                    name="license_date"
-                                    placeholder={t("Date of Issue")}
-                                    type="date"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.license_date || ""}
-                                    invalid={
-                                      formik.touched.license_date &&
-                                      formik.errors.license_date
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.license_date &&
-                                  formik.errors.license_date ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.license_date}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Expiry Date")}
-                                  </Label>
-                                  <Input
-                                    name="expiration_date"
-                                    type="date"
-                                    autoComplete="off"
-                                    placeholder={t("Expiry Date")}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.expiration_date || ""}
-                                    invalid={
-                                      formik.touched.expiration_date &&
-                                      formik.errors.expiration_date
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.expiration_date &&
-                                  formik.errors.expiration_date ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.expiration_date}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                              <Col lg={4} className="gx-1">
-                                <div className="mb-3">
-                                  <Label className="form-label fw-bold">
-                                    {t("Entry date")}
-                                  </Label>
-                                  <Input
-                                    name="entry_date"
-                                    type="date"
-                                    autoComplete="off"
-                                    placeholder={t("Entry date")}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.entry_date || ""}
-                                    invalid={
-                                      formik.touched.entry_date &&
-                                      formik.errors.entry_date
-                                        ? true
-                                        : false
-                                    }
-                                  />
-                                  {formik.touched.entry_date &&
-                                  formik.errors.entry_date ? (
-                                    <FormFeedback type="invalid">
-                                      {formik.errors.entry_date}
-                                    </FormFeedback>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
+                                  formik.errors.alien_registration_card_number
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.alien_registration_card_number &&
+                              formik.errors.alien_registration_card_number ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.alien_registration_card_number}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={6} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Residence Status")}
+                              </Label>
+                              <Select
+                                name="status_of_residence_id"
+                                placeholder={t("Residence Status")}
+                                value={statusOfResidenceData.find(
+                                  option =>
+                                    option.value ===
+                                    formik.values.status_of_residence_id
+                                )}
+                                onChange={item => {
+                                  formik.setFieldValue(
+                                    "status_of_residence_id",
+                                    item == null ? null : item.value
+                                  )
+                                }}
+                                options={statusOfResidenceData}
+                                // isClearable
+                              />
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Date of Issue")}
+                              </Label>
+                              <Input
+                                name="license_date"
+                                placeholder={t("Date of Issue")}
+                                type="date"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.license_date || ""}
+                                invalid={
+                                  formik.touched.license_date &&
+                                  formik.errors.license_date
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.license_date &&
+                              formik.errors.license_date ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.license_date}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Expiry Date")}
+                              </Label>
+                              <Input
+                                name="expiration_date"
+                                type="date"
+                                autoComplete="off"
+                                placeholder={t("Expiry Date")}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.expiration_date || ""}
+                                invalid={
+                                  formik.touched.expiration_date &&
+                                  formik.errors.expiration_date
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.expiration_date &&
+                              formik.errors.expiration_date ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.expiration_date}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                          <Col lg={4} className="gx-1">
+                            <div className="mb-3">
+                              <Label className="form-label fw-bold">
+                                {t("Entry date")}
+                              </Label>
+                              <Input
+                                name="entry_date"
+                                type="date"
+                                autoComplete="off"
+                                placeholder={t("Entry date")}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.entry_date || ""}
+                                invalid={
+                                  formik.touched.entry_date &&
+                                  formik.errors.entry_date
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {formik.touched.entry_date &&
+                              formik.errors.entry_date ? (
+                                <FormFeedback type="invalid">
+                                  {formik.errors.entry_date}
+                                </FormFeedback>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
 
-                            <Row>
-                              <Col lg={12} className="gx-1">
-                                <div className="mt-2">
-                                  <Label className="form-label fw-bold">
-                                    {t("Note")}
-                                  </Label>
-                                  <Input
-                                    name="description"
-                                    type="textarea"
-                                    id="textarea"
-                                    onChange={e => {
-                                      textareachange(e)
-                                      formik.setFieldValue(
-                                        "description",
-                                        e.target.value
-                                      )
-                                    }}
-                                    value={formik.values.description || ""}
-                                    maxLength="225"
-                                    rows="3"
-                                    placeholder={t("Note")}
-                                  />
-                                  {textareabadge ? (
-                                    <span className="badgecount badge bg-success">
-                                      {" "}
-                                      {textcount} / 225{" "}
-                                    </span>
-                                  ) : null}
-                                </div>
-                              </Col>
-                            </Row>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                  {/* </CardBody>
+                        <Row>
+                          <Col lg={12} className="gx-1">
+                            <div className="mt-2">
+                              <Label className="form-label fw-bold">
+                                {t("Note")}
+                              </Label>
+                              <Input
+                                name="description"
+                                type="textarea"
+                                id="textarea"
+                                onChange={e => {
+                                  textareachange(e)
+                                  formik.setFieldValue(
+                                    "description",
+                                    e.target.value
+                                  )
+                                }}
+                                value={formik.values.description || ""}
+                                maxLength="225"
+                                rows="3"
+                                placeholder={t("Note")}
+                              />
+                              {textareabadge ? (
+                                <span className="badgecount badge bg-success">
+                                  {" "}
+                                  {textcount} / 225{" "}
+                                </span>
+                              ) : null}
+                            </div>
+                          </Col>
+                        </Row>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                </Row>
+                {/* </CardBody>
                 </Card> */}
 
                 {!isEditIntern && (

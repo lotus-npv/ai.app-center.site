@@ -30,6 +30,7 @@ import { useTranslation } from "react-i18next"
 import DataContext from "../../data/DataContext"
 import avata from "../../assets/images/users/avatar-1.jpg"
 import { t } from "i18next"
+const CryptoJS = require("crypto-js")
 
 const optionGroup = [
   { label: "Viet Nam", value: 1 },
@@ -47,6 +48,7 @@ import {
   setAddress,
   uploadImageRequest,
   uploadFile,
+  getUsersAll,
 } from "store/actions"
 
 const Offsymbol = () => {
@@ -134,6 +136,7 @@ const ModalDatas = ({
     communeDataByDistrictId,
     factoryCreate,
     factoryCreateLoading,
+    usersData,
   } = useSelector(
     state => ({
       provinceDataByNationId: state.Province.dataByNationId,
@@ -141,6 +144,7 @@ const ModalDatas = ({
       communeDataByDistrictId: state.Commune.dataByDistrictId,
       factoryCreate: state.ReceivingFactory.data,
       factoryCreateLoading: state.ReceivingFactory.loading,
+      usersData: state.Users.datas,
     }),
     shallowEqual
   )
@@ -148,7 +152,26 @@ const ModalDatas = ({
   // Tai du lieu thanh pho
   useEffect(() => {
     dispatch(getProvinceByNationId(1))
+    dispatch(getUsersAll())
   }, [])
+
+  // Tao doi luong luu tai khoan
+  const userObj = {
+    key_license_id: user != null ? user.key_license_id : "",
+    role: "user",
+    object_type: null,
+    object_id: null,
+    username: null,
+    password_hash: null,
+    active: true,
+    description: null,
+    create_at: null,
+    create_by: user.id,
+    update_at: null,
+    update_by: user.id,
+    delete_at: null,
+    flag: 1,
+  }
 
   // nap du lieu cho dia chi neu la chinh sua
   useEffect(() => {
@@ -203,6 +226,41 @@ const ModalDatas = ({
     }
   }, [item])
 
+  // tao schema khi khong tao tk
+  const withoutAccountSchema = Yup.object().shape({
+    name_jp: Yup.string().required("This value is required"),
+    name_en: Yup.string().required("This value is required"),
+    date_of_joining_syndication: Yup.date().required("Please select date"),
+  })
+
+  const withAccountSchema = Yup.object().shape({
+    name_jp: Yup.string().required("This value is required"),
+    name_en: Yup.string().required("This value is required"),
+    date_of_joining_syndication: Yup.date().required("Please select date"),
+
+    password: Yup.string().min(
+      6,
+      "Password must be at least 6 characters long"
+    ),
+    confirmPassword: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Password incorrect"
+    ),
+    username: Yup.string()
+      .email("Must be a valid Email")
+      .max(255)
+      .required("Email is required")
+      .test(
+        "done",
+        "Username already exists",
+        value => usersData.find(u => u.username == value) == undefined
+      ),
+  })
+
+  const getValidationSchema = () => {
+    return isLogin ? withAccountSchema : withoutAccountSchema
+  }
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -229,12 +287,7 @@ const ModalDatas = ({
       password: "",
       repassword: "",
     },
-    validationSchema: Yup.object().shape({
-      name_jp: Yup.string().required("This value is required"),
-      name_en: Yup.string().required("This value is required"),
-      date_of_joining_syndication: Yup.date().required("Please select date"),
-    }),
-
+    validationSchema: getValidationSchema(),
     onSubmit: async value => {
       if (isEditFactory) {
         let obj = {
@@ -255,6 +308,47 @@ const ModalDatas = ({
           flag: 1,
         }
         dispatch(updateApi(obj))
+
+        // kiem tra account
+        // truong hop 1: chua co account thi tao account moi
+        if (!isHasAccount) {
+          if (isLogin) {
+            const newAccount = {
+              key_license_id: value.key_license_id,
+              role: "user",
+              object_type: "intern",
+              object_id: item.id,
+              username: value.username,
+              password_hash: hashPassword(value.password),
+              active: 1,
+              description: "",
+              create_at: null,
+              create_by: user.id,
+              update_at: null,
+              update_by: user.id,
+              delete_at: null,
+              flag: 1,
+            }
+            dispatch(setUsers(newAccount))
+          }
+        } else {
+          // da co account , isLogin = false tuc la tat quyen truy cap cua intern vao he thong
+          if (!isLogin) {
+            const { full_name_en, label, logo, value, ...acc } = account
+            const newAccount = { ...acc, active: 0 }
+            dispatch(updateUsers(newAccount))
+          } else {
+            // da co account , isLogin = true tuc la co quyen truy cap vao he thong hoac moi bat lai quyen truy cap
+            // neu truoc do user dang khoa thi mo khoa
+            if (account.active == 0) {
+              const { full_name_en, label, logo, value, ...acc } = account
+              const newAccount = { ...acc, active: 1 }
+              dispatch(updateUsers(newAccount))
+            }
+          }
+        }
+        setIsLogin(false)
+        setAccount(null)
       } else {
         let obj = {
           key_license_id: value.key_license_id,
@@ -290,8 +384,11 @@ const ModalDatas = ({
     },
   })
 
+  //----------------------------------------------------------------------------------------------------------------//
+  // GHi du lieu dia chi, user vao database
+
   useEffect(() => {
-    if (factoryCreate != null) {
+    if (factoryCreate != null && isCreateAddress) {
       const id = factoryCreate["id"]
       addressDataFactory.forEach((address, index) => {
         const newAddress = {
@@ -307,8 +404,25 @@ const ModalDatas = ({
           setIsCreateAddress(false)
         }
       })
+
+      // ghi user
+      if (isLogin) {
+        const password = formik.values.password
+        const hashedPassword = hashPassword(password)
+        const newUser = {
+          ...userObj,
+          key_license_id: user.key_license_id,
+          object_type: "intern",
+          object_id: internId,
+          username: formik.values.username,
+          password_hash: hashedPassword,
+        }
+        dispatch(setUsers(newUser))
+      }
     }
-  }, [factoryCreate])
+  }, [factoryCreate, isCreateAddress])
+
+  //----------------------------------------------------------------------------------------------------------------//
 
   const handleSubmit = () => {
     console.log("submit")
@@ -442,6 +556,8 @@ const ModalDatas = ({
               onClick={() => {
                 setmodal_fullscreen(false)
                 setIsEditFactory(false)
+                setIsLogin(false)
+                setAccount(null)
               }}
               type="button"
               className="close"
@@ -459,7 +575,7 @@ const ModalDatas = ({
                   <CardBody> */}
                 <Row>
                   <Col lg={2} xl={2} sm={4}>
-                    <Card style={{height: '100%'}}>
+                    <Card style={{ height: "100%" }}>
                       <div className="d-flex justify-content-center">
                         <Card
                           style={{
@@ -507,8 +623,8 @@ const ModalDatas = ({
                       </div>
                       <Divider />
                       <div>
-                        {/* <Card>
-                          <CardBody> */}
+                        <Card>
+                          <CardBody>
                             <div className="mb-3">
                               <Switch
                                 name="status_type"
@@ -604,8 +720,8 @@ const ModalDatas = ({
                                 </div>
                               </div>
                             )}
-                          {/* </CardBody>
-                        </Card> */}
+                          </CardBody>
+                        </Card>
                       </div>
                     </Card>
                   </Col>
@@ -1061,6 +1177,9 @@ const ModalDatas = ({
                 tog_fullscreen()
                 formik.resetForm()
                 setIsEditFactory(false)
+                setIsLogin(false)
+                setIsHasAccount(false)
+                setAccount(null)
                 // updateAddressDataFactory([addressFactory])
               }}
               className="btn btn-secondary "
