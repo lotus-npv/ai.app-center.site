@@ -45,6 +45,7 @@ import { createSelector } from "reselect"
 
 import DataContext from "data/DataContext"
 import moment from "moment"
+import _ from 'lodash'
 
 const Dashboard = props => {
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
@@ -248,7 +249,7 @@ const Dashboard = props => {
 
       // console.log("newarr", newarr)
 
-      setDataCharst(newarr)
+      setDataCharst(newarr.filter(item => item.data != 0))
     }
   }, [dataIntern, dataAddress])
 
@@ -330,7 +331,7 @@ const Dashboard = props => {
       return arrData
     })
     // console.log(arr);
-    setPeriodData(arr)
+    setPeriodData(arr.filter(item => _.sum(item.data) != 0))
   }, [dataIntern])
 
   // console.log(dataCompany);

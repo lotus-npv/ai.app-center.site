@@ -24,7 +24,7 @@ import moment from "moment"
 import DataContext from "data/DataContext"
 import { Editor } from "primereact/editor"
 import _ from "lodash"
-import { t } from "i18next"
+import { useTranslation } from "react-i18next"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -48,6 +48,7 @@ const TicketInbox = props => {
   //meta title
   document.title = "Inbox | Skote - React Admin & Dashboard Template"
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
+  const {t} = useTranslation();
 
   // lam moi du lieu
   const [f5Data, setF5Data] = useState(false)

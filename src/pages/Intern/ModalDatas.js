@@ -1664,7 +1664,7 @@ const ModalDatas = ({
                                         // console.log(value);
                                         handleMulti(value)
                                       }}
-                                      options={statusData}
+                                      options={statusData.filter(status => status.status_type == 'manual')}
                                       className="select2-selection"
                                       isLoading={true}
                                     />
