@@ -62,8 +62,10 @@ import {
   getUsersAll,
   getInternUserId,
   updateUsers,
+  setNoti,
 } from "store/actions"
 import { toast } from "react-toastify"
+// import { dataStatus } from "common/data/status"
 
 const optionGroup = [
   { label: "Viet Nam", value: "Vietnam" },
@@ -193,6 +195,23 @@ const ModalDatas = ({
     flag: 1,
   }
 
+    // Tao doi luong luu tai khoan
+    const notiObj = {
+      key_license_id: user != null ? user.key_license_id : "",
+      user_id: null,
+      date_noti: null,
+      title: null,
+      content: null,
+      watched: 0,
+      description: null,
+      create_at: null,
+      create_by: user.id,
+      update_at: null,
+      update_by: user.id,
+      delete_at: null,
+      flag: 1,
+    }
+
   // data context
   const {
     modal_fullscreen,
@@ -305,6 +324,8 @@ const ModalDatas = ({
     }
   }, [item])
 
+  //---------------------------------------------------------------------------------------------//
+
   // doc du lieu status va alien card sau do nap vao state
   const [numStatusDetail, setNumTicketStatus] = useState([])
   const [on, setOn] = useState(false)
@@ -380,8 +401,8 @@ const ModalDatas = ({
   })
 
   const getValidationSchema = () => {
-    return isLogin ? withAccountSchema : withoutAccountSchema;
-  };
+    return isLogin ? withAccountSchema : withoutAccountSchema
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -806,8 +827,16 @@ const ModalDatas = ({
           dispatch(setAlienRegistrationCard(card))
         }
 
+        // lay danh sach Status automation, cac trang thai nay se duwoc ghi tu dogn vao thuc tap sinh
+        const arr1 = statusData.filter(
+          status => status.status_type == "automatic"
+        )
+        // console.log('arr1', arr1);
+        // tao mang moi chua cac status tu dong va cac status ma nguoi dung chon :
+        const newStatusArray = [...arr1, ...selectedMultiStatus]
+
         // ghi status
-        const multiStatus = selectedMultiStatus.map(status => {
+        const multiStatus = newStatusArray.map(status => {
           return {
             ...statusDetailObj,
             status_id: status.id,
@@ -815,8 +844,96 @@ const ModalDatas = ({
             key_license_id: formik.values.key_license_id,
           }
         })
+
+        console.log("newStatusArray", newStatusArray)
         multiStatus.forEach(st => {
           dispatch(setStatusDetail(st))
+        })
+
+        // Check va xu ly thong bao
+        // Lay cac status tu dong
+        // kiem tra các điều kiện
+
+        // lap cac status tu dong de tim ra ngay can gui thong bao
+        // kiem tra dieu kien 
+        arr1.forEach(status => {
+          console.log('Start write schedulate notification');
+          let dateAlert ;
+          if(status.condition_date == 'before') {
+            switch(status.condition_milestone) {
+              case 'residence status expiration date':
+                dateAlert = moment(formik.values.expiration_date).subtract(status.condition_value, 'days');
+                const newNoti1 = {
+                  ...notiObj,
+                  key_license_id: user.key_license_id,
+                  user_id: internId,
+                  date_noti: dateAlert,
+                  title: 'residence status expiration date',
+                  content: `residence status expiration date: ${formik.values.expiration_date}`
+                }
+                dispatch(setNoti(newNoti1))
+              case 'entry date':
+                dateAlert = moment(formik.values.entry_date).subtract(status.condition_value, 'days');
+                const newNoti2 = {
+                  ...notiObj,
+                  key_license_id: user.key_license_id,
+                  user_id: internId,
+                  date_noti: moment(dateAlert).format('YYYY-MM-DDTHH:mm:ss'),
+                  date_noti: '2024-04-04T16:52:00',
+                  title: 'entry date',
+                  content: `entry date: ${formik.values.entry_date}`
+                }
+                dispatch(setNoti(newNoti2))
+              case 'visa expiration date':
+                dateAlert = moment(formik.values.passport_expiration_date).subtract(status.condition_value, 'days');
+                const newNoti3 = {
+                  ...notiObj,
+                  key_license_id: user.key_license_id,
+                  user_id: internId,
+                  date_noti: dateAlert,
+                  title: 'visa expiration date',
+                  content: `visa expiration date: ${formik.values.passport_expiration_date}`
+                }
+                dispatch(setNoti(newNoti3))
+            }
+          } else {
+            switch(status.condition_milestone) {
+              case 'residence status expiration date':
+                dateAlert = moment(formik.values.expiration_date).add(status.condition_value, 'days');
+                const newNoti1 = {
+                  ...notiObj,
+                  key_license_id: user.key_license_id,
+                  user_id: internId,
+                  date_noti: dateAlert,
+                  title: 'residence status expiration date',
+                  content: `residence status expiration date: ${formik.values.expiration_date}`
+                }
+                dispatch(setNoti(newNoti1))
+              case 'entry date':
+                dateAlert = moment(formik.values.entry_date).add(status.condition_value, 'days');
+                const newNoti2 = {
+                  ...notiObj,
+                  key_license_id: user.key_license_id,
+                  user_id: internId,
+                  date_noti: dateAlert,
+                  title: 'entry date',
+                  content: `entry date: ${formik.values.entry_date}`
+                }
+                dispatch(setNoti(newNoti2))
+              case 'visa expiration date':
+                dateAlert = moment(formik.values.passport_expiration_date).add(status.condition_value, 'days');
+                const newNoti3 = {
+                  ...notiObj,
+                  key_license_id: user.key_license_id,
+                  user_id: internId,
+                  date_noti: dateAlert,
+                  title: 'visa expiration date',
+                  content: `visa expiration date: ${formik.values.passport_expiration_date}`
+                }
+                dispatch(setNoti(newNoti3))
+            }
+          }
+
         })
 
         // ghi address
@@ -846,10 +963,6 @@ const ModalDatas = ({
           }
           dispatch(setUsers(newUser))
         }
-
-        // Check va xu ly thong bao
-        // Lay cac status tu dong
-        // kiem tra các điều kiện 
 
         setIsCreateAddress(false)
         setselectedMultiStatus([])
@@ -989,6 +1102,7 @@ const ModalDatas = ({
   // console.log("alienCard:", alienCard)
   // console.log("isLogin:", isLogin)
   // console.log("isHasAccount:", isHasAccount)
+  // console.log("dataStatus:", statusData)
 
   const isFormFieldInvalid = name =>
     !!(formik.touched[name] && formik.errors[name])
@@ -1664,7 +1778,9 @@ const ModalDatas = ({
                                         // console.log(value);
                                         handleMulti(value)
                                       }}
-                                      options={statusData.filter(status => status.status_type == 'manual')}
+                                      options={statusData.filter(
+                                        status => status.status_type == "manual"
+                                      )}
                                       className="select2-selection"
                                       isLoading={true}
                                     />

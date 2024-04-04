@@ -67,13 +67,14 @@ import {
       case SET_NOTI_SUCCESS:
         return {
           ...state,
+          loading: false,
           data: action.payload,
-          loading: false
         };
   
       case SET_NOTI_FAIL:
         return {
           ...state,
+          loading: false,
           error: action.payload,
         };
       case UPDATE_NOTI:

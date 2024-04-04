@@ -120,7 +120,7 @@ const AddressDatas = ({ item, user }) => {
       const arr = addressData.filter(
         add => add.object_id == item.id && add.user_type == item.type
       )
-      console.log("arr", arr)
+      // console.log("arr", arr)
 
       if (arr && isDispath && index < arr.length) {
         // console.log("index", index)
@@ -137,7 +137,7 @@ const AddressDatas = ({ item, user }) => {
         // them 1 dia chi mac dinh moi
         array.push(addObj)
 
-        console.log("index", index)
+        // console.log("index", index)
 
         // nap gia tri country
         if (array[index]) {
@@ -174,7 +174,7 @@ const AddressDatas = ({ item, user }) => {
 
           setAddresss(arr)
 
-          console.log("addresss", addresss)
+          // console.log("addresss", addresss)
         }
 
         if (
