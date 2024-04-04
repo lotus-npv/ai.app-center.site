@@ -383,11 +383,11 @@ const TicketInbox = props => {
             update_at: time,
           }
           dispatch(updateTicket(ticket))
+          sendTicket(content)
         }
       }
       setContent("")
       toast.success("Bạn đã phản hồi thành công!", { autoClose: 2000 })
-
     } else {
       toast.warning("Vui lòng nhập đầy đủ thông tin !", { autoClose: 2000 })
     }
@@ -405,7 +405,7 @@ const TicketInbox = props => {
         receiver_object_id,
         sender_object_id,
         ...oldTicket
-      } = ticketRowData
+      } = ticketRowData;
       const ticket = {
         ...oldTicket,
         ticket_status: "done",
@@ -414,6 +414,7 @@ const TicketInbox = props => {
       dispatch(updateTicket(ticket))
       setmodal_backdrop(false)
       setmodal(!modal)
+      sendTicket(ticket.ticket_status)
     }
   }
 
@@ -459,8 +460,8 @@ const TicketInbox = props => {
                           setIsOutbox(false)
                         }}
                       >
-                        <i className="mdi mdi-email-receive-outline me-2"></i> Hộp thư
-                        đến{" "}
+                        <i className="mdi mdi-email-receive-outline me-2"></i>{" "}
+                        Hộp thư đến{" "}
                         <span className="ml-1 float-end fw-bold">
                           ({counters[0]})
                         </span>
@@ -478,8 +479,8 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-email-send-outline me-2"></i> Hộp thư
-                        đi{" "}
+                        <i className="mdi mdi-email-send-outline me-2"></i> Hộp
+                        thư đi{" "}
                         <span className="ml-1 float-end">({counters[4]})</span>
                       </NavLink>
                     </NavItem>
@@ -527,8 +528,8 @@ const TicketInbox = props => {
                           setIsOutbox(true)
                         }}
                       >
-                        <i className="mdi mdi-email-check-outline me-2"></i>Đã hoàn
-                        thành
+                        <i className="mdi mdi-email-check-outline me-2"></i>Đã
+                        hoàn thành
                         <span className="ml-1 float-end">({counters[3]})</span>
                       </NavLink>
                     </NavItem>
@@ -540,9 +541,9 @@ const TicketInbox = props => {
 
           <Col xl="9" lg="12">
             <div className="d-flex justify-content-center">
-                <Card className="w-100">
-                  <TableDatas dataTable={dataTable} />
-                </Card>
+              <Card className="w-100">
+                <TableDatas dataTable={dataTable} />
+              </Card>
             </div>
           </Col>
 
