@@ -25,36 +25,12 @@ import classnames from "classnames"
 
 import { SelectButton } from "primereact/selectbutton"
 
-const optionGroup = [
-  {
-    label: "Picnic",
-    options: [
-      { label: "Mustard", value: "Mustard" },
-      { label: "Ketchup", value: "Ketchup" },
-      { label: "Relish", value: "Relish" },
-    ],
-  },
-  {
-    label: "Camping",
-    options: [
-      { label: "Tent", value: "Tent" },
-      { label: "Flashlight", value: "Flashlight" },
-      { label: "Toilet Paper", value: "Toilet Paper" },
-    ],
-  },
-]
 
 const FormData = () => {
   //meta title
   document.title = "Checkout | Skote - React Admin & Dashboard Template"
 
   const [activeTab, setactiveTab] = useState("1")
-  const [selectedGroup, setselectedGroup] = useState(null)
-
-  function handleSelectGroup(selectedGroup) {
-    setselectedGroup(selectedGroup)
-  }
-
   const [value, setValue] = useState(null)
   const items = [
     { name: "All", value: 1 },
@@ -64,10 +40,6 @@ const FormData = () => {
 
   return (
     <React.Fragment>
-      {/* <div className="page-content">
-        <Container fluid>
-          <Breadcrumbs title="Ecommerce" breadcrumbItem="Checkout" /> */}
-
       <div className="checkout-tabs">
         <Row>
           <Col lg="3" sm="4">
@@ -181,22 +153,6 @@ const FormData = () => {
                           </Col>
                         </FormGroup>
 
-                        <FormGroup className="select2-container mb-4" row>
-                          <Label md="2" className="col-form-label">
-                            States
-                          </Label>
-                          <Col md="10">
-                            <Select
-                              value={selectedGroup}
-                              onChange={s => {
-                                handleSelectGroup(s)
-                              }}
-                              options={optionGroup}
-                              placeholder="Select States"
-                              classNamePrefix="select2-selection"
-                            />
-                          </Col>
-                        </FormGroup>
                         <FormGroup className="mb-0" row>
                           <Label
                             md="2"
