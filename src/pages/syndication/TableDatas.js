@@ -357,7 +357,8 @@ const TableDatas = props => {
   // console.log('provinceById:', provinceById)
   // console.log('provinceData:', provinceData)
   // console.log(provinceById[0].StateName_ja);
-  // console.log('dataTable:', dataTable);
+  console.log('user:', user);
+  console.log('syndicationData:', syndicationData);
 
   return (
     <div className="card">

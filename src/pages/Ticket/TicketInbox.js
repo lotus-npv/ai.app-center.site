@@ -80,6 +80,7 @@ const TicketInbox = props => {
   } = useContext(DataContext)
 
   //=====================================================================================================//
+  // Gui thong tin len server qua socket io
   const sendMessage = mes => {
     socket.emit("message", mes)
     setMessage("")
@@ -241,7 +242,6 @@ const TicketInbox = props => {
     }
   }, [modal])
 
-  // console.log(typeOptios)
 
   useEffect(() => {
     if (userType) {
@@ -558,14 +558,12 @@ const TicketInbox = props => {
             centered={true}
             toggle={() => {
               setmodal(!modal)
-              // setIsReponse(false)
             }}
           >
             <div className="modal-content">
               <ModalHeader
                 toggle={() => {
                   setmodal(!modal)
-                  // setIsReponse(false)
                   setUserType("")
                   setContent("")
                   setSelectOption("")
@@ -573,7 +571,7 @@ const TicketInbox = props => {
                 }}
               >
                 {isEditTicket
-                  ? `Ticket ID - ${
+                  ? `Ticket ID - #${
                       ticketRowData != null ? ticketRowData.id : "---"
                     }`
                   : "Tạo Ticket Mới"}

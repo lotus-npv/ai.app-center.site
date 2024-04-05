@@ -233,14 +233,14 @@ const SidebarContent = props => {
                 </Link>
               </li>
             )}
-            {/* {isShow[5] && (
+            {isShow[5] && (
               <li>
-                <Link to="/contacts">
+                <Link to="/send-notification">
                   <i className="bx bxs-contact"></i>
-                  <span>{props.t("Contact List")}</span>
+                  <span>{props.t("Notification")}</span>
                 </Link>
               </li>
-            )} */}
+            )}
             {isShow[6] && (
               <li>
                 <Link to="/violate" onClick={tToggle}>
