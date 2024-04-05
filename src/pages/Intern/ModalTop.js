@@ -446,7 +446,7 @@ const ModalTop = ({
             </Col>
           </Row>
         </Col>
-        <Col xl={7} md={6} sm={12}>
+        <Col xl={8} md={7} sm={12}>
           <Row>
             <Col className="d-flex justify-content-end">
               <Button

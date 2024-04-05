@@ -437,13 +437,13 @@ const TableDatas = props => {
   const [vh, setVh] = useState(null)
   window.addEventListener("resize", function () {
     var screenHeight = window.innerHeight
-    let wh = screenHeight - 365
+    let wh = screenHeight - 315
     setVh(`${wh}px`)
     // setWindowHeight(screenHeight);
   })
 
   useEffect(() => {
-    let wh = screenAvailHeight - 365
+    let wh = screenAvailHeight - 315
     setVh(`${wh}px`)
   }, [])
 
@@ -467,7 +467,7 @@ const TableDatas = props => {
           ref={dt}
           value={dataTable}
           paginator
-          rows={15}
+          rows={25}
           stripedRows
           dragSelection
           selectionMode={"multiple"}
