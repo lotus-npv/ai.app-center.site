@@ -454,6 +454,38 @@ CREATE TABLE if not exists notification (
 );
 
 
+CREATE TABLE if not exists send_notification (
+    id int primary key auto_increment,
+    key_license_id INT,
+    type_noti ENUM('all', 'group', 'individual'), -- kieu thong bao: gui cho ca nhan, tap the hay toan bo
+    sender_id VARCHAR(50),  -- id user nguoi nhan thong bao
+    date_noti DATETIME, -- ngay se gui thong bao
+    title VARCHAR(200), -- tieu de thong bao
+    content VARCHAR(1500), -- noi dung tong bao
+    description VARCHAR(200),
+    create_at DATETIME,
+    create_by INT,
+    update_at DATETIME,
+    update_by INT,
+    delete_at DATETIME,
+    flag BOOLEAN
+);
+
+CREATE TABLE if not exists receiver_notification (
+    id int primary key auto_increment,
+    key_license_id INT,
+    send_notification_id INT,
+    receiver_id INT,  -- id user nguoi nhan thong bao
+    description VARCHAR(200),
+    create_at DATETIME,
+    create_by INT,
+    update_at DATETIME,
+    update_by INT,
+    delete_at DATETIME,
+    flag BOOLEAN
+);
+
+
 
 
 

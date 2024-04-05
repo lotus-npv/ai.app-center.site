@@ -195,18 +195,18 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge }) => {
     },
   })
 
-  useEffect(() => {
-    const ngayHienTai = moment("2024-01-09")
+  // useEffect(() => {
+  //   const ngayHienTai = moment("2024-01-09")
 
-    // Trừ đi 10 ngày từ ngày hiện tại
-    const ngayTruoc10Ngay = ngayHienTai.subtract(10, "days")
+  //   // Trừ đi 10 ngày từ ngày hiện tại
+  //   const ngayTruoc10Ngay = ngayHienTai.subtract(10, "days")
 
-    // Định dạng lại ngày mới
-    const ngayFormatted = ngayTruoc10Ngay.format("DD/MM/YYYY")
+  //   // Định dạng lại ngày mới
+  //   const ngayFormatted = ngayTruoc10Ngay.format("DD/MM/YYYY")
 
-    // In ra kết quả
-    console.log("Ngày trước 10 ngày từ ngày 23/01/2024 là: " + ngayFormatted)
-  }, [])
+  //   // In ra kết quả
+  //   console.log("Ngày trước 10 ngày từ ngày 23/01/2024 là: " + ngayFormatted)
+  // }, [])
 
   const handleSubmit = () => {
     console.log("submit")
@@ -233,7 +233,7 @@ const ModalDatas = ({ item, modal_xlarge, setmodal_xlarge, tog_xlarge }) => {
   }, [isAuto])
 
   // console.log(isEditStatus)
-  console.log("formik", formik.values)
+  // console.log("formik", formik.values)
   // console.log('datas', datas)
   // console.log('loading', loadingCareer)
   // console.log("isAuto", isAuto)

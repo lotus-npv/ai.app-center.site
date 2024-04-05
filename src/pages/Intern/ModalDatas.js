@@ -849,12 +849,14 @@ const ModalDatas = ({
 
         // lap cac status tu dong de tim ra ngay can gui thong bao
         // kiem tra dieu kien
+        console.log('arr1', arr1);
         arr1.forEach(status => {
-          // console.log("Start write schedulate notification")
-          let dateAlert
+          let dateAlert;
           if (status.condition_date == "before") {
+            console.log("before")
             switch (status.condition_milestone) {
               case "residence status expiration date":
+                console.log('residence status expiration date');
                 dateAlert = moment(formik.values.expiration_date).subtract(
                   status.condition_value,
                   "days"
@@ -863,12 +865,13 @@ const ModalDatas = ({
                   ...notiObj,
                   key_license_id: user.key_license_id,
                   user_id: internId,
-                  date_noti: dateAlert,
+                  date_noti: moment(dateAlert).format('YYYY-MM-DDTHH:mm:ss'),
                   title: "residence status expiration date",
                   content: `residence status expiration date: ${formik.values.expiration_date}`,
                 }
                 dispatch(setNoti(newNoti1))
               case "entry date":
+                console.log('entry date');
                 dateAlert = moment(formik.values.entry_date).subtract(
                   status.condition_value,
                   "days"
@@ -877,13 +880,14 @@ const ModalDatas = ({
                   ...notiObj,
                   key_license_id: user.key_license_id,
                   user_id: internId,
-                  // date_noti: moment(dateAlert).format('YYYY-MM-DDTHH:mm:ss'),
-                  date_noti: "2024-04-05T00:23:00",
+                  date_noti: moment(dateAlert).format('YYYY-MM-DDTHH:mm:ss'),
+                  // date_noti: "2024-04-05T00:23:00",
                   title: "entry date",
                   content: `entry date: ${formik.values.entry_date}`,
                 }
                 dispatch(setNoti(newNoti2))
               case "visa expiration date":
+                console.log('visa expiration date');
                 dateAlert = moment(
                   formik.values.passport_expiration_date
                 ).subtract(status.condition_value, "days")
@@ -891,13 +895,14 @@ const ModalDatas = ({
                   ...notiObj,
                   key_license_id: user.key_license_id,
                   user_id: internId,
-                  date_noti: dateAlert,
+                  date_noti: moment(dateAlert).format('YYYY-MM-DDTHH:mm:ss'),
                   title: "visa expiration date",
                   content: `visa expiration date: ${formik.values.passport_expiration_date}`,
                 }
                 dispatch(setNoti(newNoti3))
             }
           } else {
+            console.log("after")
             switch (status.condition_milestone) {
               case "residence status expiration date":
                 dateAlert = moment(formik.values.expiration_date).add(

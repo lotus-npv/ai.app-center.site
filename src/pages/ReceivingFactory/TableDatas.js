@@ -22,7 +22,7 @@ import ModalDatas from "./ModalDatas"
 import { useTranslation } from "react-i18next"
 import { withTranslation } from "react-i18next"
 import PropTypes from "prop-types"
-import { t } from 'i18next';
+import { t } from "i18next"
 
 // //redux
 import { useSelector, useDispatch, shallowEqual } from "react-redux"
@@ -217,20 +217,22 @@ const TableDatas = props => {
               <InputText
                 value={globalFilterValue}
                 onChange={onGlobalFilterChange}
-                placeholder={t('Search')}
+                placeholder={t("Search")}
               />
             </span>
-            <ButtonRS
-              color="primary"
-              onClick={() => {
-                setIsEditFactory(false)
-                setRowSelect(null)
-                updateAddressDataFactory([addressFactory])
-                tog_fullscreen()
-              }}
-            >
-              {t('Add')}
-            </ButtonRS>
+            {user && user.role == "admin" && (
+              <ButtonRS
+                color="primary"
+                onClick={() => {
+                  setIsEditFactory(false)
+                  setRowSelect(null)
+                  updateAddressDataFactory([addressFactory])
+                  tog_fullscreen()
+                }}
+              >
+                {t("Add")}
+              </ButtonRS>
+            )}
           </div>
         </Row>
         <Row>
@@ -291,7 +293,7 @@ const TableDatas = props => {
             date_of_joining_syndication: moment(
               dcInfo.date_of_joining_syndication
             ).format("YYYY-MM-DD"),
-            logo: dcInfo.logo
+            logo: dcInfo.logo,
           }
         } else {
           return dc
@@ -322,7 +324,6 @@ const TableDatas = props => {
         } else {
           return factory
         }
-
       })
       setDataTable(arr)
     } else {
@@ -338,7 +339,7 @@ const TableDatas = props => {
       <div className="flex align-items-center gap-2">
         <Avatar
           className="p-overlay-badge"
-          style={{minWidth: '28px'}}
+          style={{ minWidth: "28px" }}
           image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`}
           // size="large"
           shape="circle"
@@ -408,8 +409,8 @@ const TableDatas = props => {
         scrollable
         scrollHeight={vh}
         size={"small"}
-      // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-      // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
+        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        // currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items"
       >
         <Column
           selectionMode="multiple"
@@ -418,50 +419,50 @@ const TableDatas = props => {
         ></Column>
         <Column
           field="nam_jp"
-          header={t('Receiving Factory Name')}
+          header={t("Receiving Factory Name")}
           body={nameBodyTemplate}
           filterField="nam_jp"
           filter
-          filterPlaceholder={t('Search')}
+          filterPlaceholder={t("Search")}
           sortable
           style={{ minWidth: "14rem" }}
         ></Column>
         <Column
           field="phone_number"
-          header={t('Phone number')}
+          header={t("Phone number")}
           filterField="factory_name_jp"
           filter
-          filterPlaceholder={t('Search')}
+          filterPlaceholder={t("Search")}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="email"
-          header={t('Email')}
+          header={t("Email")}
           filterField="email"
           filter
-          filterPlaceholder={t('Search')}
+          filterPlaceholder={t("Search")}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="date_of_joining_syndication"
-          header={t('Registration date')}
+          header={t("Registration date")}
           filterField="date_of_joining_syndication"
           filter
-          filterPlaceholder={t('Search')}
+          filterPlaceholder={t("Search")}
           sortable
           style={{ minWidth: "12rem" }}
         ></Column>
         <Column
           field="description"
-          header={t('Description')}
+          header={t("Description")}
           style={{ minWidth: "12rem" }}
         ></Column>
-        {customActiveTab.value === "All" && (
+        {customActiveTab.value === "All" && user && user.role == 'admin' && (
           <Column
             field="action"
-            header={t('Action')}
+            header={t("Action")}
             style={{ minWidth: "10rem" }}
             body={actionBody}
           ></Column>

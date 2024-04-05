@@ -372,7 +372,7 @@ const ModalTop = ({
                     setIsUpdateStatus(true)
                   }
                 }}
-                raised 
+                raised
               />
             </Col>
             <Col
@@ -449,15 +449,15 @@ const ModalTop = ({
         <Col xl={8} md={7} sm={12}>
           <Row>
             <Col className="d-flex justify-content-end">
-              <Button
-                color="primary"
-                onClick={() => {
-                  setIsEditIntern(false)
-                  tog_fullscreen()
-                }}
-              >
-                {t("Add")}
-              </Button>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    setIsEditIntern(false)
+                    tog_fullscreen()
+                  }}
+                >
+                  {t("Add")}
+                </Button>
             </Col>
           </Row>
         </Col>

@@ -368,7 +368,7 @@ const TableDatas = props => {
       <div className="flex align-items-center gap-2">
         <Avatar
           className="p-overlay-badge"
-          style={{minWidth: '25px'}}
+          style={{ minWidth: "25px" }}
           image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`}
           // size="large"
           shape="circle"
@@ -450,19 +450,20 @@ const TableDatas = props => {
   return (
     <React.Fragment>
       <div className="card">
-        <ModalTop
-          optionGroup={statusData}
-          statusApidata={statusData}
-          statusOfResidenceApiData={statusOfResidenceData}
-          violateTypeApiData={violateTypeData}
-          statusDetailApiData={statusDetailData}
-          alienCardApiData={alienCardData}
-          setStatusDetailApi={setStatusDetail}
-          dataInternAll={internDataAllInfo}
-          user={user}
-        />
         <Tooltip target=".export-buttons>button" position="bottom" />
-
+        {user && user.role == "admin" && (
+          <ModalTop
+            optionGroup={statusData}
+            statusApidata={statusData}
+            statusOfResidenceApiData={statusOfResidenceData}
+            violateTypeApiData={violateTypeData}
+            statusDetailApiData={statusDetailData}
+            alienCardApiData={alienCardData}
+            setStatusDetailApi={setStatusDetail}
+            dataInternAll={internDataAllInfo}
+            user={user}
+          />
+        )}
         <DataTable
           ref={dt}
           value={dataTable}
@@ -488,11 +489,11 @@ const TableDatas = props => {
           scrollable
           scrollHeight={vh}
           size={"small"}
-        // rowsPerPageOptions={[5, 10, 15, 20, 50]}
-        // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        // currentPageReportTemplate={`${t("Showing")} {first} ${t(
-        //   "to"
-        // )} {last} ${t("of")} {totalRecords} ${t("items")}`}
+          // rowsPerPageOptions={[5, 10, 15, 20, 50]}
+          // paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+          // currentPageReportTemplate={`${t("Showing")} {first} ${t(
+          //   "to"
+          // )} {last} ${t("of")} {totalRecords} ${t("items")}`}
         >
           <Column
             selectionMode="multiple"
@@ -505,7 +506,7 @@ const TableDatas = props => {
             body={nameBodyTemplate}
             filterField="label"
             filter
-            filterPlaceholder={t('Search')}
+            filterPlaceholder={t("Search")}
             // sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -514,7 +515,7 @@ const TableDatas = props => {
             header={props.t("Receiving Factory")}
             filterField="factory_name_jp"
             filter
-            filterPlaceholder={t('Search')}
+            filterPlaceholder={t("Search")}
             sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -523,7 +524,7 @@ const TableDatas = props => {
             header={props.t("Dispatching Company")}
             filterField="company_name_jp"
             filter
-            filterPlaceholder={t('Search')}
+            filterPlaceholder={t("Search")}
             sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -532,7 +533,7 @@ const TableDatas = props => {
             header={props.t("Status of residence")}
             filterField="sor_name"
             filter
-            filterPlaceholder={t('Search')}
+            filterPlaceholder={t("Search")}
             sortable
             style={{ minWidth: "12rem" }}
           ></Column>
@@ -540,17 +541,19 @@ const TableDatas = props => {
             header={props.t("Status")}
             body={statusBody}
             filterField="status"
-            filterPlaceholder={t('Search')}
+            filterPlaceholder={t("Search")}
             showFilterMenu={true}
             filterMenuStyle={{ width: "14rem" }}
             style={{ minWidth: "14rem" }}
           ></Column>
-          <Column
-            field="action"
-            header={props.t("Action")}
-            style={{ minWidth: "10rem" }}
-            body={actionBody}
-          ></Column>
+          {user && user.role == "admin" && (
+            <Column
+              field="action"
+              header={props.t("Action")}
+              style={{ minWidth: "10rem" }}
+              body={actionBody}
+            ></Column>
+          )}
         </DataTable>
 
         <DeleteModal

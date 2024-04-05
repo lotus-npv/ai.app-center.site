@@ -49,11 +49,7 @@ const TableDatas = props => {
   const { t } = useTranslation()
   const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
-  const {
-    vh,
-    setmodal_xlarge,
-    setIsEditViolate,
-  } = useContext(DataContext)
+  const { vh, setmodal_xlarge, setIsEditViolate } = useContext(DataContext)
 
   //table
 
@@ -156,8 +152,8 @@ const TableDatas = props => {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nam_jp: { value: null, matchMode: FilterMatchMode.CONTAINS },
     phone_number: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    factory_work_name: {value: null,matchMode: FilterMatchMode.CONTAINS,},
-    company_work_name: {value: null,matchMode: FilterMatchMode.CONTAINS,},
+    factory_work_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    company_work_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
   })
 
   // Row selected edit
@@ -193,15 +189,17 @@ const TableDatas = props => {
                 placeholder="Nhập từ khoá tìm kiếm ..."
               />
             </span>
-            <ButtonRS
-              color="primary"
-              onClick={() => {
-                setIsEditViolate(false)
-                setmodal_xlarge(true)
-              }}
-            >
-              Thêm mới
-            </ButtonRS>
+            {user && user.role == "admin" && (
+              <ButtonRS
+                color="primary"
+                onClick={() => {
+                  setIsEditViolate(false)
+                  setmodal_xlarge(true)
+                }}
+              >
+                Thêm mới
+              </ButtonRS>
+            )}
           </div>
         </Row>
       </>
@@ -241,7 +239,6 @@ const TableDatas = props => {
   useEffect(() => {
     getListInternStatus(customActiveTab.id)
   }, [customActiveTab, violateListData])
-
 
   // render col name
   const dateBodyTemplate = rowData => {
@@ -296,15 +293,19 @@ const TableDatas = props => {
   // console.log("violate:", violateData)
   // console.log('user:', user);
 
-
   useEffect(() => {
-    if(violateData) {
+    if (violateData) {
       const arr = violateData.map(violate => {
-        return {...violate, violate_date: moment(violate.violate_date).utc("+09:00").format("YYYY-MM-DD")}
+        return {
+          ...violate,
+          violate_date: moment(violate.violate_date)
+            .utc("+09:00")
+            .format("YYYY-MM-DD"),
+        }
       })
-      setDataTable(arr);
+      setDataTable(arr)
     }
-  },[violateData])
+  }, [violateData])
 
   const calculateCustomerTotal = id => {
     let total = 0
@@ -323,7 +324,9 @@ const TableDatas = props => {
     return (
       <div className="flex align-items-center gap-2">
         {/* <img alt={data.representative.name} src={`https://primefaces.org/cdn/primereact/images/avatar/${data.representative.image}`} width="32" /> */}
-        <span className="font-bold">{data.violate_date} - {data.vl_description}</span>
+        <span className="font-bold">
+          {data.violate_date} - {data.vl_description}
+        </span>
       </div>
     )
   }
@@ -346,7 +349,7 @@ const TableDatas = props => {
       <div className="flex align-items-center gap-2">
         <Avatar
           className="p-overlay-badge"
-          style={{minWidth: '25px'}}
+          style={{ minWidth: "25px" }}
           image={`https://api.lotusocean-jp.com/uploads/${rowData.avata}`}
           // size="large"
           shape="circle"
@@ -376,13 +379,15 @@ const TableDatas = props => {
         globalFilterFields={[
           "id",
           "full_name_jp",
-          "violate_date", "factory_work_name", "company_work_name",
+          "violate_date",
+          "factory_work_name",
+          "company_work_name",
         ]}
         selectionMode={"multiple"}
         selection={selectedItems}
         onSelectionChange={e => setSelectedItems(e.value)}
       >
-         <Column
+        <Column
           selectionMode="multiple"
           exportable={false}
           headerStyle={{ width: "3rem" }}

@@ -52,15 +52,15 @@ const Dashboard = props => {
 
   const { NationList, loadData, setLoadData } = useContext(DataContext)
   const navigator = useNavigate()
-  const selectDashboardState = state => state.Dashboard
-  const DashboardProperties = createSelector(
-    selectDashboardState,
-    dashboard => ({
-      chartsData: dashboard.chartsData,
-    })
-  )
+  // const selectDashboardState = state => state.Dashboard
+  // const DashboardProperties = createSelector(
+  //   selectDashboardState,
+  //   dashboard => ({
+  //     chartsData: dashboard.chartsData,
+  //   })
+  // )
 
-  const { chartsData } = useSelector(DashboardProperties)
+  // const { chartsData } = useSelector(DashboardProperties)
   const [periodData, setPeriodData] = useState([])
   const [periodType, setPeriodType] = useState("monthly")
 
@@ -94,7 +94,7 @@ const Dashboard = props => {
       dataStatusDetail: state.StatusDetail.datas,
       dataAddress: state.Address.datas,
       dataViolate: state.Violate.datas,
-      dataCompany: state.DispatchingCompany.datas,
+      dataCompany: state.DispatchingCompany.dataAll,
     }),
     shallowEqual
   )

@@ -70,6 +70,9 @@ import Contacts from "pages/Contacts";
 // Profile
 import Profile from 'pages/Profile'
 
+// Send Notification
+import SendNotificationPage from "pages/SendNotification";
+
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
   
@@ -108,6 +111,9 @@ const authProtectedRoutes = [
 
   // Contacts
   {path: "/profile", component: <Profile />},
+
+  // Contacts
+  {path: "/send-notification", component: <SendNotificationPage />},
 
  
   // this route should be at the end of all other routes

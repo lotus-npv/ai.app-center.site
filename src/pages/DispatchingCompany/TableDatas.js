@@ -203,17 +203,19 @@ const TableDatas = props => {
                 placeholder="Nhập từ khoá tìm kiếm ..."
               />
             </span>
-            <ButtonRS
-              color="primary"
-              onClick={() => {
-                setIsEditCompany(false)
-                setRowSelect(null)
-                updateAddressDataCompany([])
-                tog_fullscreen()
-              }}
-            >
-              Thêm mới
-            </ButtonRS>
+            {user && user.role == "admin" && (
+              <ButtonRS
+                color="primary"
+                onClick={() => {
+                  setIsEditCompany(false)
+                  setRowSelect(null)
+                  updateAddressDataCompany([])
+                  tog_fullscreen()
+                }}
+              >
+                Thêm mới
+              </ButtonRS>
+            )}
           </div>
         </Row>
         <Row>
@@ -256,35 +258,44 @@ const TableDatas = props => {
   // cap nhat data moi khi chuyen doi tab
   const getListInternStatus = key => {
     // lay ra duoc cac dia theo quoc gia
-    const arr = addressData.filter(item => item.nation_id == key && item.user_type == 'dispatching_company')
-    console.log('arr', arr);
-    if(arr) {
+    const arr = addressData.filter(
+      item => item.nation_id == key && item.user_type == "dispatching_company"
+    )
+    console.log("arr", arr)
+    if (arr) {
       const newarr = arr.map(dc => {
-        const dcInfo = companyData.find(company => company.id == dc.object_id && dc.user_type == 'dispatching_company')
-        if(dcInfo) {
+        const dcInfo = companyData.find(
+          company =>
+            company.id == dc.object_id && dc.user_type == "dispatching_company"
+        )
+        if (dcInfo) {
           return {
             ...dc,
             name_jp: dcInfo.name_jp,
             date_of_joining_syndication: moment(
               dcInfo.date_of_joining_syndication
             ).format("YYYY-MM-DD"),
-            logo: dcInfo.logo
+            logo: dcInfo.logo,
           }
         } else {
-          return dc;
+          return dc
         }
       })
       setDataTable(newarr)
     }
-    
   }
 
   useEffect(() => {
     if (customActiveTab.value === "All") {
       const arr = companyData.map(company => {
-        const addressDefault = addressData.find(add => add.object_id == company.id && add.user_type == 'dispatching_company' && add.is_default == 1)
+        const addressDefault = addressData.find(
+          add =>
+            add.object_id == company.id &&
+            add.user_type == "dispatching_company" &&
+            add.is_default == 1
+        )
         // console.log('addressDefault', addressDefault);
-        if(addressDefault) {
+        if (addressDefault) {
           return {
             ...company,
             date_of_joining_syndication: moment(
@@ -294,7 +305,7 @@ const TableDatas = props => {
             email: addressDefault.email,
           }
         } else {
-          return company;
+          return company
         }
       })
       setDataTable(arr)
@@ -309,7 +320,7 @@ const TableDatas = props => {
       <div className="flex align-items-center gap-2">
         <Avatar
           className="p-overlay-badge"
-          style={{minWidth: '25px'}}
+          style={{ minWidth: "25px" }}
           image={`https://api.lotusocean-jp.com/uploads/${rowData.logo}`}
           // size="large"
           shape="circle"
@@ -430,7 +441,7 @@ const TableDatas = props => {
           header="Ghi chú"
           style={{ minWidth: "12rem" }}
         ></Column>
-       {customActiveTab.value === "All" && (
+        {customActiveTab.value === "All" && user && user.role == 'admin' && (
           <Column
             field="action"
             header="Action"

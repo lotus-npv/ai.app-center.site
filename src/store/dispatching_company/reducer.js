@@ -18,6 +18,7 @@ import {
   } from "./actionTypes";
   
   const INIT_STATE = {
+    dataAll: [],
     datas: [],
     data: {}
   };
@@ -31,7 +32,7 @@ import {
       case GET_DISPATCHINGCOMPANY_ALL_SUCCESS:
         return {
           ...state,
-          datas: action.payload,
+          dataAll: action.payload,
         };
   
       case GET_DISPATCHINGCOMPANY_ALL_FAIL:

@@ -47,8 +47,7 @@ FilterService.register("custom_activity", (value, filters) => {
 })
 
 const TableDatas = props => {
-
-  const user = JSON.parse(localStorage.getItem("authUser"))[0];
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   // data context
   const {
     vh,
@@ -64,29 +63,24 @@ const TableDatas = props => {
   // Khai bao du lieu
   const dispatch = useDispatch()
 
-  const {
-    addressData,
-    provinceById,
-    provinceData,
-    loading,
-    syndicationData,
-  } = useSelector(
-    state => ({
-      syndicationData: state.Syndication.datas,
-      addressData: state.Address.datas,
-      provinceById: state.Province.dataId,
-      provinceData: state.Province.datas,
-      loading: state.Province.loading,
-    }),
-    shallowEqual
-  )
+  const { addressData, provinceById, provinceData, loading, syndicationData } =
+    useSelector(
+      state => ({
+        syndicationData: state.Syndication.datas,
+        addressData: state.Address.datas,
+        provinceById: state.Province.dataId,
+        provinceData: state.Province.datas,
+        loading: state.Province.loading,
+      }),
+      shallowEqual
+    )
 
   // Get du lieu lan dau
   useEffect(() => {
-    if(user) {
+    if (user) {
       // console.log(user.id)
       dispatch(getSyndicationUserId(user.id))
-      dispatch(getAddressAll(user.key_license_id));
+      dispatch(getAddressAll(user.key_license_id))
     }
     dispatch(getProvinceAll())
   }, [dispatch])
@@ -94,7 +88,7 @@ const TableDatas = props => {
   // get lai data sau moi 10s
   useEffect(() => {
     const intervalId = setInterval(() => {
-      if(user) {
+      if (user) {
         dispatch(getSyndicationUserId(user.id))
       }
     }, 10000)
@@ -238,17 +232,19 @@ const TableDatas = props => {
                 placeholder="Nhập từ khoá tìm kiếm ..."
               />
             </span>
-            <ButtonRS
-              color="primary"
-              onClick={() => {
-                setIsEditSyndication(false)
-                setRowSelect(null)
-                updateAddressDataSyndication([addressSyndication])
-                tog_fullscreen()
-              }}
-            >
-              Thêm mới
-            </ButtonRS>
+            {user && user.role == "admin" && (
+              <ButtonRS
+                color="primary"
+                onClick={() => {
+                  setIsEditSyndication(false)
+                  setRowSelect(null)
+                  updateAddressDataSyndication([addressSyndication])
+                  tog_fullscreen()
+                }}
+              >
+                Thêm mới
+              </ButtonRS>
+            )}
           </div>
         </Row>
         <Row>
@@ -426,12 +422,14 @@ const TableDatas = props => {
           header="Ghi chú"
           style={{ minWidth: "12rem" }}
         ></Column>
-        <Column
-          field="action"
-          header="Action"
-          style={{ minWidth: "10rem" }}
-          body={actionBody}
-        ></Column>
+        {user && user.role == "admin" && (
+          <Column
+            field="action"
+            header={props.t("Action")}
+            style={{ minWidth: "10rem" }}
+            body={actionBody}
+          ></Column>
+        )}
       </DataTable>
 
       <DeleteModal
