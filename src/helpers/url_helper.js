@@ -3,7 +3,7 @@ export const POST_FAKE_REGISTER = `/post-fake-register`;
 
 // demo
 export const GET_DEMO_DATA = `https://jsonplaceholder.typicode.com/posts`;
-const site = 'https://api.lotusocean-jp.com'
+const site = 'https://api.app-center.site'
 const api_address = 'https://address.itomo.vn'
 // const site = 'http://localhost:3010'
 // const api_address = 'https://ai.app-center.site'
