@@ -236,7 +236,7 @@ const SidebarContent = props => {
             {isShow[5] && (
               <li>
                 <Link to="/send-notification">
-                  <i className="bx bxs-contact"></i>
+                  <i className="bx bxs-bell-ring"></i>
                   <span>{props.t("Notification")}</span>
                 </Link>
               </li>
