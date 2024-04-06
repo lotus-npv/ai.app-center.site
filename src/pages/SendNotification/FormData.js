@@ -61,7 +61,7 @@ const FormData = () => {
                 <TabContent activeTab={activeTab}>
                   <TabPane tabId="1">
                     <div>
-                      <CardTitle>Shipping information</CardTitle>
+                      <CardTitle>Send Notification</CardTitle>
                       <p className="card-title-desc">
                         Fill all information below
                       </p>
@@ -72,7 +72,7 @@ const FormData = () => {
                             md="2"
                             className="col-form-label"
                           >
-                            Name
+                            Title
                           </Label>
                           <Col md="10">
                             <Input
@@ -177,20 +177,10 @@ const FormData = () => {
               </CardBody>
             </Card>
             <Row className="mt-4">
-              <Col sm="6">
-                <Link
-                  to="/ecommerce-cart"
-                  className="btn text-muted d-none d-sm-inline-block btn-link"
-                >
-                  <i className="mdi mdi-arrow-left me-1" /> Back to Shopping
-                  Cart{" "}
-                </Link>
-              </Col>
-              <Col sm="6">
+              <Col sm="12">
                 <div className="text-sm-end">
                   <Link to="/ecommerce-checkout" className="btn btn-success">
-                    <i className="mdi mdi-truck-fast me-1" /> Proceed to
-                    Shipping{" "}
+                    <i className="mdi mdi-truck-fast me-1" /> Send{" "}
                   </Link>
                 </div>
               </Col>
