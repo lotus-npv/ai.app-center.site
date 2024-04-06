@@ -1,12 +1,23 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import axios from "axios"
 import { FileUpload } from "primereact/fileupload"
+import { Toast } from "primereact/toast"
+import { ProgressBar } from "primereact/progressbar"
+import { Button } from "primereact/button"
+import { Tooltip } from "primereact/tooltip"
+import { Tag } from "primereact/tag"
 // //redux
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 function ImageUploadForm() {
+    const maxFileSize = 1000000;
   const [selectedFile, setSelectedFile] = useState(null)
+  const toast = useRef(null)
+  const [totalSize, setTotalSize] = useState(0)
+  const fileUploadRef = useRef(null)
+  const [selectDocument, setSelectDocument] = useState()
+
   const notifySuccess = () =>
     toast.success("Avata Upload Successfully", { autoClose: 2000 })
   const notifyError = () =>
@@ -61,43 +72,191 @@ function ImageUploadForm() {
         },
       })
       notifySuccess()
+      setFile(null)
     } catch (error) {
       console.error("Error uploading file:", error)
       notifyError()
     }
   }
 
-  
+  const onTemplateSelect = e => {
+    let _totalSize = totalSize
+    let files = e.files
+    setSelectDocument(files)
 
-  console.log('file', file);
+    Object.keys(files).forEach(key => {
+      _totalSize += files[key].size || 0
+    })
+
+    setTotalSize(_totalSize)
+  }
+
+  const onTemplateUpload = e => {
+    let _totalSize = 0
+
+    e.files.forEach(file => {
+      _totalSize += file.size || 0
+    })
+
+    setTotalSize(_totalSize)
+    toast.current.show({
+      severity: "info",
+      summary: "Success",
+      detail: "File Uploaded",
+    })
+  }
+
+  const onTemplateRemove = (file, callback) => {
+    setTotalSize(totalSize - file.size)
+    callback()
+  }
+
+  const onTemplateClear = () => {
+    setTotalSize(0)
+  }
+
+  const headerTemplate = options => {
+    const { className, chooseButton, uploadButton, cancelButton } = options
+    const value = totalSize / 10000
+    const formatedValue =
+      fileUploadRef && fileUploadRef.current
+        ? fileUploadRef.current.formatSize(totalSize)
+        : "0 B"
+
+    return (
+      <div
+        className={className}
+        style={{
+          backgroundColor: "transparent",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {chooseButton}
+        {cancelButton}
+        <div className="flex align-items-center gap-3 ml-auto">
+          <span>{formatedValue} / {maxFileSize/1000000} MB</span>
+          <ProgressBar
+            value={value}
+            showValue={false}
+            style={{ width: "10rem", height: "12px" }}
+          ></ProgressBar>
+        </div>
+      </div>
+    )
+  }
+
+  const itemTemplate = (file, props) => {
+    return (
+      <div className="flex align-items-center flex-wrap">
+        <div className="flex align-items-center" style={{ width: "40%" }}>
+          <img
+            alt={file.name}
+            role="presentation"
+            src={file.objectURL}
+            width={100}
+          />
+          <span className="flex flex-column text-left ml-3">
+            {file.name}
+            <small>{new Date().toLocaleDateString()}</small>
+          </span>
+        </div>
+        <Tag
+          value={props.formatSize}
+          severity="warning"
+          className="px-3 py-2"
+        />
+        <Button
+          type="button"
+          icon="pi pi-times"
+          className="p-button-outlined p-button-rounded p-button-danger ml-auto"
+          onClick={() => onTemplateRemove(file, props.onRemove)}
+        />
+      </div>
+    )
+  }
+
+  const emptyTemplate = () => {
+    return (
+      <div className="flex align-items-center flex-column">
+        <i
+          className="pi pi-image mt-3 p-5"
+          style={{
+            fontSize: "5em",
+            borderRadius: "50%",
+            backgroundColor: "var(--surface-b)",
+            color: "var(--surface-d)",
+          }}
+        ></i>
+        <span
+          style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }}
+          className="my-5"
+        >
+          Drag and Drop Image Here
+        </span>
+      </div>
+    )
+  }
+
+  const chooseOptions = {
+    icon: "pi pi-fw pi-images",
+    iconOnly: true,
+    className: "custom-choose-btn p-button-rounded p-button-outlined",
+  }
+
+  const cancelOptions = {
+    icon: "pi pi-fw pi-times",
+    iconOnly: true,
+    className:
+      "custom-cancel-btn p-button-danger p-button-rounded p-button-outlined",
+  }
+
+  console.log(selectDocument)
 
   return (
     <div>
-      {/* <form onSubmit={handleSubmitAvata}>
-        <input type="file" onChange={handleFileChange} />
-        <button type="submit">Upload avata</button>
-      </form>
       <form onSubmit={handleSubmitDocument}>
-        <input type="file" onChange={handleFileChange} />
-        <button type="submit">Upload file</button>
-      </form> */}
-      <div className="card">
-        <FileUpload
-          name="demo[]"
-          url={"http://localhost:3010/upload/document"}
-          multiple={false}
-          accept="image/*"
-          maxFileSize={1000000}
-          emptyTemplate={
-            <p className="m-0">Drag and drop files to here to upload.</p>
-          }
-          onSelect={e => {
-            console.log(e.files);
-            setFile(e.files[0])
-          }}
-          customUpload={handleSubmitDocument}
-        />
-      </div>
+        <div>
+          <Toast ref={toast}></Toast>
+
+          <Tooltip
+            target=".custom-choose-btn"
+            content="Choose"
+            position="bottom"
+          />
+          <Tooltip
+            target=".custom-upload-btn"
+            content="Upload"
+            position="bottom"
+          />
+          <Tooltip
+            target=".custom-cancel-btn"
+            content="Clear"
+            position="bottom"
+          />
+
+          <FileUpload
+            ref={fileUploadRef}
+            name="demo[]"
+            url="/api/upload"
+            multiple
+            accept="*"
+            maxFileSize={maxFileSize}
+            // onUpload={onTemplateUpload}
+            onSelect={onTemplateSelect}
+            onError={onTemplateClear}
+            onClear={onTemplateClear}
+            headerTemplate={headerTemplate}
+            itemTemplate={itemTemplate}
+            emptyTemplate={emptyTemplate}
+            chooseOptions={chooseOptions}
+            cancelOptions={cancelOptions}
+          />
+        </div>
+
+        <Button type="submit">Upload</Button>
+      </form>
+
       <ToastContainer />
     </div>
   )
