@@ -22,16 +22,20 @@ import {
 import Select from "react-select"
 import { Link } from "react-router-dom"
 import classnames from "classnames"
+import { Editor } from "primereact/editor"
 
 import { SelectButton } from "primereact/selectbutton"
 
-
 const FormData = () => {
   //meta title
-  document.title = "Checkout | Skote - React Admin & Dashboard Template"
+  document.title = "Notification"
 
   const [activeTab, setactiveTab] = useState("1")
   const [value, setValue] = useState(null)
+
+  const [title, setTitle] = useState("")
+  const [content, setContent] = useState("")
+
   const items = [
     { name: "All", value: 1 },
     { name: "Group", value: 2 },
@@ -50,7 +54,7 @@ const FormData = () => {
                   onChange={e => setValue(e.value)}
                   optionLabel="name"
                   options={items}
-                  style={{minWidth: '200px'}}
+                  style={{ minWidth: "200px" }}
                 />
               </div>
             </Nav>
@@ -83,90 +87,21 @@ const FormData = () => {
                             />
                           </Col>
                         </FormGroup>
-                        <FormGroup className="mb-4" row>
-                          <Label
-                            htmlFor="billing-email-address"
-                            md="2"
-                            className="col-form-label"
-                          >
-                            Email Address
-                          </Label>
-                          <Col md="10">
-                            <Input
-                              type="email"
-                              className="form-control"
-                              id="billing-email-address"
-                              placeholder="Enter your email"
-                            />
-                          </Col>
-                        </FormGroup>
-                        <FormGroup className="mb-4" row>
-                          <Label
-                            htmlFor="billing-phone"
-                            md="2"
-                            className="col-form-label"
-                          >
-                            Phone
-                          </Label>
-                          <Col md={10}>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="billing-phone"
-                              placeholder="Enter your Phone no."
-                            />
-                          </Col>
-                        </FormGroup>
-                        <FormGroup className="mb-4" row>
-                          <Label
-                            htmlFor="billing-address"
-                            md="2"
-                            className="col-form-label"
-                          >
-                            Address
-                          </Label>
-                          <Col md="10">
-                            <textarea
-                              className="form-control"
-                              id="billing-address"
-                              rows="3"
-                              placeholder="Enter full address"
-                            />
-                          </Col>
-                        </FormGroup>
-
-                        <FormGroup className="select2-container mb-4" row>
-                          <Label md="2" className="col-form-label">
-                            Country
-                          </Label>
-                          <Col md="10">
-                            <select
-                              className="form-control select2"
-                              title="Country"
-                            >
-                              <option value="0">Select Country</option>
-                              <option value="AF">Afghanistan</option>
-                              <option value="AL">Albania</option>
-                              <option value="DZ">Algeria</option>
-                              <option value="AS">American Samoa</option>
-                            </select>
-                          </Col>
-                        </FormGroup>
 
                         <FormGroup className="mb-0" row>
                           <Label
                             md="2"
                             className="col-form-label"
-                            htmlFor="example-textarea"
+                            htmlFor="noti-content"
                           >
-                            Order Notes:
+                           Content:
                           </Label>
                           <Col md="10">
-                            <textarea
-                              className="form-control"
-                              id="example-textarea"
-                              rows="3"
-                              placeholder="Write some note.."
+                            <Editor
+                              id="noti-content"
+                              value={content}
+                              onTextChange={e => setContent(e.htmlValue)}
+                              style={{ height: "350px" }}
                             />
                           </Col>
                         </FormGroup>
