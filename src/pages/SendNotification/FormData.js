@@ -23,6 +23,7 @@ import Select from "react-select"
 import { Link } from "react-router-dom"
 import classnames from "classnames"
 import { Editor } from "primereact/editor"
+import { FileUpload } from "primereact/fileupload"
 
 import { SelectButton } from "primereact/selectbutton"
 
@@ -46,8 +47,8 @@ const FormData = () => {
     <React.Fragment>
       <div className="checkout-tabs">
         <Row>
-          <Col lg="3" sm="4">
-            <Nav className="flex-column mt-3" pills>
+          <Col xl="2" lg="12">
+            <Nav className="flex-column mt-3 mb-3" pills>
               <div className="d-flex justify-content-center">
                 <SelectButton
                   value={value}
@@ -59,7 +60,7 @@ const FormData = () => {
               </div>
             </Nav>
           </Col>
-          <Col lg="9" sm="8">
+          <Col xl="10" lg="12">
             <Card>
               <CardBody>
                 <TabContent activeTab={activeTab}>
@@ -83,7 +84,7 @@ const FormData = () => {
                               type="text"
                               className="form-control"
                               id="billing-name"
-                              placeholder="Enter your name"
+                              placeholder="Enter title"
                             />
                           </Col>
                         </FormGroup>
@@ -94,14 +95,38 @@ const FormData = () => {
                             className="col-form-label"
                             htmlFor="noti-content"
                           >
-                           Content:
+                            Content:
                           </Label>
                           <Col md="10">
                             <Editor
                               id="noti-content"
                               value={content}
                               onTextChange={e => setContent(e.htmlValue)}
-                              style={{ height: "350px" }}
+                              style={{ height: "250px" }}
+                            />
+                          </Col>
+                        </FormGroup>
+
+                        <FormGroup className="mb-0" row>
+                          <Label
+                            md="2"
+                            className="col-form-label"
+                            htmlFor="noti-files"
+                          >
+                            Files:
+                          </Label>
+                          <Col md="10">
+                            <FileUpload
+                              name="demo[]"
+                              url={"http://localhost:3010/upload"}
+                              multiple
+                              accept="image/*"
+                              maxFileSize={1000000}
+                              emptyTemplate={
+                                <p className="m-0">
+                                  Drag and drop files to here to upload.
+                                </p>
+                              }
                             />
                           </Col>
                         </FormGroup>
