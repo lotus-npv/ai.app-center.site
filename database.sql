@@ -457,7 +457,7 @@ CREATE TABLE if not exists notification (
 CREATE TABLE if not exists send_notification (
     id int primary key auto_increment,
     key_license_id INT,
-    type_noti ENUM('all', 'group', 'individual'), -- kieu thong bao: gui cho ca nhan, tap the hay toan bo
+    -- type_noti ENUM('all', 'group', 'individual'), -- kieu thong bao: gui cho ca nhan, tap the hay toan bo
     sender_id VARCHAR(50),  -- id user nguoi nhan thong bao
     date_noti DATETIME, -- ngay se gui thong bao
     title VARCHAR(200), -- tieu de thong bao
