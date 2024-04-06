@@ -56,7 +56,7 @@ const App = () => {
   } = useContext(DataContext)
   
   useEffect(() => {
-    const newSocket = io("https://api.app-center.site", {
+    const newSocket = io("https://api.lotusocean-jp.com", {
       secure: true,
       rejectUnauthorized: false, // Chỉ cần đặt rejectUnauthorized là false nếu bạn sử dụng chứng chỉ tự ký
       path: "/socket.io",
