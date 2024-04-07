@@ -248,7 +248,8 @@ function ImageUploadForm() {
             onClear={onTemplateClear}
             headerTemplate={headerTemplate}
             itemTemplate={itemTemplate}
-            emptyTemplate={emptyTemplate}
+            // emptyTemplate={emptyTemplate}
+            emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>}
             chooseOptions={chooseOptions}
             cancelOptions={cancelOptions}
           />
