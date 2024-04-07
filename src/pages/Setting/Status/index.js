@@ -18,13 +18,16 @@ const StatusPage = (props) => {
         { value: 'blue', label: 'Blue' }
     ];
     document.title = "Status Page";
+    const getFiles = (files) => {
+        console.log('files', files);
+    }
     return (
         <>
             <div className="page-content">
                 <Container fluid={true}>
                     <TableDatas />
                     <ToastContainer />
-                    <ImageUploadForm />
+                    <ImageUploadForm getFiles={getFiles} />
                 </Container>
             </div>
         </>

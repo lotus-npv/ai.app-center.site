@@ -10,7 +10,7 @@ import { Tag } from "primereact/tag"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-function ImageUploadForm() {
+function ImageUploadForm({getFiles}) {
   const maxFileSize = 1000000
   const [selectedFile, setSelectedFile] = useState(null)
   const [file, setFile] = useState()
@@ -82,8 +82,8 @@ function ImageUploadForm() {
   const onTemplateSelect = e => {
     let _totalSize = 0;
     let files = e.files
-    console.log('files', files);
     setSelectDocument(files)
+    getFiles(files);
     
     Object.keys(files).forEach(key => {
       _totalSize += files[key].size || 0
@@ -92,20 +92,6 @@ function ImageUploadForm() {
     setTotalSize(_totalSize)
   }
 
-  const onTemplateUpload = e => {
-    let _totalSize = 0
-
-    e.files.forEach(file => {
-      _totalSize += file.size || 0
-    })
-
-    setTotalSize(_totalSize)
-    toast.current.show({
-      severity: "info",
-      summary: "Success",
-      detail: "File Uploaded",
-    })
-  }
 
   const onTemplateRemove = (file, callback) => {
     setTotalSize(totalSize - file.size)
@@ -188,7 +174,7 @@ function ImageUploadForm() {
             fontSize: "1.5em",
             borderRadius: "50%",
             backgroundColor: "var(--surface-b)",
-            color: "var(--surface-d)",
+            color: "green",
           }}
         ></i>
         <span
@@ -214,7 +200,7 @@ function ImageUploadForm() {
       "custom-cancel-btn p-button-danger p-button-rounded p-button-outlined",
   }
 
-  console.log(totalSize)
+//   console.log(totalSize)
 
   return (
     <div>
