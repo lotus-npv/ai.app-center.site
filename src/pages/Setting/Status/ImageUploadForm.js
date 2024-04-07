@@ -11,8 +11,9 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 function ImageUploadForm() {
-    const maxFileSize = 1000000;
+  const maxFileSize = 5000000
   const [selectedFile, setSelectedFile] = useState(null)
+  const [file, setFile] = useState()
   const toast = useRef(null)
   const [totalSize, setTotalSize] = useState(0)
   const fileUploadRef = useRef(null)
@@ -52,7 +53,6 @@ function ImageUploadForm() {
       notifyError()
     }
   }
-  const [file, setFile] = useState()
 
   const handleSubmitDocument = async event => {
     event.preventDefault()
@@ -135,7 +135,9 @@ function ImageUploadForm() {
         {chooseButton}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / {maxFileSize/1000000} MB</span>
+          <span>
+            {formatedValue} / {maxFileSize / 1000000} MB
+          </span>
           <ProgressBar
             value={value}
             showValue={false}
@@ -180,9 +182,9 @@ function ImageUploadForm() {
     return (
       <div className="flex align-items-center flex-column">
         <i
-          className="pi pi-image mt-3 p-5"
+          className="pi pi-image mt-1 p-5"
           style={{
-            fontSize: "5em",
+            fontSize: "2em",
             borderRadius: "50%",
             backgroundColor: "var(--surface-b)",
             color: "var(--surface-d)",
@@ -190,7 +192,7 @@ function ImageUploadForm() {
         ></i>
         <span
           style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }}
-          className="my-5"
+          className="my-1"
         >
           Drag and Drop Image Here
         </span>
@@ -199,7 +201,7 @@ function ImageUploadForm() {
   }
 
   const chooseOptions = {
-    icon: "pi pi-fw pi-images",
+    icon: "pi pi-fw pi-paperclip",
     iconOnly: true,
     className: "custom-choose-btn p-button-rounded p-button-outlined",
   }
@@ -225,11 +227,6 @@ function ImageUploadForm() {
             position="bottom"
           />
           <Tooltip
-            target=".custom-upload-btn"
-            content="Upload"
-            position="bottom"
-          />
-          <Tooltip
             target=".custom-cancel-btn"
             content="Clear"
             position="bottom"
@@ -248,8 +245,10 @@ function ImageUploadForm() {
             onClear={onTemplateClear}
             headerTemplate={headerTemplate}
             itemTemplate={itemTemplate}
-            // emptyTemplate={emptyTemplate}
-            emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>}
+            emptyTemplate={emptyTemplate}
+            // emptyTemplate={() => (
+            //   <p className="m-0">Drag and drop files to here to upload.</p>
+            // )}
             chooseOptions={chooseOptions}
             cancelOptions={cancelOptions}
           />
