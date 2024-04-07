@@ -1,14 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import {
-  Container,
   Row,
   Col,
-  Table,
   Input,
   Nav,
-  NavItem,
-  NavLink,
   TabContent,
   TabPane,
   Card,
@@ -17,23 +13,38 @@ import {
   Label,
   CardBody,
   CardTitle,
-  CardSubtitle,
 } from "reactstrap"
-import Select from "react-select"
 import { Link } from "react-router-dom"
-import classnames from "classnames"
 import { Editor } from "primereact/editor"
-import { FileUpload } from "primereact/fileupload"
 import UploadFile from "components/CommonForBoth/UploadFile/UploadFile"
-
 import { SelectButton } from "primereact/selectbutton"
+import { Mention } from "primereact/mention"
+
+import { useSelector, useDispatch, shallowEqual } from "react-redux"
+import { getUsersAll } from "store/actions"
 
 const FormData = () => {
   //meta title
   document.title = "Notification"
 
+  const dispatch = useDispatch()
+
+  const { userData } = useSelector(
+    state => ({
+      userData: state.Users.datas,
+    }),
+    shallowEqual
+  )
+
+  // Get du lieu lan dau F
+  useEffect(() => {
+    dispatch(getUsersAll())
+  }, [dispatch])
+
   const [activeTab, setactiveTab] = useState("1")
   const [value, setValue] = useState(null)
+
+  const [group, setGroup] = useState(null)
 
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
@@ -41,22 +52,87 @@ const FormData = () => {
   // check xem co du dk upload file
   const [isUpload, setIsUpload] = useState(true)
 
-
   const items = [
     { name: "All", value: 1 },
     { name: "Group", value: 2 },
     { name: "Individual", value: 3 },
   ]
 
-  const getFiles = (files) => {
-    console.log('files', files);
+  const groupOptions = [
+    { name: "All Receiving factory", value: 1 },
+    { name: "All Dispatching Company", value: 2 },
+    { name: "All Intern Of", value: 3 },
+  ]
+
+  const getFiles = files => {
+    console.log("files", files)
   }
 
-  const onUpload = (value) => {
-    setIsUpload(value);
+  const onUpload = value => {
+    setIsUpload(value)
   }
 
-  console.log('isUpload', isUpload);
+  useEffect(() => {
+    if (value != 2) {
+      setGroup(null)
+    } else {
+      setGroup(groupOptions[0])
+    }
+  }, [value])
+
+  const [valueMention, setValueMention] = useState("")
+  const [customers, setCustomers] = useState([])
+  const [suggestions, setSuggestions] = useState([])
+
+  useEffect(() => {
+   if(userData) {
+    userData.forEach(
+      d =>
+        (d["nickname"] = `${d.username.replace(/\s+/g, "").toLowerCase()}_${d.id}`)
+    )
+    setCustomers(userData)
+   }
+  }, [])
+
+  const onSearch = event => {
+    //in a real application, make a request to a remote url with the query and return suggestions, for demo we filter at client side
+    setTimeout(() => {
+      const query = event.query
+      let suggestions
+
+      if (!query.trim().length) {
+        suggestions = [...customers]
+      } else {
+        suggestions = customers.filter(customer => {
+          return customer.nickname.toLowerCase().startsWith(query.toLowerCase())
+        })
+      }
+
+      setSuggestions(suggestions)
+    }, 250)
+  }
+
+  const itemTemplate = suggestion => {
+    const src =
+      "https://primefaces.org/cdn/primereact/images/avatar/" +
+      suggestion.logo
+
+    return (
+      <div className="flex align-items-center">
+        <img alt={suggestion.username} src={src} width="32" />
+        <span className="flex flex-column ml-2">
+          {suggestion.username}
+          <small
+            style={{ fontSize: ".75rem", color: "var(--text-color-secondary)" }}
+          >
+            @{suggestion.nickname}
+          </small>
+        </span>
+      </div>
+    )
+  }
+
+  // console.log('isUpload', isUpload);
 
   return (
     <React.Fragment>
@@ -73,15 +149,29 @@ const FormData = () => {
                   style={{ minWidth: "200px" }}
                 />
               </div>
-              <div className="d-flex justify-content-center mt-3">
-                <SelectButton
-                  value={value}
-                  onChange={e => setValue(e.value)}
-                  optionLabel="name"
-                  options={items}
-                  style={{ minWidth: "200px" }}
-                />
-              </div>
+              {group != null && (
+                <div className="d-flex justify-content-center mt-3">
+                  <SelectButton
+                    value={group}
+                    onChange={e => setGroup(e.value)}
+                    optionLabel="name"
+                    options={groupOptions}
+                    style={{ minWidth: "200px" }}
+                  />
+                </div>
+              )}
+
+              <Mention
+                value={valueMention}
+                onChange={e => setValueMention(e.target.value)}
+                suggestions={suggestions}
+                onSearch={onSearch}
+                field="nickname"
+                placeholder="Enter @ to mention people"
+                rows={5}
+                cols={40}
+                itemTemplate={itemTemplate}
+              />
             </Nav>
           </Col>
           <Col xl="9" lg="12">
@@ -140,7 +230,10 @@ const FormData = () => {
                             Files:
                           </Label>
                           <Col md="10">
-                            <UploadFile getFiles={getFiles} onUpload={onUpload} />
+                            <UploadFile
+                              getFiles={getFiles}
+                              onUpload={onUpload}
+                            />
                           </Col>
                         </FormGroup>
                       </Form>
