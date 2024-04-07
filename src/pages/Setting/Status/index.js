@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import ImageUploadForm from "./ImageUploadForm";
+import { Button } from "primereact/button";
 
 const StatusPage = (props) => {
     const colorOptions = [
@@ -17,6 +18,7 @@ const StatusPage = (props) => {
         { value: 'green', label: 'Green' },
         { value: 'blue', label: 'Blue' }
     ];
+    const [isUpload, setIsUpload] = useState(false);
     document.title = "Status Page";
     const getFiles = (files) => {
         console.log('files', files);
@@ -27,7 +29,7 @@ const StatusPage = (props) => {
                 <Container fluid={true}>
                     <TableDatas />
                     <ToastContainer />
-                    <ImageUploadForm getFiles={getFiles} />
+                    {/* <ImageUploadForm getFiles={getFiles} isUpload={isUpload} /> */}
                 </Container>
             </div>
         </>

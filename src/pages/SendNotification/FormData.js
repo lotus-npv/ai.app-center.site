@@ -24,6 +24,7 @@ import { Link } from "react-router-dom"
 import classnames from "classnames"
 import { Editor } from "primereact/editor"
 import { FileUpload } from "primereact/fileupload"
+import UploadFile from "components/CommonForBoth/UploadFile/UploadFile"
 
 import { SelectButton } from "primereact/selectbutton"
 
@@ -37,11 +38,25 @@ const FormData = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
 
+  // check xem co du dk upload file
+  const [isUpload, setIsUpload] = useState(true)
+
+
   const items = [
     { name: "All", value: 1 },
     { name: "Group", value: 2 },
     { name: "Individual", value: 3 },
   ]
+
+  const getFiles = (files) => {
+    console.log('files', files);
+  }
+
+  const onUpload = (value) => {
+    setIsUpload(value);
+  }
+
+  console.log('isUpload', isUpload);
 
   return (
     <React.Fragment>
@@ -116,18 +131,7 @@ const FormData = () => {
                             Files:
                           </Label>
                           <Col md="10">
-                            <FileUpload
-                              name="demo[]"
-                              url={"http://localhost:3010/upload"}
-                              multiple
-                              accept="image/*"
-                              maxFileSize={1000000}
-                              emptyTemplate={
-                                <p className="m-0">
-                                  Drag and drop files to here to upload.
-                                </p>
-                              }
-                            />
+                            <UploadFile getFiles={getFiles} onUpload={onUpload} />
                           </Col>
                         </FormGroup>
                       </Form>

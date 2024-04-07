@@ -10,95 +10,46 @@ import { Tag } from "primereact/tag"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-function ImageUploadForm({getFiles}) {
-  const maxFileSize = 1000000
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [file, setFile] = useState()
+function UploadFile({ getFiles, onUpload }) {
+  const maxFileSize = 5000000
   const toast = useRef(null)
   const [totalSize, setTotalSize] = useState(0)
   const fileUploadRef = useRef(null)
-  const [selectDocument, setSelectDocument] = useState()
-
-  const notifySuccess = () =>
-    toast.success("Avata Upload Successfully", { autoClose: 2000 })
-  const notifyError = () =>
-    toast.error("Avata Upload Fall", { autoClose: 2000 })
-
-  const handleSubmitAvata = async event => {
-    event.preventDefault()
-
-    if (!selectedFile) {
-      alert("Please select a file.")
-      return
-    }
-
-    const formData = new FormData()
-    formData.append("image", selectedFile)
-
-    try {
-      await axios.post("http://localhost:3010/upload/avata", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      notifySuccess()
-    } catch (error) {
-      console.error("Error uploading file:", error)
-      notifyError()
-    }
-  }
-
-  const handleSubmitDocument = async event => {
-    event.preventDefault()
-
-    if (!file) {
-      alert("Please select a file.")
-      return
-    }
-
-    const formData = new FormData()
-    formData.append("file", file)
-
-    try {
-      await axios.post("http://localhost:3010/upload/document", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      notifySuccess()
-      setFile(null)
-    } catch (error) {
-      console.error("Error uploading file:", error)
-      notifyError()
-    }
-  }
 
   const onTemplateSelect = e => {
-    let _totalSize = 0;
+    let _totalSize = 0
     let files = e.files
-    setSelectDocument(files)
-    getFiles(files);
-    
+    getFiles(files)
+
     Object.keys(files).forEach(key => {
       _totalSize += files[key].size || 0
     })
 
+    if (_totalSize > maxFileSize) {
+      onUpload(false)
+    }
+
     setTotalSize(_totalSize)
   }
 
-
   const onTemplateRemove = (file, callback) => {
     setTotalSize(totalSize - file.size)
+    if (totalSize < maxFileSize) {
+      onUpload(true)
+    }
     callback()
   }
 
   const onTemplateClear = () => {
     setTotalSize(0)
+    if (totalSize < maxFileSize) {
+      onUpload(true)
+    }
   }
 
   const headerTemplate = options => {
     const { className, chooseButton, uploadButton, cancelButton } = options
-    const value = totalSize / 10000
+    const value = totalSize / (maxFileSize / 100)
     const formatedValue =
       fileUploadRef && fileUploadRef.current
         ? fileUploadRef.current.formatSize(totalSize)
@@ -116,7 +67,12 @@ function ImageUploadForm({getFiles}) {
         {chooseButton}
         {cancelButton}
         <div className="flex align-items-center gap-3 ml-auto">
-          <span>
+          <span
+            style={{
+              color: totalSize < maxFileSize ? "green" : "red",
+              fontWeight: "600",
+            }}
+          >
             {formatedValue} / {maxFileSize / 1000000} MB
           </span>
           <ProgressBar
@@ -132,13 +88,20 @@ function ImageUploadForm({getFiles}) {
   const itemTemplate = (file, props) => {
     return (
       <div className="flex align-items-center flex-wrap">
-        <div className="flex align-items-center" style={{ width: "40%" }}>
-          <img
-            alt={file.name}
-            role="presentation"
-            src={file.objectURL}
-            width={100}
-          />
+        <div className="flex align-items-center" style={{ width: "60%" }}>
+          {file.type == "image/jpeg" || file.type == "image/png" || file.type == "image/jpg" ? (
+            <img
+              alt={file.name}
+              role="presentation"
+              src={file.objectURL}
+              width={100}
+            />
+          ) : (
+            <div className="flex justify-content-center" style={{width: '100px'}}>
+              <i className="pi pi-paperclip me-1 font-size-24"/>
+            </div>
+          )}
+
           <span className="flex flex-column text-left ml-3">
             {file.name}
             <small>{new Date().toLocaleDateString()}</small>
@@ -194,49 +157,42 @@ function ImageUploadForm({getFiles}) {
       "custom-cancel-btn p-button-danger p-button-rounded p-button-outlined",
   }
 
-//   console.log(totalSize)
-
   return (
     <div>
-      <form onSubmit={handleSubmitDocument}>
-        <div>
-          <Toast ref={toast}></Toast>
+      <div>
+        <Toast ref={toast}></Toast>
 
-          <Tooltip
-            target=".custom-choose-btn"
-            content="Choose"
-            position="bottom"
-          />
-          <Tooltip
-            target=".custom-cancel-btn"
-            content="Clear"
-            position="bottom"
-          />
+        <Tooltip
+          target=".custom-choose-btn"
+          content="Choose"
+          position="bottom"
+        />
+        <Tooltip
+          target=".custom-cancel-btn"
+          content="Clear"
+          position="bottom"
+        />
 
-          <FileUpload
-            ref={fileUploadRef}
-            name="demo[]"
-            url="/api/upload"
-            multiple
-            accept="*"
-            maxFileSize={maxFileSize}
-            onSelect={onTemplateSelect}
-            onError={onTemplateClear}
-            onClear={onTemplateClear}
-            headerTemplate={headerTemplate}
-            itemTemplate={itemTemplate}
-            emptyTemplate={emptyTemplate}
-            chooseOptions={chooseOptions}
-            cancelOptions={cancelOptions}
-          />
-        </div>
-
-        {/* <Button type="submit">Upload</Button> */}
-      </form>
-
+        <FileUpload
+          ref={fileUploadRef}
+          name="demo[]"
+          url="/api/upload"
+          multiple
+          accept="*"
+          maxFileSize={maxFileSize}
+          onSelect={onTemplateSelect}
+          onError={onTemplateClear}
+          onClear={onTemplateClear}
+          headerTemplate={headerTemplate}
+          itemTemplate={itemTemplate}
+          emptyTemplate={emptyTemplate}
+          chooseOptions={chooseOptions}
+          cancelOptions={cancelOptions}
+        />
+      </div>
       <ToastContainer />
     </div>
   )
 }
 
-export default ImageUploadForm
+export default UploadFile
