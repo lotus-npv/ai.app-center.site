@@ -11,7 +11,7 @@ import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 function ImageUploadForm() {
-  const maxFileSize = 5000000
+  const maxFileSize = 1000000
   const [selectedFile, setSelectedFile] = useState(null)
   const [file, setFile] = useState()
   const toast = useRef(null)
@@ -80,13 +80,20 @@ function ImageUploadForm() {
   }
 
   const onTemplateSelect = e => {
-    let _totalSize = totalSize
+    let _totalSize = totalSize;
     let files = e.files
-    setSelectDocument(files)
+    console.log('files', files);
+    
+    if((_totalSize + files[(files.length-1)].size) < maxFileSize) {
+        _totalSize += files[files.length-1].size || 0;
+        setSelectDocument(files)
+    } 
 
-    Object.keys(files).forEach(key => {
-      _totalSize += files[key].size || 0
-    })
+    // Object.keys(files).forEach(key => {
+    //   _totalSize += files[key].size || 0
+    // })
+
+
 
     setTotalSize(_totalSize)
   }
@@ -182,7 +189,7 @@ function ImageUploadForm() {
     return (
       <div className="flex align-items-center flex-column">
         <i
-          className="pi pi-image mt-1 p-5"
+          className="pi pi-image mt-1 p-2"
           style={{
             fontSize: "2em",
             borderRadius: "50%",
@@ -194,7 +201,7 @@ function ImageUploadForm() {
           style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }}
           className="my-1"
         >
-          Drag and Drop Image Here
+          Drag and Drop File Here
         </span>
       </div>
     )
@@ -213,7 +220,7 @@ function ImageUploadForm() {
       "custom-cancel-btn p-button-danger p-button-rounded p-button-outlined",
   }
 
-  console.log(selectDocument)
+  console.log(totalSize)
 
   return (
     <div>
