@@ -24,6 +24,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux"
 import { getUsersAll } from "store/actions"
 
 const FormData = () => {
+  const user = JSON.parse(localStorage.getItem("authUser"))[0]
   //meta title
   document.title = "Notification"
 
@@ -42,6 +43,7 @@ const FormData = () => {
   }, [dispatch])
 
   const [activeTab, setactiveTab] = useState("1")
+  const [listSendNoti, setListSendNoti] = useState([])
   const [value, setValue] = useState(null)
 
   const [group, setGroup] = useState(null)
@@ -59,9 +61,9 @@ const FormData = () => {
   ]
 
   const groupOptions = [
-    { name: "All Receiving factory", value: 1 },
-    { name: "All Dispatching Company", value: 2 },
-    { name: "All Intern Of", value: 3 },
+    { name: "Send To All Receiving Factory", value: 1 },
+    { name: "Send To All Dispatching Company", value: 2 },
+    { name: "Send To All Intern Of", value: 3 },
   ]
 
   const getFiles = files => {
@@ -72,26 +74,45 @@ const FormData = () => {
     setIsUpload(value)
   }
 
+  // liet ke danh sach xi nghiep va phai cu de lay cac tts tu cac noi nay
+  const [listMenuIntern, setListMenuIntern] = useState(null)
+  const [selectListIntern, setSelectListIntern] = useState(null)
   useEffect(() => {
     if (value != 2) {
       setGroup(null)
-    } else {
+    } else if(value == 2) {
       setGroup(groupOptions[0])
+    } else if(value == 1) {
+      setListSendNoti(userData);
     }
   }, [value])
 
+  useEffect(() => {
+    if(group) {
+      if(group == 3) {
+        const arr = userData.filter(u => u.key_license_id == user.key_license_id && (u.object_type == 'dispatching_company' || u.object_type == 'receiving_factory'))
+        // console.log('arr', arr);
+        setListMenuIntern(arr)
+      }
+    }
+  }, [group])
+
+
+  // -----------------------------------------------------
   const [valueMention, setValueMention] = useState("")
   const [customers, setCustomers] = useState([])
   const [suggestions, setSuggestions] = useState([])
 
   useEffect(() => {
-   if(userData) {
-    userData.forEach(
-      d =>
-        (d["nickname"] = `${d.username.replace(/\s+/g, "").toLowerCase()}_${d.id}`)
-    )
-    setCustomers(userData)
-   }
+    if (userData) {
+      userData.forEach(
+        d =>
+          (d["nickname"] = `${d.label.replace(/\s+/g, "").toLowerCase()}_${
+            d.id
+          }`)
+      )
+      setCustomers(userData)
+    }
   }, [])
 
   const onSearch = event => {
@@ -114,14 +135,13 @@ const FormData = () => {
 
   const itemTemplate = suggestion => {
     const src =
-      "https://primefaces.org/cdn/primereact/images/avatar/" +
-      suggestion.logo
+      "https://api.lotusocean-jp.com/uploads/" + suggestion.logo
 
     return (
       <div className="flex align-items-center">
         <img alt={suggestion.username} src={src} width="32" />
         <span className="flex flex-column ml-2">
-          {suggestion.username}
+          {suggestion.label}
           <small
             style={{ fontSize: ".75rem", color: "var(--text-color-secondary)" }}
           >
@@ -133,14 +153,15 @@ const FormData = () => {
   }
 
   // console.log('isUpload', isUpload);
+  // console.log('listMenuIntern', listMenuIntern);
 
   return (
     <React.Fragment>
-      <div className="checkout-tabs">
+      <div className="">
         <Row>
           <Col xl="3" lg="12">
-            <Nav className="flex-column mt-3 mb-3" pills>
-              <div className="d-flex justify-content-center">
+            <div className="flex-column mt-3 mb-3">
+              <div className="d-flex justify-content-start">
                 <SelectButton
                   value={value}
                   onChange={e => setValue(e.value)}
@@ -149,8 +170,9 @@ const FormData = () => {
                   style={{ minWidth: "200px" }}
                 />
               </div>
+
               {group != null && (
-                <div className="d-flex justify-content-center mt-3">
+                <div className="d-flex justify-content-start mt-3">
                   <SelectButton
                     value={group}
                     onChange={e => setGroup(e.value)}
@@ -161,18 +183,34 @@ const FormData = () => {
                 </div>
               )}
 
-              <Mention
-                value={valueMention}
-                onChange={e => setValueMention(e.target.value)}
-                suggestions={suggestions}
-                onSearch={onSearch}
-                field="nickname"
-                placeholder="Enter @ to mention people"
-                rows={5}
-                cols={40}
-                itemTemplate={itemTemplate}
-              />
-            </Nav>
+              {group && group == 3 && (
+                <div className="d-flex justify-content-start mt-3">
+                  <SelectButton
+                    value={selectListIntern}
+                    onChange={e => setSelectListIntern(e)}
+                    optionLabel="display_name"
+                    options={listMenuIntern}
+                    style={{ minWidth: "200px" }}
+                  />
+                </div>
+              )}
+
+              {value == 3 && (
+                <div className="d-flex justify-content-start mt-3">
+                  <Mention
+                    value={valueMention}
+                    onChange={e => setValueMention(e.target.value)}
+                    suggestions={suggestions}
+                    onSearch={onSearch}
+                    field="nickname"
+                    placeholder="Enter @ to mention people"
+                    rows={3}
+                    cols={50}
+                    itemTemplate={itemTemplate}
+                  />
+                </div>
+              )}
+            </div>
           </Col>
           <Col xl="9" lg="12">
             <Card>
