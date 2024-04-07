@@ -62,7 +62,7 @@ const FormData = () => {
     <React.Fragment>
       <div className="checkout-tabs">
         <Row>
-          <Col xl="2" lg="12">
+          <Col xl="3" lg="12">
             <Nav className="flex-column mt-3 mb-3" pills>
               <div className="d-flex justify-content-center">
                 <SelectButton
@@ -73,9 +73,18 @@ const FormData = () => {
                   style={{ minWidth: "200px" }}
                 />
               </div>
+              <div className="d-flex justify-content-center mt-3">
+                <SelectButton
+                  value={value}
+                  onChange={e => setValue(e.value)}
+                  optionLabel="name"
+                  options={items}
+                  style={{ minWidth: "200px" }}
+                />
+              </div>
             </Nav>
           </Col>
-          <Col xl="10" lg="12">
+          <Col xl="9" lg="12">
             <Card>
               <CardBody>
                 <TabContent activeTab={activeTab}>

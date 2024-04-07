@@ -12,15 +12,6 @@ import FormData from "./FormData";
 
 const SendNotificationPage = (props) => {
     const [save, setSave] = useState(false);
-    const colorOptions = [
-        { value: 'red', label: 'Red' },
-        { value: 'green', label: 'Green' },
-        { value: 'blue', label: 'Blue' }
-    ];
-
-    const handChangeSave = () => {
-        setSave(!save);
-    }
 
     document.title = "Status Page";
     return (
@@ -39,5 +30,4 @@ SendNotificationPage.propTypes = {
     preGlobalFilteredRows: PropTypes.any,
 };
 
-// export default withRouter(withTranslation()(StatusPage));
 export default SendNotificationPage;
