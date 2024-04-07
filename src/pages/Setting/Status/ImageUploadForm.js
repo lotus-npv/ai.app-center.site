@@ -80,20 +80,14 @@ function ImageUploadForm() {
   }
 
   const onTemplateSelect = e => {
-    let _totalSize = totalSize;
+    let _totalSize = 0;
     let files = e.files
     console.log('files', files);
+    setSelectDocument(files)
     
-    if((_totalSize + files[(files.length-1)].size) < maxFileSize) {
-        _totalSize += files[files.length-1].size || 0;
-        setSelectDocument(files)
-    } 
-
-    // Object.keys(files).forEach(key => {
-    //   _totalSize += files[key].size || 0
-    // })
-
-
+    Object.keys(files).forEach(key => {
+      _totalSize += files[key].size || 0
+    })
 
     setTotalSize(_totalSize)
   }
