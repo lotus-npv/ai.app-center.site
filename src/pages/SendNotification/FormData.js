@@ -187,7 +187,7 @@ const FormData = () => {
                 <div className="d-flex justify-content-start mt-3">
                   <SelectButton
                     value={selectListIntern}
-                    onChange={e => setSelectListIntern(e)}
+                    onChange={e => setSelectListIntern(e.value)}
                     optionLabel="display_name"
                     options={listMenuIntern}
                     style={{ minWidth: "200px" }}
