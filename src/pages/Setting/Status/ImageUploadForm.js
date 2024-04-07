@@ -181,11 +181,11 @@ function ImageUploadForm() {
 
   const emptyTemplate = () => {
     return (
-      <div className="flex align-items-center flex-column">
+      <div className="flex align-items-center flex-row justify-content-center gap-2">
         <i
-          className="pi pi-image mt-1 p-2"
+          className="pi pi-cloud-upload mt-1 p-2"
           style={{
-            fontSize: "2em",
+            fontSize: "1.5em",
             borderRadius: "50%",
             backgroundColor: "var(--surface-b)",
             color: "var(--surface-d)",
@@ -240,16 +240,12 @@ function ImageUploadForm() {
             multiple
             accept="*"
             maxFileSize={maxFileSize}
-            // onUpload={onTemplateUpload}
             onSelect={onTemplateSelect}
             onError={onTemplateClear}
             onClear={onTemplateClear}
             headerTemplate={headerTemplate}
             itemTemplate={itemTemplate}
             emptyTemplate={emptyTemplate}
-            // emptyTemplate={() => (
-            //   <p className="m-0">Drag and drop files to here to upload.</p>
-            // )}
             chooseOptions={chooseOptions}
             cancelOptions={cancelOptions}
           />
