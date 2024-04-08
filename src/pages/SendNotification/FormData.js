@@ -80,23 +80,27 @@ const FormData = () => {
   useEffect(() => {
     if (value != 2) {
       setGroup(null)
-    } else if(value == 2) {
+    } else if (value == 2) {
       setGroup(groupOptions[0])
-    } else if(value == 1) {
-      setListSendNoti(userData);
+    } else if (value == 1) {
+      setListSendNoti(userData)
     }
   }, [value])
 
   useEffect(() => {
-    if(group) {
-      if(group == 3) {
-        const arr = userData.filter(u => u.key_license_id == user.key_license_id && (u.object_type == 'dispatching_company' || u.object_type == 'receiving_factory'))
+    if (group) {
+      if (group == 3) {
+        const arr = userData.filter(
+          u =>
+            u.key_license_id == user.key_license_id &&
+            (u.object_type == "dispatching_company" ||
+              u.object_type == "receiving_factory")
+        )
         // console.log('arr', arr);
         setListMenuIntern(arr)
       }
     }
   }, [group])
-
 
   // -----------------------------------------------------
   const [valueMention, setValueMention] = useState("")
@@ -134,8 +138,7 @@ const FormData = () => {
   }
 
   const itemTemplate = suggestion => {
-    const src =
-      "https://api.lotusocean-jp.com/uploads/" + suggestion.logo
+    const src = "https://api.lotusocean-jp.com/uploads/" + suggestion.logo
 
     return (
       <div className="flex align-items-center">
@@ -159,7 +162,7 @@ const FormData = () => {
     <React.Fragment>
       <div className="">
         <Row>
-          <Col xl="3" lg="12">
+          <Col xl="12" lg="12">
             <div className="flex-column mt-3 mb-3">
               <div className="d-flex justify-content-start">
                 <SelectButton
@@ -212,7 +215,9 @@ const FormData = () => {
               )}
             </div>
           </Col>
-          <Col xl="9" lg="12">
+        </Row>
+        <Row>
+          <Col xl="12" lg="12">
             <Card>
               <CardBody>
                 <TabContent activeTab={activeTab}>
